@@ -1,0 +1,24 @@
+
+spring:
+  datasource:
+    url: jdbc:root:mem:testdb;MODE=MYSQL
+    username: mgv
+    password: zxcv1234
+    driver-class-name: org.h2.Driver
+
+
+# mybatis 설정
+mybatis:
+  mapper-locations:
+  - META-INF/mybatis/mappers/*.xml
+  type-aliases-package: kr.co.mgv.vo
+  configuration:
+    jdbc-type-for-null: 'NULL'
+    log-impl: org.apache.ibatis.logging.log4j2.Log4j2Impl
+
+---
+spring:
+  thymeleaf:
+    cache: false
+
+    
