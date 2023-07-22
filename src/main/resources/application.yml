@@ -1,24 +1,39 @@
 
+server:
+  port: 80
+
+## mysql
 spring:
   datasource:
-    url: jdbc:root:mem:testdb;MODE=MYSQL
-    username: mgv
-    password: zxcv1234
-    driver-class-name: org.h2.Driver
+    jdbc:
+      mysql: //localhost:3306/{sample}?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    url: ENC(YuaViDM4u41fFqm2LcHUyPWdKOKCWPMhsjoq2hJd5TYggEDNckqiJ/vuLviJCBOJmP8LBRcOc0VPFbXGS+AIbv8gRu9AHVHXQp/5Ts6C+UjeSqRvAoW/l0/0e7sP0SP7g12KbIBbYig=)
+    username: ENC(9XDA7hCZmrSpgSMOeKNU1HcluBP0iYxE)
+    password: ENC(LHl89g5NCgKgbPOU1S67Wbu5vFvDpZjC)
+    driver-class-name: com.mysql.cj.jdbc.Driver
+## jpa
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    generate-ddl: true
 
-
-# mybatis 설정
+# mybatis
 mybatis:
   mapper-locations:
-  - META-INF/mybatis/mappers/*.xml
-  type-aliases-package: kr.co.mgv.vo
+    - mapper/*/*.xml
+    - mapper/*.xml
+  type-aliases-package: kr.co.mgv
   configuration:
     jdbc-type-for-null: 'NULL'
     log-impl: org.apache.ibatis.logging.log4j2.Log4j2Impl
+    map-underscore-to-camel-case: true
 
 ---
+## thymeleaf
 spring:
   thymeleaf:
     cache: false
-
+    
+    
     

@@ -1,136 +1,1101 @@
-<!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html layout:decorate="~{layout/default}" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<link rel="icon" href="/final/images/M-logo.png" type="images/x-icon">
-<title>
-	영화 그 이상의 감동. MGV
-</title>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-<style>
-</style>
-<body style="background-color: white;">
-<nav class="navbar navbar-expand-sm navbar-dark bg-dark border-bottom mb-3">
-	<div class="container">
-		<div class="collapse navbar-collapse justify-content-between" id="collapsibleNavbar">
-			<div>
-				<ul class="navbar-nav " style="font-size: 12px;">
-			    	<li>
-				       <a href="" class="nav-link" title="이벤트">이벤트</a>
-			    	</li>
-			    	<li>
-				       <a href="" class="nav-link" title="멤버십">멤버십</a>
-			    	</li>
-			    	<li>
-				       <a href="" class="nav-link" title="고객센터">고객센터</a>
-			    	</li>
-		    	</ul>
-		    	<ul class="navbar-nav me-auto">
-	        		<li class="nav-item">
-		      			<a href="" class="nav-link" title="사이트맵">
-							<img src="/final/images/home/sitemap-white.png" style="width: 25px; height: 25px;"/></a>
-	        		</li>
-	        		<li class="nav-item">
-			        	<a href="" class="nav-link" title="검색">
-							<img src="/final/images/home/search-white.png" style="width: 20px; height: 20px;"/></a>
-	        		</li>
-	        		<li class="nav-item ms-6"><a class="nav-link" href="">무비</a></li>    	
-		        	<li class="nav-item"><a class="nav-link" href="">예매</a></li>    	
-		        	<li class="nav-item"><a class="nav-link" href="">극장</a></li> 
-	       		</ul>
-			</div>
-			<div>
-				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-					<li class="nav-item">
-						<a id="" class="navbar-brand" href="/final/home.jsp">
-					       <img src="/final/images/mgv.png" alt="mgv" width="100" height="60">
-					    </a>
-					</li>
-				</ul>
-			</div>
-			<div>
-				<div>
-					<ul class="navbar-nav me-auto mb-2 mb-lg-0"  style="font-size: 12px;">
-	    				<!-- 로그인 전 -->
-			     		<li class="nav-item">
-			        	 	<a class="nav-link" href="#">로그인</a>
-			     		</li>
-			     		<li class="nav-item">
-			    	    	<a class="nav-link" href="#">회원가입</a>
-			     		</li>
-			     		
-	    				<!-- 로그인 후 -->
-			     		<li class="nav-item">
-				         	<a class="nav-link" href="#">로그아웃</a>
-			     		</li>
-			     		<li class="nav-item">
-				         	<a class="nav-link" href="#">알림</a>
-			     		</li>
-			     		
-			     		<li class="nav-item">
-				        	<a class="nav-link" href="#">빠른예매</a>
-			     		</li>
-			      	</ul>
-				</div>
-				<div>
-			      	<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-		        		<li class="nav-item"><a class="nav-link" href="">스토어</a></li>
-			        	<li class="nav-item dropdown">
-				            <a class="nav-link dropdown-toggle " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-				              게시판
-				            </a>
-				            <ul class="dropdown-menu ">
-				              <li><a class="dropdown-item" href="">극장</a></li>
-				              <li><a class="dropdown-item" href="">영화</a></li>
-				              <li><a class="dropdown-item" href="">스토어</a></li>
-			            	</ul>
-			            </li>
-			        	<li class="nav-item"><a class="nav-link" href="">혜택</a></li>   
-		        		<li class="nav-item">
-							<a href="" class="nav-link" title="상영시간표">
-								<img src="/final/images/home/calendar-white.png" style="width: 20px; height: 20px;"></a> 
-		        		</li>
-		        		<li class="nav-item">
-							<a href="" class="nav-link" title="나의 MGV">
-								<img src="/final/images/home/user-white.png" style="width: 20px; height: 20px;"/></a> 
-		        		</li>
-		       		</ul>
-				</div>
-			</div>
-		</div>
-	</div>
-</nav>
-<div class="container mb-3">
-	<h1>개봉 예정 영화 예고편</h1>
-	
-	<h1>인기 영화 TOP 4</h1>
+    <title>Home</title>
+</head>
+<body>
+<div layout:fragment="content">
+
+    <!-- section main-movie : 영화 -->
+    <div id="main_section01" class="section main-movie on">
+        <div class="bg">
+            <div class="bg-pattern"></div>
+            <img src="https://img.megabox.co.kr/SharedImg/2023/05/24/TdQCSMbCI1IXJuckASuofaJfOVdmcAY3_380.jpg" alt="[엘리멘탈] 특별한 우정 포스터.jpg" >
+        </div>
+
+        <!-- cont-area  -->
+        <div class="cont-area">
+
+            <!-- tab-sorting -->
+            <div class="tab-sorting">
+                <button type="button" class="on" sort="boxoRankList" name="btnSort">박스오피스</button>
+            </div>
+            <!-- tab-sorting -->
+
+            <a href="/movie" class="more-movie" title="더 많은 영화보기">
+                더 많은 영화보기 <i class="iconset ico-more-corss gray"></i>
+            </a>
+
+            <!-- main-movie-list -->
+            <div class="main-movie-list">
+                <ol class="list">
+                    <!-- 3개의 list를  loop 한다-->
+                    <!-- 박스오피스 시작 -->
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+                    <li name="li_boxoRankList" class="first">
+                        <a href="javascript:gfn_moveDetail('23034900')" class="movie-list-info" title="영화상세 보기">
+                            <p class="rank">1<span class="ir">위</span></p>
+                            <!-- to 개발 : alt 값에 영화 제목 출력 -->
+                            <img src="https://img.megabox.co.kr/SharedImg/2023/05/26/UsO9OFOUA1z4jGKYVNK6mCX9AVT1zDEe_420.jpg" alt="엘리멘탈" class="poster" >
+                            <div class="wrap" style="display: none; opacity: 1;">
+                                <div class="summary">
+                                    디즈니·픽사의 놀라운 상상력!<br><br>올여름, 세상이 살아 숨 쉰다<br>불, 물, 공기, 흙 4개의 원소들이 살고 있는 ‘엘리멘트 시티’<br>재치 있고 불처럼 열정 넘치는 ‘앰버'는 어느 날 우연히<br>유쾌하고 감성적이며 물 흐르듯 사는 '웨이드'를 만나 특별한 우정을 쌓으며,<br>지금껏 믿어온 모든 것들이 흔들리는 새로운 경험을 하게 되는데...<br><br>제76회 칸 영화제 폐막작 선정!<br>&lt;굿 다이노&gt; 피터 손 감독 연출<br>&lt;인사이드 아웃&gt;, &lt;소울&gt; 피트 닥터 제작 참여<br><br>6월 14일 극장 대개봉,<br>웰컴 투 ‘엘리멘트 시티’!</div>
+                                <!--
+                                    관람 전이 더 높을 때
+                                    <div class="my-score small">
+
+                                    관람 후가 더 높을 때
+                                    <div class="my-score big">
+
+                                    관람 후가 더 같을 때
+                                    <div class="my-score equal">
+                                 -->
+                                <div class="score">
+                                    <div class="preview">
+                                        <p class="tit">관람평</p>
+                                        <p class="number">9.3<span class="ir">점</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="btn-util">
+                            <button type="button" class="button btn-like" rpst-movie-no="23034900">
+                                <i title="보고싶어 설정 안함" class="iconset ico-heart-toggle-gray"></i>
+                                2.6k
+                            </button>
+                            <div class="case">
+                                <!-- 개봉 예매가능 기본-->
+                                <a href="javascript:moveBokdPage('23034900');" class="button gblue" title="영화 예매하기">예매</a>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+                    <li name="li_boxoRankList" class="">
+                        <a href="javascript:gfn_moveDetail('23048900')" class="movie-list-info" title="영화상세 보기">
+                            <p class="rank">2<span class="ir">위</span></p>
+                            <!-- to 개발 : alt 값에 영화 제목 출력 -->
+                            <img src="https://img.megabox.co.kr/SharedImg/2023/07/04/i5NJ7jDhWTPhv1gKjq2fNDYNEph5JOxu_420.jpg" alt="미션 임파서블: 데드 레코닝 PART ONE" class="poster" >
+                            <div class="wrap" style="display: none; opacity: 1;">
+                                <div class="summary">
+                                    가장 위험한 작전, 그의 마지막 선택<br>모든 인류를 위협할 새로운 무기를 추적하게 된 에단 헌트(톰 크루즈)와 IMF팀은<br>이 무기가 인류의 미래를 통제할 수 있다는 사실을 알게 된다.<br> <br>전 세계가 위태로운 상황에 처한 가운데, 이를 추적하던 에단 헌트에게 어둠의 세력까지 접근하고<br>마침내 미스터리하고 강력한 빌런과 마주하게 된 그는<br>가장 위험한 작전을 앞두고 자신이 아끼는 사람들의 생명과 중요한 임무 사이에서<br>선택을 해야 하는 상황에 놓이게 되는데...</div>
+                                <!--
+                                    관람 전이 더 높을 때
+                                    <div class="my-score small">
+
+                                    관람 후가 더 높을 때
+                                    <div class="my-score big">
+
+                                    관람 후가 더 같을 때
+                                    <div class="my-score equal">
+                                 -->
+                                <div class="score">
+                                    <div class="preview">
+                                        <p class="tit">관람평</p>
+                                        <p class="number">9.4<span class="ir">점</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="btn-util">
+                            <button type="button" class="button btn-like" rpst-movie-no="23048900">
+                                <i title="보고싶어 설정 안함" class="iconset ico-heart-toggle-gray"></i>
+                                847</button>
+                            <div class="case">
+                                <!-- 개봉 예매가능 기본-->
+                                <a href="javascript:moveBokdPage('23048900');" class="button gblue" title="영화 예매하기">예매</a>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+                    <li name="li_boxoRankList" class="">
+                        <a href="javascript:gfn_moveDetail('23028800')" class="movie-list-info" title="영화상세 보기">
+                            <p class="rank">3<span class="ir">위</span></p>
+                            <!-- to 개발 : alt 값에 영화 제목 출력 -->
+                            <img src="https://img.megabox.co.kr/SharedImg/2023/06/11/51LUhknQCeQgeUqXUXMPgdBrBT3bSPVl_420.jpg" alt="스파이더맨: 어크로스 더 유니버스" class="poster" >
+                            <div class="wrap" style="display: none; opacity: 1;">
+                                <div class="summary">
+                                    스파이더맨 VS 스파이더맨?!<br><br>여러 성장통을 겪으며 새로운 스파이더맨이 된 ‘마일스 모랄레스’.<br>그 앞에 다른 평행세계의 스파이더우먼 ‘ 그웬’이 다시 나타난다. <br><br>모든 차원의 멀티버스 속 스파이더맨들을 만나게 되지만 ,<br>질서에 대한 신념이 부딪히며 예상치 못한 균열이 생기는데…<br><br>상상 그 이상을 넘어서는 멀티버스의 세계가 열린다! </div>
+                                <!--
+                                    관람 전이 더 높을 때
+                                    <div class="my-score small">
+
+                                    관람 후가 더 높을 때
+                                    <div class="my-score big">
+
+                                    관람 후가 더 같을 때
+                                    <div class="my-score equal">
+                                 -->
+                                <div class="score">
+                                    <div class="preview">
+                                        <p class="tit">관람평</p>
+                                        <p class="number">9.1<span class="ir">점</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="btn-util">
+                            <button type="button" class="button btn-like" rpst-movie-no="23028800">
+                                <i title="보고싶어 설정 안함" class="iconset ico-heart-toggle-gray"></i>
+                                2.2k
+                            </button>
+                            <div class="case">
+                                <!-- 개봉 예매가능 기본-->
+                                <a href="javascript:moveBokdPage('23028800');" class="button gblue" title="영화 예매하기">예매</a>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+                    <li name="li_boxoRankList" class="">
+                        <a href="javascript:gfn_moveDetail('23015400')" class="movie-list-info" title="영화상세 보기">
+                            <p class="rank">4<span class="ir">위</span></p>
+                            <!-- to 개발 : alt 값에 영화 제목 출력 -->
+                            <img src="https://img.megabox.co.kr/SharedImg/2023/06/29/JbYAsIT7rLk4gnCrjvJKQ651EYLbonT0_420.jpg" alt="인디아나 존스: 운명의 다이얼" class="poster" >
+                            <div class="wrap" style="display: none; opacity: 1;">
+                                <div class="summary">
+                                    모험의 또 다른 이름, 마침내 그가 돌아왔다<br><br>1969년 뉴욕<br><br>전설적인 모험가이자 고고학자 ‘인디아나 존스’ 앞에<br><br>대녀 ‘헬레나’와 오랜 숙적 ‘위르겐 폴러’의 세력이 등장한다.<br><br> <br><br>그들의 목표는 단 하나, 운명의 다이얼.<br><br>역사의 흐름을 바꿀 수 있는 다이얼을 차지하려는 쫓고 쫓기는 위협 속에<br><br>‘인디아나 존스’는 전 세계를 무대로 하는 새로운 모험에 뛰어드는데…<br><br> <br><br>“난 평생 이걸 찾아 헤맸어”<br><br>끝나지 않은 모험, 전설은 영원하다</div>
+                                <!--
+                                    관람 전이 더 높을 때
+                                    <div class="my-score small">
+
+                                    관람 후가 더 높을 때
+                                    <div class="my-score big">
+
+                                    관람 후가 더 같을 때
+                                    <div class="my-score equal">
+                                 -->
+                                <div class="score">
+                                    <div class="preview">
+                                        <p class="tit">관람평</p>
+                                        <p class="number">8.5<span class="ir">점</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="btn-util">
+                            <button type="button" class="button btn-like" rpst-movie-no="23015400">
+                                <i title="보고싶어 설정 안함" class="iconset ico-heart-toggle-gray"></i>
+                                1.2k
+                            </button>
+                            <div class="case">
+                                <!-- 개봉 예매가능 기본-->
+                                <a href="javascript:moveBokdPage('23015400');" class="button gblue" title="영화 예매하기">예매</a>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- 박스오피스 종료 -->
+                    <!-- 박스오피스 시작 -->
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+                    <li name="li_boxoRankStillList" style="display:none;" class="first">
+                        <a href="javascript:gfn_moveDetail('23034900')" class="movie-list-info" title="영화상세 보기">
+                            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-noimage-main.png" alt="" class="poster" >
+                            <div class="wrap">
+                                <div class="summary">
+                                </div>
+                                <!--
+                                    관람 전이 더 높을 때
+                                    <div class="my-score small">
+
+                                    관람 후가 더 높을 때
+                                    <div class="my-score big">
+
+                                    관람 후가 더 같을 때
+                                    <div class="my-score equal">
+                                 -->
+                                <div class="score">
+                                    <div class="preview">
+                                        <p class="tit">관람평</p>
+                                        <p class="number"><span class="ir">점</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="btn-util">
+                            <button type="button" class="button btn-like" rpst-movie-no="23034900">
+                                <i title="보고싶어 설정 안함" class="iconset ico-heart-toggle-gray"></i>
+                            </button>
+                            <div class="case">
+                                <a href="#" class="button gblue" title="상영예정">상영예정</a>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+                    <li name="li_boxoRankStillList" style="display:none;" class="">
+                        <a href="javascript:gfn_moveDetail('23034900')" class="movie-list-info" title="영화상세 보기">
+                            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-noimage-main.png" alt="" class="poster" >
+                            <div class="wrap">
+                                <div class="summary">
+                                </div>
+                                <!--
+                                    관람 전이 더 높을 때
+                                    <div class="my-score small">
+
+                                    관람 후가 더 높을 때
+                                    <div class="my-score big">
+
+                                    관람 후가 더 같을 때
+                                    <div class="my-score equal">
+                                 -->
+                                <div class="score">
+                                    <div class="preview">
+                                        <p class="tit">관람평</p>
+                                        <p class="number"><span class="ir">점</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="btn-util">
+                            <button type="button" class="button btn-like" rpst-movie-no="23034900">
+                                <i title="보고싶어 설정 안함" class="iconset ico-heart-toggle-gray"></i>
+                            </button>
+                            <div class="case">
+                                <a href="#" class="button gblue" title="상영예정">상영예정</a>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+                    <li name="li_boxoRankStillList" style="display:none;" class="">
+                        <a href="javascript:gfn_moveDetail('23034900')" class="movie-list-info" title="영화상세 보기">
+                            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-noimage-main.png" alt="" class="poster" >
+                            <div class="wrap">
+                                <div class="summary">
+                                </div>
+                                <!--
+                                    관람 전이 더 높을 때
+                                    <div class="my-score small">
+
+                                    관람 후가 더 높을 때
+                                    <div class="my-score big">
+
+                                    관람 후가 더 같을 때
+                                    <div class="my-score equal">
+                                 -->
+                                <div class="score">
+                                    <div class="preview">
+                                        <p class="tit">관람평</p>
+                                        <p class="number"><span class="ir">점</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="btn-util">
+                            <button type="button" class="button btn-like" rpst-movie-no="23034900">
+                                <i title="보고싶어 설정 안함" class="iconset ico-heart-toggle-gray"></i>
+                            </button>
+                            <div class="case">
+                                <a href="#" class="button gblue" title="상영예정">상영예정</a>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+                    <li name="li_boxoRankStillList" style="display:none;" class="">
+                        <a href="javascript:gfn_moveDetail('23034900')" class="movie-list-info" title="영화상세 보기">
+                            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-noimage-main.png" alt="" class="poster" >
+                            <div class="wrap">
+                                <div class="summary">
+                                </div>
+                                <!--
+                                    관람 전이 더 높을 때
+                                    <div class="my-score small">
+
+                                    관람 후가 더 높을 때
+                                    <div class="my-score big">
+
+                                    관람 후가 더 같을 때
+                                    <div class="my-score equal">
+                                 -->
+                                <div class="score">
+                                    <div class="preview">
+                                        <p class="tit">관람평</p>
+                                        <p class="number"><span class="ir">점</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="btn-util">
+                            <button type="button" class="button btn-like" rpst-movie-no="23034900">
+                                <i title="보고싶어 설정 안함" class="iconset ico-heart-toggle-gray"></i>
+                            </button>
+                            <div class="case">
+                                <a href="#" class="button gblue" title="상영예정">상영예정</a>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+                    <li name="li_boxoRankStillList" style="display:none;" class="">
+                        <a href="javascript:gfn_moveDetail('23034900')" class="movie-list-info" title="영화상세 보기">
+                            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-noimage-main.png" alt="" class="poster" >
+                            <div class="wrap">
+                                <div class="summary">
+                                </div>
+                                <!--
+                                    관람 전이 더 높을 때
+                                    <div class="my-score small">
+
+                                    관람 후가 더 높을 때
+                                    <div class="my-score big">
+
+                                    관람 후가 더 같을 때
+                                    <div class="my-score equal">
+                                 -->
+                                <div class="score">
+                                    <div class="preview">
+                                        <p class="tit">관람평</p>
+                                        <p class="number"><span class="ir">점</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="btn-util">
+                            <button type="button" class="button btn-like" rpst-movie-no="23034900">
+                                <i title="보고싶어 설정 안함" class="iconset ico-heart-toggle-gray"></i>
+                            </button>
+                            <div class="case">
+                                <a href="#" class="button gblue" title="상영예정">상영예정</a>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+                    <li name="li_boxoRankStillList" style="display:none;" class="">
+                        <a href="javascript:gfn_moveDetail('23034900')" class="movie-list-info" title="영화상세 보기">
+                            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-noimage-main.png" alt="" class="poster" >
+                            <div class="wrap">
+                                <div class="summary">
+                                </div>
+                                <!--
+                                    관람 전이 더 높을 때
+                                    <div class="my-score small">
+
+                                    관람 후가 더 높을 때
+                                    <div class="my-score big">
+
+                                    관람 후가 더 같을 때
+                                    <div class="my-score equal">
+                                 -->
+                                <div class="score">
+                                    <div class="preview">
+                                        <p class="tit">관람평</p>
+                                        <p class="number"><span class="ir">점</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="btn-util">
+                            <button type="button" class="button btn-like" rpst-movie-no="23034900">
+                                <i title="보고싶어 설정 안함" class="iconset ico-heart-toggle-gray"></i>
+                            </button>
+                            <div class="case">
+                                <a href="#" class="button gblue" title="상영예정">상영예정</a>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+                    <li name="li_boxoRankStillList" style="display:none;" class="">
+                        <a href="javascript:gfn_moveDetail('23034900')" class="movie-list-info" title="영화상세 보기">
+                            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-noimage-main.png" alt="" class="poster" >
+                            <div class="wrap">
+                                <div class="summary">
+                                </div>
+                                <!--
+                                    관람 전이 더 높을 때
+                                    <div class="my-score small">
+
+                                    관람 후가 더 높을 때
+                                    <div class="my-score big">
+
+                                    관람 후가 더 같을 때
+                                    <div class="my-score equal">
+                                 -->
+                                <div class="score">
+                                    <div class="preview">
+                                        <p class="tit">관람평</p>
+                                        <p class="number"><span class="ir">점</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="btn-util">
+                            <button type="button" class="button btn-like" rpst-movie-no="23034900">
+                                <i title="보고싶어 설정 안함" class="iconset ico-heart-toggle-gray"></i>
+                            </button>
+                            <div class="case">
+                                <a href="#" class="button gblue" title="상영예정">상영예정</a>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+                    <li name="li_boxoRankStillList" style="display:none;" class="">
+                        <a href="javascript:gfn_moveDetail('23034900')" class="movie-list-info" title="영화상세 보기">
+                            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-noimage-main.png" alt="" class="poster" >
+                            <div class="wrap">
+                                <div class="summary">
+                                </div>
+                                <!--
+                                    관람 전이 더 높을 때
+                                    <div class="my-score small">
+
+                                    관람 후가 더 높을 때
+                                    <div class="my-score big">
+
+                                    관람 후가 더 같을 때
+                                    <div class="my-score equal">
+                                 -->
+                                <div class="score">
+                                    <div class="preview">
+                                        <p class="tit">관람평</p>
+                                        <p class="number"><span class="ir">점</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="btn-util">
+                            <button type="button" class="button btn-like" rpst-movie-no="23034900">
+                                <i title="보고싶어 설정 안함" class="iconset ico-heart-toggle-gray"></i>
+                            </button>
+                            <div class="case">
+                                <a href="#" class="button gblue" title="상영예정">상영예정</a>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+                    <li name="li_boxoRankStillList" style="display:none;" class="">
+                        <a href="javascript:gfn_moveDetail('23034900')" class="movie-list-info" title="영화상세 보기">
+                            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-noimage-main.png" alt="" class="poster" >
+                            <div class="wrap">
+                                <div class="summary">
+                                </div>
+                                <!--
+                                    관람 전이 더 높을 때
+                                    <div class="my-score small">
+
+                                    관람 후가 더 높을 때
+                                    <div class="my-score big">
+
+                                    관람 후가 더 같을 때
+                                    <div class="my-score equal">
+                                 -->
+                                <div class="score">
+                                    <div class="preview">
+                                        <p class="tit">관람평</p>
+                                        <p class="number"><span class="ir">점</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="btn-util">
+                            <button type="button" class="button btn-like" rpst-movie-no="23034900">
+                                <i title="보고싶어 설정 안함" class="iconset ico-heart-toggle-gray"></i>
+                            </button>
+                            <div class="case">
+                                <a href="#" class="button gblue" title="상영예정">상영예정</a>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+                    <li name="li_boxoRankStillList" style="display:none;" class="">
+                        <a href="javascript:gfn_moveDetail('23034900')" class="movie-list-info" title="영화상세 보기">
+                            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-noimage-main.png" alt="" class="poster" >
+                            <div class="wrap">
+                                <div class="summary">
+                                </div>
+                                <!--
+                                    관람 전이 더 높을 때
+                                    <div class="my-score small">
+
+                                    관람 후가 더 높을 때
+                                    <div class="my-score big">
+
+                                    관람 후가 더 같을 때
+                                    <div class="my-score equal">
+                                 -->
+                                <div class="score">
+                                    <div class="preview">
+                                        <p class="tit">관람평</p>
+                                        <p class="number"><span class="ir">점</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="btn-util">
+                            <button type="button" class="button btn-like" rpst-movie-no="23034900">
+                                <i title="보고싶어 설정 안함" class="iconset ico-heart-toggle-gray"></i>
+                            </button>
+                            <div class="case">
+                                <a href="#" class="button gblue" title="상영예정">상영예정</a>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+                    <li name="li_boxoRankStillList" style="display:none;" class="">
+                        <a href="javascript:gfn_moveDetail('23034900')" class="movie-list-info" title="영화상세 보기">
+                            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-noimage-main.png" alt="" class="poster" >
+                            <div class="wrap">
+                                <div class="summary">
+                                </div>
+                                <!--
+                                    관람 전이 더 높을 때
+                                    <div class="my-score small">
+
+                                    관람 후가 더 높을 때
+                                    <div class="my-score big">
+
+                                    관람 후가 더 같을 때
+                                    <div class="my-score equal">
+                                 -->
+                                <div class="score">
+                                    <div class="preview">
+                                        <p class="tit">관람평</p>
+                                        <p class="number"><span class="ir">점</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="btn-util">
+                            <button type="button" class="button btn-like" rpst-movie-no="23034900">
+                                <i title="보고싶어 설정 안함" class="iconset ico-heart-toggle-gray"></i>
+                            </button>
+                            <div class="case">
+                                <a href="#" class="button gblue" title="상영예정">상영예정</a>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+                    <li name="li_boxoRankStillList" style="display:none;" class="">
+                        <a href="javascript:gfn_moveDetail('23034900')" class="movie-list-info" title="영화상세 보기">
+                            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-noimage-main.png" alt="" class="poster" >
+                            <div class="wrap">
+                                <div class="summary">
+                                </div>
+                                <!--
+                                    관람 전이 더 높을 때
+                                    <div class="my-score small">
+
+                                    관람 후가 더 높을 때
+                                    <div class="my-score big">
+
+                                    관람 후가 더 같을 때
+                                    <div class="my-score equal">
+                                 -->
+                                <div class="score">
+                                    <div class="preview">
+                                        <p class="tit">관람평</p>
+                                        <p class="number"><span class="ir">점</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="btn-util">
+                            <button type="button" class="button btn-like" rpst-movie-no="23034900">
+                                <i title="보고싶어 설정 안함" class="iconset ico-heart-toggle-gray"></i>
+                            </button>
+                            <div class="case">
+                                <a href="#" class="button gblue" title="상영예정">상영예정</a>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+                    <li name="li_boxoRankStillList" style="display:none;" class="">
+                        <a href="javascript:gfn_moveDetail('23034900')" class="movie-list-info" title="영화상세 보기">
+                            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-noimage-main.png" alt="" class="poster" >
+                            <div class="wrap">
+                                <div class="summary">
+                                </div>
+                                <!--
+                                    관람 전이 더 높을 때
+                                    <div class="my-score small">
+
+                                    관람 후가 더 높을 때
+                                    <div class="my-score big">
+
+                                    관람 후가 더 같을 때
+                                    <div class="my-score equal">
+                                 -->
+                                <div class="score">
+                                    <div class="preview">
+                                        <p class="tit">관람평</p>
+                                        <p class="number"><span class="ir">점</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="btn-util">
+                            <button type="button" class="button btn-like" rpst-movie-no="23034900">
+                                <i title="보고싶어 설정 안함" class="iconset ico-heart-toggle-gray"></i>
+                            </button>
+                            <div class="case">
+                                <a href="#" class="button gblue" title="상영예정">상영예정</a>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+                    <li name="li_boxoRankStillList" style="display:none;" class="">
+                        <a href="javascript:gfn_moveDetail('23034900')" class="movie-list-info" title="영화상세 보기">
+                            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-noimage-main.png" alt="" class="poster" >
+                            <div class="wrap">
+                                <div class="summary">
+                                </div>
+                                <!--
+                                    관람 전이 더 높을 때
+                                    <div class="my-score small">
+
+                                    관람 후가 더 높을 때
+                                    <div class="my-score big">
+
+                                    관람 후가 더 같을 때
+                                    <div class="my-score equal">
+                                 -->
+                                <div class="score">
+                                    <div class="preview">
+                                        <p class="tit">관람평</p>
+                                        <p class="number"><span class="ir">점</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="btn-util">
+                            <button type="button" class="button btn-like" rpst-movie-no="23034900">
+                                <i title="보고싶어 설정 안함" class="iconset ico-heart-toggle-gray"></i>
+                            </button>
+                            <div class="case">
+                                <a href="#" class="button gblue" title="상영예정">상영예정</a>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+                    <li name="li_boxoRankStillList" style="display:none;" class="">
+                        <a href="javascript:gfn_moveDetail('23034900')" class="movie-list-info" title="영화상세 보기">
+                            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-noimage-main.png" alt="" class="poster" >
+                            <div class="wrap">
+                                <div class="summary">
+                                </div>
+                                <!--
+                                    관람 전이 더 높을 때
+                                    <div class="my-score small">
+
+                                    관람 후가 더 높을 때
+                                    <div class="my-score big">
+
+                                    관람 후가 더 같을 때
+                                    <div class="my-score equal">
+                                 -->
+                                <div class="score">
+                                    <div class="preview">
+                                        <p class="tit">관람평</p>
+                                        <p class="number"><span class="ir">점</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="btn-util">
+                            <button type="button" class="button btn-like" rpst-movie-no="23034900">
+                                <i title="보고싶어 설정 안함" class="iconset ico-heart-toggle-gray"></i>
+                            </button>
+                            <div class="case">
+                                <a href="#" class="button gblue" title="상영예정">상영예정</a>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+                    <li name="li_boxoRankStillList" style="display:none;" class="">
+                        <a href="javascript:gfn_moveDetail('23034900')" class="movie-list-info" title="영화상세 보기">
+                            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-noimage-main.png" alt="" class="poster" >
+                            <div class="wrap">
+                                <div class="summary">
+                                </div>
+                                <!--
+                                    관람 전이 더 높을 때
+                                    <div class="my-score small">
+
+                                    관람 후가 더 높을 때
+                                    <div class="my-score big">
+
+                                    관람 후가 더 같을 때
+                                    <div class="my-score equal">
+                                 -->
+                                <div class="score">
+                                    <div class="preview">
+                                        <p class="tit">관람평</p>
+                                        <p class="number"><span class="ir">점</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="btn-util">
+                            <button type="button" class="button btn-like" rpst-movie-no="23034900">
+                                <i title="보고싶어 설정 안함" class="iconset ico-heart-toggle-gray"></i>
+                            </button>
+                            <div class="case">
+                                <a href="#" class="button gblue" title="상영예정">상영예정</a>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+                    <li name="li_boxoRankStillList" style="display:none;" class="">
+                        <a href="javascript:gfn_moveDetail('23034900')" class="movie-list-info" title="영화상세 보기">
+                            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-noimage-main.png" alt="" class="poster" >
+                            <div class="wrap">
+                                <div class="summary">
+                                </div>
+                                <!--
+                                    관람 전이 더 높을 때
+                                    <div class="my-score small">
+
+                                    관람 후가 더 높을 때
+                                    <div class="my-score big">
+
+                                    관람 후가 더 같을 때
+                                    <div class="my-score equal">
+                                 -->
+                                <div class="score">
+                                    <div class="preview">
+                                        <p class="tit">관람평</p>
+                                        <p class="number"><span class="ir">점</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="btn-util">
+                            <button type="button" class="button btn-like" rpst-movie-no="23034900">
+                                <i title="보고싶어 설정 안함" class="iconset ico-heart-toggle-gray"></i>
+                            </button>
+                            <div class="case">
+                                <a href="#" class="button gblue" title="상영예정">상영예정</a>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+
+                    <!-- 각 map 별 첫번째 li 에 first클래스 추가 -->
+                    <li name="li_boxoRankStillList" style="display:none;" class="">
+                        <a href="javascript:gfn_moveDetail('23034900')" class="movie-list-info" title="영화상세 보기">
+                            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-noimage-main.png" alt="" class="poster" >
+                            <div class="wrap">
+                                <div class="summary">
+                                </div>
+                                <!--
+                                    관람 전이 더 높을 때
+                                    <div class="my-score small">
+
+                                    관람 후가 더 높을 때
+                                    <div class="my-score big">
+
+                                    관람 후가 더 같을 때
+                                    <div class="my-score equal">
+                                 -->
+                                <div class="score">
+                                    <div class="preview">
+                                        <p class="tit">관람평</p>
+                                        <p class="number"><span class="ir">점</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="btn-util">
+                            <button type="button" class="button btn-like" rpst-movie-no="23034900">
+                                <i title="보고싶어 설정 안함" class="iconset ico-heart-toggle-gray"></i>
+                            </button>
+                            <div class="case">
+                                <a href="#" class="button gblue" title="상영예정">상영예정</a>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- 박스오피스 종료 -->
+                </ol>
+            </div>
+            <!--// main-movie-list -->
+
+            <div class="search-link">
+                <div class="cell">
+                    <div class="search">
+                        <input type="text" placeholder="영화명을 입력해 주세요" title="영화 검색" class="input-text" id="movieName">
+                        <button type="button" class="btn" id="btnSearch"><i class="iconset ico-search-w"></i> 검색</button>
+                    </div>
+                </div>
+
+                <div class="cell"><a href="/booking/timetable" title="상영시간표 보기"><i class="iconset ico-schedule-main"></i> 상영시간표</a></div>
+                <div class="cell"><a href="/movie" title="박스오피스 보기"><i class="iconset ico-boxoffice-main"></i> 박스오피스</a></div>
+                <div class="cell"><a href="/booking" title="빠른예매 보기"><i class="iconset ico-quick-reserve-main"></i> 빠른예매</a></div>
+            </div>
+            <!-- 2019-02-22 추가 : 마우스 아이콘 영역 추가 -->
+            <div class="moving-mouse">
+                <img class="iconset" alt="" src="https://www.megabox.co.kr/static/pc/images/common/ico/ico-mouse.png" style="top: 10px;">
+            </div>
+            <!--// 2019-02-22 추가 : 마우스 아이콘 영역 추가 -->
+        </div>
+        <!--// cont-area  -->
+    </div>
+    <!--// section main-movie : 영화 -->
+
+    <!-- section main-benefit : 혜택 -->
+    <div id="main_section02" class="section main-benefit">
+        <!-- wrap -->
+        <div class="wrap">
+            <!-- 혜택 시작 -->
+            <div class="tit-util">
+                <h2 class="tit">혜택</h2>
+                <a href="/event" class="btn-more-cross purple" title="혜택 더보기">더보기</a>
+            </div>
+            <!--
+                왼쪽 글씨 이미지 사이즈 300 * 230, 오른쪽 이미지 635 * 325
+             -->
+            <div class="slider main-condition">
+                <div class="slider-view" style="width: 1100px;">
+                    <div class="cell" style="display: block; position: absolute; float: none;">
+                        <div class="position">
+                            <div class="txt" style="top: 0px; opacity: 1;"><a href="https://www.megabox.co.kr/event/detail?eventNo=13610" target="_self" title=""><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2023/07/03/ifMbMnmAVWk9dKlmF8uBK0d8nPjsp2AY.png" alt="" ></a></div>
+                            <div class="bg" style="left: 300px; opacity: 1;"><a href="https://www.megabox.co.kr/event/detail?eventNo=13610" target="_self" title=""><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2023/07/03/a8jVeHS3TugzmdNOUavMKtzroRIHPEpZ.png" alt="" ></a></div>
+                        </div>
+                    </div>
+                    <div class="cell" style="display: none; position: absolute; float: none;">
+                        <div class="position">
+                            <div class="txt" style="top: 100px; opacity: 0;"><a href="https://megabox.co.kr/event/detail?eventNo=13555" target="_self" title=""><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2023/06/26/thhvkw0kCU9b19NtREnRiAtymMZUQKoF.jpg" alt="" ></a></div>
+                            <div class="bg" style="left: 450px; opacity: 0;"><a href="https://megabox.co.kr/event/detail?eventNo=13555" target="_self" title=""><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2023/06/26/joDpFZlFlmtZDttpbkwnlaPA0KoAIeOW.png" alt="" ></a></div>
+                        </div>
+                    </div>
+                    <div class="cell" style="display: none; position: absolute; float: none;">
+                        <div class="position">
+                            <div class="txt" style="top: 100px; opacity: 0;"><a href="https://www.megabox.co.kr/event/detail?eventNo=13512" target="_self" title=""><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2023/06/19/EV6ZQPX9AIFtgTp8l6B4IviPCAwhs5h7.png" alt="" ></a></div>
+                            <div class="bg" style="left: 450px; opacity: 0;"><a href="https://www.megabox.co.kr/event/detail?eventNo=13512" target="_self" title=""><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2023/06/19/BjAEsvTA1mqNrkXCQWG0u2wGyko4KGGp.png" alt="" ></a></div>
+                        </div>
+                    </div>
+                    <div class="cell" style="display: none; position: absolute; float: none;">
+                        <div class="position">
+                            <div class="txt" style="top: 100px; opacity: 0;"><a href="https://www.megabox.co.kr/event/detail?eventNo=13466" target="_self" title=""><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2023/06/12/vh4azADv9B2urriW5rSavjse8Jo3uoHv.png" alt="" ></a></div>
+                            <div class="bg" style="left: 450px; opacity: 0;"><a href="https://www.megabox.co.kr/event/detail?eventNo=13466" target="_self" title=""><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2023/06/12/TjeVIyYUH0XwHQbTQhI0YV2zBt2FgnR6.png" alt="" ></a></div>
+                        </div>
+                    </div>
+                    <div class="cell" style="display: none; position: absolute; float: none;">
+                        <div class="position">
+                            <div class="txt" style="top: 100px; opacity: 0;"><a href="https://www.megabox.co.kr/event/detail?eventNo=13065" target="_blank" title=""><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2023/04/21/nbTi5113TboCqAonKJr3hPH7PvoHGSY5.png" alt="" ></a></div>
+                            <div class="bg" style="left: 450px; opacity: 0;"><a href="https://www.megabox.co.kr/event/detail?eventNo=13065" target="_blank" title=""><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2023/04/21/WQR4hbsL46cGNhDd2EwOtkuwaCuWix9D.png" alt="" ></a></div>
+                        </div>
+                    </div>
+                    <div class="cell" style="display: none; position: absolute; float: none;">
+                        <div class="position">
+                            <div class="txt" style="top: 100px; opacity: 0;"><a href="https://www.megabox.co.kr/event/detail?eventNo=11263" target="_self" title="할인쿠폰 받기"><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2023/05/12/gIavMQNYTTsLMX7SztbtbpMZ5u4XU7AA.jpg" alt="" ></a></div>
+                            <div class="bg" style="left: 450px; opacity: 0;"><a href="https://www.megabox.co.kr/event/detail?eventNo=11263" target="_self" title="할인쿠폰 받기"><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2023/05/12/GClai6ZZoFTFrD0Wa0xbN0PniIizcfew.png" alt="" ></a></div>
+                        </div>
+                    </div>
+                    <div class="cell" style="display: none; position: absolute; float: none;">
+                        <div class="position">
+                            <div class="txt" style="top: 100px; opacity: 0;"><a href="https://www.megabox.co.kr/event/detail?eventNo=13381" target="_self" title="보험료 확인하기"><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2023/05/30/qO3Vrswg0PBAn5Nl7l0FdClgatIBHkKj.jpg" alt="" ></a></div>
+                            <div class="bg" style="left: 450px; opacity: 0;"><a href="https://www.megabox.co.kr/event/detail?eventNo=13381" target="_self" title="보험료 확인하기"><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2023/05/30/0ayIfnfLog0FIuF9oRDZWi9e1HvC3S3K.jpg" alt="" ></a></div>
+                        </div>
+                    </div>
+                    <div class="cell" style="display: none; position: absolute; float: none;">
+                        <div class="position">
+                            <div class="txt" style="top: 100px; opacity: 0;"><a href="https://thessencard.co.kr/event/megabox" target="_blank" title="이벤트 확인하기"><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2023/03/14/epS6oiqHOSFccJicF3hl5x6xZeIgjP22.png" alt="" ></a></div>
+                            <div class="bg" style="left: 450px; opacity: 0;"><a href="https://thessencard.co.kr/event/megabox" target="_blank" title="이벤트 확인하기"><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2023/03/14/h8fwVvz9E5ktcOWtHjWSR0mMN2XnpxO0.png" alt="" ></a></div>
+                        </div>
+                    </div>
+                    <div class="cell" style="display: none; position: absolute; float: none;">
+                        <div class="position">
+                            <div class="txt" style="top: 100px; opacity: 0;"><a href="https://www.megabox.co.kr/event/detail?eventNo=9187" target="_self" title=""><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2021/02/01/f7RPSplY1eWEFFhKNBDJK4JIXKv9NBZK.jpg" alt="" ></a></div>
+                            <div class="bg" style="left: 450px; opacity: 0;"><a href="https://www.megabox.co.kr/event/detail?eventNo=9187" target="_self" title=""><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2021/02/01/fZ8glF2ggujTRrF5vtRuE1iE2UjjV1oF.jpg" alt="" ></a></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slider-control">
+
+                    <div class="page"><span class="on" style="width:11.11111111111111%"></span><span class="" style="width:11.11111111111111%"></span><span class="" style="width:11.11111111111111%"></span><span class="" style="width:11.11111111111111%"></span><span class="" style="width:11.11111111111111%"></span><span class="" style="width:11.11111111111111%"></span><span class="" style="width:11.11111111111111%"></span><span class="" style="width:11.11111111111111%"></span><span class="" style="width:11.11111111111111%"></span></div>
+
+                    <div class="util">
+                        <button type="button" class="btn-prev" style="opacity: 0.5;" disabled="true">이전 이벤트 보기</button>
+                        <button type="button" class="btn-next" style="opacity: 1;">다음 이벤트 보기</button>
+
+                        <button type="button" class="btn-pause on">일시정지</button>
+                        <button type="button" class="btn-play">자동재생</button>
+                    </div>
+
+                    <div class="page-count">1 / 9</div>
+
+                </div>
+            </div>
+
+
+            <div class="brn-ad" style="height:204px;">
+                <div class="banner">
+                    <div class="size">
+                        <a href="#" data-no="8865" data-netfunnel="N" class="eventBtn" title="">
+                            <img src="https://img.megabox.co.kr/SharedImg/event/2023/05/02/liflSYt4BQt4RYxrBuLVXG3Tk3Wq2CdA.jpg" alt="[현대카드X메가박스] 상시 6,000M포인트 사용" >
+                        </a>
+                    </div>
+                    <div class="size small">
+                        <a href="#" data-no="11739" data-netfunnel="N" class="eventBtn" title="">
+                            <img src="https://img.megabox.co.kr/SharedImg/event/2023/03/13/LDawTHZzGM12RkSyomSBDebl8YVCSuzf.jpg" alt="[광주은헹] 메가박스카드 앵콜이벤트" >
+                        </a>
+                    </div>
+                </div>
+                <!-- 광고영역 -->
+                <div class="ad-img">
+                    <script data-id="M_rwl-o8QV2xFMa0Oy93qQ" name="megabox_p/main/main@main_middle_event_415x530?mlink=341" src="//cast.imp.joins.com/persona.js" async=""></script><script src="//cast.imp.joins.com/body/M_rwl-o8QV2xFMa0Oy93qQ/9qa_PO8kHXn76THwYgOsM_1F5hrbDKmGnBB-Yp25fYKEAM4qWzAZAbZiWmNoWE9sTFNWZXJiVGw0NFRrUFhnAstB2Sg0WIGulAPLQdkoNFiBrpQ.js"></script><div id="M_rwl-o8QV2xFMa0Oy93qQ"><iframe src="//ad.imp.joins.com/html/megabox_p/main/main@main_middle_event_415x530?_cid=M_rwl-o8QV2xFMa0Oy93qQ&amp;_uid=9qa_PO8kHXn76THwYgOsM_1F5hrbDKmGnBB-Yp25fYKEAM4qWzAZAbZiWmNoWE9sTFNWZXJiVGw0NFRrUFhnAstB2Sg0WIGulAPLQdkoNFiBrpQ&amp;_ref=https%3A%2F%2Fwww.megabox.co.kr%2F" title="메인 혜택 우측배너영역" height="530px" width="415px" name="mliframe" scrolling="no" frameborder="0" topmargin="0" leftmargin="0" marginwidth="0" marginheight="0" sy7hc8i04=""></iframe></div>
+                </div>
+                <!-- 광고영역 -->
+            </div>
+            <!-- 혜택 종료 -->
+
+            <div class="menu-link">
+                <div class="cell vip"><a href="/benefit/viplounge" title="VIP LOUNGE 페이지로 이동">VIP LOUNGE</a></div>
+                <div class="cell membership"><a href="/benefit/membership" title="멤버십 페이지로 이동">멤버십</a></div>
+                <div class="cell card"><a href="/benefit/discount/guide" title="할인카드안내 페이지로 이동">할인카드안내</a></div>
+                <div class="cell event"><a href="/event" title="이벤트 페이지로 이동">이벤트</a></div>
+                <div class="cell store"><a href="/store" title="스토어 페이지로 이동">스토어</a></div>
+            </div>
+
+            <!-- grand-open -->
+            <!--// grand-open -->
+        </div>
+        <!--// wrap -->
+    </div>
+    <!--// section main-benefit : 혜택 -->
+
+
+    <!-- section main-info : 메가박스 안내 -->
+    <div id="main_section04" class="section main-info">
+
+        <h2 class="tit">메가박스 안내</h2>
+
+        <div class="swiper-container info-special swiper-container-initialized swiper-container-horizontal">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide special-cell swiper-slide-active" style="width: 170px; margin-right: 16px;">
+                    <a href="/specialtheater/dolby" title="DOLBY CINEMA 페이지로 이동" class="bg-dolby">DOLBY CINEMA</a>
+                </div>
+                <div class="swiper-slide special-cell swiper-slide-next" style="width: 170px; margin-right: 16px;">
+                    <a href="/specialtheater/boutique/private" title="THE BOUTIQUE PRIVATE 페이지로 이동" class="bg-private">THE BOUTIQUE PRIVATE</a>
+                </div>
+                <div class="swiper-slide special-cell" style="width: 170px; margin-right: 16px;">
+                    <a href="/specialtheater/boutique" title="THE BOUTIQUE 페이지로 이동" class="bg-boutique">THE BOUTIQUE</a>
+                </div>
+                <div class="swiper-slide special-cell" style="width: 170px; margin-right: 16px;">
+                    <a href="/specialtheater/mx" title="MX 페이지로 이동" class="bg-mx">MX</a>
+                </div>
+                <div class="swiper-slide special-cell" style="width: 170px; margin-right: 16px;">
+                    <a href="/specialtheater/comfort" title="COMFORT 페이지로 이동" class="bg-comfort">COMFORT</a>
+                </div>
+                <div class="swiper-slide special-cell" style="width: 170px; margin-right: 16px;">
+                    <a href="/specialtheater/puppy" title="PUPPY CINEMA 페이지로 이동" class="bg-puppy new">PUPPY CINEMA</a>
+                </div>
+                <div class="swiper-slide special-cell" style="width: 170px; margin-right: 16px;">
+                    <a href="/specialtheater/megakids" title="MEGABOX KIDS 페이지로 이동" class="bg-kids">MEGABOX KIDS</a>
+                </div>
+            </div>
+            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+
+        <div class="special-control">
+            <button type="button" class="special-prev swiper-button-disabled" tabindex="0" role="button" aria-label="Previous slide" aria-disabled="true"></button>
+            <button type="button" class="special-next" tabindex="0" role="button" aria-label="Next slide" aria-disabled="false"></button>
+        </div>
+        <!-- info-notice -->
+        <div class="info-notice">
+            <div class="wrap">
+                <p class="tit">지점</p>
+                <p class="link">
+                    <a href="/support/notice/detail?artiNo=10896&amp;bbsNo=9" title="공지사항 상세보기">
+                        <strong>
+                            [코엑스]
+                        </strong>
+                        [코엑스]시사회 진행에 따른 고객 안내 (7월 13일)</a>
+                </p>
+
+                <p class="date">2023.07.07</p>
+
+                <p class="more">
+                    <a href="/support/notice" title="전체공지 더보기">더보기 <i class="iconset ico-arr-right-gray"></i></a>
+                </p>
+            </div>
+        </div>
+        <!--// info-notice -->
+
+        <!-- info-link -->
+        <div class="info-link">
+            <div class="table">
+                <div class="cell">
+                    <a href="/support" title="고객센터 페이지로 이동">
+                        <i class="iconset ico-main-customer"></i>
+                        <span>고객센터</span>
+                    </a>
+                </div>
+
+                <div class="cell">
+                    <a href="/support/faq" title="자주 묻는 질문 페이지로 이동">
+                        <i class="iconset ico-main-faq"></i>
+                        <span>자주 묻는 질문</span>
+                    </a>
+                </div>
+
+                <div class="cell">
+                    <a href="/support/inquiry" title="1:1 문의 페이지로 이동">
+                        <i class="iconset ico-main-qna"></i>
+                        <span>1:1 문의</span>
+                    </a>
+                </div>
+
+                <div class="cell">
+                    <a href="/support/rent" title="단체/대관문의 페이지로 이동">
+                        <i class="iconset ico-main-group"></i>
+                        <span>단체/대관문의</span>
+                    </a>
+                </div>
+
+                <div class="cell">
+                    <a href="/support/lost" title="분실물 문의/접수 페이지로 이동">
+                        <i class="iconset ico-main-lost"></i>
+                        <span>분실물 문의/접수</span>
+                    </a>
+                </div>
+
+                <div class="cell">
+                    <a href="/booking/privatebooking" title="더 부티크 프라이빗 대관예매 페이지로 이동">
+                        <i class="iconset ico-main-boutique"></i>
+                        <span>더 부티크 프라이빗<br>대관예매</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!--// info-link -->
+    </div>
+    <!--// section main-info : 메가박스 안내 -->
 </div>
-<footer>
-<div class="">
-	<div class="fixed-bottom bg-light text-center">
-		<div class="footer-sns m-3">
-			<a href="https://github.com/orgs/semi-movie/repositories" target="_blank" title="notion">
-				<img alt="notion" src="/final/images/nav/notion-logo.png" style="width: 25px; height: 25px;"></a>
-			<a href="https://www.erdcloud.com/d/4nYKSKxkRtdsYwCgh" target="_blank" title="erdcloud">
-				<img alt="erdcloud" src="/final/images/nav/erd.png" style="width: 25px; height: 25px;"></a>
-			<a href="https://www.figma.com/file/oquva5AVUHQJHOSV3wkLVW/Untitled?type=design&node-id=0-1&mode=design&t=bN2sXjAun6k6hjYn-0" target="_blank" title="figma">
-				<img alt="figma" src="/final/images/nav/figma-logo.png" class="me-5" style="width: 30px; height: 30px;"></a>
-			<a title="극장찾기">
-				<img alt="theater" src="/final/images/nav/search.png" style="width: 15px; height: 15px; margin-bottom: 5px;">극장찾기</a>
-		</div>
-		<div class="footer-mgv mb-3">
-       		<a><img alt="mgv" src="/final/images/mgv.png" class="" style="width: 80px; height: 50px;"></a>
-	        <p style="font-size: 12px;">
-	            <span>서울특별시 종로구 율곡로10길 105 디아망 4층 (봉익동 10-1) ARS 0731-0913</span><br/>
-	            <span><strong>조장</strong> 이진서 <strong>조원</strong> 진현국, 서준호, 이재권, 오민선, 신하원</span><br/>
-	            <span><strong>근무시간</strong>: 월 ~ 금 AM 9:00 ~ PM 6:00 | <strong>점심시간</strong>: PM1:00 ~ PM2:00 | <strong>고객센터</strong>: AM 10:00 ~ PM 7:00</span>
-	        </p>
-	    </div>
-	</div>
-</div>
-</footer>
 </body>
 </html>

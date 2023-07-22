@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/default}">
+<head th:fragment="config">
+    <title>분실물 문의</title>
+</head>
+<body>
+<div layout:fragment="content" style="margin-top: 100px;">
+    <script th:src="@{/js/lostItem.js}"></script>
+    <div class="inner-wrap">
+        <div id="contents" class="location-fixed">
+            <h2 class="tit">분실물 문의</h2>
+
+            <div class="clearfix">
+                <ul class="dot-list">
+                    <li>
+                        메가박스에서 잃어버린 물건이 있다면 ‘분실물 문의/접수’를 통해 접수해주세요.
+                        <a href="/center/lost/write" class="button float-r" title="분실물 문의 등록하기">분실물 문의</a>
+                    </li>
+                    <li>접수하신 글은 비밀글로 등록되어 작성자와 관리자만 확인 가능합니다.</li>
+                </ul>
+            </div>
+
+            <div class="board-list-util">
+                <p class="result-count"><strong>전체 <span id="totalCnt" class="font-gblue">8,996</span>건</strong></p>
+
+                <select id="location" title="지역 선택" class="dropdown bootstrap-select bs3">
+                    <option value="">지역 선택</option>
+                    <option value="0">서울</option>
+                    <option value="1">경기</option>
+                    <option value="2">인천</option>
+                    <option value="3">대전/충청/세종</option>
+                    <option value="4">부산/대구/경상</option>
+                    <option value="5">광주/전라</option>
+                    <option value="6">강원</option>
+                    <option value="7">제주</option>
+                </select>
+
+                <select id="answered" class="dropdown bootstrap-select ml07 bs3">
+                    <option value="">접수상태 선택</option>
+                    <option value="N">미답변</option>
+                    <option value="Y">답변완료</option>
+                </select>
+
+                <div class="board-search">
+                    <input type="text" id="keyword" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text"
+                           value="">
+                    <button type="button" id="searchBtn" class="btn-search-input">검색</button>
+                </div>
+            </div>
+
+            <div class="table-wrap">
+                <table class="board-list">
+                    <caption>번호, 극장, 구분, 제목, 등록일이 들어간 공지사항 전체 리스트</caption>
+                    <colgroup>
+                        <col style="width:72px;">
+                        <col style="width:133px;">
+                        <col>
+                        <col style="width:100px;">
+                        <col style="width:116px;">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th scope="col">번호</th>
+                        <th scope="col">지역</th>
+                        <th scope="col">제목</th>
+                        <th scope="col">접수상태</th>
+                        <th scope="col">등록일</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>8996</td>
+                        <td>하남스타필드</td>
+                        <th scope="row"><a href="#layer-01" class="btn-layer-open moveBtn" data-sn="651369"
+                                           title="분실물 문의 상세보기">지갑위에 글라스데코</a></th>
+                        <td>미답변</td>
+                        <td>2023.07.09</td>
+                    </tr>
+                    <tr>
+                        <td>8995</td>
+                        <td>군자</td>
+                        <th scope="row"><a href="#layer-01" class="btn-layer-open moveBtn" data-sn="651366"
+                                           data-no="10784393" title="분실물 문의 상세보기">무선 이어폰</a></th>
+                        <td>미답변</td>
+                        <td>2023.07.09</td>
+                    </tr>
+                    <tr>
+                        <td>8994</td>
+                        <td>신촌</td>
+                        <th scope="row"><a href="#layer-01" class="btn-layer-open moveBtn" data-sn="651364"
+                                           title="분실물 문의 상세보기">명화 우산</a></th>
+                        <td>미답변</td>
+                        <td>2023.07.09</td>
+                    </tr>
+                    <tr>
+                        <td>8993</td>
+                        <td>신촌</td>
+                        <th scope="row"><a href="#layer-01" class="btn-layer-open moveBtn" data-sn="651363"
+                                           title="분실물 문의 상세보기">명화 우산</a></th>
+                        <td>미답변</td>
+                        <td>2023.07.09</td>
+                    </tr>
+                    <tr>
+                        <td>8992</td>
+                        <td>상암월드컵경기장</td>
+                        <th scope="row"><a href="#layer-01" class="btn-layer-open moveBtn" data-sn="651356"
+                                           data-no="12658319" title="분실물 문의 상세보기">분실물 문의</a></th>
+                        <td>답변완료</td>
+                        <td>2023.07.09</td>
+                    </tr>
+                    <tr>
+                        <td>8991</td>
+                        <td>코엑스</td>
+                        <th scope="row"><a href="#layer-01" class="btn-layer-open moveBtn" data-sn="651351"
+                                           data-no="32986" title="분실물 문의 상세보기">분실물 문의</a></th>
+                        <td>미답변</td>
+                        <td>2023.07.08</td>
+                    </tr>
+                    <tr>
+                        <td>8990</td>
+                        <td>송도</td>
+                        <th scope="row"><a href="#layer-01" class="btn-layer-open moveBtn" data-sn="651350"
+                                           title="분실물 문의 상세보기">에어팟</a></th>
+                        <td>답변완료</td>
+                        <td>2023.07.08</td>
+                    </tr>
+                    <tr>
+                        <td>8989</td>
+                        <td>하남스타필드</td>
+                        <th scope="row"><a href="#layer-01" class="btn-layer-open moveBtn" data-sn="651343"
+                                           data-no="2355650" title="분실물 문의 상세보기">캉골 벙거지모자</a></th>
+                        <td>답변완료</td>
+                        <td>2023.07.08</td>
+                    </tr>
+                    <tr>
+                        <td>8988</td>
+                        <td>대전유성</td>
+                        <th scope="row"><a href="#layer-01" class="btn-layer-open moveBtn" data-sn="651339"
+                                           data-no="13866730" title="분실물 문의 상세보기">아디다스 옆으로 매는 작은 가방 찾음</a></th>
+                        <td>답변완료</td>
+                        <td>2023.07.08</td>
+                    </tr>
+                    <tr>
+                        <td>8987</td>
+                        <td>영종</td>
+                        <th scope="row"><a href="#layer-01" class="btn-layer-open moveBtn" data-sn="651333"
+                                           title="분실물 문의 상세보기">카드</a></th>
+                        <td>답변완료</td>
+                        <td>2023.07.08</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <section id="layer-01" class="layer-popup"
+                     style="top: 31px; left: 304.5px; width: 500px; height:300px; opacity: 1; display: none;">
+                <div class="wrap">
+                    <header class="layer-header">
+                        <h3 class="tit">
+                            비밀번호 입력
+                        </h3>
+                    </header>
+
+                    <div class="layer-con">
+                        <p>글 작성시 입력한 비밀번호를 입력해주세요.</p>
+                        <div class="box-gray a-c">
+                            <input type="password" id="password" title="비밀번호 입력" class="input-text w250px">
+                            <p class="font-red mt10 mb0">비밀번호가 일치하지 않습니다. 다시 입력해주세요.</p>
+                        </div>
+                        <div class="btn-group">
+                            <a href="#" class="button small lyclose" id="cancelBtn" title="취소">취소</a>
+                            <a href="#" class="button small purple" id="chkBtn" title="확인">확인</a>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn-layer-close">레이어 닫기</button>
+                </div>
+            </section>
+
+            <!-- pagination -->
+            <nav class="pagination">
+                <strong class="active">1</strong>
+                <a title="2페이지보기"
+                   href="javascript:void(0)"
+                   pagenum="2">2</a>
+                <a title="3페이지보기"
+                   href="javascript:void(0)"
+                   pagenum="3">3</a>
+                <a title="이후 10페이지 보기" href="javascript:void(0)" class="control next" pagenum="11">
+                    next
+                </a>
+                <a title="마지막 페이지 보기" href="javascript:void(0)" class="control last" pagenum="900">
+                    last
+                </a>
+            </nav>
+            <!--// pagination -->
+        </div>
+    </div>
+</div>
+</body>
+</html>
