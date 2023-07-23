@@ -9,8 +9,7 @@
 <body>
     <nav th:replace="~{ common/navbar :: header }"></nav>
     <div th:replace="~{ fragments/login-modal :: modal }"></div>
-    <div th:replace="~{ fragments/Non-login-modal :: non-modal }"></div>
-    <div class="container main-container area-ad">
+    <div class="mgv-container main-container area-ad">
         <div layout:fragment="content"></div>
     </div>
     <div th:replace="~{ fragments/footer :: footer }"></div>

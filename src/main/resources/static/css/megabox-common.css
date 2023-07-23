@@ -13280,7 +13280,8 @@ body.body-iframe .modal-layer {
 }
 
 #header.no-bg .ci a {
-    background-image: url(https://img.megabox.co.kr/static/pc/images/common/ci/logo-white_new2.png)
+    background: url(/images/mgv.png) center no-repeat !important;
+    background-size: 86px !important;
 }
 
 #header.no-bg .util-area {
@@ -14123,7 +14124,7 @@ body.body-iframe .modal-layer {
     margin: 0 3px
 }
 
-.container {
+.mgv-container {
     width: 100%;
     min-width: 1100px;
     min-height: 100%;
@@ -14131,25 +14132,25 @@ body.body-iframe .modal-layer {
     padding: 92px 0 300px 0
 }
 
-.container.no-padding-bottom {
+.mgv-container.no-padding-bottom {
     padding-bottom: 200px
 }
 
-.container.has-lnb #contents {
+.mgv-container.has-lnb #contents {
     float: right;
     width: calc(100% - 260px)
 }
 
-.container.area-ad {
+.mgv-container.area-ad {
     margin-top: -172px;
     padding-top: 172px
 }
 
-.container.location-fixed {
+.mgv-container.location-fixed {
     padding-top: 134px
 }
 
-.joinsInfo .container {
+.joinsInfo .mgv-container {
     height: 100%
 }
 
@@ -14379,30 +14380,30 @@ body.body-iframe .modal-layer {
     font-weight: 300
 }
 
-.container.has-lnb .has-ad-right #contents {
+.mgv-container.has-lnb .has-ad-right #contents {
     float: left;
     width: calc(100% - 260px)
 }
 
-.container .has-ad-right .right-brn-area {
+.mgv-container .has-ad-right .right-brn-area {
     float: right;
     width: 200px;
     padding: 40px 0 0 0;
     background-color: #fff
 }
 
-.container .has-ad-right .right-brn-area .brn {
+.mgv-container .has-ad-right .right-brn-area .brn {
     width: 100%;
     font-size: 0;
     line-height: 0
 }
 
-.container .has-ad-right .right-brn-area .brn a {
+.mgv-container .has-ad-right .right-brn-area .brn a {
     display: block;
     width: 100%
 }
 
-.container .has-ad-right .right-brn-area .brn a img {
+.mgv-container .has-ad-right .right-brn-area .brn a img {
     width: 100%
 }
 

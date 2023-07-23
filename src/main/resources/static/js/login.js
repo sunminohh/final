@@ -1,5 +1,21 @@
 // Login 관련 코드
 $(() => {
+
+
+    // 로그인 모달 탭
+    $("#loginType>.btn-type").on("click", function (e) {
+        $(this).parent().find(".btn-type").removeClass("active");
+        $(this).addClass("active");
+
+        if ($(this).hasClass("user")) {
+            $(".user-login-form").show();
+            $(".anonymous-login-form").hide();
+        }else {
+            $(".user-login-form").hide();
+            $(".anonymous-login-form").show();
+        }
+    });
+
     // 로그인 모달 표출
    $(".btn-login").on("click", () => $(".login-modal").addClass("is-open"));
 
