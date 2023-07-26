@@ -10,23 +10,23 @@ $(() => {
         if ($(this).hasClass("user")) {
             $(".user-login-form").show();
             $(".anonymous-login-form").hide();
-        }else {
+        } else {
             $(".user-login-form").hide();
             $(".anonymous-login-form").show();
         }
     });
 
     // 로그인 모달 표출
-   $(".btn-login").on("click", () => $(".login-modal").addClass("is-open"));
+    $(".btn-login").on("click", () => $(".login-modal").addClass("is-open"));
 
-   // 로그인 엔터 Keypress
+    // 로그인 엔터 Keypress
     $(".login-modal input").on("keypress", (e) => {
         if (e.keyCode === 13)
             $(".login-modal .input-button").trigger("click");
     });
 
     // 로그인 버튼 클릭
-   $(".login-modal .input-button").on("click", function (e) {
+    $(".login-modal .input-button").on("click", function (e) {
        e.preventDefault();
        const $modal = $(this).closest(".login-modal");
        const username = $modal.find("input[name='username']").val();

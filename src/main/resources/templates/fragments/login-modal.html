@@ -14,6 +14,7 @@
             border-top-right-radius: 5px;
             border-top-left-radius: 5px;
         }
+
     </style>
 </head>
 
@@ -23,12 +24,11 @@
     <div class="modal-container">
         <div class="modal-left">
             <div id="loginType" style="cursor: pointer;font-weight: bold;font-size: 17px;text-align: center;display: flex;">
-                <div class="btn-type user active" style="">회원</div>
-                <div class="btn-type anonymous" style="">비회원</div>
+                <div class="btn-type user active" style="width: 100%;">회원</div>
+                <div class="btn-type anonymous" style="width: 100%;">비회원</div>
             </div>
-            <h1 class="modal-title">로그인</h1>
+            <h1 class="modal-title" style="padding: 10px;">로그인</h1>
             <div class="user-login-form">
-                <p class="modal-desc">마음껏 구경하세요!</p>
                 <div class="input-block">
                     <label for="id" class="input-label">ID</label>
                     <input type="text" name="username" id="id" placeholder="id를 입력해주세요." autocomplete="off">
@@ -38,10 +38,18 @@
                     <input type="password" name="password" id="password" placeholder="비밀번호를 입력해주세요.">
                 </div>
                 <div class="modal-buttons">
-                    <a href="" class="">비밀번호 찾기</a>
                     <button class="input-button">Login</button>
                 </div>
-                <p class="sign-up">회원이 아니신가요? <a href="#">회원가입</a></p>
+                <div class="link">
+                    <a href="/user-find">PW 찾기</a>&boxv;
+                    <a href="/join">회원가입</a>
+                </div>
+                <div class="sns-login">
+                    <a href="#" target="_blank" title="카카오톡으로 로그인">
+                        <img th:src="@{/images/nav/kakao.png}" alt="카카오톡"></a>
+                    <a href="#" target="_blank" title="구글로 로그인">
+                        <img th:src="@{/images/nav/google.png}" alt="구글"></a>
+                </div>
             </div>
             <div class="anonymous-login-form" style="display: none">
                 <div class="login-member col-2">
@@ -74,11 +82,11 @@
                                     </tr>
                                     <tr>
                                         <th scope="row">
-                                            <label for="ibxNonMbTelno">휴대폰번호<!--휴대폰번호--></label>
+                                            <label for="ibxNonMbTelno">이메일<!--휴대폰번호--></label>
                                         </th>
                                         <td>
                                             <div class="hp-input">
-                                                <input maxlength="11" id="ibxNonMbTelno" type="text" placeholder="- 없이 입력" class="input-text"><!--- 없이 입력-->
+                                                <input id="ibxNonMbTelno" type="email" placeholder="name@example.com" class="input-text"><!--- 없이 입력-->
                                                 <button id="nonMbCertNoSend" type="button" class="button gray" disabled="disabled">인증요청<!--인증요청--></button>
                                             </div>
                                             <div id="mblpInput-error-text" class="alert"></div>
@@ -113,7 +121,7 @@
                                     </tr>
                                     <tr>
                                         <th scope="row">
-                                            <label for="ibxNonMbPwdConfirm">비밀번호<!--비밀번호-->확인<!--확인--></label>
+                                            <label for="ibxNonMbPwdConfirm" class="te">비밀번호<br/>확인<!--확인--></label>
                                         </th>
                                         <td>
                                             <input maxlength="4" id="ibxNonMbPwdConfirm" type="password" placeholder="비밀번호(숫자 4자리) 확인" class="input-text"><!--비밀번호(숫자 4자리) 확인-->
@@ -128,8 +136,8 @@
                     <!--// col-wrap -->
 
                     <div class="btn-group">
-                        <button id="btnChkNonMbLogin" type="button" class="button purple" disabled="disabled">확인</button>
-                        <a id="aNonMbLogin" href="#layer_no_member_chk" class="button purple btn-modal-open" w-data="600" h-data="320" style="display: none;"></a>
+                        <button id="btnChkNonMbLogin" type="button" class="button purple text-center" disabled="disabled">확인</button>
+                        <a id="aNonMbLogin" href="#" class="button purple btn-modal-open" w-data="600" h-data="320" style="display: none;"></a>
                     </div>
                 </div>
             </div>

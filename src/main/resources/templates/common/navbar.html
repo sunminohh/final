@@ -8,7 +8,7 @@
     <!-- 2019-04-15 마크업 수정 : 고객요청  -->
     <div class="util-area">
         <div class="left-link">
-            <a href="" title="VIP LOUNGE">VIP LOUNGE</a>
+            <a href="" title="게시판">게시판</a>
             <a href="" title="멤버십">멤버십</a>
             <a href="" title="고객센터">고객센터</a>
         </div>
@@ -16,8 +16,9 @@
         <div class="right-link">
             <!-- 로그인전 -->
             <div class="before" sec:authorize="isAnonymous()">
+                <a th:href="@{/admin/dashboard}" title="회원가입">관리자</a>
                 <a href="javascript:void(0)" class="btn-login" title="로그인">로그인</a>
-                <a href="/join" title="회원가입">회원가입</a>
+                <a href="#" title="회원가입">회원가입</a>
             </div>
 
             <!-- 로그인후 -->
@@ -81,10 +82,10 @@
     <!--// 2019-04-15 마크업 수정 : 고객요청  -->
 
     <div class="link-area">
-        <a href="#layer_sitemap" class="header-open-layer btn-layer-sitemap" title="사이트맵">사이트맵</a>
-        <a href="#layer_header_search" class="header-open-layer btn-layer-search" title="검색">검색</a>
-        <a href="/booking/timetable" class="link-ticket" title="상영시간표">상영시간표</a>
-        <a href="#layer_mymega2" class="header-open-layer btn-layer-mymega" title="나의 MGV">나의 MGV</a>
+        <a href="" class="header-open-layer btn-layer-sitemap" title="사이트맵">사이트맵</a>
+        <a href="" class="header-open-layer btn-layer-search" title="검색">검색</a>
+        <a href="" class="link-ticket" title="상영시간표">상영시간표</a>
+        <a href="" class="header-open-layer btn-layer-mymega" title="나의 MGV">나의 MGV</a>
     </div>
 
     <!-- gnb -->
@@ -95,29 +96,26 @@
 
     <nav id="gnb">
         <ul class="gnb-depth1">
-            <li><a href="/movie" class="gnb-txt-movie" title="영화">영화</a>
+            <li><a href="" class="gnb-txt-movie" title="영화">영화</a>
                 <div class="gnb-depth2">
                     <ul>
-                        <li><a href="/movie" title="전체영화">전체영화</a></li>
+                        <li><a href="" title="전체영화">전체영화</a></li>
 
-
-                        <li><a href="/curation/specialcontent" title="큐레이션">큐레이션</a></li>
-
-                        <li id="festivalArea" style="display: none;"><a href="/festival" title="영화제">영화제</a></li>
-                        <li><a href="/moviepost/all" title="무비포스트">무비포스트</a></li>
+                        <li id="festivalArea" style="display: none;"><a href="" title="영화제">영화제</a></li>
+                        <li><a href="" title="무비포스트">무비포스트</a></li>
                     </ul>
                 </div>
             </li>
-            <li><a href="/booking" class="gnb-txt-reserve" title="예매">예매</a>
+            <li><a href="" class="gnb-txt-reserve" title="예매">예매</a>
                 <div class="gnb-depth2">
                     <ul>
-                        <li><a href="/booking" title="빠른예매">빠른예매</a></li>
-                        <li><a href="/booking/timetable" title="상영시간표">상영시간표</a></li>
-                        <li><a href="/booking/privatebooking" title="더 부티크 프라이빗 예매">더 부티크 프라이빗 예매</a></li>
+                        <li><a href="" title="빠른예매">빠른예매</a></li>
+                        <li><a href="" title="상영시간표">상영시간표</a></li>
+                        <li><a href="" title="더 부티크 프라이빗 예매">더 부티크 프라이빗 예매</a></li>
                     </ul>
                 </div>
             </li>
-            <li><a href="/theater/list" class="gnb-txt-theater" title="극장">극장</a>
+            <li><a href="" class="gnb-txt-theater" title="극장">극장</a>
                 <div class="gnb-depth2">
                     <ul>
                         <li><a href="/theater/list" title="전체극장">전체극장</a></li>
@@ -125,7 +123,7 @@
                     </ul>
                 </div>
             </li>
-            <li><a href="/event" class="gnb-txt-event" title="이벤트">이벤트</a>
+            <li><a href="" class="gnb-txt-event" title="이벤트">이벤트</a>
                 <div class="gnb-depth2">
                     <ul>
                         <li><a href="" title="진행중 이벤트">진행중 이벤트</a></li>
@@ -134,8 +132,8 @@
                     </ul>
                 </div>
             </li>
-            <li><a href="/store" class="gnb-txt-store" title="스토어">스토어</a></li>
-            <li><a href="/benefit/membership" class="gnb-txt-benefit" title="혜택">혜택</a>
+            <li><a href="" class="gnb-txt-store" title="스토어">스토어</a></li>
+            <li><a href="" class="gnb-txt-benefit" title="혜택">혜택</a>
                 <div class="gnb-depth2">
                     <ul>
                         <li><a href="" title="메가박스 멤버십">메가박스 멤버십</a></li>
@@ -198,10 +196,10 @@
                 <p class="tit-depth">스토어</p>
 
                 <ul class="list-depth">
-                    <li><a href="/store" title="새로운 상품">새로운 상품</a></li>
-                    <li><a href="/store/megaticket" title="메가티켓">메가티켓</a></li>
-                    <li><a href="/store/popcorn" title="팝콘/음료/굿즈">팝콘/음료/굿즈</a></li>
-                    <li><a href="/store/pointmall" title="포인트몰">포인트몰</a></li>
+                    <li><a href="" title="새로운 상품">새로운 상품</a></li>
+                    <li><a href="" title="메가티켓">메가티켓</a></li>
+                    <li><a href="" title="팝콘/음료/굿즈">팝콘/음료/굿즈</a></li>
+                    <li><a href="" title="포인트몰">포인트몰</a></li>
                 </ul>
             </div>
             <div class="list position-6">
@@ -222,8 +220,8 @@
                         <a href="" title="나의 무비스토리">나의 무비스토리</a></li>
                     <li>
                         <a href="" title="나의 이벤트 응모내역">나의 이벤트 응모내역</a></li>
-                    <li><a href=""title="나의 문의내역">나의 문의내역</a></li>
-                    <li><a href="#" title="자주쓰는 할인카드">자주쓰는 할인카드</a></li>
+                    <li><a href="" title="나의 문의내역">나의 문의내역</a></li>
+                    <li><a href="" title="자주쓰는 할인카드">자주쓰는 할인카드</a></li>
                     <li>
                         <a href="" title="회원정보">회원정보</a></li>
                 </ul>
@@ -233,9 +231,9 @@
                 <p class="tit-depth">혜택</p>
 
                 <ul class="list-depth">
-                    <li><a href="/benefit/membership" title="멤버십 안내">멤버십 안내</a></li>
-                    <li><a href="/benefit/viplounge" title="VIP LOUNGE">VIP LOUNGE</a></li>
-                    <li><a href="/benefit/discount/guide" title="제휴/할인">제휴/할인</a></li>
+                    <li><a href="" title="멤버십 안내">멤버십 안내</a></li>
+                    <li><a href="" title="VIP LOUNGE">VIP LOUNGE</a></li>
+                    <li><a href="" title="제휴/할인">제휴/할인</a></li>
                 </ul>
             </div>
 
@@ -243,12 +241,12 @@
                 <p class="tit-depth">고객센터</p>
 
                 <ul class="list-depth">
-                    <li><a href="/support" title="고객센터 홈">고객센터 홈</a></li>
-                    <li><a href="/support/faq" title="자주묻는질문">자주묻는질문</a></li>
-                    <li><a href="/support/notice" title="공지사항">공지사항</a></li>
-                    <li><a href="/support/inquiry" title="1:1문의">1:1문의</a></li>
-                    <li><a href="/support/rent" title="단체/대관문의">단체/대관문의</a></li>
-                    <li><a href="/support/lost" title="분실물문의">분실물문의</a></li>
+                    <li><a href="" title="고객센터 홈">고객센터 홈</a></li>
+                    <li><a href="" title="자주묻는질문">자주묻는질문</a></li>
+                    <li><a href="" title="공지사항">공지사항</a></li>
+                    <li><a href="" title="1:1문의">1:1문의</a></li>
+                    <li><a href="" title="단체/대관문의">단체/대관문의</a></li>
+                    <li><a href="" title="분실물문의">분실물문의</a></li>
                 </ul>
             </div>
 
@@ -282,7 +280,7 @@
                         <div class="mbimg"><img src="" alt=""></div>
                         <div class="name"><span></span>님</div>
 
-                        <a href="/mypage" class="linkBtn" title="나의  메가박스">나의 MGV</a>
+                        <a href="" class="linkBtn" title="나의  메가박스">나의 MGV</a>
                     </div>
 
                     <div class="box">
@@ -297,15 +295,15 @@
 
                     <div class="box point">
                         <div class="tit">
-                            <a class="linkA" href="/mypage/point-list" title="멤버십 포인트"><span>포인트</span></a>
+                            <a class="linkA" href="" title="멤버십 포인트"><span>포인트</span></a>
                         </div>
                         <div class="count">0</div>
                     </div>
 
                     <div class="box coupon">
                         <div class="tit">
-                            <a class="linkA" href="/mypage/discount-coupon" title="쿠폰"><span>쿠폰</span></a>
-                            <a class="linkA" href="/mypage/point-list" title="멤버십 포인트"></a>
+                            <a class="linkA" href="" title="쿠폰"><span>쿠폰</span></a>
+                            <a class="linkA" href="" title="멤버십 포인트"></a>
                         </div>
 
                         <div title="쿠폰 수" class="count">1</div>
@@ -313,8 +311,8 @@
 
                     <div class="box movieTk">
                         <div class="tit">
-                            <a class="linkA" href="/mypage/movie-coupon" title="관람권"><span>관람권</span></a>
-                            <a class="linkA" href="/mypage/point-list" title="멤버십 포인트"></a>
+                            <a class="linkA" href="" title="관람권"><span>관람권</span></a>
+                            <a class="linkA" href="" title="멤버십 포인트"></a>
                         </div>
 
                         <div title="관람권 수" class="count">0</div>
@@ -322,7 +320,7 @@
 
                     <div class="box reserve">
                         <div class="tit">
-                            <a class="linkA" href="/mypage/bookinglist" title="예매내역"><span>예매</span></a>
+                            <a class="linkA" href="" title="예매내역"><span>예매</span></a>
                         </div>
 
                         <div title="예매 수" class="count"></div>
@@ -330,7 +328,7 @@
 
                     <div class="box buy">
                         <div class="tit">
-                            <a class="linkA" href="/mypage/bookinglist?tab=02" title="구매내역"><span>구매</span></a>
+                            <a class="linkA" href="" title="구매내역"><span>구매</span></a>
                         </div>
 
                         <div class="count"><em>0</em><span>건</span></div>
@@ -345,7 +343,7 @@
                 <div class="linkBox">
                     <a href="#layer_login_common" id="moveLogin" title="로그인" class="btn-modal-open" w-data="850"
                        h-data="484">로그인</a>
-                    <a href="/join" class="link" title="혹시 아직 회원이 아니신가요?">혹시 아직 회원이 아니신가요?</a>
+                    <a href="" class="link" title="혹시 아직 회원이 아니신가요?">혹시 아직 회원이 아니신가요?</a>
                 </div>
 
             </div>
