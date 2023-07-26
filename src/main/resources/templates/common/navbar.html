@@ -3,7 +3,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
 <header id="header" class="main-header no-bg" th:fragment="header">
-    <h1 class="ci"><a href="/" title="MGV 메인으로 가기">MGV : Life Theater</a></h1>
+    <h1 class="ci"><a href="/" title="MGV 메인으로 가기">MGV : Enjoy Theater</a></h1>
 
     <!-- 2019-04-15 마크업 수정 : 고객요청  -->
     <div class="util-area">
@@ -16,7 +16,7 @@
         <div class="right-link">
             <!-- 로그인전 -->
             <div class="before" sec:authorize="isAnonymous()">
-                <a th:href="@{/admin/dashboard}" title="회원가입">관리자</a>
+                <a th:href="@{/admin/dashboard}" title="관리자">관리자</a>
                 <a href="javascript:void(0)" class="btn-login" title="로그인">로그인</a>
                 <a href="#" title="회원가입">회원가입</a>
             </div>

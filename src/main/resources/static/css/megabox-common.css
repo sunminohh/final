@@ -14751,12 +14751,13 @@ body.no-scroll .page-util.fixed {
     overflow: hidden;
     display: block;
     float: left;
-    width: 150px;
-    height: 50px;
-    margin: 0 20px 0 0;
+    width: 120px;
+    height: 55px;
+    margin: 0;
     padding: 0;
     text-indent: -9999px;
-    background: url(https://img.megabox.co.kr/static/pc/images/common/ci/logo-opacity_new2.png) no-repeat center
+    background: url(/images/mgv.png) center no-repeat !important;
+    background-size: 95px !important;
 }
 
 #footer .footer-bottom .footer-info {
@@ -36675,64 +36676,64 @@ dl.tooltip-title dd {
     font-size: 1.4666em
 }
 
-.login-input-area .input-text {
-    display: block;
-    width: 100%;
-    height: 46px
-}
+/*.login-input-area .input-text {*/
+/*    display: block;*/
+/*    width: 100%;*/
+/*    height: 46px*/
+/*}*/
 
-.login-input-area .alert {
-    margin-top: 5px;
-    color: #e81002;
-    font-size: .9333em
-}
+/*.login-input-area .alert {*/
+/*    margin-top: 5px;*/
+/*    color: #e81002;*/
+/*    font-size: .9333em*/
+/*}*/
 
-.login-input-area .chk-util {
-    overflow: hidden;
-    padding: 15px 0 35px 0
-}
+/*.login-input-area .chk-util {*/
+/*    overflow: hidden;*/
+/*    padding: 15px 0 35px 0*/
+/*}*/
 
-.login-input-area .chk-util .left {
-    float: left
-}
+/*.login-input-area .chk-util .left {*/
+/*    float: left*/
+/*}*/
 
-.login-input-area .chk-util .right {
-    float: right
-}
+/*.login-input-area .chk-util .right {*/
+/*    float: right*/
+/*}*/
 
-.login-input-area .chk-util .hp-ad {
-    color: #fff
-}
+/*.login-input-area .chk-util .hp-ad {*/
+/*    color: #fff*/
+/*}*/
 
-.login-input-area .chk-util .hp-ad a {
-    display: block;
-    text-decoration: none
-}
+/*.login-input-area .chk-util .hp-ad a {*/
+/*    display: block;*/
+/*    text-decoration: none*/
+/*}*/
 
-.login-input-area .chk-util .hp-ad a span {
-    display: inline-block;
-    color: #3d7db7;
-    vertical-align: middle
-}
+/*.login-input-area .chk-util .hp-ad a span {*/
+/*    display: inline-block;*/
+/*    color: #3d7db7;*/
+/*    vertical-align: middle*/
+/*}*/
 
-.login-input-area .chk-util .hp-ad a em {
-    overflow: hidden;
-    display: inline-block;
-    width: 36px;
-    height: 16px;
-    margin-left: 4px;
-    line-height: 14px;
-    font-size: .8em;
-    border: 1px solid #3d7db7;
-    text-align: center;
-    vertical-align: middle;
-    color: #3d7db7
-}
+/*.login-input-area .chk-util .hp-ad a em {*/
+/*    overflow: hidden;*/
+/*    display: inline-block;*/
+/*    width: 36px;*/
+/*    height: 16px;*/
+/*    margin-left: 4px;*/
+/*    line-height: 14px;*/
+/*    font-size: .8em;*/
+/*    border: 1px solid #3d7db7;*/
+/*    text-align: center;*/
+/*    vertical-align: middle;*/
+/*    color: #3d7db7*/
+/*}*/
 
-.login-input-area .btn-login {
-    display: block;
-    width: 100%
-}
+/*.login-input-area .btn-login {*/
+/*    display: block;*/
+/*    width: 100%*/
+/*}*/
 
 .login-input-area .link {
     padding: 20px 0 30px 0;
@@ -36740,51 +36741,51 @@ dl.tooltip-title dd {
     line-height: 1.1
 }
 
-.login-input-area .link a {
-    display: inline-block;
-    position: relative;
-    vertical-align: middle;
-    margin: 0 0 0 27px;
-    padding: 0;
-    font-size: .9333em;
-    color: #666
-}
+/*.login-input-area .link a {*/
+/*    display: inline-block;*/
+/*    position: relative;*/
+/*    vertical-align: middle;*/
+/*    margin: 0 0 0 27px;*/
+/*    padding: 0;*/
+/*    font-size: .9333em;*/
+/*    color: #666*/
+/*}*/
 
-.login-input-area .link a:before {
-    content: '';
-    display: block;
-    position: absolute;
-    left: -15px;
-    top: 50%;
-    width: 1px;
-    height: 16px;
-    margin-top: -8px;
-    background-color: #d8d9db;
-    pointer-events: none
-}
+/*.login-input-area .link a:before {*/
+/*    content: '';*/
+/*    display: block;*/
+/*    position: absolute;*/
+/*    left: -15px;*/
+/*    top: 50%;*/
+/*    width: 1px;*/
+/*    height: 16px;*/
+/*    margin-top: -8px;*/
+/*    background-color: #d8d9db;*/
+/*    pointer-events: none*/
+/*}*/
 
-.login-input-area .link a:first-child {
-    margin-left: 0;
-    padding-left: 0
-}
+/*.login-input-area .link a:first-child {*/
+/*    margin-left: 0;*/
+/*    padding-left: 0*/
+/*}*/
 
-.login-input-area .link a:first-child:before {
-    display: none
-}
+/*.login-input-area .link a:first-child:before {*/
+/*    display: none*/
+/*}*/
 
-.login-input-area .sns-login {
-    text-align: center
-}
+/*.login-input-area .sns-login {*/
+/*    text-align: center*/
+/*}*/
 
-.login-input-area .sns-login a {
-    overflow: hidden;
-    display: inline-block;
-    width: 40px;
-    height: 40px;
-    margin: 0 23px;
-    font-size: 0;
-    line-height: 0
-}
+/*.login-input-area .sns-login a {*/
+/*    overflow: hidden;*/
+/*    display: inline-block;*/
+/*    width: 40px;*/
+/*    height: 40px;*/
+/*    margin: 0 23px;*/
+/*    font-size: 0;*/
+/*    line-height: 0*/
+/*}*/
 
 .tab-cont .login-member {
     padding-top: 30px

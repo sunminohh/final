@@ -1,4 +1,4 @@
-package kr.co.mgv.common.controller;
+package kr.co.mgv.common;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
