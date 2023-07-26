@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap');
+
+@import "variables";
+
+// Import Bootstrap source files (Required file)
+@import "libsap";
+
+
+@import "theme-variables";
+
+
+// Scrollbar style (Required file)
+@import "libsar.css";
+
+// Tabler Icons style
+@import "css-icons.css";
+
+
+// Theme Layouts style (Required file)
+@import "sidebar";
+@import "header";
+@import "layouts";
+
+// Component style (Required file)
+
+@import "reboot";
+@import "card";
+
+// Utilities style (Required file)
+@import "icon-size";
+@import "background";
+
+
+// Pages style (Required file)
+@import "dashboard1";
