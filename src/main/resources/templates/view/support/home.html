@@ -1,0 +1,224 @@
+<html xmlns:th="http://www.thymeleaf.org"
+   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+   layout:decorate="~{layout/support}">
+<div layout:fragment="content"  class="container">
+    <h1 class="fs-3 p-1" style="margin-left: -15px;">고객센터 홈</h1>
+    <div class="row mt-3 mb-3">
+    	<div class="col-12 input area">
+    		 <form method="get" action="faq/list.jsp">
+	           <div class="row mb-3 border rounded p-4" style="background-color:#f7f6f8">
+	             <div class="col-sm-2 pt-1"><strong>빠른 검색</strong></div>
+	           
+	            <div class="col-sm-7" style="margin-left: -35px;">
+		            <div class="input-group">		      
+  						<input type="text" class="form-control border border-end-0" style="font-size:14px;" placeholder="검색어를 입력해주세요.">
+  						<button type="submit" class="input-group-text bg-white" id="basic-addon1" ><img th:src="@{/images/support/search.png}" width="13" height="13"></button>
+					</div>
+	            </div> 
+	           </div>
+        		 </form>
+    	</div>
+    </div>
+	<div class="row mb-4 mt-4">
+		<div class="col-4 text-left">
+			<a href="lostitem/list.jsp" class="text-black text-decoration-none" style="font-size:18px; line-height:3">
+				<img th:src="@{/images/support/lost.png}" width="60" height="60"><br/>
+				분실물 문의<br/>
+			</a>
+			<a style="font-size:13px;">
+				잃어버린 물건을 접수해 주시면 <br/>
+				신속히 찾아드리겠습니다.
+			</a>		
+		</div>
+		<div class="col-4 text-left">
+			<a href="oneonone/insertform.jsp" class="text-black text-decoration-none" style="font-size:18px; line-height:3">
+				<img th:src="@{/images/support/oneonone.png}" width="60" height="60"><br/>
+				1:1 문의<br/>
+			</a>
+			<a style="font-size:13px;">
+				해결되지않은 문제가 있나요?<br/> 
+				1:1문의로 문의주세요.
+			</a>
+		</div>
+		<div class="col-4 text-left">
+			<a href="home.jsp" class="text-black text-decoration-none" style="font-size:18px; line-height:3">
+				<img th:src="@{/images/support/theater.png}" width="60" height="60"><br/>
+				단체관람 및 대관문의<br/>
+			</a>
+			<a style="font-size:13px;">
+				단체관람 또는 대관을 원하시면<br/> 
+				문의주세요.
+			</a>
+		</div>
+		<div class="col-4 text-left">
+			<a href="home.jsp" class="text-black text-decoration-none" style="font-size:18px; line-height:3"><br/>
+				<img th:src="@{/images/support/support.png}" width="60" height="60"><br/>
+				상담톡<br/>
+			</a>
+			<a style="font-size:13px;">
+				상담원과 채팅 상담을 원하시면<br/> 
+				상담 톡을 이용해보세요.
+			</a>
+		</div>
+		<div class="col-4 text-left">
+			<a href="faq/list.jsp" class="text-black text-decoration-none" style="font-size:18px; line-height:3"><br/>
+				<img th:src="@{/images/support/faq.png}" width="60" height="60"><br/>
+				자주 묻는 질문<br/>
+			</a>
+			<a style="font-size:13px;">
+				자주 묻는 질문<br/> 
+				빠르고 간편하게 검색하세요.
+			</a>
+		</div>
+	</div>
+	<hr>
+	
+	<div class="row mt-4">
+		<div class="col-6 mb-4">
+			<div>
+			<p class="float-start" style="font-size:18px;">자주 묻는 질문 BEST5</p>
+			<a href="faq/list.jsp" class ="float-end mt-2 text-black text-decoration-none" style="font-size:14px;">더보기 <img th:src="@{/images/support/next.png}" width="11" height="11"></a>
+			</div>
+			
+			<table class="table table-borderless  border-bottom ">
+				<tbody style="font-size:14px;">
+					<tr class="border-top  border-dark">
+						<td>1</td>
+						<td>[기프트카드]</td>
+						<td>
+						<span class="d-inline-block text-truncate" style="max-width: 190px;">
+							기프트카드를 보냈는데 상대방이	받지 못한다고 합니다.								
+						</span>
+						</td>
+						<td>2023.07.12</td>
+					</tr>
+					<tr>
+						<td>2</td>
+						<td>[기프트카드]</td>
+						<td>
+						<span class="d-inline-block text-truncate" style="max-width: 190px;">
+							선물은 어떤 경로로 보낼 수 있나요?						
+						</span>
+						</td>
+						<td>2023.07.12</td>
+					</tr>
+					<tr>
+						<td>3</td>
+						<td>[기프트카드]</td>
+						<td>
+						<span class="d-inline-block text-truncate" style="max-width: 190px;">
+							신용카드의 구매 한도는 얼마이며, 법인카드로 결제가 가능한가요?								
+						</span>
+						</td>
+						<td>2023.07.12</td>
+					</tr>
+					<tr>
+						<td>4</td>
+						<td>[기프트카드]</td>
+						<td>
+						<span class="d-inline-block text-truncate" style="max-width: 190px;">
+							여러 명에게 선물한 후 부분적으로 취소가 가능한가요?						
+						</span>
+						</td>
+						<td>2023.07.12</td>
+					</tr>
+					<tr class="">
+						<td>5</td>
+						<td>[기프트카드]</td>
+						<td>
+						<span class="d-inline-block text-truncate" style="max-width: 190px;">
+							예약 전송을 할 수 있나요?								
+						</span>
+						</td>
+						<td>2023.07.12</td>
+					</tr>
+				
+				</tbody>
+			</table>
+		</div>
+		<div class="col-6 mb-4">
+			<div>
+				<p class="float-start" style="font-size:18px;">공지사항</p>
+				<a  href="notice/list.jsp" class ="float-end mt-2 text-black text-decoration-none" style="font-size:14px;">더보기 <img th:src="@{/images/support/next.png}" width="11" height="11"></a>
+			</div>
+			<table class="table table-borderless border-bottom">
+				<tbody style="font-size:14px;">
+					<tr class="border-top  border-dark">
+						<td>
+							<img th:src="@{/images/support/notice.png}" width="15" height="15">
+						</td>
+						<td>[공지]</td>
+						<td>
+							<span class="d-inline-block text-truncate" style="max-width: 190px;">
+								메가박스 이용 약관 변경 안내								
+							</span>
+						</td>
+						<td>2023.07.12</td>
+					</tr>
+					<tr>
+						<td>
+							<img th:src="@{/images/support/location.png}" width="15" height="15">
+						</td>
+						<td>[원주]</td>
+						<td>
+							<span class="d-inline-block text-truncate" style="max-width: 190px;">
+								[원주] 운영시간 변경 공지 (7/12부터~)						
+							</span>
+						</td>
+						<td>2023.07.12</td>
+					</tr>
+					<tr>
+						<td>
+							<img th:src="@{/images/support/location.png}" width="15" height="15">
+						</td>
+						<td>[분당]</td>
+						<td>
+							<span class="d-inline-block text-truncate" style="max-width: 190px;">
+								[분당] "현금없는 극장" 운영 안내				
+							</span>
+						</td>
+						<td>2023.07.12</td>
+					</tr>
+					<tr>
+						<td>
+							<img th:src="@{/images/support/notice.png}" width="15" height="15">
+						</td>
+						<td>[공지]</td>
+						<td>
+							<span class="d-inline-block text-truncate" style="max-width: 190px;">
+								[OK캐쉬백] 시스템 (On/Off-Line) 정기 예방 점검 안내 (7/13)		
+							</span>
+						</td>
+						<td>2023.07.12</td>
+					</tr>
+					<tr>
+						<td>
+							<img th:src="@{/images/support/location.png}" width="15" height="15">
+						</td>
+						<td>[코엑스]</td>
+						<td>
+							<span class="d-inline-block text-truncate" style="max-width: 190px;">
+								 [코엑스]시사회 진행에 따른 고객 안내 (7월 13일)
+							</span>
+						</td>
+						<td>2023.07.12</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		</div>
+		
+		<div class="row mt-4 mb-5">
+			<div class="col-12">
+				<p style="font-size:25px; color:#331c6d;">이벤트</p> 
+				<div class="row">
+					<div class="col-6 mb-4">
+						<img th:src="@{/images/support/event-1.jpg}" class="img-thumbnail border-0">
+					</div>
+					<div class="col-6 mb-4">
+						<img th:src="@{/images/support/event-2.jpg}" class="img-thumbnail border-0">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
