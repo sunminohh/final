@@ -7069,7 +7069,6 @@ table {
     width: 100%;
     margin: 0;
     border: 0;
-    table-layout: fixed;
     border-collapse: collapse;
     empty-cells: show
 }
@@ -13279,7 +13278,7 @@ body.body-iframe .modal-layer {
     border-bottom: 1px solid rgba(255,255,255,.2)
 }
 
-#header.no-bg .ci a {
+#header .ci a {
     background: url(/images/mgv.png) center no-repeat !important;
     background-size: 86px !important;
 }

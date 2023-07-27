@@ -2,21 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
     <title layout:title-pattern="$LAYOUT_TITLE|$CONTENT_TITLE">MGV, 관리자 페이지</title>
-    <th:block th:replace="~{ fragments/config :: config }"></th:block>
-    <th:block th:replace="~{ fragments/login-modal :: config }"></th:block>
+    <th:block th:replace="~{ fragments/common/config :: config }"></th:block>
+    <th:block th:replace="~{ fragments/common/login-modal :: config }"></th:block>
     <th:block th:fragment="extra-head-content"></th:block>
     <link rel="stylesheet" th:href="@{/ui-templates/css/styles.min.css}"/>
 </head>
 <body>
 <div class="body-wrap">
     <nav th:replace="~{ common/navbar :: header }"></nav>
-    <div th:replace="~{ fragments/login-modal :: modal }"></div>
+    <div th:replace="~{ fragments/common/login-modal :: modal }"></div>
     <div class="mgv-container main-container area-ad">
         <aside class="left-sidebar" th:replace="~{ fragments/admin/sidebar :: sidebar }"></aside>
         <div class="body-wrapper" th:replace="~{ fragments/admin/header :: header }"></div>
         <div layout:fragment="content"></div>
     </div>
-    <div th:replace="~{ fragments/footer :: footer }"></div>
+    <div th:replace="~{ fragments/common/footer :: footer }"></div>
 
 </div>
 </body>

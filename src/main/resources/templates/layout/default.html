@@ -2,16 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
     <title layout:title-pattern="$LAYOUT_TITLE|$CONTENT_TITLE">영화 그 이상의 감동. MGV</title>
-    <th:block th:replace="~{ fragments/config :: config }"></th:block>
-    <th:block th:replace="~{ fragments/login-modal :: config }"></th:block>
+    <th:block th:replace="~{ fragments/common/config :: config }"></th:block>
+    <th:block th:replace="~{ fragments/common/login-modal :: config }"></th:block>
     <th:block th:fragment="extra-head-content"></th:block>
 </head>
 <body>
-    <nav th:replace="~{ common/navbar :: header }"></nav>
-    <div th:replace="~{ fragments/login-modal :: modal }"></div>
+    <nav th:replace="~{ fragments/common/header :: header }"></nav>
+    <div th:replace="~{ fragments/common/login-modal :: modal }"></div>
     <div class="mgv-container main-container area-ad">
         <div layout:fragment="content"></div>
     </div>
-    <div th:replace="~{ fragments/footer :: footer }"></div>
+    <div th:replace="~{ fragments/common/footer :: footer }"></div>
 </body>
 </html>

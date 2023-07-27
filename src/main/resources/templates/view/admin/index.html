@@ -2,13 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Home</title>
-    <div th:replace="~{ fragments/config :: config }"></div>
+    <div th:replace="~{ fragments/common/config :: config }"></div>
     <link rel="stylesheet" th:href="@{/ui-templates/css/styles.min.css}" />
 </head>
 <body>
 <div>
 
-    <div th:replace="~{ fragments/navbar :: header }"></div>
+    <div th:replace="~{ fragments/common/header :: header }"></div>
     <!--  Body Wrapper -->
     <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
          data-sidebar-position="fixed" data-header-position="fixed">
