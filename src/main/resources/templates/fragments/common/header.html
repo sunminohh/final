@@ -98,43 +98,40 @@
 
     <nav id="gnb">
         <ul class="gnb-depth1">
-            <li><a href="" class="gnb-txt-movie" title="영화">영화</a>
+            <li><a th:href="@{/movie}" class="gnb-txt-movie" title="영화">영화</a>
                 <div class="gnb-depth2">
                     <ul>
-                        <li><a href="" title="전체영화">전체영화</a></li>
-
-                        <li id="festivalArea" style="display: none;"><a href="" title="영화제">영화제</a></li>
-                        <li><a href="" title="무비포스트">무비포스트</a></li>
+                        <li><a th:href="@{/movie}" title="전체영화">전체영화</a></li>
+                        <li><a th:href="@{/movie/post}" title="무비포스트">무비포스트</a></li>
                     </ul>
                 </div>
             </li>
-            <li><a href="" class="gnb-txt-reserve" title="예매">예매</a>
+            <li><a th:href="@{/booking}" class="gnb-txt-reserve" title="예매">예매</a>
                 <div class="gnb-depth2">
                     <ul>
-                        <li><a href="" title="빠른예매">빠른예매</a></li>
-                        <li><a href="" title="상영시간표">상영시간표</a></li>
-                        <li><a href="" title="더 부티크 프라이빗 예매">더 부티크 프라이빗 예매</a></li>
+                        <li><a th:href="@{/booking}" title="빠른예매">빠른예매</a></li>
+                        <li><a th:href="@{/booking}" title="상영시간표">상영시간표</a></li>
                     </ul>
                 </div>
             </li>
-            <li><a href="" class="gnb-txt-theater" title="극장">극장</a>
+            <li><a th:href="@{/theater}" class="gnb-txt-theater" title="극장">극장</a>
                 <div class="gnb-depth2">
                     <ul>
-                        <li><a href="/theater/list" title="전체극장">전체극장</a></li>
-                        <li><a href="/specialtheater/list" title="특별관">특별관</a></li>
+                        <li><a th:href="@{/theater}" title="전체극장">전체극장</a></li>
+                        <li><a href="#" title="특별관">특별관</a></li>
                     </ul>
                 </div>
             </li>
-            <li><a href="" class="gnb-txt-event" title="이벤트">이벤트</a>
+            <li><a th:href="@{/event}" class="gnb-txt-event" title="이벤트">이벤트</a>
                 <div class="gnb-depth2">
                     <ul>
-                        <li><a href="" title="진행중 이벤트">진행중 이벤트</a></li>
-                        <li><a href="" title="지난 이벤트">지난 이벤트</a></li>
-                        <li><a href="" title="당첨자발표">당첨자발표</a></li>
+                        <li><a th:href="@{/event}" title="진행중 이벤트">진행중 이벤트</a></li>
+                        <li><a th:href="@{/event/end}" title="지난 이벤트">지난 이벤트</a></li>
+                        <li><a th:href="@{/event/winner/list}" title="당첨자발표">당첨자발표</a></li>
                     </ul>
                 </div>
             </li>
-            <li><a href="" class="gnb-txt-store" title="스토어">스토어</a></li>
+            <li><a th:href="@{/store}" class="gnb-txt-store" title="스토어">스토어</a></li>
             <li><a href="" class="gnb-txt-benefit" title="혜택">혜택</a>
                 <div class="gnb-depth2">
                     <ul>
