@@ -1,0 +1,206 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/support}">
+<div id="contents" layout:fragment="content">
+    <h2 class="tit">공지사항</h2>
+    <div class="tab-block mb30">
+        <ul>
+            <li class="on tabBtn">
+                <button type="button" class="btn tabBtn" data-no="" title="전체공지 보기">전체</button>
+            </li>
+            <li class="tabBtn">
+                <button type="button" class="btn" data-no="81" title="메가박스 공지 보기">메가박스 공지</button>
+            </li>
+            <li class="tabBtn">
+                <button type="button" class="btn" data-no="82" title="지점 공지 보기">지점 공지</button>
+            </li>
+        </ul>
+    </div>
+    <div class="board-list-util">
+        <p class="result-count">
+            <strong>전체 <em class="font-gblue">5,914</em>건 </strong>
+        </p>
+        <div class="dropdown bootstrap-select mr07 bs3">
+            <select id="theater" title="지역 선택" class="mr07" tabindex="-98">
+                <option class="bs-title-option" value=""></option>
+                <option value="">지역 선택</option>
+                <option value="10">서울</option>
+                <option value="30">경기</option>
+                <option value="35">인천</option>
+                <option value="45">대전/충청/세종</option>
+                <option value="55">부산/대구/경상</option>
+                <option value="65">광주/전라</option>
+                <option value="70">강원</option>
+                <option value="80">제주</option>
+            </select>
+            <button type="button" class="btn dropdown-toggle btn-default bs-placeholder" data-toggle="dropdown" role="button" data-id="theater" title="지역 선택">
+                <div class="filter-option">
+                    <div class="filter-option-inner">
+                        <div class="filter-option-inner-inner">지역 선택</div>
+                    </div>
+                </div>
+                <span class="bs-caret">
+            <span class="caret"></span>
+          </span>
+            </button>
+            <div class="dropdown-menu open" role="combobox">
+                <div class="inner open" role="listbox" aria-expanded="false" tabindex="-1">
+                    <ul class="dropdown-menu inner "></ul>
+                </div>
+            </div>
+        </div>
+        <div class="dropdown bootstrap-select disabled mr07 bs3">
+            <select id="theater02" title="극장 선택" disabled="disabled" class="mr07" tabindex="-98">
+                <option class="bs-title-option" value=""></option>
+                <option value="">극장 선택</option>
+            </select>
+            <button type="button" class="btn dropdown-toggle disabled btn-default bs-placeholder" data-toggle="dropdown" role="button" data-id="theater02" tabindex="-1" aria-disabled="true" title="극장 선택">
+                <div class="filter-option">
+                    <div class="filter-option-inner">
+                        <div class="filter-option-inner-inner">극장 선택</div>
+                    </div>
+                </div>
+                <span class="bs-caret">
+            <span class="caret"></span>
+          </span>
+            </button>
+            <div class="dropdown-menu open" role="combobox">
+                <div class="inner open" role="listbox" aria-expanded="false" tabindex="-1">
+                    <ul class="dropdown-menu inner "></ul>
+                </div>
+            </div>
+        </div>
+        <div class="board-search">
+            <input type="text" id="searchTxt" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" value="" maxlength="15">
+            <button type="button" id="searchBtn" class="btn-search-input">검색</button>
+        </div>
+    </div>
+    <div class="table-wrap">
+        <table class="board-list">
+            <caption>번호, 극장, 구분, 제목, 등록일이 들어간 공지사항 전체 리스트</caption>
+            <colgroup>
+                <col style="width:72px;">
+                <col style="width:133px;">
+                <col style="width:95px;">
+                <col>
+                <col style="width:116px;">
+            </colgroup>
+            <thead>
+            <tr>
+                <th scope="col">번호</th>
+                <th scope="col">극장</th>
+                <th scope="col">구분</th>
+                <th scope="col">제목</th>
+                <th scope="col">등록일</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>1</td>
+                <td>수원AK플라자(수원역)</td>
+                <td>공지</td>
+                <th>
+                    <a th:href="@{/support/notice/detail(noticeNo='1')}" class="moveBtn" data-no="10914" title="공지사항 상세보기">[수원AK플라자] 주차장 이용 안내</a>
+                </th>
+                <td>2023.07.26</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>수원AK플라자(수원역)</td>
+                <td>공지</td>
+                <th>
+                    <a th:href="@{/support/notice/detail(noticeNo='1')}" class="moveBtn" data-no="10913" title="공지사항 상세보기">[수원AK플라자] 극장 도보 이용 안내</a>
+                </th>
+                <td>2023.07.26</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>대전신세계 아트앤사이언스</td>
+                <td>공지</td>
+                <th>
+                    <a th:href="@{/support/notice/detail(noticeNo='1')}" class="moveBtn" data-no="10912" title="공지사항 상세보기">[대전신세계 아트앤사이언스]시사회 진행에 따른 고객 안내문(7/27)</a>
+                </th>
+                <td>2023.07.26</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>메가박스</td>
+                <td>공지</td>
+                <th>
+                    <a th:href="@{/support/notice/detail(noticeNo='1')}" class="moveBtn" data-no="10911" title="공지사항 상세보기">SKT 휴대폰본인확인(SMS,LMS) 서비스 일시 중단 안내 (7/30)</a>
+                </th>
+                <td>2023.07.25</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>코엑스</td>
+                <td>공지</td>
+                <th>
+                    <a th:href="@{/support/notice/detail(noticeNo='1')}" class="moveBtn" data-no="10910" title="공지사항 상세보기">[코엑스] 시사회 진행에 따른 고객 안내문 (7/27)</a>
+                </th>
+                <td>2023.07.25</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>수원남문</td>
+                <td>공지</td>
+                <th>
+                    <a th:href="@{/support/notice/detail(noticeNo='1')}" class="moveBtn" data-no="10909" title="공지사항 상세보기">[수원남문] 공무원 할인 종료 안내(~7/31까지)</a>
+                </th>
+                <td>2023.07.24</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>동탄</td>
+                <td>공지</td>
+                <th>
+                    <a th:href="@{/support/notice/detail(noticeNo='1')}" class="moveBtn" data-no="10908" title="공지사항 상세보기">[동탄] 건물 주차인증 변경 안내</a>
+                </th>
+                <td>2023.07.24</td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>상암월드컵경기장</td>
+                <td>공지</td>
+                <th>
+                    <a th:href="@{/support/notice/detail(noticeNo='1')}" class="moveBtn" data-no="10907" title="공지사항 상세보기">[상암월드컵경기장] 7/24(월)~7/30(일) 주차장 이용 안내</a>
+                </th>
+                <td>2023.07.21</td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>메가박스</td>
+                <td>공지</td>
+                <th>
+                    <a th:href="@{/support/notice/detail(noticeNo='1')}" class="moveBtn" data-no="10906" title="공지사항 상세보기">[컬쳐랜드] 문화상품권, 컬쳐캐시 서비스 점검 안내 (7/27)</a>
+                </th>
+                <td>2023.07.21</td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>코엑스</td>
+                <td>공지</td>
+                <th>
+                    <a th:href="@{/support/notice/detail(noticeNo='1')}" class="moveBtn" data-no="10905" title="공지사항 상세보기">[코엑스]시사회 진행에 따른 고객 안내문 (7/20)</a>
+                </th>
+                <td>2023.07.18</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- pagination -->
+    <nav class="pagination">
+        <strong class="active">1</strong>
+        <a title="2페이지보기" href="javascript:void(0)" pagenum="2">2</a>
+        <a title="3페이지보기" href="javascript:void(0)" pagenum="3">3</a>
+        <a title="4페이지보기" href="javascript:void(0)" pagenum="4">4</a>
+        <a title="5페이지보기" href="javascript:void(0)" pagenum="5">5</a>
+        <a title="6페이지보기" href="javascript:void(0)" pagenum="6">6</a>
+        <a title="7페이지보기" href="javascript:void(0)" pagenum="7">7</a>
+        <a title="8페이지보기" href="javascript:void(0)" pagenum="8">8</a>
+        <a title="9페이지보기" href="javascript:void(0)" pagenum="9">9</a>
+        <a title="10페이지보기" href="javascript:void(0)" pagenum="10">10</a>
+        <a title="이후 10페이지 보기" href="javascript:void(0)" class="control next" pagenum="11">next</a>
+        <a title="마지막 페이지 보기" href="javascript:void(0)" class="control last" pagenum="592">last</a>
+    </nav>
+    <!--// pagination -->
+</div>
+</html>
