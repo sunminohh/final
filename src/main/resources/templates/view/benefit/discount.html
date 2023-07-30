@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/default}">
+<head>
+    <style>
+        .col-3 {width: auto;}
+    </style>
+</head>
+<body>
+<div class="container" layout:fragment="content">
+    <div class="page-util">
+        <div class="inner-wrap">
+            <div class="location">
+                <span>Home</span>
+                <a href="/benefit/membership" title="혜택 메인 페이지로 이동">혜택</a>
+                <a href="/benefit/discount/guide" title="제휴할인 페이지로 이동">제휴/할인</a>
+                <a href="/benefit/discount/guide" title="할인안내 페이지로 이동">할인안내</a>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- contents -->
+    <div id="contents">
+        <div class="inner-wrap">
+            <h2 class="tit">제휴할인</h2>
+        </div>
+
+
+        <div class="partnership-slider">
+            <div class="inner-wrap">
+                <h3 class="tit">제휴이벤트</h3>
+
+                <div class="partnership-pagination swiper-pagination-bullets"><span class="swiper-pagination-bullet"></span><span class="swiper-pagination-bullet swiper-pagination-bullet-active"></span><span class="swiper-pagination-bullet"></span><span class="swiper-pagination-bullet"></span><span class="swiper-pagination-bullet"></span><span class="swiper-pagination-bullet"></span><span class="swiper-pagination-bullet"></span><span class="swiper-pagination-bullet"></span><span class="swiper-pagination-bullet"></span><span class="swiper-pagination-bullet"></span><span class="swiper-pagination-bullet"></span></div>
+
+                <div class="partnership-count">
+                    <span title="현재 페이지" class="active">2</span> /
+                    <span title="전체 페이지" class="total">11</span>
+                </div>
+
+                <div class="partnership-util">
+                    <button id="btnPrevEvent" type="button" class="partnership-prev" tabindex="0" role="button" aria-label="Previous slide">이전 이벤트 보기</button>
+                    <button id="btnNextEvent" type="button" class="partnership-next" tabindex="0" role="button" aria-label="Next slide">다음 이벤트 보기</button>
+
+                    <button type="button" class="pause on">일시정지</button>
+                    <button type="button" class="play">자동재생</button>
+                </div>
+
+                <div class="partnership-control">
+                    <button id="btnPrevEvent2" type="button" class="partnership-prev" tabindex="0" role="button" aria-label="Previous slide">이전 이벤트 보기</button>
+                    <button id="btnNextEvent2" type="button" class="partnership-next" tabindex="0" role="button" aria-label="Next slide">다음 이벤트 보기</button>
+                </div>
+
+
+
+                <div class="partnership-swiper swiper-container-initialized swiper-container-horizontal">
+                    <div class="swiper-wrapper" id="swiper-wrapper-area" style="transform: translate3d(-1710px, 0px, 0px); transition-duration: 0ms;"><div class="cell swiper-slide swiper-slide-duplicate" data-swiper-slide-index="9" style="width: 530px; margin-right: 40px;">
+                        <a href="#" class="eventBtn" data-no="8865" data-netfunnel="N" title="[메가박스X현대카드] 상시 6,000M 포인트 사용 상세보기">
+                            <p class="img"><img src="https://img.megabox.co.kr/SharedImg/event/2023/05/02/liflSYt4BQt4RYxrBuLVXG3Tk3Wq2CdA.jpg" alt="" onerror="noImg(this);"></p>
+                            <div class="cont">
+                                <p class="tit">[메가박스X현대카드] 상시 6,000M 포인트 사용</p>
+                                <p class="date">2023.05.02~2023.12.31</p>
+                            </div>
+                        </a>
+                    </div><div class="cell swiper-slide swiper-slide-duplicate" data-swiper-slide-index="10" style="width: 530px; margin-right: 40px;">
+                        <a href="#" class="eventBtn" data-no="9187" data-netfunnel="N" title="U+멤버십 고객 영화 2,000원 할인 상세보기">
+                            <p class="img"><img src="https://img.megabox.co.kr/SharedImg/event/2021/01/28/poxTnLz5oVfwTJlW6TINBrEKv3jP2GIJ.jpg" alt="" onerror="noImg(this);"></p>
+                            <div class="cont">
+                                <p class="tit">U+멤버십 고객 영화 2,000원 할인</p>
+                                <p class="date">2021.02.01~2023.12.31</p>
+                            </div>
+                        </a>
+                    </div>
+                        <!-- 제휴이벤트 배너 반복  -->
+
+                        <div class="cell swiper-slide swiper-slide-prev" data-swiper-slide-index="0" style="width: 530px; margin-right: 40px;">
+                            <a href="#" class="eventBtn" data-no="13721" data-netfunnel="N" title="[메가박스X컬리] 컬리 할인쿠폰 받아가자! 상세보기">
+                                <p class="img"><img src="https://img.megabox.co.kr/SharedImg/event/2023/07/21/9ZsP4Edl6rdSh32kDrRcOshf5TO548hF.jpg" alt="" onerror="noImg(this);"></p>
+                                <div class="cont">
+                                    <p class="tit">[메가박스X컬리] 컬리 할인쿠폰 받아가자!</p>
+                                    <p class="date">2023.07.24~2023.08.06</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="cell swiper-slide swiper-slide-active" data-swiper-slide-index="1" style="width: 530px; margin-right: 40px;">
+                            <a href="#" class="eventBtn" data-no="13680" data-netfunnel="N" title="[메가박스XKT멤버십] 한여름 달.달.혜택! 상세보기">
+                                <p class="img"><img src="https://img.megabox.co.kr/SharedImg/event/2023/07/17/a9GfFJ5VA97IyxHLadEU9zHLkRvTSPJZ.jpg" alt="" onerror="noImg(this);"></p>
+                                <div class="cont">
+                                    <p class="tit">[메가박스XKT멤버십] 한여름 달.달.혜택!</p>
+                                    <p class="date">2023.07.17~2023.07.31</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="cell swiper-slide swiper-slide-next" data-swiper-slide-index="2" style="width: 530px; margin-right: 40px;">
+                            <a href="#" class="eventBtn" data-no="13601" data-netfunnel="N" title="강원지역 삼성카드 영화할인 프로모션 상세보기">
+                                <p class="img"><img src="https://img.megabox.co.kr/SharedImg/event/2023/07/03/OZg00VZtug6tsp4MmsJgrpdHG644M100.jpg" alt="" onerror="noImg(this);"></p>
+                                <div class="cont">
+                                    <p class="tit">강원지역 삼성카드 영화할인 프로모션</p>
+                                    <p class="date">2023.07.03~2023.07.31</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="cell swiper-slide" data-swiper-slide-index="3" style="width: 530px; margin-right: 40px;">
+                            <a href="#" class="eventBtn" data-no="12761" data-netfunnel="N" title="[메가박스X더쎈카드] 할인카드 조회하고 혜택받자! 상세보기">
+                                <p class="img"><img src="https://img.megabox.co.kr/SharedImg/event/2023/03/14/tGlm2fXaKlYTeX55sC3h4VFQUwHPXdXV.jpg" alt="" onerror="noImg(this);"></p>
+                                <div class="cont">
+                                    <p class="tit">[메가박스X더쎈카드] 할인카드 조회하고 혜택받자!</p>
+                                    <p class="date">2023.03.10~2023.12.31</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="cell swiper-slide" data-swiper-slide-index="4" style="width: 530px; margin-right: 40px;">
+                            <a href="#" class="eventBtn" data-no="11263" data-netfunnel="N" title="내 차 보험료 확인하고 영화 1만원 할인쿠폰 받으세요! 상세보기">
+                                <p class="img"><img src="https://img.megabox.co.kr/SharedImg/event/2023/05/12/nWyHhXImDc6vKH1YZgiNhhlfDI5Zvq0O.jpg" alt="" onerror="noImg(this);"></p>
+                                <div class="cont">
+                                    <p class="tit">내 차 보험료 확인하고 영화 1만원 할인쿠폰 받으세요!</p>
+                                    <p class="date">2022.04.18~2023.12.31</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="cell swiper-slide" data-swiper-slide-index="5" style="width: 530px; margin-right: 40px;">
+                            <a href="#" class="eventBtn" data-no="13558" data-netfunnel="N" title="[메가박스X노벨피아] 퀴즈 풀고 상품 받자! 상세보기">
+                                <p class="img"><img src="https://img.megabox.co.kr/SharedImg/event/2023/06/27/zEHeH7KNXdRNLxIJuS3Fca0BlL1SYXlG.png" alt="" onerror="noImg(this);"></p>
+                                <div class="cont">
+                                    <p class="tit">[메가박스X노벨피아] 퀴즈 풀고 상품 받자!</p>
+                                    <p class="date">2023.06.26~2023.08.15</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="cell swiper-slide" data-swiper-slide-index="6" style="width: 530px; margin-right: 40px;">
+                            <a href="#" class="eventBtn" data-no="13381" data-netfunnel="N" title="[DB손해보험] 내 차 보험료 확인하고 영화 할인쿠폰 받기 상세보기">
+                                <p class="img"><img src="https://img.megabox.co.kr/SharedImg/event/2023/05/30/iQfG1SrlkF1g81hZDEkWvO00AMzknYsM.jpg" alt="" onerror="noImg(this);"></p>
+                                <div class="cont">
+                                    <p class="tit">[DB손해보험] 내 차 보험료 확인하고 영화 할인쿠폰 받기</p>
+                                    <p class="date">2023.05.30~2023.07.31</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="cell swiper-slide" data-swiper-slide-index="7" style="width: 530px; margin-right: 40px;">
+                            <a href="#" class="eventBtn" data-no="13065" data-netfunnel="N" title="토스페이 상세보기">
+                                <p class="img"><img src="https://img.megabox.co.kr/SharedImg/event/2023/04/21/0P08kANUShhVA5bR2LGYeQ4OZYn6Iakj.jpg" alt="" onerror="noImg(this);"></p>
+                                <div class="cont">
+                                    <p class="tit">토스페이</p>
+                                    <p class="date">2023.04.24~2024.04.30</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="cell swiper-slide" data-swiper-slide-index="8" style="width: 530px; margin-right: 40px;">
+                            <a href="#" class="eventBtn" data-no="11739" data-netfunnel="N" title="[광주은행X메가박스] 메가박스 카드 앵콜 이벤트 상세보기">
+                                <p class="img"><img src="https://img.megabox.co.kr/SharedImg/event/2023/03/13/kbh0MY2SjLn5mOQ6D2qZ5HgjrChtUgO9.jpg" alt="" onerror="noImg(this);"></p>
+                                <div class="cont">
+                                    <p class="tit">[광주은행X메가박스] 메가박스 카드 앵콜 이벤트</p>
+                                    <p class="date">2023.03.15~2023.08.31</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="cell swiper-slide" data-swiper-slide-index="9" style="width: 530px; margin-right: 40px;">
+                            <a href="#" class="eventBtn" data-no="8865" data-netfunnel="N" title="[메가박스X현대카드] 상시 6,000M 포인트 사용 상세보기">
+                                <p class="img"><img src="https://img.megabox.co.kr/SharedImg/event/2023/05/02/liflSYt4BQt4RYxrBuLVXG3Tk3Wq2CdA.jpg" alt="" onerror="noImg(this);"></p>
+                                <div class="cont">
+                                    <p class="tit">[메가박스X현대카드] 상시 6,000M 포인트 사용</p>
+                                    <p class="date">2023.05.02~2023.12.31</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="cell swiper-slide" data-swiper-slide-index="10" style="width: 530px; margin-right: 40px;">
+                            <a href="#" class="eventBtn" data-no="9187" data-netfunnel="N" title="U+멤버십 고객 영화 2,000원 할인 상세보기">
+                                <p class="img"><img src="https://img.megabox.co.kr/SharedImg/event/2021/01/28/poxTnLz5oVfwTJlW6TINBrEKv3jP2GIJ.jpg" alt="" onerror="noImg(this);"></p>
+                                <div class="cont">
+                                    <p class="tit">U+멤버십 고객 영화 2,000원 할인</p>
+                                    <p class="date">2021.02.01~2023.12.31</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <!--// 제휴이벤트 배너 반복 -->
+                        <div class="cell swiper-slide swiper-slide-duplicate swiper-slide-duplicate-prev" data-swiper-slide-index="0" style="width: 530px; margin-right: 40px;">
+                            <a href="#" class="eventBtn" data-no="13721" data-netfunnel="N" title="[메가박스X컬리] 컬리 할인쿠폰 받아가자! 상세보기">
+                                <p class="img"><img src="https://img.megabox.co.kr/SharedImg/event/2023/07/21/9ZsP4Edl6rdSh32kDrRcOshf5TO548hF.jpg" alt="" onerror="noImg(this);"></p>
+                                <div class="cont">
+                                    <p class="tit">[메가박스X컬리] 컬리 할인쿠폰 받아가자!</p>
+                                    <p class="date">2023.07.24~2023.08.06</p>
+                                </div>
+                            </a>
+                        </div><div class="cell swiper-slide swiper-slide-duplicate swiper-slide-duplicate-active" data-swiper-slide-index="1" style="width: 530px; margin-right: 40px;">
+                            <a href="#" class="eventBtn" data-no="13680" data-netfunnel="N" title="[메가박스XKT멤버십] 한여름 달.달.혜택! 상세보기">
+                                <p class="img"><img src="https://img.megabox.co.kr/SharedImg/event/2023/07/17/a9GfFJ5VA97IyxHLadEU9zHLkRvTSPJZ.jpg" alt="" onerror="noImg(this);"></p>
+                                <div class="cont">
+                                    <p class="tit">[메가박스XKT멤버십] 한여름 달.달.혜택!</p>
+                                    <p class="date">2023.07.17~2023.07.31</p>
+                                </div>
+                            </a>
+                        </div></div>
+                    <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+
+                <div class="more">
+                    <a href="javascript:void(0)" onclick="fn_goEvent()" title="이벤트 페이지로 이동">더 많은 제휴혜택 보기 <i class="iconset ico-arr-right-green"></i></a>
+
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- inner-wrap -->
+        <div class="inner-wrap mt40">
+
+            <div class="tab-list fixed">
+                <ul>
+                    <li class="on"><a href="/benefit/discount/guide" title="할인안내 탭으로 이동">할인안내</a></li>
+                    <li><a href="javascript:fn_goTab('tab_credit')" id="tab_credit" title="신용카드 탭으로 이동">신용카드(285)</a></li>
+                    <li><a href="javascript:fn_goTab('tab_telecom')" id="tab_telecom" title="통신사 탭으로 이동">통신사(2)</a></li>
+                    <li><a href="javascript:fn_goTab('tab_point')" id="tab_point" title="포인트 기타제휴 탭으로 이동">포인트/기타제휴(13)</a></li>
+                    <li><a href="/benefit/discount/giftcard" id="tab_gift" title="상품권 관람권 탭으로 이동">상품권/관람권(4)</a></li>
+                </ul>
+            </div>
+
+            <!-- partnership-page -->
+            <div class="partnership-page mt40">
+
+                <!-- search-card -->
+                <div class="search-card">
+                    <div class="tit-area">
+                        <p class="tit">더욱 알뜰하게 메가박스를 즐기는 방법!</p>
+
+                        <p class="txt">소지하고 계신 카드를 검색해 보세요. 할인 및 혜택정보를 빠르게 확인할 수 있어요.</p>
+                    </div>
+
+                    <div class="search-area">
+                        <input type="text" placeholder="카드명을 검색해보세요." title="카드명 입력" class="input-text" name="searchStr" id="searchTxt">
+                        <button type="button" class="btn-search-card" id="btnCardSearch">검색</button>
+                    </div>
+                </div>
+                <!--// search-card -->
+
+                <!-- select-group -->
+                <div class="select-group">
+                    <div class="block col-3">
+                        <div class="col">
+                            <div class="tit-area">
+                                <p class="tit">통신사</p>
+
+                                <a href="/benefit/discount/telecomcard" title="통신사 전체보기">전체보기 <i class="iconset ico-arr-right-gray-small"></i></a>
+                            </div>
+
+                            <div class="number" id="ckc01cnt">2</div>
+
+                            <div class="select">
+                                <div class="dropdown bootstrap-select bs3"><select title="통신사 선택" id="sbxTelecom" class="selectpicker" tabindex="-98"><option class="bs-title-option" value=""></option>
+                                    <option>통신사 선택</option>
+                                    <option value="TCSKT">SKT</option><option value="TCKT">KT</option><option value="TCLGU">LGU＋</option></select><button type="button" class="btn dropdown-toggle bs-placeholder btn-default" data-toggle="dropdown" role="button" data-id="sbxTelecom" title="통신사 선택"><div class="filter-option"><div class="filter-option-inner"><div class="filter-option-inner-inner">통신사 선택</div></div> </div><span class="bs-caret"><span class="caret"></span></span></button><div class="dropdown-menu open" role="combobox" style="overflow: hidden;"><div class="inner open" role="listbox" aria-expanded="false" tabindex="-1" style="overflow-y: auto;"><ul class="dropdown-menu inner "><li><a role="option" aria-disabled="false" tabindex="0" aria-selected="false"><span class="text">통신사 선택</span></a></li><li><a role="option" aria-disabled="false" tabindex="0" aria-selected="false"><span class="text">SKT</span></a></li><li><a role="option" aria-disabled="false" tabindex="0" aria-selected="false"><span class="text">KT</span></a></li><li><a role="option" aria-disabled="false" tabindex="0" aria-selected="false"><span class="text">LGU＋</span></a></li></ul></div></div></div>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="tit-area">
+                                <p class="tit">신용카드</p>
+
+                                <a href="/benefit/discount/creditcard" title="신용카드 전체보기">전체보기 <i class="iconset ico-arr-right-gray-small"></i></a>
+                            </div>
+
+                            <div class="number" id="ckc02cnt">285</div>
+
+                            <div class="select">
+                                <div class="dropdown bootstrap-select bs3 dropup"><select title="카드 선택" id="sbxCredit" name="sbxCredit" class="selectpicker" tabindex="-98"><option class="bs-title-option" value=""></option>
+                                    <option>카드 선택</option>
+                                    <option value="CPCT00">메가박스카드</option><option value="CPCT01">삼성카드</option><option value="CPCT02">현대카드</option><option value="CPCT03">신한카드</option><option value="CPCT04">비씨카드</option><option value="CPCT05">KB국민카드</option><option value="CPCT06">우리카드</option><option value="CPCT07">하나카드</option><option value="CPCT09">NH농협카드</option><option value="CPCT10">씨티카드</option><option value="CPCT11">IBK기업은행</option><option value="CPCT15">SC제일은행</option><option value="CPCT99">기타</option></select><button type="button" class="btn dropdown-toggle bs-placeholder btn-default" data-toggle="dropdown" role="button" data-id="sbxCredit" title="카드 선택"><div class="filter-option"><div class="filter-option-inner"><div class="filter-option-inner-inner">카드 선택</div></div> </div><span class="bs-caret"><span class="caret"></span></span></button><div class="dropdown-menu open" role="combobox" style="max-height: 302px; overflow: hidden; min-width: 113px;"><div class="inner open" role="listbox" aria-expanded="false" tabindex="-1" style="max-height: 300px; overflow-y: auto;"><ul class="dropdown-menu inner "><li><a role="option" aria-disabled="false" tabindex="0" aria-selected="false"><span class="text">카드 선택</span></a></li><li><a role="option" aria-disabled="false" tabindex="0" aria-selected="false"><span class="text">메가박스카드</span></a></li><li><a role="option" aria-disabled="false" tabindex="0" aria-selected="false"><span class="text">삼성카드</span></a></li><li><a role="option" aria-disabled="false" tabindex="0" aria-selected="false"><span class="text">현대카드</span></a></li><li><a role="option" aria-disabled="false" tabindex="0" aria-selected="false"><span class="text">신한카드</span></a></li><li><a role="option" aria-disabled="false" tabindex="0" aria-selected="false"><span class="text">비씨카드</span></a></li><li><a role="option" aria-disabled="false" tabindex="0" aria-selected="false"><span class="text">KB국민카드</span></a></li><li><a role="option" aria-disabled="false" tabindex="0" aria-selected="false"><span class="text">우리카드</span></a></li><li><a role="option" aria-disabled="false" tabindex="0" aria-selected="false"><span class="text">하나카드</span></a></li><li><a role="option" aria-disabled="false" tabindex="0" aria-selected="false"><span class="text">NH농협카드</span></a></li><li><a role="option" aria-disabled="false" tabindex="0" aria-selected="false"><span class="text">씨티카드</span></a></li><li><a role="option" aria-disabled="false" tabindex="0" aria-selected="false"><span class="text">IBK기업은행</span></a></li><li><a role="option" aria-disabled="false" tabindex="0" aria-selected="false"><span class="text">SC제일은행</span></a></li><li><a role="option" aria-disabled="false" tabindex="0" aria-selected="false"><span class="text">기타</span></a></li></ul></div></div></div>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="tit-area">
+                                <p class="tit">포인트/기타제휴</p>
+
+                                <a href="/benefit/discount/pointcard" title="포인트 기타제휴 전체보기">전체보기 <i class="iconset ico-arr-right-gray-small"></i></a>
+                            </div>
+
+                            <div class="number" id="ckc03cnt">13</div>
+
+                            <div class="select">
+                                <div class="dropdown bootstrap-select bs3"><select title="포인트/기타제휴 선택" id="sbxPoint" class="selectpicker" tabindex="-98"><option class="bs-title-option" value=""></option>
+                                    <option>포인트/기타제휴 선택</option>
+                                    <option value="CPCT99">기타</option></select><button type="button" class="btn dropdown-toggle bs-placeholder btn-default" data-toggle="dropdown" role="button" data-id="sbxPoint" title="포인트/기타제휴 선택"><div class="filter-option"><div class="filter-option-inner"><div class="filter-option-inner-inner">포인트/기타제휴 선택</div></div> </div><span class="bs-caret"><span class="caret"></span></span></button><div class="dropdown-menu open" role="combobox" style="overflow: hidden;"><div class="inner open" role="listbox" aria-expanded="false" tabindex="-1" style="overflow-y: auto;"><ul class="dropdown-menu inner "><li><a role="option" aria-disabled="false" tabindex="0" aria-selected="false"><span class="text">포인트/기타제휴 선택</span></a></li><li><a role="option" aria-disabled="false" tabindex="0" aria-selected="false"><span class="text">기타</span></a></li></ul></div></div></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="block mt25">
+                        <div class="col">
+                            <div class="tit-area">
+                                <p class="tit">상품권/관람권</p>
+
+                                <a href="/benefit/discount/giftcard" title="상품권 관람권 전체보기">전체보기 <i class="iconset ico-arr-right-gray-small"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--// select-group -->
+            </div>
+            <!--// partnership-page -->
+        </div>
+        <!--// inner-wrap -->
+    </div>
+    <!--// contents -->
+</div>
+</body>
