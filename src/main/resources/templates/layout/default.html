@@ -2,9 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
     <title layout:title-pattern="$LAYOUT_TITLE|$CONTENT_TITLE">영화 그 이상의 감동. MGV</title>
-    <th:block th:replace="~{ fragments/common/login-modal :: config }"></th:block>
     <th:block th:replace="~{ fragments/common/config :: config }"></th:block>
     <th:block th:fragment="extra-head-content"></th:block>
+    <th:block th:replace="~{ fragments/common/login-modal :: config }"></th:block>
 </head>
 <body>
     <nav th:replace="~{ fragments/common/header :: header }"></nav>

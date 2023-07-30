@@ -1,7 +1,14 @@
 @import url("https://fonts.googleapis.com/css?family=Nunito:400,600,700");
-.modal {
+* {
+  box-sizing: border-box;
+}
+
+body {
   font-family: "Nunito", sans-serif;
   color: rgba(0, 0, 0, 0.7);
+}
+
+.modal {
   position: fixed;
   left: 0;
   bottom: 0;
