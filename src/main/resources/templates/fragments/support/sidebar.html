@@ -1,0 +1,21 @@
+<div th:fragment="sidebar-fragment" class="card">
+	<div class="card-header text-center py-4" style="font-size:17px; background-color:#331c6d; color:white">
+		고객센터
+	</div>
+	<div class="list-group" style="font-size:14px;">
+		<a th:href="@{/support}" class="list-group-item list-group-item-action">고객센터 홈</a>
+		<a th:href="@{/support/faq}" class="list-group-item list-group-item-action">자주 묻는 질문</a>
+		<a th:href="@{/support/notice}" class="list-group-item list-group-item-action">공지사항</a>
+		<a th:href="@{/support/oneonone}" class="list-group-item list-group-item-action">1:1 문의</a>
+		<a th:href="@{/support/lost}" class="list-group-item list-group-item-action">분실물 문의</a>
+		<a th:href="@{/support/}" class="list-group-item list-group-item-action">비회원 문의내역</a>
+		<a th:href="@{/support/terms}" class="list-group-item list-group-item-action">이용약관</a>
+		<a th:href="@{/support/privacy}" class="list-group-item list-group-item-action">개인정보처리방침</a>
+		<a class="list-group-item list-group-item-action disabled" style="color:gray;"><br/>
+			MGV 고객센터 <br/>
+			Dream center <br/>
+			<hr width="15">
+			<img th:src="@{/images/clock.png}" width="13" height="13"> 10:00~19:00<br/><br/>
+		</a>
+	</div>
+</div>

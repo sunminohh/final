@@ -34,6 +34,21 @@ public class SupportController {
         return "/view/support/oneonone/list";
     }
 
+    @GetMapping("/lost")
+    public String lost() {
+        return "/view/support/lost/list";
+    }
+
+    @GetMapping("/lost/form")
+    public String lostForm() {
+        return "/view/support/lost/form";
+    }
+
+    @GetMapping("/guest/form")
+    public String guestForm() {
+        return "/view/support/guest/form";
+    }
+
     @GetMapping("/terms")
     public String terms() {
         return "/view/support/terms/list";
