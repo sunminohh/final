@@ -1,0 +1,203 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default}">
+<head th:fragment="extra-head-content">
+    <title>이벤트</title>
+</head>
+<div class="container" layout:fragment="content">
+    <div class="page-util">
+        <div class="inner-wrap">
+            <div class="location">
+                <span>Home</span>
+                <a href="/event" title="이벤트 메인 페이지로 이동">이벤트</a>
+                <a href="/event/winner/list" title="당첨자발표 페이지로 이동">당첨자발표</a>
+            </div>
+        </div>
+    </div>
+    <div id="contents">
+        <!-- inner-wrap -->
+        <div class="inner-wrap">
+            <h2 class="tit">당첨자발표</h2>
+            <div class="text-util">
+                <div class="left pt05">
+                    <ul class="dot-list">
+                        <li>응모하신 이벤트의 당첨 여부는 나의 응모결과 확인을 통해 확인하실 수 있습니다.</li>
+                        <li>개인정보 처리방침에 따라 당첨자 발표일로 부터 6개월간 당첨자 발표내역을 확인할 수 있습니다.</li>
+                    </ul>
+                </div>
+                <div class="right">
+                    <!-- 로그인 전 -->
+                    <button type="button" class="button click">
+                        <span>나의 응모결과확인</span>
+                        <span class="ir" data-width="235">
+                <span class="cont-area">
+                  <span class="login-alert-tooltip"> 로그인이 필요한 서비스 입니다. <br>
+                    <a id="moveLogin" href="#layer_login_common" class="btn-modal-open" w-data="850" h-data="484">로그인 바로가기 <i class="iconset ico-arr-right-green"></i>
+                    </a>
+                  </span>
+                </span>
+              </span>
+                    </button>
+                </div>
+            </div>
+            <div class="board-list-util">
+                <p class="result-count">
+                    <strong>전체 613건</strong>
+                </p>
+                <div class="board-search">
+                    <input type="text" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text">
+                    <button type="button" class="btn-search-input">검색</button>
+                </div>
+            </div>
+            <div class="table-wrap">
+                <table class="board-list">
+                    <caption>게시판 목록 제목</caption>
+                    <colgroup>
+                        <col style="width:80px;">
+                        <col style="width:130px;">
+                        <col>
+                        <col style="width:100px;">
+                        <col style="width:110px;">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th scope="col">번호</th>
+                        <th scope="col">분류</th>
+                        <th scope="col">이벤트명</th>
+                        <th scope="col">발표일</th>
+                        <th scope="col">당첨자발표</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>613</td>
+                        <td>메가Pick</td>
+                        <th scope="row">
+                            <a th:href="@{/event/winner/detail(eventNo=1)}" data-no="13620" data-netfunnel="N" class="eventBtn" title="Its 유해진 그가 왔다!  <달짝지근해: 7510>  예고편 보고 예매권 받자! 상세보기">Its 유해진 그가 왔다! &lt;달짝지근해: 7510&gt; 예고편 보고 예매권 받자! </a>
+                        </th>
+                        <td>2023.08.03</td>
+                        <td>
+                            <button type="button" class="button gray x-small w70px" disabled="disabled">준비중</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>612</td>
+                        <td>시사회/무대인사</td>
+                        <th scope="row">
+                            <a th:href="@{/event/winner/detail(eventNo=1)}" data-no="13711" data-netfunnel="N" class="eventBtn" title="<더 문> 메가박스 회원 시사회 상세보기">&lt;더 문&gt; 메가박스 회원 시사회 </a>
+                        </th>
+                        <td>2023.07.27</td>
+                        <td>
+                            <a href="javascript:fn_moveDetail(13711)" class="button x-small black-line w70px" title="당첨자발표 결과확인 상세보기">결과확인</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>611</td>
+                        <td>시사회/무대인사</td>
+                        <th scope="row">
+                            <a th:href="@{/event/winner/detail(eventNo=1)}" data-no="13574" data-netfunnel="N" class="eventBtn" title="<슈퍼 키드 헤일리> 메가박스 회원시사 상세보기">&lt;슈퍼 키드 헤일리&gt; 메가박스 회원시사 </a>
+                        </th>
+                        <td>2023.07.20</td>
+                        <td>
+                            <a href="javascript:fn_moveDetail(13574)" class="button x-small black-line w70px" title="당첨자발표 결과확인 상세보기">결과확인</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>610</td>
+                        <td>시사회/무대인사</td>
+                        <th scope="row">
+                            <a th:href="@{/event/winner/detail(eventNo=1)}" data-no="13641" data-netfunnel="N" class="eventBtn" title="<밀수> 메가박스 회원시사 상세보기">&lt;밀수&gt; 메가박스 회원시사 </a>
+                        </th>
+                        <td>2023.07.19</td>
+                        <td>
+                            <a href="javascript:fn_moveDetail(13641)" class="button x-small black-line w70px" title="당첨자발표 결과확인 상세보기">결과확인</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>609</td>
+                        <td>메가Pick</td>
+                        <th scope="row">
+                            <a th:href="@{/event/winner/detail(eventNo=1)}" data-no="13508" data-netfunnel="N" class="eventBtn" title="상상 그 이상의 멀티버스 <스파이더맨: 어크로스 더 유니버스> 1PICK 이벤트 상세보기">상상 그 이상의 멀티버스 &lt;스파이더맨: 어크로스 더 유니버스&gt; 1PICK 이벤트 </a>
+                        </th>
+                        <td>2023.07.18</td>
+                        <td>
+                            <a href="javascript:fn_moveDetail(13508)" class="button x-small black-line w70px" title="당첨자발표 결과확인 상세보기">결과확인</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>608</td>
+                        <td>시사회/무대인사</td>
+                        <th scope="row">
+                            <a th:href="@{/event/winner/detail(eventNo=1)}" data-no="13609" data-netfunnel="N" class="eventBtn" title="<비공식작전> 메가박스 회원 시사회 상세보기">&lt;비공식작전&gt; 메가박스 회원 시사회 </a>
+                        </th>
+                        <td>2023.07.12</td>
+                        <td>
+                            <a href="javascript:fn_moveDetail(13609)" class="button x-small black-line w70px" title="당첨자발표 결과확인 상세보기">결과확인</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>607</td>
+                        <td>시사회/무대인사</td>
+                        <th scope="row">
+                            <a th:href="@{/event/winner/detail(eventNo=1)}" data-no="13517" data-netfunnel="N" class="eventBtn" title="<극장판 피노키오 위대한 모험> 메가박스 회원 시사회 상세보기">&lt;극장판 피노키오 위대한 모험&gt; 메가박스 회원 시사회 </a>
+                        </th>
+                        <td>2023.07.06</td>
+                        <td>
+                            <a href="javascript:fn_moveDetail(13517)" class="button x-small black-line w70px" title="당첨자발표 결과확인 상세보기">결과확인</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>606</td>
+                        <td>메가Pick</td>
+                        <th scope="row">
+                            <a th:href="@{/event/winner/detail(eventNo=1)}" data-no="13470" data-netfunnel="N" class="eventBtn" title="[엘리멘탈] 불VS물 투표 관람 이벤트 상세보기">[엘리멘탈] 불VS물 투표 관람 이벤트</a>
+                        </th>
+                        <td>2023.07.05</td>
+                        <td>
+                            <a href="javascript:fn_moveDetail(13470)" class="button x-small black-line w70px" title="당첨자발표 결과확인 상세보기">결과확인</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>605</td>
+                        <td>메가Pick</td>
+                        <th scope="row">
+                            <a th:href="@{/event/winner/detail(eventNo=1)}" data-no="13464" data-netfunnel="N" class="eventBtn" title="메가박스가 주는 회춘 선물! HAPPY YOUTHDAY😊 상세보기">메가박스가 주는 회춘 선물! HAPPY YOUTHDAY😊</a>
+                        </th>
+                        <td>2023.07.05</td>
+                        <td>
+                            <a href="javascript:fn_moveDetail(13464)" class="button x-small black-line w70px" title="당첨자발표 결과확인 상세보기">결과확인</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>604</td>
+                        <td>메가Pick</td>
+                        <th scope="row">
+                            <a th:href="@{/event/winner/detail(eventNo=1)}" data-no="13430" data-netfunnel="N" class="eventBtn" title="[엘리멘탈] 엘리버드 사전 예매 이벤트 상세보기">[엘리멘탈] 엘리버드 사전 예매 이벤트</a>
+                        </th>
+                        <td>2023.06.23</td>
+                        <td>
+                            <a href="javascript:fn_moveDetail(13430)" class="button x-small black-line w70px" title="당첨자발표 결과확인 상세보기">결과확인</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- pagination -->
+            <nav class="pagination">
+                <strong class="active">1</strong>
+                <a title="2페이지보기" href="javascript:void(0)" pagenum="2">2</a>
+                <a title="3페이지보기" href="javascript:void(0)" pagenum="3">3</a>
+                <a title="4페이지보기" href="javascript:void(0)" pagenum="4">4</a>
+                <a title="5페이지보기" href="javascript:void(0)" pagenum="5">5</a>
+                <a title="6페이지보기" href="javascript:void(0)" pagenum="6">6</a>
+                <a title="7페이지보기" href="javascript:void(0)" pagenum="7">7</a>
+                <a title="8페이지보기" href="javascript:void(0)" pagenum="8">8</a>
+                <a title="9페이지보기" href="javascript:void(0)" pagenum="9">9</a>
+                <a title="10페이지보기" href="javascript:void(0)" pagenum="10">10</a>
+                <a title="이후 10페이지 보기" href="javascript:void(0)" class="control next" pagenum="11">next</a>
+                <a title="마지막 페이지 보기" href="javascript:void(0)" class="control last" pagenum="62">last</a>
+            </nav>
+            <!--// pagination -->
+        </div>
+        <!--// inner-wrap -->
+    </div>
+</div>
+</html>

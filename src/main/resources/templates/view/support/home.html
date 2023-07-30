@@ -1,8 +1,8 @@
 <html xmlns:th="http://www.thymeleaf.org"
    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
    layout:decorate="~{layout/support}">
-<div layout:fragment="content"  class="container">
-    <h1 class="fs-3 p-1" style="margin-left: -15px;">고객센터 홈</h1>
+<div layout:fragment="content"  id="contents">
+    <h1 class="tit">고객센터 홈</h1>
     <div class="row mt-3 mb-3">
     	<div class="col-12 input area">
     		 <form method="get" action="faq/list.jsp">
@@ -21,7 +21,7 @@
     </div>
 	<div class="row mb-4 mt-4">
 		<div class="col-4 text-left">
-			<a href="lostitem/list.jsp" class="text-black text-decoration-none" style="font-size:18px; line-height:3">
+			<a th:href="@{/support/lost}" class="text-black text-decoration-none" style="font-size:18px; line-height:3">
 				<img th:src="@{/images/support/lost.png}" width="60" height="60"><br/>
 				분실물 문의<br/>
 			</a>
@@ -31,7 +31,7 @@
 			</a>		
 		</div>
 		<div class="col-4 text-left">
-			<a href="oneonone/insertform.jsp" class="text-black text-decoration-none" style="font-size:18px; line-height:3">
+			<a th:href="@{/support/oneonone}" class="text-black text-decoration-none" style="font-size:18px; line-height:3">
 				<img th:src="@{/images/support/oneonone.png}" width="60" height="60"><br/>
 				1:1 문의<br/>
 			</a>
@@ -46,7 +46,7 @@
 				단체관람 및 대관문의<br/>
 			</a>
 			<a style="font-size:13px;">
-				단체관람 또는 대관을 원하시면<br/> 
+				단체관람 또는 대관을 원하시면<br/>
 				문의주세요.
 			</a>
 		</div>
@@ -61,7 +61,7 @@
 			</a>
 		</div>
 		<div class="col-4 text-left">
-			<a href="faq/list.jsp" class="text-black text-decoration-none" style="font-size:18px; line-height:3"><br/>
+			<a th:href="@{/support/faq}" class="text-black text-decoration-none" style="font-size:18px; line-height:3"><br/>
 				<img th:src="@{/images/support/faq.png}" width="60" height="60"><br/>
 				자주 묻는 질문<br/>
 			</a>
