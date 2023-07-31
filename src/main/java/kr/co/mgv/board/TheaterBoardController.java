@@ -5,17 +5,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/board")
-public class BoardController {
+@RequestMapping("/board/theater")
+public class TheaterBoardController {
 
-    @GetMapping("/theater/list")
+    @GetMapping("/list")
     public String theaterList() {
-        return "/view/board/list";
+        return "/view/board/theater/list";
     }
 
-    @GetMapping("/theater/detail")
+    @GetMapping("/detail")
     public String theaterDetail() {
-        return "/view/board/detail";
+        return "/view/board/theater/detail";
     }
 
 }
