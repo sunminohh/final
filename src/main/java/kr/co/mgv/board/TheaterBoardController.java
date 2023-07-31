@@ -18,4 +18,9 @@ public class TheaterBoardController {
         return "/view/board/theater/detail";
     }
 
+    @GetMapping("/add")
+    public String theaterForm() {
+        return "/view/board/theater/form";
+    }
+
 }
