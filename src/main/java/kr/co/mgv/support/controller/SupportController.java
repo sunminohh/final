@@ -30,7 +30,7 @@ public class SupportController {
     }
 
     @GetMapping("/one")
-    public String oneonone() {
+    public String one() {
         return "/view/support/one/list";
     }
 
