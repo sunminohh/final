@@ -4,7 +4,9 @@
 <head th:fragment="extra-head-content">
 	<title>게시판</title>
     <link th:href="@{/css/board/detail.css}" rel="stylesheet" />
+    <script type="text/javascript" th:src="@{/js/board/detail.js}"></script>    
 </head>
+
    <div layout:fragment="content" class="container my-3 pt-5">
 	<div class="row mb-3">
 		<div class="col-12">
@@ -67,8 +69,8 @@
 	<div class="row mb-3">
 		<div class="col-12">
 			<div class=" d-flex justify-content-center">
-				<div>
-					<button  class="btn btn-outline-secondary btn-sm">좋아요</button>
+				<div id="like-button-box">
+					<button class="btn btn-outline-secondary btn-sm" type="button" id="like-button">좋아요</button>
 				</div>
 				<div>
 					
