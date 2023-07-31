@@ -2,23 +2,27 @@
    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
    layout:decorate="~{layout/support}">
 <div layout:fragment="content"  id="contents">
-    <h1 class="tit">고객센터 홈</h1>
-    <div class="row mt-3 mb-3">
-    	<div class="col-12 input area">
-    		 <form method="get" action="faq/list.jsp">
-	           <div class="row mb-3 borderless rounded p-4" style="background-color:#f7f6f8">
-	             <div class="col-sm-2 pt-1"><strong>빠른 검색</strong></div>
-	           
-	            <div class="col-sm-7" style="margin-left: -35px;">
-		            <div class="input-group">		      
-  						<input type="text" class="form-control border border-end-0" style="font-size:14px;" placeholder="검색어를 입력해주세요.">
-  						<button type="submit" class="input-group-text bg-white" id="basic-addon1" ><img th:src="@{/images/support/search.png}" width="13" height="13"></button>
-					</div>
-	            </div> 
-	           </div>
-        		 </form>
-    	</div>
+    <h2 class="tit">고객센터 홈</h2>
+    
+    <!-- input-search-area -->
+     <div class="input-search-area mb30">
+        <div class="input-area">
+            <label for="search01" class="label">빠른검색</label>
+
+            <!-- 2019-01-21 검색 부분 변경 -->
+            <div class="board-search w460px">
+                <input type="search" id="searchTxt" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" value="" maxlength="15">
+                <button type="button" id="searchBtn" class="btn-search-input">검색</button>
+            </div>
+            <!--// 2019-01-21 검색 부분 변경 -->
+        </div>
+
+        <div class="btn-area">
+
+        </div>
     </div>
+    <!--// input-search-area -->
+    
 	<div class="row mb-4 mt-4">
 		<div class="col-4 text-left">
 			<a th:href="@{/support/lost}" class="text-black text-decoration-none" style="font-size:18px; line-height:3">
@@ -31,7 +35,7 @@
 			</a>		
 		</div>
 		<div class="col-4 text-left">
-			<a th:href="@{/support/oneonone}" class="text-black text-decoration-none" style="font-size:18px; line-height:3">
+			<a th:href="@{/support/one}" class="text-black text-decoration-none" style="font-size:18px; line-height:3">
 				<img th:src="@{/images/support/oneonone.png}" width="60" height="60"><br/>
 				1:1 문의<br/>
 			</a>
@@ -41,7 +45,7 @@
 			</a>
 		</div>
 		<div class="col-4 text-left">
-			<a href="home.jsp" class="text-black text-decoration-none" style="font-size:18px; line-height:3">
+			<a th:href="@{/support/notice}" class="text-black text-decoration-none" style="font-size:18px; line-height:3">
 				<img th:src="@{/images/support/notice.png}" width="60" height="60"><br/>
 				공지사항<br/>
 			</a>
@@ -76,7 +80,7 @@
 		<div class="col-6 mb-4">
 			<div>
 			<p class="float-start" style="font-size:18px;">자주 묻는 질문 BEST5</p>
-			<a href="faq/list.jsp" class ="float-end mt-2 text-black text-decoration-none" style="font-size:14px;">더보기 <img th:src="@{/images/support/next.png}" width="11" height="11"></a>
+			<a th:href="@{/support/faq}" class ="float-end mt-2 text-black text-decoration-none" style="font-size:14px;">더보기 <img th:src="@{/images/support/next.png}" width="11" height="11"></a>
 			</div>
 			
 			<table class="table table-borderless  border-bottom">
@@ -138,7 +142,7 @@
 		<div class="col-6 mb-4">
 			<div>
 				<p class="float-start" style="font-size:18px;">공지사항</p>
-				<a  href="notice/list.jsp" class ="float-end mt-2 text-black text-decoration-none" style="font-size:14px;">더보기 <img th:src="@{/images/support/next.png}" width="11" height="11"></a>
+				<a th:href="@{/support/notice}" class ="float-end mt-2 text-black text-decoration-none" style="font-size:14px;">더보기 <img th:src="@{/images/support/next.png}" width="11" height="11"></a>
 			</div>
 			<table class="table table-borderless border-bottom">
 				<tbody style="font-size:14px;">
@@ -207,7 +211,7 @@
 		</div>
 		</div>
 		
-		<div class="row mt-4 mb-5">
+		<div class="row mt-4">
 			<div class="col-12">
 				<p style="font-size:25px; color:#331c6d;">이벤트</p> 
 				<div class="row">

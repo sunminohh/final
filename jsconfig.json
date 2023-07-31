@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+      "target": "ES6"
+    },
+    "include": [
+      "src/main/resources/static/js/**/*.js",
+      "src/main/resources/static/js/types/**/*.d.ts"
+    ]
+  }
