@@ -1,0 +1,64 @@
+
+	#profile{
+		position: relative;
+	}
+	
+	#imgbox{
+	    width: 40px;
+	    height: 40px; 
+	    border-radius: 50%;
+	    overflow: hidden;
+		position: absolute; 
+		bottom: 4px;
+	}
+	
+	#profileimg{
+	    width: 100%;
+	    height: 100%;
+	    object-fit: cover;
+	}
+
+	.boardinfo {
+		font-size : 12px; 
+		line-height: 15%;
+	}
+	
+
+
+	.CommentWriter
+	.comment_inbox_text {
+	display : block;
+	width: 100%;
+	min-height: 17px;
+	padding-right: 1px;
+	border: 0;
+	font-size: 13px;
+	resize: none;
+	box-sizing: border-box;
+	background: transparent;
+	outline: 0;
+	}
+	
+	.comment-sort
+	.comment-tab {
+		font-size: 15px;
+		text-decoration: none;
+		color: #000000
+	}
+	
+	#comment-imgbox{
+	    width: 40px;
+	    height: 40px; 
+	    border-radius: 50%;
+	    overflow: hidden;
+		position: absolute; 
+		bottom: 75px;
+	}	
+	
+	#comment-profileimg{
+		width: 100%;
+	    height: 100%;
+	    object-fit: cover;
+	}
+	
+	.btn.btn-xs {--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;}
