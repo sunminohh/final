@@ -8,13 +8,16 @@
     <link rel="stylesheet" th:href="@{/ui-templates/css/styles.min.css}"/>
 </head>
 <body>
-<div class="body-wrap">
+<div class="body-wrap page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+data-sidebar-position="fixed" data-header-position="fixed">>
     <nav th:replace="~{ fragments/common/header :: header }"></nav>
     <div th:replace="~{ fragments/common/login-modal :: modal }"></div>
     <div class="mgv-container main-container area-ad">
         <aside class="left-sidebar" th:replace="~{ fragments/admin/sidebar :: sidebar }"></aside>
-        <div class="body-wrapper" th:replace="~{ fragments/admin/header :: header }"></div>
-        <div layout:fragment="content"></div>
+        <div class="body-wrapper">
+            <div layout:fragment="content"></div>
+        </div>
+        
     </div>
     <div th:replace="~{ fragments/common/footer :: footer }"></div>
 
