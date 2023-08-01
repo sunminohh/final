@@ -26,22 +26,24 @@
     </div>
     <!--// input-search-area -->
 
-    <div class="tab-block small mb30">
-        <ul>
-            <li class="on"><button type="button" class="btn tabBtn" id="totalTab" data-no="" title="전체">전체</button></li>
-            <li><button type="button" class="btn tabBtn" data-no="88" data-nm="영화예매" title="영화예매">영화예매</button></li><!-- (14) -->
-            <li><button type="button" class="btn tabBtn" data-no="89" data-nm="할인혜택" title="할인혜택">할인혜택</button></li><!-- (3) -->
-            <li><button type="button" class="btn tabBtn" data-no="90" data-nm="결제수단/관람권" title="결제수단/관람권">결제수단/관람권</button></li><!-- (6) -->
-            <li><button type="button" class="btn tabBtn" data-no="91" data-nm="멤버십" title="멤버십">멤버십</button></li><!-- (13) -->
-            <li><button type="button" class="btn tabBtn" data-no="92" data-nm="VIP" title="VIP">VIP</button></li><!-- (4) -->
-            <li><button type="button" class="btn tabBtn" data-no="93" data-nm="극장/특별관" title="극장/특별관">극장/특별관</button></li><!-- (8) -->
-            <li><button type="button" class="btn tabBtn" data-no="95" data-nm="스토어" title="스토어">스토어</button></li><!-- (6) -->
-            <li><button type="button" class="btn tabBtn" data-no="96" data-nm="홈페이지/모바일" title="홈페이지/모바일">홈페이지/모바일</button></li><!-- (11) -->
-            <li><button type="button" class="btn tabBtn" data-no="8007" data-nm="기프트카드" title="기프트카드">기프트카드</button></li><!-- (12) -->
-        </ul>
-
+	   <div class="container mt-3 mb-4" id="tab-buttons">
+		  <div class="d-flex p-0 border" >
+		    <div class="flex-fill  p-0" style="width:20%;"><button id="tab-menu-1" class="w-100 btn btn-border-0 btn-sm py-2 btn-secondary rounded-0" onclick="activeTab(1)" data-category-no="0">전체</button></div>
+		    <div class="flex-fill border-start border-end p-0" style="width: 20%;"><button id="tab-menu-2"  class="w-100 btn btn-border-0 btn-sm py-2 rounded-0" onclick="activeTab(2)" data-category-no="1">영화예매</button></div>
+		    <div class="flex-fill  p-0" style="width: 20%;"><button id="tab-menu-3" class="w-100 btn btn-border-0 btn-sm py-2 rounded-0" onclick="activeTab(3)">할인혜택</button></div>
+		    <div class="flex-fill border-start border-end p-0" style="width: 20%;"><button id="tab-menu-4" class="w-100 btn btn-border-0 btn-sm py-2 rounded-0" onclick="activeTab(4)">결제수단/관람권</button></div>
+		    <div class="flex-fill  p-0" style="width: 20%;"><button id="tab-menu-5" class="w-100 btn btn-border-0 btn-sm py-2 rounded-0" onclick="activeTab(5)">멤버쉽</button></div>
+		  </div>
+		  <div class="d-flex p-0 border-bottom border-start border-end">
+		    <div class="flex-fill  p-0" style="width: 20%;"><button id="tab-menu-6" class="w-100 btn btn-border-0 btn-sm py-2 rounded-0" onclick="activeTab(6)">VIP</button></div>
+		    <div class="flex-fill border-start border-end p-0" style="width: 20%;"><button id="tab-menu-7" class="w-100 btn btn-border-0 btn-sm py-2 rounded-0" onclick="activeTab(7)">극장/특별관</button></div>
+		    <div class="flex-fill  p-0" style="width: 20%;"><button id="tab-menu-8" class="w-100 btn btn-border-0 btn-sm py-2 rounded-0" onclick="activeTab(8)">스토어</button></div>
+		    <div class="flex-fill border-start border-end p-0" style="width: 20%;"><button id="tab-menu-9" class="w-100 btn btn-border-0 btn-sm py-2 rounded-0" onclick="activeTab(9)">홈페이지/모바일</button></div>
+		    <div class="flex-fill  p-0" style="width: 20%;"><button id="tab-menu-10" class="w-100 btn btn-border-0 btn-sm py-2 rounded-0" onclick="activeTab(10)">기프트카드</button></div>
+		  </div>
+	    </div>
+	    
         <input type="hidden" id="bbsTotalCnt" value="77">
-    </div>
     
     <p class="reset mb10"><strong><span id="totalTitle">전체</span> <span class="font-green" id="totalCnt">77</span>건</strong></p>
     
@@ -184,5 +186,24 @@
     <!-- pagination -->
     <nav class="pagination justify-content-center"><strong class="active">1</strong> <a title="2페이지보기" href="javascript:void(0)" pagenum="2">2</a> <a title="3페이지보기" href="javascript:void(0)" pagenum="3">3</a> <a title="4페이지보기" href="javascript:void(0)" pagenum="4">4</a> <a title="5페이지보기" href="javascript:void(0)" pagenum="5">5</a> <a title="6페이지보기" href="javascript:void(0)" pagenum="6">6</a> <a title="7페이지보기" href="javascript:void(0)" pagenum="7">7</a> </nav>
     <!--// pagination -->
+
+<script type="text/javascript">
+	
+	function activeTab(num) {
+	    // 버튼 활성화 변경
+	    $('.btn').removeClass("btn-secondary");
+	    $("#tab-menu-" + num).addClass('btn-secondary');
+	    
+	 	// 페이지가 준비되면 탭의 각 버튼에서 click 이벤트 발생시 실행할 이벤트 핸들러 함수를 등록한다.
+		$("#tab-buttons button").click(function() {
+			console.log($(this).attr("data-category-no"));
+		});
+	}
+
+
+
+</script>
 </div>
 </html>
+
+
