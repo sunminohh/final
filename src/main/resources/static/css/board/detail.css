@@ -52,7 +52,7 @@
 	    border-radius: 50%;
 	    overflow: hidden;
 		position: absolute; 
-		bottom: 75px;
+		bottom: -15px;
 	}	
 	
 	#comment-profileimg{
@@ -62,3 +62,16 @@
 	}
 	
 	.btn.btn-xs {--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;}
+
+	#board-function a{
+		text-decoration: none;
+	}
+	
+
+	
+	
+	
+	
+	
+	
+	
