@@ -4393,9 +4393,11 @@ select[multiple].input-lg,textarea.input-lg {
     opacity: 1
 }
 
+/*
 .collapse {
     display: none
 }
+*/
 
 .collapse.in {
     display: block
