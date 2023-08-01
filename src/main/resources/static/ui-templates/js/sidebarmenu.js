@@ -49,4 +49,10 @@ $(function () {
     $("#sidebarnav >li >a.has-arrow").on("click", function (e) {
       e.preventDefault();
     });
-  });
+    
+    $("li .dropdown-toggle").on("hidden.bs.dropdown", function (e) {
+      $(this).removeClass("active");
+      console.log(this);
+    });
+	
+});
