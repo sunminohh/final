@@ -99,7 +99,7 @@
                     </div>
                     <div class="d-flex justify-content-end float-end ">
 
-                        <select id="location" title="카테고리"
+                        <select id="category" title="카테고리"
                                 class="form-select form-select-sm  ml07 form-control-sm mb-3"
                                 style="width: 150px; float:left; " name="catNo">
                             <option th:value="catNo">카테고리</option>
@@ -108,7 +108,7 @@
 
                         </select>
 
-                        <select id="theater" title="상품 선택" class="form-select form-select-sm ml07 form-control-sm mb-3"
+                        <select id="product" title="상품 선택" class="form-select form-select-sm ml07 form-control-sm mb-3"
                                 style="width: 150px; float:left; position: relative; left:5px; " name="=productNo">
                             <option th:value="productNo">상품의 반복</option>
                             <option th:value="productNo">상품의 반복</option>
@@ -121,7 +121,7 @@
             </div>
             <hr class="mt-5 mb-0">
 
-            <table class="table table-sm" id="table-Tboard">
+            <table class="table table-sm" id="table-Sboard">
                 <colgroup>
                     <col width="5%">
                     <col width="70%">
@@ -142,7 +142,7 @@
                 <tr>
                     <td>1</td>
                     <td><a class="text-black text-decoration-none"
-                           th:href="@{/board/theater/detail(no=1)}">게시글제목</a><span>(게시글 댓글수)</span></td>
+                           th:href="@{/board/store/detail(no=1)}">게시글제목</a><span>(게시글 댓글수)</span></td>
                     <td class="fw-light">작성자아이디</td>
                     <td class="fw-light">조회수</td>
                     <td class="fw-light">작성일</td>
@@ -152,7 +152,7 @@
             </table>
 
             <div class="text-end">
-                <a th:href=@{/board/theater/add} class="btn btn-dark btn-sm" style="text-decoration: none; color: white; ">새 게시글
+                <a th:href=@{/board/store/add} class="btn btn-dark btn-sm" style="text-decoration: none; color: white; ">새 게시글
                     등록</a>
             </div>
 
