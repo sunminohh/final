@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html layout:decorate="~{ layout/admin }">
+<head th:fragment="extra-head-content">
+<title>관리자페이지</title>
+</head>
+<body>
+	<div layout:fragment="content" >
+		<div class="container-fluid" >
+			<!--  Row 1 -->
+			<div class="row mb-3">
+				<div class="col-12">
+					<div class="card" style="height: 1100px;">
+						<div class="card-body">
+							<h5 class="card-title fw-semibold mb-4">Sample Page</h5>
+							<p class="mb-0">This is a sample page</p>
+							<table class="table">
+								<thead>
+									<tr>
+										<th>번호</th>
+										<th>제목</th>
+										<th>작성자</th>
+										<th>조회수/댓글수</th>
+										<th>등록일</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>번호</td>
+										<td>제목</td>
+										<td>작성자</td>
+										<td>조회수/댓글수</td>
+										<td>등록일</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

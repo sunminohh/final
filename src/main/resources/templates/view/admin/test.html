@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html layout:decorate="~{ layout/admin }">
-<head>
+<head th:fragment="extra-head-content">
     <title>관리자페이지</title>
+    <script th:src="@{/ui-templates/libs/apexcharts/dist/apexcharts.min.js}"></script>
+    <script th:src="@{/ui-templates/js/dashboard.js}"></script>
 </head>
 <body>
 <div layout:fragment="content">
@@ -359,13 +361,8 @@
                     href="https://themewagon.com">ThemeWagon</a></p>
         </div>
     </div>
-    <script th:src="@{/js/lib/jquery-3.7.0.min.js}"></script>
-    <script th:src="@{/ui-templates/libs/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
-    <script th:src="@{/ui-templates/js/sidebarmenu.js}"></script>
-    <script th:src="@{/ui-templates/js/app.min.js}"></script>
-    <script th:src="@{/ui-templates/libs/apexcharts/dist/apexcharts.min.js}"></script>
-    <script th:src="@{/ui-templates/libs/simplebar/dist/simplebar.js}"></script>
-    <script th:src="@{/ui-templates/js/dashboard.js}"></script>
+    
+
 </div>
 </body>
 </html>
