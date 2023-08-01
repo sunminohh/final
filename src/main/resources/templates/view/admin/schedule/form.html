@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html layout:decorate="~{ layout/admin }">
+<head th:fragment="extra-head-content">
+<title>관리자페이지</title>
+</head>
+<body>
+	<div layout:fragment="content" >
+		<div class="container-fluid" >
+			<!--  Row 1 -->
+			<div class="row mb-3">
+				<div class="col-12">
+					<div class="card" style="height: 1000px;">
+						<div class="card-header">
+							<h5 class="card-title fw-semibold mb-4">상영시간표 등록</h5>
+						</div>
+						<div class="card-body">
+							<div class="row mb-3">
+								<div class="col-12">
+									<form class="border bg-light p-3" method="post"	>
+										<div class="d-flex">
+											<div class="form-group mb-3 col-3 p-3" >
+												<label class="form-label">지역</label> 
+												<select class="form-select">
+				                                    <option value="1">March 2023</option>
+				                                    <option value="2">April 2023</option>
+				                                    <option value="3">May 2023</option>
+				                                    <option value="4">June 2023</option>
+				                                </select>
+											</div>
+											<div class="form-group mb-3 col-3 p-3" >
+												<label class="form-label">극장</label> 
+												<select class="form-select">
+				                                    <option value="1">March 2023</option>
+				                                    <option value="2">April 2023</option>
+				                                    <option value="3">May 2023</option>
+				                                    <option value="4">June 2023</option>
+				                                </select>
+											</div>
+											<div class="form-group mb-3 col-3 p-3" >
+												<label class="form-label">상영관</label> 
+												<select class="form-select">
+				                                    <option value="1">March 2023</option>
+				                                    <option value="2">April 2023</option>
+				                                    <option value="3">May 2023</option>
+				                                    <option value="4">June 2023</option>
+				                                </select>
+											</div>
+										</div>
+										<div class="d-flex">
+											<div class="form-group mb-3 col-3 p-3" >
+												<label class="form-label">시작시간</label> 
+												<select class="form-select">
+				                                    <option value="1">March 2023</option>
+				                                    <option value="2">April 2023</option>
+				                                    <option value="3">May 2023</option>
+				                                    <option value="4">June 2023</option>
+				                                </select>
+											</div>
+											<div class="form-group mb-3 col-3 p-3" >
+												<label class="form-label">상영일자</label> 
+												<select class="form-select">
+				                                    <option value="1">March 2023</option>
+				                                    <option value="2">April 2023</option>
+				                                    <option value="3">May 2023</option>
+				                                    <option value="4">June 2023</option>
+				                                </select>
+											</div>
+											<div class="form-group mb-3 col-3 p-3" >
+												<label class="form-label">회차</label> 
+												<select class="form-select">
+				                                    <option value="1">March 2023</option>
+				                                    <option value="2">April 2023</option>
+				                                    <option value="3">May 2023</option>
+				                                    <option value="4">June 2023</option>
+				                                </select>
+											</div>
+										</div>
+										<div class="form-group mb-3">
+											<label class="form-label">영화</label> 
+											<select class="form-select">
+			                                    <option value="1">March 2023</option>
+			                                    <option value="2">April 2023</option>
+			                                    <option value="3">May 2023</option>
+			                                    <option value="4">June 2023</option>
+			                                </select>
+										</div>
+										<div class="text-end">
+											<a class="btn btn-secondary btn-sm">취소</a>
+											<button type="submit" class="btn btn-primary btn-sm">등록</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

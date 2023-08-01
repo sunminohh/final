@@ -9,7 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdminScheduleController {
 
     @GetMapping("/list")
-    public String home() {
+    public String list() {
         return "/view/admin/schedule/list";
+    }
+    
+    @GetMapping("/register")
+    public String form() {
+        return "/view/admin/schedule/form";
     }
 }
