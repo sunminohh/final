@@ -1,12 +1,12 @@
-<nav th:fragment="navbar-fragment" class="container pb-5 pt-5">
+<nav th:fragment="navbar-fragment" class="container pb-5 pt-3">
   <div class="row mb-3 text-center">
   	<p class="fs-3 fw-bold mt-4" style="text-decoration: underline; text-underline-offset : 23px" th:text="${menu}"></p>
   </div>
 	<div class="container pt-3" align="center">
-        	<a class="mx-3" th:href="@{/board/movie/list}" style="text-underline-offset:10px;  color: black;  " th:classappend="${menu != '영화' ? 'text-decoration-none' : ''}"  >영화</a>	
-        	<a class="mx-3" th:href="@{/board/theater/list}" style="text-underline-offset:10px; color: black;" th:classappend="${menu != '극장' ? 'text-decoration-none' : ''}"  >극장</a>   	
-        	<a class="mx-3" th:href="@{/board/store/list}" style="text-underline-offset:10px; color: black;" th:classappend="${menu != '스토어' ? 'text-decoration-none ' : ''}" >스토어</a>   
-        	<a class="mx-3" th:href="@{/board/party/list}" style="text-underline-offset:10px; color: black;" th:classappend="${menu != '파티' ? 'text-decoration-none ' : ''}">파티 </a>
+        	<a class="mx-3" th:href="@{/board/movie/list}" style="text-underline-offset:10px;  color: black;  "   >영화</a>	
+        	<a class="mx-3" th:href="@{/board/theater/list}" style="text-underline-offset:10px; color: black;"  >극장</a>   	
+        	<a class="mx-3" th:href="@{/board/store/list}" style="text-underline-offset:10px; color: black;" >스토어</a>   
+        	<a class="mx-3" th:href="@{/board/party/list}" style="text-underline-offset:10px; color: black;" >파티 </a>
         	
    	</div>
    	
