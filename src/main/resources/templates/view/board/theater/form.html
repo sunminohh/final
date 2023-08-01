@@ -13,19 +13,17 @@
 		<div class="row mb-3">
 			<div class="col-12">
 					
-				<form  method="post" action="insert" id="sample" class="p-3" enctype="multipart/form-data" >
+				<form  method="post" th:action="@{/board/add}" th:object="${addBoardForm}" class="p-3" enctype="multipart/form-data" >
 					<div class="d-flex justify-content-start">
 						<div class="form-group mb-2 pe-2" >
-							<select class="required form-select form-select-sm  ml07 form-control-sm" name="catNo" id="cat" onchange="refreshProduct();" required="required">
+							<select class="required form-select form-select-sm  ml07 form-control-sm" name="locationNo" id="cat" onchange="refreshProduct();" required="required">
 								<option value= 0 selected disabled>지역 선택</option>
-		
-							<option value="지역번호" >지역 이름</option>
-		
+								<option value="지역번호" >지역 이름</option>
 							</select>
 						</div>
 						<div class="form-group mb-2" >
-							<select class="required form-select form-select-sm  ml07 form-control-sm " name="productNo" id="product" required="required">
-								<option value= 0 selected disabled>극장 선택</option>
+							<select class="required form-select form-select-sm  ml07 form-control-sm " name="theaterNo" id="product" required="required">
+								<option value="극장번호" selected disabled>극장 선택</option>
 							</select>
 						</div>
 					</div>
