@@ -6,8 +6,6 @@
     <th:block th:replace="~{ fragments/common/login-modal :: config }"></th:block>
     <th:block th:fragment="extra-head-content"></th:block>
     <link rel="stylesheet" th:href="@{/ui-templates/css/styles.min.css}"/>
-    <script th:src="@{/js/lib/jquery-3.7.0.min.js}"></script>
-    <script th:src="@{/ui-templates/libs/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
     <script th:src="@{/ui-templates/js/sidebarmenu.js}"></script>
     <script th:src="@{/ui-templates/js/app.min.js}"></script>
     <script th:src="@{/ui-templates/libs/simplebar/dist/simplebar.js}"></script>
@@ -18,15 +16,21 @@ data-sidebar-position="relative" data-header-position="relative">
     <nav th:replace="~{ fragments/common/header :: header }"></nav>
     <div th:replace="~{ fragments/common/login-modal :: modal }"></div>
     <div class="mgv-container main-container area-ad">
-        <aside class="left-sidebar" th:replace="~{ fragments/admin/sidebar :: sidebar }"></aside>
-        <div class="body-wrapper">
-	        <header class="app-header" th:replace="~{ fragments/admin/header :: header }"></header>
-            <div layout:fragment="content"></div>
-        </div>
-        
+    	<div class="row">
+    		<div class="col-12">
+		        <aside class="left-sidebar" th:replace="~{ fragments/admin/sidebar :: sidebar }"></aside>
+		        <div class="body-wrapper">
+			        <header class="app-header" th:replace="~{ fragments/admin/header :: header }"></header>
+		            <div layout:fragment="content"></div>
+		        </div>
+    		</div>
+    	</div>
     </div>
-    <div th:replace="~{ fragments/common/footer :: footer }"></div>
-
+	<div class="row ">
+		<div class="col-12">
+		    <div th:replace="~{ fragments/common/footer :: footer }"></div>
+		</div>
+	</div>
 </div>
 </body>
 </html>

@@ -1,562 +1,1174 @@
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default}">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/default}">
 <head th:fragment="extra-head-content">
-    <title>극장</title>
+	<script type="text/javascript" th:src="@{/js/theater/ui.js}"></script>
+<title>극장</title>
 </head>
 <div layout:fragment="content" id="schdlContainer" class="container">
-    <div class="page-util">
-        <div class="inner-wrap">
-            <div class="location">
-                <span>Home</span>
-                <a href="/theater/list" title="극장 페이지로 이동">극장</a>
-                <a href="/theater/list" title="전체극장 페이지로 이동">전체극장</a>
-                <a href="https://www.megabox.co.kr/theater?brchNo=1372" title="극장정보 페이지로 이동">극장정보</a>
-            </div>
-        </div>
-    </div>
-    <!-- contents -->
-    <div id="contents" class="no-padding">
-        <!-- theater-detail-page -->
-        <div class="theater-detail-page">
-            <div class="bg-img" style="background-image:url('https://www.megabox.co.kr/static/pc/images/theater/img-theater-detail.jpg');"></div>
-            <div class="bg-pattern"></div>
-            <div class="bg-mask"></div>
-            <!-- theater-all -->
-            <div class="theater-all">
-                <!-- theater-area-list -->
-                <div class="theater-area-list">
-                    <ul class="area-depth1">
-                        <li>
-                            <a href="" class="depth1" title="서울 선택">서울</a>
-                            <div class="area-depth2">
-                                <ul>
-                                    <li class="on">
-                                        <a href="/theater?brchNo=1372" title="강남 상세보기">강남 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=0023" title="강남대로(씨티) 상세보기">강남대로(씨티) </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=1341" title="강동 상세보기">강동 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=1431" title="군자 상세보기">군자 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=0041" title="더 부티크 목동현대백화점 상세보기">더 부티크 목동현대백화점 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=1003" title="동대문 상세보기">동대문 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=1572" title="마곡 상세보기">마곡 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=1581" title="목동 상세보기">목동 <i class="iconset ico-theater-renewal"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=1311" title="상봉 상세보기">상봉 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=1211" title="상암월드컵경기장 상세보기">상암월드컵경기장 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=1331" title="성수 상세보기">성수 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=1371" title="센트럴 상세보기">센트럴 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=1381" title="송파파크하비오 상세보기">송파파크하비오 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=1202" title="신촌 상세보기">신촌 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=1561" title="이수 상세보기">이수 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=1321" title="창동 상세보기">창동 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=1351" title="코엑스 상세보기">코엑스 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=1212" title="홍대 상세보기">홍대 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=1571" title="화곡 상세보기">화곡 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=1562" title="ARTNINE 상세보기">ARTNINE </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <a href="" class="depth1" title="경기 선택">경기</a>
-                            <div class="area-depth2">
-                                <ul>
-                                    <li>
-                                        <a href="/theater?brchNo=4121" title="고양스타필드 상세보기">고양스타필드 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=0029" title="광명AK플라자 상세보기">광명AK플라자 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=0053" title="광명소하 상세보기">광명소하 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=0035" title="금정AK플라자 상세보기">금정AK플라자 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=4152" title="김포한강신도시 상세보기">김포한강신도시 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=0039" title="남양주 상세보기">남양주 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=0019" title="남양주현대아울렛 스페이스원 상세보기">남양주현대아울렛 스페이스원 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=4451" title="동탄 상세보기">동탄 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=4652" title="미사강변 상세보기">미사강변 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=4104" title="백석벨라시타 상세보기">백석벨라시타 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=4722" title="별내 상세보기">별내 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=4221" title="부천스타필드시티 상세보기">부천스타필드시티 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=4631" title="분당 상세보기">분당 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=0030" title="수원 상세보기">수원 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=0052" title="수원AK플라자(수원역) 상세보기">수원AK플라자(수원역) <i class="iconset ico-theater-open"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=0042" title="수원남문 상세보기">수원남문 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=0036" title="수원호매실 상세보기">수원호매실 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=4291" title="시흥배곧 상세보기">시흥배곧 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=4253" title="안산중앙 상세보기">안산중앙 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=0020" title="안성스타필드 상세보기">안성스타필드 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=4821" title="양주 상세보기">양주 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=4431" title="영통 상세보기">영통 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=0012" title="용인기흥 상세보기">용인기흥 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=4462" title="용인테크노밸리 상세보기">용인테크노밸리 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=4804" title="의정부민락 상세보기">의정부민락 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=4111" title="일산 상세보기">일산 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=4112" title="킨텍스 상세보기">킨텍스 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=4132" title="파주금촌 상세보기">파주금촌 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=4115" title="파주운정 상세보기">파주운정 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=4131" title="파주출판도시 상세보기">파주출판도시 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=4651" title="하남스타필드 상세보기">하남스타필드 </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <a href="" class="depth1" title="인천 선택">인천</a>
-                            <div class="area-depth2">
-                                <ul>
-                                    <li>
-                                        <a href="/theater?brchNo=4041" title="검단 상세보기">검단 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=4062" title="송도 상세보기">송도 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=4001" title="영종 상세보기">영종 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=4051" title="인천논현 상세보기">인천논현 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=0027" title="청라지젤 상세보기">청라지젤 </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <a href="" class="depth1" title="대전/충청/세종 선택">대전/충청/세종</a>
-                            <div class="area-depth2">
-                                <ul>
-                                    <li>
-                                        <a href="/theater?brchNo=3141" title="공주 상세보기">공주 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=0018" title="논산 상세보기">논산 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=3021" title="대전 상세보기">대전 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=0028" title="대전신세계 아트앤사이언스 상세보기">대전신세계 아트앤사이언스 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=0009" title="대전유성 상세보기">대전유성 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=3011" title="대전중앙로 상세보기">대전중앙로 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=0017" title="대전현대아울렛 상세보기">대전현대아울렛 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=3391" title="세종(조치원) 상세보기">세종(조치원) </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=3392" title="세종나성 상세보기">세종나성 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=0008" title="세종청사 상세보기">세종청사 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=3631" title="오창 상세보기">오창 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=3651" title="진천 상세보기">진천 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=3301" title="천안 상세보기">천안 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=0049" title="청주사창 상세보기">청주사창 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=3501" title="홍성내포 상세보기">홍성내포 </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <a href="" class="depth1" title="부산/대구/경상 선택">부산/대구/경상</a>
-                            <div class="area-depth2">
-                                <ul>
-                                    <li>
-                                        <a href="/theater?brchNo=0040" title="경북도청 상세보기">경북도청 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=7122" title="경산하양 상세보기">경산하양 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=0043" title="경주 상세보기">경주 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=7303" title="구미강동 상세보기">구미강동 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=7401" title="김천 상세보기">김천 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=7901" title="남포항 상세보기">남포항 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=7011" title="대구신세계(동대구) 상세보기">대구신세계(동대구) </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=0022" title="대구이시아 상세보기">대구이시아 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=6161" title="덕천 상세보기">덕천 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=6312" title="마산 상세보기">마산 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=7451" title="문경 상세보기">문경 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=6001" title="부산극장 상세보기">부산극장 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=6906" title="부산대 상세보기">부산대 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=0025" title="북대구(칠곡) 상세보기">북대구(칠곡) </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=0032" title="사상 상세보기">사상 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=6642" title="삼천포 상세보기">삼천포 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=6261" title="양산 상세보기">양산 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=6262" title="양산증산 상세보기">양산증산 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=6811" title="울산 상세보기">울산 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=6191" title="정관 상세보기">정관 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=0045" title="진주(중안) 상세보기">진주(중안) </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=0048" title="창원 상세보기">창원 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=0014" title="창원내서 상세보기">창원내서 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=0038" title="포항 상세보기">포항 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=0046" title="해운대(장산) 상세보기">해운대(장산) </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <a href="" class="depth1" title="광주/전라 선택">광주/전라</a>
-                            <div class="area-depth2">
-                                <ul>
-                                    <li>
-                                        <a href="/theater?brchNo=5021" title="광주상무 상세보기">광주상무 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=5061" title="광주하남 상세보기">광주하남 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=5302" title="목포하당(포르모) 상세보기">목포하당(포르모) </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=5401" title="순천 상세보기">순천 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=5552" title="여수웅천 상세보기">여수웅천 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=0010" title="전대(광주) 상세보기">전대(광주) </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=0050" title="전주객사 상세보기">전주객사 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=5612" title="전주송천 상세보기">전주송천 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=0021" title="전주혁신 상세보기">전주혁신 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=5064" title="첨단 상세보기">첨단 </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <a href="" class="depth1" title="강원 선택">강원</a>
-                            <div class="area-depth2">
-                                <ul>
-                                    <li>
-                                        <a href="/theater?brchNo=2001" title="남춘천 상세보기">남춘천 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=2171" title="속초 상세보기">속초 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=2201" title="원주 상세보기">원주 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=2202" title="원주센트럴 상세보기">원주센트럴 </a>
-                                    </li>
-                                    <li>
-                                        <a href="/theater?brchNo=0037" title="춘천석사 상세보기">춘천석사 </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <!--// theater-area-list -->
-                <p class="name">강남</p>
-                <div class="btn-util right">
-                    <div class="block">
-                        <button type="button" class="btn btn-like " id="favorBrch">
-                            <i class="iconset ico-like-line"></i>
-                            <span>선호극장</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <!--// theater-detail-cont -->
-        </div>
-        <!--// theater-detail-page -->
-        <div class="inner-wrap pt40">
-            <div class="tab-list fixed mb40 tab-layer">
-                <ul>
-                    <li class="on">
-                        <a href="#tab01" title="극장정보 탭으로 이동">극장정보</a>
-                    </li>
-                    <li>
-                        <a href="#tab02" title="상영시간표 탭으로 이동">상영시간표</a>
-                    </li>
-                    <li>
-                        <a href="#tab03" title="관람료 탭으로 이동">관람료</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="tab-cont-wrap">
-                <div id="tab01" class="tab-cont on">
-                    <div class="theater-info-text mt40">
-                        <p class="big"> 강남의 중심! 강남 소비문화의 중심지인 지하철 2호선 , 신분당선 - 강남역과 연결 <br>로맨틱 멀티플렉스! 젊은 도시 강남이 한 눈에 보이는 최상의 View를 제공 </p>
-                        <p>&lt;프라다&gt;가 선택한 수려한 디자인의 상영관 의자를 체험해보세요!</p>
-                    </div>
-                    <h2 class="tit small mt70">시설안내</h2>
-                    <h3 class="tit small">보유시설</h3>
-                    <div class="theater-facility">
-                        <p>
-                            <i class="iconset ico-facility-theater"></i>일반상영관
-                        </p>
-                        <p>
-                            <i class="iconset ico-facility-disabled"></i>장애인석
-                        </p>
-                    </div>
-                    <h3 class="tit small mt30">층별안내</h3>
-                    <ul class="dot-list">
-                        <li>
-                            <span class="font-gblue">8층 : </span> 매표소, 매점, 에스컬레이터, 엘리베이터 , 남자 · 여자 화장실, 비상계단 3
-                        </li>
-                        <li>
-                            <span class="font-gblue">9층 : </span> 1관, 2관, 남자 · 여자 화장실, 엘리베이터, 비상계단3
-                        </li>
-                        <li>
-                            <span class="font-gblue">10층 : </span> 3관, 4관, 엘리베이터2, 남자 · 여자 화장실, 비상계단 3
-                        </li>
-                        <li>
-                            <span class="font-gblue">11층 : </span> 5관, 6관, 7관, 엘리베이터2, 남자 · 여자 화장실, 비상계단 3
-                        </li>
-                    </ul>
-                    <h2 class="tit small mt70">교통안내</h2>
-                    <h3 class="tit small">약도</h3>
-                    <ul class="dot-list">
-                        <li>
-                            <span class="font-gblue">도로명주소 : </span> 서울특별시 서초구 서초대로 77길 3 (서초동) 아라타워 8층
-                        </li>
-                    </ul>
-                    <div class="location-map-btn mt15">
-                        <div class="btn-group left">
-                            <a href="http://m.map.naver.com/map.nhn?lng=127.0264086&amp;lat=37.498214&amp;level=2" class="button purple" target="_blank" title="새창열림">실시간 길찾기</a>
-                        </div>
-                    </div>
-                    <h3 class="tit small mt30">주차</h3>
-                    <div class="parking-info">
-                        <div class="parking-section">
-                            <div class="icon-box">
-                                <i class="iconset ico-parking" title="주차안내">주차안내</i>
-                            </div>
-                            <div class="info">
-                                <p class="tit">주차안내</p>
-                                <ul class="dot-list">
-                                    <li>아라타워 건물 內 지하 3층 ~ 지하 6층 주차장 이용</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="parking-section">
-                            <div class="icon-box">
-                                <i class="iconset ico-parking-confirm" title="주차확인">주차확인</i>
-                            </div>
-                            <div class="info">
-                                <p class="tit">주차확인</p>
-                                <ul class="dot-list">
-                                    <li>매표소에서 당일 관람 티켓 인증 후, 차량 번호 할인 등록하여 지하 정산소에서 결제</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="parking-section">
-                            <div class="icon-box">
-                                <i class="iconset ico-cash" title="주차요금">주차요금</i>
-                            </div>
-                            <div class="info">
-                                <p class="tit">주차요금</p>
-                                <ul class="dot-list">
-                                    <li>주차 요금은 입차시간을 기준으로 합니다.</li>
-                                    <li>영화 관람 시 3시간 → 3,000원(3시간 초과 시 10분당 1,000원 부과, 초과비용 출차 시 정산)</li>
-                                    <li>건물 내 타 매장과 주차 할인 중복 적용 불가.</li>
-                                    <li>입차시 최대 3시간 30분까지 할인 가능(차량 1대에 주차 할인 적용 2회 이상 불가)</li>
-                                    <li>주차 공간이 협소하므로 가급적이면 대중교통을 이용 바랍니다. (지하철 2호선 강남역 출구 9번 출구)</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <h3 class="tit small mt30">대중교통</h3>
-                    <!-- location-info -->
-                    <div class="public-transportation">
-                        <!-- 버스 정보 -->
-                        <div class="transportation-section">
-                            <div class="icon-box">
-                                <i class="iconset ico-bus" title="버스">버스</i>
-                            </div>
-                            <div class="info">
-                                <p class="tit">버스</p>
-                                <ul class="dot-list">
-                                    <li>140번, 144번, 145번, 146번, 360번, 402번, 420번, 440번, 441번, 452번, 470번, 741번</li>
-                                    <li>3412번, 4312번, 서초03번, 서초 09번 </li>
-                                    <li>9404번, 9408번, 9409번, 9503번, 9711번, 9500번, 9501번, 9510번, 9800번, 9801번, 9802번, 9901번, M4403번, M7412번</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- 지하철 정보 -->
-                        <div class="transportation-section">
-                            <div class="icon-box">
-                                <i class="iconset ico-metro" title="지하철">지하철</i>
-                            </div>
-                            <div class="info">
-                                <p class="tit">지하철</p>
-                                <ul class="dot-list">
-                                    <li>지하철 2호선 , 신분당선 ‘강남역 -&gt; 지하철 9번(구 5번) 출구 좌측 연결통로 이용</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- 대중교통 정보가 없는 경우 -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--// contents -->
+	<div class="page-util">
+		<div class="inner-wrap">
+			<div class="location">
+				<span>Home</span> <a href="/theater/list" title="극장 페이지로 이동">극장</a>
+				<a href="/theater/list" title="전체극장 페이지로 이동">전체극장</a> <a
+					href="https://www.megabox.co.kr/theater?brchNo=1372"
+					title="극장정보 페이지로 이동">극장정보</a>
+			</div>
+		</div>
+	</div>
+	<!-- contents -->
+	<div id="contents" class="no-padding">
+		<!-- theater-detail-page -->
+		<div class="theater-detail-page">
+			<div class="bg-img"
+				style="background-image: url('https://www.megabox.co.kr/static/pc/images/theater/img-theater-detail.jpg');"></div>
+			<div class="bg-pattern"></div>
+			<div class="bg-mask"></div>
+			<!-- theater-all -->
+			<div class="theater-all">
+				<!-- theater-area-list -->
+				<div class="theater-area-list">
+					<ul class="area-depth1">
+						<li><a href="" class="depth1" title="서울 선택">서울</a>
+							<div class="area-depth2">
+								<ul>
+									<li class="on"><a href="/theater?brchNo=1372"
+										title="강남 상세보기">강남 </a></li>
+									<li><a href="/theater?brchNo=0023" title="강남대로(씨티) 상세보기">강남대로(씨티)
+									</a></li>
+									<li><a href="/theater?brchNo=1341" title="강동 상세보기">강동
+									</a></li>
+									<li><a href="/theater?brchNo=1431" title="군자 상세보기">군자
+									</a></li>
+									<li><a href="/theater?brchNo=0041"
+										title="더 부티크 목동현대백화점 상세보기">더 부티크 목동현대백화점 </a></li>
+									<li><a href="/theater?brchNo=1003" title="동대문 상세보기">동대문
+									</a></li>
+									<li><a href="/theater?brchNo=1572" title="마곡 상세보기">마곡
+									</a></li>
+									<li><a href="/theater?brchNo=1581" title="목동 상세보기">목동
+											<i class="iconset ico-theater-renewal"></i>
+									</a></li>
+									<li><a href="/theater?brchNo=1311" title="상봉 상세보기">상봉
+									</a></li>
+									<li><a href="/theater?brchNo=1211" title="상암월드컵경기장 상세보기">상암월드컵경기장
+									</a></li>
+									<li><a href="/theater?brchNo=1331" title="성수 상세보기">성수
+									</a></li>
+									<li><a href="/theater?brchNo=1371" title="센트럴 상세보기">센트럴
+									</a></li>
+									<li><a href="/theater?brchNo=1381" title="송파파크하비오 상세보기">송파파크하비오
+									</a></li>
+									<li><a href="/theater?brchNo=1202" title="신촌 상세보기">신촌
+									</a></li>
+									<li><a href="/theater?brchNo=1561" title="이수 상세보기">이수
+									</a></li>
+									<li><a href="/theater?brchNo=1321" title="창동 상세보기">창동
+									</a></li>
+									<li><a href="/theater?brchNo=1351" title="코엑스 상세보기">코엑스
+									</a></li>
+									<li><a href="/theater?brchNo=1212" title="홍대 상세보기">홍대
+									</a></li>
+									<li><a href="/theater?brchNo=1571" title="화곡 상세보기">화곡
+									</a></li>
+									<li><a href="/theater?brchNo=1562" title="ARTNINE 상세보기">ARTNINE
+									</a></li>
+								</ul>
+							</div></li>
+						<li><a href="" class="depth1" title="경기 선택">경기</a>
+							<div class="area-depth2">
+								<ul>
+									<li><a href="/theater?brchNo=4121" title="고양스타필드 상세보기">고양스타필드
+									</a></li>
+									<li><a href="/theater?brchNo=0029" title="광명AK플라자 상세보기">광명AK플라자
+									</a></li>
+									<li><a href="/theater?brchNo=0053" title="광명소하 상세보기">광명소하
+									</a></li>
+									<li><a href="/theater?brchNo=0035" title="금정AK플라자 상세보기">금정AK플라자
+									</a></li>
+									<li><a href="/theater?brchNo=4152" title="김포한강신도시 상세보기">김포한강신도시
+									</a></li>
+									<li><a href="/theater?brchNo=0039" title="남양주 상세보기">남양주
+									</a></li>
+									<li><a href="/theater?brchNo=0019"
+										title="남양주현대아울렛 스페이스원 상세보기">남양주현대아울렛 스페이스원 </a></li>
+									<li><a href="/theater?brchNo=4451" title="동탄 상세보기">동탄
+									</a></li>
+									<li><a href="/theater?brchNo=4652" title="미사강변 상세보기">미사강변
+									</a></li>
+									<li><a href="/theater?brchNo=4104" title="백석벨라시타 상세보기">백석벨라시타
+									</a></li>
+									<li><a href="/theater?brchNo=4722" title="별내 상세보기">별내
+									</a></li>
+									<li><a href="/theater?brchNo=4221" title="부천스타필드시티 상세보기">부천스타필드시티
+									</a></li>
+									<li><a href="/theater?brchNo=4631" title="분당 상세보기">분당
+									</a></li>
+									<li><a href="/theater?brchNo=0030" title="수원 상세보기">수원
+									</a></li>
+									<li><a href="/theater?brchNo=0052"
+										title="수원AK플라자(수원역) 상세보기">수원AK플라자(수원역) <i
+											class="iconset ico-theater-open"></i>
+									</a></li>
+									<li><a href="/theater?brchNo=0042" title="수원남문 상세보기">수원남문
+									</a></li>
+									<li><a href="/theater?brchNo=0036" title="수원호매실 상세보기">수원호매실
+									</a></li>
+									<li><a href="/theater?brchNo=4291" title="시흥배곧 상세보기">시흥배곧
+									</a></li>
+									<li><a href="/theater?brchNo=4253" title="안산중앙 상세보기">안산중앙
+									</a></li>
+									<li><a href="/theater?brchNo=0020" title="안성스타필드 상세보기">안성스타필드
+									</a></li>
+									<li><a href="/theater?brchNo=4821" title="양주 상세보기">양주
+									</a></li>
+									<li><a href="/theater?brchNo=4431" title="영통 상세보기">영통
+									</a></li>
+									<li><a href="/theater?brchNo=0012" title="용인기흥 상세보기">용인기흥
+									</a></li>
+									<li><a href="/theater?brchNo=4462" title="용인테크노밸리 상세보기">용인테크노밸리
+									</a></li>
+									<li><a href="/theater?brchNo=4804" title="의정부민락 상세보기">의정부민락
+									</a></li>
+									<li><a href="/theater?brchNo=4111" title="일산 상세보기">일산
+									</a></li>
+									<li><a href="/theater?brchNo=4112" title="킨텍스 상세보기">킨텍스
+									</a></li>
+									<li><a href="/theater?brchNo=4132" title="파주금촌 상세보기">파주금촌
+									</a></li>
+									<li><a href="/theater?brchNo=4115" title="파주운정 상세보기">파주운정
+									</a></li>
+									<li><a href="/theater?brchNo=4131" title="파주출판도시 상세보기">파주출판도시
+									</a></li>
+									<li><a href="/theater?brchNo=4651" title="하남스타필드 상세보기">하남스타필드
+									</a></li>
+								</ul>
+							</div></li>
+						<li><a href="" class="depth1" title="인천 선택">인천</a>
+							<div class="area-depth2">
+								<ul>
+									<li><a href="/theater?brchNo=4041" title="검단 상세보기">검단
+									</a></li>
+									<li><a href="/theater?brchNo=4062" title="송도 상세보기">송도
+									</a></li>
+									<li><a href="/theater?brchNo=4001" title="영종 상세보기">영종
+									</a></li>
+									<li><a href="/theater?brchNo=4051" title="인천논현 상세보기">인천논현
+									</a></li>
+									<li><a href="/theater?brchNo=0027" title="청라지젤 상세보기">청라지젤
+									</a></li>
+								</ul>
+							</div></li>
+						<li><a href="" class="depth1" title="대전/충청/세종 선택">대전/충청/세종</a>
+							<div class="area-depth2">
+								<ul>
+									<li><a href="/theater?brchNo=3141" title="공주 상세보기">공주
+									</a></li>
+									<li><a href="/theater?brchNo=0018" title="논산 상세보기">논산
+									</a></li>
+									<li><a href="/theater?brchNo=3021" title="대전 상세보기">대전
+									</a></li>
+									<li><a href="/theater?brchNo=0028"
+										title="대전신세계 아트앤사이언스 상세보기">대전신세계 아트앤사이언스 </a></li>
+									<li><a href="/theater?brchNo=0009" title="대전유성 상세보기">대전유성
+									</a></li>
+									<li><a href="/theater?brchNo=3011" title="대전중앙로 상세보기">대전중앙로
+									</a></li>
+									<li><a href="/theater?brchNo=0017" title="대전현대아울렛 상세보기">대전현대아울렛
+									</a></li>
+									<li><a href="/theater?brchNo=3391" title="세종(조치원) 상세보기">세종(조치원)
+									</a></li>
+									<li><a href="/theater?brchNo=3392" title="세종나성 상세보기">세종나성
+									</a></li>
+									<li><a href="/theater?brchNo=0008" title="세종청사 상세보기">세종청사
+									</a></li>
+									<li><a href="/theater?brchNo=3631" title="오창 상세보기">오창
+									</a></li>
+									<li><a href="/theater?brchNo=3651" title="진천 상세보기">진천
+									</a></li>
+									<li><a href="/theater?brchNo=3301" title="천안 상세보기">천안
+									</a></li>
+									<li><a href="/theater?brchNo=0049" title="청주사창 상세보기">청주사창
+									</a></li>
+									<li><a href="/theater?brchNo=3501" title="홍성내포 상세보기">홍성내포
+									</a></li>
+								</ul>
+							</div></li>
+						<li><a href="" class="depth1" title="부산/대구/경상 선택">부산/대구/경상</a>
+							<div class="area-depth2">
+								<ul>
+									<li><a href="/theater?brchNo=0040" title="경북도청 상세보기">경북도청
+									</a></li>
+									<li><a href="/theater?brchNo=7122" title="경산하양 상세보기">경산하양
+									</a></li>
+									<li><a href="/theater?brchNo=0043" title="경주 상세보기">경주
+									</a></li>
+									<li><a href="/theater?brchNo=7303" title="구미강동 상세보기">구미강동
+									</a></li>
+									<li><a href="/theater?brchNo=7401" title="김천 상세보기">김천
+									</a></li>
+									<li><a href="/theater?brchNo=7901" title="남포항 상세보기">남포항
+									</a></li>
+									<li><a href="/theater?brchNo=7011" title="대구신세계(동대구) 상세보기">대구신세계(동대구)
+									</a></li>
+									<li><a href="/theater?brchNo=0022" title="대구이시아 상세보기">대구이시아
+									</a></li>
+									<li><a href="/theater?brchNo=6161" title="덕천 상세보기">덕천
+									</a></li>
+									<li><a href="/theater?brchNo=6312" title="마산 상세보기">마산
+									</a></li>
+									<li><a href="/theater?brchNo=7451" title="문경 상세보기">문경
+									</a></li>
+									<li><a href="/theater?brchNo=6001" title="부산극장 상세보기">부산극장
+									</a></li>
+									<li><a href="/theater?brchNo=6906" title="부산대 상세보기">부산대
+									</a></li>
+									<li><a href="/theater?brchNo=0025" title="북대구(칠곡) 상세보기">북대구(칠곡)
+									</a></li>
+									<li><a href="/theater?brchNo=0032" title="사상 상세보기">사상
+									</a></li>
+									<li><a href="/theater?brchNo=6642" title="삼천포 상세보기">삼천포
+									</a></li>
+									<li><a href="/theater?brchNo=6261" title="양산 상세보기">양산
+									</a></li>
+									<li><a href="/theater?brchNo=6262" title="양산증산 상세보기">양산증산
+									</a></li>
+									<li><a href="/theater?brchNo=6811" title="울산 상세보기">울산
+									</a></li>
+									<li><a href="/theater?brchNo=6191" title="정관 상세보기">정관
+									</a></li>
+									<li><a href="/theater?brchNo=0045" title="진주(중안) 상세보기">진주(중안)
+									</a></li>
+									<li><a href="/theater?brchNo=0048" title="창원 상세보기">창원
+									</a></li>
+									<li><a href="/theater?brchNo=0014" title="창원내서 상세보기">창원내서
+									</a></li>
+									<li><a href="/theater?brchNo=0038" title="포항 상세보기">포항
+									</a></li>
+									<li><a href="/theater?brchNo=0046" title="해운대(장산) 상세보기">해운대(장산)
+									</a></li>
+								</ul>
+							</div></li>
+						<li><a href="" class="depth1" title="광주/전라 선택">광주/전라</a>
+							<div class="area-depth2">
+								<ul>
+									<li><a href="/theater?brchNo=5021" title="광주상무 상세보기">광주상무
+									</a></li>
+									<li><a href="/theater?brchNo=5061" title="광주하남 상세보기">광주하남
+									</a></li>
+									<li><a href="/theater?brchNo=5302" title="목포하당(포르모) 상세보기">목포하당(포르모)
+									</a></li>
+									<li><a href="/theater?brchNo=5401" title="순천 상세보기">순천
+									</a></li>
+									<li><a href="/theater?brchNo=5552" title="여수웅천 상세보기">여수웅천
+									</a></li>
+									<li><a href="/theater?brchNo=0010" title="전대(광주) 상세보기">전대(광주)
+									</a></li>
+									<li><a href="/theater?brchNo=0050" title="전주객사 상세보기">전주객사
+									</a></li>
+									<li><a href="/theater?brchNo=5612" title="전주송천 상세보기">전주송천
+									</a></li>
+									<li><a href="/theater?brchNo=0021" title="전주혁신 상세보기">전주혁신
+									</a></li>
+									<li><a href="/theater?brchNo=5064" title="첨단 상세보기">첨단
+									</a></li>
+								</ul>
+							</div></li>
+						<li><a href="" class="depth1" title="강원 선택">강원</a>
+							<div class="area-depth2">
+								<ul>
+									<li><a href="/theater?brchNo=2001" title="남춘천 상세보기">남춘천
+									</a></li>
+									<li><a href="/theater?brchNo=2171" title="속초 상세보기">속초
+									</a></li>
+									<li><a href="/theater?brchNo=2201" title="원주 상세보기">원주
+									</a></li>
+									<li><a href="/theater?brchNo=2202" title="원주센트럴 상세보기">원주센트럴
+									</a></li>
+									<li><a href="/theater?brchNo=0037" title="춘천석사 상세보기">춘천석사
+									</a></li>
+								</ul>
+							</div></li>
+					</ul>
+				</div>
+				<!--// theater-area-list -->
+				<p class="name">강남</p>
+				<div class="btn-util right">
+					<div class="block">
+						<button type="button" class="btn btn-like " id="favorBrch">
+							<i class="iconset ico-like-line"></i> <span>선호극장</span>
+						</button>
+					</div>
+				</div>
+			</div>
+			<!--// theater-detail-cont -->
+		</div>
+		<!--// theater-detail-page -->
+		<div class="inner-wrap pt40">
+			<div class="tab-list fixed mb40 tab-layer">
+				<ul>
+					<li class="on"><a href="#tab01" title="극장정보 탭으로 이동">극장정보</a></li>
+					<li><a href="#tab02" title="상영시간표 탭으로 이동">상영시간표</a></li>
+					<li><a href="#tab03" title="관람료 탭으로 이동">관람료</a></li>
+				</ul>
+			</div>
+			<div class="tab-cont-wrap">
+				<div id="tab01" class="tab-cont on">
+					<div class="theater-info-text mt40">
+						<p class="big">
+							강남의 중심! 강남 소비문화의 중심지인 지하철 2호선 , 신분당선 - 강남역과 연결 <br>로맨틱
+							멀티플렉스! 젊은 도시 강남이 한 눈에 보이는 최상의 View를 제공
+						</p>
+						<p>&lt;프라다&gt;가 선택한 수려한 디자인의 상영관 의자를 체험해보세요!</p>
+					</div>
+					<h2 class="tit small mt70">시설안내</h2>
+					<h3 class="tit small">보유시설</h3>
+					<div class="theater-facility">
+						<p>
+							<i class="iconset ico-facility-theater"></i>일반상영관
+						</p>
+						<p>
+							<i class="iconset ico-facility-disabled"></i>장애인석
+						</p>
+					</div>
+					<h3 class="tit small mt30">층별안내</h3>
+					<ul class="dot-list">
+						<li><span class="font-gblue">8층 : </span> 매표소, 매점, 에스컬레이터,
+							엘리베이터 , 남자 · 여자 화장실, 비상계단 3</li>
+						<li><span class="font-gblue">9층 : </span> 1관, 2관, 남자 · 여자
+							화장실, 엘리베이터, 비상계단3</li>
+						<li><span class="font-gblue">10층 : </span> 3관, 4관, 엘리베이터2, 남자
+							· 여자 화장실, 비상계단 3</li>
+						<li><span class="font-gblue">11층 : </span> 5관, 6관, 7관,
+							엘리베이터2, 남자 · 여자 화장실, 비상계단 3</li>
+					</ul>
+					<h2 class="tit small mt70">교통안내</h2>
+					<h3 class="tit small">약도</h3>
+					<ul class="dot-list">
+						<li><span class="font-gblue">도로명주소 : </span> 서울특별시 서초구 서초대로
+							77길 3 (서초동) 아라타워 8층</li>
+					</ul>
+					<div class="location-map-btn mt15">
+						<div class="btn-group left">
+							<a
+								href="http://m.map.naver.com/map.nhn?lng=127.0264086&amp;lat=37.498214&amp;level=2"
+								class="button purple" target="_blank" title="새창열림">실시간 길찾기</a>
+						</div>
+					</div>
+					<h3 class="tit small mt30">주차</h3>
+					<div class="parking-info">
+						<div class="parking-section">
+							<div class="icon-box">
+								<i class="iconset ico-parking" title="주차안내">주차안내</i>
+							</div>
+							<div class="info">
+								<p class="tit">주차안내</p>
+								<ul class="dot-list">
+									<li>아라타워 건물 內 지하 3층 ~ 지하 6층 주차장 이용</li>
+								</ul>
+							</div>
+						</div>
+						<div class="parking-section">
+							<div class="icon-box">
+								<i class="iconset ico-parking-confirm" title="주차확인">주차확인</i>
+							</div>
+							<div class="info">
+								<p class="tit">주차확인</p>
+								<ul class="dot-list">
+									<li>매표소에서 당일 관람 티켓 인증 후, 차량 번호 할인 등록하여 지하 정산소에서 결제</li>
+								</ul>
+							</div>
+						</div>
+						<div class="parking-section">
+							<div class="icon-box">
+								<i class="iconset ico-cash" title="주차요금">주차요금</i>
+							</div>
+							<div class="info">
+								<p class="tit">주차요금</p>
+								<ul class="dot-list">
+									<li>주차 요금은 입차시간을 기준으로 합니다.</li>
+									<li>영화 관람 시 3시간 → 3,000원(3시간 초과 시 10분당 1,000원 부과, 초과비용 출차
+										시 정산)</li>
+									<li>건물 내 타 매장과 주차 할인 중복 적용 불가.</li>
+									<li>입차시 최대 3시간 30분까지 할인 가능(차량 1대에 주차 할인 적용 2회 이상 불가)</li>
+									<li>주차 공간이 협소하므로 가급적이면 대중교통을 이용 바랍니다. (지하철 2호선 강남역 출구 9번
+										출구)</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<h3 class="tit small mt30">대중교통</h3>
+					<!-- location-info -->
+					<div class="public-transportation">
+						<!-- 버스 정보 -->
+						<div class="transportation-section">
+							<div class="icon-box">
+								<i class="iconset ico-bus" title="버스">버스</i>
+							</div>
+							<div class="info">
+								<p class="tit">버스</p>
+								<ul class="dot-list">
+									<li>140번, 144번, 145번, 146번, 360번, 402번, 420번, 440번, 441번,
+										452번, 470번, 741번</li>
+									<li>3412번, 4312번, 서초03번, 서초 09번</li>
+									<li>9404번, 9408번, 9409번, 9503번, 9711번, 9500번, 9501번,
+										9510번, 9800번, 9801번, 9802번, 9901번, M4403번, M7412번</li>
+								</ul>
+							</div>
+						</div>
+						<!-- 지하철 정보 -->
+						<div class="transportation-section">
+							<div class="icon-box">
+								<i class="iconset ico-metro" title="지하철">지하철</i>
+							</div>
+							<div class="info">
+								<p class="tit">지하철</p>
+								<ul class="dot-list">
+									<li>지하철 2호선 , 신분당선 ‘강남역 -&gt; 지하철 9번(구 5번) 출구 좌측 연결통로 이용</li>
+								</ul>
+							</div>
+						</div>
+						<!-- 대중교통 정보가 없는 경우 -->
+					</div>
+				</div>
+				<!-- /탭01번 -->
+				<div id="tab02" class="tab-cont ">
+					<a href="" class="ir">상영시간표 탭 화면 입니다.</a>
+					<h2 class="tit small" style="display: none;">무대인사</h2>
+					<div class="movie-greeting" style="display: none;"></div>
+					<h2 class="tit small mt40">상영시간표</h2>
+					<div class="time-schedule mb30">
+						<div class="wrap">
+							<button type="button" title="이전 날짜 보기" class="btn-pre"
+								disabled="true">
+								<i class="iconset ico-cld-pre"></i> <em>이전</em>
+							</button>
+							<div class="date-list">
+								<div class="year-area">
+									<div class="year" style="left: 30px; z-index: 1; opacity: 1;">2023.07</div>
+									<div class="year" style="left: 30px; z-index: 1; opacity: 1;">2023.08</div>
+								</div>
+								<div class="date-area">
+									<div class="wrap"
+										style="position: relative; width: 2100px; border: none; left: -70px;">
+										<button class="disabled" type="button" date-data="2023.07.31"
+											month="6" tabindex="-1">
+											<span class="ir">2023년 7월</span><em
+												style="pointer-events: none;">31<span
+												style="pointer-events: none;" class="ir">일</span></em><span
+												class="day-kr"
+												style="pointer-events: none; display: inline-block">월</span><span
+												class="day-en" style="pointer-events: none; display: none">Mon</span>
+										</button>
+										<button class="on" type="button" date-data="2023.08.01"
+											month="7">
+											<span class="ir">2023년 8월</span><em
+												style="pointer-events: none;">1<span
+												style="pointer-events: none;" class="ir">일</span></em><span
+												class="day-kr"
+												style="pointer-events: none; display: inline-block">오늘</span><span
+												class="day-en" style="pointer-events: none; display: none">Tue</span>
+										</button>
+										<button class="" type="button" date-data="2023.08.02"
+											month="7">
+											<span class="ir">2023년 8월</span><em
+												style="pointer-events: none;">2<span
+												style="pointer-events: none;" class="ir">일</span></em><span
+												class="day-kr"
+												style="pointer-events: none; display: inline-block">내일</span><span
+												class="day-en" style="pointer-events: none; display: none">Wed</span>
+										</button>
+										<button class="" type="button" date-data="2023.08.03"
+											month="7">
+											<span class="ir">2023년 8월</span><em
+												style="pointer-events: none;">3<span
+												style="pointer-events: none;" class="ir">일</span></em><span
+												class="day-kr"
+												style="pointer-events: none; display: inline-block">목</span><span
+												class="day-en" style="pointer-events: none; display: none">Thu</span>
+										</button>
+										<button class="" type="button" date-data="2023.08.04"
+											month="7">
+											<span class="ir">2023년 8월</span><em
+												style="pointer-events: none;">4<span
+												style="pointer-events: none;" class="ir">일</span></em><span
+												class="day-kr"
+												style="pointer-events: none; display: inline-block">금</span><span
+												class="day-en" style="pointer-events: none; display: none">Fri</span>
+										</button>
+										<button class="disabled sat" type="button"
+											date-data="2023.08.05" month="7">
+											<span class="ir">2023년 8월</span><em
+												style="pointer-events: none;">5<span
+												style="pointer-events: none;" class="ir">일</span></em><span
+												class="day-kr"
+												style="pointer-events: none; display: inline-block">토</span><span
+												class="day-en" style="pointer-events: none; display: none">Sat</span>
+										</button>
+										<button class="disabled holi" type="button"
+											date-data="2023.08.06" month="7">
+											<span class="ir">2023년 8월</span><em
+												style="pointer-events: none;">6<span
+												style="pointer-events: none;" class="ir">일</span></em><span
+												class="day-kr"
+												style="pointer-events: none; display: inline-block">일</span><span
+												class="day-en" style="pointer-events: none; display: none">Sun</span>
+										</button>
+										<button class="disabled" type="button" date-data="2023.08.07"
+											month="7">
+											<span class="ir">2023년 8월</span><em
+												style="pointer-events: none;">7<span
+												style="pointer-events: none;" class="ir">일</span></em><span
+												class="day-kr"
+												style="pointer-events: none; display: inline-block">월</span><span
+												class="day-en" style="pointer-events: none; display: none">Mon</span>
+										</button>
+										<button class="disabled" type="button" date-data="2023.08.08"
+											month="7">
+											<span class="ir">2023년 8월</span><em
+												style="pointer-events: none;">8<span
+												style="pointer-events: none;" class="ir">일</span></em><span
+												class="day-kr"
+												style="pointer-events: none; display: inline-block">화</span><span
+												class="day-en" style="pointer-events: none; display: none">Tue</span>
+										</button>
+										<button class="disabled" type="button" date-data="2023.08.09"
+											month="7">
+											<span class="ir">2023년 8월</span><em
+												style="pointer-events: none;">9<span
+												style="pointer-events: none;" class="ir">일</span></em><span
+												class="day-kr"
+												style="pointer-events: none; display: inline-block">수</span><span
+												class="day-en" style="pointer-events: none; display: none">Wed</span>
+										</button>
+										<button class="disabled" type="button" date-data="2023.08.10"
+											month="7">
+											<span class="ir">2023년 8월</span><em
+												style="pointer-events: none;">10<span
+												style="pointer-events: none;" class="ir">일</span></em><span
+												class="day-kr"
+												style="pointer-events: none; display: inline-block">목</span><span
+												class="day-en" style="pointer-events: none; display: none">Thu</span>
+										</button>
+										<button class="disabled" type="button" date-data="2023.08.11"
+											month="7">
+											<span class="ir">2023년 8월</span><em
+												style="pointer-events: none;">11<span
+												style="pointer-events: none;" class="ir">일</span></em><span
+												class="day-kr"
+												style="pointer-events: none; display: inline-block">금</span><span
+												class="day-en" style="pointer-events: none; display: none">Fri</span>
+										</button>
+										<button class="disabled sat" type="button"
+											date-data="2023.08.12" month="7">
+											<span class="ir">2023년 8월</span><em
+												style="pointer-events: none;">12<span
+												style="pointer-events: none;" class="ir">일</span></em><span
+												class="day-kr"
+												style="pointer-events: none; display: inline-block">토</span><span
+												class="day-en" style="pointer-events: none; display: none">Sat</span>
+										</button>
+										<button class="disabled holi" type="button"
+											date-data="2023.08.13" month="7">
+											<span class="ir">2023년 8월</span><em
+												style="pointer-events: none;">13<span
+												style="pointer-events: none;" class="ir">일</span></em><span
+												class="day-kr"
+												style="pointer-events: none; display: inline-block">일</span><span
+												class="day-en" style="pointer-events: none; display: none">Sun</span>
+										</button>
+										<button class="disabled" type="button" date-data="2023.08.14"
+											month="7">
+											<span class="ir">2023년 8월</span><em
+												style="pointer-events: none;">14<span
+												style="pointer-events: none;" class="ir">일</span></em><span
+												class="day-kr"
+												style="pointer-events: none; display: inline-block">월</span><span
+												class="day-en" style="pointer-events: none; display: none">Mon</span>
+										</button>
+										<button class="disabled" type="button" date-data="2023.08.15"
+											month="7" tabindex="-1">
+											<span class="ir">2023년 8월</span><em
+												style="pointer-events: none;">15<span
+												style="pointer-events: none;" class="ir">일</span></em><span
+												class="day-kr"
+												style="pointer-events: none; display: inline-block">화</span><span
+												class="day-en" style="pointer-events: none; display: none">Tue</span>
+										</button>
+									</div>
+								</div>
+							</div>
+							<button type="button" title="다음 날짜 보기" class="btn-next"
+								disabled="true">
+								<i class="iconset ico-cld-next"></i> <em>다음</em>
+							</button>
+							<div class="bg-line">
+								<input type="hidden" name="datePicker" id="dp1690875613506"
+									class="hasDatepicker" value="2023.08.01">
+								<button type="button" class="btn-calendar-large" title="달력보기">
+									달력보기</button>
+							</div>
+						</div>
+					</div>
+					<div class="movie-option mb20">
+						<div class="option">
+							<ul>
+								<li><i class="iconset ico-stage" title="무대인사"></i>무대인사</li>
+								<li><i class="iconset ico-user" title="회원시사"></i>회원시사</li>
+								<li><i class="iconset ico-open" title="오픈시사"></i>오픈시사</li>
+								<li><i class="iconset ico-goods" title="굿즈패키지"></i>굿즈패키지</li>
+								<li><i class="iconset ico-singalong" title="싱어롱"></i>싱어롱</li>
+								<li><i class="iconset ico-gv" title="GV"></i>GV</li>
+								<li><i class="iconset ico-sun" title="조조"></i>조조</li>
+								<li><i class="iconset ico-brunch" title="브런치"></i>브런치</li>
+								<li><i class="iconset ico-moon" title="심야"></i>심야</li>
+							</ul>
+						</div>
+						<div class="rateing-lavel">
+							<a href="" class="" title="관람등급안내">관람등급안내</a>
+						</div>
+					</div>
+					<div class="reserve theater-list-box">
+						<div class="tab-block tab-layer mb30" style="display: none;">
+							<ul></ul>
+						</div>
+						<div class="theater-list">
+							<div class="theater-tit">
+								<p class="movie-grade age-15"></p>
+								<p>
+									<a href="/movie-detail?rpstMovieNo=23029300" title="밀수 상세보기">밀수</a>
+								</p>
+								<p class="infomation">
+									<span>상영중</span>/상영시간 129분
+								</p>
+							</div>
+							<div class="theater-type-box">
+								<div class="theater-type">
+									<p class="theater-name">3관</p>
+									<p class="chair">총 119석</p>
+								</div>
+								<div class="theater-time">
+									<div class="theater-type-area">2D</div>
+									<div class="theater-time-box">
+										<table class="time-list-table">
+											<caption>상영시간을 보여주는 표 입니다.</caption>
+											<colgroup>
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+											</colgroup>
+											<tbody>
+												<tr>
+													<td class="" brch-no="2171" play-schdl-no="2308012171013"
+														rpst-movie-no="23029300" theab-no="03" play-de="20230801"
+														play-seq="4" netfnl-adopt-at="N">
+														<div class="td-ab">
+															<div class="txt-center">
+																<a href="" title="영화예매하기">
+																	<div class="ico-box">
+																		<i class="iconset ico-off"></i>
+																	</div>
+																	<p class="time">17:10</p>
+																	<p class="chair">107석</p>
+																	<div class="play-time">
+																		<p>17:10~19:29</p>
+																		<p>4회차</p>
+																	</div>
+																</a>
+															</div>
+														</div>
+													</td>
+													<td class="" brch-no="2171" play-schdl-no="2308012171014"
+														rpst-movie-no="23029300" theab-no="03" play-de="20230801"
+														play-seq="5" netfnl-adopt-at="N">
+														<div class="td-ab">
+															<div class="txt-center">
+																<a href="" title="영화예매하기">
+																	<div class="ico-box">
+																		<i class="iconset ico-off"></i>
+																	</div>
+																	<p class="time">19:50</p>
+																	<p class="chair">110석</p>
+																	<div class="play-time">
+																		<p>19:50~22:09</p>
+																		<p>5회차</p>
+																	</div>
+																</a>
+															</div>
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+							<div class="theater-type-box">
+								<div class="theater-type">
+									<p class="theater-name">4관</p>
+									<p class="chair">총 107석</p>
+								</div>
+								<div class="theater-time">
+									<div class="theater-type-area">2D</div>
+									<div class="theater-time-box">
+										<table class="time-list-table">
+											<caption>상영시간을 보여주는 표 입니다.</caption>
+											<colgroup>
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+											</colgroup>
+											<tbody>
+												<tr>
+													<td class="" brch-no="2171" play-schdl-no="2308012171017"
+														rpst-movie-no="23029300" theab-no="04" play-de="20230801"
+														play-seq="5" netfnl-adopt-at="N">
+														<div class="td-ab">
+															<div class="txt-center">
+																<a href="" title="영화예매하기">
+																	<div class="ico-box">
+																		<i class="iconset ico-off"></i>
+																	</div>
+																	<p class="time">20:30</p>
+																	<p class="chair">105석</p>
+																	<div class="play-time">
+																		<p>20:30~22:49</p>
+																		<p>5회차</p>
+																	</div>
+																</a>
+															</div>
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+							<div class="theater-type-box">
+								<div class="theater-type">
+									<p class="theater-name">5관</p>
+									<p class="chair">총 133석</p>
+								</div>
+								<div class="theater-time">
+									<div class="theater-type-area">2D</div>
+									<div class="theater-time-box">
+										<table class="time-list-table">
+											<caption>상영시간을 보여주는 표 입니다.</caption>
+											<colgroup>
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+											</colgroup>
+											<tbody>
+												<tr>
+													<td class="" brch-no="2171" play-schdl-no="2308012171021"
+														rpst-movie-no="23029300" theab-no="05" play-de="20230801"
+														play-seq="4" netfnl-adopt-at="N">
+														<div class="td-ab">
+															<div class="txt-center">
+																<a href="" title="영화예매하기">
+																	<div class="ico-box">
+																		<i class="iconset ico-off"></i>
+																	</div>
+																	<p class="time">18:30</p>
+																	<p class="chair">130석</p>
+																	<div class="play-time">
+																		<p>18:30~20:49</p>
+																		<p>4회차</p>
+																	</div>
+																</a>
+															</div>
+														</div>
+													</td>
+													<td class="" brch-no="2171" play-schdl-no="2308012171023"
+														rpst-movie-no="23029300" theab-no="05" play-de="20230801"
+														play-seq="5" netfnl-adopt-at="N">
+														<div class="td-ab">
+															<div class="txt-center">
+																<a href="" title="영화예매하기">
+																	<div class="ico-box">
+																		<i class="iconset ico-off"></i>
+																	</div>
+																	<p class="time">21:10</p>
+																	<p class="chair">126석</p>
+																	<div class="play-time">
+																		<p>21:10~23:29</p>
+																		<p>5회차</p>
+																	</div>
+																</a>
+															</div>
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="theater-list">
+							<div class="theater-tit">
+								<p class="movie-grade age-all"></p>
+								<p>
+									<a href="/movie-detail?rpstMovieNo=23034900"
+										title="&amp;#40;자막&amp;#41; 엘리멘탈 상세보기">(자막) 엘리멘탈</a>
+								</p>
+								<p class="infomation">
+									<span>상영중</span>/상영시간 109분
+								</p>
+							</div>
+							<div class="theater-type-box">
+								<div class="theater-type">
+									<p class="theater-name">2관</p>
+									<p class="chair">총 119석</p>
+								</div>
+								<div class="theater-time">
+									<div class="theater-type-area">2D(자막)</div>
+									<div class="theater-time-box">
+										<table class="time-list-table">
+											<caption>상영시간을 보여주는 표 입니다.</caption>
+											<colgroup>
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+											</colgroup>
+											<tbody>
+												<tr>
+													<td class="" brch-no="2171" play-schdl-no="2308012171008"
+														rpst-movie-no="23034900" theab-no="02" play-de="20230801"
+														play-seq="4" netfnl-adopt-at="N">
+														<div class="td-ab">
+															<div class="txt-center">
+																<a href="" title="영화예매하기">
+																	<div class="ico-box">
+																		<i class="iconset ico-off"></i>
+																	</div>
+																	<p class="time">19:00</p>
+																	<p class="chair">110석</p>
+																	<div class="play-time">
+																		<p>19:00~20:59</p>
+																		<p>4회차</p>
+																	</div>
+																</a>
+															</div>
+														</div>
+													</td>
+													<td class="" brch-no="2171" play-schdl-no="2308012171009"
+														rpst-movie-no="23034900" theab-no="02" play-de="20230801"
+														play-seq="5" netfnl-adopt-at="N">
+														<div class="td-ab">
+															<div class="txt-center">
+																<a href="" title="영화예매하기">
+																	<div class="ico-box">
+																		<i class="iconset ico-off"></i>
+																	</div>
+																	<p class="time">21:20</p>
+																	<p class="chair">115석</p>
+																	<div class="play-time">
+																		<p>21:20~23:19</p>
+																		<p>5회차</p>
+																	</div>
+																</a>
+															</div>
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="theater-list">
+							<div class="theater-tit">
+								<p class="movie-grade age-15"></p>
+								<p>
+									<a href="/movie-detail?rpstMovieNo=23048900"
+										title="미션 임파서블: 데드 레코닝 PART ONE 상세보기">미션 임파서블: 데드 레코닝 PART
+										ONE</a>
+								</p>
+								<p class="infomation">
+									<span>상영중</span>/상영시간 163분
+								</p>
+							</div>
+							<div class="theater-type-box">
+								<div class="theater-type">
+									<p class="theater-name">1관</p>
+									<p class="chair">총 107석</p>
+								</div>
+								<div class="theater-time">
+									<div class="theater-type-area">2D(자막)</div>
+									<div class="theater-time-box">
+										<table class="time-list-table">
+											<caption>상영시간을 보여주는 표 입니다.</caption>
+											<colgroup>
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+											</colgroup>
+											<tbody>
+												<tr>
+													<td class="" brch-no="2171" play-schdl-no="2308012171004"
+														rpst-movie-no="23048900" theab-no="01" play-de="20230801"
+														play-seq="4" netfnl-adopt-at="N">
+														<div class="td-ab">
+															<div class="txt-center">
+																<a href="" title="영화예매하기">
+																	<div class="ico-box">
+																		<i class="iconset ico-off"></i>
+																	</div>
+																	<p class="time">16:40</p>
+																	<p class="chair">87석</p>
+																	<div class="play-time">
+																		<p>16:40~19:33</p>
+																		<p>4회차</p>
+																	</div>
+																</a>
+															</div>
+														</div>
+													</td>
+													<td class="" brch-no="2171" play-schdl-no="2308012171005"
+														rpst-movie-no="23048900" theab-no="01" play-de="20230801"
+														play-seq="5" netfnl-adopt-at="N">
+														<div class="td-ab">
+															<div class="txt-center">
+																<a href="" title="영화예매하기">
+																	<div class="ico-box">
+																		<i class="iconset ico-off"></i>
+																	</div>
+																	<p class="time">20:00</p>
+																	<p class="chair">106석</p>
+																	<div class="play-time">
+																		<p>20:00~22:53</p>
+																		<p>5회차</p>
+																	</div>
+																</a>
+															</div>
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="theater-list">
+							<div class="theater-tit">
+								<p class="movie-grade age-15"></p>
+								<p>
+									<a href="/movie-detail?rpstMovieNo=23050900"
+										title="인시디어스: 빨간 문 상세보기">인시디어스: 빨간 문</a>
+								</p>
+								<p class="infomation">
+									<span>상영중</span>/상영시간 107분
+								</p>
+							</div>
+							<div class="theater-type-box">
+								<div class="theater-type">
+									<p class="theater-name">4관</p>
+									<p class="chair">총 107석</p>
+								</div>
+								<div class="theater-time">
+									<div class="theater-type-area">2D(자막)</div>
+									<div class="theater-time-box">
+										<table class="time-list-table">
+											<caption>상영시간을 보여주는 표 입니다.</caption>
+											<colgroup>
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+												<col style="width: 99px;">
+											</colgroup>
+											<tbody>
+												<tr>
+													<td class="" brch-no="2171" play-schdl-no="2308012171019"
+														rpst-movie-no="23050900" theab-no="04" play-de="20230801"
+														play-seq="4" netfnl-adopt-at="N">
+														<div class="td-ab">
+															<div class="txt-center">
+																<a href="" title="영화예매하기">
+																	<div class="ico-box">
+																		<i class="iconset ico-off"></i>
+																	</div>
+																	<p class="time">18:00</p>
+																	<p class="chair">98석</p>
+																	<div class="play-time">
+																		<p>18:00~19:57</p>
+																		<p>4회차</p>
+																	</div>
+																</a>
+															</div>
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="box-border v1 mt30">
+						<li>지연입장에 의한 관람불편을 최소화하고자 본 영화는 약 10분 후 시작됩니다.</li>
+						<li>쾌적한 관람 환경을 위해 상영시간 이전에 입장 부탁드립니다.</li>
+					</div>
+				</div>
+				<div id="tab03" class="tab-cont ">
+				<a href="" class="ir">관람료 탭 화면 입니다.</a>
+				<h2 class="tit small">영화관람료</h2>
+				<div class="fee-table-box">
+					<div class="fee-table">
+						<p class="fee-table-tit">2D</p>
+						<div class="table-wrap">
+							<table class="data-table a-c" summary="가격표를 요일, 상영시간, 일반, 청소년 순서로 보여줍니다.">
+								<caption>가격표를 요일, 상영시간, 일반, 청소년 순서로 보여줍니다.</caption>
+								<colgroup>
+									<col>
+									<col style="width: 25%;">
+									<col style="width: 25%;">
+									<col style="width: 25%;">
+								</colgroup>
+								<thead>
+									<tr>
+										<th scope="col">요일</th>
+										<th scope="col">상영시간</th>
+										<th scope="col">일반</th>
+										<th scope="col">청소년</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="rowgroup" rowspan="3">월~목</th>
+										<td>조조 (06:00~)</td>
+										<td>8,000</td>
+										<td>8,000</td>
+									</tr>
+									<tr>
+										<td>브런치 (11:00~)</td>
+										<td>13,000</td>
+										<td>10,000</td>
+									</tr>
+									<tr>
+										<td>일반 (13:00~)</td>
+										<td>13,000</td>
+										<td>10,000</td>
+									</tr>
+									<tr>
+										<th scope="rowgroup" rowspan="2">금~일<br>공휴일
+										</th>
+										<td>조조 (06:00~)</td>
+										<td>9,000</td>
+										<td>9,000</td>
+									</tr>
+									<tr>
+										<td>일반 (11:00~)</td>
+										<td>14,000</td>
+										<td>11,000</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="fee-table">
+						<p class="fee-table-tit">3D</p>
+						<div class="table-wrap">
+							<table class="data-table a-c" summary="가격표를 요일, 상영시간, 일반, 청소년 순서로 보여줍니다.">
+								<caption>가격표를 요일, 상영시간, 일반, 청소년 순서로 보여줍니다.</caption>
+								<colgroup>
+									<col>
+									<col style="width: 25%;">
+									<col style="width: 25%;">
+									<col style="width: 25%;">
+								</colgroup>
+								<thead>
+									<tr>
+										<th scope="col">요일</th>
+										<th scope="col">상영시간</th>
+										<th scope="col">일반</th>
+										<th scope="col">청소년</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="rowgroup" rowspan="3">월~목</th>
+										<td>조조 (06:00~)</td>
+										<td>11,000</td>
+										<td>11,000</td>
+									</tr>
+									<tr>
+										<td>브런치 (11:00~)</td>
+										<td>14,000</td>
+										<td>12,000</td>
+									</tr>
+									<tr>
+										<td>일반 (13:00~)</td>
+										<td>14,000</td>
+										<td>12,000</td>
+									</tr>
+									<tr>
+										<th scope="rowgroup" rowspan="2">금~일<br>공휴일
+										</th>
+										<td>조조 (06:00~)</td>
+										<td>12,000</td>
+										<td>12,000</td>
+									</tr>
+									<tr>
+										<td>일반 (11:00~)</td>
+										<td>15,000</td>
+										<td>13,000</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<span style="color: #503396"><span style="font-size: 22px">요금제</span></span><br>
+				<br> • <span style="color: #01738b">어린이 할인</span>&nbsp; 만7세~
+				만12세 : 초등학생(의료보험증, 주민등록 초/등본 확인)<br> • 48개월 미만의 경우 증빙원(예 :
+				의료보험증, 주민등록 초/등본 등) 지참 시에만 무료 관람 가능<br> <br> <br> <span style="font-size: 22px"><span style="color: #503396">우대적용</span></span><br>
+				<br> • <font color="#01738b">국가유공자</font>&nbsp; 현장에서 국가유공자증을
+				소지한 본인 외 동반 1인까지 적용<br> • <font color="#01738b">장애인</font>&nbsp;
+				현장에서 복지카드를 소지한 장애인(1급~3급까지 동반 1인까지 적용 / 4급~6급은 본인에 한함)<br> • <font color="#01738b">경로</font>&nbsp; 만65세 이상 본인에 한함(신분증 확인)<br> • <font color="#01738b">미취학아동</font>&nbsp; 부모 동반한 만4세~ 만6세까지 본인(의료보험증, 주민등록
+				초/등본 확인)<br> • <font color="#01738b">경찰, 소방종사자</font>&nbsp;
+				공무원증을 소지하거나 정복을 입은 경찰, 소방관 본인<br> <br> <br> 관람가격 및
+				시간대 운영은 극장마다 상이할 수 있으며, 상기 가격은 메가박스 속초점에 한하여 적용됩니다.
+			</div>
+			</div>
+			<!-- /탭02번 -->
+			
+		</div>
+	</div>
+	<!--// contents -->
 </div>
 </html>
