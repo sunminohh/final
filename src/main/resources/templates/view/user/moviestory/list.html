@@ -1,0 +1,117 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/user}">
+<div id="contents" layout:fragment="content" class="location-fixed">
+    <h2 class="tit">나의 무비스토리</h2>
+    <div class="tab-block mb30">
+        <ul>
+            <li data-url="/mypage/moviestory?cd=tl" class="on"><a id="movieTimeLineTab" href="#" class="btn" data-type="tl" title="무비타임라인 탭으로 이동">무비타임라인</a></li>
+            <li data-url="/mypage/moviestory?cd=mp"><a href="#" class="btn" data-type="mp" title="무비포스트 탭으로 이동">무비포스트</a></li>
+            <li data-url="/mypage/moviestory?cd=one"><a href="#" class="btn" data-type="one" title="관람평 탭으로 이동">관람평</a></li>
+            <li data-url="/mypage/moviestory?cd=sm"><a href="#" class="btn" data-type="sm" title="본영화 탭으로 이동">본영화</a></li>
+            <li data-url="/mypage/moviestory?cd=lm"><a href="#" class="btn" data-type="lm" title="보고싶어 탭으로 이동">보고싶어</a></li>
+        </ul>
+    </div>
+
+    <!-- 나의 무비타임라인 -->
+    <div class="my-timeline myTimeline myMovieStory" style="display: block;">
+
+        <button type="button" class="btn-year year-prev swiper-button-disabled" tabindex="0" role="button" aria-label="Previous slide" aria-disabled="true">이전 년도 선택</button>
+
+        <div class="time-year swiper-container-initialized swiper-container-horizontal">
+            <div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px);">
+
+                <!-- <div class="cell swiper-slide"><button type="button" class="btn">2007</button></div> -->
+                <div class="cell swiper-slide swiper-slide-active" style="width: 86.2222px;">
+                    <button type="button" class="btn on" data-no="2023">2023</button>
+                </div>
+
+            </div>
+            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+
+        <button type="button" class="btn-year year-next swiper-button-disabled" tabindex="0" role="button" aria-label="Next slide" aria-disabled="true">다음 년도 선택</button>
+
+    </div>
+
+    <!-- my-timeline-list -->
+    <div class="my-timeline-list myTimeline myMovieStory" style="display: block;">
+        <ol><li>    <div class="date">        <p>2023.08.01</p>    </div>    <ul class="movie"><li>    <a href="javaScript:void(0)" title="밀수 상세보기" class="img posterImg btn-modal-open2" w-data="850" h-data="auto" data-no="null" data-cd="INTRST" data-mno="23029300"><img src="https://img.megabox.co.kr/SharedImg/2023/07/17/2VGGGrBFIl8dOoqYw2jBF8JLSZKN3gu5_230.jpg" onerror="noImg(this)" alt="밀수"></a>    <div class="cont">        <p class="label">보고싶어</p>        <p class="tit"><a href="javaScript:void(0)" title="밀수 상세보기">밀수</a></p><div class="theater"><p>개봉일 : 2023.07.26</p><p>감독 : 류승완</p>    <p>장르 : 범죄 / 129분    </p></div>    </div></li>    </ul></li></ol>
+    </div>
+    <!--// my-timeline-list -->
+
+    <div class="btn-more v1 pt00 myTimeline myMovieStory" style="display: none;">
+        <button type="button" class="btn" id="addList">더보기 <i class="iconset ico-btn-more-arr"></i></button>
+    </div>
+    <!--// 나의 무비타임라인 -->
+
+    <div class="board-list-util myOne myMovieStory" style="display: none;">
+        <p class="result-count">
+            <strong>총 <b class="font-gblue" id="myOneCnt">0</b> 건</strong>
+        </p>
+    </div>
+
+    <!-- 나의 한줄평 -->
+    <div class="my-appraisal myOne myMovieStory" style="display: none;">
+        <ul id="myAppraisal"></ul>
+    </div>
+
+    <nav class="pagination myOne myMovieStory" style="display: none;"></nav>
+    <!--// 나의 한줄평 -->
+
+    <!-- 나의 본영화 -->
+    <div class="mypage-infomation mt20 mySeenMovie myMovieStory" style="display: none;">
+        <ul class="dot-list mb20">
+            <!-- <li>본 영화 리스트는 실제 관람한 이력으로 보여지며, 상영일 익일에 자동 노출됩니다.</li> 20190819 -->
+            <li>극장에서 발권하신 티켓 바코드 하단의 거래번호를 통해 본 영화 등록을 하실 수 있습니다.</li>
+            <!-- <li>유료 관람 영화 편수는 ‘나의 메가박스’에서 확인 하실 수 있습니다.</li> -->
+            <li>본영화는 관람한 인원수에 한해 등록이 가능합니다.</li>
+        </ul>
+
+        <div class="btn-group right mySeenMovie myMovieStory" style="display: none;">
+            <a href="#saw_movie_regi" class="button btn-modal-open" w-data="600" h-data="470" title="본 영화 등록">본 영화 등록</a>
+        </div>
+    </div>
+
+    <div class="board-list-util mySeenMovie myMovieStory" style="display: none;">
+        <p class="result-count">
+            <strong>총 <b class="font-gblue" id="mySeenMovieCnt">0</b> 건</strong>
+        </p>
+    </div>
+
+    <!-- my-saw-movie -->
+    <div class="my-saw-movie mt10 mySeenMovie myMovieStory" style="display: none;">
+        <ul id="mySawMovie"></ul>
+    </div>
+    <!--// my-saw-movie -->
+
+    <nav class="pagination mySeenMovie myMovieStory" style="display: none;"></nav>
+    <!--// 나의 본영화 -->
+
+    <!--// 나의 보고싶어 -->
+    <!-- my-movie-list -->
+    <div class="my-movie-list myLikeMovie myMovieStory" style="display: none;">
+        <div class="board-list-util">
+            <p class="result-count">
+                <strong>총 <b class="font-gblue" id="totalCnt">0</b>건</strong>
+            </p>
+        </div>
+
+        <div class="movie-list myLikeMovie myMovieStory" style="display: none;">
+            <ol class="list" id="movieList"></ol>
+        </div>
+
+        <div class="more-movie-list pt30 myLikeMovie myMovieStory" style="display: none;">
+            <button type="button" class="button btn-more-like-list">더보기 <i class="iconset ico-btn-more-arr"></i></button>
+        </div>
+
+    </div>
+    <!--// my-movie-list -->
+
+    <!-- 보고싶어 영화 없을 때 -->
+    <div class="no-my-movie-list myLikeMovie myMovieStory" id="noDataDiv" style="display: none;">
+        <i class="iconset ico-movie-see"></i>
+        <p>보고싶은 영화를 담아주세요.</p>
+    </div>
+    <!--// 나의 보고싶어 -->
+</div>
+</html>

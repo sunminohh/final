@@ -1,0 +1,253 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/user}">
+<div layout:fragment="content" id="contents">
+
+<!-- my-megabox-main -->
+  <div class="my-megabox-main">
+
+    <div class="my-magabox-info ">
+      <!-- top -->
+      <div class="top2">
+        <!-- <div class="mbclass" id="myPhoto">
+          <div class="wrap">
+            <form name="fileForm" style="display: none;">
+              <input type="file"   name="file">
+              <input type="hidden" name="fileMbNo" value="13709053" />
+            </form>
+
+            <i class="iconset ico-add-photo"></i>
+
+            <button type="button" class="img">
+              <img src="" alt="" onerror="noImg(this, 'human')" />
+            </button>
+          </div>
+
+        </div> -->
+        <div class="mbimg"><img src="https://img.megabox.co.kr/static/pc/images/2023/01/member_WELCOME_2.png" alt="WELCOME"></div>
+        <div class="mb_name">안녕하세요!<p>김아무개<span>님</span></p></div>
+
+       </div>
+      <!--// top -->
+
+      <!-- bottom -->
+      <div class="bottom2">
+        <!-- theater -->
+        <div class="items theater" id="myFaverBrch">
+          <div class="tit-area">
+            <p class="tit">선호하는 극장</p>
+            <a href="" class="more" title="선호극장 변경"><i class="iconset ico-arr-right-gray">변경</i></a>
+          </div>
+
+          <div class="list">
+            <div class="no-list" style="">
+              <span>선호극장</span>을  설정하세요.
+            </div>
+            <ol></ol>
+          </div>
+        </div>
+        <!--// theater -->
+
+        <!-- coupon -->
+        <div class="items coupon" id="myCoupon">
+          <div class="tit-area">
+            <p class="tit">관람권</p>
+            <a href="/mypage/movie-coupon" class="more"><i class="iconset ico-arr-right-gray" title="영화관람권 페이지로 이동">더보기</i></a>
+          </div>
+
+          <div class="list">
+            <ul>
+              <li>
+                <span>영화관람권</span>
+                <em>0 매</em>
+              </li>
+              <li>
+                <span>스토어교환권</span>
+                <em>0 매</em>
+              </li>
+              <li>
+                <span>할인/제휴쿠폰</span>
+                <em>0 매</em>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!--// coupon -->
+
+        <!-- 스페셜 멤버십 -->
+        <div class="items special-membership" id="myMembership">
+
+          <div class="tit-area">
+            <p class="tit">스페셜 멤버십</p>
+            <a href="/curation/specialcontent" class="more"><i class="iconset ico-arr-right-gray" title="스페셜멤버십 가입 페이지로 이동">더보기</i></a>
+          </div>
+
+          <!-- 스폐셜 가입 안했을 때 -->
+          <div class="no-join">
+            <p class="txt">가입된 스페셜 멤버십이 없습니다.</p>
+
+            <a href="/curation/specialcontent" title="스페셜멤버십 가입 페이지로 이동">스페셜멤버십</a>
+          </div>
+
+          <!-- <div class="join">
+            <div class="box">
+              <img src="images/2023/01/my_dashboard_so_01.png" alt="filmsociety" />
+            </div>
+            <div class="box">
+              <img src="images/2023/01/my_dashboard_so_02.png" alt="classic society" />
+            </div>
+          </div> -->
+        </div>
+        <!--//스페셜 멤버십 -->
+
+      </div>
+      <!--// bottom -->
+    </div>
+    <!--// my-magabox-info -->
+
+    <!-- column -->
+    <div class="column mt70">
+      <!-- left -->
+      <div class="col left" id="myStory">
+        <div class="tit-util">
+          <h2 class="tit small">나의 무비스토리</h2>
+
+          <div class="right">
+            <a href="#saw_movie_regi" class="button gray-line small btn-modal-open" w-data="600" h-data="470" title="본 영화 등록">본 영화 등록</a>
+          </div>
+        </div>
+
+        <div class="box-border link-movie-story">
+          <a href="/mypage/moviestory?cd=sm" title="본 영화 탭으로 이동">
+            <em>0</em>
+            <span>본 영화</span>
+          </a>
+
+          <a href="/mypage/moviestory?cd=one" title="관람평 탭으로 이동">
+            <em>0</em>
+            <span>관람평</span>
+          </a>
+
+          <a href="/mypage/moviestory?cd=lm" title="보고싶어 탭으로 이동">
+            <em>0</em>
+            <span>보고싶어</span>
+          </a>
+
+          <a href="/mypage/moviestory?cd=mp" title="무비포스트 탭으로 이동">
+            <em>0</em>
+            <span>무비포스트</span>
+          </a>
+        </div>
+      </div>
+      <!--// left -->
+
+      <!-- right -->
+      <div class="col right" id="myFaverInfo">
+        <div class="tit-util">
+          <h2 class="tit small">선호관람정보</h2>
+
+          <div class="right">
+            <a href="" class="button gray-line small" title="설정">설정</a>
+          </div>
+        </div>
+
+        <div class="box-border favor-see">
+          <ul class="dot-list gray">
+            <li><span class="font-gblue mr10">내 선호장르</span></li>
+            <li><span class="font-gblue mr10">내 선호시간</span></li>
+          </ul>
+        </div>
+      </div>
+      <!--// right -->
+    </div>
+    <!--// column -->
+
+    <div id="myBokd">
+      <div class="tit-util mt70">
+        <h2 class="tit small">나의 예매내역</h2>
+
+        <a href="/mypage/bookinglist?tab=01" class="more" title="나의 예매내역 더보기">더보기 <i class="iconset ico-arr-right-gray"></i></a>
+      </div>
+
+      <!-- my-reserve-history -->
+      <div class="my-reserve-history">
+        <ul>
+          <li class="no-result">
+            <div class="no-history-reservation">
+              예매 내역이 없습니다.
+            </div>
+          </li>
+          <li class="no-result">
+            <div class="no-history-reservation">
+              예매 내역이 없습니다.
+            </div>
+          </li>
+        </ul>
+      </div>
+      <!--// my-reserve-history -->
+    </div>
+
+    <div id="myPurc">
+      <div class="tit-util mt70">
+        <h2 class="tit small">나의 구매내역</h2>
+
+        <a href="/mypage/bookinglist?tab=02" class="more" title="나의 구매내역 더보기">더보기 <i class="iconset ico-arr-right-gray"></i></a>
+      </div>
+
+      <div class="table-wrap">
+        <table class="board-list line" summary="나의 구매내역 요약 표">
+          <caption>나의 구매내역 요약 표</caption>
+          <colgroup>
+            <col style="width:160px;">
+            <col style="width:140px;">
+            <col>
+            <col style="width:120px;">
+            <col style="width:80px;">
+          </colgroup>
+          <tbody><tr><td colspan="6" class="a-c">구매내역이 없습니다.</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- column -->
+    <div class="column mt70">
+      <!-- left -->
+      <div class="col left" id="mySbsc">
+        <div class="tit-util">
+          <h2 class="tit small">참여이벤트</h2>
+          <a href="/mypage/myevent" class="more" title="참여이벤트 더보기">더보기 <i class="iconset ico-arr-right-gray"></i></a>
+        </div>
+
+        <div class="brd-list">
+          <ul>
+            <li class="no-result">
+              참여한 이벤트가 없습니다.
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!--// left -->
+
+      <!-- right -->
+      <div class="col right" id="myInq">
+        <div class="tit-util">
+          <h2 class="tit small">문의내역</h2>
+
+          <a href="/mypage/myinquiry?tab=" class="more" title="문의내역 더보기">더보기 <i class="iconset ico-arr-right-gray"></i></a>
+        </div>
+
+        <div class="brd-list">
+          <ul>
+            <li class="no-result">
+              문의내역이 없습니다.
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!--// right -->
+    </div>
+    <!--// column -->
+  </div>
+  <!--// my-megabox-main -->
+</div>
+</html>
