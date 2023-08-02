@@ -1,4 +1,4 @@
-package kr.co.mgv.board;
+package kr.co.mgv.board.tboard;
 
 import java.util.Date;
 
