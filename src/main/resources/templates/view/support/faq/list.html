@@ -12,12 +12,10 @@
         <div class="input-area">
             <label for="search01" class="label">빠른검색</label>
 
-            <!-- 2019-01-21 검색 부분 변경 -->
             <div class="board-search w460px">
                 <input type="search" id="searchTxt" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" value="" maxlength="15">
                 <button type="button" id="searchBtn" class="btn-search-input">검색</button>
             </div>
-            <!--// 2019-01-21 검색 부분 변경 -->
         </div>
 
         <div class="btn-area">
@@ -192,13 +190,12 @@ function activeTab(num) {
     // 버튼 활성화 변경
     $('.btn').removeClass("btn-secondary");
     $("#tab-menu-" + num).addClass('btn-secondary');
-
+    
     // 해당하는 카테고리의 FAQ 목록만 표시
-   
     $("#faq-accordion .accordion-item").each(function() {
         var itemCategoryNo = $(this).attr("data-category-no");
         
-        // ajax
+        // ajax로 수정 예정
         
          console.log(itemCategoryNo)
         if (num == "1" || num == itemCategoryNo) {
