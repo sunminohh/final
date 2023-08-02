@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.mgv.board.tboard.TheaterBoardDao">
+    <select id="getTotalRows" parameterType="map" resultType="int">
+    	select count(*)
+    	from mgv_theater_board
+    	where board_deleted = 'N' and board_report = 'N'
+    		<choose>
+    			<when test="opt == 'title'">
+    				and board_title like '%' || #{keyword} || '%'
+    			</when>
+    			<when test="opt == 'content'">
+    				and board_content like '%' || #{keyword} || '%'
+    			</when>
+    			<when test="opt == 'all'">
+    				and board_title like '%' || #{keyword} || '%' or board_content like '%' || #{keyword} || '%'
+    			</when>
+    			<when test="opt == 'writer'">
+    				and user_id like '%' || #{keyword} || '%'
+    			</when>
+    		</choose>
+    		<if test="theaterNo != null">
+				and theater_No = #{theaterNo}
+			</if>
+    		<if test="locationNo != null">
+				and location_No = #{locationNo}
+			</if>
+    </select>
+    
+    <select id="getTBoards" parameterType="map" resultType="kr.co.mgv.board.tboard.TheaterBoard">
+    	select *
+    	
+    	from (
+    		select 
+    			board_no				as no,
+    			board_name				as name,
+    			board_create_date		as createDate,
+    			board_update_date		as updateDate,
+    			board_read_count		as readCount,
+    			board_comment_count		as commentCount,
+    			user_id					as "user.id"
+    			<choose>
+    				<when test="sort == 'new'">
+    					row_number() over (order by board_create_date asc) rownumber
+    				</when>
+    				<when test="sort == 'old'">
+    					row_number() over (order by board_create_date desc) rownumber
+    				</when>
+    				<when test="sort == 'view'">
+    					row_number() over (order by board_read_count asc) rownumber
+    				</when>
+    				<when test="sort == 'comment'">
+    					row_number() over (order by board_comment_count asc) rownumber
+    				</when>
+    			</choose>
+    		from
+    			mgv_theater_board
+    		where board_deleted = 'N' and board_report = 'N'
+	    		    		<choose>
+    			<when test="opt == 'title'">
+    				and board_title like '%' || #{keyword} || '%'
+    			</when>
+    			<when test="opt == 'content'">
+    				and board_content like '%' || #{keyword} || '%'
+    			</when>
+    			<when test="opt == 'all'">
+    				and board_title like '%' || #{keyword} || '%' or board_content like '%' || #{keyword} || '%'
+    			</when>
+    			<when test="opt == 'writer'">
+    				and user_id like '%' || #{keyword} || '%'
+    			</when>
+    		</choose>
+    		<if test="theaterNo != null">
+				and theater_No = #{theaterNo}
+			</if>
+    		<if test="locationNo != null">
+				and location_No = #{locationNo}
+			</if>
+    	)
+    	where rownumber between #{begin} and #{end}
+    </select>
+    
+</mapper>

@@ -1,0 +1,14 @@
+<div th:fragment="sidebar-fragment" class="card">
+  <div class="card-header text-center py-4" style="font-size:17px; background-color:#331c6d; color:white">
+    나의 MGV
+  </div>
+  <div class="list-group" style="font-size:14px;">
+    <a th:href="@{/user}" class="list-group-item list-group-item-action">나의 MGV 홈</a>
+    <a th:href="@{/user/booking}" class="list-group-item list-group-item-action">예매/구매내역</a>
+    <a th:href="@{/user/ticket}" class="list-group-item list-group-item-action">영화/스토어 관람권</a>
+    <a th:href="@{/user/moviestory}" class="list-group-item list-group-item-action">무비스토리</a>
+    <a th:href="@{/user/inquiry}" class="list-group-item list-group-item-action">나의 문의내역</a>
+    <a th:href="@{/user/myinfo}" class="list-group-item list-group-item-action">회원정보</a>
+
+  </div>
+</div>

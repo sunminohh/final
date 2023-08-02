@@ -176,11 +176,11 @@
 									</a>
 								</div>
 								<div class="ps-5">
-									<p ><strong>작성자아이디</strong></p>
+									<p ><strong class="fs-6">작성자아이디</strong></p>
 								</div>
 							</div>
 							<div class="re-commentUserInfo ps-5" >
-				   					<p>파이널 화이팅</p>
+				   					<p><strong>답글달린아이디 </strong> 파이널 화이팅</p>
 				   					<div id="comment-info" class="d-flex justify-content-start">
 				   						<p class="float-start me-2" style="font-size: 12px; color: gray">1998/06/24 07:00:00</p>
 				   						<a id="a-re-reply" href="" class="float-satrt" style="text-decoration:none; font-size: 12px; color: gray">답글쓰기</a>
@@ -202,47 +202,47 @@
 
    		</div>
    	</div>
-</div>			
 		
-		<div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-	    		<div class="modal-content">
-	      			<div class="modal-header">
-	        			<h1 class="modal-title fs-5" id="exampleModalLabel">게시물 신고</h1>
-	        			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
-	      			</div>
-	      			
-	      			<div class="modal-body">
-		       			<div class="row mb-3">
-							<div class="col-12">
-								<p style="font-size : 18px;"><strong>이 게시물을 신고하는 이유</strong></p>
-								<p style="font-size : 15px;">지식재산권 침해를 신고하는 경우를 제외하고 회원님의 신고는익명으로 처리됩니다. 누군가 위급한 상황에 있다고 생각된다면 즉시 현지 응급 서비스 기관에 연락하시기 바랍니다.</p>
-								
-									<form class="border bg-light p-3" method="get" action="report.jsp?no=<%=boardNo %>" >
-										<input type="hidden" name="no" value="boardNo">
-						
-										<div class="form-group mb-2" style="width: 33%; padding:5px;">
-											<label class="form-label">신고이유</label>
-											<select class="form-select" name="reasonNo" id="selectbox" >
+	<div class="modal fade" id="reportModal"  aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+    		<div class="modal-content">
+      			<div class="modal-header">
+        			<h1 class="modal-title fs-5" id="exampleModalLabel">게시물 신고</h1>
+        			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+      			</div>
+      			
+      			<div class="modal-body">
+	       			<div class="row mb-3">
+						<div class="col-12">
+							<p style="font-size : 18px;"><strong>이 게시물을 신고하는 이유</strong></p>
+							<p style="font-size : 15px;">지식재산권 침해를 신고하는 경우를 제외하고 회원님의 신고는익명으로 처리됩니다. 누군가 위급한 상황에 있다고 생각된다면 즉시 현지 응급 서비스 기관에 연락하시기 바랍니다.</p>
+							
+								<form class="border bg-light p-3" method="get" action="report.jsp?no=<%=boardNo %>" >
+									<input type="hidden" name="no" value="boardNo">
 					
-												<option value="" id="reason">신고이유목록</option>
-												<option value="" id="reason">신고이유목록</option>
+									<div class="form-group mb-2" style="width: 33%; padding:5px;">
+										<label class="form-label">신고이유</label>
+										<select class="form-select" name="reasonNo" id="selectbox" >
 				
-											</select>
-										</div>
-										<div class="form-group mb-2">
-											<label class="form-label">상세내용</label>
-											<textarea rows="5" class="form-control" name="reasonContent" ></textarea>
-										</div>
-										<div class="text-end">
-											<button type="reset" class="btn btn-secondary btn-sm" >취소</button>
-											<button type="submit" class="btn btn-primary btn-sm" >신고</button>
-										</div>
-									</form>
-							</div>
+											<option value="" id="reason">신고이유목록</option>
+											<option value="" id="reason">신고이유목록</option>
+			
+										</select>
+									</div>
+									<div class="form-group mb-2">
+										<label class="form-label">상세내용</label>
+										<textarea rows="5" class="form-control" name="reasonContent" ></textarea>
+									</div>
+									<div class="text-end">
+										<button type="reset" class="btn btn-secondary btn-sm" >취소</button>
+										<button type="submit" class="btn btn-primary btn-sm" >신고</button>
+									</div>
+								</form>
 						</div>
-	      			</div>
-	    		</div>
-	  		</div>
-		</div>
+					</div>
+      			</div>
+    		</div>
+  		</div>
+	</div>
+</div>			
 </html>

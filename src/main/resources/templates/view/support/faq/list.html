@@ -28,18 +28,18 @@
 
 	   <div class="container mt-3 mb-4" id="tab-buttons">
 		  <div class="d-flex p-0 border" >
-		    <div class="flex-fill  p-0" style="width:20%;"><button id="tab-menu-1" class="w-100 btn btn-border-0 btn-sm py-2 btn-secondary rounded-0" onclick="activeTab(1)" data-category-no="0">전체</button></div>
-		    <div class="flex-fill border-start border-end p-0" style="width: 20%;"><button id="tab-menu-2"  class="w-100 btn btn-border-0 btn-sm py-2 rounded-0" onclick="activeTab(2)" data-category-no="1">영화예매</button></div>
-		    <div class="flex-fill  p-0" style="width: 20%;"><button id="tab-menu-3" class="w-100 btn btn-border-0 btn-sm py-2 rounded-0" onclick="activeTab(3)">할인혜택</button></div>
-		    <div class="flex-fill border-start border-end p-0" style="width: 20%;"><button id="tab-menu-4" class="w-100 btn btn-border-0 btn-sm py-2 rounded-0" onclick="activeTab(4)">결제수단/관람권</button></div>
-		    <div class="flex-fill  p-0" style="width: 20%;"><button id="tab-menu-5" class="w-100 btn btn-border-0 btn-sm py-2 rounded-0" onclick="activeTab(5)">멤버쉽</button></div>
+		    <div class="flex-fill  p-0" style="width:20%;"><button id="tab-menu-1" class="w-100 btn btn-border-0 btn-sm py-2 btn-secondary rounded-0" onclick="activeTab(1)" data-category-no="1">전체</button></div>
+		    <div class="flex-fill border-start border-end p-0" style="width: 20%;"><button id="tab-menu-2"  class="w-100 btn btn-border-0 btn-sm py-2 rounded-0" onclick="activeTab(2)" data-category-no="2">영화예매</button></div>
+		    <div class="flex-fill  p-0" style="width: 20%;"><button id="tab-menu-3" class="w-100 btn btn-border-0 btn-sm py-2 rounded-0" onclick="activeTab(3)" data-category-no="3">할인혜택</button></div>
+		    <div class="flex-fill border-start border-end p-0" style="width: 20%;"><button id="tab-menu-4" class="w-100 btn btn-border-0 btn-sm py-2 rounded-0" onclick="activeTab(4)" data-category-no="4">결제수단/관람권</button></div>
+		    <div class="flex-fill  p-0" style="width: 20%;"><button id="tab-menu-5" class="w-100 btn btn-border-0 btn-sm py-2 rounded-0" onclick="activeTab(5)" data-category-no="5">멤버쉽</button></div>
 		  </div>
 		  <div class="d-flex p-0 border-bottom border-start border-end">
-		    <div class="flex-fill  p-0" style="width: 20%;"><button id="tab-menu-6" class="w-100 btn btn-border-0 btn-sm py-2 rounded-0" onclick="activeTab(6)">VIP</button></div>
-		    <div class="flex-fill border-start border-end p-0" style="width: 20%;"><button id="tab-menu-7" class="w-100 btn btn-border-0 btn-sm py-2 rounded-0" onclick="activeTab(7)">극장/특별관</button></div>
-		    <div class="flex-fill  p-0" style="width: 20%;"><button id="tab-menu-8" class="w-100 btn btn-border-0 btn-sm py-2 rounded-0" onclick="activeTab(8)">스토어</button></div>
-		    <div class="flex-fill border-start border-end p-0" style="width: 20%;"><button id="tab-menu-9" class="w-100 btn btn-border-0 btn-sm py-2 rounded-0" onclick="activeTab(9)">홈페이지/모바일</button></div>
-		    <div class="flex-fill  p-0" style="width: 20%;"><button id="tab-menu-10" class="w-100 btn btn-border-0 btn-sm py-2 rounded-0" onclick="activeTab(10)">기프트카드</button></div>
+		    <div class="flex-fill  p-0" style="width: 20%;"><button id="tab-menu-6" class="w-100 btn btn-border-0 btn-sm py-2 rounded-0" onclick="activeTab(6)" data-category-no="6">VIP</button></div>
+		    <div class="flex-fill border-start border-end p-0" style="width: 20%;"><button id="tab-menu-7" class="w-100 btn btn-border-0 btn-sm py-2 rounded-0" onclick="activeTab(7)" data-category-no="7">극장/특별관</button></div>
+		    <div class="flex-fill  p-0" style="width: 20%;"><button id="tab-menu-8" class="w-100 btn btn-border-0 btn-sm py-2 rounded-0" onclick="activeTab(8)" data-category-no="8">스토어</button></div>
+		    <div class="flex-fill border-start border-end p-0" style="width: 20%;"><button id="tab-menu-9" class="w-100 btn btn-border-0 btn-sm py-2 rounded-0" onclick="activeTab(9)" data-category-no="9">홈페이지/모바일</button></div>
+		    <div class="flex-fill  p-0" style="width: 20%;"><button id="tab-menu-10" class="w-100 btn btn-border-0 btn-sm py-2 rounded-0" onclick="activeTab(10)" data-category-no="10">기프트카드</button></div>
 		  </div>
 	    </div>
 	    
@@ -47,8 +47,8 @@
     
     <p class="reset mb10"><strong><span id="totalTitle">전체</span> <span class="font-green" id="totalCnt">77</span>건</strong></p>
     
-  			<div class="accordion accordion-flush" id="accordionFlushExample">
-			  <div class="accordion-item">
+  			<div class="accordion accordion-flush" id="faq-accordion">
+			  <div class="accordion-item" data-category-no="10">
 			    <h2 class="accordion-header border-top border-dark" id="flush-headingOne">
 			      <button class="accordion-button " type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
 			      	<div style="line-height:1">
@@ -77,7 +77,7 @@
 			      </div>
 			    </div>
 			  </div>
-			  <div class="accordion-item">
+			  <div class="accordion-item"  data-category-no="10">
 			    <h2 class="accordion-header" id="flush-headingTwo">
 			      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
 			       	<div style="line-height:1">
@@ -100,7 +100,7 @@
 			      </div>
 			    </div>
 			  </div>
-			  <div class="accordion-item">
+			  <div class="accordion-item"  data-category-no="10">
 			    <h2 class="accordion-header" id="flush-headingThree">
 			      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
 			       	<div style="line-height:1">
@@ -127,7 +127,7 @@
 			      </div>
 			    </div>
 			  </div>
-			  <div class="accordion-item">
+			  <div class="accordion-item"  data-category-no="2">
 			    <h2 class="accordion-header" id="flush-headingFour">
 			      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
 			       	<div style="line-height:1">
@@ -154,7 +154,7 @@
 			      </div>
 			    </div>
 			  </div>
-			  <div class="accordion-item">
+			  <div class="accordion-item"  data-category-no="2">
 			    <h2 class="accordion-header border-bottom" id="flush-headingFive">
 			      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFive" aria-expanded="false" aria-controls="flush-collapseFive">
 			       	<div style="line-height:1">
@@ -188,21 +188,28 @@
     <!--// pagination -->
 
 <script type="text/javascript">
-	
-	function activeTab(num) {
-	    // 버튼 활성화 변경
-	    $('.btn').removeClass("btn-secondary");
-	    $("#tab-menu-" + num).addClass('btn-secondary');
-	    
-	 	// 페이지가 준비되면 탭의 각 버튼에서 click 이벤트 발생시 실행할 이벤트 핸들러 함수를 등록한다.
-		$("#tab-buttons button").click(function() {
-			console.log($(this).attr("data-category-no"));
-		});
-	}
+function activeTab(num) {
+    // 버튼 활성화 변경
+    $('.btn').removeClass("btn-secondary");
+    $("#tab-menu-" + num).addClass('btn-secondary');
 
-
-
+    // 해당하는 카테고리의 FAQ 목록만 표시
+   
+    $("#faq-accordion .accordion-item").each(function() {
+        var itemCategoryNo = $(this).attr("data-category-no");
+        
+        // ajax
+        
+         console.log(itemCategoryNo)
+        if (num == "1" || num == itemCategoryNo) {
+            $(this).show();
+        } else {
+            $(this).hide();
+        } 
+    });
+}
 </script>
+
 </div>
 </html>
 

@@ -35,57 +35,59 @@
                     </div>
 
                     <div class="float-start ps-2">
-                        <form id="form-search" method="get" action="list.jsp" onsubmit="searchMovieBoard(event);"
+                        <form id="form-search" method="get" action="@{list}" 
                               class="row row-cols-lg-auto g-3 align-items-center justify-content-end ">
-                            <input type="hidden" name="page" value="페이지번호">
+							<input type="hidden" name="sort" value="${param.sort }" />
+							<input type="hidden" name="rows" value="${param.rows }" />
+							<input type="hidden" name="page" value="${param.page }" />
+							<input type="hidden" name="productNo" value="${param.productNo }" />
+							<input type="hidden" name="catNo" value="${param.catNo }" />
                             <div class="col-12 ">
                                 <select class="form-select form-select-sm  form-control-sm" name="opt">
                                     <option value=""> 검색옵션</option>
                                     <option th:value="title"
-                                            th:classappend="${#strings.equals(param.opt, 'name') ? 'selected' : '' }">
+                                            th:classappend="${#strings.equals(param.opt, 'title') ? 'selected' : '' }">
                                         제목
                                     </option>
                                     <option th:value="content"
-                                            th:classappend="${#strings.equals(param.opt, 'job') ? 'selected' : '' }"> 내용
+                                            th:classappend="${#strings.equals(param.opt, 'content') ? 'selected' : '' }"> 내용
                                     </option>
                                     <option th:value="all"
-                                            th:classappend="${#strings.equals(param.opt, 'phone') ? 'selected' : '' }">
+                                            th:classappend="${#strings.equals(param.opt, 'all') ? 'selected' : '' }">
                                         제목/내용
                                     </option>
                                     <option th:value="writer"
-                                            th:classappend="${#strings.equals(param.opt, 'dept') ? 'selected' : '' }">
+                                            th:classappend="${#strings.equals(param.opt, 'writer') ? 'selected' : '' }">
                                         작성자
                                     </option>
                                 </select>
                             </div>
                             <div class="col-12">
-                                <input type="text" class="form-control form-control-sm" name="keyword"/>
+                                <input type="text" class="form-control form-control-sm" name="keyword" th:value="${param.keyword}"/>
                             </div>
                             <div class="col-12">
-                                <button type="submit" class="btn btn-outline-dark btn-sm">검색</button>
+                                <button type="button" class="btn btn-outline-dark btn-sm" onclick="searchSBoard()">검색</button>
                             </div>
                         </form>
                     </div>
                 </div>
-
                 <div>
-
                     <div class="d-flex justify-content-end mb-3 float-end ps-3 ">
-                        <select class="form-select me-1 form-select-sm" style="width: 100px" name="sort">
-                            <option th:value="id"
-                                    th:classappend="${#strings.equals(param.sort, 'id') ? 'selected' : '' }"> 최신순
+                        <select class="form-select me-1 form-select-sm" style="width: 100px" name="sort" onchange="changeSort()">
+                            <option th:value="new"
+                                    th:classappend="${#strings.equals(param.sort, 'new') ? 'selected' : '' }"> 최신순
                             </option>
-                            <option th:value="name"
-                                    th:classappend="${#strings.equals(param.sort, 'name') ? 'selected' : '' }"> 오래된순
+                            <option th:value="old"
+                                    th:classappend="${#strings.equals(param.sort, 'old') ? 'selected' : '' }"> 오래된순
                             </option>
-                            <option th:value="date"
-                                    th:classappend="${#strings.equals(param.sort, 'date') ? 'selected' : '' }"> 조회수순
+                            <option th:value="view"
+                                    th:classappend="${#strings.equals(param.sort, 'view') ? 'selected' : '' }"> 조회수순
                             </option>
-                            <option th:value="date"
-                                    th:classappend="${#strings.equals(param.sort, 'date') ? 'selected' : '' }"> 댓글순
+                            <option th:value="comment"
+                                    th:classappend="${#strings.equals(param.sort, 'comment') ? 'selected' : '' }"> 댓글순
                             </option>
                         </select>
-                        <select class="form-select me-2 form-select-sm pe-6" style="width: 100px" name="rows">
+                        <select class="form-select me-2 form-select-sm pe-6" style="width: 100px" name="rows" onchange="changeRows()">
                             <option th:value="10"
                                     th:classappend="${#strings.equals(param.rows, '10') ? 'selected' : '' }"> 10개씩
                             </option>
@@ -101,27 +103,25 @@
 
                         <select id="category" title="카테고리 선택"
                                 class="form-select form-select-sm  ml07 form-control-sm mb-3"
-                                style="width: 150px; float:left; " name="catNo">
-                            <option th:value="catNo">카테고리 선택</option>
-                            <option th:value="catNo">카테고리 선택</option>
-                            <option th:value="catNo">카테고리 선택</option>
-
+                                style="width: 150px; float:left; " name="catNo"
+                                onchange="changeCat()">
+                            <option value="" selected disabled>카테고리</option>
+                            <option th:value="catNo">카테고리</option>
                         </select>
 
                         <select id="product" title="상품 선택" class="form-select form-select-sm ml07 form-control-sm mb-3"
-                                style="width: 150px; float:left; position: relative; left:5px; " name="=productNo">
-                            <option th:value="productNo">상품의 반복</option>
-                            <option th:value="productNo">상품의 반복</option>
-                            <option th:value="productNo">상품의 반복</option>
-
+                                style="width: 150px; float:left; position: relative; left:5px;" 
+                                name="productNo">
+      						<option value="" selected disabled>상품선택</option>
                         </select>
 
                     </div>
                 </div>
+
             </div>
             <hr class="mt-5 mb-0">
 
-            <table class="table table-sm" id="table-Sboard">
+            <table class="table table-sm" id="table-Tboard">
                 <colgroup>
                     <col width="5%">
                     <col width="70%">
@@ -142,7 +142,7 @@
                 <tr>
                     <td>1</td>
                     <td><a class="text-black text-decoration-none"
-                           th:href="@{/board/store/detail(no=1)}">게시글제목</a><span>(게시글 댓글수)</span></td>
+                           th:href="@{/board/theater/detail(no=1)}">게시글제목</a><span>(게시글 댓글수)</span></td>
                     <td class="fw-light">작성자아이디</td>
                     <td class="fw-light">조회수</td>
                     <td class="fw-light">작성일</td>
@@ -152,7 +152,7 @@
             </table>
 
             <div class="text-end">
-                <a th:href=@{/board/store/add} class="btn btn-dark btn-sm" style="text-decoration: none; color: white; ">새 게시글
+                <a th:href=@{/board/theater/add} class="btn btn-dark btn-sm" style="text-decoration: none; color: white; ">새 게시글
                     등록</a>
             </div>
 

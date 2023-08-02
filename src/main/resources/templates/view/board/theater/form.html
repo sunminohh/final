@@ -13,11 +13,15 @@
 		<div class="row mb-3">
 			<div class="col-12">
 					
-				<form  method="post" th:action="@{/board/theater/add}" th:object="${addTBoardForm}" class="p-3" enctype="multipart/form-data" >
+				<!-- 
+					th:object="${addTBoardForm}"
+					th:action="@{/board/theater/add}"
+				 -->
+				<form  method="post"  class="p-3" enctype="multipart/form-data" >
 					<div class="d-flex justify-content-start">
 						<div class="form-group mb-2 pe-2" >
 							<select class="required form-select form-select-sm  ml07 form-control-sm" name="locationNo" id="location" onchange="refreshProduct();" required="required">
-								<option value= 0 selected disabled>지역 선택</option>
+								<option value= selected disabled>지역 선택</option>
 								<option value="지역번호" >지역 이름</option>
 							</select>
 						</div>
@@ -44,8 +48,8 @@
 					</div>
 			</div>	
 				</form>	
-				<div style="text-align: right; padding:30px;">
-					<a href="list" class="btn btn-light btn-sm text-decoration-none text-reset">취소</a>
+				<div style="text-align: center; padding:30px;">
+					<a href="list" class="btn btn-light btn-sm text-decoration-none text-reset">나가기</a>
 					<button id="btn-submit" type="button" class="btn btn-dark btn-sm" >등록</button>
 				</div>	
 			</div>

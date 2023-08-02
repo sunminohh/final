@@ -35,57 +35,59 @@
                     </div>
 
                     <div class="float-start ps-2">
-                        <form id="form-search" method="get" action="list.jsp" onsubmit="searchMovieBoard(event);"
+                        <form id="form-search" method="get" action="@{list}" 
                               class="row row-cols-lg-auto g-3 align-items-center justify-content-end ">
-                            <input type="hidden" name="page" value="페이지번호">
+							<input type="hidden" name="sort" value="${param.sort }" />
+							<input type="hidden" name="rows" value="${param.rows }" />
+							<input type="hidden" name="page" value="${param.page }" />
+							<input type="hidden" name="theaterNo" value="${param.theaterNo }" />
+							<input type="hidden" name="locationNo" value="${param.locationNo }" />
                             <div class="col-12 ">
                                 <select class="form-select form-select-sm  form-control-sm" name="opt">
                                     <option value=""> 검색옵션</option>
                                     <option th:value="title"
-                                            th:classappend="${#strings.equals(param.opt, 'name') ? 'selected' : '' }">
+                                            th:classappend="${#strings.equals(param.opt, 'title') ? 'selected' : '' }">
                                         제목
                                     </option>
                                     <option th:value="content"
-                                            th:classappend="${#strings.equals(param.opt, 'job') ? 'selected' : '' }"> 내용
+                                            th:classappend="${#strings.equals(param.opt, 'content') ? 'selected' : '' }"> 내용
                                     </option>
                                     <option th:value="all"
-                                            th:classappend="${#strings.equals(param.opt, 'phone') ? 'selected' : '' }">
+                                            th:classappend="${#strings.equals(param.opt, 'all') ? 'selected' : '' }">
                                         제목/내용
                                     </option>
                                     <option th:value="writer"
-                                            th:classappend="${#strings.equals(param.opt, 'dept') ? 'selected' : '' }">
+                                            th:classappend="${#strings.equals(param.opt, 'writer') ? 'selected' : '' }">
                                         작성자
                                     </option>
                                 </select>
                             </div>
                             <div class="col-12">
-                                <input type="text" class="form-control form-control-sm" name="keyword"/>
+                                <input type="text" class="form-control form-control-sm" name="keyword" th:value="${param.keyword}"/>
                             </div>
                             <div class="col-12">
-                                <button type="submit" class="btn btn-outline-dark btn-sm">검색</button>
+                                <button type="button" class="btn btn-outline-dark btn-sm" onclick="searchTBoard()">검색</button>
                             </div>
                         </form>
                     </div>
                 </div>
-
                 <div>
-
                     <div class="d-flex justify-content-end mb-3 float-end ps-3 ">
-                        <select class="form-select me-1 form-select-sm" style="width: 100px" name="sort">
-                            <option th:value="id"
-                                    th:classappend="${#strings.equals(param.sort, 'id') ? 'selected' : '' }"> 최신순
+                        <select class="form-select me-1 form-select-sm" style="width: 100px" name="sort" onchange="changeSort()">
+                            <option th:value="new"
+                                    th:classappend="${#strings.equals(param.sort, 'new') ? 'selected' : '' }"> 최신순
                             </option>
-                            <option th:value="name"
-                                    th:classappend="${#strings.equals(param.sort, 'name') ? 'selected' : '' }"> 오래된순
+                            <option th:value="old"
+                                    th:classappend="${#strings.equals(param.sort, 'old') ? 'selected' : '' }"> 오래된순
                             </option>
-                            <option th:value="date"
-                                    th:classappend="${#strings.equals(param.sort, 'date') ? 'selected' : '' }"> 조회수순
+                            <option th:value="view"
+                                    th:classappend="${#strings.equals(param.sort, 'view') ? 'selected' : '' }"> 조회수순
                             </option>
-                            <option th:value="date"
-                                    th:classappend="${#strings.equals(param.sort, 'date') ? 'selected' : '' }"> 댓글순
+                            <option th:value="comment"
+                                    th:classappend="${#strings.equals(param.sort, 'comment') ? 'selected' : '' }"> 댓글순
                             </option>
                         </select>
-                        <select class="form-select me-2 form-select-sm pe-6" style="width: 100px" name="rows">
+                        <select class="form-select me-2 form-select-sm pe-6" style="width: 100px" name="rows" onchange="changeRows()">
                             <option th:value="10"
                                     th:classappend="${#strings.equals(param.rows, '10') ? 'selected' : '' }"> 10개씩
                             </option>
@@ -101,23 +103,21 @@
 
                         <select id="location" title="지역 선택"
                                 class="form-select form-select-sm  ml07 form-control-sm mb-3"
-                                style="width: 150px; float:left; " name="locationNo">
-                            <option th:value="location">지역 선택</option>
-                            <option th:value="location">지역 선택</option>
-                            <option th:value="location">지역 선택</option>
-
+                                style="width: 150px; float:left; " name="locationNo"
+                                onchange="changeLoc()">
+                            <option value="" selected disabled>지역선택</option>
+                            <option th:value="locatioNo">지역 이름</option>
                         </select>
 
                         <select id="theater" title="극장 선택" class="form-select form-select-sm ml07 form-control-sm mb-3"
-                                style="width: 150px; float:left; position: relative; left:5px; " name="theaterNo">
-                            <option th:value="theater">극장의 반복</option>
-                            <option th:value="theater">극장의 반복</option>
-                            <option th:value="theater">극장의 반복</option>
-
+                                style="width: 150px; float:left; position: relative; left:5px;" 
+                                name="theaterNo" onchange="changeTBoard()">
+      						<option value="" selected disabled>극장선택</option>
                         </select>
 
                     </div>
                 </div>
+
             </div>
             <hr class="mt-5 mb-0">
 

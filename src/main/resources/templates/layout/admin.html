@@ -16,13 +16,21 @@ data-sidebar-position="relative" data-header-position="relative">
     <nav th:replace="~{ fragments/common/header :: header }"></nav>
     <div th:replace="~{ fragments/common/login-modal :: modal }"></div>
     <div class="mgv-container main-container area-ad">
-        <aside class="left-sidebar" th:replace="~{ fragments/admin/sidebar :: sidebar }"></aside>
-        <div class="body-wrapper">
-	        <header class="app-header" th:replace="~{ fragments/admin/header :: header }"></header>
-            <div layout:fragment="content"></div>
-        </div>
+    	<div class="row">
+    		<div class="col-12">
+		        <aside class="left-sidebar" th:replace="~{ fragments/admin/sidebar :: sidebar }"></aside>
+		        <div class="body-wrapper" style="min-height: 100vh;">
+			        <header class="app-header" th:replace="~{ fragments/admin/header :: header }"></header>
+		            <div layout:fragment="content"></div>
+		        </div>
+    		</div>
+    	</div>
     </div>
-    <div th:replace="~{ fragments/common/footer :: footer }"></div>
+	<div class="row ">
+		<div class="col-12">
+		    <div th:replace="~{ fragments/common/footer :: footer }"></div>
+		</div>
+	</div>
 </div>
 </body>
 </html>
