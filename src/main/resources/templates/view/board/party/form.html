@@ -1,0 +1,205 @@
+<html xmlns:th="http://www.thymeleaf.org"
+   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+   layout:decorate="~{layout/default}">
+      
+<head>
+<script type="text/javascript" th:src="@{/js/summernote/sn.js}"></script>
+<script type="text/javascript" th:src="@{/js/summernote/summernote-lite.js}"></script>
+<script type="text/javascript" th:src="@{/js/summernote/lang/summernote-ko-KR.js}"></script>
+<script type="text/javascript" th:src="@{/js/board/partyForm.js}"></script>
+<link th:href="@{/css/summernote/summernote-lite.css}" rel="stylesheet">
+<link th:href="@{/css/board/partyForm.css}" rel="stylesheet">
+</head>   
+   
+   <div layout:fragment="content" class="container my-3">
+		<div class="row mb-3">
+			<div class="col-12">
+					
+				<!-- 
+					th:object="${addTBoardForm}"
+					th:action="@{/board/theater/add}"
+				 -->
+				<div class="movie-schedule pt-4">
+					<div class="movie-schedule-date border col-11 ms-5">
+						<div class="today-date pt-3">
+							<p class="area_subtitle text-center ">2023.08.02</p>
+						</div>
+						<div class="schedule-select d-flex justify-content-center " >
+							<div class="date-select">
+								<ul class="date-nav nav nav-tabs">
+									  <li class="date-nav-item nav-item">
+									    <button class="nav-link active" id="btn-date" name="date" value="2" style="border-color: #E6E6E6; border-bottom-color:white;">
+									    	<span>2</span><br>
+									    	<span>오늘</span>
+									    	<span class="area_design_border"></span>
+									    </button>
+									  </li>
+									  <li class="date-nav-item nav-item" >
+									  	<button class="nav-link active" id="btn-date" style="border-color: #F2F2F2;">
+									    	<span>3</span><br>
+									    	<span>목</span>
+									    </button>
+									  </li>
+									  <li class="date-nav-item nav-item">
+									    <button class="nav-link active" id="btn-date" style="border-color: #F2F2F2;">
+									    	<span>4</span><br>
+									    	<span>금</span>
+									    </button>
+									  </li>
+									  <li class="date-nav-item nav-item">
+									    <button class="nav-link active" id="btn-date" style="border-color: #F2F2F2;">
+									    	<span>5</span><br>
+									    	<span>토</span>
+									    </button>
+									  </li>
+									  <li class="date-nav-item nav-item">
+									    <button class="nav-link active" id="btn-date" style="border-color: #F2F2F2;">
+									    	<span>6</span><br>
+									    	<span>일</span>
+									    </button>
+									  </li>
+									  <li class="date-nav-item nav-item">
+									    <button class="nav-link active" id="btn-date" style="border-color: #F2F2F2;">
+									    	<span>7</span><br>
+									    	<span>월</span>
+									    </button>
+									  </li>
+									  <li class="date-nav-item nav-item">
+									    <button class="nav-link active" id="btn-date" style="border-color: #F2F2F2;">
+									    	<span>8</span><br>
+									    	<span>화</span>
+									    </button>
+									  </li>
+								</ul>
+							</div>			
+						</div>
+						<form action="">
+							<input type="hidden" name="date" value="date" />
+							<div class="theater-select d-flex justify-content-start ms-4">
+								<select id="movie" title="영화 선택" class="form-select form-select-sm ml07 form-control-sm mb-3 me-1"
+		                                style="width: 130px; float:left; position: relative; left:5px;  border-style: none;" 
+		                                name="movieNo" >
+		      						<option value="" selected disabled>영화선택</option>
+		                        </select>
+		                        <select id="location" title="지역 선택"
+		                                class="form-select form-select-sm  ml07 form-control-sm mb-3"
+		                                style="width: 130px; float:left;  border-style: none;" name="locationNo"
+		                                onchange="changeLoc()">
+		                            <option value="" selected disabled>지역선택</option>
+		                            <option th:value="locatioNo">지역 이름</option>
+		                        </select>
+		
+		                        <select id="theater" title="극장 선택" class="form-select form-select-sm ml07 form-control-sm mb-3"
+		                                style="width: 130px; float:left; position: relative; left:5px;  border-style: none;" 
+		                                name="theaterNo" onchange="changeTBoard()">
+		      						<option value="" selected disabled>극장선택</option>
+		                        </select>
+							</div>
+						</form>
+						<div class="movie-select pb-1">
+							<div class="card col-11 ms-5 mb-3 d-flex justify-content-start" >
+								<div class="theater-name  ps-2 pt-2">
+									<span class="fw-bold">어디어디 영화관</span>
+								</div>
+								<div class="movie-info ms-3 pt-2 d-flex justify-content-start ">
+									<div class="border rounded ms-2 me-2" style="width: 150px; height: 80px">
+										
+									</div>
+									<div class="border rounded ms-2 me-2" style="width: 150px; height: 80px">
+										
+									</div>
+									<div class="border rounded ms-2 me-2" style="width: 150px; height: 80px">
+										
+									</div>
+									<div class="border rounded ms-2 me-2" style="width: 150px; height: 80px">
+										
+									</div>
+								</div>
+							</div>
+							
+							<div class="card col-11 ms-5 mb-3 d-flex justify-content-start" >
+								<div class="theater-name  ps-2 pt-2">
+									<span class="fw-bold">어디어디 영화관</span>
+								</div>
+								<div class="movie-info ms-3 pt-2 d-flex justify-content-start ">
+									<div class="border rounded ms-2 me-2" style="width: 150px; height: 80px">
+										
+									</div>
+									<div class="border rounded ms-2 me-2" style="width: 150px; height: 80px">
+										
+									</div>
+									<div class="border rounded ms-2 me-2" style="width: 150px; height: 80px">
+										
+									</div>
+									<div class="border rounded ms-2 me-2" style="width: 150px; height: 80px">
+										
+									</div>
+								</div>
+							</div>
+							
+							
+						</div>
+					</div>
+				</div>
+									
+
+				 
+				 
+				 
+				<form  method="post"  class="p-3" enctype="multipart/form-data" >
+					<div class="border light p-3">
+						
+						<div class="form-group mb-2 d-flex justify-content-start">
+			             	<div class="col-sm-1 pt-1" >
+			             		<strong style="margin-left:30px">제목</strong>
+			             	</div>
+			            <div class="col-sm-11">
+				            <div class="form-group mb-2">		      
+		  						<input type="text" class="form-control" name="name"/>
+		  					</div>
+			            </div> 
+			           </div>
+			           	<div class="d-flex justify-content-start">
+								<div class="form-group mb-2 pe-2 " >
+									<select class="required form-select form-select-sm  ml07 form-control-sm" name="headCount" id="select-headCount"  required="required"
+											style="border-style: none;">
+										<option value="" selected disabled>인원수</option>
+										<option th:value="1" >1</option>
+										<option th:value="2" >2</option>
+										<option th:value="3" >3</option>
+										<option th:value="4" >4</option>
+										<option th:value="5" >5</option>
+										<option th:value="6" >6</option>
+									</select>
+								</div>
+								<div class="form-group mb-2 pe-2 " >
+									<select class="required form-select form-select-sm  ml07 form-control-sm" name="gender" id="select-gender"  required="required"
+											style="border-style: none;" >
+										<option value="" selected disabled>성별</option>
+										<option th:value="N" >남/여</option>
+										<option th:value="M" >남</option>
+										<option th:value="W" >여</option>
+									</select>
+								</div>
+							</div>
+							
+							<div class="form-group mb-2" >
+								<textarea name="content" id="summernote" ></textarea>
+							</div>
+					</div>	
+				</form>	
+				<div style="text-align: center; padding:30px;">
+					<a href="list" class="btn btn-light btn-sm text-decoration-none text-reset">나가기</a>
+					<button id="btn-submit" type="button" class="btn btn-dark btn-sm" >등록</button>
+				</div>	
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+
+
+
+
+
+
