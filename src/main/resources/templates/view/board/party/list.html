@@ -1,0 +1,186 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/board}"
+      th:with="menu='파티'">
+
+<head th:fragment="extra-head-content">
+    <title>게시판</title>
+    <style>
+        .page-item.active .page-link {
+            z-index: 1;
+            color: #ccc;
+            font-weight: bold;
+            background-color: #333;
+            border-color: #444;
+
+        }
+
+        .page-link:focus, .page-link:hover {
+            color: #ccc;
+            background-color: #222;
+            border-color: #444;
+        }
+    </style>
+</head>
+<div layout:fragment="content" class="container my-3">
+
+    <div class="row mb-3">
+        <div class="col-12">
+
+            <div>
+                <div class="d-flex justify-content-start float-start">
+                    <div class="mt-2 ">
+                        <p class="result-count"><strong>전체 <span id="total-rows" class="font-gblue">5</span>건</strong>
+                        </p>
+                    </div>
+
+                    <div class="float-start ps-2">
+                        <form id="form-search" method="get" action="@{list}" 
+                              class="row row-cols-lg-auto g-3 align-items-center justify-content-end ">
+							<input type="hidden" name="sort" value="${param.sort }" />
+							<input type="hidden" name="rows" value="${param.rows }" />
+							<input type="hidden" name="page" value="${param.page }" />
+							<input type="hidden" name="theaterNo" value="${param.theaterNo }" />
+							<input type="hidden" name="locationNo" value="${param.locationNo }" />
+                            <div class="col-12 ">
+                                <select class="form-select form-select-sm  form-control-sm" name="opt">
+                                    <option value=""> 검색옵션</option>
+                                    <option th:value="movieTitle"
+                                            th:classappend="${#strings.equals(param.opt, 'movieTitle') ? 'selected' : '' }">
+                                         영화제목
+                                    </option>
+                                    <option th:value="title"
+                                            th:classappend="${#strings.equals(param.opt, 'title') ? 'selected' : '' }">
+                                        제목
+                                    </option>
+                                    <option th:value="content"
+                                            th:classappend="${#strings.equals(param.opt, 'content') ? 'selected' : '' }"> 내용
+                                    </option>
+                                    <option th:value="all"
+                                            th:classappend="${#strings.equals(param.opt, 'all') ? 'selected' : '' }">
+                                        제목/내용
+                                    </option>
+                                    <option th:value="writer"
+                                            th:classappend="${#strings.equals(param.opt, 'writer') ? 'selected' : '' }">
+                                        작성자
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <input type="text" class="form-control form-control-sm" name="keyword" th:value="${param.keyword}"/>
+                            </div>
+                            <div class="col-12">
+                                <button type="button" class="btn btn-outline-dark btn-sm" onclick="searchTBoard()">검색</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div>
+                    <div class="d-flex justify-content-end mb-3 float-end ps-3 ">
+                        <select class="form-select me-1 form-select-sm" style="width: 100px" name="sort" onchange="changeSort()">
+                            <option th:value="new"
+                                    th:classappend="${#strings.equals(param.sort, 'new') ? 'selected' : '' }"> 최신순
+                            </option>
+                            <option th:value="old"
+                                    th:classappend="${#strings.equals(param.sort, 'old') ? 'selected' : '' }"> 오래된순
+                            </option>
+                            <option th:value="view"
+                                    th:classappend="${#strings.equals(param.sort, 'view') ? 'selected' : '' }"> 조회수순
+                            </option>
+                            <option th:value="comment"
+                                    th:classappend="${#strings.equals(param.sort, 'comment') ? 'selected' : '' }"> 댓글순
+                            </option>
+                        </select>
+                        <select class="form-select me-2 form-select-sm pe-6" style="width: 100px" name="rows" onchange="changeRows()">
+                            <option th:value="10"
+                                    th:classappend="${#strings.equals(param.rows, '10') ? 'selected' : '' }"> 10개씩
+                            </option>
+                            <option th:value="20"
+                                    th:classappend="${#strings.equals(param.rows, '20') ? 'selected' : '' }"> 20개씩
+                            </option>
+                            <option th:value="50"
+                                    th:classappend="${#strings.equals(param.rows, '50') ? 'selected' : '' }"> 50개씩
+                            </option>
+                        </select>
+                    </div>
+                    <div class="d-flex justify-content-end float-end ">
+
+                        <select id="location" title="지역 선택"
+                                class="form-select form-select-sm  ml07 form-control-sm mb-3"
+                                style="width: 150px; float:left; " name="locationNo"
+                                onchange="changeLoc()">
+                            <option value="" selected disabled>지역선택</option>
+                            <option th:value="locatioNo">지역 이름</option>
+                        </select>
+
+                        <select id="theater" title="극장 선택" class="form-select form-select-sm ml07 form-control-sm mb-3"
+                                style="width: 150px; float:left; position: relative; left:5px;" 
+                                name="theaterNo" onchange="changeTBoard()">
+      						<option value="" selected disabled>극장선택</option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+            <hr class="mt-5 mb-0">
+
+            <table class="table table-sm" id="table-Tboard">
+                <colgroup>
+                    <col width="5%">
+                    <col width="70%">
+                    <col width="10%">
+                    <col width="5%">
+                    <col width="10%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>No</th>
+                    <th class="text-center">제목</th>
+                    <th>글쓴이</th>
+                    <th>조회수</th>
+                    <th>작성시간</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>1</td>
+                    <td><a class="text-black text-decoration-none"
+                           th:href="@{/board/theater/detail(no=1)}">게시글제목</a><span>(게시글 댓글수)</span></td>
+                    <td class="fw-light">작성자아이디</td>
+                    <td class="fw-light">조회수</td>
+                    <td class="fw-light">작성일</td>
+                </tr>
+
+                </tbody>
+            </table>
+
+            <div class="text-end">
+                <a th:href=@{/board/theater/add} class="btn btn-dark btn-sm" style="text-decoration: none; color: white; ">새 게시글
+                    등록</a>
+            </div>
+
+
+            <nav>
+                <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                        <a href="list.jsp?page=이전페이지" class="page-link"
+                           style="background-color: #000; color: white;">이전</a>
+                    </li>
+
+                    <li class="page-item">
+                        <a href="list.jsp?page=<%=num %>" class="page-link"
+                           style="background-color: white; color: #000;">1</a>
+                    </li>
+
+                    <li class="page-item">
+                        <a href="list.jsp?page=다음페이지" class="page-link"
+                           style="background-color: #000; color: white;">다음</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+
+</html>
