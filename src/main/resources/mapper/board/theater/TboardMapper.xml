@@ -15,10 +15,16 @@
     			<when test="opt == 'all'">
     				and board_title like '%' || #{keyword} || '%' or board_content like '%' || #{keyword} || '%'
     			</when>
-    			<when test="writer">
+    			<when test="opt == 'writer'">
     				and user_id like '%' || #{keyword} || '%'
     			</when>
     		</choose>
+    		<if test="theaterNo != null">
+				and theater_No = #{theaterNo}
+			</if>
+    		<if test="locationNo != null">
+				and location_No = #{locationNo}
+			</if>
     </select>
     
     <select id="getTBoards" parameterType="map" resultType="kr.co.mgv.board.tboard.TheaterBoard">
@@ -50,20 +56,26 @@
     		from
     			mgv_theater_board
     		where board_deleted = 'N' and board_report = 'N'
-	    		<choose>
-	    			<when test="opt == 'title'">
-	    				and board_title like '%' || #{keyword} || '%'
-	    			</when>
-	    			<when test="opt == 'content'">
-	    				and board_content like '%' || #{keyword} || '%'
-	    			</when>
-	    			<when test="opt == 'all'">
-	    				and board_title like '%' || #{keyword} || '%' or board_content like '%' || #{keyword} || '%'
-	    			</when>
-	    			<when test="writer">
-	    				and user_id like '%' || #{keyword} || '%'
-	    			</when>
-	    		</choose>
+	    		    		<choose>
+    			<when test="opt == 'title'">
+    				and board_title like '%' || #{keyword} || '%'
+    			</when>
+    			<when test="opt == 'content'">
+    				and board_content like '%' || #{keyword} || '%'
+    			</when>
+    			<when test="opt == 'all'">
+    				and board_title like '%' || #{keyword} || '%' or board_content like '%' || #{keyword} || '%'
+    			</when>
+    			<when test="opt == 'writer'">
+    				and user_id like '%' || #{keyword} || '%'
+    			</when>
+    		</choose>
+    		<if test="theaterNo != null">
+				and theater_No = #{theaterNo}
+			</if>
+    		<if test="locationNo != null">
+				and location_No = #{locationNo}
+			</if>
     	)
     	where rownumber between #{begin} and #{end}
     </select>
