@@ -19,3 +19,90 @@
 }
 
 
+/* 탭 메뉴 스타일 */
+.tab-block-faq {
+    position: relative;
+}
+
+.tab-block-faq:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 35px;
+    width: 100%;
+    height: 1px;
+    background-color: #d8d9db;
+}
+
+.tab-block-faq ul:after,
+.tab-block-faq ul:before {
+    content: '';
+    display: table;
+}
+
+.tab-block-faq ul:after {
+    clear: both;
+}
+
+.tab-block-faq ul li {
+    position: relative;
+    float: left;
+    width: 20%;
+    border: 1px solid #d8d9db;
+    border-left: 0;
+}
+
+.tab-block-faq ul li:first-child,
+.tab-block-faq ul li:nth-child(6) {
+    border-left: 1px solid #d8d9db;
+}
+
+.tab-block-faq ul li:nth-child(5)~li {
+    margin-top: -1px;
+}
+
+.tab-block-faq ul li:last-child {
+    border-right: 1px solid #d8d9db;
+}
+
+.tab-block-faq ul li .btn {
+    display: block;
+    width: 100%;
+    height: 34px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    line-height: 34px;
+    text-align: center;
+    background-color: transparent;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.tab-block-faq ul li.current {
+    border-color: #555;
+}
+
+.tab-block-faq ul li.current .btn {
+    color: #fff;
+    background-color: #555;
+}
+
+.tab-block-faq ul li.current:first-child {
+    border-color: #555;
+}
+
+/* 탭 메뉴 작은 버전 스타일 */
+.tab-block-faq.small ul li .btn {
+    letter-spacing: -1px;
+    font-size: .9333em;
+}
+
+/* 탭 메뉴 포커스 스타일 */
+.tab-block-faq ul li .btn:focus {
+    color: #fff;
+    background-color: #555;
+}
+
+
+

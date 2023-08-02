@@ -55,6 +55,7 @@
     text-align: center;
     background-color: transparent;
     text-decoration: none;
+    font-size: 14px;
 }
 
 .tab-block-notice ul li.current {
