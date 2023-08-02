@@ -1,0 +1,179 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/user}">
+<div id="contents" layout:fragment="content">
+  <h2 class="tit">나의 문의내역</h2>
+  <div class="tab-block mb30">
+    <ul>
+      <li class="on tabBtn">
+        <button type="button" class="btn tabBtn" data-no="" title="1:1문의내역 보기">1:1 문의내역</button>
+      </li>
+      <li class="tabBtn">
+        <button type="button" class="btn" data-no="" title="분실물 문의내역 보기">분실물 문의내역</button>
+      </li>
+    </ul>
+  </div>
+  <div class="board-list-util">
+    <p class="result-count">
+      <strong>전체 <em class="font-gblue">10</em>건 </strong>
+    </p>
+    <div class="dropdown bootstrap-select mr07 bs3">
+      <select id="inquiry" title="답변 선택" class="mr07" tabindex="-98">
+        <option class="bs-title-option" value=""></option>
+        <option value="">전체</option>
+        <option value="10">미답변</option>
+        <option value="30">답변완료</option>
+      </select>
+      <div class="dropdown-menu open" role="combobox">
+        <div class="inner open" role="listbox" aria-expanded="false" tabindex="-1">
+          <ul class="dropdown-menu inner "></ul>
+        </div>
+      </div>
+    </div>
+    <div class="inquiry-search">
+      <input type="text" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" id="searchTxt" value="">
+      <button type="button" class="btn-search-input" id="searchBtn">검색</button>
+    </div>
+  </div>
+  <div class="table-wrap">
+    <table class="board-list">
+      <caption>번호, 극장, 구분, 제목, 등록일이 들어간 공지사항 전체 리스트</caption>
+      <colgroup>
+        <col style="width:72px;">
+        <col style="width:133px;">
+        <col style="width:95px;">
+        <col>
+        <col style="width:116px;">
+      </colgroup>
+      <thead>
+      <tr>
+        <th scope="col">번호</th>
+        <th scope="col">극장</th>
+        <th scope="col">유형</th>
+        <th scope="col">제목</th>
+        <th scope="col">답변상태</th>
+        <th scope="col">등록일</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>1</td>
+        <td>수원AK플라자(수원역)</td>
+        <td>일반문의</td>
+        <th>
+          <a th:href="@{/support/notice/detail(noticeNo='1')}" class="moveBtn" data-no="10914" title="1:1 문의내역 상세보기">테스트</a>
+        </th>
+        <td>미답변</td>
+        <td>2023.07.26</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>수원AK플라자(수원역)</td>
+        <td>일반문의</td>
+        <th>
+          <a th:href="@{/support/notice/detail(noticeNo='1')}" class="moveBtn" data-no="10913" title="1:1 문의내역 상세보기">테스트</a>
+        </th>
+        <td>미답변</td>
+        <td>2023.07.26</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>대전신세계 아트앤사이언스</td>
+        <td>칭찬</td>
+        <th>
+          <a th:href="@{/support/notice/detail(noticeNo='1')}" class="moveBtn" data-no="10912" title="1:1 문의내역 상세보기">너무 좋아요</a>
+        </th>
+        <td>미답변</td>
+        <td>2023.07.26</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>수원남문</td>
+        <td>불만</td>
+        <th>
+          <a th:href="@{/support/notice/detail(noticeNo='1')}" class="moveBtn" data-no="10911" title="1:1 문의내역 상세보기">좌석이 불편하네요</a>
+        </th>
+        <td>미답변</td>
+        <td>2023.07.25</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>김포한강신도시</td>
+        <td>일반문의</td>
+        <th>
+          <a th:href="@{/support/notice/detail(noticeNo='1')}" class="moveBtn" data-no="10910" title="1:1 문의내역 상세보기">주차장 이용시간이 어떻게 되나요?</a>
+        </th>
+        <td>미답변</td>
+        <td>2023.07.25</td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td>광명AK플라자</td>
+        <td>칭찬</td>
+        <th>
+          <a th:href="@{/support/notice/detail(noticeNo='1')}" class="moveBtn" data-no="10909" title="1:1 문의내역 상세보기">너무 좋아요</a>
+        </th>
+        <td>미답변</td>
+        <td>2023.07.24</td>
+      </tr>
+      <tr>
+        <td>7</td>
+        <td>동탄</td>
+        <td>칭찬</td>
+        <th>
+          <a th:href="@{/support/notice/detail(noticeNo='1')}" class="moveBtn" data-no="10908" title="1:1 문의내역 상세보기">깔끔하고 좋아요</a>
+        </th>
+        <td>미답변</td>
+        <td>2023.07.24</td>
+      </tr>
+      <tr>
+        <td>8</td>
+        <td>상암월드컵경기장</td>
+        <td>일반문의</td>
+        <th>
+          <a th:href="@{/support/notice/detail(noticeNo='1')}" class="moveBtn" data-no="10907" title="1:1 문의내역 상세보기">지갑잃어버렸는데 어떻게 해야해요?</a>
+        </th>
+        <td>미답변</td>
+        <td>2023.07.21</td>
+      </tr>
+      <tr>
+        <td>9</td>
+        <td>남양주</td>
+        <td>불만</td>
+        <th>
+          <a th:href="@{/support/notice/detail(noticeNo='1')}" class="moveBtn" data-no="10906" title="1:1 문의내역 상세보기">다시는 안 옵니다</a>
+        </th>
+        <td>미답변</td>
+        <td>2023.07.21</td>
+      </tr>
+      <tr>
+        <td>10</td>
+        <td>더 부티크 목동현대백화점</td>
+        <td>칭찬</td>
+        <th>
+          <a th:href="@{/support/notice/detail(noticeNo='1')}" class="moveBtn" data-no="10905" title="1:1 문의내역 상세보기">시설 너무 좋네요</a>
+        </th>
+        <td>미답변</td>
+        <td>2023.07.18</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- pagination -->
+  <nav class="pagination">
+    <strong class="active">1</strong>
+    <a title="2페이지보기" href="javascript:void(0)" pagenum="2">2</a>
+    <a title="3페이지보기" href="javascript:void(0)" pagenum="3">3</a>
+    <a title="4페이지보기" href="javascript:void(0)" pagenum="4">4</a>
+    <a title="5페이지보기" href="javascript:void(0)" pagenum="5">5</a>
+    <a title="6페이지보기" href="javascript:void(0)" pagenum="6">6</a>
+    <a title="7페이지보기" href="javascript:void(0)" pagenum="7">7</a>
+    <a title="8페이지보기" href="javascript:void(0)" pagenum="8">8</a>
+    <a title="9페이지보기" href="javascript:void(0)" pagenum="9">9</a>
+    <a title="10페이지보기" href="javascript:void(0)" pagenum="10">10</a>
+    <a title="이후 10페이지 보기" href="javascript:void(0)" class="control next" pagenum="11">next</a>
+    <a title="마지막 페이지 보기" href="javascript:void(0)" class="control last" pagenum="592">last</a>
+  </nav>
+  <!--// pagination -->
+</div>
+</html>
