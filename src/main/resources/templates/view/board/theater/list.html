@@ -42,18 +42,18 @@
                                 <select class="form-select form-select-sm  form-control-sm" name="opt">
                                     <option value=""> 검색옵션</option>
                                     <option th:value="title"
-                                            th:classappend="${#strings.equals(param.opt, 'name') ? 'selected' : '' }">
+                                            th:classappend="${#strings.equals(param.opt, 'title') ? 'selected' : '' }">
                                         제목
                                     </option>
                                     <option th:value="content"
-                                            th:classappend="${#strings.equals(param.opt, 'job') ? 'selected' : '' }"> 내용
+                                            th:classappend="${#strings.equals(param.opt, 'content') ? 'selected' : '' }"> 내용
                                     </option>
                                     <option th:value="all"
-                                            th:classappend="${#strings.equals(param.opt, 'phone') ? 'selected' : '' }">
+                                            th:classappend="${#strings.equals(param.opt, 'all') ? 'selected' : '' }">
                                         제목/내용
                                     </option>
                                     <option th:value="writer"
-                                            th:classappend="${#strings.equals(param.opt, 'dept') ? 'selected' : '' }">
+                                            th:classappend="${#strings.equals(param.opt, 'writer') ? 'selected' : '' }">
                                         작성자
                                     </option>
                                 </select>
@@ -72,17 +72,17 @@
 
                     <div class="d-flex justify-content-end mb-3 float-end ps-3 ">
                         <select class="form-select me-1 form-select-sm" style="width: 100px" name="sort">
-                            <option th:value="id"
-                                    th:classappend="${#strings.equals(param.sort, 'id') ? 'selected' : '' }"> 최신순
+                            <option th:value="new"
+                                    th:classappend="${#strings.equals(param.sort, 'new') ? 'selected' : '' }"> 최신순
                             </option>
-                            <option th:value="name"
-                                    th:classappend="${#strings.equals(param.sort, 'name') ? 'selected' : '' }"> 오래된순
+                            <option th:value="old"
+                                    th:classappend="${#strings.equals(param.sort, 'old') ? 'selected' : '' }"> 오래된순
                             </option>
-                            <option th:value="date"
-                                    th:classappend="${#strings.equals(param.sort, 'date') ? 'selected' : '' }"> 조회수순
+                            <option th:value="view"
+                                    th:classappend="${#strings.equals(param.sort, 'view') ? 'selected' : '' }"> 조회수순
                             </option>
-                            <option th:value="date"
-                                    th:classappend="${#strings.equals(param.sort, 'date') ? 'selected' : '' }"> 댓글순
+                            <option th:value="comment"
+                                    th:classappend="${#strings.equals(param.sort, 'comment') ? 'selected' : '' }"> 댓글순
                             </option>
                         </select>
                         <select class="form-select me-2 form-select-sm pe-6" style="width: 100px" name="rows">

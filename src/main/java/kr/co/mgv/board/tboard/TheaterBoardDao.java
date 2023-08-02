@@ -10,4 +10,7 @@ public interface TheaterBoardDao {
 
 	int getTotalRows(Map<String, Object> param);
 	List<TheaterBoard> getTBoards(Map<String, Object> param);
+	TheaterBoard getTBoardByNo (int tbNo);
+	
+	
 }
