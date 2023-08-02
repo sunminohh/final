@@ -18,5 +18,24 @@ public class StoreController {
     public String detail(@RequestParam(defaultValue = "1") String storeNo) {
         return "/view/store/detail";
     }
+    
+    @GetMapping("/ticket")
+    public String ticket() {
+    	return "/view/store/ticket/list";
+    }
 
+    @GetMapping("/food")
+    public String food() {
+    	return "/view/store/food/list";
+    }
+    
+    @GetMapping("/coupon")
+    public String coupon() {
+    	return "/view/store/coupon/list";
+    }
+    
+    @GetMapping("/package")
+    public String packages() {
+    	return "/view/store/package/list";
+    }
 }
