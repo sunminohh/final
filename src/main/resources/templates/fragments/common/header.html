@@ -19,7 +19,7 @@
             <!-- 로그인전 -->
             <div class="before" sec:authorize="isAnonymous()">
                 <a th:href="@{/user}" title="관리자">내정보</a>
-                <a th:href="@{/admin/dashboard}" title="관리자">관리자</a>
+                <a th:href="@{/admin/home}" title="관리자">관리자</a>
                 <a href="javascript:void(0)" class="btn-login" title="로그인">로그인</a>
                 <a href="#" title="회원가입">회원가입</a>
             </div>
