@@ -2,8 +2,11 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/default}">
 <head th:fragment="extra-head-content">
-	<script type="text/javascript" th:src="@{/js/theater/ui.js}"></script>
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=683b3934429366d7f2da0e2094630435&libraries=services,clusterer,drawing"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.9/dayjs.min.js" integrity="sha512-q4Xn+ZU2K+dqJPL8a3TiyGsDa31IkR/rLt/w+fy8jLrx8TdXj0dLM1Aq4aPXnOOKxHEya/bD9DePDB2DHm4jJQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.9/locale/ko.min.js" integrity="sha512-a79K1GDGHa5wUJ5+4hFwbeGzoXXdy05/UWM+PC/zIvO+jz0P3wy9Ovj2Ld7rX6Oq2TPsJeYyE7xokFlnKCizGA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.9/plugin/isSameOrAfter.min.js" integrity="sha512-8gn84sM7ampZwKjmwm8+y8/FpiPbFVgJGqR5Aio1Lx2T08tEvmJQ5ffLWQFnjDkD/c4kzxebsVtJFswTIvvT+g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script type="text/javascript" th:src="@{/js/theater/ui.js}"></script>
 <title>극장</title>
 </head>
 <div layout:fragment="content" id="schdlContainer" class="container">
@@ -297,21 +300,21 @@
 							</button>
 							<div class="date-list">
 								<div class="year-area">
-									<div class="year" style="left: 30px; z-index: 1; opacity: 1;">2023.07</div>
-									<div class="year" style="left: 30px; z-index: 1; opacity: 1;">2023.08</div>
+									<!-- <div class="year" style="left: 30px; z-index: 1; opacity: 1;">2023.07</div>
+									<div class="year" style="left: 30px; z-index: 1; opacity: 1;">2023.08</div> -->
 								</div>
 								<div class="date-area">
 									<div class="wrap"
-										style="position: relative; width: 2100px; border: none; left: -70px;">
-										<button class="disabled" type="button" date-data="2023.07.31"
-											month="6" tabindex="-1">
+										style="position: relative; width: 2100px; border: none;">
+										<!-- <button class="on" type="button" date-data="2023.07.31"
+											month="6" >
 											<span class="ir">2023년 7월</span><em
 												style="pointer-events: none;">31<span
 												style="pointer-events: none;" class="ir">일</span></em><span
 												class="day-kr"
 												style="pointer-events: none; display: inline-block">월</span><span
 												class="day-en" style="pointer-events: none; display: none">Mon</span>
-										</button>
+										</button> -->
 										<button class="on" type="button" date-data="2023.08.01"
 											month="7">
 											<span class="ir">2023년 8월</span><em
@@ -438,7 +441,7 @@
 												style="pointer-events: none; display: inline-block">월</span><span
 												class="day-en" style="pointer-events: none; display: none">Mon</span>
 										</button>
-										<button class="disabled" type="button" date-data="2023.08.15"
+										<!-- <button class="disabled" type="button" date-data="2023.08.15"
 											month="7" tabindex="-1">
 											<span class="ir">2023년 8월</span><em
 												style="pointer-events: none;">15<span
@@ -446,7 +449,7 @@
 												class="day-kr"
 												style="pointer-events: none; display: inline-block">화</span><span
 												class="day-en" style="pointer-events: none; display: none">Tue</span>
-										</button>
+										</button> -->
 									</div>
 								</div>
 							</div>
