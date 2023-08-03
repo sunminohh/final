@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.mgv.movie.mapper.MovieMapper">
+    <insert id="insertMovie" parameterType="Movie">
+        insert into MGV_MOVIE
+        values
+        (#{no},#{chartRank},#{title},#{genre},#{contentRating},#{director},#{cast},#{plot},#{isPlaying},#{runtime},#{rankInten},#{audiCnt},#{posterUrl},#{rankOldAndNew},#{releaseDate},SYSDATE(),#{likes},#{score},#{scoreGiver},#{openDate})</insert>
+
+    <select id="getMovieNos" resultType="int">
+        select Movie_no
+        from MGV_MOVIE
+    </select>
+    <select id="getMovieByNo" parameterType="int" resultType="Movie">
+        select
+            MOVIE_NO            as no,
+            MOVIE_CHART_RANK     as chartRank,
+            movie_title         as title,
+            movie_genre         as genre,
+            MOVIE_CONTENT_RATING as contentRating,
+            movie_cast          as cast,
+            movie_plot          as plot,
+            movie_isplaying     as isPlaying,
+            movie_runtime       as runtime,
+            movie_rankinten     as rankInten,
+            movie_posterurl     as posterUrl,
+            MOVIE_RANKOLDANDNEW as rankOldAndNew,
+            movie_release_date  as releaseDate,
+            MOVIE_UPDATE_DATE   as updateDate,
+            MOVIE_SCORE         as score,
+            MOVIE_SCORE_GIVER   as scoreGiver,
+            MOVIE_LIKES          as likes,
+            MOVIE_OPEN_DATE     as openDate,
+            MOVIE_SEATS_OPEN    as seatsOpen,
+            MOVIE_SEATS_BOOKED  as seatsBooked
+        from
+            MGV_MOVIE
+        where
+            MOVIE_NO = #{value}
+    </select>
+    <select id="getAllMovies" resultType="Movie">
+        select
+            MOVIE_NO            as no,
+            MOVIE_CHART_RANK     as chartRank,
+            movie_title         as title,
+            movie_genre         as genre,
+            MOVIE_CONTENT_RATING as contentRating,
+            movie_cast          as cast,
+            movie_plot          as plot,
+            movie_isplaying     as isPlaying,
+            movie_runtime       as runtime,
+            movie_rankinten     as rankInten,
+            movie_posterurl     as posterUrl,
+            MOVIE_RANKOLDANDNEW as rankOldAndNew,
+            movie_release_date  as releaseDate,
+            MOVIE_UPDATE_DATE   as updateDate,
+            MOVIE_SCORE         as score,
+            MOVIE_SCORE_GIVER   as scoreGiver,
+            MOVIE_LIKES         as likes,
+            MOVIE_OPEN_DATE     as openDate,
+            MOVIE_SEATS_OPEN    as seatsOpen,
+            MOVIE_SEATS_BOOKED  as seatsBooked
+        from
+            MGV_MOVIE
+        order by
+            chartRank
+    </select>
+
+    <update id="updateMovie" parameterType="Movie">
+        update MGV_MOVIE
+        set
+                MOVIE_CHART_RANK = #{chartRank},
+                movie_isplaying = #{isPlaying},
+                movie_rankinten = #{rankInten},
+                movie_audicnt = #{audiCnt},
+                movie_posterurl = #{posterUrl},
+                movie_rankoldandnew = #{rankOldAndNew},
+                movie_update_date = SYSDATE(),
+                MOVIE_OPEN_DATE = #{openDate},
+                movie_likes = #{likes},
+                movie_score = #{score},
+                movie_score_giver = #{scoreGiver},
+                movie_seats_open = #{seatsOpen},
+                movie_seats_booked = #{seatsBooked}
+        where movie_no = #{no}
+    </update>
+    <update id="initChart" parameterType="int">
+        update MGV_MOVIE
+        set
+            MOVIE_CHART_RANK = 100,
+            movie_rankinten = 0,
+            movie_rankoldandnew = 'UNRANKED',
+            movie_update_date = SYSDATE()
+        where movie_no = #{no}
+    </update>
+    <update id="syncMovie" parameterType="Movie">
+        update MGV_MOVIE
+        set
+            MOVIE_CHART_RANK = #{chartRank},
+            movie_isplaying = #{isPlaying},
+            movie_rankinten = #{rankInten},
+            movie_audicnt = #{audiCnt},
+            movie_posterurl = #{posterUrl},
+            movie_rankoldandnew = #{rankOldAndNew},
+            MOVIE_CONTENT_RATING = #{contentRating},
+            MOVIE_DIRECTOR = #{director},
+            MOVIE_RUNTIME = #{runtime},
+            MOVIE_POSTERURL = #{posterUrl},
+            movie_plot = #{plot},
+            MOVIE_CAST = #{cast},
+            movie_title = #{title},
+            MOVIE_GENRE = #{genre},
+            movie_update_date = SYSDATE(),
+            movie_likes = #{likes},
+            movie_score = #{score},
+            movie_score_giver = #{scoreGiver},
+            MOVIE_OPEN_DATE = #{openDate}
+        where movie_no = #{no}
+    </update>
+
+    <select id="getMoviesByRowNum" parameterType="int" resultType="Movie">
+        <![CDATA[
+    select
+       B.MOVIE_NO            as no,
+        B.MOVIE_CHART_RANK     as chartRank,
+        B.movie_title         as title,
+        B.movie_genre         as genre,
+        B.MOVIE_CONTENT_RATING as contentRating,
+        B.movie_cast          as cast,
+        B.movie_plot          as plot,
+        B.movie_isplaying     as isPlaying,
+        B.movie_runtime       as runtime,
+        B.movie_rankinten     as rankInten,
+        B.movie_posterurl     as posterUrl,
+        B.MOVIE_RANKOLDANDNEW as rankOldAndNew,
+        B.movie_release_date  as releaseDate,
+        B.MOVIE_UPDATE_DATE   as updateDate,
+        B.MOVIE_LIKEs         as likes,
+        B.MOVIE_SCORE         as score,
+        B.MOVIE_SCORE_GIVER   as scoreGiver,
+        B.MOVIE_OPEN_DATE     as openDate,
+        B.MOVIE_SEATS_OPEN    as seatsOpen,
+        B.MOVIE_SEATS_BOOKED  as seatsBooked
+        from(
+        select * from(
+        SELECT
+        @rownum := @rownum + 1 AS rn, A.*
+        FROM
+        (
+        SELECT * FROM MGV_MOVIE ORDER BY MOVIE_CHART_RANK
+        ) A, (select @rownum :=0) r) C
+        where rn <= #{value}) B
+        where rn >= 1
+
+                  ]]>
+    </select>
+</mapper>

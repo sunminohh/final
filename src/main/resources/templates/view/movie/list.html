@@ -1,0 +1,505 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default}">
+<head th:fragment="extra-head-content">
+    <title>극장</title>
+
+</head>
+
+<div layout:fragment="content">
+    <div class="page-util">
+        <div class="inner-wrap">
+            <div class="location">
+                <span>Home</span>
+                <a href="/movie" title="영화 페이지로 이동">영화</a>
+                <a href="/movie" title="전체영화 페이지로 이동">전체영화</a>
+            </div>
+        </div>
+    </div>
+    <!-- contents -->
+    <div id="contents">
+        <script th:src="@{/js/movie/list.js}"></script>
+        <!-- inner-wrap -->
+        <div class="inner-wrap">
+            <h2 class="tit">전체영화</h2>
+            <div class="tab-list fixed">
+                <ul id="topMenu">
+                    <li class="on">
+                        <a href="/movie" title="박스오피스 탭으로 이동">박스오피스</a>
+                    </li>
+                    <li>
+                        <a href="/movie/comingsoon" title="상영예정작 탭으로 이동">상영예정작</a>
+                    </li>
+                    <li>
+                        <a href="/movie/special" title="특별상영 탭으로 이동">특별상영</a>
+                    </li>
+                    <li>
+                        <a href="/movie/film" title="필름소사이어티 탭으로 이동">필름소사이어티</a>
+                    </li>
+                    <li>
+                        <a href="/movie/classic" title="클래식소사이어티 탭으로 이동">클래식소사이어티</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- movie-list-util -->
+            <div class="movie-list-util mt40">
+                <!-- 박스오피스 -->
+                <div class="topSort" style="display: block;">
+                    <div class="movie-sorting sortTab">
+                        <!-- 						<span><button type="button" class="btn on" sort-type="ticketing">예매율순</button></span> -->
+                        <!-- 						<span><button type="button" class="btn" sort-type="accmAdnc">누적관객순</button></span> -->
+                        <!-- 						<span><button type="button" class="btn" sort-type="megaScore">메가스코어순</button></span> -->
+                    </div>
+                    <div class="onair-condition">
+                        <button type="button" title="개봉작만 보기" class="btn-onair btnOnAir">개봉작만</button>
+                    </div>
+                </div>
+                <!--// 박스오피스 -->
+                <!-- 상영예정작 -->
+                <div class="topSort" style="display: none;">
+                    <div class="movie-sorting sortTab">
+              <span>
+                <button type="button" class="btn on" sort-type="rfilmDe">개봉일순</button>
+              </span>
+                        <span>
+                <button type="button" class="btn" sort-type="title">가나다순</button>
+              </span>
+                    </div>
+                </div>
+                <!--// 상영예정작 -->
+                <!-- 특별상영 -->
+                <div class="topSort" style="display: none;">
+                    <div class="onair-condition">
+                        <button type="button" title="개봉작만 보기" class="btn-onair btnOnAir">개봉작만</button>
+                    </div>
+                </div>
+                <!--// 특별상영 -->
+                <!-- 필름소사이어티 -->
+                <div class="topSort" style="display: none;">
+                    <div class="movie-sorting sortTab">
+              <span>
+                <button type="button" class="btn on" sort-type="ticketing" tab-cd="">전체</button>
+              </span>
+                    </div>
+                    <div class="onair-condition">
+                        <button type="button" title="개봉작만 보기" class="btn-onair btnOnAir">개봉작만</button>
+                    </div>
+                </div>
+                <!--// 필름소사이어티 -->
+                <!-- 클래식소사이어티 -->
+                <div class="topSort" style="display: none;">
+                    <div class="movie-sorting sortTab">
+              <span>
+                <button type="button" class="btn on" sort-type="ticketing" tab-cd="">전체</button>
+              </span>
+                    </div>
+                    <div class="onair-condition">
+                        <button type="button" title="개봉작만 보기" class="btn-onair btnOnAir">개봉작만</button>
+                    </div>
+                </div>
+                <!--// 클래식소사이어티 -->
+                <!-- 장르모아보기 -->
+                <div class="topSort" style="display: none;">
+                    <div class="movie-sorting sortTab">
+              <span>
+                <button type="button" class="btn on" sort-type="ticketing">예매율순</button>
+              </span>
+                        <span>
+                <button type="button" class="btn" sort-type="accmAdnc">누적관객순</button>
+              </span>
+                        <span>
+                <button type="button" class="btn" sort-type="megaScore">메가스코어순</button>
+              </span>
+                    </div>
+                    <div class="onair-condition">
+                        <button type="button" title="개봉작만 보기" class="btn-onair btnOnAir">개봉작만</button>
+                    </div>
+                </div>
+                <!--// 장르모아보기 -->
+                <!-- 검색결과 없을 때 -->
+                <p class="no-result-count">
+                    <strong id="totCnt" th:text="${movies.size()}"></strong>개의 영화가 검색되었습니다.
+                </p>
+                <!--// 검색결과 없을 때 -->
+                <div class="movie-search">
+                    <input type="text" title="영화명을 입력하세요" id="ibxMovieNmSearch" name="ibxMovieNmSearch" placeholder="영화명 검색" class="input-text">
+                    <button type="button" class="btn-search-input" id="btnSearch">검색</button>
+                </div>
+            </div>
+            <!--// movie-list-util -->
+            <div class="bg-loading" style="display: none;">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+            <!-- movie-list -->
+            <div class="movie-list">
+                <ol class="list" id="movieList">
+                    <li tabindex="0" class="no-img" th:each="movie, i : ${movies}">
+                        <div class="movie-list-info">
+                            <p class="rank" style="" th:text="${i.count}"> <span class="ir">위</span>
+                            </p>
+                            <img th:src="${movie.getMainPoster()}" alt="밀수" class="poster lozad" onerror="noImg(this)">
+                            <div class="curation">
+                                <p class="film" style="display: none">필름 소사이어티</p>
+                                <p class="classic" style="display: none">클래식 소사이어티</p>
+                            </div>
+                            <div class="screen-type2">
+                                <p name="dbcScrean" style="">
+                                    <img src="https://www.megabox.co.kr/static/pc/images/common/btn/mov_top_tag_db.png" alt="dolby">
+                                </p>
+                                <p name="mxScreen" style="">
+                                    <img src="https://www.megabox.co.kr/static/pc/images/common/btn/mov_top_tag_mx.png" alt="mx">
+                                </p>
+                            </div>
+                            <div class="movie-score">
+                                <a th:href="@{/movie/detail(movieNo='${movie.no}')}" class="wrap movieBtn" data-no="23029300" th:title="|${movie.title} 상세보기|">
+                                    <div class="summary" th:text="${movie.plot}"></div>
+                                    <div class="my-score big">
+                                        <div class="preview">
+                                            <p class="tit">관람평</p>
+                                            <p class="number" th:text="${movie.score}"> <span class="ir">점</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="tit-area">
+                            <p th:class="|movie-grade age-${movie.contentRating}|">,</p>
+                            <p th:title="${movie.title}" class="tit" th:text="${movie.title}"></p>
+                        </div>
+                        <div class="rate-date">
+                            <span class="rate"  th:text="|예매율 ${movie.seatsOpen != 0 ? movie.seatsBooked / movie.seatsOpen : 0} %|" ></span>
+                            <span class="date" th:text="|개봉일 ${movie.openDate != null ? movie.openDate :  '미정'} |"></span>
+                        </div>
+                        <div class="btn-util">
+                            <button type="button" class="button btn-like" data-no="23029300">
+                                <i title="보고싶어 안함" class="iconset ico-heart-toggle-gray intrstType"></i>
+                                <span>${movie.likes}</span>
+                            </button>
+                            <p class="txt movieStat1" style="display: none">상영예정</p>
+                            <p class="txt movieStat2" style="display: none">7월 개봉예정</p>
+                            <p class="txt movieStat5" style="display: none">개봉예정</p>
+                            <p class="txt movieStat6" style="display: none">상영종료</p>
+                            <div class="case col-2 movieStat3" style="">
+                                <a th:href="@{/movie/detail(movieNo='1')}" class="button purple bokdBtn" data-no="23029300" title="영화 예매하기">예매</a>
+                                <a th:href="@{/movie/detail(movieNo='1')}" class="button purple img splBtn" data-no="23029300">
+                                    <img src="https://www.megabox.co.kr/static/pc/images/common/btn/mov_list_db_btn.png" alt="dolby 버튼">
+                                </a>
+                            </div>
+                            <div class="case movieStat4" style="display: none">
+                                <a th:href="@{/movie/detail(movieNo='1')}" class="button purple bokdBtn" data-no="23029300" title="영화 예매하기">예매</a>
+                            </div>
+                        </div>
+                    </li>
+
+                        <div class="movie-list-info">
+                            <p class="rank" style="">16 <span class="ir">위</span>
+                            </p>
+                            <img src="https://img.megabox.co.kr/SharedImg/2023/07/12/F5MheQIBsNgXYzYUilBOgaYdj8Iqa1oz_420.jpg" alt="좋.댓.구" class="poster lozad" onerror="noImg(this)">
+                            <div class="curation">
+                                <p class="film" style="display: none">필름 소사이어티</p>
+                                <p class="classic" style="display: none">클래식 소사이어티</p>
+                            </div>
+                            <div class="screen-type2">
+                                <p name="dbcScrean" style="display: none">
+                                    <img src="https://www.megabox.co.kr/static/pc/images/common/btn/mov_top_tag_db.png" alt="dolby">
+                                </p>
+                                <p name="mxScreen" style="display: none">
+                                    <img src="https://www.megabox.co.kr/static/pc/images/common/btn/mov_top_tag_mx.png" alt="mx">
+                                </p>
+                            </div>
+                            <div class="movie-score">
+                                <a th:href="@{/movie/detail(movieNo='1')}" class="wrap movieBtn" data-no="23043900" title="좋.댓.구 상세보기">
+                                    <div class="summary">영화 &lt;올드보이&gt; ‘오대수’ 아역으로 이름 좀 날렸던 배우 오태경(오태경). 점차 대중에게 잊혀져 가던 그가 일진 참교육부터 산낙지 먹방까지 시키는 건 뭐든 다 하는 구독자의 노예 ‘리틀 오대수’가 되어 컴백을 꿈꾼다. 구독자 1만 명 돌파 기념 라이브방송에서 고액의 후원금과 함께 접수된 소원은 청계광장에서 종일 피켓을 들고 있는 남자의 사연을 알아내달라는 것. 갖은 노력 끝에 피켓남의 숨겨진 사연을 파헤치게 되고, 구독자는 순식간에 50만명을 돌파한다. ‘떡상 유튜버’로 전성기를 누릴 꿈에 부푼 날들도 잠시, 그가 밝힌 피켓남의 사연이 한순간에 ‘주작’ 논란에 휩싸이며 상황은 예기치 못한 방향으로 폭주하기 시작하는데…! 도대체… 누구냐 넌 세상을 떠들썩하게 만든 ‘주작’ 유튜버의 정체가 궁금하다면! 좋아요·댓글·구독 +알람설정까지 plz </div>
+                                    <div class="my-score big">
+                                        <div class="preview">
+                                            <p class="tit">관람평</p>
+                                            <p class="number">7.6 <span class="ir">점</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="tit-area">
+                            <p class="movie-grade age-15">,</p>
+                            <p title="좋.댓.구" class="tit">좋.댓.구</p>
+                        </div>
+                        <div class="rate-date">
+                            <span class="rate">예매율 0.3%</span>
+                            <span class="date">개봉일 2023.07.12</span>
+                        </div>
+                        <div class="btn-util">
+                            <button type="button" class="button btn-like" data-no="23043900">
+                                <i title="보고싶어 안함" class="iconset ico-heart-toggle-gray intrstType"></i>
+                                <span>44</span>
+                            </button>
+                            <p class="txt movieStat1" style="display: none">상영예정</p>
+                            <p class="txt movieStat2" style="display: none">7월 개봉예정</p>
+                            <p class="txt movieStat5" style="display: none">개봉예정</p>
+                            <p class="txt movieStat6" style="display: none">상영종료</p>
+                            <div class="case col-2 movieStat3" style="display: none">
+                                <a th:href="@{/movie/detail(movieNo='1')}" class="button purple bokdBtn" data-no="23043900" title="영화 예매하기">예매</a>
+                                <a th:href="@{/movie/detail(movieNo='1')}" class="button purple img splBtn" data-no="23043900">
+                                    <img src="https://www.megabox.co.kr/static/pc/images/common/btn/mov_list_db_btn.png" alt="dolby 버튼">
+                                </a>
+                            </div>
+                            <div class="case movieStat4" style="">
+                                <a th:href="@{/movie/detail(movieNo='1')}" class="button purple bokdBtn" data-no="23043900" title="영화 예매하기">예매</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li tabindex="0" class="no-img">
+                        <div class="movie-list-info">
+                            <p class="rank" style="">17 <span class="ir">위</span>
+                            </p>
+                            <img src="https://img.megabox.co.kr/SharedImg/2023/06/14/Ta2GwMSvrjk8ovXbAfPSqzhf6wvVN8W9_420.jpg" alt="엔니오: 더 마에스트로" class="poster lozad" onerror="noImg(this)">
+                            <div class="curation">
+                                <p class="film" style="">필름 소사이어티</p>
+                                <p class="classic" style="">클래식 소사이어티</p>
+                            </div>
+                            <div class="screen-type2">
+                                <p name="dbcScrean" style="display: none">
+                                    <img src="https://www.megabox.co.kr/static/pc/images/common/btn/mov_top_tag_db.png" alt="dolby">
+                                </p>
+                                <p name="mxScreen" style="display: none">
+                                    <img src="https://www.megabox.co.kr/static/pc/images/common/btn/mov_top_tag_mx.png" alt="mx">
+                                </p>
+                            </div>
+                            <div class="movie-score">
+                                <a th:href="@{/movie/detail(movieNo='1')}" class="wrap movieBtn" data-no="23041700" title="엔니오: 더 마에스트로 상세보기">
+                                    <div class="summary">“엔니오 모리꼬네는 우리 인생의 사운드트랙이죠.” -한스 짐머- &lt;황야의 무법자&gt;, &lt;원스 어폰 어 타임 인 아메리카&gt;, &lt;미션&gt;, &lt;시네마 천국&gt;, &lt;헤이트풀8&gt;… 전 세계가 사랑하는 거장 엔니오 모리꼬네 그가 직접 들려주는 명작 탄생 비하인드 그리고 세계적인 아티스트들이 이야기하는 그에 대한 모든 것 </div>
+                                    <div class="my-score big">
+                                        <div class="preview">
+                                            <p class="tit">관람평</p>
+                                            <p class="number">9.3 <span class="ir">점</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="tit-area">
+                            <p class="movie-grade age-12">,</p>
+                            <p title="엔니오: 더 마에스트로" class="tit">엔니오: 더 마에스트로</p>
+                        </div>
+                        <div class="rate-date">
+                            <span class="rate">예매율 0.3%</span>
+                            <span class="date">개봉일 2023.07.05</span>
+                        </div>
+                        <div class="btn-util">
+                            <button type="button" class="button btn-like" data-no="23041700">
+                                <i title="보고싶어 안함" class="iconset ico-heart-toggle-gray intrstType"></i>
+                                <span>296</span>
+                            </button>
+                            <p class="txt movieStat1" style="display: none">상영예정</p>
+                            <p class="txt movieStat2" style="display: none">7월 개봉예정</p>
+                            <p class="txt movieStat5" style="display: none">개봉예정</p>
+                            <p class="txt movieStat6" style="display: none">상영종료</p>
+                            <div class="case col-2 movieStat3" style="display: none">
+                                <a th:href="@{/movie/detail(movieNo='1')}" class="button purple bokdBtn" data-no="23041700" title="영화 예매하기">예매</a>
+                                <a th:href="@{/movie/detail(movieNo='1')}" class="button purple img splBtn" data-no="23041700">
+                                    <img src="https://www.megabox.co.kr/static/pc/images/common/btn/mov_list_db_btn.png" alt="dolby 버튼">
+                                </a>
+                            </div>
+                            <div class="case movieStat4" style="">
+                                <a th:href="@{/movie/detail(movieNo='1')}" class="button purple bokdBtn" data-no="23041700" title="영화 예매하기">예매</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li tabindex="0" class="no-img">
+                        <div class="movie-list-info">
+                            <p class="rank" style="">18 <span class="ir">위</span>
+                            </p>
+                            <img src="https://img.megabox.co.kr/SharedImg/2023/06/27/UfBwVtcJT7zfKuccg7cAOTP99EpemOKG_420.jpg" alt="[내 생애 첫 미술관] 오르세 미술관" class="poster lozad" onerror="noImg(this)">
+                            <div class="curation">
+                                <p class="film" style="display: none">필름 소사이어티</p>
+                                <p class="classic" style="">클래식 소사이어티</p>
+                            </div>
+                            <div class="screen-type2">
+                                <p name="dbcScrean" style="display: none">
+                                    <img src="https://www.megabox.co.kr/static/pc/images/common/btn/mov_top_tag_db.png" alt="dolby">
+                                </p>
+                                <p name="mxScreen" style="display: none">
+                                    <img src="https://www.megabox.co.kr/static/pc/images/common/btn/mov_top_tag_mx.png" alt="mx">
+                                </p>
+                            </div>
+                            <div class="movie-score">
+                                <a th:href="@{/movie/detail(movieNo='1')}" class="wrap movieBtn" data-no="23048300" title="[내 생애 첫 미술관] 오르세 미술관 상세보기">
+                                    <div class="summary">스스로 미술작품을 감상하고 상상하는 힘을 기르는 “내 생애 첫 미술관“ 우리 자녀들에게 보여주고 싶은 세계 유수의 미술관, 어떻게 제대로 즐길 수 있을까? 이번 여름방학에는 자녀들과 함께 극장으로 미술관 나들이 오세요. 어린이의 눈높이에 맞춰 쉽고 재미있게 예술 이야기를 전달할 4인의 현직 도슨트들이 기다립니다. [내 생애 첫 미술관] 오르세 미술관 Orsay Museum ■ 강연장소 및 일시 - 메가박스 코엑스 : 8월 3일(목) 오전 11시 - 메가박스 고양스타필드 : 8월 5일(토) 오전 11시 ■ 예매오픈 - 예매오픈 : 7월 13일(목) 오후 1시 ■ 강연시간 - 60분 (별도의 인터미션 없이 진행됩니다) ○ 강연 주제 프랑스 파리에 위치한 세계적인 미술관 중 하나인 오르세 미술관. 과거에 기차역이었던 건물이 미술관으로 변했다고? 프랑스 파리의 3대 미술관 중 하나인 오르세 미술관에서 마네, 모네, 고흐 등 19세기 꽃피던 인상주의 화가들을 처음 마주하는 시간! 빛과 색채의 세계에 여러분을 초대합니다. ○ 도슨트 : 유제희 미술관에서 쉽고 재미난 예술 이야기를 전달하고 있는 전시해설가 유제희입니다. 많은 이들의 일상에 예술이 꽃피길 꿈꾸며 예술 이야기가 필요한 곳은 어디든지 함께 합니다. [대표 약력] 예술의 전당 &lt;앤서니브라운전&gt; 외 다수 도슨트 용인포은아트홀 아카데미 &lt;도슨트의 명작 컬렉팅&gt; 강사 CBS &lt;이강민의 잡지사&gt; 라디오 패널 등 * 본 프로그램은 예술 작품들의 이미지 및 동영상을 활용한 강의로, 영화/공연의 상영이 아닙니다. * 강연 일정은 강사 사정에 따라 변동될 수 있습니다. * 강연 3일전 ~ 1일전 취소 및 환불시 수수료가 10% 발생되며, 당일 취소는 불가 합니다. * 사전 광고없이 정시에 시작되므로 10분전 착석 부탁드립니다. </div>
+                                    <div class="my-score equa" style="display: none;">
+                                        <div class="preview">
+                                            <p class="tit">관람평</p>
+                                            <p class="number">0 <span class="ir">점</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="tit-area">
+                            <p class="movie-grade age-all">,</p>
+                            <p title="[내 생애 첫 미술관] 오르세 미술관" class="tit">[내 생애 첫 미술관] 오르세 미술관</p>
+                        </div>
+                        <div class="rate-date">
+                            <span class="rate">예매율 0.3%</span>
+                            <span class="date">개봉일 2023.08.03</span>
+                        </div>
+                        <div class="btn-util">
+                            <button type="button" class="button btn-like" data-no="23048300">
+                                <i title="보고싶어 안함" class="iconset ico-heart-toggle-gray intrstType"></i>
+                                <span>66</span>
+                            </button>
+                            <p class="txt movieStat1" style="display: none">상영예정</p>
+                            <p class="txt movieStat2" style="display: none">8월 개봉예정</p>
+                            <p class="txt movieStat5" style="display: none">개봉예정</p>
+                            <p class="txt movieStat6" style="display: none">상영종료</p>
+                            <div class="case col-2 movieStat3" style="display: none">
+                                <a th:href="@{/movie/detail(movieNo='1')}" class="button purple bokdBtn" data-no="23048300" title="영화 예매하기">예매</a>
+                                <a th:href="@{/movie/detail(movieNo='1')}" class="button purple img splBtn" data-no="23048300">
+                                    <img src="https://www.megabox.co.kr/static/pc/images/common/btn/mov_list_db_btn.png" alt="dolby 버튼">
+                                </a>
+                            </div>
+                            <div class="case movieStat4" style="">
+                                <a th:href="@{/movie/detail(movieNo='1')}" class="button purple bokdBtn" data-no="23048300" title="영화 예매하기">예매</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li tabindex="0" class="no-img">
+                        <div class="movie-list-info">
+                            <p class="rank" style="">19 <span class="ir">위</span>
+                            </p>
+                            <img src="https://img.megabox.co.kr/SharedImg/2023/07/27/BaoDvxeSQEuZIHoOU7CZA3yz6NNV95Ju_420.jpg" alt="헌티드 맨션" class="poster lozad" onerror="noImg(this)">
+                            <div class="curation">
+                                <p class="film" style="display: none">필름 소사이어티</p>
+                                <p class="classic" style="display: none">클래식 소사이어티</p>
+                            </div>
+                            <div class="screen-type2">
+                                <p name="dbcScrean" style="display: none">
+                                    <img src="https://www.megabox.co.kr/static/pc/images/common/btn/mov_top_tag_db.png" alt="dolby">
+                                </p>
+                                <p name="mxScreen" style="display: none">
+                                    <img src="https://www.megabox.co.kr/static/pc/images/common/btn/mov_top_tag_mx.png" alt="mx">
+                                </p>
+                            </div>
+                            <div class="movie-score">
+                                <a th:href="@{/movie/detail(movieNo='1')}" class="wrap movieBtn" data-no="23053500" title="헌티드 맨션 상세보기">
+                                    <div class="summary">디즈니 &amp; &lt;캐리비안의 해적&gt; 제작진의 오싹한 초대장! 뉴올리언스의 대저택으로 이사 온 ‘개비’와 아들 ‘트래비스’. 겉모습부터 심상치 않은 이곳엔 알고 보니 999명의 유령이 살고 있다. 유령들을 내쫓아 달라는 ‘개비’의 요청에 저택으로 모여든 겁 없는 유령 전문가들. 하지만 호기로움도 잠시, 곳곳에서 벌어지는 기상천외한 일들에 사투를 펼치게 되는데… 과연, 이들은 유령들을 쫓고 집을 되찾을 수 있을까? 7월, 세상에서 가장 기묘한 집에 함께하시겠습니까? 출구는 없습니다! </div>
+                                    <div class="my-score big">
+                                        <div class="preview">
+                                            <p class="tit">관람평</p>
+                                            <p class="number">7.7 <span class="ir">점</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="tit-area">
+                            <p class="movie-grade age-12">,</p>
+                            <p title="헌티드 맨션" class="tit">헌티드 맨션</p>
+                        </div>
+                        <div class="rate-date">
+                            <span class="rate">예매율 0.2%</span>
+                            <span class="date">개봉일 2023.07.26</span>
+                        </div>
+                        <div class="btn-util">
+                            <button type="button" class="button btn-like" data-no="23053500">
+                                <i title="보고싶어 안함" class="iconset ico-heart-toggle-gray intrstType"></i>
+                                <span>103</span>
+                            </button>
+                            <p class="txt movieStat1" style="display: none">상영예정</p>
+                            <p class="txt movieStat2" style="display: none">7월 개봉예정</p>
+                            <p class="txt movieStat5" style="display: none">개봉예정</p>
+                            <p class="txt movieStat6" style="display: none">상영종료</p>
+                            <div class="case col-2 movieStat3" style="display: none">
+                                <a th:href="@{/movie/detail(movieNo='1')}" class="button purple bokdBtn" data-no="23053500" title="영화 예매하기">예매</a>
+                                <a th:href="@{/movie/detail(movieNo='1')}" class="button purple img splBtn" data-no="23053500">
+                                    <img src="https://www.megabox.co.kr/static/pc/images/common/btn/mov_list_db_btn.png" alt="dolby 버튼">
+                                </a>
+                            </div>
+                            <div class="case movieStat4" style="">
+                                <a th:href="@{/movie/detail(movieNo='1')}" class="button purple bokdBtn" data-no="23053500" title="영화 예매하기">예매</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li tabindex="0" class="no-img">
+                        <div class="movie-list-info">
+                            <p class="rank" style="">20 <span class="ir">위</span>
+                            </p>
+                            <img src="https://img.megabox.co.kr/SharedImg/2023/07/13/XBY0G68OA3FjqYfW788cN2FdAh0bSFMo_420.jpg" alt="[2023 오데온스 광장 콘서트] 랑랑 &amp; 에스트라다" class="poster lozad" onerror="noImg(this)">
+                            <div class="curation">
+                                <p class="film" style="display: none">필름 소사이어티</p>
+                                <p class="classic" style="">클래식 소사이어티</p>
+                            </div>
+                            <div class="screen-type2">
+                                <p name="dbcScrean" style="display: none">
+                                    <img src="https://www.megabox.co.kr/static/pc/images/common/btn/mov_top_tag_db.png" alt="dolby">
+                                </p>
+                                <p name="mxScreen" style="display: none">
+                                    <img src="https://www.megabox.co.kr/static/pc/images/common/btn/mov_top_tag_mx.png" alt="mx">
+                                </p>
+                            </div>
+                            <div class="movie-score">
+                                <a th:href="@{/movie/detail(movieNo='1')}" class="wrap movieBtn" data-no="23050600" title="[2023 오데온스 광장 콘서트] 랑랑 &amp; 에스트라다 상세보기">
+                                    <div class="summary">스크린으로 만나는 세계의 음악회 유럽의 아름다운 뮌헨의 오데온스 광장에서 펼쳐지는 선율 [공연 정보] - 공연 명칭 : 뮌헨 오데온스 광장 콘서트: 랑랑 &amp; 안드레스 오로스코-에스트라다, 뮌헨 필하모닉 - 상영 일시 : 2023년 8월 6일(일) 19:00 * 딜레이 중계 - 예매 오픈 : 2023년 7월 17일(월) 오후 1시 - 공연 시간 : 약 90분 / 인터미션 없음 *** 본 상영은 위성 중계 상영작으로, 음향 및 화질이 고르지 못할 수 있습니다. *** 현지 공연 사정 및 중계 상황에 따라 프로그램 및 러닝타임이 변경될 수 있습니다. *** 본 상영은 클래식음악 공연으로 자막이 제공되지 않습니다. [공연 소개] 독일 뮌헨 오데온 광장은 펠트헤른할레, 개선문, 티아티너 성당 등 아름다운 건축물이 모여있는 명소로 매년 여름 이곳에서 세계적인 아티스트들이 모인 클래식 콘서트가 펼쳐진다. 올해 광장을 음악으로 채울 아티스트는 정확하고 유려한 테크닉을 보여주는 피아니스트 랑랑이다. 그리고 차세대 거장 안드레스 오로스코-에스트라다의 정통 오스트리아 지휘 아래 독일의 대표적인 관현악단인 뮌헨 필하모닉의 선율이 펼쳐진다. [제작 및 출연] - 지휘: 안드레스 오로스코-에스트라다 Andres Orozco-Estrada - 오케스트라: 뮌헨 필하모닉 Munich Philharmonic - 피아노: 랑랑 Lang Lang - 장소: 뮌헨 오데온스 광장 Odeonsplatz, Munich [프로그램] 바그너, 오페라 &lt;탄호이저&gt; 서곡 R. Wagner, Prelude to Tannhäuser 그리그, 피아노 협주곡 가단조 E. Grieg, Piano Concerto in a minor, Op.16 슈트라우스, 돈 후안 R. Strauss, Don Juan, Op.20 차이콥스키, 환상서곡 ‘로미오와 줄리엣’ P. I. Tchaikovsky, Fantasy Overture ‘Romeo and Juliet’ </div>
+                                    <div class="my-score equa" style="display: none;">
+                                        <div class="preview">
+                                            <p class="tit">관람평</p>
+                                            <p class="number">0 <span class="ir">점</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="tit-area">
+                            <p class="movie-grade age-all">,</p>
+                            <p title="[2023 오데온스 광장 콘서트] 랑랑 &amp; 에스트라다" class="tit">[2023 오데온스 광장 콘서트] 랑랑 &amp; 에스트라다</p>
+                        </div>
+                        <div class="rate-date">
+                            <span class="rate">예매율 0.2%</span>
+                            <span class="date">개봉일 2023.08.06</span>
+                        </div>
+                        <div class="btn-util">
+                            <button type="button" class="button btn-like" data-no="23050600">
+                                <i title="보고싶어 안함" class="iconset ico-heart-toggle-gray intrstType"></i>
+                                <span>37</span>
+                            </button>
+                            <p class="txt movieStat1" style="display: none">상영예정</p>
+                            <p class="txt movieStat2" style="display: none">8월 개봉예정</p>
+                            <p class="txt movieStat5" style="display: none">개봉예정</p>
+                            <p class="txt movieStat6" style="display: none">상영종료</p>
+                            <div class="case col-2 movieStat3" style="display: none">
+                                <a th:href="@{/movie/detail(movieNo='1')}" class="button purple bokdBtn" data-no="23050600" title="영화 예매하기">예매</a>
+                                <a th:href="@{/movie/detail(movieNo='1')}" class="button purple img splBtn" data-no="23050600">
+                                    <img src="https://www.megabox.co.kr/static/pc/images/common/btn/mov_list_db_btn.png" alt="dolby 버튼">
+                                </a>
+                            </div>
+                            <div class="case movieStat4" style="">
+                                <a th:href="@{/movie/detail(movieNo='1')}" class="button purple bokdBtn" data-no="23050600" title="영화 예매하기">예매</a>
+                            </div>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+            <!--// movie-list -->
+            <div class="btn-more v1" id="addMovieDiv" style="">
+                <button type="button" class="btn" id="btnAddMovie">더보기 <i class="iconset ico-btn-more-arr"></i>
+                </button>
+            </div>
+            <!-- 검색결과 없을 때 -->
+            <div class="movie-list-no-result" id="noDataDiv" style="display: none;">
+                <p>현재 상영중인 영화가 없습니다.</p>
+            </div>
+            <!-- 검색결과 없을 때 -->
+            <div class="movie-list-no-favor" id="noMyGenre" style="display: none;">
+                <p>선호장르가 등록되지 않았습니다. 선호하시는 장르를 등록해보세요.</p>
+                <div class="btn-group center">
+                    <a href="/mypage/additionalinfo" class="button large purple" title="선호장르설정하기 페이지로 이동">선호장르설정하기</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>
