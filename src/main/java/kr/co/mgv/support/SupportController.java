@@ -1,6 +1,7 @@
-package kr.co.mgv.support.controller;
+package kr.co.mgv.support;
 
 import org.springframework.stereotype.Controller;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,10 +15,7 @@ public class SupportController {
         return "/view/support/home";
     }
 
-    @GetMapping("/faq")
-    public String feq() {
-        return "/view/support/faq/list";
-    }
+    
 
     @GetMapping("/notice")
     public String notice() {

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="kr.co.mgv.support.faq.FaqDao">
+
+	<select id="getFaqs" resultType="kr.co.mgv.support.faq.Faq">
+		select 
+			A.FAQ_NO			as no,
+			A.FAQ_TITLE			as title,
+			A.FAQ_CONTENT		as content,
+			A.FAQ_DELETED		as deleted,
+			A.CATEGORY_NO		as "category.no",
+			B.CATEGORY_NAME 	as "category.name"
+		from MGV_SUPPORT_FAQ A, MGV_SUPPORT_CATEGORIES B
+		where A.CATEGORY_NO = B.CATEGORY_NO
+		and A.FAQ_DELETED = 'N'
+	</select>
+	
+</mapper>
