@@ -24,6 +24,7 @@ public class Movie {
     private int rankInten;
     private int audiCnt;
     private String title;
+    private String titleEng;
     private String genre;
     private String contentRating;
     private String director;
@@ -63,5 +64,10 @@ public class Movie {
         }
         return poster[0];
     }
-
+    public double getBookingRate(){
+        if(seatsOpen==0){
+            return 0;
+        }
+        return (double) seatsBooked/seatsOpen;
+    }
 }
