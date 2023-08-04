@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.mgv.movie.mapper.MovieLikesMapper">
+    <insert id="insertMovieLikes" parameterType="MovieLikes">
+        insert into MGV_MOVIE_LIKES
+        values
+        (#{userId}, #{movieLikes})
+    </insert>
+    <select id="getLikedMovieNosByUserId" resultType="String">
+        select MOVIE_NO
+        from MGV_MOVIE_LIKES
+        WHERE USER_NO = #{value}
+    </select>
+    <delete id="deleteMovieLikes" parameterType="MovieLikes">
+        delete from MGV_MOVIE_LIKES
+        WHERE USER_NO =#{userNo} and Movie_no = #{movieNo}
+    </delete>
+</mapper>

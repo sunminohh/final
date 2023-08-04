@@ -4,17 +4,18 @@
     <insert id="insertMovie" parameterType="Movie">
         insert into MGV_MOVIE
         values
-        (#{no},#{chartRank},#{title},#{genre},#{contentRating},#{director},#{cast},#{plot},#{isPlaying},#{runtime},#{rankInten},#{audiCnt},#{posterUrl},#{rankOldAndNew},#{releaseDate},SYSDATE(),#{likes},#{score},#{scoreGiver},#{openDate})</insert>
+        (#{no},#{chartRank},#{title},#{titleEng},#{genre},#{contentRating},#{director},#{cast},#{plot},#{isPlaying},#{runtime},#{rankInten},#{audiCnt},#{posterUrl},#{rankOldAndNew},#{releaseDate},SYSDATE(),#{likes},#{score},#{scoreGiver},#{openDate})</insert>
 
     <select id="getMovieNos" resultType="int">
         select Movie_no
         from MGV_MOVIE
     </select>
-    <select id="getMovieByNo" parameterType="int" resultType="Movie">
+    <select id="getMovieByMovieNo" parameterType="int" resultType="Movie">
         select
             MOVIE_NO            as no,
             MOVIE_CHART_RANK     as chartRank,
             movie_title         as title,
+            movie_title_eng     as titleEng,
             movie_genre         as genre,
             MOVIE_CONTENT_RATING as contentRating,
             movie_cast          as cast,
@@ -42,6 +43,7 @@
             MOVIE_NO            as no,
             MOVIE_CHART_RANK     as chartRank,
             movie_title         as title,
+             movie_title_eng     as titleEng,
             movie_genre         as genre,
             MOVIE_CONTENT_RATING as contentRating,
             movie_cast          as cast,
@@ -108,6 +110,7 @@
             movie_plot = #{plot},
             MOVIE_CAST = #{cast},
             movie_title = #{title},
+            movie_title_eng    = #{titleEng},
             MOVIE_GENRE = #{genre},
             movie_update_date = SYSDATE(),
             movie_likes = #{likes},
@@ -123,6 +126,7 @@
        B.MOVIE_NO            as no,
         B.MOVIE_CHART_RANK     as chartRank,
         B.movie_title         as title,
+        B.movie_title_eng     as titleEng,
         B.movie_genre         as genre,
         B.MOVIE_CONTENT_RATING as contentRating,
         B.movie_cast          as cast,

@@ -27,7 +27,8 @@ public class MovieController {
     }
 
     @GetMapping("/detail")
-    public String detail(@RequestParam String movieNo) {
+    public String detail(@RequestParam("movieNo") int movieNo, Model model) {
+        model.addAttribute("movie",movieService.getMovieByMovieNo(movieNo));
         return "/view/movie/detail";
     }
 
@@ -47,4 +48,6 @@ public class MovieController {
         movieService.sync();
         return "list";
     }
+
+
 }

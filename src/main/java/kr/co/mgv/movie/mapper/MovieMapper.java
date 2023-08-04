@@ -8,12 +8,13 @@ import java.util.List;
 
 @Mapper
 public interface MovieMapper {
-    void insertMovie(Movie movie);
-    HashSet<Integer> getMovieNos();
-    List<Movie> getAllMovies();
-    List<Movie> getMoviesByRowNum(int rowNum);
-    void updateMovie(Movie movie);
-    void initChart(int movieNo);
-    void syncMovie(Movie movie);
+    public Movie getMovieByMovieNo(int movieNo);
+    public void insertMovie(Movie movie);
+    public HashSet<Integer> getMovieNos();
+    public List<Movie> getAllMovies();
+    public List<Movie> getMoviesByRowNum(int rowNum);
+    public void updateMovie(Movie movie);
+    public void initChart(int movieNo);
+    public void syncMovie(Movie movie);
 
 }
