@@ -13,41 +13,42 @@
 						class="ti ti-x fs-8"></i>
 				</span> <span class="hide-menu">Home</span></li>
 				<li class="sidebar-item"><a class="sidebar-link"
-					th:href="@{/admin/dashboard}" aria-expanded="false"> <span>
+					th:href="@{/admin/home}" aria-expanded="false"> <span>
 							<i class="ti ti-layout-dashboard"></i>
-					</span> <span class="hide-menu">Dashboard</span>
+					</span> <span class="hide-menu">home</span>
 				</a></li>
 				<li class="nav-small-cap"><i
 					class="ti ti-dots nav-small-cap-icon fs-4"></i> <span
 					class="hide-menu">MANAGEMENT</span></li>
-				<li class="sidebar-item dropdown"><a
-					class="sidebar-link dropdown-toggle" data-bs-toggle="dropdown"
+					
+				<li class="sidebar-item dropdown">
+				
+				<a class="sidebar-link dropdown-toggle" data-bs-toggle="dropdown"
 					data-bs-auto-close="true" aria-expanded="false"> <span>
 							<i class="ti ti-article"></i>
-					</span> <span class="hide-menu">스케쥴</span>
+					</span> <span class="hide-menu">극장관리</span>
 				</a>
 					<ul class="dropdown-menu sidebarnav">
 						<li class="sidebar-item">
-							<a class="sidebar-link" th:href="@{/admin/schedule/list}" aria-expanded="false"> 
+							<a class="sidebar-link" th:href="@{/admin/theater/list}" aria-expanded="false"> 
 								<span>
 									<i class="ti ti-article"></i>
 								</span> 
 								<span class="hide-menu">리스트</span>
 							</a>
 						</li>
-						<li class="sidebar-item">
-							<a class="sidebar-link" th:href="@{/admin/schedule/register}" aria-expanded="false"> 
-								<span>
-									<i class="ti ti-article"></i>
-								</span> 
-								<span class="hide-menu">등록</span>
-							</a>
-						</li>
-						<li class="sidebar-item"><a class="sidebar-link" href="#">Page
-								1-2</a></li>
-						<li class="sidebar-item"><a class="sidebar-link" href="#">Page
-								1-3</a></li>
-					</ul></li>
+					</ul>
+				</li>
+					<li class="sidebar-item">
+						<a class="sidebar-link" th:href="@{/admin/product/product-list}" aria-expanded="false">
+							<span>
+								<i class="bi bi-android2"></i>
+							</span>
+							<span class="hide-menu">
+								상품관리
+							</span>
+						</a>
+					</li>
 				<li class="sidebar-item dropdown"><a
 					class="sidebar-link dropdown-toggle" data-bs-toggle="dropdown"
 					data-bs-auto-close="true" aria-expanded="false"> <span>
