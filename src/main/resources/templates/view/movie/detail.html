@@ -9,16 +9,16 @@
 
     <!-- movie-detail -->
     <div class="movie-detail-page">
-        <div class="bg-img" style="background-image:url('https://img.megabox.co.kr/SharedImg/2023/07/27/PwFBfeFoxnDYaZtXQcHoauu0jTGoUUUU_570.jpg');"></div>
+        <div class="bg-img" th:style="|background-image:url(${movie.getSubPoster()})|"></div>
         <div class="bg-pattern"></div>
         <div class="bg-mask"></div>
 
         <!-- movie-detail-cont -->
         <div class="movie-detail-cont">
 
-            <p class="contents-type">#메가토크 #무대인사</p>
-            <p class="title">밀수</p>
-            <p class="title-eng">Smugglers</p>
+            <p class="contents-type"></p>
+            <p class="title" th:text="${movie.title}">영화제목</p>
+            <p class="title-eng" th:text="${movie.titleEng}"></p>
 
             <div class="btn-util">
                 <button type="button" title="보고싶어 안함" class="btn btn-like" rpst-movie-no="23029300">
@@ -54,7 +54,7 @@
                         <!--  <div class="number lt" id="mainMegaScore">
                             <p title="관람 전 점수" class="before"><em>0</em><span class="ir">점</span></p>
                             <p title="관람 후 점수" class="after"><em>8.6</em><span class="ir">점</span></p> -->
-                        <p title="실관람 평점" class="before"><em>8.6</em><span class="ir">점</span></p>
+                        <p title="실관람 평점" class="before"><em th:text="${movie.score}"></em><span class="ir"></span></p>
                     </div>
                 </div>
 
@@ -64,7 +64,7 @@
 
 
 
-                    <p class="cont"><em>1</em>위 (30.1%)</p>
+                    <p class="cont" th:text="|위 (${movie.getBookingRate()}%)|"><em th:text="${movie.chartRank}"></em></p>
 
 
 
@@ -89,7 +89,7 @@
 						</em>
 						</span>
                     </div>
-                    <p class="cont"><em>778,036</em> 명</p>
+                    <p class="cont"><em th:text="${movie.audiCnt}"></em> 명</p>
                 </div>
 
             </div>
