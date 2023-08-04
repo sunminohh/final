@@ -38,6 +38,9 @@ public class MovieService {
     private static final String KMDB_API_URL = "http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&detail=Y&ServiceKey=Y40OV2CFS1I2MTV081VG";
     private static final JSONParser JSON_PARSER = new JSONParser();
 
+    public Movie getMovieByMovieNo(int movieNo){
+        return movieMapper.getMovieByMovieNo(movieNo);
+    }
     public List<Movie> getMovies() {
 
         List<Movie> movies = new ArrayList<Movie>();
@@ -144,7 +147,9 @@ public class MovieService {
                 actor= (JSONObject)actorArray.get(actorIndex);
                 sb.append((String)actor.get("actorNm"));
                 String cast=sb.toString();
-
+                String titleEng = (String) result.get("titleEng");
+                String[] titleEngModified = titleEng.split("\\(");
+                movie.setTitleEng(titleEngModified[0]);
                 movie.setIsPlaying("N");
                 movie.setPosterUrl(posters);
                 movie.setGenre((String)result.get("genre"));
@@ -233,6 +238,8 @@ public class MovieService {
                 String plot=(String)plotResult.get("plotText");
 
                 int runtime = Integer.parseInt((String) result.get("runtime"));
+                String titleEng = (String) result.get("titleEng");
+                String[] titleEngModified = titleEng.split("\\(");
                 String contentRating = (String) result.get("rating");
                 if("전체관람가".equals(contentRating)){
                     contentRating="all";
@@ -256,6 +263,7 @@ public class MovieService {
                 sb.append((String)actor.get("actorNm"));
                 String cast=sb.toString();
 
+                movie.setTitleEng(titleEngModified[0]);
                 movie.setIsPlaying("N");
                 movie.setPosterUrl(posters);
                 movie.setGenre((String)result.get("genre"));
