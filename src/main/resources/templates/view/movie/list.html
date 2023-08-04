@@ -151,7 +151,7 @@
                                 </p>
                             </div>
                             <div class="movie-score">
-                                <a th:href="@{/movie/detail(movieNo='${movie.no}')}" class="wrap movieBtn" data-no="23029300" th:title="|${movie.title} 상세보기|">
+                                <a th:href="@{/movie/detail(movieNo=${movie.no})}" class="wrap movieBtn" data-no="23029300" th:title="|${movie.title} 상세보기|">
                                     <div class="summary" th:text="${movie.plot}"></div>
                                     <div class="my-score big">
                                         <div class="preview">
@@ -169,12 +169,12 @@
                         </div>
                         <div class="rate-date">
                             <span class="rate"  th:text="|예매율 ${movie.seatsOpen != 0 ? movie.seatsBooked / movie.seatsOpen : 0} %|" ></span>
-                            <span class="date" th:text="|개봉일 ${movie.openDate != null ? movie.openDate :  '미정'} |"></span>
+                            <span class="date" th:text="|개봉일 ${movie.openDate != null ? movie.openDate :  '미정'}|"></span>
                         </div>
                         <div class="btn-util">
                             <button type="button" class="button btn-like" data-no="23029300">
                                 <i title="보고싶어 안함" class="iconset ico-heart-toggle-gray intrstType"></i>
-                                <span>${movie.likes}</span>
+                                <span th:text="${movie.likes}"></span>
                             </button>
                             <p class="txt movieStat1" style="display: none">상영예정</p>
                             <p class="txt movieStat2" style="display: none">7월 개봉예정</p>
