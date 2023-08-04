@@ -13,24 +13,27 @@ $(() => {
 		let currentDay = today.clone();
 		let index = parseInt(today.get('d'));
 		let target = parseInt(targetDay.get('d'));
-		for(i =1; i < 13 ;i++){
+		for(i =1; i < 15 ;i++){
 			let weekDay = currentDay.format('dd');
-			if(currentDay.diff(toady, 'day')==0){
+			if(currentDay.diff(today, 'day')==0){
 				weekDay = '오늘';
 			}
-			if(currentDay.diff(toady, 'day')==1){
+			if(currentDay.diff(today, 'day')==1){
 				weekDay = '내일';
 			}
-			htmlContents += `<button class="on" type="button" date-data="${currentDay.format('YYYY.MM.DD')}"
+			console.log(currentDay.get('date'));
+			let weekdayno = currentDay.get('day')
+			htmlContents += `<button class="disabled ${weekdayno == 0 ? 'holi': 
+														weekdayno == 6 ? 'sat':''}" type="button" date-data="${currentDay.format('YYYY.MM.DD')}"
 											month="7">
 											<span class="ir">${currentDay.format('YYYY년MM월')}</span><em
-												style="pointer-events: none;">${currentDay.get('day')}<span
+												style="pointer-events: none;">${currentDay.get('date')}<span
 												style="pointer-events: none;" class="ir">일</span></em><span
 												class="day-kr"
 												style="pointer-events: none; display: inline-block">${weekDay}</span><span
 												class="day-en" style="pointer-events: none; display: none">Tue</span>
 										</button>`;
-			currentDay.add(1,'day');
+			currentDay=currentDay.add(1,'day');
 		}
 		$(".date-area .wrap").html(htmlContents);
 	}

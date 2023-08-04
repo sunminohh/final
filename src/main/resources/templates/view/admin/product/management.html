@@ -2,6 +2,21 @@
 <html layout:decorate="~{ layout/admin }" xmlns:layout="http://www.w3.org/1999/xhtml">
 <head th:fragment="extra-head-content">
 <title>관리자페이지</title>
+<style>
+	.delete {
+		background-color: orangered;
+		float: left;
+		margin-right: 5px;
+	}
+	.modify {
+		background-color: deepskyblue;
+		float: left;
+	}
+	.add {
+		background-color: forestgreen;
+		float: right;
+	}
+</style>
 </head>
 <body>
 	<div layout:fragment="content" >
@@ -15,6 +30,7 @@
 							<table class="table">
 								<thead>
 									<tr>
+										<th></th>
 										<th>상품번호</th>
 										<th>상품명</th>
 										<th>상품가격</th>
@@ -30,9 +46,16 @@
 										<td></td>
 										<td></td>
 										<td></td>
+										<td></td>
+										<td></td>
 									</tr>
 								</tbody>
 							</table>
+							<div class="util-button">
+								<button class="btn btn-danger delete" onclick="location.href=''">삭제</a></button>
+								<button class="btn btn-success modify" onclick="location.href=''">수정</a></button>
+								<button class="btn btn-primary add" onclick="location.href='/admin/product/addProduct'">등록</a></button>								
+							</div>
 						</div>
 					</div>
 				</div>
@@ -40,4 +63,7 @@
 		</div>
 	</div>
 </body>
+<script>
+	
+</script>
 </html>

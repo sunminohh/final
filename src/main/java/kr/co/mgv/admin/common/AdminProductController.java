@@ -12,4 +12,9 @@ public class AdminProductController {
 	public String list() {
 		return "/view/admin/product/management";
 	}
+	
+	@GetMapping("/addProduct")
+	public String addProduct() {
+		return "/view/admin/product/addProduct";
+	}
 }

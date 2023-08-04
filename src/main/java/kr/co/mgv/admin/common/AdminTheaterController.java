@@ -5,16 +5,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/admin/schedule")
-public class AdminScheduleController {
+@RequestMapping("/admin/theater")
+public class AdminTheaterController {
 
     @GetMapping("/list")
     public String list() {
-        return "/view/admin/schedule/list";
+        return "/view/admin/theater/list";
     }
     
     @GetMapping("/register")
     public String form() {
-        return "/view/admin/schedule/form";
+        return "/view/admin/theater/schedule/form";
     }
 }
