@@ -32,7 +32,7 @@ public class MovieBoardController {
 			param.put("keyword", keyword);
 		}
     	
-		// service로 극장게시물 목록 조회하기 
+		// service로 영화게시물 목록 조회하기 
 		
 		// model에 조회한 극장게시물 담기
 		
