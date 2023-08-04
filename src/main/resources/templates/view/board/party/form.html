@@ -19,133 +19,7 @@
 					th:object="${addTBoardForm}"
 					th:action="@{/board/theater/add}"
 				 -->
-				<div class="movie-schedule pt-4">
-					<div class="movie-schedule-date border col-11 ms-5">
-						<div class="today-date pt-3">
-							<p class="area_subtitle text-center ">2023.08.02</p>
-						</div>
-						<div class="schedule-select d-flex justify-content-center " >
-							<div class="date-select">
-								<ul class="date-nav nav nav-tabs">
-									  <li class="date-nav-item nav-item">
-									    <button class="nav-link active" id="btn-date" name="date" value="2" style="border-color: #E6E6E6; border-bottom-color:white;">
-									    	<span>2</span><br>
-									    	<span>오늘</span>
-									    	<span class="area_design_border"></span>
-									    </button>
-									  </li>
-									  <li class="date-nav-item nav-item" >
-									  	<button class="nav-link active" id="btn-date" style="border-color: #F2F2F2;">
-									    	<span>3</span><br>
-									    	<span>목</span>
-									    </button>
-									  </li>
-									  <li class="date-nav-item nav-item">
-									    <button class="nav-link active" id="btn-date" style="border-color: #F2F2F2;">
-									    	<span>4</span><br>
-									    	<span>금</span>
-									    </button>
-									  </li>
-									  <li class="date-nav-item nav-item">
-									    <button class="nav-link active" id="btn-date" style="border-color: #F2F2F2;">
-									    	<span>5</span><br>
-									    	<span>토</span>
-									    </button>
-									  </li>
-									  <li class="date-nav-item nav-item">
-									    <button class="nav-link active" id="btn-date" style="border-color: #F2F2F2;">
-									    	<span>6</span><br>
-									    	<span>일</span>
-									    </button>
-									  </li>
-									  <li class="date-nav-item nav-item">
-									    <button class="nav-link active" id="btn-date" style="border-color: #F2F2F2;">
-									    	<span>7</span><br>
-									    	<span>월</span>
-									    </button>
-									  </li>
-									  <li class="date-nav-item nav-item">
-									    <button class="nav-link active" id="btn-date" style="border-color: #F2F2F2;">
-									    	<span>8</span><br>
-									    	<span>화</span>
-									    </button>
-									  </li>
-								</ul>
-							</div>			
-						</div>
-						<form action="">
-							<input type="hidden" name="date" value="date" />
-							<div class="theater-select d-flex justify-content-start ms-4">
-								<select id="movie" title="영화 선택" class="form-select form-select-sm ml07 form-control-sm mb-3 me-1"
-		                                style="width: 130px; float:left; position: relative; left:5px;  border-style: none;" 
-		                                name="movieNo" >
-		      						<option value="" selected disabled>영화선택</option>
-		                        </select>
-		                        <select id="location" title="지역 선택"
-		                                class="form-select form-select-sm  ml07 form-control-sm mb-3"
-		                                style="width: 130px; float:left;  border-style: none;" name="locationNo"
-		                                onchange="changeLoc()">
-		                            <option value="" selected disabled>지역선택</option>
-		                            <option th:value="locatioNo">지역 이름</option>
-		                        </select>
-		
-		                        <select id="theater" title="극장 선택" class="form-select form-select-sm ml07 form-control-sm mb-3"
-		                                style="width: 130px; float:left; position: relative; left:5px;  border-style: none;" 
-		                                name="theaterNo" onchange="changeTBoard()">
-		      						<option value="" selected disabled>극장선택</option>
-		                        </select>
-							</div>
-						</form>
-						<div class="movie-select pb-1">
-							<div class="card col-11 ms-5 mb-3 d-flex justify-content-start" >
-								<div class="theater-name  ps-2 pt-2">
-									<span class="fw-bold">어디어디 영화관</span>
-								</div>
-								<div class="movie-info ms-3 pt-2 d-flex justify-content-start ">
-									<div class="border rounded ms-2 me-2" style="width: 150px; height: 80px">
-										
-									</div>
-									<div class="border rounded ms-2 me-2" style="width: 150px; height: 80px">
-										
-									</div>
-									<div class="border rounded ms-2 me-2" style="width: 150px; height: 80px">
-										
-									</div>
-									<div class="border rounded ms-2 me-2" style="width: 150px; height: 80px">
-										
-									</div>
-								</div>
-							</div>
-							
-							<div class="card col-11 ms-5 mb-3 d-flex justify-content-start" >
-								<div class="theater-name  ps-2 pt-2">
-									<span class="fw-bold">어디어디 영화관</span>
-								</div>
-								<div class="movie-info ms-3 pt-2 d-flex justify-content-start ">
-									<div class="border rounded ms-2 me-2" style="width: 150px; height: 80px">
-										
-									</div>
-									<div class="border rounded ms-2 me-2" style="width: 150px; height: 80px">
-										
-									</div>
-									<div class="border rounded ms-2 me-2" style="width: 150px; height: 80px">
-										
-									</div>
-									<div class="border rounded ms-2 me-2" style="width: 150px; height: 80px">
-										
-									</div>
-								</div>
-							</div>
-							
-							
-						</div>
-					</div>
-				</div>
-									
-
-				 
-				 
-				 
+				 <button class="btn btn-outline-white btn-sm mb-2" id="btn-select-movie" data-bs-toggle="modal" data-bs-target="#modal-select-movie">신고</button>
 				<form  method="post"  class="p-3" enctype="multipart/form-data" >
 					<div class="border light p-3">
 						
@@ -194,12 +68,145 @@
 				</div>	
 			</div>
 		</div>
+		
+		<div class="modal fade modal-lg" id="modal-select-movie" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title">영화선택</h5>
+		      </div>
+		      <div class="modal-body">
+		        
+		        <div class="movie-schedule pt-2 pe-5">
+					<div class="movie-schedule-date border ms-5" style="border-color: black;">
+						<div class="today-date pt-3 border" style="background-color: #9370db; border-color: #9370db;">
+							<p class="area_subtitle text-center fs-6 fw-bold mt-1" style="color: white">2023.08.02</p>
+						</div>
+						<div class="schedule-select d-flex justify-content-center pt-2" >
+							<div class="date-select">
+								<ul class="date-nav nav nav-tabs">
+									  <li class="date-nav-item nav-item">
+									    <button class="nav-link active" id="btn-date" name="date" value="2" style="border-color: #E6E6E6; border-bottom-color:white;">
+									    	<span>2</span><br>
+									    	<span>오늘</span>
+									    </button>
+									  </li>
+									  <li class="date-nav-item nav-item" >
+									  	<button class="nav-link active" id="btn-date" style="border-color: #F2F2F2;">
+									    	<span>3</span><br>
+									    	<span>목</span>
+									    </button>
+									  </li>
+									  <li class="date-nav-item nav-item">
+									    <button class="nav-link active" id="btn-date" style="border-color: #F2F2F2;">
+									    	<span>4</span><br>
+									    	<span>금</span>
+									    </button>
+									  </li>
+									  <li class="date-nav-item nav-item">
+									    <button class="nav-link active" id="btn-date" style="border-color: #F2F2F2;">
+									    	<span>5</span><br>
+									    	<span>토</span>
+									    </button>
+									  </li>
+									  <li class="date-nav-item nav-item">
+									    <button class="nav-link active" id="btn-date" style="border-color: #F2F2F2;">
+									    	<span>6</span><br>
+									    	<span>일</span>
+									    </button>
+									  </li>
+									  <li class="date-nav-item nav-item">
+									    <button class="nav-link active" id="btn-date" style="border-color: #F2F2F2;">
+									    	<span>7</span><br>
+									    	<span>월</span>
+									    </button>
+									  </li>
+									  <li class="date-nav-item nav-item">
+									    <button class="nav-link active" id="btn-date" style="border-color: #F2F2F2;">
+									    	<span>8</span><br>
+									    	<span>화</span>
+									    </button>
+									  </li>
+								</ul>
+							</div>			
+						</div>
+						<form action="">
+							<input type="hidden" name="date" value="date" />
+							<div class="theater-select d-flex justify-content-start ms-4 pt-2">
+		                        <select id="location" title="지역 선택"
+		                                class="form-select form-select-sm  ml07 form-control-sm mb-3"
+		                                style="width: 110px; float:left;  border-style: none;" name="locationNo"
+		                                onchange="changeLoc()">
+		                            <option value="" selected disabled>지역선택</option>
+		                            <option th:value="locatioNo">지역 이름</option>
+		                        </select>
+		
+		                        <select id="theater" title="극장 선택" class="form-select form-select-sm ml07 form-control-sm mb-3"
+		                                style="width: 130px; float:left; position: relative; left:5px;  border-style: none;" 
+		                                name="theaterNo" onchange="changeTBoard()">
+		      						<option value="" selected disabled>극장선택</option>
+		                        </select>
+								<select id="movie" title="영화 선택" class="form-select form-select-sm ml07 form-control-sm mb-3 me-1"
+		                                style="width: 130px; float:left; position: relative; left:5px;  border-style: none;" 
+		                                name="movieNo" >
+		      						<option value="" selected disabled>영화선택</option>
+		                        </select>
+							</div>
+						
+							<div class="movie-select pb-1" >
+								<div class="card mb-3  col-11" style=" left: 27px;">
+									<div class="theater-name ps-3 pt-3" >
+										<span class="fw-bold">MGV 종로3가</span>
+									</div>
+									<div class="movie-info ms-3 pt-2 d-flex justify-content-start ">
+										<button class="border rounded me-3" style="width: 120px; height: 60px; background-color: white">
+											<div class="me-4" id="movie-time">
+												<p><strong>8:10</strong> ~ 10:20</p>
+												<p class="pe-5 me-1 mt-1">3관</p>
+											</div>
+										</button>
+										<button class="border rounded me-3" style="width: 120px; height: 60px; background-color: white">
+											<div class="me-4" id="movie-time">
+												<p><strong>8:10</strong> ~ 10:20</p>
+												<p class="pe-5 me-1 mt-1">3관</p>
+											</div>
+										</button>
+										<button class="border rounded me-3" style="width: 120px; height: 60px; background-color: white">
+											<div class="me-4" id="movie-time">
+												<p><strong>8:10</strong> ~ 10:20</p>
+												<p class="pe-5 me-1 mt-1">3관</p>
+											</div>
+										</button>
+										<button class="border rounded me-3" style="width: 120px; height: 60px; background-color: white">
+											<div class="me-4" id="movie-time">
+												<p><strong>8:10</strong> ~ 10:20</p>
+												<p class="pe-5 me-1 mt-1">3관</p>
+											</div>
+										</button>
+									</div>
+								</div>	
+							</div>
+							
+						</form>
+					</div>
+				</div>
+		        
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">닫기</button>
+		        <button type="button" class="btn btn-sm" style="background-color: #9370db;">선택완료</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+
 	</div>
 </body>
 </html>
 
-
-
+<!-- 
+		(파티생성시간 - 1시간) 보다 전 타임 영화는 보이지 않는다.
+ -->
 
 
 
