@@ -19,9 +19,10 @@
             <div class="inner-wrap">
                 <h2 class="tit">스토어</h2>
                 <div class="tab-list fixed">
+					<!-- forEach문으로 상품카테고리 넣기 -->
                     <ul>
-                        <li class="on" id="storeTab_">
-                            <a th:href="@{/store/}""새로운 상품 탭으로 이동">전체 상품</a>
+                        <li class="" id="storeTab_">
+                            <a th:href="@{/store/}" title="새로운 상품 탭으로 이동">전체 상품</a>
                         </li>
                         <li id="storeTab_CPC02" class="">
                             <a th:href="@{/store/ticket}" title="메가티켓 탭으로 이동">MGV티켓</a>
@@ -34,7 +35,7 @@
                             <a th:href="@{/store/coupon}" title="금액권 탭으로 이동">금액권</a>
                         </li>
                         <!-- li id="storeTab_CPC07"><a th:href=@{/store/detail(storeNo='1'}/a></li-->
-                        <li id="storeTab_CPC07" class="">
+                        <li id="storeTab_CPC07" class="on">
                             <a th:href="@{/store/package}" title="포인트몰 탭으로 이동">패키지</a>
                         </li>
                     </ul>
@@ -42,81 +43,6 @@
                 <!-- 새로운 상품 -->
                 <div id="divNewPrdtArea">
                     <!-- store-main -->
-                    <div class="store-main">
-                        <!-- best-goods -->
-                        <div class="best-goods">
-                            <a th:href="@{/store/detail(storeNo='1')}" title="러브콤보패키지 상세보기">
-                                <div class="slogun">
-                                    <p class="font-gblue">소중한 분들과 함께</p>
-                                    <p class="font-purple">즐거운 관람되세요~</p>
-                                </div>
-                                <div class="goods">
-                                    <p class="name">러브콤보패키지</p>
-                                    <p class="txt">2D 일반관람권 2매 + 러브콤보 [팝콘(L)1 + 탄산음료(R)2]</p>
-                                </div>
-                                <div class="price">
-                                    <p class="sale">
-                                        <em>30,000</em>
-                                        <span>원</span>
-                                    </p>
-                                    <p class="original">
-                                        <em>36,000</em>
-                                        <span>원</span>
-                                    </p>
-                                </div>
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/store/2020/12/29/ZVX4FRDP8NLYto5HL0gAtxr6u4ZCmwOP_280.png" alt="" onerror="noImg(this);">
-                                </p>
-                            </a>
-                        </div>
-                        <!--// best-goods -->
-                        <!-- brn-store -->
-                        <div class="brn-store">
-                            <!-- brn-slider-control -->
-                            <div class="brn-slider-control">
-                                <button type="button" class="brn-store-prev" tabindex="0" role="button" aria-label="Previous slide">이전 배너 보기 </button>
-                                <button type="button" class="brn-store-next" tabindex="0" role="button" aria-label="Next slide">다음 배너 보기 </button>
-                                <button type="button" class="brn-store-pause on">일시정지</button>
-                                <button type="button" class="brn-store-play">자동재생</button>
-                                <div class="brn-store-pagination swiper-pagination-fraction">
-                                    <span class="swiper-pagination-current">2</span> / <span class="swiper-pagination-total">2</span>
-                                </div>
-                            </div>
-                            <!--// brn-slider-control -->
-                            <!-- brn-store-swiper -->
-                            <div class="brn-store-swiper swiper-container-initialized swiper-container-horizontal">
-                                <div class="swiper-wrapper" style="transition-duration: 0ms; transform: translate3d(-1060px, 0px, 0px);">
-                                    <div class="cell swiper-slide swiper-slide-duplicate swiper-slide-duplicate-active" data-swiper-slide-index="1" style="width: 530px;">
-                                        <a href="/on/oh/ohe/Event/eventMngDtl.do?eventNo=13665" title="스토어 이벤트 상세보기">
-                                            <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/13/r2wAzeH9InR2ShN9QkQja9U5YNDd3HwT.jpg" alt="메가박스 미니 시네마" onerror="noImg(this);">
-                                        </a>
-                                    </div>
-                                    <!-- 반복 -->
-                                    <div class="cell swiper-slide swiper-slide-prev swiper-slide-duplicate-next" data-swiper-slide-index="0" style="width: 530px;">
-                                        <a href="/on/oh/ohe/Event/eventMngDtl.do?eventNo=13691" title="스토어 이벤트 상세보기">
-                                            <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/17/mSW1mmptAVDPoXoeGnIlCEeJUGZaN0xt.jpg" alt="[미니 시네마 무비칩 NO.1] 미션 임파서블: 데드 레코닝 PART ONE" onerror="noImg(this);">
-                                        </a>
-                                    </div>
-                                    <!--// 반복 -->
-                                    <!-- 반복 -->
-                                    <div class="cell swiper-slide swiper-slide-active" data-swiper-slide-index="1" style="width: 530px;">
-                                        <a href="/on/oh/ohe/Event/eventMngDtl.do?eventNo=13665" title="스토어 이벤트 상세보기">
-                                            <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/13/r2wAzeH9InR2ShN9QkQja9U5YNDd3HwT.jpg" alt="메가박스 미니 시네마" onerror="noImg(this);">
-                                        </a>
-                                    </div>
-                                    <!--// 반복 -->
-                                    <div class="cell swiper-slide swiper-slide-duplicate swiper-slide-next swiper-slide-duplicate-prev" data-swiper-slide-index="0" style="width: 530px;">
-                                        <a href="/on/oh/ohe/Event/eventMngDtl.do?eventNo=13691" title="스토어 이벤트 상세보기">
-                                            <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/17/mSW1mmptAVDPoXoeGnIlCEeJUGZaN0xt.jpg" alt="[미니 시네마 무비칩 NO.1] 미션 임파서블: 데드 레코닝 PART ONE" onerror="noImg(this);">
-                                        </a>
-                                    </div>
-                                </div>
-                                <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
-                            </div>
-                            <!--// brn-store-swiper -->
-                        </div>
-                        <!--// brn-store -->
-                    </div>
                     <!--// store-main -->
                     <div class="tit-util mt70 mb15">
                         <h3 class="tit">메가티켓</h3>

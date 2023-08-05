@@ -19,6 +19,23 @@
 		});
 
 /*
+	신청버튼 관련 코드
+*/	
+		let joinButtonClicked = false;
+		$("#join-button").click(function(event) {
+			event.preventDefault();
+			if (!joinButtonClicked) {
+				$(this).removeClass("btn-outline-secondary").addClass("btn-secondary")
+					   .text("취소하기");
+				joinButtonClicked = true;
+			} else {
+				$(this).removeClass("btn-secondary").addClass("btn-outline-secondary")
+						.text("신청하기");
+				joinButtonClicked = false;
+			}
+		});
+
+/*
 	id="a-reply"인 a태그 '답글달기'를 클릭시 id="reply-comment-box"인 div 안에 html 코드(let content)가 append 되고,
 	해당 a태그의 text는 '취소'로, id는 reply로 변경된다.
 	-> 변경된 text인 '취소'를 눌렀을때 id="reply-comment-box"인 div 안에 content가 추가되지 않는다

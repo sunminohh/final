@@ -3,6 +3,7 @@
       layout:decorate="~{layout/support}">
 <head th:fragment="extra-head-content">
 	<link th:href=@{/css/support/faq.css} rel="stylesheet">
+	<script type="text/javascript" th:src="@{/js/support/faq.js}"></script>
 </head>
 <div layout:fragment="content" id="contents">
     <h2 class="tit">자주 묻는 질문</h2>
@@ -12,12 +13,10 @@
         <div class="input-area">
             <label for="search01" class="label">빠른검색</label>
 
-            <!-- 2019-01-21 검색 부분 변경 -->
             <div class="board-search w460px">
                 <input type="search" id="searchTxt" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" value="" maxlength="15">
                 <button type="button" id="searchBtn" class="btn-search-input">검색</button>
             </div>
-            <!--// 2019-01-21 검색 부분 변경 -->
         </div>
 
         <div class="btn-area">
@@ -25,7 +24,24 @@
         </div>
     </div>
     <!--// input-search-area -->
+    <div class="tab-block-faq mb30">
+        <ul>
+            <li class="tab-link current"><button type="button" class="btn rounded-0" data-category-no="1" title="전체">전체</button></li>
+            <li class="tab-link"><button type="button" class="btn rounded-0" data-category-no="2" title="영화예매">영화예매</button></li>
+            <li class="tab-link"><button type="button" class="btn rounded-0" data-category-no="3" title="할인혜택">할인혜택</button></li>
+            <li class="tab-link"><button type="button" class="btn rounded-0" data-category-no="4" title="결제수단/관람권">결제수단/관람권</button></li>
+            <li class="tab-link"><button type="button" class="btn rounded-0" data-category-no="5" title="멤버십">멤버십</button></li>
+            <li class="tab-link"><button type="button" class="btn rounded-0" data-category-no="6" title="VIP">VIP</button></li>
+            <li class="tab-link"><button type="button" class="btn rounded-0" data-category-no="7" title="극장/특별관">극장/특별관</button></li>
+            <li class="tab-link"><button type="button" class="btn rounded-0" data-category-no="8" title="스토어">스토어</button></li>
+            <li class="tab-link"><button type="button" class="btn rounded-0" data-category-no="9" title="홈페이지/모바일">홈페이지/모바일</button></li>
+            <li class="tab-link"><button type="button" class="btn rounded-0" data-category-no="10" title="기프트카드">기프트카드</button></li>
+        </ul>
 
+        <input type="hidden" id="bbsTotalCnt" value="77">
+    </div>
+
+	<!-- 
 	   <div class="container mt-3 mb-4" id="tab-buttons">
 		  <div class="d-flex p-0 border" >
 		    <div class="flex-fill  p-0" style="width:20%;"><button id="tab-menu-1" class="w-100 btn btn-border-0 btn-sm py-2 btn-secondary rounded-0" onclick="activeTab(1)" data-category-no="1">전체</button></div>
@@ -42,173 +58,84 @@
 		    <div class="flex-fill  p-0" style="width: 20%;"><button id="tab-menu-10" class="w-100 btn btn-border-0 btn-sm py-2 rounded-0" onclick="activeTab(10)" data-category-no="10">기프트카드</button></div>
 		  </div>
 	    </div>
-	    
-        <input type="hidden" id="bbsTotalCnt" value="77">
-    
+	-->
+    <div class="faq-list-box">
     <p class="reset mb10"><strong><span id="totalTitle">전체</span> <span class="font-green" id="totalCnt">77</span>건</strong></p>
-    
-  			<div class="accordion accordion-flush" id="faq-accordion">
-			  <div class="accordion-item" data-category-no="10">
-			    <h2 class="accordion-header border-top border-dark" id="flush-headingOne">
-			      <button class="accordion-button " type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-			      	<div style="line-height:1">
-				      	<div class="font-green">
-				      		[기프트카드] 
-				      	</div>
-				      	<br>
-						<div class="text-start" style="font-size:14px;"><span class="text-danger">Q.</span> 기프트카드를 보냈는데 상대방이 받지 못했다고 합니다.</div>
-			      	</div>
-			      </button>
-			    </h2>
-			    <div id="flush-collapseOne" class="accordion-collapse collapse show" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-			      <div class="accordion-body">
-			    		<div class="d-flex justify-content-start">
-							<div class="ps-4"><span id="acco-body-ans-icon">A.</span></div>
-							<div class="text-start small ps-2 mt-1">
-								구매자분 통신사에 가입된 부가서비스로 인해 발신이 차단된 경우가 있습니다. 통신사를 통하여 아래 부가서비스 해지 후 익일 재 구매를 부탁 드립니다.
-								<br><br>
-								*부가서비스 명칭<br>
-								- SKT & KT: 번호도용 문자 차단서비스<br>
-								- LG U+: 휴대폰번호 도용 방지서비스
-								<br><br>
-								이미 구매하신 기프트카드 결제 취소는 기프트카드 거래 이력이 없고 계정 등록 전인 경우, 결제일로부터 최대 10일 내 나의 메가박스 > 예매/구매 내역 > 구매내역에서 취소 가능합니다.
-							</div>
-						</div>
-			      </div>
-			    </div>
-			  </div>
-			  <div class="accordion-item"  data-category-no="10">
-			    <h2 class="accordion-header" id="flush-headingTwo">
-			      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-			       	<div style="line-height:1">
-				      	<div class="font-green">
-				      		[기프트카드] 
-				      	</div>
-				      	<br>
-						<div class="text-start" style="font-size:14px;"><span class="text-danger">Q.</span> 선물은 어떤 경로로 보낼 수 있나요?</div>
-			      	</div>
-			      </button>
-			    </h2>
-			    <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-			      <div class="accordion-body">
-			      	<div class="d-flex justify-content-start">
-						<div class="ps-4"><span id="acco-body-ans-icon">A.</span></div>
-						<div class="text-start small ps-2 mt-1">
-							받는 사람의 휴대폰 번호로 발송 가능하며, 선물한 기프트카드는 알림톡으로 전송됩니다.
-						</div>
-					</div>
-			      </div>
-			    </div>
-			  </div>
-			  <div class="accordion-item"  data-category-no="10">
-			    <h2 class="accordion-header" id="flush-headingThree">
-			      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-			       	<div style="line-height:1">
-				      	<div class="font-green">
-				      		[기프트카드] 
-				      	</div>
-				      	<br>
-						<div class="text-start" style="font-size:14px;"><span class="text-danger">Q.</span> 신용카드의 구매 한도는 얼마이며, 법인카드로 결제가 가능한가요?</div>
-			      	</div>
-			      </button>
-			    </h2>
-			    <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-			         <div class="accordion-body">
-			      	<div class="d-flex justify-content-start">
-						<div class="ps-4"><span id="acco-body-ans-icon">A.</span></div>
-						<div class="text-start small ps-2 mt-1">
-							아래와 같이 구매가 가능합니다.<br>
-							- 개인 신용카드 : 1개월간 상품권 구매 한도 100만원<br>
-							- 법인카드 : 사업자별로 구매한도 상이 (각 사업자에 문의하시기 바랍니다.)<br>
-							법인카드로 구매 가능하며, 청구서상 ‘상품권’ 유형으로 표시됩니다.<br>
-							(개인 신용카드 동일 / 별도 상품권 가맹)
-						</div>
-					</div>
-			      </div>
-			    </div>
-			  </div>
-			  <div class="accordion-item"  data-category-no="2">
-			    <h2 class="accordion-header" id="flush-headingFour">
-			      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
-			       	<div style="line-height:1">
-				      	<div class="font-green">
-				      		[영화예매] 
-				      	</div>
-				      	<br>
-						<div class="text-start" style="font-size:14px;"><span class="text-danger">Q.</span> 신용카드의 구매 한도는 얼마이며, 법인카드로 결제가 가능한가요?></div>
-			      	</div>
-			      </button>
-			    </h2>
-			    <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
-			         <div class="accordion-body">
-			      	<div class="d-flex justify-content-start">
-						<div class="ps-4"><span id="acco-body-ans-icon">A.</span></div>
-						<div class="text-start small ps-2 mt-1">
-							아래와 같이 구매가 가능합니다.<br>
-							- 개인 신용카드 : 1개월간 상품권 구매 한도 100만원<br>
-							- 법인카드 : 사업자별로 구매한도 상이 (각 사업자에 문의하시기 바랍니다.)<br>
-							법인카드로 구매 가능하며, 청구서상 ‘상품권’ 유형으로 표시됩니다.<br>
-							(개인 신용카드 동일 / 별도 상품권 가맹)
-						</div>
-					</div>
-			      </div>
-			    </div>
-			  </div>
-			  <div class="accordion-item"  data-category-no="2">
-			    <h2 class="accordion-header border-bottom" id="flush-headingFive">
-			      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFive" aria-expanded="false" aria-controls="flush-collapseFive">
-			       	<div style="line-height:1">
-				      	<div class="font-green">
-				      		[영화예매] 
-				      	</div>
-				      	<br>
-						<div class="text-start" style="font-size:14px;"><span class="text-danger">Q.</span> 신용카드의 구매 한도는 얼마이며, 법인카드로 결제가 가능한가요?</div>
-			      	</div>
-			      </button>
-			    </h2>
-			    <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-headingFive" data-bs-parent="#accordionFlushExample">
-			      <div class="accordion-body">
-			      	<div class="d-flex justify-content-start">
-						<div class="ps-4"><span id="acco-body-ans-icon">A.</span></div>
-						<div class="text-start small ps-2 mt-1">
-							아래와 같이 구매가 가능합니다.<br>
-							- 개인 신용카드 : 1개월간 상품권 구매 한도 100만원<br>
-							- 법인카드 : 사업자별로 구매한도 상이 (각 사업자에 문의하시기 바랍니다.)<br>
-							법인카드로 구매 가능하며, 청구서상 ‘상품권’ 유형으로 표시됩니다.<br>
-							(개인 신용카드 동일 / 별도 상품권 가맹)
-						</div>
-					</div>
-			      </div>
-			    </div>
-			  </div>
-			</div>
+    	<div class="faq-list">
+    		<ul>
+    			<li>
+    				<div class="qut">
+    					<a href="#">
+    						<p class="tit">
+    							<span class="font-green">[기프트카드]</span>
+    						</p>
+    						<p class="txt">
+    							<span class="font-green">
+    							</span>
+    							<span>
+    								기프트 카드를 보냈는데 상대방이 받지 못했다고 합니다.
+    							</span>
+    						</p>
+    					</a>
+    				</div>
+    				<div class="awn">
+    					<p class="cont">
+    						<span style="font-size:10.0pt">
+    							<span style="line-height:107%">
+    								<span>구매자분 통신사에 가입된 부가서비스로 인해 발신이 차단된 경우가 있습니다. 통신사를 통하여 아래 부가서비스 해지 후 익일 재 구매를 부탁 드립니다.<br>
+    								<br>
+									*부가서비스 명칭<br>
+									- SKT &amp; KT: 번호도용 문자 차단서비스<br>
+									- LG U+: 휴대폰번호 도용 방지서비스<br>
+									<br>
+									이미 구매하신 기프트카드 결제 취소는 기프트카드 거래 이력이 없고 계정 등록 전인 경우, 결제일로부터 최대 10일 내 나의 메가박스 &gt; 예매/구매 내역 &gt; 구매내역에서 취소 가능합니다.
+									</span>
+								</span>
+    						</span>
+    					</p>
+    				</div>
+    			</li>
+    			<li>
+    				<div class="qut">
+    					<a href="#none">
+    						<p class="tit">
+    							<span class="font-green">[기프트카드]</span>
+    						</p>
+    						<p class="txt">
+    							<span class="font-green">
+    							</span>
+    							<span>
+    								기프트 카드를 보냈는데 상대방이 받지 못했다고 합니다.
+    							</span>
+    						</p>
+    					</a>
+    				</div>
+    				<div class="awn">
+    					<p class="cont">
+    						<span style="font-size:10.0pt">
+    							<span style="line-height:107%">
+    								<span>구매자분 통신사에 가입된 부가서비스로 인해 발신이 차단된 경우가 있습니다. 통신사를 통하여 아래 부가서비스 해지 후 익일 재 구매를 부탁 드립니다.<br>
+    								<br>
+									*부가서비스 명칭<br>
+									- SKT &amp; KT: 번호도용 문자 차단서비스<br>
+									- LG U+: 휴대폰번호 도용 방지서비스<br>
+									<br>
+									이미 구매하신 기프트카드 결제 취소는 기프트카드 거래 이력이 없고 계정 등록 전인 경우, 결제일로부터 최대 10일 내 나의 메가박스 &gt; 예매/구매 내역 &gt; 구매내역에서 취소 가능합니다.
+									</span>
+								</span>
+    						</span>
+    					</p>
+    				</div>
+    			</li>
+    		</ul>
+		</div>
+	</div>
 
     <!-- pagination -->
     <nav class="pagination justify-content-center"><strong class="active">1</strong> <a title="2페이지보기" href="javascript:void(0)" pagenum="2">2</a> <a title="3페이지보기" href="javascript:void(0)" pagenum="3">3</a> <a title="4페이지보기" href="javascript:void(0)" pagenum="4">4</a> <a title="5페이지보기" href="javascript:void(0)" pagenum="5">5</a> <a title="6페이지보기" href="javascript:void(0)" pagenum="6">6</a> <a title="7페이지보기" href="javascript:void(0)" pagenum="7">7</a> </nav>
     <!--// pagination -->
 
-<script type="text/javascript">
-function activeTab(num) {
-    // 버튼 활성화 변경
-    $('.btn').removeClass("btn-secondary");
-    $("#tab-menu-" + num).addClass('btn-secondary');
 
-    // 해당하는 카테고리의 FAQ 목록만 표시
-   
-    $("#faq-accordion .accordion-item").each(function() {
-        var itemCategoryNo = $(this).attr("data-category-no");
-        
-        // ajax
-        
-         console.log(itemCategoryNo)
-        if (num == "1" || num == itemCategoryNo) {
-            $(this).show();
-        } else {
-            $(this).hide();
-        } 
-    });
-}
-</script>
 
 </div>
 </html>

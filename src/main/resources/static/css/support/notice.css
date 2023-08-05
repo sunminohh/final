@@ -1,30 +1,9 @@
-
-.accordion-button:not(.collapsed) {
-	color:inherit;
-	background:white;
-}
-
-.accordion-body {
-	background-color: #f2f4f5;
-}
-	
-.accordion-button:focus {
-	box-shadow: inherit;
-	
-}
-
-#acco-body-ans-icon {
-	color: #ec7f7a;
-	font-size:14px;
-}
-
-
 /* 탭 메뉴 스타일 */
-.tab-block-faq {
+.tab-block-notice {
     position: relative;
 }
 
-.tab-block-faq:before {
+.tab-block-notice:before {
     content: '';
     position: absolute;
     left: 0;
@@ -34,17 +13,17 @@
     background-color: #d8d9db;
 }
 
-.tab-block-faq ul:after,
-.tab-block-faq ul:before {
+.tab-block-notice ul:after,
+.tab-block-notice ul:before {
     content: '';
     display: table;
 }
 
-.tab-block-faq ul:after {
+.tab-block-notice ul:after {
     clear: both;
 }
 
-.tab-block-faq ul li {
+.tab-block-notice ul li {
     position: relative;
     float: left;
     width: 20%;
@@ -52,20 +31,20 @@
     border-left: 0;
 }
 
-.tab-block-faq ul li:first-child,
-.tab-block-faq ul li:nth-child(6) {
+.tab-block-notice ul li:first-child,
+.tab-block-notice ul li:nth-child(6) {
     border-left: 1px solid #d8d9db;
 }
 
-.tab-block-faq ul li:nth-child(5)~li {
+.tab-block-notice ul li:nth-child(5)~li {
     margin-top: -1px;
 }
 
-.tab-block-faq ul li:last-child {
+.tab-block-notice ul li:last-child {
     border-right: 1px solid #d8d9db;
 }
 
-.tab-block-faq ul li .btn {
+.tab-block-notice ul li .btn {
     display: block;
     width: 100%;
     height: 34px;
@@ -79,30 +58,27 @@
     font-size: 14px;
 }
 
-.tab-block-faq ul li.current {
+.tab-block-notice ul li.current {
     border-color: #555;
 }
 
-.tab-block-faq ul li.current .btn {
+.tab-block-notice ul li.current .btn {
     color: #fff;
     background-color: #555;
 }
 
-.tab-block-faq ul li.current:first-child {
+.tab-block-notice ul li.current:first-child {
     border-color: #555;
 }
 
 /* 탭 메뉴 작은 버전 스타일 */
-.tab-block-faq.small ul li .btn {
+.tab-block-notice.small ul li .btn {
     letter-spacing: -1px;
     font-size: .9333em;
 }
 
 /* 탭 메뉴 포커스 스타일 */
-.tab-block-faq ul li .btn:focus {
+.tab-block-notice ul li .btn:focus {
     color: #fff;
     background-color: #555;
 }
-
-
-
