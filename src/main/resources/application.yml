@@ -1,4 +1,3 @@
-
 server:
   port: 80
 
@@ -9,12 +8,19 @@ spring:
     username: ENC(9XDA7hCZmrSpgSMOeKNU1HcluBP0iYxE)
     password: ENC(LHl89g5NCgKgbPOU1S67Wbu5vFvDpZjC)
     driver-class-name: com.mysql.cj.jdbc.Driver
-## jpa
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: update
-    generate-ddl: true
+
+## email setting
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: mgv0307@gmail.com
+    password: gpzhsnvyrpejbrgz
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 # mybatis
 mybatis:
@@ -26,12 +32,16 @@ mybatis:
     jdbc-type-for-null: 'NULL'
     log-impl: org.apache.ibatis.logging.log4j2.Log4j2Impl
     map-underscore-to-camel-case: true
-
+logging:
+  level:
+    root: info
+    '[org.springframework-security]': trace
+    '[kr.co.mgv.dao]': trace
 ---
 ## thymeleaf
 spring:
   thymeleaf:
     cache: false
-    
+
     
     

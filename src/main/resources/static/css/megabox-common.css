@@ -36985,7 +36985,8 @@ body.bg-member {
     padding: 0;
     font-size: 0;
     line-height: 0;
-    background: url(https://img.megabox.co.kr/static/pc/images/common/ci/logo_new2.png) center no-repeat
+    background: url(/images/mgv.png) center no-repeat !important;
+    background-size: 86px !important;
 }
 
 .member-wrap .col-wrap {
