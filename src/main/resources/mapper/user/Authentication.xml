@@ -2,19 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.mgv.user.mapper.AuthenticationDao">
     <insert id="insertUser" parameterType="kr.co.mgv.user.vo.User">
-        insert into mgv_user
-            (user_id, user_password, user_name, user_tel, user_email)
+        insert into MGV_USER
+            (user_id, user_password, user_name, user_email, user_birth)
         values
-            (#{id}, #{password}, #{name}, #{tel}, #{email})
+            (#{id}, #{password}, #{name}, #{email}, #{birth})
     </insert>
 
     <select id="getUserById" parameterType="string" resultType="kr.co.mgv.user.vo.User">
         select
-            user_id     as id,
-            user_password     as password,
-            user_name       as name,
-            user_tel        as tel,
-            user_email      as email,
+            user_id                 as id,
+            user_password           as password,
+            user_name               as name,
+            user_birth              as birth,
+            user_email              as email,
             user_create_date        as createDate,
             user_update_date        as updateDate
         from
@@ -26,9 +26,9 @@
     <select id="getUserByEmail" parameterType="string" resultType="kr.co.mgv.user.vo.User">
         select
             user_id                     as id,
-            user_password     as password,
+            user_password               as password,
             user_name                   as name,
-            user_tel                    as tel,
+            user_birth                  as birth,
             user_email                  as email,
             user_create_date            as createDate,
             user_update_date            as updateDate

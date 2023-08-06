@@ -24,4 +24,10 @@ public class AuthenticationService implements UserDetailsService {
         User user = authenticationDao.getUserById(id);
         return user;
     }
+
+    public User getUserByEmail(String email) {
+        return authenticationDao.getUserByEmail(email);
+    }
+
+
 }

@@ -22,19 +22,20 @@ public class User implements UserDetails {
     private String password;
     private String name;
     private String email;
-    private String tel;
+    private String emailValifiled; // 이메일 인증여부
+    private Date birth;
     private Date createDate;
     private Date updateDate;
     private List<String> roleName;
 
     @Builder
-    public User(String id, String email, String password, String name, String tel, Date createDate, Date updateDate, List<String> roleName) {
+    public User(String id, String email, String password, String name, Date birth, Date createDate, Date updateDate, List<String> roleName) {
         super();
         this.id = id;
         this.email = email;
         this.name = name;
-        this.tel = tel;
         this.password = password;
+        this.birth = birth;
         this.createDate = createDate;
         this.updateDate = updateDate;
         this.roleName = roleName;
