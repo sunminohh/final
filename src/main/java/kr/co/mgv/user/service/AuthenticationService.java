@@ -3,6 +3,7 @@ package kr.co.mgv.user.service;
 import kr.co.mgv.user.mapper.AuthenticationDao;
 import kr.co.mgv.user.mapper.UserRoleDao;
 import kr.co.mgv.user.vo.User;
+import kr.co.mgv.user.vo.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -28,6 +29,5 @@ public class AuthenticationService implements UserDetailsService {
     public User getUserByEmail(String email) {
         return authenticationDao.getUserByEmail(email);
     }
-
 
 }

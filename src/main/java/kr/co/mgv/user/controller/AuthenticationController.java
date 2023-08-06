@@ -31,16 +31,19 @@ public class AuthenticationController {
 
     @PostMapping("/form")
     public String form(@Valid UserJoinForm form, Errors errors, Model model) {
-
-
         return "redirect:/";
     }
 
     @PostMapping("/join")
     public String join(@ModelAttribute("userJoinForm") UserJoinForm form, SessionStatus sessionStatus) {
+        // TODO Service -> DAO (user, role)
         sessionStatus.setComplete();
+        return "redirect:/user/auth/registered";
+    }
 
-        return "redirect:registered";
+    @GetMapping("/registered")
+    public String registered() {
+        return "/view/auth/registered";
     }
 
     @ResponseBody
