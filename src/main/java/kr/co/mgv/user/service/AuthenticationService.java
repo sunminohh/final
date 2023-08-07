@@ -51,8 +51,6 @@ public class AuthenticationService implements UserDetailsService {
                 .map(UserRole::getRoleName)
                 .collect(Collectors.toList())
         );
-
-
         return user;
     }
 

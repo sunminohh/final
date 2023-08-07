@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.mgv.board.mboard.MovieBoardDao">
+
+    <select id="getTotalRows" parameterType="map" resultType="int">
+    	SELECT COUNT(*)
+    	FROM MGV_MOVIE_BOARD A, MGV_MOVIE B
+    	WHERE A.BOARD_DELETED = 'N' AND A.BOARD_REPORT = 'N'
+    		  AND A.MOVIE_NO = B.MOVIE_NO
+  	    <choose>
+  			<when test="opt == 'movieTitle'">
+  				and B.movie_title like  CONCAT('%', #{keyword}, '%')
+  			</when>
+  			<when test="opt == 'title'">
+  				and A.board_name like  CONCAT('%', #{keyword}, '%')
+  			</when>
+  			<when test="opt == 'content'">
+  				and A.board_content like  CONCAT('%', #{keyword}, '%')
+  			</when>
+  			<when test="opt == 'all'">
+  				and A.board_name like  CONCAT('%', #{keyword}, '%') or A.board_content like  CONCAT('%', #{keyword}, '%')
+  			</when>
+  			<when test="opt == 'writer'">
+  				and A.member_id like  CONCAT('%', #{keyword}, '%')
+  			</when>
+  		</choose>
+    </select>
+    
+	<select id="getMBoards" parameterType="map" resultType="kr.co.mgv.board.mboard.MovieBoard">
+	    select *
+	    from (
+	        select 
+	            A.board_no              as no,
+	            A.board_name            as name,
+	            A.board_create_date     as createDate,
+	            A.board_update_date     as updateDate,
+	            A.board_read_cnt        as readCount,
+	            A.board_comment_cnt     as commentCount,
+	            A.member_id             as "user.id",
+	            A.board_content         as content,
+	            row_number() over (
+	            	<if test="sort == null">
+	                        order by board_create_date desc	            	
+	            	</if>
+	                <choose>
+	                    <when test="sort == 'new'">
+	                        order by board_create_date desc
+	                    </when>
+	                    <when test="sort == 'old'">
+	                        order by board_create_date asc
+	                    </when>
+	                    <when test="sort == 'view'">
+	                        order by board_read_cnt desc, board_create_date desc
+	                    </when>
+	                    <when test="sort == 'comment'">
+	                        order by board_comment_cnt desc, board_create_date desc
+	                    </when>
+	                </choose>
+	            ) as ROWNUMBER
+	        from
+	            MGV_MOVIE_BOARD A, MGV_MOVIE B
+	        where board_deleted = 'N' and board_report = 'N'
+	              and A.movie_no = B.movie_no
+	        <choose>
+	            <when test="opt == 'movieTitle'">
+	                and B.movie_title like CONCAT('%', #{keyword}, '%')
+	            </when>
+	            <when test="opt == 'title'">
+	                and board_name like  CONCAT('%', #{keyword}, '%')
+	            </when>
+	            <when test="opt == 'content'">
+	                and board_content like  CONCAT('%', #{keyword}, '%')
+	            </when>
+	            <when test="opt == 'all'">
+	                and (board_name like  CONCAT('%', #{keyword}, '%') or board_content like  CONCAT('%', #{keyword}, '%')
+	            </when>
+	            <when test="opt == 'writer'">
+	                and member_id like  CONCAT('%', #{keyword}, '%')
+	            </when>
+	        </choose>
+	    ) A
+	    having A.ROWNUMBER between #{begin} and #{end}
+	</select>
+
+</mapper>

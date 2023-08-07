@@ -1,21 +1,6 @@
-
-.accordion-button:not(.collapsed) {
-	color:inherit;
-	background:white;
-}
-
-.accordion-body {
-	background-color: #f2f4f5;
-}
-	
-.accordion-button:focus {
-	box-shadow: inherit;
-	
-}
-
-#acco-body-ans-icon {
-	color: #ec7f7a;
-	font-size:14px;
+.no-results {
+    text-align: center;
+    padding: 30px 0; 
 }
 
 
