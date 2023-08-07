@@ -41,87 +41,26 @@
         <input type="hidden" id="bbsTotalCnt" value="77">
     </div>
 
-	<!-- 
-	   <div class="container mt-3 mb-4" id="tab-buttons">
-		  <div class="d-flex p-0 border" >
-		    <div class="flex-fill  p-0" style="width:20%;"><button id="tab-menu-1" class="w-100 btn btn-border-0 btn-sm py-2 btn-secondary rounded-0" onclick="activeTab(1)" data-category-no="1">전체</button></div>
-		    <div class="flex-fill border-start border-end p-0" style="width: 20%;"><button id="tab-menu-2"  class="w-100 btn btn-border-0 btn-sm py-2 rounded-0" onclick="activeTab(2)" data-category-no="2">영화예매</button></div>
-		    <div class="flex-fill  p-0" style="width: 20%;"><button id="tab-menu-3" class="w-100 btn btn-border-0 btn-sm py-2 rounded-0" onclick="activeTab(3)" data-category-no="3">할인혜택</button></div>
-		    <div class="flex-fill border-start border-end p-0" style="width: 20%;"><button id="tab-menu-4" class="w-100 btn btn-border-0 btn-sm py-2 rounded-0" onclick="activeTab(4)" data-category-no="4">결제수단/관람권</button></div>
-		    <div class="flex-fill  p-0" style="width: 20%;"><button id="tab-menu-5" class="w-100 btn btn-border-0 btn-sm py-2 rounded-0" onclick="activeTab(5)" data-category-no="5">멤버쉽</button></div>
-		  </div>
-		  <div class="d-flex p-0 border-bottom border-start border-end">
-		    <div class="flex-fill  p-0" style="width: 20%;"><button id="tab-menu-6" class="w-100 btn btn-border-0 btn-sm py-2 rounded-0" onclick="activeTab(6)" data-category-no="6">VIP</button></div>
-		    <div class="flex-fill border-start border-end p-0" style="width: 20%;"><button id="tab-menu-7" class="w-100 btn btn-border-0 btn-sm py-2 rounded-0" onclick="activeTab(7)" data-category-no="7">극장/특별관</button></div>
-		    <div class="flex-fill  p-0" style="width: 20%;"><button id="tab-menu-8" class="w-100 btn btn-border-0 btn-sm py-2 rounded-0" onclick="activeTab(8)" data-category-no="8">스토어</button></div>
-		    <div class="flex-fill border-start border-end p-0" style="width: 20%;"><button id="tab-menu-9" class="w-100 btn btn-border-0 btn-sm py-2 rounded-0" onclick="activeTab(9)" data-category-no="9">홈페이지/모바일</button></div>
-		    <div class="flex-fill  p-0" style="width: 20%;"><button id="tab-menu-10" class="w-100 btn btn-border-0 btn-sm py-2 rounded-0" onclick="activeTab(10)" data-category-no="10">기프트카드</button></div>
-		  </div>
-	    </div>
-	-->
     <div class="faq-list-box">
     <p class="reset mb10"><strong><span id="totalTitle">전체</span> <span class="font-green" id="totalCnt">77</span>건</strong></p>
     	<div class="faq-list">
     		<ul>
-    			<li>
-    				<div class="qut">
+    			<li th:each="faq: ${faqList}">
+    				<div class="qut" th:if="${not #lists.isEmpty(faqList)}">
     					<a href="#">
     						<p class="tit">
-    							<span class="font-green">[기프트카드]</span>
+    							<span class="font-green" th:text="'[' + ${faq.category.name}+ ']'"></span>
     						</p>
     						<p class="txt">
-    							<span class="font-green">
-    							</span>
-    							<span>
-    								기프트 카드를 보냈는데 상대방이 받지 못했다고 합니다.
-    							</span>
+    							<span class="font-green"></span>
+    							<span th:text="${faq.title}"></span>
     						</p>
     					</a>
     				</div>
     				<div class="awn">
     					<p class="cont">
     						<span style="font-size:10.0pt">
-    							<span style="line-height:107%">
-    								<span>구매자분 통신사에 가입된 부가서비스로 인해 발신이 차단된 경우가 있습니다. 통신사를 통하여 아래 부가서비스 해지 후 익일 재 구매를 부탁 드립니다.<br>
-    								<br>
-									*부가서비스 명칭<br>
-									- SKT &amp; KT: 번호도용 문자 차단서비스<br>
-									- LG U+: 휴대폰번호 도용 방지서비스<br>
-									<br>
-									이미 구매하신 기프트카드 결제 취소는 기프트카드 거래 이력이 없고 계정 등록 전인 경우, 결제일로부터 최대 10일 내 나의 메가박스 &gt; 예매/구매 내역 &gt; 구매내역에서 취소 가능합니다.
-									</span>
-								</span>
-    						</span>
-    					</p>
-    				</div>
-    			</li>
-    			<li>
-    				<div class="qut">
-    					<a href="#none">
-    						<p class="tit">
-    							<span class="font-green">[기프트카드]</span>
-    						</p>
-    						<p class="txt">
-    							<span class="font-green">
-    							</span>
-    							<span>
-    								기프트 카드를 보냈는데 상대방이 받지 못했다고 합니다.
-    							</span>
-    						</p>
-    					</a>
-    				</div>
-    				<div class="awn">
-    					<p class="cont">
-    						<span style="font-size:10.0pt">
-    							<span style="line-height:107%">
-    								<span>구매자분 통신사에 가입된 부가서비스로 인해 발신이 차단된 경우가 있습니다. 통신사를 통하여 아래 부가서비스 해지 후 익일 재 구매를 부탁 드립니다.<br>
-    								<br>
-									*부가서비스 명칭<br>
-									- SKT &amp; KT: 번호도용 문자 차단서비스<br>
-									- LG U+: 휴대폰번호 도용 방지서비스<br>
-									<br>
-									이미 구매하신 기프트카드 결제 취소는 기프트카드 거래 이력이 없고 계정 등록 전인 경우, 결제일로부터 최대 10일 내 나의 메가박스 &gt; 예매/구매 내역 &gt; 구매내역에서 취소 가능합니다.
-									</span>
+    							<span style="line-height:107%" th:text="${faq.content}">
 								</span>
     						</span>
     					</p>
