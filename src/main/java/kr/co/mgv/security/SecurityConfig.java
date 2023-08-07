@@ -39,25 +39,12 @@ public class SecurityConfig {
                 })
                 .httpBasic(Customizer.withDefaults()) // todo
                 .formLogin(login -> login.loginPage("/")) // todo
-//                .loginPage("/user/login")
-//                .usernameParameter("id")
-//                .passwordParameter("password")
-//                .loginProcessingUrl("/user/login")
-//                .defaultSuccessUrl("/")
-//                .failureUrl("/user/login?error=fail")
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/")
                         .invalidateHttpSession(true)
                         .clearAuthentication(true) // todo
                 )
-//            .and()
-//                .exceptionHandling().authenticationEntryPoint((req, res, ex) -> res.sendRedirect("/user/login?error=denid"))
-//            .and()
-//                .exceptionHandling().authenticationEntryPoint((req, res, ex) -> res.sendRedirect("/user/login?error=forbidden"))
-//            .and()
-//                // auth service 등록
-//                .userDetailsService(authenticationService)
                 .build();
     }
 
