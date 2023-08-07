@@ -1,0 +1,43 @@
+<!-- 가입 완료 -->
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default}">
+<div layout:fragment="content" id="contents">
+    <div class="container">
+        <div class="row mb-3">
+            <div class="col-12">
+                <h1>회원가입 완료</h1>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12">
+                <p>회원가입 정보를 확인하세요</p>
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th style="width: 15%;">아이디</th>
+                        <td style="width: 85%;" th:text="${user.id}"></td>
+                    </tr>
+                    <tr>
+                        <th>회원이름</th>
+                        <td th:text="${user.name}"></td>
+                    </tr>
+                    <tr>
+                        <th>이메일</th>
+                        <td th:text="${user.email}"></td>
+                    </tr>
+                    <tr>
+                        <th>가입날짜</th>
+                        <td th:text="${#dates.format(user.createDate, 'yyyy-MM-dd')}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <button th:href="@{/}" class="btn btn-primary">확인</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+</html>

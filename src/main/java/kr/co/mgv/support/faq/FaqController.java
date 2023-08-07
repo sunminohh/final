@@ -1,15 +1,17 @@
 package kr.co.mgv.support.faq;
 
-import static org.hamcrest.CoreMatchers.nullValue;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 
 @Controller
@@ -17,14 +19,21 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class FaqController {
 
+	private final FaqService faqService;
+	
 	@GetMapping
-	public String faq() {
+	public String faq(Model model) {
+		List<Faq> faqList = faqService.getFaqList(1);
+		model.addAttribute("faqList", faqList);
+		
 		return "/view/support/faq/list";
 	}
 	
 	@GetMapping("/list")
-	public List<Map<String, String>> getFaq() {
+	@ResponseBody
+	public List<Faq> getFaq(@RequestParam("catNo") int catNo) {
+		List<Faq> faqList = faqService.getFaqList(catNo);
 		
-		return null;
+		return faqList;
 	}
 }

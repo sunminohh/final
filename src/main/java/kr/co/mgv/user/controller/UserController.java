@@ -38,6 +38,7 @@ public class UserController {
         return "view/user/myinfo/form";
     }
 
+    // 나의 정보
     @GetMapping("/myinfo/pwdform")
     public String pwdform() {
         return "view/user/myinfo/pwdform";
