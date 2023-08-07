@@ -40,16 +40,16 @@
 	            row_number() over (
 	                <choose>
 	                    <when test="sort == 'new'">
-	                        order by board_create_date asc
-	                    </when>
-	                    <when test="sort == 'old'">
 	                        order by board_create_date desc
 	                    </when>
+	                    <when test="sort == 'old'">
+	                        order by board_create_date asc
+	                    </when>
 	                    <when test="sort == 'view'">
-	                        order by board_read_cnt asc
+	                        order by board_read_cnt desc, board_create_date desc
 	                    </when>
 	                    <when test="sort == 'comment'">
-	                        order by board_comment_cnt asc
+	                        order by board_comment_cnt desc, board_create_date desc
 	                    </when>
 	                </choose>
 	            ) as ROWNUMBER

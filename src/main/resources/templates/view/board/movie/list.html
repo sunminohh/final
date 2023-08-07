@@ -21,6 +21,7 @@
             border-color: #444;
         }
     </style>
+    <script type="text/javascript" th:src="@{/js/board/mboardList.js}"></script>  
 </head>
 <div layout:fragment="content" class="container my-3">
 
@@ -35,10 +36,10 @@
                     </div>
 
                     <div class="float-start ps-2">
-                        <form id="form-search" method="get" action="@{list}" 
+                        <form id="form-board-search" method="get" th:action="@{list}" 
                               class="row row-cols-lg-auto g-3 align-items-center justify-content-end ">
-							<input type="hidden" name="sort" value="${param.sort }" />
-							<input type="hidden" name="rows" value="${param.rows }" />
+							<input type="hidden" name="sort" th:value="${param.sort }" />
+							<input type="hidden" name="rows" th:value="${param.rows }" />
 							<input type="hidden" name="page" value="${param.page }" />
                             <div class="col-12 ">
                                 <select class="form-select form-select-sm  form-control-sm" name="opt">
@@ -76,27 +77,34 @@
                 <div>
                     <div class="d-flex justify-content-end mb-3 float-end ps-3 ">
                         <select class="form-select me-1 form-select-sm" style="width: 100px" name="sort" onchange="changeSort()">
-                            <option th:value="new"
+                            <option class="sort-select"
+                            		th:value="new"
                                     th:classappend="${#strings.equals(param.sort, 'new') ? 'selected' : '' }"> 최신순
                             </option>
-                            <option th:value="old"
+                            <option class="sort-select"
+                            		th:value="old"
                                     th:classappend="${#strings.equals(param.sort, 'old') ? 'selected' : '' }"> 오래된순
                             </option>
-                            <option th:value="view"
+                            <option class="sort-select"
+                            		th:value="view"
                                     th:classappend="${#strings.equals(param.sort, 'view') ? 'selected' : '' }"> 조회수순
                             </option>
-                            <option th:value="comment"
+                            <option class="sort-select"
+                            		th:value="comment"
                                     th:classappend="${#strings.equals(param.sort, 'comment') ? 'selected' : '' }"> 댓글순
                             </option>
                         </select>
                         <select class="form-select me-2 form-select-sm pe-6" style="width: 100px" name="rows" onchange="changeRows()">
-                            <option th:value="10"
+                            <option class="rows-select"
+                            		th:value="10"
                                     th:classappend="${#strings.equals(param.rows, '10') ? 'selected' : '' }"> 10개씩
                             </option>
-                            <option th:value="20"
+                            <option class="rows-select"
+                            		th:value="20"
                                     th:classappend="${#strings.equals(param.rows, '20') ? 'selected' : '' }"> 20개씩
                             </option>
-                            <option th:value="50"
+                            <option class="rows-select"
+                            		th:value="50"
                                     th:classappend="${#strings.equals(param.rows, '50') ? 'selected' : '' }"> 50개씩
                             </option>
                         </select>
