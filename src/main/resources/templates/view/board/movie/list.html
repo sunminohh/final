@@ -31,7 +31,7 @@
             <div>
                 <div class="d-flex justify-content-start float-start">
                     <div class="mt-2 ">
-                        <p class="result-count"><strong>전체 <span id="total-rows" class="font-gblue">5</span>건</strong>
+                        <p class="result-count"><strong>전체 <span id="total-rows" class="font-gblue" th:text="${result.pagination.totalRows}">5</span>건</strong>
                         </p>
                     </div>
 
@@ -69,43 +69,32 @@
                                 <input type="text" class="form-control form-control-sm" name="keyword" th:value="${param.keyword}"/>
                             </div>
                             <div class="col-12">
-                                <button type="button" class="btn btn-outline-dark btn-sm" onclick="searchSBoard()">검색</button>
+                                <button type="button" class="btn btn-outline-dark btn-sm" onclick="searchBoard()">검색</button>
                             </div>
                         </form>
                     </div>
                 </div>
                 <div>
                     <div class="d-flex justify-content-end mb-3 float-end ps-3 ">
-                        <select class="form-select me-1 form-select-sm" style="width: 100px" name="sort" onchange="changeSort()">
-                            <option class="sort-select"
-                            		th:value="new"
-                                    th:classappend="${#strings.equals(param.sort, 'new') ? 'selected' : '' }"> 최신순
-                            </option>
-                            <option class="sort-select"
-                            		th:value="old"
-                                    th:classappend="${#strings.equals(param.sort, 'old') ? 'selected' : '' }"> 오래된순
-                            </option>
-                            <option class="sort-select"
-                            		th:value="view"
-                                    th:classappend="${#strings.equals(param.sort, 'view') ? 'selected' : '' }"> 조회수순
-                            </option>
-                            <option class="sort-select"
-                            		th:value="comment"
-                                    th:classappend="${#strings.equals(param.sort, 'comment') ? 'selected' : '' }"> 댓글순
-                            </option>
+                        <select class="form-select me-1 form-select-sm" style="width: 100px" name="sort" onchange="changeSort()" th:value="${param.sort}">
+                            <option class="sort-select" th:value="new" th:selected="${param.sort eq 'new'}">최신순</option>
+							<option class="sort-select" th:value="old" th:selected="${param.sort eq 'old'}">오래된순</option>
+							<option class="sort-select" th:value="view" th:selected="${param.sort eq 'view'}">조회수순</option>
+							<option class="sort-select" th:value="comment" th:selected="${param.sort eq 'comment'}">댓글순</option>
+
                         </select>
-                        <select class="form-select me-2 form-select-sm pe-6" style="width: 100px" name="rows" onchange="changeRows()">
+                        <select class="form-select me-2 form-select-sm pe-6" style="width: 100px" name="rows" onchange="changeRows()" th:value="${param.rows}">
                             <option class="rows-select"
                             		th:value="10"
-                                    th:classappend="${#strings.equals(param.rows, '10') ? 'selected' : '' }"> 10개씩
+                                    th:selected="${param.rows eq '10'}"> 10개씩
                             </option>
                             <option class="rows-select"
                             		th:value="20"
-                                    th:classappend="${#strings.equals(param.rows, '20') ? 'selected' : '' }"> 20개씩
+                                    th:selected="${param.rows eq '20'}"> 20개씩
                             </option>
                             <option class="rows-select"
                             		th:value="50"
-                                    th:classappend="${#strings.equals(param.rows, '50') ? 'selected' : '' }"> 50개씩
+                                    th:selected="${param.rows eq '50'}"> 50개씩
                             </option>
                         </select>
                     </div>
@@ -170,7 +159,8 @@
                     <li class="page-item">
                         <a th:href="@{list(page=${result.pagination.prePage})}" class="page-link"
                            style="background-color: #000; color: white;"
-                           th:classappend="${result.pagination.first ? 'disabled' : ''}">이전</a>
+                           th:classappend="${result.pagination.first ? 'disabled' : ''}"
+                           th:onclick="changePage(event, ${result.pagination.prePage})">이전</a>
                     </li>
 
                     <li class="page-item" th:each="num : ${result.pagination.pageNumbers}">
@@ -178,13 +168,15 @@
                            th:text="${num}"
                            th:classappend="${result.pagination.page == (num) ? 'active' : '' }"
                            class="page-link"
-                           style="background-color: white; color: #000;">1</a>
+                           style="background-color: white; color: #000;"
+                           th:onclick="changePage(event, ${num})">1</a>
                     </li>
 
                     <li class="page-item">
                         <a th:href="@{list(page=${result.pagination.nextPage})}" class="page-link"
                            style="background-color: #000; color: white;"
-                           th:classappend="${result.pagination.last ? 'disabled' : ''}">다음</a>
+                           th:classappend="${result.pagination.last ? 'disabled' : ''}"
+                           th:onclick="changePage(event, ${result.pagination.nextPage})">다음</a>
                     </li>
                 </ul>
             </nav>

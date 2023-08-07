@@ -9,19 +9,19 @@
     		  AND A.MOVIE_NO = B.MOVIE_NO
   	    <choose>
   			<when test="opt == 'movieTitle'">
-  				and B.movie_title like '%' || #{keyword} || '%'
+  				and B.movie_title like  CONCAT('%', #{keyword}, '%')
   			</when>
   			<when test="opt == 'title'">
-  				and A.board_title like '%' || #{keyword} || '%'
+  				and A.board_name like  CONCAT('%', #{keyword}, '%')
   			</when>
   			<when test="opt == 'content'">
-  				and A.board_content like '%' || #{keyword} || '%'
+  				and A.board_content like  CONCAT('%', #{keyword}, '%')
   			</when>
   			<when test="opt == 'all'">
-  				and A.board_title like '%' || #{keyword} || '%' or A.board_content like '%' || #{keyword} || '%'
+  				and A.board_name like  CONCAT('%', #{keyword}, '%') or A.board_content like  CONCAT('%', #{keyword}, '%')
   			</when>
   			<when test="opt == 'writer'">
-  				and A.user_id like '%' || #{keyword} || '%'
+  				and A.user_id like  CONCAT('%', #{keyword}, '%')
   			</when>
   		</choose>
     </select>
@@ -37,6 +37,7 @@
 	            A.board_read_cnt        as readCount,
 	            A.board_comment_cnt     as commentCount,
 	            A.member_id             as userId,
+	            A.board_content         as content,
 	            row_number() over (
 	                <choose>
 	                    <when test="sort == 'new'">
@@ -59,19 +60,19 @@
 	              and A.movie_no = B.movie_no
 	        <choose>
 	            <when test="opt == 'movieTitle'">
-	                and B.movie_title like '%' || #{keyword} || '%'
+	                and B.movie_title like CONCAT('%', #{keyword}, '%')
 	            </when>
 	            <when test="opt == 'title'">
-	                and board_title like '%' || #{keyword} || '%'
+	                and board_name like  CONCAT('%', #{keyword}, '%')
 	            </when>
 	            <when test="opt == 'content'">
-	                and board_content like '%' || #{keyword} || '%'
+	                and board_content like  CONCAT('%', #{keyword}, '%')
 	            </when>
 	            <when test="opt == 'all'">
-	                and (board_title like '%' || #{keyword} || '%' or board_content like '%' || #{keyword} || '%')
+	                and (board_name like  CONCAT('%', #{keyword}, '%') or board_content like  CONCAT('%', #{keyword}, '%')
 	            </when>
 	            <when test="opt == 'writer'">
-	                and user_id like '%' || #{keyword} || '%'
+	                and user_id like  CONCAT('%', #{keyword}, '%')
 	            </when>
 	        </choose>
 	    ) A
