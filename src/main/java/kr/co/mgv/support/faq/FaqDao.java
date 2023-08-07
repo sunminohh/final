@@ -8,5 +8,5 @@ import org.apache.ibatis.annotations.Mapper;
 public interface FaqDao {
 
 	// Faq 리스트 조회
-	List<Faq> getFaqs();
+	List<Faq> getFaqListByNo(int catNo);
 }
