@@ -21,42 +21,45 @@ $(document).ready(function() {
 		
 		$.getJSON("/support/faq/list", {catNo:categoryNo}, function(faqList) {
 			
-			faqList.forEach(function(faq, index) {
-				
-				let content = `
-					<li>
-						<div class="qut">
-	    					<a href="#">
-	    						<p class="tit">
-	    							<span class="font-green">[${faq.category.name}]</span>
-	    						</p>
-	    						<p class="txt">
-	    							<span class="font-green">
-	    							</span>
-	    							<span>
-	    								${faq.title}
-	    							</span>
-	    						</p>
-	    					</a>
-	    				</div>
-	    				<div class="awn">
-	    					<p class="cont">
-	    						<span style="font-size:10.0pt">
-	    							<span style="line-height:107%">
-	    								<span>
-	    									${faq.content}
+			if (faqList.length === 0) {
+				$ul.append('<li class="no-results">조회된 내역이 없습니다.</li>');
+			} else {
+				faqList.forEach(function(faq, index) {
+					let content = `
+						<li>
+							<div class="qut">
+		    					<a href="#">
+		    						<p class="tit">
+		    							<span class="font-green">[${faq.category.name}]</span>
+		    						</p>
+		    						<p class="txt">
+		    							<span class="font-green">
+		    							</span>
+		    							<span>
+		    								${faq.title}
+		    							</span>
+		    						</p>
+		    					</a>
+		    				</div>
+		    				<div class="awn">
+		    					<p class="cont">
+		    						<span style="font-size:10.0pt">
+		    							<span style="line-height:107%">
+		    								<span>
+		    									${faq.content}
+											</span>
 										</span>
-									</span>
-	    						</span>
-	    					</p>
-	    				</div>
-					</li>`
-					
-					$ul.append(content);
-			})
-			$('.faq-list .qut:first').addClass('on');
-    		$('.faq-list .awn:first').show();
-			
+		    						</span>
+		    					</p>
+		    				</div>
+						</li>`
+						
+						$ul.append(content);
+				})
+				$('.faq-list .qut:first').addClass('on');
+	    		$('.faq-list .awn:first').show();
+				
+			}
 		})
 	});
 
