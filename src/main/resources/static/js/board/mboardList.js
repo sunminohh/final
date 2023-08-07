@@ -34,3 +34,5 @@
 		
 		document.querySelector("#form-board-search").submit();
 	}
+	
+	

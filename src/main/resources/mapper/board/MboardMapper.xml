@@ -39,6 +39,9 @@
 	            A.member_id             as userId,
 	            A.board_content         as content,
 	            row_number() over (
+	            	<if test="sort == null">
+	                        order by board_create_date desc	            	
+	            	</if>
 	                <choose>
 	                    <when test="sort == 'new'">
 	                        order by board_create_date desc
