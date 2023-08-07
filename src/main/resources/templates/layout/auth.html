@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+  <title layout:title-pattern="$LAYOUT_TITLE|$CONTENT_TITLE">MGV 회원가입</title>
+  <th:block th:replace="~{ fragments/common/config :: config }"></th:block>
+  <th:block th:fragment="extra-head-content"></th:block>
+</head>
+<body>
+<div class="mgv-container">
+  <div layout:fragment="content"></div>
+</div>
+</body>
+</html>
