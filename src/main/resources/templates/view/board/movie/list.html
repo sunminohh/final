@@ -110,10 +110,10 @@
             <table class="table table-sm" id="table-Tboard">
                 <colgroup>
                     <col width="5%">
-                    <col width="70%">
+                    <col width="60%">
                     <col width="10%">
                     <col width="5%">
-                    <col width="10%">
+                    <col width="20%">
                 </colgroup>
                 <thead>
                 <tr>
@@ -125,13 +125,23 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>1</td>
+				<tr th:if="${#lists.isEmpty(result.movieBoards)}">
+					<td colspan="5">게시글이 존재하지 않습니다.</td>
+				</tr>	
+					
+                <tr th:if="${not #lists.isEmpty(result.movieBoards)}"
+                	th:each="board : ${result.movieBoards}">
+                    <td th:text="${board.no}">1</td>
                     <td><a class="text-black text-decoration-none"
-                           th:href="@{/board/theater/detail(no=1)}">게시글제목</a><span>(게시글 댓글수)</span></td>
-                    <td class="fw-light">작성자아이디</td>
-                    <td class="fw-light">조회수</td>
-                    <td class="fw-light">작성일</td>
+                           th:href="@{/board/theater/detail(no=1)}" th:text="${board.name} ">게시글제목</a> <span th:text="${'('+#numbers.formatInteger(board.commentCount, 1, 'COMMA')+')'}">(게시글 댓글수)</span></td>
+                    <td class="fw-light" th:text="${board.userId}">작성자아이디</td>
+                    <td class="fw-light" th:text="${#numbers.formatInteger(board.readCount, 1, 'COMMA')}">조회수</td>
+<!-- 
+	
+                    <td class="fw-light" th:text="${#temporals.format(board.createDate, 'yyyy-MM-dd HH:mm:ss')}">작성일</td>
+-->                    
+                    <td class="fw-light" th:text="${board.createDate}">작성일</td>
+
                 </tr>
 
                 </tbody>
@@ -143,26 +153,35 @@
             </div>
 
 
+        </div>
+    </div>
+      <div class="row mb-3">
+      	<div class="col-12">
             <nav>
                 <ul class="pagination justify-content-center">
                     <li class="page-item">
-                        <a href="list.jsp?page=이전페이지" class="page-link"
-                           style="background-color: #000; color: white;">이전</a>
+                        <a th:href="@{list(page=${result.pagination.prePage})}" class="page-link"
+                           style="background-color: #000; color: white;"
+                           th:classappend="${result.pagination.first ? 'disabled' : ''}">이전</a>
                     </li>
 
-                    <li class="page-item">
-                        <a href="list.jsp?page=<%=num %>" class="page-link"
+                    <li class="page-item" th:each="num : ${result.pagination.pageNumbers}">
+                        <a th:href="@{list(page=${num})}" 
+                           th:text="${num}"
+                           th:classappend="${result.pagination.page == (num) ? 'active' : '' }"
+                           class="page-link"
                            style="background-color: white; color: #000;">1</a>
                     </li>
 
                     <li class="page-item">
-                        <a href="list.jsp?page=다음페이지" class="page-link"
-                           style="background-color: #000; color: white;">다음</a>
+                        <a th:href="@{list(page=${result.pagination.nextPage})}" class="page-link"
+                           style="background-color: #000; color: white;"
+                           th:classappend="${result.pagination.last ? 'disabled' : ''}">다음</a>
                     </li>
                 </ul>
             </nav>
-        </div>
-    </div>
+      	</div>
+     </div>
 </div>
 
 

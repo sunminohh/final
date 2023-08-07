@@ -1,6 +1,7 @@
 package kr.co.mgv.board.mboard;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
@@ -10,10 +11,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import lombok.RequiredArgsConstructor;
+
 @Controller
 @RequestMapping("/board/movie")
+@RequiredArgsConstructor
 public class MovieBoardController {
 
+	private final MovieBoardService movieBoardService;
+	
     @GetMapping("/list")
     public String theaterList(@RequestParam(name = "sort", required = false, defaultValue = "id") String sort,
 			@RequestParam(name = "rows", required = false, defaultValue = "10") int rows,
@@ -33,8 +39,10 @@ public class MovieBoardController {
 		}
     	
 		// service로 영화게시물 목록 조회하기 
+		MovieBoardList result = movieBoardService.getMBoards(param);
 		
 		// model에 조회한 극장게시물 담기
+		model.addAttribute("result", result);
 		
         return "/view/board/movie/list";
     }
