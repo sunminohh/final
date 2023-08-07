@@ -21,7 +21,7 @@
   				and A.board_name like  CONCAT('%', #{keyword}, '%') or A.board_content like  CONCAT('%', #{keyword}, '%')
   			</when>
   			<when test="opt == 'writer'">
-  				and A.user_id like  CONCAT('%', #{keyword}, '%')
+  				and A.member_id like  CONCAT('%', #{keyword}, '%')
   			</when>
   		</choose>
     </select>
@@ -36,7 +36,7 @@
 	            A.board_update_date     as updateDate,
 	            A.board_read_cnt        as readCount,
 	            A.board_comment_cnt     as commentCount,
-	            A.member_id             as userId,
+	            A.member_id             as "user.id",
 	            A.board_content         as content,
 	            row_number() over (
 	            	<if test="sort == null">
@@ -75,7 +75,7 @@
 	                and (board_name like  CONCAT('%', #{keyword}, '%') or board_content like  CONCAT('%', #{keyword}, '%')
 	            </when>
 	            <when test="opt == 'writer'">
-	                and user_id like  CONCAT('%', #{keyword}, '%')
+	                and member_id like  CONCAT('%', #{keyword}, '%')
 	            </when>
 	        </choose>
 	    ) A
