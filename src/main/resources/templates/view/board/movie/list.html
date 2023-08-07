@@ -33,6 +33,9 @@
                     <div class="mt-2 ">
                         <p class="result-count"><strong>전체 <span id="total-rows" class="font-gblue" th:text="${result.pagination.totalRows}">5</span>건</strong>
                         </p>
+                        <p th:text="${param.sort}"></p>
+                        <p th:text="${#strings.equals(param.sort, 'view') }"></p>
+                        <p th:text="${param.rows}"></p>
                     </div>
 
                     <div class="float-start ps-2">
@@ -42,25 +45,31 @@
 							<input type="hidden" name="rows" th:value="${param.rows }" />
 							<input type="hidden" name="page" value="${param.page }" />
                             <div class="col-12 ">
-                                <select class="form-select form-select-sm  form-control-sm" name="opt">
+                                <select class="form-select form-select-sm  form-control-sm" name="opt" th:value="${param.opt}">
                                     <option value=""> 검색옵션</option>
-                                    <option th:value="movieTitle"
-                                            th:classappend="${#strings.equals(param.opt, 'movieTitle') ? 'selected' : '' }">
+                                    <option class="opt-select"
+                                    		th:value="movieTitle"
+                                            th:selected="${#strings.equals(param.opt, 'movieTitle')}">
                                          영화제목
                                     </option>
-                                    <option th:value="title"
-                                            th:classappend="${#strings.equals(param.opt, 'title') ? 'selected' : '' }">
+                                    <option class="opt-select"
+                                    		th:value="title"
+                                            th:selected="${#strings.equals(param.opt, 'title')}">
                                         제목
                                     </option>
-                                    <option th:value="content"
-                                            th:classappend="${#strings.equals(param.opt, 'content') ? 'selected' : '' }"> 내용
+                                    <option class="opt-select"
+                                    		th:value="content"
+                                            th:selected="${#strings.equals(param.opt, 'content')}"> 
+                                            내용
                                     </option>
-                                    <option th:value="all"
-                                            th:classappend="${#strings.equals(param.opt, 'all') ? 'selected' : '' }">
+                                    <option class="opt-select"
+                                    		th:value="all"
+                                            th:selected="${#strings.equals(param.opt, 'all')}">
                                         제목/내용
                                     </option>
-                                    <option th:value="writer"
-                                            th:classappend="${#strings.equals(param.opt, 'writer') ? 'selected' : '' }">
+                                    <option class="opt-select"
+                                    		th:value="writer"
+                                            th:selected="${#strings.equals(param.opt, 'writer')}">
                                         작성자
                                     </option>
                                 </select>
@@ -77,24 +86,24 @@
                 <div>
                     <div class="d-flex justify-content-end mb-3 float-end ps-3 ">
                         <select class="form-select me-1 form-select-sm" style="width: 100px" name="sort" onchange="changeSort()" th:value="${param.sort}">
-                            <option class="sort-select" th:value="new" th:selected="${param.sort eq 'new'}">최신순</option>
-							<option class="sort-select" th:value="old" th:selected="${param.sort eq 'old'}">오래된순</option>
-							<option class="sort-select" th:value="view" th:selected="${param.sort eq 'view'}">조회수순</option>
-							<option class="sort-select" th:value="comment" th:selected="${param.sort eq 'comment'}">댓글순</option>
+                            <option class="sort-select" th:value="new" th:selected="${#strings.equals(param.sort, 'new')}">최신순</option>
+							<option class="sort-select" th:value="old" th:selected="${#strings.equals(param.sort, 'old')}">오래된순</option>
+							<option class="sort-select" th:value="view" th:selected="${#strings.equals(param.sort, 'view')}">조회수순</option>
+							<option class="sort-select" th:value="comment" th:selected="${#strings.equals(param.sort, 'comment')}">댓글순</option>
 
                         </select>
                         <select class="form-select me-2 form-select-sm pe-6" style="width: 100px" name="rows" onchange="changeRows()" th:value="${param.rows}">
                             <option class="rows-select"
                             		th:value="10"
-                                    th:selected="${param.rows eq '10'}"> 10개씩
+                                    th:selected="${#strings.equals(param.rows, '10')}"> 10개씩
                             </option>
                             <option class="rows-select"
                             		th:value="20"
-                                    th:selected="${param.rows eq '20'}"> 20개씩
+                                    th:selected="${#strings.equals(param.rows, '20')}"> 20개씩
                             </option>
                             <option class="rows-select"
                             		th:value="50"
-                                    th:selected="${param.rows eq '50'}"> 50개씩
+                                    th:selected="${#strings.equals(param.rows, '50')}"> 50개씩
                             </option>
                         </select>
                     </div>
