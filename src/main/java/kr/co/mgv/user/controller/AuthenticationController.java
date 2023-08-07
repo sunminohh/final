@@ -41,7 +41,7 @@ public class AuthenticationController {
 
     @PostMapping("/join")
     public String join(@ModelAttribute("userJoinForm") UserJoinForm form, SessionStatus sessionStatus, RedirectAttributes redirectAttributes) {
-        // TODO Service -> DAO (user, role)
+        // Service -> DAO (user, role)
         User user = new User();
         user.setId(form.getId());
         user.setName(form.getName());

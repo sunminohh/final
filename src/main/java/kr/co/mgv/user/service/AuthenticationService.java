@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -42,6 +43,14 @@ public class AuthenticationService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
         User user = authenticationDao.getUserById(id);
+        if (user != null) {
+            user.setRoleName(
+                userRoleDao.getUserRoleByUserId(id).stream()
+                    .map(UserRole::getRoleName)
+                    .collect(Collectors.toList())
+            );
+        }
+
         return user;
     }
 
