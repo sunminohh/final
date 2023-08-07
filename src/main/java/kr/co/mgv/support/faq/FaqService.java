@@ -13,7 +13,7 @@ public class FaqService {
 	private final FaqDao faqDao;
 	
 	// 자주묻는질문 목록 조회하기
-	public List<Faq> getFaqs() {
-		return faqDao.getFaqs();
+	public List<Faq> getFaqList(int catNo) {
+		return faqDao.getFaqListByNo(catNo);
 	}
 }

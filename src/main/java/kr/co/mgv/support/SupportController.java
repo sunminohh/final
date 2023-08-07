@@ -15,8 +15,6 @@ public class SupportController {
         return "/view/support/home";
     }
 
-    
-
     @GetMapping("/notice")
     public String notice() {
         return "/view/support/notice/list";
