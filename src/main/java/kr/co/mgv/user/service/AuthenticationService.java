@@ -5,6 +5,7 @@ import kr.co.mgv.user.mapper.UserRoleDao;
 import kr.co.mgv.user.vo.User;
 import kr.co.mgv.user.vo.UserRole;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class AuthenticationService implements UserDetailsService {
 
     private final AuthenticationDao authenticationDao;
