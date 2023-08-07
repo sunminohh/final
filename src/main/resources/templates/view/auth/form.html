@@ -16,7 +16,7 @@
 
                     <div class="table-wrap">
                         <table class="board-form">
-                            <caption>생년월일, 휴대폰번호, 아이디, 비밀번호, 비밀번호 확인, 이메일 주소를 가진 회원가입 정보입력 표<!--생년월일, 휴대폰번호, 아이디, 비밀번호, 비밀번호 확인, 이메일 주소, 무인발권기 기능설정, 나만의 메가박스 항목을 가진 회원가입 정보입력 표--></caption>
+                            <caption>생년월일, 휴대폰번호, 아이디,이름, 비밀번호, 비밀번호 확인, 이메일 주소를 가진 회원가입 정보입력 표<!--생년월일, 휴대폰번호, 아이디, 비밀번호, 비밀번호 확인, 이메일 주소, 무인발권기 기능설정, 나만의 메가박스 항목을 가진 회원가입 정보입력 표--></caption>
                             <colgroup>
                                 <col style="width:130px;">
                                 <col>
@@ -26,8 +26,15 @@
                                 <th scope="row"><label for="userId">아이디<!--아이디--></label></th>
                                 <td>
                                     <input maxlength="12" name="id" id="userId" type="text" placeholder="영문,숫자 조합(8~12자)" class="input-text w260px" autocomplete="off"><!--영문,숫자 조합(8~12자)-->
-                                    <button id="btnUserIdConfirm" name="" type="button" class="button gray-line small w75px ml08 disabled">중복확인<!--중복확인--></button>
+                                    <button id="btnUserIdConfirm" name="" type="button" class="button gray-line small w75px ml08">중복확인<!--중복확인--></button>
                                     <div id="JoinInfoRegLoginId-error-text" class="alert"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><label for="userName">이름<!--아이디--></label></th>
+                                <td>
+                                    <input minlength="2" name="name" id="userName" type="text" placeholder="두글자이상" class="input-text w260px" autocomplete="off"><!--영문,숫자 조합(8~12자)-->
+                                    <div id="name-error-text" class="alert"></div>
                                 </td>
                             </tr>
                             <tr>
@@ -66,7 +73,7 @@
                                         </div>
                                     </div>
 
-                                    <button id="btnCheckMail" type="button" class="button gray-line small w75px ml08 disabled">체크</button>
+                                    <button id="btnCheckMail" type="button" class="button gray-line small w75px ml08">체크</button>
 <!--                                    <button id="btnCheckMail" type="button" class="button gray-line small w75px ml08 disabled">인증요청</button>-->
                                     <div id="nonMbCert-error-text" class="alert"></div>
                                 </td>

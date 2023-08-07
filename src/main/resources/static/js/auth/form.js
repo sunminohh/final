@@ -1,12 +1,14 @@
 $(() => {
 
     const $id = $(".join-form input[name='id']");
+    const $name = $(".join-form input[name='name']");
     const $password = $(".join-form input[name='password']");
     const $repassword = $(".join-form input[name='repassword']");
     const $email = $(".join-form input[name='email']");
 
     // 각 input 값 검증 결과 변수
     let idCheck = false;
+    let nameCheck = false;
     let emailCheck = false;
     let passwordCheck = false;
 
@@ -17,6 +19,17 @@ $(() => {
     // 아이디, 이메일 중복 확인 버튼 클릭 이벤트
     $("#btnUserIdConfirm").click(() => checkId());
     $("#btnCheckMail").click(() => checkEmail());
+
+    // 이름 입력 이벤트
+    $("input[name=name]").keyup(() => {
+        if (!$name.val() || $name.val().length < 2) {
+            nameCheck = false;
+            $("#name-error-text").text("이름은 공백이거나 두글자 이하일 수 없습니다.");
+        }
+        if ($name.val().length > 2) {
+            nameCheck = true;
+        }
+    });
 
     // 패스워드 입력 시 값 검증 이벤트
     $("input[name=password],input[name=repassword]").keyup(() => {
@@ -29,23 +42,18 @@ $(() => {
         }
         if ($password.val() === $repassword.val()) {
             passwordCheck = true;
-            $("#password-error-text").text("사용 가능한 패스워드입니다.");
+            $("#password-error-text").text("사용 가능한 패스워드입니다."); // todo 색상 변경
         }
     });
 
-
-
     // TODO 패스워드 입력 이벤트
-
-    // 중복 체크 클릭 이벤트
-
-    // 이메일 중복 체크 클릭 이벤트
 
     // 가입하기 클릭 이벤트
     $("#action-form").submit(function (e) {
         e.preventDefault();
 
         const $id = $(".join-form input[name='id']");
+        const $name = $(".join-form input[name='name']");
         const $password = $(".join-form input[name='password']");
         const $repassword = $(".join-form input[name='repassword']");
         const $email = $(".join-form input[name='email']");
@@ -56,13 +64,19 @@ $(() => {
             return false;
         }
 
-        // // 패스워드 입력 및 확인
+        // 이름 입력 확인
+        if (!nameCheck) {
+            errorAlert($name, "이름은 필수 입력 값입니다.");
+            return false;
+        }
+
+        // 패스워드 입력 및 확인
         if (!passwordCheck) {
             errorAlert($password, "패스워드를 확인해주세요.");
             return false;
         }
 
-        // TODO 메일 체크
+        // 메일 체크
         if (!emailCheck) {
             errorAlert($email, "이메일을 확인해주세요.");
             return false;
@@ -113,12 +127,23 @@ $(() => {
         return true;
     }
 
+    // email 형식 유효성
+    function isValidEmail(email) {
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return emailRegex.test(email);
+    }
     // email 중복 체크
     async function checkEmail() {
         const $email = $(".join-form input[name='email']");
         if (!$email.val()) {
             errorAlert($email, '이메일을 입력해주세요!');
             emailCheck = false;
+            return;
+        }
+        if (!isValidEmail($email.val())) {
+            errorAlert($email, "올바른 이메일 형식이 아닙니다.");
+            emailCheck = false;
+            return;
         }
         const checkEmail = await $.get("/user/auth/checkEmail", {email: $email.val()});
         if (checkEmail) {
