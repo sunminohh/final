@@ -46,11 +46,13 @@ public class AuthenticationService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
         User user = authenticationDao.getUserById(id);
-        user.setRoleName(
-            userRoleDao.getUserRoleByUserId(id).stream()
-                .map(UserRole::getRoleName)
-                .collect(Collectors.toList())
-        );
+        if (user != null) {
+            user.setRoleName(
+                userRoleDao.getUserRoleByUserId(id).stream()
+                        .map(UserRole::getRoleName)
+                        .collect(Collectors.toList())
+            );
+        }
         return user;
     }
 
