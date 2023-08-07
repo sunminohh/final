@@ -31,12 +31,6 @@ $(() => {
         const $modal = $(this).closest(".login-modal");
         const username = $modal.find("input[name='username']").val();
         const password = $modal.find("input[name='password']").val();
-        /*$.ajax({
-            url: "/login",
-            type: "POST",
-            contentType:"application/json; charset=utf-8",
-            data: JSON.stringify({username, password})
-        }).catch(e => console.error("ERRR"));*/
 
         if (!username) {
             errorAlert(username, "아이디를 입력하세요.");
@@ -48,20 +42,23 @@ $(() => {
             return false;
         }
 
-        axios.post("/user/auth/login", {username, password})
-            .then((res) => {
-                if (res.status === 200) {
-                    location.href = "/";
-                    return true;
-                }
-            })
-            .catch((e) => {
+        $.ajax({
+            url: "/user/auth/login",
+            type: "POST",
+            contentType:"application/json; charset=utf-8",
+            data: JSON.stringify({id: username, password}),
+            success: function (res) {
+                location.href = '/';
+            },
+            error: function (error) {
+                console.error(error);
                 Swal.fire({
                     icon: 'error',
                     text: '아이디 혹은 비밀번호가 일치하지 않습니다.',
                     footer: '<a href="#">비밀번호를 잊어버렸나요?</a>'
                 })
-            });
+            }
+        })
 
         function errorAlert(el, text) {
             Swal.fire({

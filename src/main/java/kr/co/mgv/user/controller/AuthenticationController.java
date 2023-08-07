@@ -91,7 +91,7 @@ public class AuthenticationController {
     public ResponseEntity<Object> login(HttpSession session, @RequestBody User user) { // todo
         try {
             Authentication auth = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
+                new UsernamePasswordAuthenticationToken(user.getId(), user.getPassword())
             );
 
             SecurityContextHolder.getContext().setAuthentication(auth);

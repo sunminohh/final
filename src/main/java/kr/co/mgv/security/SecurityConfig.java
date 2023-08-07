@@ -38,7 +38,7 @@ public class SecurityConfig {
                     authorizeRequests.anyRequest().permitAll();
                 })
                 .httpBasic(Customizer.withDefaults()) // todo
-                .formLogin(AbstractHttpConfigurer::disable) // todo
+                .formLogin(login -> login.loginPage("/")) // todo
 //                .loginPage("/user/login")
 //                .usernameParameter("id")
 //                .passwordParameter("password")
