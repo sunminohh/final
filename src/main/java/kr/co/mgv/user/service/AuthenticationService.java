@@ -8,11 +8,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -20,7 +22,8 @@ public class AuthenticationService implements UserDetailsService {
 
     private final AuthenticationDao authenticationDao;
     private final UserRoleDao userRoleDao;
-    private final PasswordEncoder passwordEncoder;
+
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public void createUser(User user) {
 
@@ -39,16 +42,23 @@ public class AuthenticationService implements UserDetailsService {
         userRoleDao.insertUserRole(role);
     }
 
+    // 로그인
     @Override
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
         User user = authenticationDao.getUserById(id);
+        user.setRoleName(
+            userRoleDao.getUserRoleByUserId(id).stream()
+                .map(UserRole::getRoleName)
+                .collect(Collectors.toList())
+        );
+
+
         return user;
     }
 
     public User getUserByEmail(String email) {
         return authenticationDao.getUserByEmail(email);
     }
-
 
 
 }

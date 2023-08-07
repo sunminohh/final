@@ -1,7 +1,6 @@
 // Login 관련 코드
 $(() => {
 
-
     // 로그인 모달 탭
     $("#loginType>.btn-type").on("click", function (e) {
         $(this).parent().find(".btn-type").removeClass("active");
@@ -27,34 +26,56 @@ $(() => {
 
     // 로그인 버튼 클릭
     $(".login-modal .input-button").on("click", function (e) {
-       e.preventDefault();
-       const $modal = $(this).closest(".login-modal");
-       const username = $modal.find("input[name='username']").val();
-       const password = $modal.find("input[name='password']").val();
+        e.preventDefault();
 
-       /*
-       $.ajax({
-           url: "/login",
-           type: "POST",
-           contentType:"application/json; charset=utf-8",
-           data: JSON.stringify({username, password})
-       }).catch(e => console.error("ERRR"));
-       */
+        const $modal = $(this).closest(".login-modal");
+        const username = $modal.find("input[name='username']").val();
+        const password = $modal.find("input[name='password']").val();
+        /*$.ajax({
+            url: "/login",
+            type: "POST",
+            contentType:"application/json; charset=utf-8",
+            data: JSON.stringify({username, password})
+        }).catch(e => console.error("ERRR"));*/
 
-       axios.post("/login", {username, password})
-           .then((res) => {
-               location.reload();
-           })
-           .catch((e) => {
-               Swal.fire({
-                   icon: 'error',
-                   text: '아이디 혹은 비밀번호가 일치하지 않습니다.',
-                   footer: '<a href="#">비밀번호를 잊어버렸나요?</a>'
-               })
-           });
-   });
+        if (!username) {
+            errorAlert(username, "아이디를 입력하세요.");
+            return false;
+        }
+
+        if (!password) {
+            errorAlert(password, "비밀번호를 입력하세요.");
+            return false;
+        }
+
+        axios.post("/user/auth/login", {username, password})
+            .then((res) => {
+                if (res.status === 200) {
+                    location.href = "/";
+                    return true;
+                }
+            })
+            .catch((e) => {
+                Swal.fire({
+                    icon: 'error',
+                    text: '아이디 혹은 비밀번호가 일치하지 않습니다.',
+                    footer: '<a href="#">비밀번호를 잊어버렸나요?</a>'
+                })
+            });
+
+        function errorAlert(el, text) {
+            Swal.fire({
+                icon: 'error',
+                text: text,
+            });
+
+            if (el instanceof HTMLElement) {
+                el.focus();
+            }
+        }
+    });
+
 });
-
 
 // Login UI
 // https://codepen.io/knyttneve/pen/dgoWyE
@@ -90,4 +111,6 @@ $(() => {
         evt = evt || window.event;
         evt.keyCode === 27 ? closeModal() : false;
     };
+
+
 });
