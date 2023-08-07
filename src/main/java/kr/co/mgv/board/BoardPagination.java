@@ -1,6 +1,8 @@
 package kr.co.mgv.board;
 
 
+import java.util.stream.IntStream;
+
 import lombok.Getter;
 
 @Getter
@@ -21,7 +23,7 @@ public class BoardPagination {
 	private int nextPage;
 	private int begin;
 	private int end;
-	
+	private int[] pageNumbers;
 	
 	public BoardPagination(int rows, int page, int totalRows) {
 		this.rows = rows;
@@ -48,6 +50,7 @@ public class BoardPagination {
 		nextPage = page + 1;
 		begin = (page - 1)*rows + 1;
 		end = page*rows;
+		pageNumbers = IntStream.range(beginPage, endPage+1).toArray();
 	}
 
 
