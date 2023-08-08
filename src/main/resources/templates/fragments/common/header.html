@@ -17,15 +17,14 @@
 
         <div class="right-link">
             <!-- 로그인전 -->
-            <div class="before" sec:authorize="isAnonymous()">
+            <div class="before" sec:authorize="isAnonymous()"> <!--모든 사용자-->
                 <a th:href="@{/user}" title="관리자">내정보</a>
-                <a th:href="@{/admin/home}" title="관리자">관리자</a>
                 <a href="javascript:void(0)" class="btn-login" title="로그인">로그인</a>
                 <a th:href="@{/user/auth/form}" title="회원가입">회원가입</a>
             </div>
 
             <!-- 로그인후 -->
-            <div class="after" sec:authorize="isAuthenticated()">
+            <div class="after" sec:authorize="isAuthenticated()"> <!--인증된 사용자-->
                 <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/home}" title="관리자">관리자</a>
                 <a th:href="@{/center/lost}">분실물</a>
                 <a th:href="@{/logout}" title="로그아웃">로그아웃</a>

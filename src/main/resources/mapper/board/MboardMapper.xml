@@ -9,19 +9,19 @@
     		  AND A.MOVIE_NO = B.MOVIE_NO
   	    <choose>
   			<when test="opt == 'movieTitle'">
-  				and B.movie_title like '%' || #{keyword} || '%'
+  				and B.movie_title like  CONCAT('%', #{keyword}, '%')
   			</when>
   			<when test="opt == 'title'">
-  				and A.board_title like '%' || #{keyword} || '%'
+  				and A.board_name like  CONCAT('%', #{keyword}, '%')
   			</when>
   			<when test="opt == 'content'">
-  				and A.board_content like '%' || #{keyword} || '%'
+  				and A.board_content like  CONCAT('%', #{keyword}, '%')
   			</when>
   			<when test="opt == 'all'">
-  				and A.board_title like '%' || #{keyword} || '%' or A.board_content like '%' || #{keyword} || '%'
+  				and A.board_name like  CONCAT('%', #{keyword}, '%') or A.board_content like  CONCAT('%', #{keyword}, '%')
   			</when>
   			<when test="opt == 'writer'">
-  				and A.user_id like '%' || #{keyword} || '%'
+  				and A.member_id like  CONCAT('%', #{keyword}, '%')
   			</when>
   		</choose>
     </select>
@@ -36,20 +36,24 @@
 	            A.board_update_date     as updateDate,
 	            A.board_read_cnt        as readCount,
 	            A.board_comment_cnt     as commentCount,
-	            A.member_id             as userId,
+	            A.member_id             as "user.id",
+	            A.board_content         as content,
 	            row_number() over (
+	            	<if test="sort == null">
+	                        order by board_create_date desc	            	
+	            	</if>
 	                <choose>
 	                    <when test="sort == 'new'">
-	                        order by board_create_date asc
-	                    </when>
-	                    <when test="sort == 'old'">
 	                        order by board_create_date desc
 	                    </when>
+	                    <when test="sort == 'old'">
+	                        order by board_create_date asc
+	                    </when>
 	                    <when test="sort == 'view'">
-	                        order by board_read_cnt asc
+	                        order by board_read_cnt desc, board_create_date desc
 	                    </when>
 	                    <when test="sort == 'comment'">
-	                        order by board_comment_cnt asc
+	                        order by board_comment_cnt desc, board_create_date desc
 	                    </when>
 	                </choose>
 	            ) as ROWNUMBER
@@ -59,19 +63,19 @@
 	              and A.movie_no = B.movie_no
 	        <choose>
 	            <when test="opt == 'movieTitle'">
-	                and B.movie_title like '%' || #{keyword} || '%'
+	                and B.movie_title like CONCAT('%', #{keyword}, '%')
 	            </when>
 	            <when test="opt == 'title'">
-	                and board_title like '%' || #{keyword} || '%'
+	                and board_name like  CONCAT('%', #{keyword}, '%')
 	            </when>
 	            <when test="opt == 'content'">
-	                and board_content like '%' || #{keyword} || '%'
+	                and board_content like  CONCAT('%', #{keyword}, '%')
 	            </when>
 	            <when test="opt == 'all'">
-	                and (board_title like '%' || #{keyword} || '%' or board_content like '%' || #{keyword} || '%')
+	                and (board_name like  CONCAT('%', #{keyword}, '%') or board_content like  CONCAT('%', #{keyword}, '%')
 	            </when>
 	            <when test="opt == 'writer'">
-	                and user_id like '%' || #{keyword} || '%'
+	                and member_id like  CONCAT('%', #{keyword}, '%')
 	            </when>
 	        </choose>
 	    ) A
