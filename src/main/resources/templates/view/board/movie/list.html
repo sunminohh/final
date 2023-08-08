@@ -154,23 +154,18 @@
                     등록</a>
             </div>
 
-
-        </div>
-    </div>
-    
-      <div class="row mb-3">
-      	<div class="col-12">
             <nav>
                 <ul class="pagination justify-content-center">
                     <li class="page-item">
-                        <a th:href="@{list(page=${result.pagination.prePage})}" class="page-link"
+                        <a th:href="@{list(page=${result.pagination.prePage}, sort=${param.sort}, rows=${param.rows}, opt=${param.opt}, keyword=${param.keyword})}"
+                           class="page-link"
                            style="background-color: #000; color: white;"
                            th:classappend="${result.pagination.first ? 'disabled' : ''}"
                            th:onclick="changePage(event, ${result.pagination.prePage})">이전</a>
                     </li>
 
                     <li class="page-item" th:each="num : ${result.pagination.pageNumbers}">
-                        <a th:href="@{list(page=${num})}" 
+                        <a th:href="@{list(page=${num}, sort=${param.sort}, rows=${param.rows}, opt=${param.opt}, keyword=${param.keyword})}"
                            th:text="${num}"
                            th:classappend="${result.pagination.page == (num) ? 'active' : '' }"
                            class="page-link"
@@ -179,7 +174,8 @@
                     </li>
 
                     <li class="page-item">
-                        <a th:href="@{list(page=${result.pagination.nextPage})}" class="page-link"
+                        <a th:href="@{list(page=${result.pagination.nextPage}, sort=${param.sort}, rows=${param.rows}, opt=${param.opt}, keyword=${param.keyword})}" 
+                           class="page-link"
                            style="background-color: #000; color: white;"
                            th:classappend="${result.pagination.last ? 'disabled' : ''}"
                            th:onclick="changePage(event, ${result.pagination.nextPage})">다음</a>

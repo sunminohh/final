@@ -21,81 +21,83 @@
             border-color: #444;
         }
     </style>
+    <script type="text/javascript" th:src="@{/js/board/mboardList.js}"></script> 
 </head>
 <div layout:fragment="content" class="container my-3">
 
-    <div class="row mb-3">
+    <div class="row">
         <div class="col-12">
 
             <div>
                 <div class="d-flex justify-content-start float-start">
-                    <div class="mt-2 ">
-                        <p class="result-count"><strong>전체 <span id="total-rows" class="font-gblue">5</span>건</strong>
+                    <div class="mt-2 pe-2">
+                        <p class="result-count"><strong>전체 <span id="total-rows" class="font-gblue" th:text="${result.pagination.totalRows}">5</span>건</strong>
                         </p>
                     </div>
 
-                    <div class="float-start ps-2">
-                        <form id="form-search" method="get" action="@{list}" 
+                    <div class="float-start ps-1">
+                        <form id="form-board-search" method="get" th:action="@{list}" 
                               class="row row-cols-lg-auto g-3 align-items-center justify-content-end ">
-							<input type="hidden" name="sort" value="${param.sort }" />
-							<input type="hidden" name="rows" value="${param.rows }" />
-							<input type="hidden" name="page" value="${param.page }" />
-							<input type="hidden" name="theaterNo" value="${param.theaterNo }" />
-							<input type="hidden" name="locationNo" value="${param.locationNo }" />
+							<input type="hidden" name="sort" th:value="${param.sort }" />
+							<input type="hidden" name="rows" th:value="${param.rows }" />
+							<input type="hidden" name="page" th:value="${param.page }" />
+							<input type="hidden" name="theaterNo" th:value="${param.theaterNo }" />
+							<input type="hidden" name="locationNo" th:value="${param.locationNo }" />
                             <div class="col-12 ">
-                                <select class="form-select form-select-sm  form-control-sm" name="opt">
-                                    <option value=""> 검색옵션</option>
-                                    <option th:value="title"
-                                            th:classappend="${#strings.equals(param.opt, 'title') ? 'selected' : '' }">
+                                <select class="form-select form-select-sm  form-control-sm" name="opt" th:value="${param.opt}">
+                                    <option value="" disabled> 검색옵션</option>
+                                    <option class="opt-select"
+                                    		th:value="title"
+                                            th:selected="${#strings.equals(param.opt, 'title')}">
                                         제목
                                     </option>
-                                    <option th:value="content"
-                                            th:classappend="${#strings.equals(param.opt, 'content') ? 'selected' : '' }"> 내용
+                                    <option class="opt-select"
+                                    		th:value="content"
+                                            th:selected="${#strings.equals(param.opt, 'content')}"> 
+                                            내용
                                     </option>
-                                    <option th:value="all"
-                                            th:classappend="${#strings.equals(param.opt, 'all') ? 'selected' : '' }">
+                                    <option class="opt-select"
+                                    		th:value="all"
+                                            th:selected="${#strings.equals(param.opt, 'all')}">
                                         제목/내용
                                     </option>
-                                    <option th:value="writer"
-                                            th:classappend="${#strings.equals(param.opt, 'writer') ? 'selected' : '' }">
+                                    <option class="opt-select"
+                                    		th:value="writer"
+                                            th:selected="${#strings.equals(param.opt, 'writer')}">
                                         작성자
                                     </option>
                                 </select>
                             </div>
                             <div class="col-12">
-                                <input type="text" class="form-control form-control-sm" name="keyword" th:value="${param.keyword}"/>
+                                <input type="text" style="width: 140px;" class="form-control form-control-sm" name="keyword" th:value="${param.keyword}"/>
                             </div>
                             <div class="col-12">
-                                <button type="button" class="btn btn-outline-dark btn-sm" onclick="searchTBoard()">검색</button>
+                                <button type="button" class="btn btn-outline-dark btn-sm" onclick="searchBoard()">검색</button>
                             </div>
                         </form>
                     </div>
                 </div>
                 <div>
-                    <div class="d-flex justify-content-end mb-3 float-end ps-3 ">
-                        <select class="form-select me-1 form-select-sm" style="width: 100px" name="sort" onchange="changeSort()">
-                            <option th:value="new"
-                                    th:classappend="${#strings.equals(param.sort, 'new') ? 'selected' : '' }"> 최신순
-                            </option>
-                            <option th:value="old"
-                                    th:classappend="${#strings.equals(param.sort, 'old') ? 'selected' : '' }"> 오래된순
-                            </option>
-                            <option th:value="view"
-                                    th:classappend="${#strings.equals(param.sort, 'view') ? 'selected' : '' }"> 조회수순
-                            </option>
-                            <option th:value="comment"
-                                    th:classappend="${#strings.equals(param.sort, 'comment') ? 'selected' : '' }"> 댓글순
-                            </option>
+                     <div class="d-flex justify-content-end mb-3 float-end ps-3 ">
+                        <select class="form-select me-1 form-select-sm" style="width: 100px" name="sort" onchange="changeSort()" th:value="${param.sort}">
+                            <option class="sort-select" th:value="new" th:selected="${#strings.equals(param.sort, 'new')}">최신순</option>
+							<option class="sort-select" th:value="old" th:selected="${#strings.equals(param.sort, 'old')}">오래된순</option>
+							<option class="sort-select" th:value="view" th:selected="${#strings.equals(param.sort, 'view')}">조회수순</option>
+							<option class="sort-select" th:value="comment" th:selected="${#strings.equals(param.sort, 'comment')}">댓글순</option>
+
                         </select>
-                        <select class="form-select me-2 form-select-sm pe-6" style="width: 100px" name="rows" onchange="changeRows()">
-                            <option th:value="10"
-                                    th:classappend="${#strings.equals(param.rows, '10') ? 'selected' : '' }"> 10개씩
+                        <select class="form-select me-2 form-select-sm pe-6" style="width: 100px" name="rows" onchange="changeRows()" th:value="${param.rows}">
+                            <option class="rows-select"
+                            		th:value="10"
+                                    th:selected="${#strings.equals(param.rows, '10')}"> 10개씩
                             </option>
-                            <option th:value="20"
-                                    th:classappend="${#strings.equals(param.rows, '20') ? 'selected' : '' }"> 20개씩
+                            <option class="rows-select"
+                            		th:value="20"
+                                    th:selected="${#strings.equals(param.rows, '20')}"> 20개씩
                             </option>
-                            <option th:value="50"
-                                    th:classappend="${#strings.equals(param.rows, '50') ? 'selected' : '' }"> 50개씩
+                            <option class="rows-select"
+                            		th:value="50"
+                                    th:selected="${#strings.equals(param.rows, '50')}"> 50개씩
                             </option>
                         </select>
                     </div>
@@ -103,15 +105,19 @@
 
                         <select id="location" title="지역 선택"
                                 class="form-select form-select-sm  ml07 form-control-sm mb-3"
-                                style="width: 150px; float:left; " name="locationNo"
-                                onchange="changeLoc()">
+                                style="width: 130px; float:left; " name="locationNo"
+                                th:onchange="changeLoc()" >
                             <option value="" selected disabled>지역선택</option>
-                            <option th:value="locatioNo">지역 이름</option>
+                            <option th:each="location : ${result.locations}" 
+                            		th:text="${location.name}" 
+                            	    th:value="${location.no}"
+                            	    onchange="changeLoc()"
+                            	    th:selected="${#strings.equals(location.no, param.locationNo)}">지역 이름</option>
                         </select>
 
                         <select id="theater" title="극장 선택" class="form-select form-select-sm ml07 form-control-sm mb-3"
-                                style="width: 150px; float:left; position: relative; left:5px;" 
-                                name="theaterNo" onchange="changeTBoard()">
+                                style="width: 130px; float:left; position: relative; left:5px;" 
+                                name="theaterNo" th:onchange="changeTboard()">
       						<option value="" selected disabled>극장선택</option>
                         </select>
 
@@ -124,10 +130,10 @@
             <table class="table table-sm" id="table-Tboard">
                 <colgroup>
                     <col width="5%">
-                    <col width="70%">
-                    <col width="10%">
+                    <col width="60%">
+                    <col width="15%">
                     <col width="5%">
-                    <col width="10%">
+                    <col width="15%">
                 </colgroup>
                 <thead>
                 <tr>
@@ -139,13 +145,18 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>1</td>
+				<tr th:if="${#lists.isEmpty(result.theaterBoards)}">
+					<td colspan="5">게시글이 존재하지 않습니다.</td>
+				</tr>	
+                <tr th:if="${not #lists.isEmpty(result.theaterBoards)}"
+                	th:each="board : ${result.theaterBoards}">
+                    <td th:text="${board.no}">1</td>
                     <td><a class="text-black text-decoration-none"
-                           th:href="@{/board/theater/detail(no=1)}">게시글제목</a><span>(게시글 댓글수)</span></td>
-                    <td class="fw-light">작성자아이디</td>
-                    <td class="fw-light">조회수</td>
-                    <td class="fw-light">작성일</td>
+                           th:href="@{/board/theater/detail(no=1)}" th:text="${board.name} ">게시글제목</a> <span style="color: darkgray;" th:text="${'('+#numbers.formatInteger(board.commentCount, 1, 'COMMA')+')'}">(게시글 댓글수)</span></td>
+                    <td class="fw-light" th:text="${board.user.id}">작성자아이디</td>
+                    <td class="fw-light" th:text="${#numbers.formatInteger(board.readCount, 1, 'COMMA')}">조회수</td>	
+                    <td class="fw-light" th:value="${board.createDate}" id="board-create-date" th:text="${#dates.format(board.createDate, 'yyyy-MM-dd HH:mm')}">작성일</td>
+
                 </tr>
 
                 </tbody>
@@ -157,24 +168,33 @@
             </div>
 
 
-            <nav>
-                <ul class="pagination justify-content-center">
-                    <li class="page-item">
-                        <a href="list.jsp?page=이전페이지" class="page-link"
-                           style="background-color: #000; color: white;">이전</a>
-                    </li>
+			<nav>
+			    <ul class="pagination justify-content-center">
+			        <li class="page-item">
+			            <a th:href="@{list(page=${result.pagination.prePage}, sort=${param.sort}, rows=${param.rows}, theaterNo=${param.theaterNo}, locationNo=${param.locationNo}, opt=${param.opt}, keyword=${param.keyword})}" class="page-link"
+			               style="background-color: #000; color: white;"
+			               th:classappend="${result.pagination.first ? 'disabled' : ''}"
+			               th:onclick="changePage(event, ${result.pagination.prePage})">이전</a>
+			        </li>
+			
+			        <li class="page-item" th:each="num : ${result.pagination.pageNumbers}">
+			            <a th:href="@{list(page=${num}, sort=${param.sort}, rows=${param.rows}, theaterNo=${param.theaterNo}, locationNo=${param.locationNo}, opt=${param.opt}, keyword=${param.keyword})}"
+			               th:text="${num}"
+			               th:classappend="${result.pagination.page == (num) ? 'active' : '' }"
+			               class="page-link"
+			               style="background-color: white; color: #000;"
+			               th:onclick="changePage(event, ${num})">1</a>
+			        </li>
+			
+			        <li class="page-item">
+			            <a th:href="@{list(page=${result.pagination.nextPage}, sort=${param.sort}, rows=${param.rows}, theaterNo=${param.theaterNo}, locationNo=${param.locationNo}, opt=${param.opt}, keyword=${param.keyword})}" class="page-link"
+			               style="background-color: #000; color: white;"
+			               th:classappend="${result.pagination.last ? 'disabled' : ''}"
+			               th:onclick="changePage(event, ${result.pagination.nextPage})">다음</a>
+			        </li>
+			    </ul>
+			</nav>
 
-                    <li class="page-item">
-                        <a href="list.jsp?page=<%=num %>" class="page-link"
-                           style="background-color: white; color: #000;">1</a>
-                    </li>
-
-                    <li class="page-item">
-                        <a href="list.jsp?page=다음페이지" class="page-link"
-                           style="background-color: #000; color: white;">다음</a>
-                    </li>
-                </ul>
-            </nav>
         </div>
     </div>
 </div>
