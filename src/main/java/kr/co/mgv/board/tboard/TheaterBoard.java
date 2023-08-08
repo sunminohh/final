@@ -2,6 +2,7 @@ package kr.co.mgv.board.tboard;
 
 import java.util.Date;
 
+import kr.co.mgv.user.vo.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,5 +21,10 @@ public class TheaterBoard {
 	private int commentCount;
 	private String deleted;
 	private String report;
-// 이어서 할 것
+	private User user;
+	private BoardTheater theater;
+	private BoardLocation location;
+	private String fileName;
+	private int reportCount;
+	private int likeCount;
 }

@@ -13,4 +13,5 @@ public class TheaterBoardList {
 
 	private BoardPagination pagination;
 	private List<TheaterBoard> theaterBoards;
+	private List<BoardLocation> locations;
 }

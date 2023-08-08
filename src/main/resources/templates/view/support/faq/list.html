@@ -9,21 +9,23 @@
     <h2 class="tit">자주 묻는 질문</h2>
 
     <!-- input-search-area -->
-    <div class="input-search-area mb30">
-        <div class="input-area">
-            <label for="search01" class="label">빠른검색</label>
-
-            <div class="board-search w460px">
-                <input type="search" id="searchTxt" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" value="" maxlength="15">
-                <button type="button" id="searchBtn" class="btn-search-input">검색</button>
-            </div>
-        </div>
-
-        <div class="btn-area">
-
-        </div>
-    </div>
+    <form action="list">
+	    <div class="input-search-area mb30">
+	        <div class="input-area">
+	            <label for="search01" class="label">빠른검색</label>
+			
+	            <div class="board-search w460px">
+	                <input type="search" id="searchTxt" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" value="" maxlength="15">
+	                <input type="hidden" nmae="catNo">
+	                <input type="hidden" nmae="page">
+	                <input type="hidden" nmae="keyword">
+	                <button type="button" id="searchBtn" class="btn-search-input">검색</button>
+	            </div>
+	        </div>
+	    </div>
+    </form>
     <!--// input-search-area -->
+    
     <div class="tab-block-faq mb30">
         <ul>
             <li class="tab-link current"><button type="button" class="btn rounded-0" data-category-no="1" title="전체">전체</button></li>
@@ -71,7 +73,11 @@
 	</div>
 
     <!-- pagination -->
-    <nav class="pagination justify-content-center"><strong class="active">1</strong> <a title="2페이지보기" href="javascript:void(0)" pagenum="2">2</a> <a title="3페이지보기" href="javascript:void(0)" pagenum="3">3</a> <a title="4페이지보기" href="javascript:void(0)" pagenum="4">4</a> <a title="5페이지보기" href="javascript:void(0)" pagenum="5">5</a> <a title="6페이지보기" href="javascript:void(0)" pagenum="6">6</a> <a title="7페이지보기" href="javascript:void(0)" pagenum="7">7</a> </nav>
+    <nav class="pagination justify-content-center">
+		<strong class="active">1</strong> 
+		<a title="2페이지보기" href="" pagenum="2">2</a> 
+		<a title="3페이지보기" href="" pagenum="3">3</a> 
+	</nav>
     <!--// pagination -->
 
 

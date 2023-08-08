@@ -16,7 +16,7 @@
 			A.CATEGORY_NO = B.CATEGORY_NO
 			and A.FAQ_DELETED = 'N'
 			<if test="value != 1">
-			and A.CATEGORY_NO = #{value}
+				and A.CATEGORY_NO = #{value}
 			</if>
 	</select>
 	
