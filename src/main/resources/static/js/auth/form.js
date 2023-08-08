@@ -8,9 +8,10 @@ $(() => {
 
     // 각 input 값 검증 결과 변수
     let idCheck = false;
+    let passwordCheck = false;
     let nameCheck = false;
     let emailCheck = false;
-    let passwordCheck = false;
+    let birthCheck = false;
 
     // input 새로운 값 입력 시 기존 검증 결과 초기화
     $id.keyup(() => idCheck = false);
@@ -20,33 +21,84 @@ $(() => {
     $("#btnUserIdConfirm").click(() => checkId());
     $("#btnCheckMail").click(() => checkEmail());
 
+    // 아이디 입력 이벤트
+    $("input[name=id]").keyup(() => {
+        const idvalue = $id.val();
+        const idReg = /^[a-zA-Z0-9]{3,10}$/;
+        if (!idReg.test(idvalue)) {
+            idCheck = false;
+            $("#id-error-text").text("아이디는 영문, 숫자의 조합으로 3자~10자여야 합니다.").css('color', 'red');
+        } else {
+            idCheck = true;
+            $("#id-error-text").text("");
+        }
+    });
+
     // 이름 입력 이벤트
     $("input[name=name]").keyup(() => {
-        if (!$name.val() || $name.val().length < 2) {
+        const namevalue = $name.val();
+        const nameReg = /^[가-힣]+$/;
+        if (namevalue.length <= 2) {
             nameCheck = false;
-            $("#name-error-text").text("이름은 공백이거나 두글자 이하일 수 없습니다.");
-        }
-        if ($name.val().length > 2) {
+            $("#name-error-text").text("이름은 공백이거나 두글자 이하일 수 없습니다.").css('color', 'red');
+        } else {
             nameCheck = true;
+            $("#name-error-text").text("");
         }
+        if (!nameReg.test(namevalue)) {
+            nameCheck = false;
+            $("#name-error-text").text("이름은 한글 입력만 가능합니다.").css('color', 'red');
+        } else {
+            nameCheck = true;
+            $("#name-error-text").text("");
+        }
+
     });
 
     // 패스워드 입력 시 값 검증 이벤트
     $("input[name=password],input[name=repassword]").keyup(() => {
-        // TODO Validation check (길이, 특수 문자 포함 여부)
-
-        // 비밀번호랑 비밀번호 확인 둘다 따로따로 체크해서 해당하는 오류 메세지 표출 할 것
-        if (!$password.val() || !$repassword.val()) {
+        const pwdvalue = $password.val();
+        const repwdvalue = $repassword.val();
+        const pwdReg = /(?=.*[0-9])(?=.*[a-zA-Z])(?=\S+$).{8,16}/;
+        // Validation check (길이, 특수 문자 포함 여부)
+        if (!pwdReg.test(pwdvalue)) {
             passwordCheck = false;
-            $("#password-error-text").text("패스워드를 입력해주세요.");
-        }
-        if ($password.val() === $repassword.val()) {
+            $("#password-error-text").text("비밀번호는 8자~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.").css('color', 'red');
+        } else {
             passwordCheck = true;
-            $("#password-error-text").text("사용 가능한 패스워드입니다."); // todo 색상 변경
+            $("#password-error-text").text("올바른 비밀번호 형식입니다.").css('color', 'lightgreen');
+        }
+
+        // 비밀번호랑 비밀번호 확인 둘다 따로따로 체크해서 해당하는 오류 메세지
+        if (!pwdvalue) {
+            passwordCheck = false;
+            $("#password-error-text").text("패스워드를 입력해주세요.").css('color', 'red');
+        }
+        if (!repwdvalue) {
+            passwordCheck = false;
+            $("#re-password-error-text").text("패스워드를 확인해주세요.").css('color', 'red');
+        } else if (pwdvalue !== repwdvalue) {
+            passwordCheck = false;
+            $("#re-password-error-text").text("입력한 비밀번호가 일치하지 않습니다.").css('color', 'red');
+        } else {
+            passwordCheck = true;
+            $("#re-password-error-text").text("입력한 비밀번호가 일치합니다.").css('color', 'lightgreen');
         }
     });
 
-    // TODO 패스워드 입력 이벤트
+    // 이메일 입력 시 검증 이벤트
+    $("input[name=email]").keyup(() => {
+        const emailvalue = $email.val();
+        const emailReg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailReg.test(emailvalue)) {
+            emailCheck = false;
+            $("#email-error-text").text("이메일 형식에 올바르지 않습니다.").css('color', 'red');
+        } else {
+            emailCheck = true;
+            $("#email-error-text").text("올바른 이메일 형식입니다.").css('color', 'lightgreen');
+        }
+
+    });
 
     // 가입하기 클릭 이벤트
     $("#action-form").submit(function (e) {
@@ -56,6 +108,7 @@ $(() => {
         const $name = $(".join-form input[name='name']");
         const $password = $(".join-form input[name='password']");
         const $repassword = $(".join-form input[name='repassword']");
+        const $birth = $(".join-form input[name='birth']");
         const $email = $(".join-form input[name='email']");
 
         // 아이디 입력 및 중복 체크
@@ -79,6 +132,12 @@ $(() => {
         // 메일 체크
         if (!emailCheck) {
             errorAlert($email, "이메일을 확인해주세요.");
+            return false;
+        }
+
+        // 생년월일 체크
+        if (!birthCheck) {
+            errorAlert($birth, "생년월일을 선택하세요.");
             return false;
         }
 
@@ -106,6 +165,7 @@ $(() => {
         return checkId;
     }
 
+    // 비밀번호, 비밀번호 확인 체크
     function checkPwd() {
         const $password = $(".join-form input[name='password']");
         const $repassword = $(".join-form input[name='repassword']");
@@ -127,20 +187,16 @@ $(() => {
         return true;
     }
 
-    // email 형식 유효성
-    function isValidEmail(email) {
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        return emailRegex.test(email);
-    }
     // email 중복 체크
     async function checkEmail() {
         const $email = $(".join-form input[name='email']");
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if (!$email.val()) {
             errorAlert($email, '이메일을 입력해주세요!');
             emailCheck = false;
             return;
         }
-        if (!isValidEmail($email.val())) {
+        if (!emailRegex.test($email.val())) {
             errorAlert($email, "올바른 이메일 형식이 아닙니다.");
             emailCheck = false;
             return;
@@ -155,6 +211,27 @@ $(() => {
         }
     }
 
+    // 만 12세 이상 가입 제한
+    $("#datepicker").on("change", function () {
+        const birthDate = new Date($(this).val());
+        const currentDate = new Date();
+
+        let age = currentDate.getFullYear() - birthDate.getFullYear();
+        const monthDiff = currentDate.getMonth() - birthDate.getMonth();
+
+        if (monthDiff < 0 || (monthDiff === 0 && currentDate.getDate() < birthDate.getDate())) {
+            age--;
+        }
+
+        if (age < 12) {
+            birthCheck = false;
+            $("#birth-error-text").text("12세 이상만 가입 가능합니다.").css('color', 'red');
+        } else {
+            birthCheck = true;
+            $("#birth-error-text").text("만 12세 이상입니다.").css('color', 'lightgreen');
+        }
+    });
+
     // 경고창 라이브러리 함수
     function errorAlert($el, text) {
         Swal.fire({
@@ -163,6 +240,7 @@ $(() => {
         });
         $el.focus();
     }
+
     function successAlert($el, text) {
         Swal.fire({
             icon: 'success',

@@ -4,6 +4,7 @@
       layout:decorate="~{layout/default}">
 <head th:fragment="extra-head-content">
     <script th:src="@{/js/auth/form.js}"></script>
+    <script th:src="@{/js/calender.js}"></script>
 </head>
 <div layout:fragment="content" id="contents" class="join-form">
     <form id="action-form" method="post" th:action="@{/user/auth/join}">
@@ -16,7 +17,7 @@
 
                     <div class="table-wrap">
                         <table class="board-form">
-                            <caption>생년월일, 휴대폰번호, 아이디,이름, 비밀번호, 비밀번호 확인, 이메일 주소를 가진 회원가입 정보입력 표<!--생년월일, 휴대폰번호, 아이디, 비밀번호, 비밀번호 확인, 이메일 주소, 무인발권기 기능설정, 나만의 메가박스 항목을 가진 회원가입 정보입력 표--></caption>
+                            <caption>아이디, 이름, 비밀번호, 비밀번호 확인, 생년월일, 이메일 주소를 가진 회원가입 정보입력</caption>
                             <colgroup>
                                 <col style="width:130px;">
                                 <col>
@@ -26,23 +27,22 @@
                                 <th scope="row"><label for="userId">아이디<!--아이디--></label></th>
                                 <td>
                                     <input maxlength="12" name="id" id="userId" type="text" placeholder="영문,숫자 조합(8~12자)" class="input-text w260px" autocomplete="off"><!--영문,숫자 조합(8~12자)-->
-                                    <button id="btnUserIdConfirm" name="" type="button" class="button gray-line small w75px ml08">중복확인<!--중복확인--></button>
-                                    <div id="JoinInfoRegLoginId-error-text" class="alert"></div>
+                                    <button id="btnUserIdConfirm" type="button" class="button gray-line small w75px ml08">중복확인<!--중복확인--></button>
+                                    <div id="id-error-text" class="alert"></div>
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row"><label for="userName">이름<!--아이디--></label></th>
                                 <td>
-                                    <input minlength="2" name="name" id="userName" type="text" placeholder="두글자이상" class="input-text w260px" autocomplete="off"><!--영문,숫자 조합(8~12자)-->
+                                    <input name="name" id="userName" type="text" placeholder="이름을 입력하세요" class="input-text w260px" autocomplete="off"><!--영문,숫자 조합(8~12자)-->
                                     <div id="name-error-text" class="alert"></div>
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row"><label for="userPwd">비밀번호<!--비밀번호--></label></th>
                                 <td>
-                                    <input maxlength="16" id="userPwd" name="password" type="password" placeholder="비밀번호는 8자~16자 영문 대 소문자, 숫자, 특수문자 사용" class="input-text w260px">
+                                    <input maxlength="16" id="userPwd" name="password" type="password" placeholder="영문 대 소문자,숫자 8자~16자" class="input-text w260px">
                                     <!--영문,숫자,특수기호 중 2가지 이상 조합-->
-                                    <span class="tooltiptext">비밀번호 설정 시 사용가능한 특수문자는 ~ ! @ # $ % ^ &amp; * + = - ? _  입니다.</span>
                                     <div id="password-error-text" class="alert"></div>
                                 </td>
                             </tr>
@@ -50,17 +50,17 @@
                             <tr>
                                 <th scope="row"><label for="userRepwd">비밀번호 확인<!--비밀번호 확인--></label></th>
                                 <td>
-                                    <input maxlength="16" id="userRepwd" name="repassword" type="password" placeholder="비밀번호는 8자~16자 영문 대 소문자, 숫자, 특수문자를 사용" class="input-text w260px">
+                                    <input minlength="" maxlength="16" id="userRepwd" name="repassword" type="password" placeholder="비밀번호를 확인하세요." class="input-text w260px">
                                     <!--영문,숫자,특수기호 중 2가지 이상 조합-->
-                                    <span class="tooltiptext">비밀번호 설정 시 사용가능한 특수문자는 ~ ! @ # $ % ^ &amp; * + = - ? _  입니다.</span>
                                     <div id="re-password-error-text" class="alert"></div>
                                 </td>
                             </tr>
 
                             <tr>
-                                <th scope="row">생년월일<!--생년월일--></th>
-                                <td id="birth">
-                                    <input maxlength="16" name="birth" type="date" placeholder="생년월일" class="input-text w260px"><!--영문,숫자,특수기호 중 2가지 이상 조합-->
+                                <th scope="row"><label for="userbirth">생년월일<!--비밀번호 확인--></label></th>
+                                <td id="userbirth">
+                                    <input id="datepicker" width="276" name="birth" type="text" placeholder="날짜 선택" class="input-text w260px" autocomplete="off" readonly>
+                                    <div id="birth-error-text" class="alert"></div>
                                 </td>
                             </tr>
 
@@ -75,7 +75,7 @@
 
                                     <button id="btnCheckMail" type="button" class="button gray-line small w75px ml08">체크</button>
 <!--                                    <button id="btnCheckMail" type="button" class="button gray-line small w75px ml08 disabled">인증요청</button>-->
-                                    <div id="nonMbCert-error-text" class="alert"></div>
+                                    <div id="email-error-text" class="alert"></div>
                                 </td>
                             </tr>
 

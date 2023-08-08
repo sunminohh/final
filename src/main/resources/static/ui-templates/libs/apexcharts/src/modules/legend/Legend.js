@@ -132,7 +132,7 @@ class Legend {
       let mBorderColor = w.config.legend.markers.strokeColor
       let mBorderRadius = w.config.legend.markers.radius
 
-      // todo - untested code below
+      // - untested code below
       // if (Array.isArray(w.config.legend.markers.shape)) {
       // } else {
       //   if (w.config.legend.markers.shape !== 'circle') {
