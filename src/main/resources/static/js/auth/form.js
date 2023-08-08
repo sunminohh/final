@@ -108,7 +108,7 @@ $(() => {
         const $name = $(".join-form input[name='name']");
         const $password = $(".join-form input[name='password']");
         const $repassword = $(".join-form input[name='repassword']");
-        const $birth = $(".join-form input[name='birth']");
+        const $birth = $("#datepicker").val();
         const $email = $(".join-form input[name='email']");
 
         // 아이디 입력 및 중복 체크
@@ -136,8 +136,11 @@ $(() => {
         }
 
         // 생년월일 체크
-        if (!birthCheck) {
+        if (!$birth) {
             errorAlert($birth, "생년월일을 선택하세요.");
+            return false;
+        } else if (!birthCheck) {
+            errorAlert($birth, "12세 이상만 가입 가능합니다.");
             return false;
         }
 
