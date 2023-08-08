@@ -354,7 +354,7 @@ export default class Labels {
           w.config.tooltip.items.display
       }
 
-      // TODO: issue #1240 needs to be looked at again. commenting it because this also hides single series values with 0 in it (shared tooltip)
+      //: issue #1240 needs to be looked at again. commenting it because this also hides single series values with 0 in it (shared tooltip)
 
       // if (w.globals.stackedSeriesTotals[j] === 0) {
       //   // shared tooltip and all values are null, so we need to hide the x value too

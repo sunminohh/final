@@ -62,7 +62,7 @@ export default class PointAnnotations {
 
     parent.appendChild(elText.node)
 
-    // TODO: deprecate this as we will use custom
+    //: deprecate this as we will use custom
     if (anno.customSVG.SVG) {
       let g = this.annoCtx.graphics.group({
         class:

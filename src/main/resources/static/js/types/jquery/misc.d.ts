@@ -3929,7 +3929,7 @@ $( "input" ).click(function() {
     // region Queue
     // #region Queue
 
-    // TODO: Is the first element always a string or is that specific to the 'fx' queue?
+    //: Is the first element always a string or is that specific to the 'fx' queue?
     type Queue<TElement> = { 0: string; } & Array<QueueFunction<TElement>>;
 
     type QueueFunction<TElement> = (this: TElement, next: () => void) => void;
