@@ -82,4 +82,64 @@
 	    having A.ROWNUMBER between #{begin} and #{end}
 	</select>
 
+	<select id="getMBoardByNo" parameterType="int" resultType="kr.co.mgv.board.mboard.MovieBoard">
+		select
+            A.board_no              as no,
+            A.board_name            as name,
+            A.board_content         as content,
+            A.board_create_date     as createDate,
+            A.board_update_date     as updateDate,
+            A.board_read_cnt        as readCount,
+            A.board_comment_cnt     as commentCount,
+            A.member_id             as "user.id",
+            A.movie_no				as "movie.no",
+            B.movie_title			as "movie.title",
+            A.BORAD_FILENAME		as fileName,
+			A.board_like_count		as likeCount
+	    from
+	        MGV_MOVIE_BOARD A, MGV_MOVIE B
+	    where 
+	    	A.movie_no = B.movie_no
+	    	and A.board_no = #{value}
+	</select>
+	
+	<update id="updateMBoardByNo" parameterType="kr.co.mgv.board.mboard.MovieBoard">
+		update MGV_MOVIE_BOARD
+			<set>
+				<if test="name != null">
+					board_name = #{name},
+				</if>
+				<if test="content != null">
+					board_content = #{content},
+				</if>
+				<if test="updateDate != null">
+					board_update_date = CURRENT_TIMESTAMP,
+				</if>
+				<if test="readCount != null">
+					board_read_cnt = #{readCount},
+				</if>
+				<if test="commentCount != null">
+					board_comment_cnt = #{commentCount},
+				</if>
+				<if test="deleted != null">
+					board_deleted = #{deleted},
+				</if>
+				<if test="report != null">
+					board_report = #{report},
+				</if>
+				<if test="fileName != null">
+					BORAD_FILENAME = #{fileName},
+				</if>
+				<if test="reportCount != null">
+					report_count = #{reportCount},
+				</if>
+				<if test="likeCount != null">
+					board_like_count = #{likeCount},
+				</if>
+				<if test="movie != null">
+					movie_no = #{movie.no},
+				</if>
+			</set>
+			where board_no = #{no}
+	</update>
 </mapper>

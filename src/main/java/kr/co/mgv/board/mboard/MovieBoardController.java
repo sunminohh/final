@@ -10,6 +10,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.RequiredArgsConstructor;
 
@@ -47,8 +48,34 @@ public class MovieBoardController {
         return "/view/board/movie/list";
     }
 
+    @GetMapping("/read")
+    public String read(@RequestParam("no") int no,
+    				   @RequestParam("page") int page,
+    				   @RequestParam("rows") int rows,
+    				   @RequestParam("sort") String sort,
+    				   @RequestParam("opt") String opt,
+    				   @RequestParam("keyword") String keyword,
+    				   RedirectAttributes redirectAttributes) {
+    	
+    	movieBoardService.increaseRead(no);
+    	
+    	redirectAttributes.addAttribute("no", no);
+        redirectAttributes.addAttribute("page", page);
+        redirectAttributes.addAttribute("rows", rows);
+        redirectAttributes.addAttribute("sort", sort);
+        redirectAttributes.addAttribute("opt", opt);
+        redirectAttributes.addAttribute("keyword", keyword);
+
+        
+        return "redirect:/board/movie/detail";
+    }
+    
     @GetMapping("/detail")
-    public String theaterDetail() {
+    public String theaterDetail(@RequestParam("no") int no,
+    							Model model) {
+    	MovieBoard movieBoard = movieBoardService.getMovieBoardByNo(no);
+    	model.addAttribute("board", movieBoard);
+    	
         return "/view/board/movie/detail";
     }
 
