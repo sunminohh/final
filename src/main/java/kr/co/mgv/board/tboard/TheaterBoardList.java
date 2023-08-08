@@ -1,7 +1,6 @@
 package kr.co.mgv.board.tboard;
 
 import java.util.List;
-import java.util.Map;
 
 import kr.co.mgv.board.BoardPagination;
 import lombok.Getter;
@@ -13,4 +12,5 @@ public class TheaterBoardList {
 
 	private BoardPagination pagination;
 	private List<TheaterBoard> theaterBoards;
+	private List<BoardLocation> locations;
 }

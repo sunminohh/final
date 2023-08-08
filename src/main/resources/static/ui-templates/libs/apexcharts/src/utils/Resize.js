@@ -1,5 +1,5 @@
 // Helpers to react to element resizes, regardless of what caused them
-// TODO Currently this creates a new ResizeObserver every time we want to observe an element for resizes
+// Currently this creates a new ResizeObserver every time we want to observe an element for resizes
 // Ideally, we should be able to use a single observer for all elements
 let ros = new WeakMap() // Map callbacks to ResizeObserver instances for easy removal
 

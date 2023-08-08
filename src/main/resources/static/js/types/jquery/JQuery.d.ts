@@ -83,7 +83,7 @@ $( document.body )
      * @since 1.4
      */
     add(selector: JQuery.Selector, context: Element): this;
-    // TODO: The return type should reflect newly selected types.
+    //: The return type should reflect newly selected types.
     /**
      * Create a new jQuery object with elements added to the set of matched elements.
      * @param selector_elements_html_selection _&#x40;param_ `selector_elements_html_selection`

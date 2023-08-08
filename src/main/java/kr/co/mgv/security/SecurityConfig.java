@@ -32,32 +32,19 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
-                // todo
+                //
                 .authorizeRequests((authorizeRequests) -> {
                     authorizeRequests.antMatchers("/admin/**").hasRole("ADMIN");
                     authorizeRequests.anyRequest().permitAll();
                 })
-                .httpBasic(Customizer.withDefaults()) // todo
-                .formLogin(login -> login.loginPage("/")) // todo
-//                .loginPage("/user/login")
-//                .usernameParameter("id")
-//                .passwordParameter("password")
-//                .loginProcessingUrl("/user/login")
-//                .defaultSuccessUrl("/")
-//                .failureUrl("/user/login?error=fail")
+                .httpBasic(Customizer.withDefaults()) //
+                .formLogin(login -> login.loginPage("/")) //
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/")
                         .invalidateHttpSession(true)
-                        .clearAuthentication(true) // todo
+                        .clearAuthentication(true) //
                 )
-//            .and()
-//                .exceptionHandling().authenticationEntryPoint((req, res, ex) -> res.sendRedirect("/user/login?error=denid"))
-//            .and()
-//                .exceptionHandling().authenticationEntryPoint((req, res, ex) -> res.sendRedirect("/user/login?error=forbidden"))
-//            .and()
-//                // auth service 등록
-//                .userDetailsService(authenticationService)
                 .build();
     }
 

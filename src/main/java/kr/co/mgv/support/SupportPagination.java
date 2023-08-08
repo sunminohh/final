@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 public class SupportPagination {
 
-   private final int rows;
+   private int rows = 10;
    private int pages = 5;
    private int page;
    private int totalRows;
@@ -23,6 +23,13 @@ public class SupportPagination {
    private int begin;
    private int end;
    private int[] pageNumbers;
+   
+   public SupportPagination(int page, int totalRows) {
+	      this.page = page;
+	      this.totalRows = totalRows;
+	      
+	      init();
+	   }
    
    public SupportPagination(int rows, int page, int totalRows) {
       this.rows = rows;
@@ -45,8 +52,8 @@ public class SupportPagination {
       isLast = page == totalPages;
       prePage = page - 1;
       nextPage = page + 1;
-      begin = (page - 1)*rows + 1;
-      end = page*rows;
+      begin = (page - 1)*rows;
+      end = page*rows -1;
       pageNumbers = IntStream.range(beginPage, endPage+1).toArray();
    }
 
