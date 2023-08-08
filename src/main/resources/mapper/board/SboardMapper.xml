@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.mgv.board.sboard.StoreBoardDao">
+    <select id="getTotalRows" parameterType="map" resultType="int">
+    	select count(*)
+    	from MGV_PRODUCT_BOARD
+    	where board_deleted = 'N' and board_report = 'N'
+    		<choose>
+    			<when test="opt == 'title'">
+    				and board_name like CONCAT('%', #{keyword}, '%')
+    			</when>
+    			<when test="opt == 'content'">
+    				and board_content like CONCAT('%', #{keyword}, '%')
+    			</when>
+    			<when test="opt == 'all'">
+    				and board_name like CONCAT('%', #{keyword}, '%') or board_content like CONCAT('%', #{keyword}, '%')
+    			</when>
+    			<when test="opt == 'writer'">
+    				and user_id like CONCAT('%', #{keyword}, '%')
+    			</when>
+    		</choose>
+    		<if test="productNo != null">
+				and product_no = #{productNo}
+			</if>
+    		<if test="catNo != null">
+				and cat_no = #{catNo}
+			</if>
+    </select>
+    
+    <select id="getSBoards" parameterType="map" resultType="kr.co.mgv.board.sboard.StoreBoard">
+    	select *
+    	
+    	from (
+    		select 
+    			board_no				as no,
+    			board_name				as name,
+    			board_create_date		as createDate,
+    			board_update_date		as updateDate,
+    			board_read_cnt			as readCount,
+    			board_comment_cnt		as commentCount,
+    			user_id					as "user.id",
+    			board_content           as content,
+	            row_number() over(
+	            	<if test="sort == null">
+	                        order by board_create_date desc	            	
+	            	</if>
+	                <choose>
+	                    <when test="sort == 'new'">
+	                        order by board_create_date desc
+	                    </when>
+	                    <when test="sort == 'old'">
+	                        order by board_create_date asc
+	                    </when>
+	                    <when test="sort == 'view'">
+	                        order by board_read_cnt desc, board_create_date desc
+	                    </when>
+	                    <when test="sort == 'comment'">
+	                        order by board_comment_cnt desc, board_create_date desc
+	                    </when>
+	                </choose>
+    			) as ROWNUMBER
+    		from
+    			MGV_PRODUCT_BOARD
+    		where board_deleted = 'N' and board_report = 'N'
+	    	<choose>
+    			<when test="opt == 'title'">
+    				and board_name like CONCAT('%', #{keyword}, '%')
+    			</when>
+    			<when test="opt == 'content'">
+    				and board_content like CONCAT('%', #{keyword}, '%')
+    			</when>
+    			<when test="opt == 'all'">
+    				and board_name like CONCAT('%', #{keyword}, '%') or board_content like CONCAT('%', #{keyword}, '%')
+    			</when>
+    			<when test="opt == 'writer'">
+    				and user_id like CONCAT('%', #{keyword}, '%')
+    			</when>
+    		</choose>
+    		<if test="productNo != null">
+				and product_no = #{productNo}
+			</if>
+    		<if test="catNo != null">
+				and cat_no = #{catNo}
+			</if>
+    	) A
+    	having A.ROWNUMBER between #{begin} and #{end}
+    </select>
+    
+    <select id="getProductsByCatNo" parameterType="int" resultType="kr.co.mgv.board.sboard.BoardProduct">
+    	SELECT 
+    		A.product_no		as no,
+    		A.product_name		as name,
+    		A.cat_no			as "cat.no",
+    		B.cat_name			as "cat.name"
+    	from MGV_PRODUCTS A, MGV_PRODUCTS_CATEGORIES B
+    	where
+    		A.cat_no = B.cat_no 
+    		and A.cat_no = #{value}
+    </select>
+    
+    <select id="getCatetories" resultType="kr.co.mgv.board.sboard.BoardCategory">
+    	SELECT
+    		cat_no		as no,
+    		cat_name	as name
+    	from MGV_PRODUCTS_CATEGORIES
+    </select>
+    
+</mapper>

@@ -2,7 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="kr.co.mgv.support.faq.FaqDao">
 
-	<select id="getFaqListByNo" parameterType="int" resultType="kr.co.mgv.support.faq.Faq">
+	<select id="getTotalRows" parameterType="map" resultType="int">
+		select count(*)
+		from MGV_SUPPORT_FAQ A, MGV_SUPPORT_CATEGORIES B
+		where 			
+			A.CATEGORY_NO = B.CATEGORY_NO
+			and A.FAQ_DELETED = 'N'
+			<if test="keyword != null">
+				and A.FAQ_TITLE like  CONCAT('%', #{keyword}, '%')	
+			</if>
+			<if test="catNo != 1">
+				and A.CATEGORY_NO = #{catNo}
+			</if>
+	</select>
+
+	<select id="getFaqListByNo" parameterType="map" resultType="kr.co.mgv.support.faq.Faq">
 		select 
 			A.FAQ_NO			as no,
 			A.FAQ_TITLE			as title,
@@ -15,9 +29,15 @@
 		where 
 			A.CATEGORY_NO = B.CATEGORY_NO
 			and A.FAQ_DELETED = 'N'
-			<if test="value != 1">
-				and A.CATEGORY_NO = #{value}
+			<if test="keyword != null">
+				and A.FAQ_TITLE like  CONCAT('%', #{keyword}, '%')	
 			</if>
+			<if test="catNo != 1">
+				and A.CATEGORY_NO = #{catNo}
+			</if>
+		order by
+			A.FAQ_NO DESC
+		LIMIT 10 OFFSET #{begin}
 	</select>
 	
 </mapper>

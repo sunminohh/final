@@ -91,3 +91,92 @@
 
 
 
+/* 페이지네이션 */
+.faq-pagination {
+    clear: both;
+    position: relative;
+    margin: 0 auto;
+    padding: 30px 0 0 0;
+    text-align: center
+}
+
+.faq-pagination .control,.faq-pagination a,.faq-pagination strong {
+    display: inline-block;
+    position: relative;
+    min-width: 32px;
+    height: 32px;
+    margin: 0;
+    padding: 0 8px;
+    border: 1px solid #ebebeb;
+    text-decoration: none;
+    line-height: 30px;
+    color: #333;
+    font-weight: 400;
+    vertical-align: middle;
+    border-radius: 4px
+}
+
+.faq-pagination .active {
+    color: #fff;
+    background-color: #01738b;
+    border-color: #01738b
+}
+
+.faq-pagination a:hover {
+    border: 1px solid #01738b;
+    color: #01738b
+}
+
+.faq-pagination .control {
+    overflow: hidden;
+    width: 32px;
+    height: 32px;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    font-size: 0;
+    line-height: 0;
+    text-indent: -9999px;
+    background: url(https://img.megabox.co.kr/static/pc/images/common/btn/btn-paging.png) no-repeat 0 0
+}
+
+.faq-pagination .control:hover {
+    border: 0
+}
+
+.faq-pagination .control.first {
+    background-position: 0 0
+}
+
+.faq-pagination .control.first:hover {
+    background-position: 0 -32px
+}
+
+.faq-pagination .control.prev {
+    margin-right: 5px;
+    background-position: -32px 0
+}
+
+.faq-pagination .control.prev:hover {
+    background-position: -32px -32px
+}
+
+.faq-pagination .control.next {
+    margin-left: 5px;
+    background-position: -64px 0
+}
+
+.faq-pagination .control.next:hover {
+    background-position: -64px -32px
+}
+
+.faq-pagination .control.last {
+    background-position: right 0
+}
+
+.faq-pagination .control.last:hover {
+    background-position: right -32px
+}
+
+
+

@@ -11,8 +11,6 @@ $(() => {
 		$(".year-area").html(htmlContents);
 		htmlContents=``;
 		let currentDay = today.clone();
-		let index = parseInt(today.get('d'));
-		let target = parseInt(targetDay.get('d'));
 		for(i =1; i < 15 ;i++){
 			let weekDay = currentDay.format('dd');
 			if(currentDay.diff(today, 'day')==0){
@@ -21,7 +19,6 @@ $(() => {
 			if(currentDay.diff(today, 'day')==1){
 				weekDay = '내일';
 			}
-			console.log(currentDay.get('date'));
 			let weekdayno = currentDay.get('day')
 			htmlContents += `<button class="disabled ${weekdayno == 0 ? 'holi': 
 														weekdayno == 6 ? 'sat':''}" type="button" date-data="${currentDay.format('YYYY.MM.DD')}"
@@ -37,6 +34,29 @@ $(() => {
 		}
 		$(".date-area .wrap").html(htmlContents);
 	}
+
+	$.getJSON("/theater/theaterList", function(locations){
+		locations.forEach(function(location, index){
+			let contents = '';
+			// 로케이션 네임으로 입력할 요소를 찾아서
+			let $theatersarea = $('.sel-city:contains('+location.name+') + div ul');
+			location.theaters.forEach(function(theater, index){
+				// html컨텐츠 만들고
+				contents +=`
+				<li data-brch-no="${theater.no}">
+				<a href="/theater/detail?brchNo=${theater.no}" 
+				title="${theater.name} 상세보기">${theater.name}</a></li>
+				`
+			})
+			// 찾은 요소에 대입
+			$theatersarea.html(contents);
+		})
+	})
+
+	// 상영시간표 날짜버튼 클릭시 이벤트 핸들러 등록
+	$(".date-area .wrap").on("click","button", function(){
+		
+	})
 	// 극장 상세 탭 버튼 클릭시 
     $(".tab-list a").on("click", function(){
 		// 다른 버튼은 비활성화

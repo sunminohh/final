@@ -13,13 +13,65 @@ $(document).ready(function() {
 	      $(this).find('button.btn').addClass('current');
     });
 
+	// 검색버튼 클릭했을 때
+	$("#btn-search").click(function() {
+		let keyword = $("input[name=keyword]").val();
+		if (keyword == "") {
+			return false;
+		}
+		$("input[name=page]").val(1);
+		
+		getFaqList();
+	});
+	
+	// 페이저번호클릭했 떄
+	$('.pagination').on('click', '.page-number-link', function(event) {
+		event.preventDefault();
+		let page = $(this).attr("data-page");
+		
+		  // 모든 페이지 번호 링크에서 active 클래스 제거
+        $('.page-number-link').removeClass('active');
 
-	// 리스트 갱신
+        // 클릭한 페이지 번호에만 active 클래스 추가
+        $(this).addClass('active'); 
+		
+		$("input[name=page]").val(page);
+		
+		getFaqList();
+	})	
+
+	// 탭을 클릭했을 때
 	$("li.tab-link").click(function() {
 		let categoryNo = $(this).find('button').attr("data-category-no");
-		let $ul = $(".faq-list ul").empty()
+		$("input[name=catNo]").val(categoryNo);
+		$("input[name=page]").val(1);
 		
-		$.getJSON("/support/faq/list", {catNo:categoryNo}, function(faqList) {
+		 getFaqList();
+	});
+	
+	function getFaqList() {
+		// form의 값을 조회한다.
+		
+		let keyword = $("input[name=keyword]").val();
+		let categoryNo = $("input[name=catNo]").val();
+		let page = $("input[name=page]").val();
+		
+		let $ul = $(".faq-list ul").empty()
+		let $pagination = $(".pagination").empty();
+		
+		$.getJSON("/support/faq/list", {keyword:keyword, catNo:categoryNo, page:page}, function(result) {
+			/*
+				result = {
+					faqList: [{}, {}, {}],
+					pagination: {page:1, beginPage:1 endPage:2}
+				}
+			*/
+			
+			 // 총 건수 업데이트
+       		$('#totalCnt').text(result.pagination.totalRows);
+			
+			let faqList = result.faqList;
+			let pagination = result.pagination;
 			
 			if (faqList.length === 0) {
 				$ul.append('<li class="no-results">조회된 내역이 없습니다.</li>');
@@ -59,9 +111,25 @@ $(document).ready(function() {
 				$('.faq-list .qut:first').addClass('on');
 	    		$('.faq-list .awn:first').show();
 				
+				
+				for (let i = pagination.beginPage; i <= pagination.endPage; i++) {
+					let content = `
+						 <li class="page-item">
+                        	<a href="list?page=${i}" 
+                          	 	class="page-link page-number-link ${i == pagination.page ? 'active' : ''}"
+                           		data-page="${i}">${i}</a>
+                   		 </li>
+					`;
+					$pagination.append(content);	
+				}
+			
+
 			}
 		})
-	});
+		
+	}
+	
+
 
 	// 아코디언 열고닫기
     // 첫 번째 아코디언 열기
@@ -81,8 +149,6 @@ $(document).ready(function() {
         }
     });
 });
-
-
 
 
 

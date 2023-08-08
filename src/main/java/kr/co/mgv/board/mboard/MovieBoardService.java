@@ -3,9 +3,11 @@ package kr.co.mgv.board.mboard;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import kr.co.mgv.board.BoardPagination;
+import kr.co.mgv.movie.vo.Movie;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -37,6 +39,26 @@ public class MovieBoardService {
 		result.setMovieBoards(movieBoards);
 		
 		return result;
+	}
+	
+	public void increaseRead(int no) {
+		MovieBoard movieBoard = movieBoardDao.getMBoardByNo(no);
+		movieBoard.setReadCount(movieBoard.getReadCount() + 1);
+		movieBoardDao.updateMBoardByNo(movieBoard);
+
+	}
+	
+	public void updateMBoardByNo (MBoardForm form) {
+		MovieBoard movieBoard = movieBoardDao.getMBoardByNo(form.getNo());
+		BeanUtils.copyProperties(form, movieBoard);
+		
+		movieBoardDao.updateMBoardByNo(movieBoard);
+	}
+	
+	public MovieBoard getMovieBoardByNo(int no) {
+		MovieBoard movieBoard = movieBoardDao.getMBoardByNo(no);
+		
+		return movieBoard;
 	}
 	
 

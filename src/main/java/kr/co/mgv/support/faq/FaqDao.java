@@ -9,9 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface FaqDao {
 
 	// Faq 리스트 조회
-	List<Faq> getFaqListByNo(int catNo);
-	// List<Faq> getFaqListByNo(Map<String, Object> param);
-	
 	int getTotalRows(Map<String, Object> param);
+	List<Faq> getFaqListByNo(Map<String, Object> param);
 	
 }
