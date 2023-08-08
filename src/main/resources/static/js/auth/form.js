@@ -49,35 +49,36 @@ $(() => {
         }
     });
 
-    // 패스워드 입력 시 값 검증 이벤트
+    // 비밀번호 입력 시 값 검증 이벤트
     $("input[name=password],input[name=repassword]").keyup(() => {
         const $password = $(".join-form input[name='password']");
         const $repassword = $(".join-form input[name='repassword']");
         const pwdReg = /(?=.*[0-9])(?=.*[a-zA-Z])(?=\S+$).{8,16}/;
-        // Validation check (길이, 특수 문자 포함 여부)
-        if (!pwdReg.test($password.val())) {
-            $("#password-error-text").text("비밀번호는 8자~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.").css('color', 'red');
-            passwordCheck = false;
-        } else {
-            $("#password-error-text").text("올바른 비밀번호 형식입니다.").css('color', 'lightgreen');
-            passwordCheck = true;
-        }
 
         // 비밀번호랑 비밀번호 확인 둘다 따로따로 체크해서 해당하는 오류 메세지
+        // Validation check (길이, 특수 문자 포함 여부)
         if (!$password.val()) {
-            $("#password-error-text").text("패스워드를 입력해주세요.").css('color', 'red');
+            $("#password-error-text").text("비밀번호를 입력해주세요.").css('color', 'red');
             passwordCheck = false;
             return;
-        }
-        if (!$repassword.val()) {
-            $("#re-password-error-text").text("패스워드를 확인해주세요.").css('color', 'red');
+        } else if (!pwdReg.test($password.val())) {
+            $("#password-error-text").text("비밀번호는 8자~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.").css('color', 'red');
             passwordCheck = false;
-        } else if ($password.val() !== $repassword.val()) {
+            return;
+        } else {
+            $("#password-error-text").text("올바른 비밀번호 형식입니다.").css('color', 'lightgreen');
+        }
+
+        if (!$repassword.val()) {
+            $("#re-password-error-text").text("비밀번호를 확인해주세요.").css('color', 'red');
+            passwordCheck = false;
+        }
+
+        if ($repassword.val() !== $password.val()) {
             $("#re-password-error-text").text("입력한 비밀번호가 일치하지 않습니다.").css('color', 'red');
             passwordCheck = false;
         } else {
-            $("#re-password-error-text").text("입력한 비밀번호가 일치합니다.").css('color', 'lightgreen');
-            passwordCheck = true;
+            $("#re-password-error-text").text("비밀번호가 일치합니다.").css('color', 'lightgreen');
         }
     });
 
@@ -123,9 +124,9 @@ $(() => {
             return false;
         }
 
-        // 패스워드 입력 및 확인
-        if (!passwordCheck) {
-            errorAlert($password, "패스워드를 확인해주세요.");
+        // 비밀번호 입력 및 확인
+        if (!checkPwd()) {
+            errorAlert($password, "비밀번호를 확인해주세요.");
             return false;
         }
 
@@ -178,23 +179,28 @@ $(() => {
     function checkPwd() {
         const $password = $(".join-form input[name='password']");
         const $repassword = $(".join-form input[name='repassword']");
+        const pwdReg = /(?=.*[0-9])(?=.*[a-zA-Z])(?=\S+$).{8,16}/;
+
+        if (!pwdReg.test($password.val())) {
+            errorAlert($password, '비밀번호 형식에 맞지 않습니다. 다시 입력해주세요.');
+            return false;
+        }
+
         if (!$password.val()) {
-            errorAlert($password, '비밀번호를 입력해주세요!');
+            errorAlert($password, '비밀번호를 입력해주세요.');
             return false;
         }
 
         if (!$repassword.val()) {
-            errorAlert($repassword, '비밀번호를 확인하세요!');
+            errorAlert($repassword, '비밀번호를 확인해주세요');
             return false;
         }
 
         // password 체크 확인
         if ($repassword.val() !== $password.val()) {
-            errorAlert($repassword, '입력하신 비밀번호가 일치하지 않습니다. 다시 확인해주세요!');
+            errorAlert($repassword, '입력하신 비밀번호가 일치하지 않습니다. 다시 확인해주세요.');
             return false;
         }
-        console.log($password.val());
-        console.log($repassword.val());
         return true;
     }
 
@@ -203,18 +209,18 @@ $(() => {
         const $email = $(".join-form input[name='email']");
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if (!$email.val()) {
-            errorAlert($email, '이메일을 입력해주세요!');
+            errorAlert($email, '이메일을 입력해주세요.');
             emailCheck = false;
             return;
         }
         if (!emailRegex.test($email.val())) {
-            errorAlert($email, "올바른 이메일 형식이 아닙니다.");
+            errorAlert($email, "올바른 이메일 형식이 아닙니다. 다시 입력해주세요.");
             emailCheck = false;
             return;
         }
         const checkEmail = await $.get("/user/auth/checkEmail", {email: $email.val()});
         if (checkEmail) {
-            errorAlert($email, "중복된 이메일 주소입니다!");
+            errorAlert($email, "중복된 이메일 주소입니다.");
             emailCheck = false;
         } else {
             successAlert($email, "사용할 수 있는 이메일 주소입니다.");
@@ -235,10 +241,10 @@ $(() => {
         }
 
         if (age < 12) {
-            $("#birth-error-text").text("12세 이상만 가입 가능합니다.").css('color', 'red');
+            $("#birth-error-text").text(`${age}세입니다. 만 12세이상 부터 가입할 수 있습니다.`).css('color', 'red');
             birthCheck = false;
         } else {
-            $("#birth-error-text").text("만 12세 이상입니다.").css('color', 'lightgreen');
+            $("#birth-error-text").text(`${age}세입니다. 회원가입이 가능합니다.`).css('color', 'lightgreen');
             birthCheck = true;
         }
     });
