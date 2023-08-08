@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="kr.co.mgv.theater.TheaterDao">
+
+<resultMap type="kr.co.mgv.theater.location.Location" id="LocationWithTheaterResultMap">
+	<id column="LOCATION_NO" property="no" />
+	<result column="LOCATION_NAME" property="name" />
+	<collection property="theaters" ofType="kr.co.mgv.theater.Theater">
+		<id column="THEATER_NO" property="no" />
+		<result column="THEATER_NAME" property="name" />
+	</collection>
+</resultMap>
+	
+	<select id="getTheaters" resultMap="LocationWithTheaterResultMap">
+		select 
+			*
+		from MGV_THEATERS A, MGV_LOCATION B
+		where A.location_no = B.location_no
+		order by B.location_no asc;
+	</select>
+	
+</mapper>
