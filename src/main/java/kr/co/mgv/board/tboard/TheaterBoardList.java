@@ -13,4 +13,6 @@ public class TheaterBoardList {
 
 	private BoardPagination pagination;
 	private List<TheaterBoard> theaterBoards;
+	private List<BoardTheater> theaters;
+	private List<BoardLocation> locations;
 }

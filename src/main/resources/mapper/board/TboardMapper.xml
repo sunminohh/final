@@ -3,20 +3,20 @@
 <mapper namespace="kr.co.mgv.board.tboard.TheaterBoardDao">
     <select id="getTotalRows" parameterType="map" resultType="int">
     	select count(*)
-    	from mgv_theater_board
+    	from MGV_THEATER_BOARD
     	where board_deleted = 'N' and board_report = 'N'
     		<choose>
     			<when test="opt == 'title'">
-    				and board_title like '%' || #{keyword} || '%'
+    				and board_name like CONCAT('%', #{keyword}, '%')
     			</when>
     			<when test="opt == 'content'">
-    				and board_content like '%' || #{keyword} || '%'
+    				and board_content like CONCAT('%', #{keyword}, '%')
     			</when>
     			<when test="opt == 'all'">
-    				and board_title like '%' || #{keyword} || '%' or board_content like '%' || #{keyword} || '%'
+    				and board_name like CONCAT('%', #{keyword}, '%') or board_content like CONCAT('%', #{keyword}, '%')
     			</when>
     			<when test="opt == 'writer'">
-    				and user_id like '%' || #{keyword} || '%'
+    				and user_id like CONCAT('%', #{keyword}, '%')
     			</when>
     		</choose>
     		<if test="theaterNo != null">
@@ -36,38 +36,44 @@
     			board_name				as name,
     			board_create_date		as createDate,
     			board_update_date		as updateDate,
-    			board_read_count		as readCount,
-    			board_comment_count		as commentCount,
-    			user_id					as "user.id"
-    			<choose>
-    				<when test="sort == 'new'">
-    					row_number() over (order by board_create_date asc) rownumber
-    				</when>
-    				<when test="sort == 'old'">
-    					row_number() over (order by board_create_date desc) rownumber
-    				</when>
-    				<when test="sort == 'view'">
-    					row_number() over (order by board_read_count asc) rownumber
-    				</when>
-    				<when test="sort == 'comment'">
-    					row_number() over (order by board_comment_count asc) rownumber
-    				</when>
-    			</choose>
+    			board_read_cnt			as readCount,
+    			board_comment_cnt		as commentCount,
+    			user_id					as "user.id",
+    			board_content           as content,
+	            row_number() over(
+	            	<if test="sort == null">
+	                        order by board_create_date desc	            	
+	            	</if>
+	                <choose>
+	                    <when test="sort == 'new'">
+	                        order by board_create_date desc
+	                    </when>
+	                    <when test="sort == 'old'">
+	                        order by board_create_date asc
+	                    </when>
+	                    <when test="sort == 'view'">
+	                        order by board_read_cnt desc, board_create_date desc
+	                    </when>
+	                    <when test="sort == 'comment'">
+	                        order by board_comment_cnt desc, board_create_date desc
+	                    </when>
+	                </choose>
+    			) as ROWNUMBER
     		from
-    			mgv_theater_board
+    			MGV_THEATER_BOARD
     		where board_deleted = 'N' and board_report = 'N'
-	    		    		<choose>
+	    	<choose>
     			<when test="opt == 'title'">
-    				and board_title like '%' || #{keyword} || '%'
+    				and board_name like CONCAT('%', #{keyword}, '%')
     			</when>
     			<when test="opt == 'content'">
-    				and board_content like '%' || #{keyword} || '%'
+    				and board_content like CONCAT('%', #{keyword}, '%')
     			</when>
     			<when test="opt == 'all'">
-    				and board_title like '%' || #{keyword} || '%' or board_content like '%' || #{keyword} || '%'
+    				and board_name like CONCAT('%', #{keyword}, '%') or board_content like CONCAT('%', #{keyword}, '%')
     			</when>
     			<when test="opt == 'writer'">
-    				and user_id like '%' || #{keyword} || '%'
+    				and user_id like CONCAT('%', #{keyword}, '%')
     			</when>
     		</choose>
     		<if test="theaterNo != null">
@@ -76,8 +82,23 @@
     		<if test="locationNo != null">
 				and location_No = #{locationNo}
 			</if>
-    	)
-    	where rownumber between #{begin} and #{end}
+    	) A
+    	having A.ROWNUMBER between #{begin} and #{end}
+    </select>
+    
+    <select id="getTheatersByLocationNo" parameterType="int" resultType="kr.co.mgv.board.tboard.BoardTheater">
+    	SELECT 
+    		theater_no		as no,
+    		theater_name	as name,
+    		location_no		as "location.no"
+    	from MGV_THEATERS
+    </select>
+    
+    <select id="getLocaions" resultType="kr.co.mgv.board.tboard.BoardLocation">
+    	SELECT
+    		location_no		as no,
+    		location_name	as name
+    	from MGV_LOCATION
     </select>
     
 </mapper>

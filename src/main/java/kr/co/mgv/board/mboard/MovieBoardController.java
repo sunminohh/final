@@ -21,7 +21,7 @@ public class MovieBoardController {
 	private final MovieBoardService movieBoardService;
 	
     @GetMapping("/list")
-    public String theaterList(@RequestParam(name = "sort", required = false, defaultValue = "id") String sort,
+    public String movieList(@RequestParam(name = "sort", required = false, defaultValue = "id") String sort,
 			@RequestParam(name = "rows", required = false, defaultValue = "10") int rows,
 			@RequestParam(name = "page", required = false, defaultValue = "1") int page,
 			@RequestParam(name = "opt", required = false, defaultValue = "") String opt,

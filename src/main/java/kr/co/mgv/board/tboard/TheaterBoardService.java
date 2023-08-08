@@ -22,7 +22,6 @@ public class TheaterBoardService {
 		int page = (int) param.get("page");
 		int rows = (int) param.get("rows");
 		BoardPagination pagination = new BoardPagination(rows, page, totalRows);
-		
 		int begin = pagination.getBegin();
 		int end = pagination.getEnd();
 		
@@ -32,10 +31,25 @@ public class TheaterBoardService {
 		// 게시판 목록
 		List<TheaterBoard> theaterBoards = theaterBoardDao.getTBoards(param);
 		
-		// TheaterBoardList에 pagination과 게시판 목록을 담는다.
+		// 조회한 목록을 담을 list를 생성한다.
 		TheaterBoardList result = new TheaterBoardList();
+		
+		// 멀티셀렉트박스 관련 (지역/극장) 
+		if (param.containsKey("locationNo")) {
+			int locationNo = (int) param.get("locationNo");
+			List<BoardTheater> theaters = theaterBoardDao.getTheatersByLocationNo(locationNo);
+			result.setTheaters(theaters);
+		}
+		if (param.containsKey("theaterNo")) {
+			int theaterNo = (int) param.get("theaterNo");			
+			
+		}
+		
+		// TheaterBoardList에 pagination과 게시판 목록을 담는다.
+		List<BoardLocation> locations = theaterBoardDao.getLocaions();
 		result.setPagination(pagination);
 		result.setTheaterBoards(theaterBoards);
+		result.setLocations(locations);
 		
 		return result;
 		

@@ -12,9 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import lombok.RequiredArgsConstructor;
+
 @Controller
 @RequestMapping("/board/theater")
+@RequiredArgsConstructor
 public class TheaterBoardController {
+	
+	private final TheaterBoardService theaterBoardService;
 
     @GetMapping("/list")
     public String theaterList(@RequestParam(name = "sort", required = false, defaultValue = "id") String sort,
@@ -41,9 +46,11 @@ public class TheaterBoardController {
 			param.put("keyword", keyword);
 		}
     	
-		// service로 극장게시물 목록 조회하기 
+		// service로 극장게시물 목록, 극장,지역 목록, 페이지네이션 조회하기 
+		TheaterBoardList result = theaterBoardService.getTBoards(param);
 		
-		// model에 조회한 극장게시물 담기
+		// model에 조회한 리스트 담기
+		model.addAttribute("result", result);
 		
         return "/view/board/theater/list";
     }
@@ -58,10 +65,5 @@ public class TheaterBoardController {
         return "/view/board/theater/form";
     }
 
-//    @GetMapping("/theaterByLocation")
-//    @ResponseBody
-//    public List<Theater> getTtheaterByLocationNo(@RequestParam("locNo") int locNo) {
-//    	List<Theater> theaters = tBoardService.getTheaterByLocNo(locNo);
-//    	return theaters
-//    }
+
 }
