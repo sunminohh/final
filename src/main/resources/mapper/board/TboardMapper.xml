@@ -88,10 +88,14 @@
     
     <select id="getTheatersByLocationNo" parameterType="int" resultType="kr.co.mgv.board.tboard.BoardTheater">
     	SELECT 
-    		theater_no		as no,
-    		theater_name	as name,
-    		location_no		as "location.no"
-    	from MGV_THEATERS
+    		A.theater_no		as no,
+    		A.theater_name		as name,
+    		A.location_no		as "location.no",
+    		B.location_name		as "location.name"
+    	from MGV_THEATERS A, MGV_LOCATION B
+    	where
+    		A.location_no = B.location_no 
+    		and A.location_no = #{value}
     </select>
     
     <select id="getLocaions" resultType="kr.co.mgv.board.tboard.BoardLocation">

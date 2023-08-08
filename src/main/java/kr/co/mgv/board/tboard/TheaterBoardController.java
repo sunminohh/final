@@ -64,6 +64,14 @@ public class TheaterBoardController {
     public String theaterForm() {
         return "/view/board/theater/form";
     }
+    
+	// 직원목록정보 요청을 처리하는 요청핸들러 메서드
+	@GetMapping("/theaterByLocationNo")
+	@ResponseBody
+	public List<BoardTheater> getTheaterbyLocationNo(@RequestParam("locationNo") int locationNo) {
+		List<BoardTheater> theaters = theaterBoardService.getTheatersByLocationNo(locationNo);
+		return theaters;
+	}
 
 
 }

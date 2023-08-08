@@ -10,5 +10,6 @@ import lombok.Setter;
 public class BoardTheater {
 
 	private int no;
+	private String name;
 	private BoardLocation location;
 }

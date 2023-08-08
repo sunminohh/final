@@ -69,7 +69,7 @@
                                 </select>
                             </div>
                             <div class="col-12">
-                                <input type="text" class="form-control form-control-sm" name="keyword" th:value="${param.keyword}"/>
+                                <input type="text" style="width: 140px;" class="form-control form-control-sm" name="keyword" th:value="${param.keyword}"/>
                             </div>
                             <div class="col-12">
                                 <button type="button" class="btn btn-outline-dark btn-sm" onclick="searchBoard()">검색</button>
@@ -105,15 +105,19 @@
 
                         <select id="location" title="지역 선택"
                                 class="form-select form-select-sm  ml07 form-control-sm mb-3"
-                                style="width: 150px; float:left; " name="locationNo"
-                                onchange="changeLoc()">
+                                style="width: 130px; float:left; " name="locationNo"
+                                th:onchange="changeLoc()" >
                             <option value="" selected disabled>지역선택</option>
-                            <option value="">지역 이름</option>
+                            <option th:each="location : ${result.locations}" 
+                            		th:text="${location.name}" 
+                            	    th:value="${location.no}"
+                            	    onchange="changeLoc()"
+                            	    th:selected="${#strings.equals(location.no, param.locationNo)}">지역 이름</option>
                         </select>
 
                         <select id="theater" title="극장 선택" class="form-select form-select-sm ml07 form-control-sm mb-3"
-                                style="width: 150px; float:left; position: relative; left:5px;" 
-                                name="theaterNo" onchange="changeTBoard()">
+                                style="width: 130px; float:left; position: relative; left:5px;" 
+                                name="theaterNo" th:onchange="changeTboard()">
       						<option value="" selected disabled>극장선택</option>
                         </select>
 
@@ -164,32 +168,33 @@
             </div>
 
 
-            <nav>
-                <ul class="pagination justify-content-center">
-                    <li class="page-item">
-                        <a th:href="@{list(page=${result.pagination.prePage})}" class="page-link"
-                           style="background-color: #000; color: white;"
-                           th:classappend="${result.pagination.first ? 'disabled' : ''}"
-                           th:onclick="changePage(event, ${result.pagination.prePage})">이전</a>
-                    </li>
+			<nav>
+			    <ul class="pagination justify-content-center">
+			        <li class="page-item">
+			            <a th:href="@{list(page=${result.pagination.prePage}, sort=${param.sort}, rows=${param.rows}, theaterNo=${param.theaterNo}, locationNo=${param.locationNo}, opt=${param.opt}, keyword=${param.keyword})}" class="page-link"
+			               style="background-color: #000; color: white;"
+			               th:classappend="${result.pagination.first ? 'disabled' : ''}"
+			               th:onclick="changePage(event, ${result.pagination.prePage})">이전</a>
+			        </li>
+			
+			        <li class="page-item" th:each="num : ${result.pagination.pageNumbers}">
+			            <a th:href="@{list(page=${num}, sort=${param.sort}, rows=${param.rows}, theaterNo=${param.theaterNo}, locationNo=${param.locationNo}, opt=${param.opt}, keyword=${param.keyword})}"
+			               th:text="${num}"
+			               th:classappend="${result.pagination.page == (num) ? 'active' : '' }"
+			               class="page-link"
+			               style="background-color: white; color: #000;"
+			               th:onclick="changePage(event, ${num})">1</a>
+			        </li>
+			
+			        <li class="page-item">
+			            <a th:href="@{list(page=${result.pagination.nextPage}, sort=${param.sort}, rows=${param.rows}, theaterNo=${param.theaterNo}, locationNo=${param.locationNo}, opt=${param.opt}, keyword=${param.keyword})}" class="page-link"
+			               style="background-color: #000; color: white;"
+			               th:classappend="${result.pagination.last ? 'disabled' : ''}"
+			               th:onclick="changePage(event, ${result.pagination.nextPage})">다음</a>
+			        </li>
+			    </ul>
+			</nav>
 
-                    <li class="page-item" th:each="num : ${result.pagination.pageNumbers}">
-                        <a th:href="@{list(page=${num})}" 
-                           th:text="${num}"
-                           th:classappend="${result.pagination.page == (num) ? 'active' : '' }"
-                           class="page-link"
-                           style="background-color: white; color: #000;"
-                           th:onclick="changePage(event, ${num})">1</a>
-                    </li>
-
-                    <li class="page-item">
-                        <a th:href="@{list(page=${result.pagination.nextPage})}" class="page-link"
-                           style="background-color: #000; color: white;"
-                           th:classappend="${result.pagination.last ? 'disabled' : ''}"
-                           th:onclick="changePage(event, ${result.pagination.nextPage})">다음</a>
-                    </li>
-                </ul>
-            </nav>
         </div>
     </div>
 </div>

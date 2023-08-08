@@ -37,8 +37,6 @@ public class TheaterBoardService {
 		// 멀티셀렉트박스 관련 (지역/극장) 
 		if (param.containsKey("locationNo")) {
 			int locationNo = (int) param.get("locationNo");
-			List<BoardTheater> theaters = theaterBoardDao.getTheatersByLocationNo(locationNo);
-			result.setTheaters(theaters);
 		}
 		if (param.containsKey("theaterNo")) {
 			int theaterNo = (int) param.get("theaterNo");			
@@ -53,6 +51,11 @@ public class TheaterBoardService {
 		
 		return result;
 		
+	}
+	
+	public List<BoardTheater> getTheatersByLocationNo(int locationNo){
+		List<BoardTheater> theaters = theaterBoardDao.getTheatersByLocationNo(locationNo);
+		return theaters;
 	}
 	
 }
