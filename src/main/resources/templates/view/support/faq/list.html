@@ -38,12 +38,10 @@
             <li class="tab-link"><button type="button" class="btn rounded-0" data-category-no="9" title="홈페이지/모바일">홈페이지/모바일</button></li>
             <li class="tab-link"><button type="button" class="btn rounded-0" data-category-no="10" title="기프트카드">기프트카드</button></li>
         </ul>
-
-        <input type="hidden" id="bbsTotalCnt" value="77">
     </div>
 
     <div class="faq-list-box">
-    <p class="reset mb10"><strong><span id="totalTitle">전체</span> <span class="font-green" id="totalCnt">77</span>건</strong></p>
+    <p class="reset mb10"><strong><span id="totalTitle">전체</span> <span class="font-green" id="totalCnt" th:text="${result.pagination.totalRows}"></span>건</strong></p>
     	<div class="faq-list">
     		<ul>
     			<li th:each="faq: ${result.faqList}">

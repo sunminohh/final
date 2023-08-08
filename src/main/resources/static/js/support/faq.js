@@ -67,6 +67,9 @@ $(document).ready(function() {
 				}
 			*/
 			
+			 // 총 건수 업데이트
+       		$('#totalCnt').text(result.pagination.totalRows);
+			
 			let faqList = result.faqList;
 			let pagination = result.pagination;
 			
@@ -119,6 +122,8 @@ $(document).ready(function() {
 					`;
 					$pagination.append(content);	
 				}
+			
+
 			}
 		})
 		
