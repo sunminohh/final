@@ -78,7 +78,7 @@ const Default = {
 }
 
 const DefaultType = {
-  interval: '(number|boolean)', // TODO:v6 remove boolean support
+  interval: '(number|boolean)', //:v6 remove boolean support
   keyboard: 'boolean',
   pause: '(string|boolean)',
   ride: '(boolean|string)',
@@ -330,7 +330,7 @@ class Carousel extends BaseComponent {
 
     if (!activeElement || !nextElement) {
       // Some weirdness is happening, so we bail
-      // todo: change tests that use empty divs to avoid this check
+      //: change tests that use empty divs to avoid this check
       return
     }
 

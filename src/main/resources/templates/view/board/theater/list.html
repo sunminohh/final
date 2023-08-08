@@ -33,6 +33,7 @@
                     <div class="mt-2 pe-2">
                         <p class="result-count"><strong>전체 <span id="total-rows" class="font-gblue" th:text="${result.pagination.totalRows}">5</span>건</strong>
                         </p>
+                
                     </div>
 
                     <div class="float-start ps-1">
@@ -111,7 +112,6 @@
                             <option th:each="location : ${result.locations}" 
                             		th:text="${location.name}" 
                             	    th:value="${location.no}"
-                            	    onchange="changeLoc()"
                             	    th:selected="${#strings.equals(location.no, param.locationNo)}">지역 이름</option>
                         </select>
 
