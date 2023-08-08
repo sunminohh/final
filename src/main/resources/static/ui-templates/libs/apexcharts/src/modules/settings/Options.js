@@ -416,7 +416,7 @@ export default class Options {
             maxItems: 100,
             hideOverflowingLabels: true,
             orientation: 'horizontal'
-            // TODO: provide stackedLabels for stacked charts which gives additions of values
+            //: provide stackedLabels for stacked charts which gives additions of values
           }
         },
         bubble: {
@@ -787,7 +787,7 @@ export default class Options {
         discrete: [],
         size: 0,
         colors: undefined,
-        //strokeColor: '#fff', // TODO: deprecate in major version 4.0
+        //strokeColor: '#fff', //: deprecate in major version 4.0
         strokeColors: '#fff',
         strokeWidth: 2,
         strokeOpacity: 0.9,

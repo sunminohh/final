@@ -526,7 +526,7 @@ export default class ZoomPanSelection extends Toolbar {
         w.globals.yAxisScale[0].niceMin + me.endX * xyRatios.invertedYRatio
     }
 
-    // TODO: we will consider the 1st y axis values here for getting highest and lowest y
+    //: we will consider the 1st y axis values here for getting highest and lowest y
     let yHighestValue = []
     let yLowestValue = []
 

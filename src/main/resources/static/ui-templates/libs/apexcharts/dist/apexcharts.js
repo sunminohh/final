@@ -3044,7 +3044,7 @@
         elText.attr({
           rel: index
         });
-        parent.appendChild(elText.node); // TODO: deprecate this as we will use custom
+        parent.appendChild(elText.node); //: deprecate this as we will use custom
 
         if (anno.customSVG.SVG) {
           var g = this.annoCtx.graphics.group({
@@ -3988,7 +3988,7 @@
             discrete: [],
             size: 0,
             colors: undefined,
-            //strokeColor: '#fff', // TODO: deprecate in major version 4.0
+            //strokeColor: '#fff', //: deprecate in major version 4.0
             strokeColors: '#fff',
             strokeWidth: 2,
             strokeOpacity: 0.9,
@@ -8212,7 +8212,7 @@
               y2: isDataPoint2D ? ser[i].data[_j3].y[1] : ser[i].data[_j3].y,
               rangeName: id
             }; // mutating config object by adding a new property
-            // TODO: As this is specifically for timeline rangebar charts, update the docs mentioning the series only supports xy format
+            //: As this is specifically for timeline rangebar charts, update the docs mentioning the series only supports xy format
 
             ser[i].data[_j3].rangeName = id;
             var uI = uniqueKeys.findIndex(function (t) {
@@ -13942,7 +13942,7 @@
           var mWidth = w.config.legend.markers.width;
           var mBorderWidth = w.config.legend.markers.strokeWidth;
           var mBorderColor = w.config.legend.markers.strokeColor;
-          var mBorderRadius = w.config.legend.markers.radius; // todo - untested code below
+          var mBorderRadius = w.config.legend.markers.radius; // - untested code below
           // if (Array.isArray(w.config.legend.markers.shape)) {
           // } else {
           //   if (w.config.legend.markers.shape !== 'circle') {
@@ -15182,7 +15182,7 @@
         } else {
           xLowestValue = w.globals.yAxisScale[0].niceMin + me.startX * xyRatios.invertedYRatio;
           xHighestValue = w.globals.yAxisScale[0].niceMin + me.endX * xyRatios.invertedYRatio;
-        } // TODO: we will consider the 1st y axis values here for getting highest and lowest y
+        } //: we will consider the 1st y axis values here for getting highest and lowest y
 
 
         var yHighestValue = [];
@@ -16140,7 +16140,7 @@
             ttItemsChildren[0].parentNode.style.display = 'none';
           } else {
             ttItemsChildren[0].parentNode.style.display = w.config.tooltip.items.display;
-          } // TODO: issue #1240 needs to be looked at again. commenting it because this also hides single series values with 0 in it (shared tooltip)
+          } //: issue #1240 needs to be looked at again. commenting it because this also hides single series values with 0 in it (shared tooltip)
           // if (w.globals.stackedSeriesTotals[j] === 0) {
           //   // shared tooltip and all values are null, so we need to hide the x value too
           //   let allYZeroForJ = false
@@ -17026,7 +17026,7 @@
           bx = x;
         } else {
           if (!w.globals.comboCharts && !w.config.tooltip.shared) {
-            // todo: re-check this condition as it's always 0
+            //: re-check this condition as it's always 0
             bx = bx / 2;
           }
         } // y is NaN, make it touch the bottom of grid area
@@ -24561,7 +24561,7 @@
         w.globals.timescaleLabels = removedOverlappingTS.slice(); // at this stage, we need to re-calculate coords of the grid as timeline labels may have altered the xaxis labels coords
         // The reason we can't do this prior to this stage is because timeline labels depends on gridWidth, and as the ticks are calculated based on available gridWidth, there can be unknown number of ticks generated for different minX and maxX
         // Dependency on Dimensions(), need to refactor correctly
-        // TODO - find an alternate way to avoid calling this Heavy method twice
+        // - find an alternate way to avoid calling this Heavy method twice
 
         var dimensions = new Dimensions(this.ctx);
         dimensions.plotCoords();
@@ -31816,7 +31816,7 @@
   }();
 
   // Helpers to react to element resizes, regardless of what caused them
-  // TODO Currently this creates a new ResizeObserver every time we want to observe an element for resizes
+  // Currently this creates a new ResizeObserver every time we want to observe an element for resizes
   // Ideally, we should be able to use a single observer for all elements
   var ros = new WeakMap(); // Map callbacks to ResizeObserver instances for easy removal
 
