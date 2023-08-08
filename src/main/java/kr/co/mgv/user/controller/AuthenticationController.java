@@ -88,7 +88,7 @@ public class AuthenticationController {
     // 로그인
     @ResponseBody
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> login(HttpSession session, @RequestBody User user) { // todo
+    public ResponseEntity<Object> login(HttpSession session, @RequestBody User user) { //
         try {
             Authentication auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(user.getId(), user.getPassword())
@@ -96,14 +96,14 @@ public class AuthenticationController {
 
             SecurityContextHolder.getContext().setAuthentication(auth);
             session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
-            User userPrincipal = (User) auth.getPrincipal(); // todo
+            User userPrincipal = (User) auth.getPrincipal(); //
             log.info("User [{}] logged in.", userPrincipal.getUsername());
-            return ResponseEntity.ok(userPrincipal); // todo
+            return ResponseEntity.ok(userPrincipal); //
         } catch (BadCredentialsException e) {
             log.warn("User [{}] failed login: {}", user.getUsername(), e.getLocalizedMessage());
             return ResponseEntity
                 .badRequest()
-                .body(e.getLocalizedMessage()); // todo
+                .body(e.getLocalizedMessage()); //
         }
     }
 

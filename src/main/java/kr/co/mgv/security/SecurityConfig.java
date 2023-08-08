@@ -32,18 +32,18 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
-                // todo
+                //
                 .authorizeRequests((authorizeRequests) -> {
                     authorizeRequests.antMatchers("/admin/**").hasRole("ADMIN");
                     authorizeRequests.anyRequest().permitAll();
                 })
-                .httpBasic(Customizer.withDefaults()) // todo
-                .formLogin(login -> login.loginPage("/")) // todo
+                .httpBasic(Customizer.withDefaults()) //
+                .formLogin(login -> login.loginPage("/")) //
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/")
                         .invalidateHttpSession(true)
-                        .clearAuthentication(true) // todo
+                        .clearAuthentication(true) //
                 )
                 .build();
     }
