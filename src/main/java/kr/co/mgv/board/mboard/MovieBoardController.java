@@ -83,6 +83,10 @@ public class MovieBoardController {
     public String theaterDetail(@RequestParam("no") int no,
     							Model model) {
     	MovieBoard movieBoard = movieBoardService.getMovieBoardByNo(no);
+    	List<MBoardComment> comments = movieBoardService.getComments(no);
+    	List<MBoardComment> childComments = movieBoardService.getChildComments(no);
+    	model.addAttribute("comments", comments);
+    	model.addAttribute("childComments", childComments);
     	model.addAttribute("board", movieBoard);
     	
         return "/view/board/movie/detail";
@@ -106,7 +110,8 @@ public class MovieBoardController {
                              @RequestParam("sort") String sort,
                              @RequestParam("opt") String opt,
                              @RequestParam("keyword") String keyword,
-                             RedirectAttributes redirectAttributes) {
+                             RedirectAttributes redirectAttributes,
+                             Model model) {
         
     	MBoardComment comment = new MBoardComment();
     	comment.setContent(content);
@@ -137,6 +142,12 @@ public class MovieBoardController {
     	
     	movieBoardService.MBoardCommentInsert(comment);
     	
+    	MovieBoard board = movieBoardService.getMovieBoardByNo(no);
+    	MBoardForm form = new MBoardForm();
+    	form.setCommentCount(board.getCommentCount()+1);
+    	form.setNo(no);
+    	movieBoardService.updateMBoardByNo(form);
+    	
         redirectAttributes.addAttribute("no", no);
         redirectAttributes.addAttribute("page", page);
         redirectAttributes.addAttribute("sort", sort);
@@ -145,33 +156,10 @@ public class MovieBoardController {
         }
         redirectAttributes.addAttribute("opt", opt);
         redirectAttributes.addAttribute("keyword", keyword);
+        
         
         return "redirect:/board/movie/detail";
     }
     
-//    @GetMapping("/detail")
-    public String getcomment(@RequestParam("no") int no, 
-    						 @RequestParam(name = "page", required = false, defaultValue = "1") int page,
-				             @RequestParam(name = "rows", required = false, defaultValue = "10") Integer rows,
-				             @RequestParam("sort") String sort,
-				             @RequestParam("opt") String opt,
-				             @RequestParam("keyword") String keyword,
-				             RedirectAttributes redirectAttributes,
-    							Model model) {
-    	
-        redirectAttributes.addAttribute("no", no);
-        redirectAttributes.addAttribute("page", page);
-        redirectAttributes.addAttribute("sort", sort);
-        if (rows != null) {
-            redirectAttributes.addAttribute("rows", rows);       
-        }
-        redirectAttributes.addAttribute("opt", opt);
-        redirectAttributes.addAttribute("keyword", keyword);
-    	
-        List<MBoardComment> comments = movieBoardService.getComments();
-        model.addAttribute("comments", comments);
-        
-        return "/view/board/movie/detail";
-    }
 
 }

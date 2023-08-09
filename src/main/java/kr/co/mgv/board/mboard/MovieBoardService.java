@@ -54,6 +54,7 @@ public class MovieBoardService {
 		MovieBoard movieBoard = movieBoardDao.getMBoardByNo(form.getNo());
 		BeanUtils.copyProperties(form, movieBoard);
 		
+		
 		movieBoardDao.updateMBoardByNo(movieBoard);
 	}
 	
@@ -69,10 +70,15 @@ public class MovieBoardService {
 		movieBoardDao.insertMBoardComment(comment);
 	}
 	
-	public List<MBoardComment> getComments() {
-		List<MBoardComment> comments = movieBoardDao.getMBoardComments();
+	public List<MBoardComment> getComments(int no) {
+		List<MBoardComment> comments = movieBoardDao.getMBoardComments(no);
 		
 		return comments;
+	}
+	
+	public List<MBoardComment> getChildComments(int no) {
+		List<MBoardComment> childComments = movieBoardDao.getMBoardChildComments(no);
+		return childComments;
 	}
 	
 
