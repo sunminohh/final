@@ -92,7 +92,7 @@
     		A.product_name		as name,
     		A.cat_no			as "cat.no",
     		B.cat_name			as "cat.name"
-    	from MGV_PRODUCTS A, MGV_PRODUCTS_CATEGORY B
+    	from MGV_PRODUCT A, MGV_PRODUCT_CATEGORY B
     	where
     		A.cat_no = B.cat_no 
     		and A.cat_no = #{value}
@@ -102,7 +102,7 @@
     	SELECT
     		cat_no		as no,
     		cat_name	as name
-    	from MGV_PRODUCTS_CATEGORY
+    	from MGV_PRODUCT_CATEGORY
     </select>
     
 </mapper>
