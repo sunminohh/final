@@ -24,7 +24,7 @@ public class OneController {
     }
 	
 	@PreAuthorize("isAuthenticated()")
-	@PostMapping("/add")
+	@PostMapping()
 	public String createOne(@AuthenticationPrincipal User user, AddOneForm form) {
 		oneService.createOne(form);
 		

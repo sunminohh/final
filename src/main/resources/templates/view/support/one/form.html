@@ -48,8 +48,8 @@
     <p class="reset mt10">* 원활한 서비스 이용을 위한 최소한의 개인정보이므로 동의하지 않을 경우 서비스를 이용하실 수 없습니다</p>
     <p class="reset mt30 a-r font-orange">* 필수</p>
 
-    <form name="regFrm" method="post" th:action="@{/add}" th:object="${addOneForm}">
-
+	<!--폼 시작 -->
+    <form name="regFrm" method="post">
         <div class="table-wrap mt10">
             <table class="board-form va-m">
                 <colgroup>
@@ -61,19 +61,17 @@
                 <tbody>
                 <tr>
                     <th scope="row">문의선택<em class="font-orange">*</em></th>
-                   	
                     <td colspan="3" >
-                    	<div class="d-flex justify-content-start">
+                    	<div class="d-flex justify-content-start" style="margin-bottom: -15px;">
 							<div class="me-2 pt-2">
-		                        <input type="radio" name="inquiryType" id="aq2" checked>
-								<label for="aq2">고객센터문의</label>
+		                        <input type="radio" name="inquiryType" id="onesupport" checked>
+								<label for="aq1">고객센터문의</label>
 							</div>
 							
 							<div class="me-3 pt-2">
-								<input type="radio" name="inquiryType" id="aq1" class="ml20">
-								<label for="aq1">극장별문의</label>
+								<input type="radio" name="inquiryType" id="onetheater" class="ml20">
+								<label for="aq2">극장별문의</label>
 							</div>
-	                        
 	
 	                        <select id="location" title="지역 선택"
 	                                class="form-select form-select-sm  ml07 form-control-sm mb-3"
@@ -81,48 +79,38 @@
 	                                 >
 	                            <option value="" selected disabled>지역선택</option>
 	                            <!-- 
-	                            th:onchange="changeLoc()"
-	                            <option th:each="location : ${result.locations}" 
-	                            		th:text="${location.name}" 
-	                            	    th:value="${location.no}"
-	                            	    th:selected="${#strings.equals(location.no, param.locationNo)}">지역 이름</option>
+		                            th:onchange="changeLoc()"
+		                            <option th:each="location : ${result.locations}" 
+		                            		th:text="${location.name}" 
+		                            	    th:value="${location.no}"
+		                            	    th:selected="${#strings.equals(location.no, param.locationNo)}">지역 이름</option>
 	                             -->
 	                        </select>
 	
 	                        <select id="theater" title="극장 선택" class="form-select form-select-sm ml07 form-control-sm mb-3"
-	                                style="width: 100px; float:left; position: relative; left:5px;" 
-	                                name="theaterNo" >
+	                                style="width: 100px; float:left; position: relative; left:5px;" name="theaterNo" >
 	                                <!-- th:onchange="changeTboard()" -->
 	      						<option value="" selected disabled>극장선택</option>
 	                        </select>
                     	</div>
-
-                       
-
                     </td>
                 </tr>
                 
                 <tr>
                     <th scope="row"><label for="ask-type">문의유형</label> <em class="font-orange">*</em></th>
                     <td colspan="3">
-                        
-                        <!-- 문의 유형 선택 -->
-                              <select id="location" title="문의유형 선택"
+                        <div class="d-flex justify-content-start" style="margin-bottom: -15px; margin-left: -8px;">
+                           	<select id="oneCat" title="문의유형 선택"
                                 class="form-select form-select-sm  ml07 form-control-sm mb-3"
-                                style="width: 150px; float:left; " name="locationNo"
-                                 >
-                            <option value="" selected disabled>문의유형 선택</option>
-                            <!-- 
-                            th:onchange="changeLoc()"
-                            <option th:each="location : ${result.locations}" 
-                            		th:text="${location.name}" 
-                            	    th:value="${location.no}"
-                            	    th:selected="${#strings.equals(location.no, param.locationNo)}">지역 이름</option>
-                             -->
-                        </select>
+                                style="width: 150px; float:left; " name="locationNo" />
+                            	<option value="" selected disabled>문의유형 선택</option>
+                       		 </select>
+						</div>
+                        <!-- 문의 유형 선택 -->
                         
                     </td>
                 </tr>
+                
                 <tr sec:authorize="isAuthenticated()">
                     <th scope="row"><label for="name">이름</label> <em class="font-orange">*</em></th>
                     <td>
@@ -170,7 +158,6 @@
                     <th scope="row">사진첨부</th>
                     <td colspan="3">
                         <div class="upload-image-box">
-
                             <div class="info-txt">
                                 <p>* JPEG, PNG 형식의 5M 이하의 파일만 첨부 가능합니다. (최대 5개)</p>
 
@@ -179,9 +166,7 @@
                                 <!--// to 개발 : 이미지 추가가 5개가 되면 버튼 숨김 -->
                                 <p>* 개인정보가 포함된 이미지 등록은 자제하여 주시기 바랍니다.</p>
                             </div>
-
                             <div id="imgList"></div>
-
                         </div>
                     </td>
                 </tr>
@@ -202,6 +187,6 @@
             <button type="submit" class="button purple large">등록</button>
         </div>
     </form>
-    
+    <!-- 폼 끝 -->
 </div>
 </html>
