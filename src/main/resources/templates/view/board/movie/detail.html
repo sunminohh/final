@@ -176,7 +176,9 @@
 			   			<div class="col-sm-1 d-flex justify-content-end pt-0" sec:authorize="isAuthenticated()">
 			   				
 			   				<a th:href="@{/deleteComment(no=1, cno=1)}" 
-			   					class="btn btn-link btn-sm text-danger text-decoration-none">삭제</a>
+			   					class="btn btn-link btn-sm text-danger text-decoration-none"
+		   						sec:authorize="isAuthenticated()"
+   		        				th:if="${#authentication.principal.id != comment.user.id}">삭제</a>
 		
 		   				</div>   			
 					</div>
@@ -215,7 +217,9 @@
 					   			<div class="col-sm-1 d-flex justify-content-end pt-0" sec:authorize="isAuthenticated()">
 					   				
 					   				<a th:href="@{/deleteComment(no=1, cno=1)}" 
-					   					class="btn btn-link btn-sm text-danger text-decoration-none">삭제</a>
+					   					class="btn btn-link btn-sm text-danger text-decoration-none"
+					   					sec:authorize="isAuthenticated()"
+		   		        				th:if="${#authentication.principal.id != child.user.id}">삭제</a>
 				
 				   				</div>   			
 							</div>
