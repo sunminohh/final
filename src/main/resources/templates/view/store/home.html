@@ -21,21 +21,10 @@
                 <div class="tab-list fixed">
                     <ul>
                         <li class="on" id="storeTab_">
-                            <a th:href="@{/store/}""새로운 상품 탭으로 이동">전체 상품</a>
+                            <a th:href="@{/store/}" title="새로운 상품 탭으로 이동">전체 상품</a>
                         </li>
-                        <li id="storeTab_CPC02" class="">
-                            <a th:href="@{/store/ticket}" title="메가티켓 탭으로 이동">MGV티켓</a>
-                        </li>
-                        <li id="storeTab_CPC05" class="">
-                            <a th:href="@{/store/food}" title="팝콘/음료/굿즈 탭으로 이동">팝콘/음료</a>
-                        </li>
-                        <!-- li id="storeTab_CPC09"><a th:href=@{/store/detail(storeNo='1'}/a></li-->
-                        <li id="storeTab_CPC09" class="">
-                            <a th:href="@{/store/coupon}" title="금액권 탭으로 이동">금액권</a>
-                        </li>
-                        <!-- li id="storeTab_CPC07"><a th:href=@{/store/detail(storeNo='1'}/a></li-->
-                        <li id="storeTab_CPC07" class="">
-                            <a th:href="@{/store/package}" title="포인트몰 탭으로 이동">패키지</a>
+                        <li id="storeTab_CPC02" class="" th:each="category : ${categories}">
+                            <a th:href="@{/store/list(no=${category.catNo})}" th:text="${category.catName}"></a>
                         </li>
                     </ul>
                 </div>
