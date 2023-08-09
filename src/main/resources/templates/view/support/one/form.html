@@ -63,35 +63,40 @@
                     <th scope="row">문의선택<em class="font-orange">*</em></th>
                    	
                     <td colspan="3" >
-                        <input type="radio" name="inquiryType" id="aq2" checked>
-						<label for="aq2">고객센터문의</label>
-						<input type="radio" name="inquiryType" id="aq1" class="ml20">
-						<label for="aq1">극장별문의</label>
-                        
-                     <div class="d-flex justify-content-start">
+                    	<div class="d-flex justify-content-start">
+							<div class="me-2 pt-2">
+		                        <input type="radio" name="inquiryType" id="aq2" checked>
+								<label for="aq2">고객센터문의</label>
+							</div>
+							
+							<div class="me-3 pt-2">
+								<input type="radio" name="inquiryType" id="aq1" class="ml20">
+								<label for="aq1">극장별문의</label>
+							</div>
+	                        
+	
+	                        <select id="location" title="지역 선택"
+	                                class="form-select form-select-sm  ml07 form-control-sm mb-3"
+	                                style="width: 100px; float:left; " name="locationNo"
+	                                 >
+	                            <option value="" selected disabled>지역선택</option>
+	                            <!-- 
+	                            th:onchange="changeLoc()"
+	                            <option th:each="location : ${result.locations}" 
+	                            		th:text="${location.name}" 
+	                            	    th:value="${location.no}"
+	                            	    th:selected="${#strings.equals(location.no, param.locationNo)}">지역 이름</option>
+	                             -->
+	                        </select>
+	
+	                        <select id="theater" title="극장 선택" class="form-select form-select-sm ml07 form-control-sm mb-3"
+	                                style="width: 100px; float:left; position: relative; left:5px;" 
+	                                name="theaterNo" >
+	                                <!-- th:onchange="changeTboard()" -->
+	      						<option value="" selected disabled>극장선택</option>
+	                        </select>
+                    	</div>
 
-                        <select id="location" title="지역 선택"
-                                class="form-select form-select-sm  ml07 form-control-sm mb-3"
-                                style="width: 100px; float:left; " name="locationNo"
-                                 >
-                            <option value="" selected disabled>지역선택</option>
-                            <!-- 
-                            th:onchange="changeLoc()"
-                            <option th:each="location : ${result.locations}" 
-                            		th:text="${location.name}" 
-                            	    th:value="${location.no}"
-                            	    th:selected="${#strings.equals(location.no, param.locationNo)}">지역 이름</option>
-                             -->
-                        </select>
-
-                        <select id="theater" title="극장 선택" class="form-select form-select-sm ml07 form-control-sm mb-3"
-                                style="width: 100px; float:left; position: relative; left:5px;" 
-                                name="theaterNo" >
-                                <!-- th:onchange="changeTboard()" -->
-      						<option value="" selected disabled>극장선택</option>
-                        </select>
-
-                    </div>
                        
 
                     </td>
@@ -102,9 +107,9 @@
                     <td colspan="3">
                         
                         <!-- 문의 유형 선택 -->
-                        <select id="location" title="문의유형 선택"
+                              <select id="location" title="문의유형 선택"
                                 class="form-select form-select-sm  ml07 form-control-sm mb-3"
-                                style="width: 130px; float:left; " name="locationNo"
+                                style="width: 150px; float:left; " name="locationNo"
                                  >
                             <option value="" selected disabled>문의유형 선택</option>
                             <!-- 
