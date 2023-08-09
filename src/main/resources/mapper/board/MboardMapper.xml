@@ -81,7 +81,8 @@
 	    ) A
 	    having A.ROWNUMBER between #{begin} and #{end}
 	</select>
-
+	
+	<!-- 상세페이지 관련 -->
 	<select id="getMBoardByNo" parameterType="int" resultType="kr.co.mgv.board.mboard.MovieBoard">
 		select
             A.board_no              as no,
@@ -150,4 +151,25 @@
 		VALUES(#{content}, #{user.id}, #{board.no}, #{parent.no}, #{great.no});
 	</insert>
 	
+	<select id="getMBoardComments" resultType="kr.co.mgv.board.mboard.MBoardComment">
+		SELECT 
+			A.COMMENT_NO				as no, 
+			A.COMMENT_CREATE_dATE		as createDate, 
+			A.COMMENT_UPDATE_DATE		as updateDate, 
+			A.COMMENT_CONTENT			as content, 
+			A.USER_ID					as "user.id", 
+			A.COMMENT_DELETED			as deleted, 
+			A.BOARD_NO					as "board.no", 
+			A.PARENT_COMMENT_NO			as "parent.no", 
+			A.GREAT_COMMENT_NO			as "great.no",
+			P.USER_ID					as "parent.id",
+			G.USER_ID					as "great.id"
+		FROM 
+			MGV_MBOARD_COMMENT A, MGV_MBOARD_COMMENT P, MGV_MBOARD_COMMENT G
+		WHERE 
+			A.parent_comment_no = P.comment_no
+			and A.great_comment_no = G.comment_no
+			and A.comment_deleted = 'N'
+		order by A.comment_create_date
+	</select>
 </mapper>

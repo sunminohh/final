@@ -14,5 +14,6 @@ public interface MovieBoardDao {
 	void updateMBoardByNo(MovieBoard movieBoard );
 	
 	void insertMBoardComment(MBoardComment comment);
+	List<MBoardComment> getMBoardComments();
 	
 }

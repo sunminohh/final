@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.mgv.store.mapper.CategoriesMapper">
-	<select id="getAllCategories" resultType="kr.co.mgv.store.vo.Categories">
+	<select id="getAllCategories" resultType="kr.co.mgv.store.vo.Category">
 		select
 			cat_no		as catNo,
 			cat_name	as catName
@@ -11,7 +11,7 @@
 			cat_no
 	</select>
 
-	<select id="getCategoryByNo" parameterType="int" resultType="kr.co.mgv.store.vo.Categories">
+	<select id="getCategoryByNo" parameterType="int" resultType="kr.co.mgv.store.vo.Category">
 		select
 			cat_no		as catNo,
 			cat_name	as catName

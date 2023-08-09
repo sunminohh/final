@@ -15,7 +15,8 @@ import lombok.RequiredArgsConstructor;
 public class MovieBoardService {
 	
 	private final MovieBoardDao movieBoardDao;
-	
+
+// 게시물 리스트
 	public MovieBoardList getMBoards(Map<String, Object> param) {
 		
 		// pagination
@@ -40,7 +41,8 @@ public class MovieBoardService {
 		
 		return result;
 	}
-	
+
+// 상세페이지
 	public void increaseRead(int no) {
 		MovieBoard movieBoard = movieBoardDao.getMBoardByNo(no);
 		movieBoard.setReadCount(movieBoard.getReadCount() + 1);
@@ -61,8 +63,16 @@ public class MovieBoardService {
 		return movieBoard;
 	}
 	
+// comment
+	
 	public void MBoardCommentInsert(MBoardComment comment) {
 		movieBoardDao.insertMBoardComment(comment);
+	}
+	
+	public List<MBoardComment> getComments() {
+		List<MBoardComment> comments = movieBoardDao.getMBoardComments();
+		
+		return comments;
 	}
 	
 

@@ -2,7 +2,7 @@ package kr.co.mgv.support.faq;
 
 import java.util.Date;
 
-import kr.co.mgv.support.Category;
+import kr.co.mgv.support.SupportCategory;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,6 +18,6 @@ public class Faq {
 	private String deleted;
 	private Date updateDate;
 	private Date createDate;
-	private Category category; 
+	private SupportCategory category; 
 	
 }

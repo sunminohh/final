@@ -25,6 +25,7 @@ public class MovieBoardController {
 
 	private final MovieBoardService movieBoardService;
 	
+	// 게시물 리스트 관련
     @GetMapping("/list")
     public String movieList(@RequestParam(name = "sort", required = false, defaultValue = "id") String sort,
 			@RequestParam(name = "rows", required = false, defaultValue = "10") int rows,
@@ -52,6 +53,7 @@ public class MovieBoardController {
         return "/view/board/movie/list";
     }
 
+    // 상세페이지 관련
     @GetMapping("/read")
     public String read(@RequestParam("no") int no,
     				   @RequestParam("page") int page,
@@ -92,7 +94,7 @@ public class MovieBoardController {
     }
     
 
-    
+    // 댓글 관련
     @PostMapping("/addComment")
     public String addComment(@RequestParam("no") int no, 
                              @RequestParam("id") String id, 
@@ -147,7 +149,7 @@ public class MovieBoardController {
         return "redirect:/board/movie/detail";
     }
     
-    @GetMapping("/detail")
+//    @GetMapping("/detail")
     public String getcomment(@RequestParam("no") int no, 
     						 @RequestParam(name = "page", required = false, defaultValue = "1") int page,
 				             @RequestParam(name = "rows", required = false, defaultValue = "10") Integer rows,
@@ -166,6 +168,9 @@ public class MovieBoardController {
         redirectAttributes.addAttribute("opt", opt);
         redirectAttributes.addAttribute("keyword", keyword);
     	
+        List<MBoardComment> comments = movieBoardService.getComments();
+        model.addAttribute("comments", comments);
+        
         return "/view/board/movie/detail";
     }
 
