@@ -59,8 +59,14 @@
 			
 			<div class="text-end mt-1" id="board-function">
 				<a class="pe-1" th:href="@{/board/movie/list(page=${param.page},rows=${param.rows}, sort=${param.sort}, opt=${param.opt}, keyword=${param.keyword})}" >목록</a>
-				<a class="pe-1" th:href="@{/board/movie/modifyform(no=${param.no})}">수정</a>
-				<a class="pe-1" th:href="@{/board/movie/delete(no=${param.no})}" >삭제</a>
+				<a class="pe-1" 
+				   th:href="@{/board/movie/modifyform(no=${param.no})}"
+				   sec:authorize="isAuthenticated()"
+				   th:if="${#authentication.principal.id == board.user.id}">수정</a>
+				<a class="pe-1" 
+				   th:href="@{/board/movie/delete(no=${param.no})}" 
+				   sec:authorize="isAuthenticated()"
+				   th:if="${#authentication.principal.id == board.user.id}">삭제</a>
 			</div>
 		</div>
 	</div>
@@ -91,36 +97,45 @@
 		</div>
 			<div class="d-flex justify-content-end">
 		   		<button class="btn btn-outline-white btn-sm mb-2"  style="border: none; font-size: 12px" >공유</button>
-		   		<button class="btn btn-outline-white btn-sm mb-2"  style="border: none; font-size: 12px" id="btn-report" data-bs-toggle="modal" data-bs-target="#reportModal">신고</button>
+		   		<button class="btn btn-outline-white btn-sm mb-2"  style="border: none; font-size: 12px" id="btn-report" 
+		   		        data-bs-toggle="modal" data-bs-target="#reportModal"
+		   		        sec:authorize="isAuthenticated()"
+		   		        th:if="${#authentication.principal.id != board.user.id}"
+		   		        >신고</button>
 			</div>
    		</div>
    			<hr class="mt-0 pt-0"/>
 
-   		
-	<div class="row mb-3 pt-2">
+   	<!-- 댓글 등록창 -->	
+	<div class="row pb-2 pt-1">
+   		<div class="col-12 CommentWriter" sec:authorize="isAuthenticated()">
+			<div class="comment-inbox border p-2 rounded" > 
 
-   		<div class="col-12 CommentWriter">
-			<div class="comment-inbox border p-2 rounded"> 
-
-				<em class="comment_inbox_name">로그인된 아이디</em>
+				<em class="comment_inbox_name" th:text="${#authentication.principal.id}"
+					th:value="${#authentication.principal.id}"
+					id="login-id">로그인된 아이디</em>
 				
-				<form class="" method="post" action="insertComment.jsp">
-					<input type="hidden" name="no" value= />
+				<form id="form-comment" method="post" th:action="@{/board/movie/addComment}" >
+					<input type="hidden" name="no" th:value="${board.no}" />
+					<input type="hidden" name="id" th:value="${#authentication.principal.id}" />
+					<input type="hidden" name="page" th:value="${param.page }" />
+					<input type="hidden" name="rows" th:value="${param.rows }" />
+					<input type="hidden" name="sort" th:value="${param.sort }" />
+					<input type="hidden" name="opt" th:value="${param.opt }" />
+					<input type="hidden" name="keyword" th:value="${param.keyword }" />
 	 				<div class="row">
-						<div >
+						<div id="content-box">
 							<textarea rows="2" class="comment_inbox_text" name="content" style="border: none; overflow: hidden; overflow-wrap: break-word; " 
 							placeholder="댓글을 남겨보세요"></textarea>
 						</div>
 						<div class="register_box">
-							<button class="btn btn-outline-white btn-sm float-end" style="border: none">등록</button>
+							<button class="btn btn-outline-white btn-sm float-end" id="btn-comment" style="border: none" type="button">등록</button>
 						</div>
 					</div>
 				</form>   	
 			</div>
    		</div>
    	</div>
-   	
-   	
    	
 	<div class="row mb-3">
    		<div class="col-12">
@@ -149,12 +164,12 @@
 			   					3조 파이널 화이팅~~!!★3조 파이널 화이팅~~!!★3조 파이널 화이팅~~!!★3조 파이널 화이팅~~!!★3조 파이널 화이팅~~!!★3조 파이널 화이팅~~!!★</p>
 			   					<div id="comment-info" class="d-flex justify-content-start">
 			   						<p class="float-start me-2" style="font-size: 12px; color: gray">1998/06/24 07:00:00</p>
-			   						<a id="a-reply" href="" class="float-satrt" style="text-decoration:none; font-size: 12px; color: gray">답글쓰기</a>
+			   						<a id="a-reply" href="" class="float-satrt" style="text-decoration:none; font-size: 12px; color: gray" sec:authorize="isAuthenticated()">답글쓰기</a>
 			   					</div>
 							
 						</div>
 					</div>
-		   			<div class="col-sm-1 d-flex justify-content-end pt-0">
+		   			<div class="col-sm-1 d-flex justify-content-end pt-0" sec:authorize="isAuthenticated()">
 		   				
 		   				<a th:href="@{/deleteComment(no=1, cno=1)}" 
 		   					class="btn btn-link btn-sm text-danger text-decoration-none">삭제</a>
@@ -184,12 +199,12 @@
 				   					<p><strong>답글달린아이디 </strong> 파이널 화이팅</p>
 				   					<div id="comment-info" class="d-flex justify-content-start">
 				   						<p class="float-start me-2" style="font-size: 12px; color: gray">1998/06/24 07:00:00</p>
-				   						<a id="a-re-reply" href="" class="float-satrt" style="text-decoration:none; font-size: 12px; color: gray">답글쓰기</a>
+				   						<a id="a-re-reply" href="" class="float-satrt" style="text-decoration:none; font-size: 12px; color: gray" sec:authorize="isAuthenticated()">답글쓰기</a>
 				   					</div>
 								
 							</div>
 						</div>
-			   			<div class="col-sm-1 d-flex justify-content-end pt-0">
+			   			<div class="col-sm-1 d-flex justify-content-end pt-0" sec:authorize="isAuthenticated()">
 			   				
 			   				<a th:href="@{/deleteComment(no=1, cno=1)}" 
 			   					class="btn btn-link btn-sm text-danger text-decoration-none">삭제</a>

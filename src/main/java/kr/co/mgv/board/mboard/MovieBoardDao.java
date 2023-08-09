@@ -13,4 +13,7 @@ public interface MovieBoardDao {
 	MovieBoard getMBoardByNo (int mbNo);
 	void updateMBoardByNo(MovieBoard movieBoard );
 	
+	void insertMBoardComment(MBoardComment comment);
+	List<MBoardComment> getMBoardComments();
+	
 }
