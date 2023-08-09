@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="kr.co.mgv.support.one.OneDao">
+
+	<insert id="insertOne" parameterType="kr.co.mgv.support.one.One">
+		insert into MGV_SUPPORT_ONE
+		(one_title, one_content, one_filename, 
+		user_id, user_name, user_email, 
+		location_no, theater_no, category_no, 
+		one_guest_name, one_guest_email, one_guest_password)
+		VALUES
+		('#{title}', '#{content}', '#{fileName}', 
+		'#{user.id}', '#{user.name}', '#{user.email}', 
+		'#{location.no}', '#{theater.no}', '#{category.no}',
+		 '#{guestName}', '#{guestEmail}', '#{guestPassword}'); 
+	</insert>
+
+</mapper>

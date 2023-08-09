@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Category {
+public class SupportCategory {
 
 	private int no;
 	private String name;

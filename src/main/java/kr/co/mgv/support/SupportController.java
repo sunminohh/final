@@ -25,10 +25,6 @@ public class SupportController {
         return "/view/support/notice/detail";
     }
 
-    @GetMapping("/one")
-    public String one() {
-        return "/view/support/one/list";
-    }
 
     @GetMapping("/lost")
     public String lost() {
