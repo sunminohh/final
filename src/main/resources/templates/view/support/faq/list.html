@@ -9,21 +9,22 @@
     <h2 class="tit">자주 묻는 질문</h2>
 
     <!-- input-search-area -->
-    <div class="input-search-area mb30">
-        <div class="input-area">
-            <label for="search01" class="label">빠른검색</label>
-
-            <div class="board-search w460px">
-                <input type="search" id="searchTxt" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" value="" maxlength="15">
-                <button type="button" id="searchBtn" class="btn-search-input">검색</button>
-            </div>
-        </div>
-
-        <div class="btn-area">
-
-        </div>
-    </div>
+    <form action="list">
+	    <div class="input-search-area mb30">
+	        <div class="input-area">
+	            <label for="search01" class="label">빠른검색</label>
+			
+	            <div class="board-search w460px">
+	                <input type="search" name="keyword" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" value="" maxlength="15">
+	                <input type="hidden" name="catNo" value="1" />
+	                <input type="hidden" name="page" value="1" />
+	                <button type="button" id="btn-search" class="btn-search-input">검색</button>
+	            </div>
+	        </div>
+	    </div>
+    </form>
     <!--// input-search-area -->
+    
     <div class="tab-block-faq mb30">
         <ul>
             <li class="tab-link current"><button type="button" class="btn rounded-0" data-category-no="1" title="전체">전체</button></li>
@@ -37,16 +38,14 @@
             <li class="tab-link"><button type="button" class="btn rounded-0" data-category-no="9" title="홈페이지/모바일">홈페이지/모바일</button></li>
             <li class="tab-link"><button type="button" class="btn rounded-0" data-category-no="10" title="기프트카드">기프트카드</button></li>
         </ul>
-
-        <input type="hidden" id="bbsTotalCnt" value="77">
     </div>
 
     <div class="faq-list-box">
-    <p class="reset mb10"><strong><span id="totalTitle">전체</span> <span class="font-green" id="totalCnt">77</span>건</strong></p>
+    <p class="reset mb10"><strong><span id="totalTitle">전체</span> <span class="font-green" id="totalCnt" th:text="${result.pagination.totalRows}"></span>건</strong></p>
     	<div class="faq-list">
     		<ul>
-    			<li th:each="faq: ${faqList}">
-    				<div class="qut" th:if="${not #lists.isEmpty(faqList)}">
+    			<li th:each="faq: ${result.faqList}">
+    				<div class="qut" th:if="${not #lists.isEmpty(result.faqList)}">
     					<a href="#">
     						<p class="tit">
     							<span class="font-green" th:text="'[' + ${faq.category.name}+ ']'"></span>
@@ -71,7 +70,21 @@
 	</div>
 
     <!-- pagination -->
-    <nav class="pagination justify-content-center"><strong class="active">1</strong> <a title="2페이지보기" href="javascript:void(0)" pagenum="2">2</a> <a title="3페이지보기" href="javascript:void(0)" pagenum="3">3</a> <a title="4페이지보기" href="javascript:void(0)" pagenum="4">4</a> <a title="5페이지보기" href="javascript:void(0)" pagenum="5">5</a> <a title="6페이지보기" href="javascript:void(0)" pagenum="6">6</a> <a title="7페이지보기" href="javascript:void(0)" pagenum="7">7</a> </nav>
+    <div class="row mb-3">
+      	<div class="col-12">
+		    <nav>
+				<ul class="pagination justify-content-center">
+				    <li class="page-item" th:each="num : ${result.pagination.pageNumbers}">
+                        <a th:href="@{list(page=${num})}" 
+                           th:text="${num}"
+                           th:classappend="${result.pagination.page == (num) ? 'active' : '' }"
+                           class="page-link page-number-link"
+                           th:attr="data-page=${num}">1</a>
+                    </li>
+				</ul>
+			</nav>
+		</div>
+	</div>
     <!--// pagination -->
 
 

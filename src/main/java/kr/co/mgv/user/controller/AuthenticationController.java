@@ -1,13 +1,19 @@
 package kr.co.mgv.user.controller;
 
 import kr.co.mgv.user.form.UserJoinForm;
-import kr.co.mgv.user.mapper.AuthenticationDao;
 import kr.co.mgv.user.service.AuthenticationService;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -15,7 +21,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.nio.file.attribute.UserPrincipal;
 
 @RequiredArgsConstructor
 @Controller
@@ -24,7 +32,9 @@ import javax.validation.Valid;
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
+    private final AuthenticationManager authenticationManager;
 
+    // 회원가입
     @GetMapping("/form")
     public String createForm(Model model) {
         UserJoinForm form = new UserJoinForm();
@@ -41,7 +51,7 @@ public class AuthenticationController {
 
     @PostMapping("/join")
     public String join(@ModelAttribute("userJoinForm") UserJoinForm form, SessionStatus sessionStatus, RedirectAttributes redirectAttributes) {
-        // TODO Service -> DAO (user, role)
+        // Service -> DAO (user, role)
         User user = new User();
         user.setId(form.getId());
         user.setName(form.getName());
@@ -75,5 +85,26 @@ public class AuthenticationController {
         return ResponseEntity.ok(authenticationService.getUserByEmail(email) != null);
     }
 
+    // 로그인
+    @ResponseBody
+    @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> login(HttpSession session, @RequestBody User user) { //
+        try {
+            Authentication auth = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(user.getId(), user.getPassword())
+            );
+
+            SecurityContextHolder.getContext().setAuthentication(auth);
+            session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
+            User userPrincipal = (User) auth.getPrincipal(); //
+            log.info("User [{}] logged in.", userPrincipal.getUsername());
+            return ResponseEntity.ok(userPrincipal); //
+        } catch (BadCredentialsException e) {
+            log.warn("User [{}] failed login: {}", user.getUsername(), e.getLocalizedMessage());
+            return ResponseEntity
+                .badRequest()
+                .body(e.getLocalizedMessage()); //
+        }
+    }
 
 }

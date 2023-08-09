@@ -2865,7 +2865,7 @@ var range_WrappedRange = /*#__PURE__*/function () {
     value: function nodes(pred, options) {
       pred = pred || func.ok;
       var includeAncestor = options && options.includeAncestor;
-      var fullyContains = options && options.fullyContains; // TODO compare points and sort
+      var fullyContains = options && options.fullyContains; // compare points and sort
 
       var startPoint = this.getStartPoint();
       var endPoint = this.getEndPoint();
@@ -9818,12 +9818,12 @@ external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.summe
     disableGrammar: false,
     placeholder: null,
     inheritPlaceholder: false,
-    // TODO: need to be documented
+    //: need to be documented
     recordEveryKeystroke: false,
     historyLimit: 200,
-    // TODO: need to be documented
+    //: need to be documented
     showDomainOnlyForAutolink: false,
-    // TODO: need to be documented
+    //: need to be documented
     hintMode: 'word',
     hintSelect: 'after',
     hintDirection: 'bottom',

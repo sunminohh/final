@@ -107,7 +107,7 @@
       super(element, config);
       this._popper = null;
       this._parent = this._element.parentNode; // dropdown wrapper
-      // todo: v6 revert #37011 & change markup https://getbootstrap.com/docs/5.2/forms/input-group/
+      //: v6 revert #37011 & change markup https://getbootstrap.com/docs/5.2/forms/input-group/
 
       this._menu = SelectorEngine__default.default.next(this._element, SELECTOR_MENU)[0] || SelectorEngine__default.default.prev(this._element, SELECTOR_MENU)[0] || SelectorEngine__default.default.findOne(SELECTOR_MENU, this._parent);
       this._inNavbar = this._detectNavbar();
@@ -327,7 +327,7 @@
       }; // Disable Popper if we have a static display or Dropdown is in Navbar
 
       if (this._inNavbar || this._config.display === 'static') {
-        Manipulator__default.default.setDataAttribute(this._menu, 'popper', 'static'); // todo:v6 remove
+        Manipulator__default.default.setDataAttribute(this._menu, 'popper', 'static'); //:v6 remove
 
         defaultBsPopperConfig.modifiers = [{
           name: 'applyStyles',
@@ -425,7 +425,7 @@
         return;
       }
 
-      event.preventDefault(); // todo: v6 revert #37011 & change markup https://getbootstrap.com/docs/5.2/forms/input-group/
+      event.preventDefault(); //: v6 revert #37011 & change markup https://getbootstrap.com/docs/5.2/forms/input-group/
 
       const getToggleButton = this.matches(SELECTOR_DATA_TOGGLE) ? this : SelectorEngine__default.default.prev(this, SELECTOR_DATA_TOGGLE)[0] || SelectorEngine__default.default.next(this, SELECTOR_DATA_TOGGLE)[0] || SelectorEngine__default.default.findOne(SELECTOR_DATA_TOGGLE, event.delegateTarget.parentNode);
       const instance = Dropdown.getOrCreateInstance(getToggleButton);
