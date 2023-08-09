@@ -51,7 +51,7 @@ public class MovieBoardController {
     @GetMapping("/read")
     public String read(@RequestParam("no") int no,
     				   @RequestParam("page") int page,
-    				   @RequestParam("rows") int rows,
+    				   @RequestParam(name = "rows", required = false, defaultValue = "10") Integer rows,
     				   @RequestParam("sort") String sort,
     				   @RequestParam("opt") String opt,
     				   @RequestParam("keyword") String keyword,
@@ -59,10 +59,13 @@ public class MovieBoardController {
     	
     	movieBoardService.increaseRead(no);
     	
+    	
     	redirectAttributes.addAttribute("no", no);
         redirectAttributes.addAttribute("page", page);
-        redirectAttributes.addAttribute("rows", rows);
         redirectAttributes.addAttribute("sort", sort);
+        if(rows != null) {
+        	redirectAttributes.addAttribute("rows", rows);		
+        }
         redirectAttributes.addAttribute("opt", opt);
         redirectAttributes.addAttribute("keyword", keyword);
 
