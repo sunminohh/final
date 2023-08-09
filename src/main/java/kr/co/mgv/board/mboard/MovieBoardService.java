@@ -61,5 +61,9 @@ public class MovieBoardService {
 		return movieBoard;
 	}
 	
+	public void MBoardCommentInsert(MBoardComment comment) {
+		movieBoardDao.insertMBoardComment(comment);
+	}
+	
 
 }

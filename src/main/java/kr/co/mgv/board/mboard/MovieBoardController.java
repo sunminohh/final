@@ -1,5 +1,7 @@
 package kr.co.mgv.board.mboard;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,10 +10,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -86,4 +90,83 @@ public class MovieBoardController {
     public String theaterForm() {
         return "/view/board/movie/form";
     }
+    
+
+    
+    @PostMapping("/addComment")
+    public String addComment(@RequestParam("no") int no, 
+                             @RequestParam("id") String id, 
+                             @RequestParam(name="parentNo", required = false) Integer parentNo, 
+                             @RequestParam(name="greatNo", required = false) Integer greateNo, 
+                             @RequestParam("content") String content,
+                             @RequestParam(name = "page", required = false, defaultValue = "1") int page,
+                             @RequestParam(name = "rows", required = false, defaultValue = "10") Integer rows,
+                             @RequestParam("sort") String sort,
+                             @RequestParam("opt") String opt,
+                             @RequestParam("keyword") String keyword,
+                             RedirectAttributes redirectAttributes) {
+        
+    	MBoardComment comment = new MBoardComment();
+    	comment.setContent(content);
+    	
+    	MovieBoard mBoard = MovieBoard.builder()
+    						.no(no)
+    						.build();
+    	comment.setBoard(mBoard);
+    	
+    	
+		if (parentNo != null) {
+			MBoardComment parentComment = MBoardComment.builder()
+					.no(parentNo)
+					.build();
+			comment.setParent(parentComment);
+		}
+		if (greateNo != null) {
+			MBoardComment greatComment = MBoardComment.builder()
+					.no(greateNo)
+					.build();
+			comment.setGreat(greatComment);
+		}
+    	
+    	User user = User.builder()
+    			.id(id)
+    			.build();
+    	comment.setUser(user);
+    	
+    	movieBoardService.MBoardCommentInsert(comment);
+    	
+        redirectAttributes.addAttribute("no", no);
+        redirectAttributes.addAttribute("page", page);
+        redirectAttributes.addAttribute("sort", sort);
+        if (rows != null) {
+            redirectAttributes.addAttribute("rows", rows);       
+        }
+        redirectAttributes.addAttribute("opt", opt);
+        redirectAttributes.addAttribute("keyword", keyword);
+        
+        return "redirect:/board/movie/detail";
+    }
+    
+    @GetMapping("/detail")
+    public String getcomment(@RequestParam("no") int no, 
+    						 @RequestParam(name = "page", required = false, defaultValue = "1") int page,
+				             @RequestParam(name = "rows", required = false, defaultValue = "10") Integer rows,
+				             @RequestParam("sort") String sort,
+				             @RequestParam("opt") String opt,
+				             @RequestParam("keyword") String keyword,
+				             RedirectAttributes redirectAttributes,
+    							Model model) {
+    	
+        redirectAttributes.addAttribute("no", no);
+        redirectAttributes.addAttribute("page", page);
+        redirectAttributes.addAttribute("sort", sort);
+        if (rows != null) {
+            redirectAttributes.addAttribute("rows", rows);       
+        }
+        redirectAttributes.addAttribute("opt", opt);
+        redirectAttributes.addAttribute("keyword", keyword);
+    	
+        return "/view/board/movie/detail";
+    }
+
 }

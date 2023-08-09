@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.mgv.board.mboard.MovieBoardDao">
-
+	<!-- 게시물 관련 -->
     <select id="getTotalRows" parameterType="map" resultType="int">
     	SELECT COUNT(*)
     	FROM MGV_MOVIE_BOARD A, MGV_MOVIE B
@@ -142,4 +142,12 @@
 			</set>
 			where board_no = #{no}
 	</update>
+	
+	<!-- 댓글 관련  -->
+	<insert id="insertMBoardComment" parameterType="kr.co.mgv.board.mboard.MBoardComment">
+		INSERT INTO jhta_2302.MGV_MBOARD_COMMENT
+		(COMMENT_CONTENT, USER_ID, BOARD_NO, PARENT_COMMENT_NO, GREAT_COMMENT_NO)
+		VALUES(#{content}, #{user.id}, #{board.no}, #{parent.no}, #{great.no});
+	</insert>
+	
 </mapper>
