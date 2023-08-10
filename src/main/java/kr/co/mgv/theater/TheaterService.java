@@ -16,4 +16,8 @@ public class TheaterService {
 	public List<Location> getTheaters() {
 		return theaterDao.getTheaters();
 	}
+	
+	public Theater getTheaterDetail(int theaterNo) {
+		return theaterDao.getTheaterDetailByNo(theaterNo);
+	}
 }

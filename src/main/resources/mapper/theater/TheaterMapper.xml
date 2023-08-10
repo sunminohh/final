@@ -10,13 +10,71 @@
 		<result column="THEATER_NAME" property="name" />
 	</collection>
 </resultMap>
+
+<resultMap type="theater" id="TheaterResultMap">
+	<id column="THEATER_NO" property="no" />
+	<result column="THEATER_NAME" property="name" />
+	<result column="THEATER_ADDRESS" property="address" />
+	<result column="THEATER_TEL" property="tel" />
+	<result column="THEATER_DISABLED" property="disabled" />
+	<result column="THEATER_INFO" property="info" />
+	
+	<collection property="facilities" ofType="Facility">
+		<id column="FACILITY_ID" property="id" />
+		<result column="FACILITY_TYPE" property="type" />
+		<result column="FACILITY_NAME" property="name" />
+		<result column="FACILITY_ICON" property="icon" />
+	</collection>
+	
+	<collection property="floorInfos" ofType="Floorinfo">
+		<id column="FLOOR_INFO_ID" property="id" />
+		<result column="FLOOR" property="floor" />
+		<result column="INFO" property="info" />
+	</collection>
+	
+	<collection property="parkingInfo" ofType="Parkinginfo">
+		<id column="PARKING_ID" property="id" />
+		<result column="PARKING_INFO" property="info" />
+		<result column="PARKING_CONFIRM" property="confirm" />
+		<result column="PARKING_CASH" property="cash" />
+	</collection>
+</resultMap>
 	
 	<select id="getTheaters" resultMap="LocationWithTheaterResultMap">
 		select 
-			*
+			A.theater_no,
+			A.theater_name,
+			B.location_no,
+			B.location_name		
 		from MGV_THEATERS A, MGV_LOCATION B
 		where A.location_no = B.location_no
 		order by B.location_no asc;
+	</select>
+	
+	<select id="getTheaterDetailByNo" parameterType="int" resultMap="TheaterResultMap">
+		select
+			A.THEATER_NO,
+			A.THEATER_NAME,
+			A.THEATER_ADDRESS,
+			A.THEATER_TEL,
+			A.THEATER_DISABLED,
+			A.THEATER_INFO,
+			B.FLOOR,
+			B.INFO,
+			C.PARKING_INFO,
+			C.PARKING_CONFIRM,
+			C.PARKING_CASH,
+			D.FACILITY_TYPE,
+			E.FACILITY_NAME,
+			E.FACILITY_ICON
+		from
+			MGV_THEATERS A, MGV_THEATER_FLOORS_INFO B, MGV_THEATER_PARKING_INFO C, MGV_THEATER_FACILITY_INFO D, MGV_THEATER_FACILITY_TYPE E  
+		where
+			A.THEATER_NO = #{value}
+			AND A.THEATER_NO = B.THEATER_NO
+			AND A.THEATER_NO = C.THEATER_NO
+			AND A.THEATER_NO = D.THEATER_NO
+			AND D.FACILITY_TYPE = E.FACILITY_TYPE;
 	</select>
 	
 </mapper>
