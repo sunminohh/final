@@ -63,16 +63,18 @@
                     <th scope="row">문의선택<em class="font-orange">*</em></th>
                     <td colspan="3" >
                     	<div class="d-flex justify-content-start" style="margin-bottom: -15px;">
+                    	
+                    		<!-- 라디오버튼 -->
 							<div class="me-2 pt-2">
 		                        <input type="radio" name="inquiryType" id="onesupport" checked>
 								<label for="aq1">고객센터문의</label>
 							</div>
-							
 							<div class="me-3 pt-2">
 								<input type="radio" name="inquiryType" id="onetheater" class="ml20">
 								<label for="aq2">극장별문의</label>
 							</div>
 	
+							<!-- 지역, 극장선택 셀렉트박스 -->
 	                        <select id="location" title="지역 선택"
 	                                class="form-select form-select-sm  ml07 form-control-sm mb-3"
 	                                style="width: 100px; float:left; " name="locationNo"
@@ -102,12 +104,10 @@
                         <div class="d-flex justify-content-start" style="margin-bottom: -15px; margin-left: -8px;">
                            	<select id="oneCat" title="문의유형 선택"
                                 class="form-select form-select-sm  ml07 form-control-sm mb-3"
-                                style="width: 150px; float:left; " name="locationNo" />
+                                style="width: 130px; float:left;">
                             	<option value="" selected disabled>문의유형 선택</option>
-                       		 </select>
+                       		</select>
 						</div>
-                        <!-- 문의 유형 선택 -->
-                        
                     </td>
                 </tr>
                 
