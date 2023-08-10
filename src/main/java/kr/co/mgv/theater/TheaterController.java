@@ -27,9 +27,7 @@ public class TheaterController {
     @GetMapping("/detail")
     public String detail(@RequestParam(defaultValue = "1") int brchNo, Model model) {
     	Theater theater = theaterService.getTheaterDetail(brchNo);
-    	String[] parkingcashs = theater.getParkingInfo().getCash().split("\\n");
     	model.addAttribute("theater", theater);
-    	model.addAttribute("parkingcashs", parkingcashs);
         return "/view/theater/detail";
     }
     
