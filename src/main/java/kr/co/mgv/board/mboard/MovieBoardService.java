@@ -50,12 +50,20 @@ public class MovieBoardService {
 
 	}
 	
-	public void updateMBoardByNo (MBoardForm form) {
-		MovieBoard movieBoard = movieBoardDao.getMBoardByNo(form.getNo());
-		BeanUtils.copyProperties(form, movieBoard);
-		
+	public void updateBoardLike(int no, int likeCount) {
+		MovieBoard movieBoard = movieBoardDao.getMBoardByNo(no);
+		movieBoard.setLikeCount(likeCount);
 		
 		movieBoardDao.updateMBoardByNo(movieBoard);
+		
+	}
+	
+	public void updateBoardComment(int no, int commentCount) {
+		MovieBoard movieBoard = movieBoardDao.getMBoardByNo(no);
+		movieBoard.setCommentCount(commentCount);
+		
+		movieBoardDao.updateMBoardByNo(movieBoard);
+		
 	}
 	
 	public MovieBoard getMovieBoardByNo(int no) {

@@ -145,6 +145,11 @@
 					movie_no = #{movie.no},
 				</if>
 	 -->
+	 
+	 <insert id="insertMBoardLike">
+	 
+	 </insert>
+	 
 	
 	
 	<!-- 댓글 관련  -->
