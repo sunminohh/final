@@ -74,7 +74,7 @@
 							  method="post"
 							  sec:authorize="isAuthenticated()"
 							  style="position: absolute; bottom: 5px;"
-							  id="dislike-btn-form"
+							  id="dislike-btn-form"	
 							   th:if="${like != null && #strings.equals(like.cancel, 'N')}"
 							 >
 							<input type="hidden" name="no" th:value="${board.no}" />
@@ -200,10 +200,10 @@
 						</div>
 			   			<div class="col-sm-1 d-flex justify-content-end pt-0" sec:authorize="isAuthenticated()">
 			   				
-			   				<a th:href="@{/deleteComment(no=1, cno=1)}" 
+			   				<a th:href="@{/board/movie/deleteComment(no=${board.no},page=${param.page }, rows=${param.rows}, sort=${param.sort}, opt=${param.opt}, keyword=${param.keyword}, commentNo=${comment.no})}"
 			   					class="btn btn-link btn-sm text-danger text-decoration-none"
 		   						sec:authorize="isAuthenticated()"
-   		        				th:if="${#authentication.principal.id != comment.user.id}">삭제</a>
+   		        				th:if="${#authentication.principal.id == comment.user.id}">삭제</a>
 		
 		   				</div>   			
 					</div>
@@ -241,10 +241,10 @@
 								</div>
 					   			<div class="col-sm-1 d-flex justify-content-end pt-0" sec:authorize="isAuthenticated()">
 					   				
-					   				<a th:href="@{/deleteComment(no=1, cno=1)}" 
+					   				<a th:href="@{/board/movie/deleteComment(no=${board.no},page=${param.page }, rows=${param.rows}, sort=${param.sort}, opt=${param.opt}, keyword=${param.keyword}, commentNo=${child.no})}" 
 					   					class="btn btn-link btn-sm text-danger text-decoration-none"
 					   					sec:authorize="isAuthenticated()"
-		   		        				th:if="${#authentication.principal.id != child.user.id}">삭제</a>
+		   		        				th:if="${#authentication.principal.id == child.user.id}">삭제</a>
 				
 				   				</div>   			
 							</div>
