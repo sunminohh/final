@@ -1,9 +1,8 @@
-package kr.co.mgv.support.one;
+package kr.co.mgv.support.vo;
 
 import java.util.Date;
 
 import groovy.transform.builder.Builder;
-import kr.co.mgv.support.SupportCategory;
 import kr.co.mgv.theater.Theater;
 import kr.co.mgv.theater.location.Location;
 import kr.co.mgv.user.vo.User;

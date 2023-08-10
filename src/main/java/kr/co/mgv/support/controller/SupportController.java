@@ -1,4 +1,4 @@
-package kr.co.mgv.support;
+package kr.co.mgv.support.controller;
 
 import org.springframework.stereotype.Controller;
 

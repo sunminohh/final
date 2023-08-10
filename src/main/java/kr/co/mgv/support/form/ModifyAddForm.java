@@ -1,4 +1,4 @@
-package kr.co.mgv.support.one;
+package kr.co.mgv.support.form;
 
 import lombok.Getter;
 import lombok.Setter;
