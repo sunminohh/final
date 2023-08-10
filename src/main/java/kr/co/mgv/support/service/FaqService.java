@@ -1,11 +1,14 @@
-package kr.co.mgv.support.faq;
+package kr.co.mgv.support.service;
 
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import kr.co.mgv.support.SupportPagination;
+import kr.co.mgv.support.dao.FaqDao;
+import kr.co.mgv.support.dto.FaqList;
+import kr.co.mgv.support.vo.Faq;
+import kr.co.mgv.support.vo.SupportPagination;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

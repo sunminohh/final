@@ -1,4 +1,4 @@
-package kr.co.mgv.support.faq;
+package kr.co.mgv.support.controller;
 
 
 import java.util.HashMap;
@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.co.mgv.support.dto.FaqList;
+import kr.co.mgv.support.service.FaqService;
 import lombok.RequiredArgsConstructor;
 
 

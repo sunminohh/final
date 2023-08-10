@@ -1,8 +1,7 @@
-package kr.co.mgv.support.faq;
+package kr.co.mgv.support.vo;
 
 import java.util.Date;
 
-import kr.co.mgv.support.SupportCategory;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

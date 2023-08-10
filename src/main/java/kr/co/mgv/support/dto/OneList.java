@@ -1,8 +1,9 @@
-package kr.co.mgv.support.one;
+package kr.co.mgv.support.dto;
 
 import java.util.List;
 
-import kr.co.mgv.support.SupportPagination;
+import kr.co.mgv.support.vo.One;
+import kr.co.mgv.support.vo.SupportPagination;
 import lombok.Getter;
 import lombok.Setter;
 
