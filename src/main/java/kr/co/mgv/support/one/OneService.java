@@ -6,6 +6,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import kr.co.mgv.support.SupportCategory;
+import kr.co.mgv.support.SupportLocation;
 import kr.co.mgv.support.SupportTheater;
 import lombok.RequiredArgsConstructor;
 
@@ -22,14 +23,29 @@ public class OneService {
 		oneDao.insertOne(one);
 	}
 
-	public List<SupportTheater> getTheaterByLocationNo(int locationNo) {
-		List<SupportTheater> theterList = oneDao.getTheaterByLocationNo(locationNo);
-		
-		return theterList;
-	}
-
-	public List<SupportCategory> getgetCategoriesByType(String categoryType) {
+	public List<SupportCategory> getCategoriesByType(String categoryType) {
 		
 		return oneDao.getCategories(categoryType);
 	}
+	
+	public List<SupportLocation> getLocations() {
+		
+		return oneDao.getLocations();
+	}
+	
+	public List<SupportTheater> getTheatesrByLocationNo(int locationNo) {
+		
+		return oneDao.getTheatersByLocationNo(locationNo);
+	}
+
 }
+
+
+
+
+
+
+
+
+
+

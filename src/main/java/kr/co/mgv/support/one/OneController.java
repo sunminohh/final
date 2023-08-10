@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.co.mgv.support.SupportCategory;
+import kr.co.mgv.support.SupportLocation;
 import kr.co.mgv.support.SupportTheater;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
@@ -41,15 +42,21 @@ public class OneController {
 	@ResponseBody
 	public List<SupportCategory> getCategories(@RequestParam String type) {
 		
-		return oneService.getgetCategoriesByType(type);
+		return oneService.getCategoriesByType(type);
 	}
 	
-	
-	@GetMapping("/theaterByLocationNo")
+	@GetMapping("/getLocation")
 	@ResponseBody
-	public List<SupportTheater> getTheaterByLocationNo(@RequestParam("locationNo") int locationNo) {
-		List<SupportTheater> theaterList = oneService.getTheaterByLocationNo(locationNo);
-		return theaterList;
+	public List<SupportLocation> getLocations() {
+		
+		return oneService.getLocations();
+	}
+	
+	@GetMapping("/getTheaterByLocationNo")
+	@ResponseBody
+	public List<SupportTheater> getTheatersByLocationNo(@RequestParam("locationNo") int locationNo) {
+		
+		return oneService.getTheatesrByLocationNo(locationNo);
 	}
 	
 	

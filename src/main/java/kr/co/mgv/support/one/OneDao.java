@@ -18,7 +18,7 @@ public interface OneDao {
 	List<SupportCategory> getCategories(String categoryType);
 	
 	// 극장별문의에서 지역, 극장 셀렉트박스 가져오기
-	List<SupportTheater> getTheaterByLocationNo(int locationNo);
+	List<SupportTheater> getTheatersByLocationNo(int locationNo);
 	List<SupportLocation> getLocations();
 	
 	

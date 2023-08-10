@@ -33,7 +33,7 @@
     	from MGV_LOCATION
 	</select>
 	
-	<select id="getTheaterByLocationNo" parameterType="int" resultType="kr.co.mgv.support.SupportTheater">
+	<select id="getTheatersByLocationNo" parameterType="int" resultType="kr.co.mgv.support.SupportTheater">
 		SELECT 
     		A.theater_no		as no,
     		A.theater_name		as name,
