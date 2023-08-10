@@ -6,6 +6,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.9/dayjs.min.js" integrity="sha512-q4Xn+ZU2K+dqJPL8a3TiyGsDa31IkR/rLt/w+fy8jLrx8TdXj0dLM1Aq4aPXnOOKxHEya/bD9DePDB2DHm4jJQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.9/locale/ko.min.js" integrity="sha512-a79K1GDGHa5wUJ5+4hFwbeGzoXXdy05/UWM+PC/zIvO+jz0P3wy9Ovj2Ld7rX6Oq2TPsJeYyE7xokFlnKCizGA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.9/plugin/isSameOrAfter.min.js" integrity="sha512-8gn84sM7ampZwKjmwm8+y8/FpiPbFVgJGqR5Aio1Lx2T08tEvmJQ5ffLWQFnjDkD/c4kzxebsVtJFswTIvvT+g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.9/plugin/calendar.min.js" integrity="sha512-iGrW6JrYT5DGfpMKEQwVVmB4ZT4zVcw62Y/Ax6U3tSAei9FkgZVz0zDPwmaSQemQEXtYn4FHBVIDxXGuTXiCsw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script type="text/javascript" th:src="@{/js/theater/ui.js}"></script>
 	<style type="text/css">
 	#schdlContainer table caption{
@@ -42,18 +43,7 @@
 						<li><a href="" class="depth1 sel-city" title="서울 선택">서울</a>
 							<div class="area-depth2">
 								<ul>
-									<li><a href="/theater?brchNo=1372"
-									title="강남 상세보기">강남 </a></li>
-									<li><a href="/theater?brchNo=0023" title="강남대로(씨티) 상세보기">강남대로(씨티)
-									</a></li>
-									<li><a href="/theater?brchNo=1341" title="강동 상세보기">강동
-									</a></li>
-									<li><a href="/theater?brchNo=1431" title="군자 상세보기">군자
-									</a></li>
-									<li><a href="/theater?brchNo=0041"
-										title="더 부티크 목동현대백화점 상세보기">더 부티크 목동현대백화점 </a></li>
-									<li><a href="/theater?brchNo=1003" title="동대문 상세보기">동대문
-									</a></li>
+									
 									
 								</ul>
 							</div></li>
@@ -147,7 +137,7 @@
 					</ul>
 				</div>
 				<!--// theater-area-list -->
-				<p class="name">강남</p>
+				<p class="name" th:text="${theater.name}"></p>
 				<div class="btn-util right">
 					<div class="block">
 						<button type="button" class="btn btn-like " id="favorBrch">
@@ -170,47 +160,36 @@
 			<div class="tab-cont-wrap">
 				<div id="tab01" class="tab-cont on">
 					<div class="theater-info-text mt40">
-						<p class="big">
+						<p class="big" th:text="${theater.info}">
 							강남의 중심! 강남 소비문화의 중심지인 지하철 2호선 , 신분당선 - 강남역과 연결 <br>로맨틱
 							멀티플렉스! 젊은 도시 강남이 한 눈에 보이는 최상의 View를 제공
 						</p>
-						<p>&lt;프라다&gt;가 선택한 수려한 디자인의 상영관 의자를 체험해보세요!</p>
 					</div>
 					<h2 class="tit small mt70">시설안내</h2>
 					<h3 class="tit small">보유시설</h3>
 					<div class="theater-facility">
-						<p>
-							<i class="iconset ico-facility-theater"></i>일반상영관
-						</p>
-						<p>
-							<i class="iconset ico-facility-disabled"></i>장애인석
+						<p th:each="facility : ${theater.facilities}">
+							<i class="iconset" th:classappend="${facility.icon}"></i><span th:text="${facility.name}">일반상영관</span>
 						</p>
 					</div>
 					<h3 class="tit small mt30">층별안내</h3>
 					<ul class="dot-list">
-						<li><span class="font-gblue">8층 : </span> 매표소, 매점, 에스컬레이터,
-							엘리베이터 , 남자 · 여자 화장실, 비상계단 3</li>
-						<li><span class="font-gblue">9층 : </span> 1관, 2관, 남자 · 여자
-							화장실, 엘리베이터, 비상계단3</li>
-						<li><span class="font-gblue">10층 : </span> 3관, 4관, 엘리베이터2, 남자
-							· 여자 화장실, 비상계단 3</li>
-						<li><span class="font-gblue">11층 : </span> 5관, 6관, 7관,
-							엘리베이터2, 남자 · 여자 화장실, 비상계단 3</li>
+						<li th:each="floorInfo : ${theater.floorInfos}"><span class="font-gblue" th:text="|${floorInfo.floor} :|">8층 : </span> [[${floorInfo.info}]]</li>
 					</ul>
 					<h2 class="tit small mt70">교통안내</h2>
 					<h3 class="tit small">약도</h3>
 					<ul class="dot-list">
-						<li><span class="font-gblue">도로명주소 : </span> 서울특별시 서초구 서초대로
-							77길 3 (서초동) 아라타워 8층</li>
+						<li><span class="font-gblue">주소 : </span> <span id="theater-address" th:text="${theater.address}"></span></li>
 					</ul>
 					<div class="location-map-btn mt15">
 						<div class="btn-group left">
 							<button
 								class="button purple" type="button"
 								data-bs-toggle="collapse" data-bs-target="#collapseExample" 
-								aria-expanded="false" aria-controls="collapseExample">약도</button>
+								aria-expanded="false" aria-controls="collapseExample"
+								title="클릭해서 주변지도를 확인하세요.">약도</button>
 						</div>
-						<div class="collapse" id="collapseExample">
+						<div class="collapse mt-1" id="collapseExample">
 							<div class="card card-body">
 								<div id="map" style="width:100%;height:400px;"></div>
 							</div>
@@ -225,7 +204,8 @@
 							<div class="info">
 								<p class="tit">주차안내</p>
 								<ul class="dot-list">
-									<li>아라타워 건물 內 지하 3층 ~ 지하 6층 주차장 이용</li>
+									<li th:each="parkingInfo : ${theater.parkingInfo.InfoList}" 
+									th:if="${not #strings.isEmpty(parkingInfo)}">[[${parkingInfo}]]</li>
 								</ul>
 							</div>
 						</div>
@@ -236,7 +216,7 @@
 							<div class="info">
 								<p class="tit">주차확인</p>
 								<ul class="dot-list">
-									<li>매표소에서 당일 관람 티켓 인증 후, 차량 번호 할인 등록하여 지하 정산소에서 결제</li>
+									<li th:each="parkingConfirm : ${theater.parkingInfo.ConfirmList}" th:if="${not #strings.isEmpty(parkingConfirm)}">[[${parkingConfirm}]]</li>
 								</ul>
 							</div>
 						</div>
@@ -247,49 +227,10 @@
 							<div class="info">
 								<p class="tit">주차요금</p>
 								<ul class="dot-list">
-									<li>주차 요금은 입차시간을 기준으로 합니다.</li>
-									<li>영화 관람 시 3시간 → 3,000원(3시간 초과 시 10분당 1,000원 부과, 초과비용 출차
-										시 정산)</li>
-									<li>건물 내 타 매장과 주차 할인 중복 적용 불가.</li>
-									<li>입차시 최대 3시간 30분까지 할인 가능(차량 1대에 주차 할인 적용 2회 이상 불가)</li>
-									<li>주차 공간이 협소하므로 가급적이면 대중교통을 이용 바랍니다. (지하철 2호선 강남역 출구 9번
-										출구)</li>
+									<li th:each="parkingcash : ${theater.parkingInfo.CashList}" th:if="${not #strings.isEmpty(parkingcash)}">[[${parkingcash}]]</li>
 								</ul>
 							</div>
 						</div>
-					</div>
-					<h3 class="tit small mt30">대중교통</h3>
-					<!-- location-info -->
-					<div class="public-transportation">
-						<!-- 버스 정보 -->
-						<div class="transportation-section">
-							<div class="icon-box">
-								<i class="iconset ico-bus" title="버스">버스</i>
-							</div>
-							<div class="info">
-								<p class="tit">버스</p>
-								<ul class="dot-list">
-									<li>140번, 144번, 145번, 146번, 360번, 402번, 420번, 440번, 441번,
-										452번, 470번, 741번</li>
-									<li>3412번, 4312번, 서초03번, 서초 09번</li>
-									<li>9404번, 9408번, 9409번, 9503번, 9711번, 9500번, 9501번,
-										9510번, 9800번, 9801번, 9802번, 9901번, M4403번, M7412번</li>
-								</ul>
-							</div>
-						</div>
-						<!-- 지하철 정보 -->
-						<div class="transportation-section">
-							<div class="icon-box">
-								<i class="iconset ico-metro" title="지하철">지하철</i>
-							</div>
-							<div class="info">
-								<p class="tit">지하철</p>
-								<ul class="dot-list">
-									<li>지하철 2호선 , 신분당선 ‘강남역 -&gt; 지하철 9번(구 5번) 출구 좌측 연결통로 이용</li>
-								</ul>
-							</div>
-						</div>
-						<!-- 대중교통 정보가 없는 경우 -->
 					</div>
 				</div>
 				<!-- /탭01번 -->

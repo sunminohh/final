@@ -14,13 +14,15 @@ public class MBoardLike {
 	private int no;
 	private User user;
 	private MovieBoard board;
+	private String cancel;
 	
 	@Builder
-	public MBoardLike(int no, User user, MovieBoard board) {
+	public MBoardLike(int no, User user, MovieBoard board, String cancel) {
 		super();
 		this.no = no;
 		this.user = user;
 		this.board = board;
+		this.cancel = cancel;
 	}
 	
 	

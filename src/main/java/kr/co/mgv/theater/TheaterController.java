@@ -3,6 +3,7 @@ package kr.co.mgv.theater;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,7 +25,11 @@ public class TheaterController {
     }
 
     @GetMapping("/detail")
-    public String detail(@RequestParam(defaultValue = "1") String brchNo) {
+    public String detail(@RequestParam(defaultValue = "1") int brchNo, Model model) {
+    	Theater theater = theaterService.getTheaterDetail(brchNo);
+    	String[] parkingcashs = theater.getParkingInfo().getCash().split("\\n");
+    	model.addAttribute("theater", theater);
+    	model.addAttribute("parkingcashs", parkingcashs);
         return "/view/theater/detail";
     }
     
