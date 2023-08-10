@@ -1,9 +1,11 @@
-package kr.co.mgv.support.faq;
+package kr.co.mgv.support.dao;
 
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+
+import kr.co.mgv.support.vo.Faq;
 
 @Mapper
 public interface FaqDao {

@@ -1,4 +1,4 @@
-package kr.co.mgv.support;
+package kr.co.mgv.support.vo;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

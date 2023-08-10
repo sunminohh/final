@@ -1,4 +1,4 @@
-package kr.co.mgv.support.one;
+package kr.co.mgv.support.form;
 
 
 import org.springframework.web.multipart.MultipartFile;

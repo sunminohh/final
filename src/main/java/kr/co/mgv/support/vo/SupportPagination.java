@@ -1,4 +1,4 @@
-package kr.co.mgv.support;
+package kr.co.mgv.support.vo;
 
 import java.util.stream.IntStream;
 
