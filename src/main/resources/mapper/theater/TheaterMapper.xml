@@ -18,26 +18,20 @@
 	<result column="THEATER_TEL" property="tel" />
 	<result column="THEATER_DISABLED" property="disabled" />
 	<result column="THEATER_INFO" property="info" />
-	
-	<collection property="facilities" ofType="Facility">
-		<id column="FACILITY_ID" property="id" />
-		<result column="FACILITY_TYPE" property="type" />
-		<result column="FACILITY_NAME" property="name" />
-		<result column="FACILITY_ICON" property="icon" />
-	</collection>
-	
-	<collection property="floorInfos" ofType="Floorinfo">
-		<id column="FLOOR_INFO_ID" property="id" />
-		<result column="FLOOR" property="floor" />
-		<result column="INFO" property="info" />
-	</collection>
-	
+
 	<collection property="parkingInfo" ofType="Parkinginfo">
 		<id column="PARKING_ID" property="id" />
 		<result column="PARKING_INFO" property="info" />
 		<result column="PARKING_CONFIRM" property="confirm" />
 		<result column="PARKING_CASH" property="cash" />
 	</collection>
+	
+	<collection column="THEATER_NO" property="facilities" ofType="Facility" javaType="List" select="getTheaterFacilitiesByNo">
+	</collection>
+	
+	<collection column="THEATER_NO" property="floorInfos" ofType="FloorInfo" javaType="List" select="getTheaterFloorInfosByNo">
+	</collection>
+	
 </resultMap>
 	
 	<select id="getTheaters" resultMap="LocationWithTheaterResultMap">
@@ -59,22 +53,29 @@
 			A.THEATER_TEL,
 			A.THEATER_DISABLED,
 			A.THEATER_INFO,
-			B.FLOOR,
-			B.INFO,
 			C.PARKING_INFO,
 			C.PARKING_CONFIRM,
-			C.PARKING_CASH,
-			D.FACILITY_TYPE,
-			E.FACILITY_NAME,
-			E.FACILITY_ICON
+			C.PARKING_CASH
 		from
-			MGV_THEATERS A, MGV_THEATER_FLOORS_INFO B, MGV_THEATER_PARKING_INFO C, MGV_THEATER_FACILITY_INFO D, MGV_THEATER_FACILITY_TYPE E  
+			MGV_THEATERS A, MGV_THEATER_PARKING_INFO C  
 		where
 			A.THEATER_NO = #{value}
-			AND A.THEATER_NO = B.THEATER_NO
 			AND A.THEATER_NO = C.THEATER_NO
-			AND A.THEATER_NO = D.THEATER_NO
-			AND D.FACILITY_TYPE = E.FACILITY_TYPE;
 	</select>
-	
+	<select id="getTheaterFacilitiesByNo" parameterType="int" resultType="Facility">
+		select
+			E.FACILITY_TYPE as type,
+			E.FACILITY_NAME as name,
+			E.FACILITY_ICON as icon
+		from MGV_THEATER_FACILITY_INFO D, MGV_THEATER_FACILITY_TYPE E
+		where theater_no = #{value}
+		AND D.FACILITY_TYPE = E.FACILITY_TYPE
+	</select>
+	<select id="getTheaterFloorInfosByNo" parameterType="int" resultType="FloorInfo">
+		select
+			FLOOR,
+			INFO
+		from MGV_THEATER_FLOORS_INFO
+		where theater_no = #{value}
+	</select>
 </mapper>

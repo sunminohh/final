@@ -204,7 +204,8 @@
 							<div class="info">
 								<p class="tit">주차안내</p>
 								<ul class="dot-list">
-									<li th:each="parkingInfo : ${theater.parkingInfo.InfoList}" th:if="${not #strings.isEmpty(parkingInfo)}">[[${parkingInfo}]]</li>
+									<li th:each="parkingInfo : ${theater.parkingInfo.InfoList}" 
+									th:if="${not #strings.isEmpty(parkingInfo)}">[[${parkingInfo}]]</li>
 								</ul>
 							</div>
 						</div>
