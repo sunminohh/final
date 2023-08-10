@@ -2,12 +2,12 @@ package kr.co.mgv.support.one;
 
 import java.util.List;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import kr.co.mgv.support.SupportCategory;
-import kr.co.mgv.support.SupportLocation;
-import kr.co.mgv.support.SupportTheater;
+import kr.co.mgv.theater.Theater;
+import kr.co.mgv.theater.location.Location;
+import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -16,9 +16,27 @@ public class OneService {
 	
 	private final OneDao oneDao;
 
-	public void createOne(AddOneForm form) {
+	public void createOne(AddOneForm form, User user) {
 		One one = new One();
-		BeanUtils.copyProperties(form, one);
+		
+		if (user != null) {
+			one.setUser(user);
+		} else {
+			one.setGuestName(form.getGuestName());
+			one.setGuestEmail(form.getGuestEmail());
+			one.setGuestPassword(form.getGuestPassword());
+		}
+		
+		if (form.getLocationNo() != null) {
+			one.setLocation(new Location(form.getLocationNo()));
+		}
+		if (form.getTheaterNo() != null) {
+			one.setTheater(new Theater(form.getTheaterNo()));
+		}
+		
+		one.setCategory(new SupportCategory(form.getCategoryNo()));
+		one.setTitle(form.getTitle());
+		one.setContent(form.getContent());
 		
 		oneDao.insertOne(one);
 	}
@@ -28,12 +46,12 @@ public class OneService {
 		return oneDao.getCategories(categoryType);
 	}
 	
-	public List<SupportLocation> getLocations() {
+	public List<Location> getLocations() {
 		
 		return oneDao.getLocations();
 	}
 	
-	public List<SupportTheater> getTheatesrByLocationNo(int locationNo) {
+	public List<Theater> getTheatesrByLocationNo(int locationNo) {
 		
 		return oneDao.getTheatersByLocationNo(locationNo);
 	}

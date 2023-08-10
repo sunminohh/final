@@ -1,7 +1,6 @@
 package kr.co.mgv.theater;
 
 import org.apache.ibatis.type.Alias;
-
 import kr.co.mgv.theater.location.Location;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,4 +21,8 @@ public class Theater {
 	private String parkingInfo;
 	private String facilityInfo;
 	private String description;
+	
+	public Theater(int no) {
+		this.no = no;
+	}
 }
