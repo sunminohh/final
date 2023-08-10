@@ -1,8 +1,7 @@
-package kr.co.mgv.theater.screen.vo;
+package kr.co.mgv.theater.vo;
 
 import org.apache.ibatis.type.Alias;
 
-import kr.co.mgv.theater.vo.Theater;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

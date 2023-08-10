@@ -1,4 +1,4 @@
-package kr.co.mgv.theater.parking.vo;
+package kr.co.mgv.theater.vo;
 
 import org.apache.ibatis.type.Alias;
 

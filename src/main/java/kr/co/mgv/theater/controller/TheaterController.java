@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import kr.co.mgv.theater.location.vo.Location;
 import kr.co.mgv.theater.service.TheaterService;
+import kr.co.mgv.theater.vo.Location;
 import kr.co.mgv.theater.vo.Theater;
 import lombok.RequiredArgsConstructor;
 

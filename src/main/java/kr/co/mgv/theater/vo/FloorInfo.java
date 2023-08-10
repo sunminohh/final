@@ -1,4 +1,4 @@
-package kr.co.mgv.theater.facility.vo;
+package kr.co.mgv.theater.vo;
 
 import org.apache.ibatis.type.Alias;
 
@@ -6,15 +6,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
-@Alias("Facility")
-public class TheaterFacility {
+@Alias("Floorinfo")
+public class FloorInfo {
 
 	private int theaterNo;
 	private String id;
-	private String name;
-	private String icon;
-	private String type;
+	private String floor;
+	private String info;
 }

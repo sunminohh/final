@@ -3,7 +3,7 @@ package kr.co.mgv.support.vo;
 import java.util.Date;
 
 import groovy.transform.builder.Builder;
-import kr.co.mgv.theater.location.vo.Location;
+import kr.co.mgv.theater.vo.Location;
 import kr.co.mgv.theater.vo.Theater;
 import kr.co.mgv.user.vo.User;
 import lombok.Getter;

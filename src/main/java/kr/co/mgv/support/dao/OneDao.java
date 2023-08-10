@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import kr.co.mgv.support.vo.One;
 import kr.co.mgv.support.vo.SupportCategory;
-import kr.co.mgv.theater.location.vo.Location;
+import kr.co.mgv.theater.vo.Location;
 import kr.co.mgv.theater.vo.Theater;
 
 @Mapper
