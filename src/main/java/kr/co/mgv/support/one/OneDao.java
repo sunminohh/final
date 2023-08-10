@@ -5,8 +5,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import kr.co.mgv.support.SupportCategory;
-import kr.co.mgv.support.SupportLocation;
-import kr.co.mgv.support.SupportTheater;
+import kr.co.mgv.theater.Theater;
+import kr.co.mgv.theater.location.Location;
 
 @Mapper
 public interface OneDao {
@@ -18,8 +18,8 @@ public interface OneDao {
 	List<SupportCategory> getCategories(String categoryType);
 	
 	// 극장별문의에서 지역, 극장 셀렉트박스 가져오기
-	List<SupportTheater> getTheatersByLocationNo(int locationNo);
-	List<SupportLocation> getLocations();
+	List<Theater> getTheatersByLocationNo(int locationNo);
+	List<Location> getLocations();
 	
 	
 }

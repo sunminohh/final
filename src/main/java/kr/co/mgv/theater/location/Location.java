@@ -18,4 +18,8 @@ public class Location {
 	private int no;
 	private String name;
 	private List<Theater> theaters;
+	
+	public Location(int no) {
+		this.no = no;
+	}
 }
