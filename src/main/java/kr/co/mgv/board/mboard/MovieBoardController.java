@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -81,13 +82,27 @@ public class MovieBoardController {
     
     @GetMapping("/detail")
     public String theaterDetail(@RequestParam("no") int no,
-    							Model model) {
+    							Model model,
+    							@AuthenticationPrincipal User user) {
+    	if(user != null) {
+    		MBoardLike like = new MBoardLike();
+        	like.setUser(user);
+        	MovieBoard board = MovieBoard.builder()
+        						.no(no)
+        						.build();
+        	like.setBoard(board);
+    		
+    		MBoardLike savedLike = movieBoardService.getLike(like);
+    		model.addAttribute("like", savedLike);
+    	}
     	MovieBoard movieBoard = movieBoardService.getMovieBoardByNo(no);
     	List<MBoardComment> comments = movieBoardService.getComments(no);
     	List<MBoardComment> childComments = movieBoardService.getChildComments(no);
     	model.addAttribute("comments", comments);
     	model.addAttribute("childComments", childComments);
     	model.addAttribute("board", movieBoard);
+    	
+
     	
         return "/view/board/movie/detail";
     }
@@ -97,8 +112,55 @@ public class MovieBoardController {
         return "/view/board/movie/form";
     }
     
-    @PostMapping("/likeBtnChange")
-    public String changeLike(@RequestParam("no") int no, 
+    @PostMapping("/addlike")
+    public String addLike(@RequestParam("no") int no, 
+				          @RequestParam("id") String id, 
+			              @RequestParam("likeCount") int likeCount,
+			              @RequestParam(name = "page", required = false, defaultValue = "1") int page,
+			              @RequestParam(name = "rows", required = false, defaultValue = "10") Integer rows,
+			              @RequestParam("sort") String sort,
+			              @RequestParam("opt") String opt,
+			              @RequestParam("keyword") String keyword,
+			              RedirectAttributes redirectAttributes,
+			              Model model) {
+    	
+    	MBoardLike like = new MBoardLike();
+    	User user = User.builder()
+    				.id(id)
+    				.build();
+    	like.setUser(user);
+    	MovieBoard board = MovieBoard.builder()
+    						.no(no)
+    						.build();
+    	like.setBoard(board);    	
+    	MBoardLike savedLike = movieBoardService.getLike(like);
+
+    	if (savedLike != null) {
+    		savedLike.setCancel("N");
+    		movieBoardService.updateMBoardLike(savedLike);
+    	} else {
+    		movieBoardService.insertBoardLike(like);
+    	}
+    	movieBoardService.updateBoardLike(no, likeCount);
+
+    	
+    	model.addAttribute("like", savedLike);
+    	
+        redirectAttributes.addAttribute("no", no);
+        redirectAttributes.addAttribute("page", page);
+        redirectAttributes.addAttribute("sort", sort);
+        if (rows != null) {
+            redirectAttributes.addAttribute("rows", rows);       
+        }
+        redirectAttributes.addAttribute("opt", opt);
+        redirectAttributes.addAttribute("keyword", keyword);
+        
+    	
+    	return "redirect:/board/movie/detail";
+    }
+    
+    @PostMapping("/minuslike")
+    public String minusLike(@RequestParam("no") int no, 
 				             @RequestParam("id") String id, 
 				             @RequestParam("likeCount") int likeCount,
 				             @RequestParam(name = "page", required = false, defaultValue = "1") int page,
@@ -109,11 +171,24 @@ public class MovieBoardController {
 				             RedirectAttributes redirectAttributes,
 				             Model model) {
     	
-    	MBoardForm form = new MBoardForm();
-    	form.setLikeCount(likeCount);
-    	form.setNo(no);
+    	MBoardLike like = new MBoardLike();
+    	User user = User.builder()
+    				.id(id)
+    				.build();
+    	like.setUser(user);
+    	MovieBoard board = MovieBoard.builder()
+    						.no(no)
+    						.build();
+    	like.setBoard(board);
+    	like.setCancel("Y");
     	
     	movieBoardService.updateBoardLike(no, likeCount);
+    	
+    	movieBoardService.updateMBoardLike(like);
+    	
+    	MBoardLike savedLike = movieBoardService.getLike(like);
+    	
+    	model.addAttribute("like", savedLike);
     	
         redirectAttributes.addAttribute("no", no);
         redirectAttributes.addAttribute("page", page);
@@ -123,6 +198,7 @@ public class MovieBoardController {
         }
         redirectAttributes.addAttribute("opt", opt);
         redirectAttributes.addAttribute("keyword", keyword);
+        
     	
     	return "redirect:/board/movie/detail";
     }

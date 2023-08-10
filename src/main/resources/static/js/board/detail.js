@@ -4,26 +4,25 @@
  * 좋아요 버튼 관련 코드
  */
 $(function() {
-		let likeButtonClicked = false;
 		let like = document.querySelector("input[name=likeCount]").value;
+		
 		$("#like-button").click(function(event) {
 			event.preventDefault();
-			if (!likeButtonClicked) {
-				$(this).css('color', 'red')
-					   .text("♥");
-				likeButtonClicked = true;
 				like++;
-			} else {
-				$(this).css('color','red')
-						.text("♡");
-				likeButtonClicked = false;
-				like--;
-			}
-			
+
 			$("input[name=likeCount]").val(like); // 좋아요 수 업데이트
 			$("#like-btn-form").submit();
 		});
 
+		$("#dislike-button").click(function(event) {
+			event.preventDefault();
+				like--;
+			
+			
+			$("input[name=likeCount]").val(like); // 좋아요 수 업데이트
+			$("#dislike-btn-form").submit();
+		});
+		
 /*
 	신청버튼 관련 코드
 */	
