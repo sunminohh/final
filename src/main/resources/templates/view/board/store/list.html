@@ -147,7 +147,7 @@
 	 				<tr th:if="${#lists.isEmpty(result.storeBoards)}">
 						<td colspan="5">게시글이 존재하지 않습니다.</td>
 					</tr>	
-	                <tr th:if="${not #lists.isEmpty(result.storerBoards)}"
+	                <tr th:if="${not #lists.isEmpty(result.storeBoards)}"
 	                	th:each="board : ${result.storeBoards}">
 	                    <td th:text="${board.no}">1</td>
 	                    <td><a class="text-black text-decoration-none"
