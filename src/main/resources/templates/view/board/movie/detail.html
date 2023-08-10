@@ -200,7 +200,7 @@
 						</div>
 			   			<div class="col-sm-1 d-flex justify-content-end pt-0" sec:authorize="isAuthenticated()">
 			   				
-			   				<a th:href="@{/board/movie/deleteComment(no=${board.no},page=${param.page }, rows=${param.rows}, sort=${param.sort}, opt=${param.opt}, keyword=${param.keyword}, commentNo=${comment.no})}"
+			   				<a th:href="@{/board/movie/deleteComment(no=${param.no}, page=${param.page }, rows=${param.rows}, sort=${param.sort}, opt=${param.opt}, keyword=${param.keyword}, commentNo=${comment.no})}"
 			   					class="btn btn-link btn-sm text-danger text-decoration-none"
 		   						sec:authorize="isAuthenticated()"
    		        				th:if="${#authentication.principal.id == comment.user.id}">삭제</a>
@@ -241,7 +241,7 @@
 								</div>
 					   			<div class="col-sm-1 d-flex justify-content-end pt-0" sec:authorize="isAuthenticated()">
 					   				
-					   				<a th:href="@{/board/movie/deleteComment(no=${board.no},page=${param.page }, rows=${param.rows}, sort=${param.sort}, opt=${param.opt}, keyword=${param.keyword}, commentNo=${child.no})}" 
+					   				<a th:href="@{/board/movie/deleteComment(no=${param.no}, page=${param.page }, rows=${param.rows}, sort=${param.sort}, opt=${param.opt}, keyword=${param.keyword}, commentNo=${child.no})}" 
 					   					class="btn btn-link btn-sm text-danger text-decoration-none"
 					   					sec:authorize="isAuthenticated()"
 		   		        				th:if="${#authentication.principal.id == child.user.id}">삭제</a>

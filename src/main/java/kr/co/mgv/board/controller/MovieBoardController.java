@@ -1,7 +1,5 @@
 package kr.co.mgv.board.controller;
 
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -273,9 +271,7 @@ public class MovieBoardController {
     
     @PostMapping("/deleteComment")
     public String deleteComment(@RequestParam("no") int no, 
-					            @RequestParam(name="parentNo", required = false) Integer parentNo, 
-					            @RequestParam(name="greatNo", required = false) Integer greateNo, 
-					            @RequestParam("content") String content,
+					    		@RequestParam("commentNo") int commentNo,
 					            @RequestParam(name = "page", required = false, defaultValue = "1") int page,
 					            @RequestParam(name = "rows", required = false, defaultValue = "10") Integer rows,
 					            @RequestParam("sort") String sort,
@@ -283,6 +279,20 @@ public class MovieBoardController {
 					            @RequestParam("keyword") String keyword,
 					            RedirectAttributes redirectAttributes) {
     	
+    	// comment table의 deleted 를 y로 바꾸기
+    	// table의 commentCount -1
+    		// great_no == null이면 great_no == comment_no 인 comment 전부 y로 바꾸기
+    		// great_no == null이면 great_no == comment_no 인 comment 인 수만큼 commentCount - 하기
+    	
+    	
+        redirectAttributes.addAttribute("no", no);
+        redirectAttributes.addAttribute("page", page);
+        redirectAttributes.addAttribute("sort", sort);
+        if (rows != null) {
+            redirectAttributes.addAttribute("rows", rows);       
+        }
+        redirectAttributes.addAttribute("opt", opt);
+        redirectAttributes.addAttribute("keyword", keyword);
     	
     	return "redirect:/board/movie/detail";
     }
