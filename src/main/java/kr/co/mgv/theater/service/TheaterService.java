@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import kr.co.mgv.theater.dao.TheaterDao;
-import kr.co.mgv.theater.location.vo.Location;
+import kr.co.mgv.theater.vo.Location;
 import kr.co.mgv.theater.vo.Theater;
 import lombok.RequiredArgsConstructor;
 

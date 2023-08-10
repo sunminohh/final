@@ -5,7 +5,7 @@ import java.util.Date;
 import org.apache.ibatis.type.Alias;
 
 import kr.co.mgv.movie.vo.Movie;
-import kr.co.mgv.theater.screen.vo.Screen;
+import kr.co.mgv.theater.vo.Screen;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

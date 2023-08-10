@@ -26,14 +26,14 @@
 			CATEGORY_TYPE = #{value}
 	</select>
 	
-	<select id="getLocations" resultType="kr.co.mgv.theater.location.Location">
+	<select id="getLocations" resultType="kr.co.mgv.theater.vo.Location">
 		SELECT
     		location_no		as no,
     		location_name	as name
     	from MGV_LOCATION
 	</select>
 	
-	<select id="getTheatersByLocationNo" parameterType="int" resultType="kr.co.mgv.theater.Theater">
+	<select id="getTheatersByLocationNo" parameterType="int" resultType="kr.co.mgv.theater.vo.Theater">
 		SELECT 
     		A.theater_no		as no,
     		A.theater_name		as name,

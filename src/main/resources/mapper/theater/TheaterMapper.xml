@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="kr.co.mgv.theater.TheaterDao">
 
-<resultMap type="kr.co.mgv.theater.location.Location" id="LocationWithTheaterResultMap">
+<resultMap type="kr.co.mgv.theater.vo.Location" id="LocationWithTheaterResultMap">
 	<id column="LOCATION_NO" property="no" />
 	<result column="LOCATION_NAME" property="name" />
-	<collection property="theaters" ofType="kr.co.mgv.theater.Theater">
+	<collection property="theaters" ofType="kr.co.mgv.theater.vo.Theater">
 		<id column="THEATER_NO" property="no" />
 		<result column="THEATER_NAME" property="name" />
 	</collection>
