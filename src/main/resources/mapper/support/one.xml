@@ -9,10 +9,10 @@
 		location_no, theater_no, category_no, 
 		one_guest_name, one_guest_email, one_guest_password)
 		VALUES
-		('#{title}', '#{content}', '#{fileName}', 
-		'#{user.id}', '#{user.name}', '#{user.email}', 
-		'#{location.no}', '#{theater.no}', '#{category.no}',
-		 '#{guestName}', '#{guestEmail}', '#{guestPassword}'); 
+		(#{title}, #{content}, #{fileName}, 
+	    #{user.id}, #{user.name}, #{user.email}, 
+	    #{location.no}, #{theater.no}, #{category.no}, 
+	    #{guestName}, #{guestEmail}, #{guestPassword});
 	</insert>
 	
 	<select id="getCategories" parameterType="string" resultType="kr.co.mgv.support.SupportCategory">
@@ -26,14 +26,14 @@
 			CATEGORY_TYPE = #{value}
 	</select>
 	
-	<select id="getLocations" resultType="kr.co.mgv.support.SupportLocation">
+	<select id="getLocations" resultType="kr.co.mgv.theater.location.Location">
 		SELECT
     		location_no		as no,
     		location_name	as name
     	from MGV_LOCATION
 	</select>
 	
-	<select id="getTheatersByLocationNo" parameterType="int" resultType="kr.co.mgv.support.SupportTheater">
+	<select id="getTheatersByLocationNo" parameterType="int" resultType="kr.co.mgv.theater.Theater">
 		SELECT 
     		A.theater_no		as no,
     		A.theater_name		as name,

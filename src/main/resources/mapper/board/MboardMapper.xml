@@ -146,10 +146,35 @@
 				</if>
 	 -->
 	 
-	 <insert id="insertMBoardLike">
-	 
+	 <insert id="insertMBoardLike" parameterType="kr.co.mgv.board.mboard.MBoardLike">
+	 	INSERT INTO jhta_2302.MOVIE_BOARD_LIKE
+		(USER_ID, BOARD_NO)
+		VALUES(#{user.id}, #{board.no});
 	 </insert>
 	 
+	 <select id="getLikeByBnoAndId" parameterType="kr.co.mgv.board.mboard.MBoardLike" resultType="kr.co.mgv.board.mboard.MBoardLike">
+	 	SELECT 
+	 		LIKE_NO		as no, 
+	 		LIKE_CANCEL as cancel,
+	 		USER_ID		as "user.id", 
+	 		BOARD_NO	as "board.no"
+		FROM 
+			MOVIE_BOARD_LIKE
+		where
+			user_id = #{user.id}
+			and board_no = #{board.no}
+	 	
+	 </select>
+	 
+	 <update id="updateLike" parameterType="kr.co.mgv.board.mboard.MBoardComment">
+	 	UPDATE 
+	 		MOVIE_BOARD_LIKE
+		SET 
+			like_cancel = #{cancel}
+		WHERE user_id = #{user.id}
+			  and board_no = #{board.no}
+	 	
+	 </update>
 	
 	
 	<!-- 댓글 관련  -->

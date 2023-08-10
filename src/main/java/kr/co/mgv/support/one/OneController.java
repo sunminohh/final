@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.co.mgv.support.SupportCategory;
-import kr.co.mgv.support.SupportLocation;
-import kr.co.mgv.support.SupportTheater;
+import kr.co.mgv.theater.Theater;
+import kr.co.mgv.theater.location.Location;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 
@@ -33,7 +33,7 @@ public class OneController {
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/add")
 	public String createOne(@AuthenticationPrincipal User user, AddOneForm form) {
-		oneService.createOne(form);
+		oneService.createOne(form, user);
 		
 		return "redirect:/support/one/add";
 	}
@@ -47,14 +47,14 @@ public class OneController {
 	
 	@GetMapping("/getLocation")
 	@ResponseBody
-	public List<SupportLocation> getLocations() {
+	public List<Location> getLocations() {
 		
 		return oneService.getLocations();
 	}
 	
 	@GetMapping("/getTheaterByLocationNo")
 	@ResponseBody
-	public List<SupportTheater> getTheatersByLocationNo(@RequestParam("locationNo") int locationNo) {
+	public List<Theater> getTheatersByLocationNo(@RequestParam("locationNo") int locationNo) {
 		
 		return oneService.getTheatesrByLocationNo(locationNo);
 	}

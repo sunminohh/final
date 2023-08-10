@@ -58,6 +58,18 @@ public class MovieBoardService {
 		
 	}
 	
+	public void insertBoardLike(MBoardLike like) {
+		movieBoardDao.insertMBoardLike(like);
+	}
+	
+	public MBoardLike getLike(MBoardLike like) {
+		return movieBoardDao.getLikeByBnoAndId(like);
+	}
+	
+	public void updateMBoardLike (MBoardLike like) {
+		movieBoardDao.updateLike(like);
+	}
+	
 	public void updateBoardComment(int no, int commentCount) {
 		MovieBoard movieBoard = movieBoardDao.getMBoardByNo(no);
 		movieBoard.setCommentCount(commentCount);

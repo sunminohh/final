@@ -1,11 +1,8 @@
 package kr.co.mgv.support.one;
 
-import java.util.Date;
 
-import kr.co.mgv.support.SupportCategory;
-import kr.co.mgv.theater.Theater;
-import kr.co.mgv.theater.location.Location;
-import kr.co.mgv.user.vo.User;
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -15,20 +12,14 @@ import lombok.ToString;
 @ToString
 public class AddOneForm {
 
-	private int no;
-	private String title;
-	private String content;
-	private String answered;
-	private String deleted;
+	private Integer locationNo;
+	private Integer theaterNo;
+	private Integer categoryNo;
 	private String guestName;
 	private String guestEmail;
-	private int guestPassword;
-	private String fileName;
-	private Date updateDate;
-	private Date createDate;
-	private User user;
-	private Location location;
-	private Theater theater;
-	private SupportCategory category;
+	private Integer guestPassword;
+	private String title;
+	private String content;
+	private MultipartFile upFile;
 	
 }

@@ -13,4 +13,7 @@ public class SupportCategory {
 	private String name;
 	private String type;
 	
+	public SupportCategory(int no) {
+		this.no = no;
+	}
 }
