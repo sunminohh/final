@@ -1,10 +1,12 @@
-package kr.co.mgv.theater;
+package kr.co.mgv.theater.service;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import kr.co.mgv.theater.location.Location;
+import kr.co.mgv.theater.dao.TheaterDao;
+import kr.co.mgv.theater.location.vo.Location;
+import kr.co.mgv.theater.vo.Theater;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

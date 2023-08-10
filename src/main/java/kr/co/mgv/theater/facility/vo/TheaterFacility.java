@@ -1,4 +1,4 @@
-package kr.co.mgv.theater.facility;
+package kr.co.mgv.theater.facility.vo;
 
 import org.apache.ibatis.type.Alias;
 

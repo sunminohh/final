@@ -4,8 +4,8 @@ import java.util.Date;
 
 import groovy.transform.builder.Builder;
 import kr.co.mgv.support.SupportCategory;
-import kr.co.mgv.theater.Theater;
-import kr.co.mgv.theater.location.Location;
+import kr.co.mgv.theater.location.vo.Location;
+import kr.co.mgv.theater.vo.Theater;
 import kr.co.mgv.user.vo.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

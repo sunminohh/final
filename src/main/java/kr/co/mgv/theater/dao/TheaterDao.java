@@ -1,10 +1,11 @@
-package kr.co.mgv.theater;
+package kr.co.mgv.theater.dao;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import kr.co.mgv.theater.location.Location;
+import kr.co.mgv.theater.location.vo.Location;
+import kr.co.mgv.theater.vo.Theater;
 
 @Mapper
 public interface TheaterDao {
