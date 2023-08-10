@@ -36,13 +36,13 @@
                     </div>
 
                     <div class="float-start ps-2">
-                        <form id="form-search" method="get" th:action="@{list}" 
+                        <form id="form-board-search" method="get" th:action="@{list}" 
                               class="row row-cols-lg-auto g-3 align-items-center justify-content-end ">
-							<input type="hidden" name="sort" value="${param.sort }" />
-							<input type="hidden" name="rows" value="${param.rows }" />
-							<input type="hidden" name="page" value="${param.page }" />
-							<input type="hidden" name="productNo" value="${param.productNo }" />
-							<input type="hidden" name="catNo" value="${param.catNo }" />
+							<input type="hidden" name="sort" th:value="${param.sort }" />
+							<input type="hidden" name="rows" th:value="${param.rows }" />
+							<input type="hidden" name="page" th:value="${param.page }" />
+							<input type="hidden" name="productNo" th:value="${param.productNo }" />
+							<input type="hidden" name="catNo" th:value="${param.catNo }" />
                             <div class="col-12 ">
                                 <select class="form-select form-select-sm  form-control-sm" name="opt" th:value="${param.opt}">
                                     <option value="" disabled> 검색옵션</option>
