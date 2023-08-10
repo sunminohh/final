@@ -1,4 +1,4 @@
-package kr.co.mgv.theater.floors;
+package kr.co.mgv.theater.floors.vo;
 
 import org.apache.ibatis.type.Alias;
 

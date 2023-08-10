@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.co.mgv.support.SupportCategory;
-import kr.co.mgv.theater.Theater;
-import kr.co.mgv.theater.location.Location;
+import kr.co.mgv.theater.location.vo.Location;
+import kr.co.mgv.theater.vo.Theater;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 

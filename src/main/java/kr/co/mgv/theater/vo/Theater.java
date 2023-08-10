@@ -1,13 +1,13 @@
-package kr.co.mgv.theater;
+package kr.co.mgv.theater.vo;
 
 import java.util.List;
 
 import org.apache.ibatis.type.Alias;
 
-import kr.co.mgv.theater.facility.TheaterFacility;
-import kr.co.mgv.theater.floors.FloorInfo;
-import kr.co.mgv.theater.location.Location;
-import kr.co.mgv.theater.parking.ParkingInfo;
+import kr.co.mgv.theater.facility.vo.TheaterFacility;
+import kr.co.mgv.theater.floors.vo.FloorInfo;
+import kr.co.mgv.theater.location.vo.Location;
+import kr.co.mgv.theater.parking.vo.ParkingInfo;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
