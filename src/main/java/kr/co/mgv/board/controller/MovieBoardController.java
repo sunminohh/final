@@ -1,4 +1,4 @@
-package kr.co.mgv.board.mboard;
+package kr.co.mgv.board.controller;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -16,6 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import kr.co.mgv.board.list.MovieBoardList;
+import kr.co.mgv.board.service.MovieBoardService;
+import kr.co.mgv.board.vo.MBoardComment;
+import kr.co.mgv.board.vo.MBoardLike;
+import kr.co.mgv.board.vo.MovieBoard;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 
@@ -266,5 +271,20 @@ public class MovieBoardController {
         return "redirect:/board/movie/detail";
     }
     
+    @PostMapping("/deleteComment")
+    public String deleteComment(@RequestParam("no") int no, 
+					            @RequestParam(name="parentNo", required = false) Integer parentNo, 
+					            @RequestParam(name="greatNo", required = false) Integer greateNo, 
+					            @RequestParam("content") String content,
+					            @RequestParam(name = "page", required = false, defaultValue = "1") int page,
+					            @RequestParam(name = "rows", required = false, defaultValue = "10") Integer rows,
+					            @RequestParam("sort") String sort,
+					            @RequestParam("opt") String opt,
+					            @RequestParam("keyword") String keyword,
+					            RedirectAttributes redirectAttributes) {
+    	
+    	
+    	return "redirect:/board/movie/detail";
+    }
 
 }

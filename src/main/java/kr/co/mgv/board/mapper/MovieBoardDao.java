@@ -1,9 +1,13 @@
-package kr.co.mgv.board.mboard;
+package kr.co.mgv.board.mapper;
 
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+
+import kr.co.mgv.board.vo.MBoardComment;
+import kr.co.mgv.board.vo.MBoardLike;
+import kr.co.mgv.board.vo.MovieBoard;
 
 @Mapper
 public interface MovieBoardDao {

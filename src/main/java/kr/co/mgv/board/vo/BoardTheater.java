@@ -1,4 +1,4 @@
-package kr.co.mgv.board.tboard;
+package kr.co.mgv.board.vo;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

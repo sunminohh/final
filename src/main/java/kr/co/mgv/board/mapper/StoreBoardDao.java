@@ -1,9 +1,13 @@
-package kr.co.mgv.board.sboard;
+package kr.co.mgv.board.mapper;
 
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+
+import kr.co.mgv.board.vo.BoardCategory;
+import kr.co.mgv.board.vo.BoardProduct;
+import kr.co.mgv.board.vo.StoreBoard;
 
 
 @Mapper

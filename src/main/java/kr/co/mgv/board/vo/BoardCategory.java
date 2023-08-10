@@ -1,4 +1,4 @@
-package kr.co.mgv.board.sboard;
+package kr.co.mgv.board.vo;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,9 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class BoardProduct {
+public class BoardCategory {
 
 	private int no;
 	private String name;
-	private BoardCategory category;
 }

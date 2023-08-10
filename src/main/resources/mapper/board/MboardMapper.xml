@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.co.mgv.board.mboard.MovieBoardDao">
+<mapper namespace="kr.co.mgv.board.mapper.MovieBoardDao">
 	<!-- 게시물 관련 -->
     <select id="getTotalRows" parameterType="map" resultType="int">
     	SELECT COUNT(*)
@@ -26,7 +26,7 @@
   		</choose>
     </select>
     
-	<select id="getMBoards" parameterType="map" resultType="kr.co.mgv.board.mboard.MovieBoard">
+	<select id="getMBoards" parameterType="map" resultType="kr.co.mgv.board.vo.MovieBoard">
 	    select *
 	    from (
 	        select 
@@ -83,7 +83,7 @@
 	</select>
 	
 	<!-- 상세페이지 관련 -->
-	<select id="getMBoardByNo" parameterType="int" resultType="kr.co.mgv.board.mboard.MovieBoard">
+	<select id="getMBoardByNo" parameterType="int" resultType="kr.co.mgv.board.vo.MovieBoard">
 		select
             A.board_no              as no,
             A.board_name            as name,
@@ -104,7 +104,7 @@
 	    	and A.board_no = #{value}
 	</select>
 	
-	<update id="updateMBoardByNo" parameterType="kr.co.mgv.board.mboard.MovieBoard">
+	<update id="updateMBoardByNo" parameterType="kr.co.mgv.board.vo.MovieBoard">
 		update MGV_MOVIE_BOARD
 			<set>
 				<if test="name != null">
@@ -146,13 +146,13 @@
 				</if>
 	 -->
 	 
-	 <insert id="insertMBoardLike" parameterType="kr.co.mgv.board.mboard.MBoardLike">
+	 <insert id="insertMBoardLike" parameterType="kr.co.mgv.board.vo.MBoardLike">
 	 	INSERT INTO jhta_2302.MOVIE_BOARD_LIKE
 		(USER_ID, BOARD_NO)
 		VALUES(#{user.id}, #{board.no});
 	 </insert>
 	 
-	 <select id="getLikeByBnoAndId" parameterType="kr.co.mgv.board.mboard.MBoardLike" resultType="kr.co.mgv.board.mboard.MBoardLike">
+	 <select id="getLikeByBnoAndId" parameterType="kr.co.mgv.board.vo.MBoardLike" resultType="kr.co.mgv.board.vo.MBoardLike">
 	 	SELECT 
 	 		LIKE_NO		as no, 
 	 		LIKE_CANCEL as cancel,
@@ -166,7 +166,7 @@
 	 	
 	 </select>
 	 
-	 <update id="updateLike" parameterType="kr.co.mgv.board.mboard.MBoardComment">
+	 <update id="updateLike" parameterType="kr.co.mgv.board.vo.MBoardComment">
 	 	UPDATE 
 	 		MOVIE_BOARD_LIKE
 		SET 
@@ -178,13 +178,13 @@
 	
 	
 	<!-- 댓글 관련  -->
-	<insert id="insertMBoardComment" parameterType="kr.co.mgv.board.mboard.MBoardComment">
+	<insert id="insertMBoardComment" parameterType="kr.co.mgv.board.vo.MBoardComment">
 		INSERT INTO jhta_2302.MGV_MBOARD_COMMENT
 		(COMMENT_CONTENT, USER_ID, BOARD_NO, PARENT_COMMENT_NO, GREAT_COMMENT_NO)
 		VALUES(#{content}, #{user.id}, #{board.no}, #{parent.no}, #{great.no});
 	</insert>
 	
-	<select id="getMBoardComments" resultType="kr.co.mgv.board.mboard.MBoardComment" parameterType="int">
+	<select id="getMBoardComments" resultType="kr.co.mgv.board.vo.MBoardComment" parameterType="int">
 		SELECT 
 			COMMENT_NO				as no, 
 			COMMENT_CREATE_dATE		as createDate, 
@@ -202,7 +202,7 @@
 		order by comment_create_date;
 	</select>
 	
-	<select id="getMBoardChildComments" resultType="kr.co.mgv.board.mboard.MBoardComment" parameterType="int">
+	<select id="getMBoardChildComments" resultType="kr.co.mgv.board.vo.MBoardComment" parameterType="int">
 		SELECT 
 			A.COMMENT_NO				as no, 
 			A.COMMENT_CREATE_dATE		as createDate, 

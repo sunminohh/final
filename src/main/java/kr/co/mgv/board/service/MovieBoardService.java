@@ -1,4 +1,4 @@
-package kr.co.mgv.board.mboard;
+package kr.co.mgv.board.service;
 
 import java.util.List;
 import java.util.Map;
@@ -7,6 +7,11 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import kr.co.mgv.board.BoardPagination;
+import kr.co.mgv.board.list.MovieBoardList;
+import kr.co.mgv.board.mapper.MovieBoardDao;
+import kr.co.mgv.board.vo.MBoardComment;
+import kr.co.mgv.board.vo.MBoardLike;
+import kr.co.mgv.board.vo.MovieBoard;
 import kr.co.mgv.movie.vo.Movie;
 import lombok.RequiredArgsConstructor;
 

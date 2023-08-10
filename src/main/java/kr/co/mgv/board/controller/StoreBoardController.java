@@ -1,4 +1,4 @@
-package kr.co.mgv.board.sboard;
+package kr.co.mgv.board.controller;
 
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.co.mgv.board.list.StoreBoardList;
+import kr.co.mgv.board.service.StoreBoardService;
+import kr.co.mgv.board.vo.BoardProduct;
 import lombok.RequiredArgsConstructor;
 
 @Controller

@@ -1,4 +1,4 @@
-package kr.co.mgv.board.party;
+package kr.co.mgv.board.controller;
 
 import java.util.HashMap;
 import java.util.Map;

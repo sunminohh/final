@@ -1,28 +1,29 @@
-package kr.co.mgv.board.mboard;
+package kr.co.mgv.board.vo;
 
 import java.util.Date;
 
-import kr.co.mgv.movie.vo.Movie;
+import kr.co.mgv.user.vo.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @NoArgsConstructor
-@Getter
 @Setter
-public class MBoardForm {
+@Getter
+public class TheaterBoard {
 	
 	private int no;
 	private String name;
 	private String content;
-	// 게시물 '수정'시에만 Y를 전달
-	// 신고관련, 조회수, 댓글수 등의 update에는 null
-	private String updateDate;
+	private Date createDate;
+	private Date updateDate;
 	private int readCount;
 	private int commentCount;
 	private String deleted;
 	private String report;
-//	private Movie movie;
+	private User user;
+	private BoardTheater theater;
+	private BoardLocation location;
 	private String fileName;
 	private int reportCount;
 	private int likeCount;

@@ -1,6 +1,8 @@
-package kr.co.mgv.board.sboard;
+package kr.co.mgv.board.list;
 import java.util.List;
 import kr.co.mgv.board.BoardPagination;
+import kr.co.mgv.board.vo.BoardCategory;
+import kr.co.mgv.board.vo.StoreBoard;
 import lombok.Getter;
 import lombok.Setter;
 
