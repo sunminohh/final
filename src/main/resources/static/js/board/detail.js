@@ -5,17 +5,23 @@
  */
 $(function() {
 		let likeButtonClicked = false;
+		let like = document.querySelector("input[name=likeCount]").value;
 		$("#like-button").click(function(event) {
 			event.preventDefault();
 			if (!likeButtonClicked) {
-				$(this).removeClass("btn-outline-secondary").addClass("btn-secondary")
-					   .text("좋아요♥");
+				$(this).css('color', 'red')
+					   .text("♥");
 				likeButtonClicked = true;
+				like++;
 			} else {
-				$(this).removeClass("btn-secondary").addClass("btn-outline-secondary")
-						.text("좋아요♡");
+				$(this).css('color','red')
+						.text("♡");
 				likeButtonClicked = false;
+				like--;
 			}
+			
+			$("input[name=likeCount]").val(like); // 좋아요 수 업데이트
+			$("#like-btn-form").submit();
 		});
 
 /*

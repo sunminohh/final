@@ -14,5 +14,47 @@
 		'#{location.no}', '#{theater.no}', '#{category.no}',
 		 '#{guestName}', '#{guestEmail}', '#{guestPassword}'); 
 	</insert>
+	
+	<select id="getCategories" parameterType="string" resultType="kr.co.mgv.support.SupportCategory">
+		SELECT 
+			CATEGORY_NO		as no,
+			CATEGORY_NAME	as name, 
+			CATEGORY_TYPE	as type
+		FROM 
+			MGV_SUPPORT_CATEGORIES
+		where 
+			CATEGORY_TYPE = #{value}
+	</select>
+	
+	<select id="getLocations" resultType="kr.co.mgv.support.SupportLocation">
+		SELECT
+    		location_no		as no,
+    		location_name	as name
+    	from MGV_LOCATION
+	</select>
+	
+	<select id="getTheatersByLocationNo" parameterType="int" resultType="kr.co.mgv.support.SupportTheater">
+		SELECT 
+    		A.theater_no		as no,
+    		A.theater_name		as name,
+    		A.location_no		as "location.no",
+    		B.location_name		as "location.name"
+    	from MGV_THEATERS A, MGV_LOCATION B
+    	where
+    		A.location_no = B.location_no 
+    		and A.location_no = #{value}
+	</select>
+	
 
 </mapper>
+
+
+
+
+
+
+
+
+
+
+

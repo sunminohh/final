@@ -97,6 +97,36 @@ public class MovieBoardController {
         return "/view/board/movie/form";
     }
     
+    @PostMapping("/likeBtnChange")
+    public String changeLike(@RequestParam("no") int no, 
+				             @RequestParam("id") String id, 
+				             @RequestParam("likeCount") int likeCount,
+				             @RequestParam(name = "page", required = false, defaultValue = "1") int page,
+				             @RequestParam(name = "rows", required = false, defaultValue = "10") Integer rows,
+				             @RequestParam("sort") String sort,
+				             @RequestParam("opt") String opt,
+				             @RequestParam("keyword") String keyword,
+				             RedirectAttributes redirectAttributes,
+				             Model model) {
+    	
+    	MBoardForm form = new MBoardForm();
+    	form.setLikeCount(likeCount);
+    	form.setNo(no);
+    	
+    	movieBoardService.updateBoardLike(no, likeCount);
+    	
+        redirectAttributes.addAttribute("no", no);
+        redirectAttributes.addAttribute("page", page);
+        redirectAttributes.addAttribute("sort", sort);
+        if (rows != null) {
+            redirectAttributes.addAttribute("rows", rows);       
+        }
+        redirectAttributes.addAttribute("opt", opt);
+        redirectAttributes.addAttribute("keyword", keyword);
+    	
+    	return "redirect:/board/movie/detail";
+    }
+    
 
     // 댓글 관련
     @PostMapping("/addComment")
@@ -143,10 +173,9 @@ public class MovieBoardController {
     	movieBoardService.MBoardCommentInsert(comment);
     	
     	MovieBoard board = movieBoardService.getMovieBoardByNo(no);
-    	MBoardForm form = new MBoardForm();
-    	form.setCommentCount(board.getCommentCount()+1);
-    	form.setNo(no);
-    	movieBoardService.updateMBoardByNo(form);
+    	int commentCount = board.getCommentCount()+1;
+    
+    	movieBoardService.updateBoardComment(no, commentCount);
     	
         redirectAttributes.addAttribute("no", no);
         redirectAttributes.addAttribute("page", page);
