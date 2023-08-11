@@ -1,4 +1,4 @@
-package kr.co.mgv.schedule.dto;
+package kr.co.mgv.schedule.vo;
 
 import java.util.Date;
 

@@ -20,9 +20,9 @@ $(() => {
 				weekDay = '내일';
 			}
 			let weekdayno = currentDay.get('day')
-			htmlContents += `<button class="disabled ${weekdayno == 0 ? 'holi': 
-														weekdayno == 6 ? 'sat':''}" type="button" date-data="${currentDay.format('YYYY.MM.DD')}"
-											month="7">
+			htmlContents += `<button class=" ${weekdayno == 0 ? 'holi': 
+														weekdayno == 6 ? 'sat':''}" type="button" date-data="${currentDay.format('YYYY-MM-DD')}"
+											month="${currentDay.get('month')}">
 											<span class="ir">${currentDay.format('YYYY년MM월')}</span><em
 												style="pointer-events: none;">${currentDay.get('date')}<span
 												style="pointer-events: none;" class="ir">일</span></em><span
