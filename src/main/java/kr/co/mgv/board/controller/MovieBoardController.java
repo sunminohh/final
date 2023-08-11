@@ -1,19 +1,20 @@
 package kr.co.mgv.board.controller;
 
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.mgv.board.list.MovieBoardList;
@@ -117,18 +118,13 @@ public class MovieBoardController {
         return "/view/board/movie/form";
     }
     
-    @PostMapping("/addlike")
-    public String addLike(@RequestParam("no") int no, 
-				          @RequestParam("id") String id, 
-			              @RequestParam("likeCount") int likeCount,
-			              @RequestParam(name = "page", required = false, defaultValue = "1") int page,
-			              @RequestParam(name = "rows", required = false, defaultValue = "10") Integer rows,
-			              @RequestParam("sort") String sort,
-			              @RequestParam("opt") String opt,
-			              @RequestParam("keyword") String keyword,
-			              RedirectAttributes redirectAttributes,
-			              Model model) {
-    	
+    
+    @PostMapping("/changelike")
+    @ResponseBody
+    public ResponseEntity<Void> addLike(@RequestParam("no") int no,
+    									@RequestParam("id") String id,
+    									@RequestParam("likeCount") int likeCount) {
+				    	
     	MBoardLike like = new MBoardLike();
     	User user = User.builder()
     				.id(id)
@@ -140,42 +136,27 @@ public class MovieBoardController {
     	like.setBoard(board);    	
     	MBoardLike savedLike = movieBoardService.getLike(like);
 
-    	if (savedLike != null) {
+    	if (savedLike != null && "Y".equals(savedLike.getCancel())) {
     		savedLike.setCancel("N");
     		movieBoardService.updateMBoardLike(savedLike);
-    	} else {
+    	} else if(savedLike != null && "N".equals(savedLike.getCancel())) {
+    		savedLike.setCancel("Y");
+    		movieBoardService.updateMBoardLike(savedLike);
+    	} else if(savedLike == null) {
     		movieBoardService.insertBoardLike(like);
     	}
     	movieBoardService.updateBoardLike(no, likeCount);
+    	
 
-    	
-    	model.addAttribute("like", savedLike);
-    	
-        redirectAttributes.addAttribute("no", no);
-        redirectAttributes.addAttribute("page", page);
-        redirectAttributes.addAttribute("sort", sort);
-        if (rows != null) {
-            redirectAttributes.addAttribute("rows", rows);       
-        }
-        redirectAttributes.addAttribute("opt", opt);
-        redirectAttributes.addAttribute("keyword", keyword);
-        
-    	
-    	return "redirect:/board/movie/detail";
+    	return ResponseEntity.ok().build();
     }
     
     @PostMapping("/minuslike")
-    public String minusLike(@RequestParam("no") int no, 
-				             @RequestParam("id") String id, 
-				             @RequestParam("likeCount") int likeCount,
-				             @RequestParam(name = "page", required = false, defaultValue = "1") int page,
-				             @RequestParam(name = "rows", required = false, defaultValue = "10") Integer rows,
-				             @RequestParam("sort") String sort,
-				             @RequestParam("opt") String opt,
-				             @RequestParam("keyword") String keyword,
-				             RedirectAttributes redirectAttributes,
-				             Model model) {
-    	
+    @ResponseBody
+    public ResponseEntity<Void> minusLike(@RequestParam("no") int no,
+            							  @RequestParam("id") String id,
+            							  @RequestParam("likeCount") int likeCount) {
+				    	
     	MBoardLike like = new MBoardLike();
     	User user = User.builder()
     				.id(id)
@@ -189,23 +170,10 @@ public class MovieBoardController {
     	
     	movieBoardService.updateBoardLike(no, likeCount);
     	
-    	movieBoardService.updateMBoardLike(like);
+    	movieBoardService.updateMBoardLike(like);        
     	
-    	MBoardLike savedLike = movieBoardService.getLike(like);
-    	
-    	model.addAttribute("like", savedLike);
-    	
-        redirectAttributes.addAttribute("no", no);
-        redirectAttributes.addAttribute("page", page);
-        redirectAttributes.addAttribute("sort", sort);
-        if (rows != null) {
-            redirectAttributes.addAttribute("rows", rows);       
-        }
-        redirectAttributes.addAttribute("opt", opt);
-        redirectAttributes.addAttribute("keyword", keyword);
-        
-    	
-    	return "redirect:/board/movie/detail";
+    	return ResponseEntity.ok().build();
+
     }
     
 
@@ -273,9 +241,7 @@ public class MovieBoardController {
     
     @PostMapping("/deleteComment")
     public String deleteComment(@RequestParam("no") int no, 
-					            @RequestParam(name="parentNo", required = false) Integer parentNo, 
-					            @RequestParam(name="greatNo", required = false) Integer greateNo, 
-					            @RequestParam("content") String content,
+					    		@RequestParam("commentNo") int commentNo,
 					            @RequestParam(name = "page", required = false, defaultValue = "1") int page,
 					            @RequestParam(name = "rows", required = false, defaultValue = "10") Integer rows,
 					            @RequestParam("sort") String sort,
@@ -283,6 +249,20 @@ public class MovieBoardController {
 					            @RequestParam("keyword") String keyword,
 					            RedirectAttributes redirectAttributes) {
     	
+    	// comment table의 deleted 를 y로 바꾸기
+    	// table의 commentCount -1
+    		// great_no == null이면 great_no == comment_no 인 comment 전부 y로 바꾸기
+    		// great_no == null이면 great_no == comment_no 인 comment 인 수만큼 commentCount - 하기
+    	
+    	
+        redirectAttributes.addAttribute("no", no);
+        redirectAttributes.addAttribute("page", page);
+        redirectAttributes.addAttribute("sort", sort);
+        if (rows != null) {
+            redirectAttributes.addAttribute("rows", rows);       
+        }
+        redirectAttributes.addAttribute("opt", opt);
+        redirectAttributes.addAttribute("keyword", keyword);
     	
     	return "redirect:/board/movie/detail";
     }
