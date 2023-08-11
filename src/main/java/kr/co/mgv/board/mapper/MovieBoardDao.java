@@ -23,5 +23,6 @@ public interface MovieBoardDao {
 	void insertMBoardComment(MBoardComment comment);
 	List<MBoardComment> getMBoardComments(int no);
 	List<MBoardComment> getMBoardChildComments(int no);
-	
+	MBoardComment getGreatComment(MBoardComment comment);
+	MBoardComment getChildComment(MBoardComment comment);
 }

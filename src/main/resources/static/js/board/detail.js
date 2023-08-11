@@ -35,24 +35,6 @@ $(function() {
 		    });
 		});
 
-
-		/*$("#dislike-button").click(function(event) {
-		    event.preventDefault();
-		    like--;
-		    $("input[name=likeCount]").val(like); // 좋아요 수 업데이트
-		
-		    // AJAX 요청
-		    $.ajax({
-		        url: $("#dislike-btn-form").attr("action"),
-		        method: "POST",
-		        data: $("#dislike-btn-form").serialize(),
-		        success: function(response) {
-		            // 성공 시 업데이트된 내용을 특정 부분에 적용
-		            $(this).text('♡')
-		        }
-		    });
-		});
-*/
 /*
 	신청버튼 관련 코드
 */	
@@ -70,62 +52,58 @@ $(function() {
 			}
 		});
 
+
+
+
+
+// 댓글 관련 코드
+
        	let no = document.querySelector("input[name=no]").value;
-		let sort = document.querySelector("input[name=sort]").value;
-		let rows = document.querySelector("input[name=rows]").value;
-		let opt = document.querySelector("input[name=opt]").value;
-		let keyword = document.querySelector("input[name=keyword]").value;
-		let page = document.querySelector("input[name=page]").value;
 		let loginId = $("#login-id").attr("value");
 		let commentNo = $(this).attr("data-cancel-comment");
 
-    // 답글 작성 버튼을 클릭하면
-    $(".commentUserInfo").on("click", "[data-comment-no]", function (event) {
-        event.preventDefault();
+	    // 답글 작성 버튼을 클릭하면
+	    $(".commentUserInfo").on("click", "[data-comment-no]", function (event) {
+	        event.preventDefault();
 
-        let commentNo = $(this).attr("data-comment-no");
+       		let commentNo = $(this).attr("data-comment-no");
 
-        // 이미 답글 작성 폼이 열려있는지 확인하고, 열려있으면 닫기
-        if ($("#reply-form-" + commentNo).length > 0) {
-            $("#reply-form-" + commentNo).remove();
-            $("#btn-a-re-reply-" + commentNo).attr('id', 'btn-a-reply-' + commentNo).text('답글쓰기');
-            return;
-        }
+	        // 이미 답글 작성 폼이 열려있는지 확인하고, 열려있으면 닫기
+	        if ($("#reply-form-" + commentNo).length > 0) {
+	            $("#reply-form-" + commentNo).remove();
+	            $("#btn-a-re-reply-" + commentNo).attr('id', 'btn-a-reply-' + commentNo).text('답글쓰기');
+	            return;
+	        }
 
-        // 답글 작성 폼 HTML
-        let content = `
-            <div class="col-11 ms-5 CommentWriter" id="reply-form-${commentNo}">
-                <div class="comment-inbox border p-2 rounded">
-                    <em class="comment_inbox_name">${loginId}</em>
-                    <form id="form-comment" method="post" action="/board/movie/addComment">
-                        <input type="hidden" name="no" value="${no}" />
-                        <input type="hidden" name="parentNo" value="${commentNo}" />
-                        <input type="hidden" name="greatNo" value="${commentNo}" />
-						<input type="hidden" name="id" value=${loginId} />
-						<input type="hidden" name="sort" value=${sort} />
-						<input type="hidden" name="rows" value=${rows} />
-						<input type="hidden" name="page" value=${page} />
-						<input type="hidden" name="opt" value=${opt} />
-						<input type="hidden" name="keyword" value=${keyword} />
-                        <div class="row">
-                            <div id="content-box">
-                                <textarea rows="2" class="comment_inbox_text" name="content" id="content"
-                                          style="border: none; overflow: hidden; overflow-wrap: break-word;"
-                                          placeholder="댓글을 남겨보세요"></textarea>
-                            </div>
-                            	<div class="register_box">
-	                                <button class="btn btn-outline-white btn-sm float-end" id="btn-comment"
-	                                        style="border: none" type="submit">등록</button>
+	        // 답글 작성 폼 HTML
+	        let content = `
+	            <div class="col-11 ms-5 CommentWriter" id="reply-form-${commentNo}">
+	                <div class="comment-inbox border p-2 rounded">
+	                    <em class="comment_inbox_name">${loginId}</em>
+	                    <form id="re-form-comment" method="post" action="/board/movie/addReComment">
+	                        <input type="hidden" name="no" value="${no}" />
+	                        <input type="hidden" name="parentNo" value="${commentNo}" />
+	                        <input type="hidden" name="greatNo" value="${commentNo}" />
+							<input type="hidden" name="id" value=${loginId} />
+	                        <div class="row">
+	                            <div id="new-content-div">
+	                                <textarea rows="2" class="comment_inbox_text" name="content" id="content"
+	                                          style="border: none; overflow: hidden; overflow-wrap: break-word;"
+	                                          placeholder="댓글을 남겨보세요"></textarea>
 	                            </div>
-	                        </div>
-	                    </form>
-	                </div>
-	            </div>`;
+	                            	<div class="re-register-box">
 	
-	        // 답글 작성 폼 추가
-	        $("#reply-comment-box-" + commentNo).append(content);
-	        // 답글 쓰기 버튼을 취소 버튼으로 변경
-	        $("#btn-a-reply-" + commentNo).attr('id', 'btn-a-re-reply-' + commentNo).text('취소');
+		                               <button class="btn btn-outline-white btn-sm float-end" id="btn-comment" style="border: none" type="button">등록</button>
+		                            </div>
+		                        </div>
+		                    </form>
+		                </div>
+		            </div>`;
+		
+		        // 답글 작성 폼 추가
+		        $("#reply-comment-box-" + commentNo).append(content);
+		        // 답글 쓰기 버튼을 취소 버튼으로 변경
+		        $("#btn-a-reply-" + commentNo).attr('id', 'btn-a-re-reply-' + commentNo).text('취소');
 	    });
 	
 	    // 답글 작성 취소 버튼을 클릭하면 폼을 제거하고 버튼을 답글쓰기로 변경
@@ -138,75 +116,166 @@ $(function() {
 	        $("#btn-a-re-reply-" + commentNo).attr('id', 'btn-a-reply-' + commentNo).text('답글쓰기');
 	    });
 		
-
 		
 		
-
-		$(".re-commentUserInfo").on("click", "#a-re-reply", function(event) {
-		event.preventDefault();		
-			/*
-				<input type="hidden" name="parentId" value=부모 />
-				<input type="hidden" name="greatId" value=부모의 부모(최고조상) />
-			 */		
-			let content = `
-		   	<div class="col-11 ms-5 CommentWriter">
-				<div class="comment-inbox border p-2 rounded"> 
-	
-					<em class="comment_inbox_name">${loginId}</em>
-					
-					<form id="form-comment" method="post" action="/board/movie/addComment" >
-						<input type="hidden" name="no" value="${no}" />
-						<input type="hidden" name="id" value=${loginId} />
-						<input type="hidden" name="sort" value=${sort} />
-						<input type="hidden" name="rows" value=${rows} />
-						<input type="hidden" name="page" value=${page} />
-						<input type="hidden" name="opt" value=${opt} />
-						<input type="hidden" name="keyword" value=${keyword} />
-		 				<div class="row">
-							<div id="content-box " >
-								<textarea rows="2" class="comment_inbox_text" id="content" name="content" style="border: none; overflow: hidden; overflow-wrap: break-word; " 
-								placeholder="댓글을 남겨보세요"></textarea>
-							</div>
-							<div class="register_box">
-								<button class="btn btn-outline-white btn-sm float-end" id="btn-comment" style="border: none" type="submit">등록</button>
-							</div>
-						</div>
-					</form>   	
-				</div>
-	   		</div>  			
-			`;
-
-			$("#re-reply-comment-box").append(content)
-			$("#a-re-reply").attr('id', 're-reply').text('취소')
+		// 댓글 axax
+		$(".register-box").on('click','#btn-comment' ,function() {
 			
-		});
-		
-		$(".re-commentUserInfo").on("click", "#re-reply", function(event) {
-			event.preventDefault();	
-			
-			$("#re-reply-comment-box").empty()
-			$("#re-reply").attr('id', 'a-re-reply').text('답글쓰기')
-		
-		});
-		
-		$("#btn-comment").on("click", function() {
-			let content = $("#content-box textarea").val();
-			
-		    if(content === "") { // 댓글 내용이 비어있을 때
+			let inputcontent = $("#content-box textarea").val();
+           	let id = $("input[name=userId]").val;
+    
+		    if(inputcontent === "") { // 댓글 내용이 비어있을 때
 		        Swal.fire({
 		            icon: 'error',
 		            text: '댓글 내용을 작성해주세요.',
+		            onClose: () => {
+		                $("#content-box textarea").focus(); // 입력 필드로 포커스 이동
+		            }
 		        });
 		    } else { // 댓글 내용이 비어있지 않을 때
-		        $("#form-comment").submit(); // 폼 제출
-		    }
-			
-			
+		        // AJAX 요청을 보내고 새로운 댓글 목록을 받아옴
+			    $.ajax({
+			        url: '/board/movie/addComment',
+			        method: "POST",
+			        data: $("#form-comment").serialize(),
+			        success: function(comment) {
+			            // 성공 시 새로운 댓글 목록을 업데이트		            
+			           	
+			           
+						
+			            content = `
+			            		<div class="row great-comment-box" >
+						   			<div class="p-1 col-12" id="comment-box">
+						   				<div class="d-flex justify-content-between">
+						 					<div class="col-sm-11">
+									 			<div id="profile">
+													<div id="comment-imgbox" class="float-start" >
+														<a href="사용자상세정보">
+															<img id="profileimg"  src="/images/board/sample.png" alt="프로필사진">
+														</a>
+													</div>
+													<div class="ps-5">
+														<p><strong  >${comment.user.id}</strong></p>
+														<input type="hidden" name="commentNo" value="${comment.no}" />
+													</div>
+												</div>
+												<div class="commentUserInfo ps-5" >
+									   					<p >${comment.content}</p>
+									   					<div id="comment-info" class="d-flex justify-content-start">
+									   						<p class="float-start me-2" style="font-size: 12px; color: gray" >${comment.createDate}</p>
+									   						<a id="btn-a-reply-" th:attrappend="id=${comment.no}" th:attr="data-comment-no=${comment.no}" href="" class="float-satrt" style="text-decoration:none; font-size: 12px; color: gray" sec:authorize="isAuthenticated()">답글쓰기</a>
+									   					</div>
+													
+												</div>
+											</div>
+								   			<div class="col-sm-1 d-flex justify-content-end pt-0" sec:authorize="isAuthenticated()">
+								   				
+								   				<a href="/board/movie/deleteComment?no=${comment.board.no}&commentNo=${comment.no}}"
+								   					class="btn btn-link btn-sm text-danger text-decoration-none"
+							   						sec:authorize="isAuthenticated()"
+					   		        				th:if="${id == comment.user.id}">삭제</a>
+							
+							   				</div>   			
+										</div>
+									</div>	
+									<hr>
+						   			<div class="new-register-box row mb-3 pt-2" id="reply-comment-box-" th:attrappend="id=${comment.no}" >
+						   			</div>			
+								</div>
+			            
+			            `
+
+					   
+			           	
+			           	$("#comment-here").append(content);
+			            
+			        }
+			        
+			    });
+			   
+		    }   
 		});
+		
+		// 댓글 axax
+		$(".new-register-box").on('click','#btn-comment' ,function() {
+			
+			let $that = $(this);
+			
+			let newContent = $("#new-content-div textarea").val();
+    
+		    if(newContent === "") { // 댓글 내용이 비어있을 때
+		        Swal.fire({
+		            icon: 'error',
+		            text: '댓글 내용을 작성해주세요.',
+		            onClose: () => {
+		                $("#new-content-div textarea").focus(); // 입력 필드로 포커스 이동
+		            }
+		        });
+		    } else { // 댓글 내용이 비어있지 않을 때
+		        // AJAX 요청을 보내고 새로운 댓글 목록을 받아옴
+			    $.ajax({
+			        url: '/board/movie/addReComment',
+			        method: "POST",
+			        data: $("#re-form-comment").serialize(),
+			        success: function(comment) {
+			            // 성공 시 새로운 댓글 목록을 업데이트		            
+			           	let thisCommentNo = $(".re-comment-here").attr('id');
+			           	let result = thisCommentNo.substr(16);
+			           	
+			           	let content = `
+			           	<div class="p-1 offset-1 col-11" id="comment-box" >
+			   				<div class="d-flex justify-content-between" id="child-comment-here">
+			 					<div class="col-sm-11">
+						 			<div id="profile">
+										<div id="comment-imgbox" class="float-start" >
+											<a href="사용자상세정보">
+												<img id="profileimg" src="/images/board/sample.png" alt="프로필사진">
+											</a>
+										</div>
+										<div class="ps-5">
+											<p ><strong class="fs-6" >${comment.user.id}</strong></p>
+										</div>
+									</div>
+									<div class="re-commentUserInfo ps-5" >
+						   					<p><strong >${comment.parent.user.id} </strong> <span >${comment.content}</span></p>
+						   					<div id="comment-info" class="d-flex justify-content-start">
+						   						<p class="float-start me-2" style="font-size: 12px; color: gray">${comment.createDate}</p>
+						   						<!-- 
+						   						<a id="a-re-reply" href="" class="float-satrt" style="text-decoration:none; font-size: 12px; color: gray" sec:authorize="isAuthenticated()">답글쓰기</a>
+						   						-->
+						   					</div>
+										
+									</div>
+								</div>
+					   			<div class="col-sm-1 d-flex justify-content-end pt-0" sec:authorize="isAuthenticated()">
+					   				<input type="hidden" name="userId" value="${id}">
+					   				<a th:href="@{/board/movie/deleteComment?no=${comment.no}, commentNo=${comment.no}}" 
+					   					class="btn btn-link btn-sm text-danger text-decoration-none"
+					   					sec:authorize="isAuthenticated()"
+		   		        				th:if="${id== comment.user.id}">삭제</a>
+				
+				   				</div>   			
+							</div>
+							<hr>
+				   			<div class="row mb-3 pt-2" id="re-reply-comment-box">
+				   			</div>
+						</div>`
+						
+						$that.closest('.comment-box').find('.re-comment-here').append(content);
+			            
+			        }
+			    });
+		    }   
+		});
+		
+		
+		
+		
+
 
 	
-})
 
+})
 
 
 		

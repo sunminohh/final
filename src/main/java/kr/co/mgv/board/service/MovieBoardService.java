@@ -13,6 +13,7 @@ import kr.co.mgv.board.vo.MBoardComment;
 import kr.co.mgv.board.vo.MBoardLike;
 import kr.co.mgv.board.vo.MovieBoard;
 import kr.co.mgv.movie.vo.Movie;
+import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -106,5 +107,38 @@ public class MovieBoardService {
 		return childComments;
 	}
 	
+	public MBoardComment getGreatComment(int no, String id) {
+		User user = User.builder()
+				.id(id)
+				.build();
+		
+		MovieBoard board = MovieBoard.builder()
+						.no(no)
+						.build();
+		MBoardComment comment = MBoardComment.builder()
+					.user(user)
+					.board(board)
+					.build();
+		
+		return movieBoardDao.getGreatComment(comment);
+		
+	}
+	
+	public MBoardComment getChildComment(int no, String id) {
+		
+		User user = User.builder()
+				.id(id)
+				.build();
+		
+		MovieBoard board = MovieBoard.builder()
+						.no(no)
+						.build();
+		MBoardComment comment = MBoardComment.builder()
+					.user(user)
+					.board(board)
+					.build();
+		
+		return movieBoardDao.getChildComment(comment);
+	}
 
 }

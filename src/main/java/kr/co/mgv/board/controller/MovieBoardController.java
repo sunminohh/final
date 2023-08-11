@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import kr.co.mgv.board.list.MboardCommentList;
 import kr.co.mgv.board.list.MovieBoardList;
 import kr.co.mgv.board.service.MovieBoardService;
 import kr.co.mgv.board.vo.MBoardComment;
@@ -24,10 +25,12 @@ import kr.co.mgv.board.vo.MBoardLike;
 import kr.co.mgv.board.vo.MovieBoard;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/board/movie")
 @RequiredArgsConstructor
+@Slf4j
 public class MovieBoardController {
 
 	private final MovieBoardService movieBoardService;
@@ -150,48 +153,23 @@ public class MovieBoardController {
 
     	return ResponseEntity.ok().build();
     }
-    
-    @PostMapping("/minuslike")
-    @ResponseBody
-    public ResponseEntity<Void> minusLike(@RequestParam("no") int no,
-            							  @RequestParam("id") String id,
-            							  @RequestParam("likeCount") int likeCount) {
-				    	
-    	MBoardLike like = new MBoardLike();
-    	User user = User.builder()
-    				.id(id)
-    				.build();
-    	like.setUser(user);
-    	MovieBoard board = MovieBoard.builder()
-    						.no(no)
-    						.build();
-    	like.setBoard(board);
-    	like.setCancel("Y");
-    	
-    	movieBoardService.updateBoardLike(no, likeCount);
-    	
-    	movieBoardService.updateMBoardLike(like);        
-    	
-    	return ResponseEntity.ok().build();
-
-    }
-    
+        
 
     // 댓글 관련
     @PostMapping("/addComment")
-    public String addComment(@RequestParam("no") int no, 
+    @ResponseBody
+    public ResponseEntity<MBoardComment> addComment(@RequestParam("no") int no, 
                              @RequestParam("id") String id, 
                              @RequestParam(name="parentNo", required = false) Integer parentNo, 
-                             @RequestParam(name="greatNo", required = false) Integer greateNo, 
-                             @RequestParam("content") String content,
-                             @RequestParam(name = "page", required = false, defaultValue = "1") int page,
-                             @RequestParam(name = "rows", required = false, defaultValue = "10") Integer rows,
-                             @RequestParam("sort") String sort,
-                             @RequestParam("opt") String opt,
-                             @RequestParam("keyword") String keyword,
-                             RedirectAttributes redirectAttributes,
-                             Model model) {
+                             @RequestParam(name="greatNo", required = false) Integer greatNo, 
+                             @RequestParam("content") String content) {
         
+    	log.info("게시물 번호 -> {}", no);
+    	log.info("사용자 아이디 -> {}", id);
+    	log.info("내용 -> {}", content);
+    	log.info("부모번호 -> {}", parentNo);
+    	log.info("조상번호 -> {}", greatNo);
+    	
     	MBoardComment comment = new MBoardComment();
     	comment.setContent(content);
     	
@@ -200,16 +178,15 @@ public class MovieBoardController {
     						.build();
     	comment.setBoard(mBoard);
     	
-    	
 		if (parentNo != null) {
 			MBoardComment parentComment = MBoardComment.builder()
 					.no(parentNo)
 					.build();
 			comment.setParent(parentComment);
 		}
-		if (greateNo != null) {
+		if (greatNo != null) {
 			MBoardComment greatComment = MBoardComment.builder()
-					.no(greateNo)
+					.no(greatNo)
 					.build();
 			comment.setGreat(greatComment);
 		}
@@ -220,34 +197,72 @@ public class MovieBoardController {
     	comment.setUser(user);
     	
     	movieBoardService.MBoardCommentInsert(comment);
-    	
     	MovieBoard board = movieBoardService.getMovieBoardByNo(no);
     	int commentCount = board.getCommentCount()+1;
-    
+    	
+    	movieBoardService.updateBoardComment(no, commentCount);
+
+    	MBoardComment inputComment = movieBoardService.getGreatComment(no, id);
+    	
+        return ResponseEntity.ok().body(inputComment);
+    }
+
+    @PostMapping("/addReComment")
+    @ResponseBody
+    public ResponseEntity<MBoardComment> addReComment(@RequestParam("no") int no, 
+    		@RequestParam("id") String id, 
+    		@RequestParam(name="parentNo", required = false) Integer parentNo, 
+    		@RequestParam(name="greatNo", required = false) Integer greatNo, 
+    		@RequestParam("content") String content) {
+    	
+    	log.info("게시물 번호 -> {}", no);
+    	log.info("사용자 아이디 -> {}", id);
+    	log.info("내용 -> {}", content);
+    	log.info("부모번호 -> {}", parentNo);
+    	log.info("조상번호 -> {}", greatNo);
+    	
+    	MBoardComment comment = new MBoardComment();
+    	comment.setContent(content);
+    	
+    	MovieBoard mBoard = MovieBoard.builder()
+    			.no(no)
+    			.build();
+    	comment.setBoard(mBoard);
+    	
+    	if (parentNo != null) {
+    		MBoardComment parentComment = MBoardComment.builder()
+    				.no(parentNo)
+    				.build();
+    		comment.setParent(parentComment);
+    	}
+    	if (greatNo != null) {
+    		MBoardComment greatComment = MBoardComment.builder()
+    				.no(greatNo)
+    				.build();
+    		comment.setGreat(greatComment);
+    	}
+    	
+    	User user = User.builder()
+    			.id(id)
+    			.build();
+    	comment.setUser(user);
+    	
+    	movieBoardService.MBoardCommentInsert(comment);
+    	MovieBoard board = movieBoardService.getMovieBoardByNo(no);
+    	int commentCount = board.getCommentCount()+1;
+    	
     	movieBoardService.updateBoardComment(no, commentCount);
     	
-        redirectAttributes.addAttribute("no", no);
-        redirectAttributes.addAttribute("page", page);
-        redirectAttributes.addAttribute("sort", sort);
-        if (rows != null) {
-            redirectAttributes.addAttribute("rows", rows);       
-        }
-        redirectAttributes.addAttribute("opt", opt);
-        redirectAttributes.addAttribute("keyword", keyword);
-        
-        
-        return "redirect:/board/movie/detail";
+    	MBoardComment inputComment = movieBoardService.getChildComment(no, id);
+    	
+    	return ResponseEntity.ok().body(inputComment);
     }
     
+
     @PostMapping("/deleteComment")
-    public String deleteComment(@RequestParam("no") int no, 
-					    		@RequestParam("commentNo") int commentNo,
-					            @RequestParam(name = "page", required = false, defaultValue = "1") int page,
-					            @RequestParam(name = "rows", required = false, defaultValue = "10") Integer rows,
-					            @RequestParam("sort") String sort,
-					            @RequestParam("opt") String opt,
-					            @RequestParam("keyword") String keyword,
-					            RedirectAttributes redirectAttributes) {
+    @ResponseBody
+    public ResponseEntity<Void> deleteComment(@RequestParam("no") int no, 
+					    		@RequestParam("commentNo") int commentNo) {
     	
     	// comment table의 deleted 를 y로 바꾸기
     	// table의 commentCount -1
@@ -255,16 +270,8 @@ public class MovieBoardController {
     		// great_no == null이면 great_no == comment_no 인 comment 인 수만큼 commentCount - 하기
     	
     	
-        redirectAttributes.addAttribute("no", no);
-        redirectAttributes.addAttribute("page", page);
-        redirectAttributes.addAttribute("sort", sort);
-        if (rows != null) {
-            redirectAttributes.addAttribute("rows", rows);       
-        }
-        redirectAttributes.addAttribute("opt", opt);
-        redirectAttributes.addAttribute("keyword", keyword);
-    	
-    	return "redirect:/board/movie/detail";
+        
+    	return ResponseEntity.ok().build();
     }
 
 }
