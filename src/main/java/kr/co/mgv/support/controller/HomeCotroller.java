@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/support")
-public class SupportController {
+public class HomeCotroller {
 
     @RequestMapping({"/", ""})
     public String home() {
@@ -25,16 +25,6 @@ public class SupportController {
         return "/view/support/notice/detail";
     }
 
-
-    @GetMapping("/lost")
-    public String lost() {
-        return "/view/support/lost/list";
-    }
-
-    @GetMapping("/lost/form")
-    public String lostForm() {
-        return "/view/support/lost/form";
-    }
 
     @GetMapping("/guest/form")
     public String guestForm() {

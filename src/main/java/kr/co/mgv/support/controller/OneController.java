@@ -3,7 +3,6 @@ package kr.co.mgv.support.controller;
 
 import java.util.List;
 
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +26,7 @@ public class OneController {
 
 	private final OneService oneService;
 	
-	@GetMapping("/add")
+	@GetMapping()
     public String one() {
         return "/view/support/one/form";
     }
@@ -36,7 +35,7 @@ public class OneController {
 	public String createOne(@AuthenticationPrincipal User user, AddOneForm form) {
 		oneService.createOne(form, user);
 		
-		return "redirect:/support/one/add";
+		return "redirect:/support/one";
 	}
 	
 	@GetMapping("/getCategory")

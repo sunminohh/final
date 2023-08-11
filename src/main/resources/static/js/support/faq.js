@@ -67,7 +67,7 @@ $(document).ready(function() {
 				}
 			*/
 			
-			 // 총 건수 업데이트
+			// 총 건수 업데이트
        		$('#totalCnt').text(result.pagination.totalRows);
 			
 			let faqList = result.faqList;
