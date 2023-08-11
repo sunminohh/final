@@ -15,6 +15,8 @@ $(function() {
 				like--;
 			}
 		    $("input[name=likeCount]").val(like); // 좋아요 수 업데이트
+		    $("#guest-like-count").text(like); // 좋아요 수 업데이트
+		    
 		    $(this).next().text(like);
 		
 		    // AJAX 요청

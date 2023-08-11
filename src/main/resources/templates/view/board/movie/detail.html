@@ -97,7 +97,7 @@
    		<div class="comment-like pt-5 d-flex justify-content-between">
    			<div class="d-flex justify-content-start">
    				<p class="me-3" style="font-size : 12px;"><img class=" me-1" alt="댓글이미지" th:src="@{/images/board/comment.png}" width="15px" height="15px">댓글 <strong th:utext="${board.commentCount}">3</strong></p>
-				<p class="float-end me-2" style="font-size : 12px;"><img class=" me-1" alt="좋아요" th:src="@{/images/board/like.png}" width="14px" height="14px"/> 좋아요 <strong  th:utext="${board.likeCount}">5</strong></p>
+				<p class="float-end me-2" style="font-size : 12px;"><img class=" me-1" alt="좋아요" th:src="@{/images/board/like.png}" width="14px" height="14px"/> 좋아요 <strong id="guest-like-count" th:utext="${board.likeCount}">5</strong></p>
 		</div>
 			<div class="d-flex justify-content-end ">
 		   		<button class="btn btn-outline-white btn-sm mb-2"  style="border: none; font-size: 12px" >공유</button>
