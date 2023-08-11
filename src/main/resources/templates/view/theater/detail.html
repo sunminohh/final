@@ -8,6 +8,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.9/plugin/isSameOrAfter.min.js" integrity="sha512-8gn84sM7ampZwKjmwm8+y8/FpiPbFVgJGqR5Aio1Lx2T08tEvmJQ5ffLWQFnjDkD/c4kzxebsVtJFswTIvvT+g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.9/plugin/calendar.min.js" integrity="sha512-iGrW6JrYT5DGfpMKEQwVVmB4ZT4zVcw62Y/Ax6U3tSAei9FkgZVz0zDPwmaSQemQEXtYn4FHBVIDxXGuTXiCsw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script type="text/javascript" th:src="@{/js/theater/ui.js}"></script>
+	<script type="text/javascript" th:src="@{/js/theater/schedule.js}"></script>
 	<style type="text/css">
 	#schdlContainer table caption{
 	    padding: 0;
@@ -137,7 +138,7 @@
 					</ul>
 				</div>
 				<!--// theater-area-list -->
-				<p class="name" th:text="${theater.name}"></p>
+				<p class="name" th:data-theater-no="${theater.no}" th:text="${theater.name}"></p>
 				<div class="btn-util right">
 					<div class="block">
 						<button type="button" class="btn btn-like " id="favorBrch">
@@ -413,19 +414,6 @@
 						</div>
 					</div>
 					<div class="movie-option mb20">
-						<div class="option">
-							<ul>
-								<li><i class="iconset ico-stage" title="무대인사"></i>무대인사</li>
-								<li><i class="iconset ico-user" title="회원시사"></i>회원시사</li>
-								<li><i class="iconset ico-open" title="오픈시사"></i>오픈시사</li>
-								<li><i class="iconset ico-goods" title="굿즈패키지"></i>굿즈패키지</li>
-								<li><i class="iconset ico-singalong" title="싱어롱"></i>싱어롱</li>
-								<li><i class="iconset ico-gv" title="GV"></i>GV</li>
-								<li><i class="iconset ico-sun" title="조조"></i>조조</li>
-								<li><i class="iconset ico-brunch" title="브런치"></i>브런치</li>
-								<li><i class="iconset ico-moon" title="심야"></i>심야</li>
-							</ul>
-						</div>
 						<div class="rateing-lavel">
 							<a href="" class="" title="관람등급안내">관람등급안내</a>
 						</div>
