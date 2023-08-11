@@ -2,11 +2,15 @@ package kr.co.mgv.user.controller;
 
 import kr.co.mgv.user.form.UserJoinForm;
 import kr.co.mgv.user.service.AuthenticationService;
+import kr.co.mgv.user.service.EmailService;
+import kr.co.mgv.user.service.EmailServiceImpl;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,7 +27,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.nio.file.attribute.UserPrincipal;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 @RequiredArgsConstructor
 @Controller
@@ -32,7 +38,9 @@ import java.nio.file.attribute.UserPrincipal;
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
+    private final EmailServiceImpl emailService;
     private final AuthenticationManager authenticationManager;
+
 
     // 회원가입
     @GetMapping("/form")
@@ -91,7 +99,7 @@ public class AuthenticationController {
     public ResponseEntity<Object> login(HttpSession session, @RequestBody User user) { //
         try {
             Authentication auth = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(user.getId(), user.getPassword())
+                    new UsernamePasswordAuthenticationToken(user.getId(), user.getPassword())
             );
 
             SecurityContextHolder.getContext().setAuthentication(auth);
@@ -102,9 +110,18 @@ public class AuthenticationController {
         } catch (BadCredentialsException e) {
             log.warn("User [{}] failed login: {}", user.getUsername(), e.getLocalizedMessage());
             return ResponseEntity
-                .badRequest()
-                .body(e.getLocalizedMessage()); //
+                    .badRequest()
+                    .body(e.getLocalizedMessage()); //
         }
     }
 
+    // 이메일 인증
+    @PostMapping("/mailConfirm")
+    @ResponseBody
+    String mailConfirm(@RequestParam("email") String email) throws Exception {
+
+        String code = emailService.sendSimpleMessage(email);
+        log.info("인증코드 -> {}", code);
+        return code;
+    }
 }

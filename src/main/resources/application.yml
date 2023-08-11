@@ -21,6 +21,9 @@ spring:
           auth: true
           starttls:
             enable: true
+            timeout: 3000
+    protocol: smtp
+    default-encoding: UTF-8
 
 # mybatis
 mybatis:

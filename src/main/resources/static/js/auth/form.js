@@ -4,23 +4,29 @@ $(() => {
     const $name = $(".join-form input[name='name']");
     const $password = $(".join-form input[name='password']");
     const $repassword = $(".join-form input[name='repassword']");
-    const $email = $(".join-form input[name='email']");
     const $birth = $(".join-form input[name='birth']");
+    const $email = $(".join-form input[name='email']");
+    const $auth = $(".join-form input[name='authnumber']");
 
     // 각 input 값 검증 결과 변수
     let idCheck = false;
     let passwordCheck = false;
     let nameCheck = false;
-    let emailCheck = false;
     let birthCheck = false;
+    let emailCheck = false;
+    let authCheck = false;
 
     // input 새로운 값 입력 시 기존 검증 결과 초기화
     $id.keyup(() => idCheck = false);
     $email.keyup(() => emailCheck = false);
+    $auth.keyup(() => authCheck = false);
 
     // 아이디, 이메일 중복 확인 버튼 클릭 이벤트
     $("#btnUserIdConfirm").click(() => checkId());
     $("#btnCheckMail").click(() => checkEmail());
+
+    // 이메일 인증번호 요청 버튼 클릭 이벤트
+    $("#btnAuthMail").click(() => checkAuth());
 
     // 아이디 입력 이벤트
     $("input[name=id]").keyup(() => {
@@ -88,14 +94,14 @@ $(() => {
         const emailReg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if (!$email.val()) {
             $("#email-error-text").text("이메일을 입력하세요.").css('color', 'red');
-            return false;
+            emailCheck = false;
         }
         if (!emailReg.test($email.val())) {
             $("#email-error-text").text("이메일 형식에 올바르지 않습니다.").css('color', 'red');
-            return false;
+            emailCheck = false;
         } else {
             $("#email-error-text").text("올바른 이메일 형식입니다.").css('color', 'lightgreen');
-            return true;
+            emailCheck = true;
         }
 
     });
@@ -142,6 +148,12 @@ $(() => {
         // 메일 체크
         if (!emailCheck) {
             errorAlert($email, "이메일을 확인해주세요.");
+            return false;
+        }
+
+        // 인증번호 체크
+        if (!authCheck) {
+            errorAlert($auth, "이메일인증을 확인 후 가입이 가능합니다.");
             return false;
         }
 
@@ -205,7 +217,7 @@ $(() => {
     }
 
     // email 중복 체크
-    async function checkEmail() {
+    /*async function checkEmail() {
         const $email = $(".join-form input[name='email']");
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if (!$email.val()) {
@@ -226,6 +238,56 @@ $(() => {
             successAlert($email, "사용할 수 있는 이메일 주소입니다.");
             emailCheck = true;
         }
+    }*/
+
+    // todo 이메일 인증하기
+    function checkAuth() {
+        /*const checkEmail = await $.get("/user/auth/checkEmail", {email: $email.val()});
+        if (checkEmail) {
+            errorAlert($email, "중복된 이메일 주소입니다.");
+            emailCheck = false;
+        } else {
+            successAlert($email, "사용할 수 있는 이메일 주소입니다.");
+            emailCheck = true;
+        }*/
+        const $email = $(".join-form input[name='email']");
+        const emailReg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!$email.val()) {
+            errorAlert($email, "이메일을 입력하세요.");
+            return false;
+        }
+        if (!emailReg.test($email.val())) {
+            errorAlert($email, "이메일 형식에 올바르지 않습니다. 다시 입력해주세요.")
+            return false;
+        }
+        $.ajax({
+            type: "POST",
+            url: "/user/auth/mailConfirm",
+            data: {
+                "email": $email.val()
+            },
+            success: function (data) {
+                successAlert($email,"해당 이메일로 인증번호가 발송이 완료되었습니다. \n 확인부탁드립니다.")
+                console.log("data : " + data);
+                $("#mail-number").show();
+                chkEmailConfirm(data, $auth);
+                emailCheck = true;
+            }
+        });
+    }
+
+    // 이메일 인증번호 체크 함수
+    function chkEmailConfirm(data, $auth){
+        $("#confirmBtn").on("keyup", function(){
+            if (data != $auth.val()) { //
+                errorAlert($auth, "인증번호가 일치하지 않습니다. 다시 확인해주세요.");
+                authCheck = false;
+                //console.log("중복아이디");
+            } else { // 아니면 중복아님
+                successAlert($auth, "인증번호가 일치합니다.");
+                authCheck = true;
+            }
+        })
     }
 
     // 만 12세 이상 가입 제한
