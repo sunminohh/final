@@ -7,22 +7,52 @@ $(function() {
 		let like = document.querySelector("input[name=likeCount]").value;
 		
 		$("#like-button").click(function(event) {
-			event.preventDefault();
-				like++;
-
-			$("input[name=likeCount]").val(like); // 좋아요 수 업데이트
-			$("#like-btn-form").submit();
-		});
-
-		$("#dislike-button").click(function(event) {
-			event.preventDefault();
+		    event.preventDefault();
+		    let type= $(this).attr("data-button-type");
+		    if (type == 'plus') {
+			    like++;				
+			} else if (type == 'minus') {
 				like--;
-			
-			
-			$("input[name=likeCount]").val(like); // 좋아요 수 업데이트
-			$("#dislike-btn-form").submit();
-		});
+			}
+		    $("input[name=likeCount]").val(like); // 좋아요 수 업데이트
+		    $("#guest-like-count").text(like); // 좋아요 수 업데이트
+		    
+		    $(this).next().text(like);
 		
+		    // AJAX 요청
+		    $.ajax({
+		        url: '/board/movie/changelike',
+		        method: "POST",
+		        data: $("#like-btn-form").serialize(),
+		        success: function(response) {
+		            // 성공 시 업데이트된 내용을 특정 부분에 적용
+		            if (type == 'plus') {
+						$("#like-button").text('♥').attr('data-button-type', 'minus')		
+					} else if (type == 'minus') {
+						$("#like-button").text('♡').attr('data-button-type', 'plus')		
+					}
+		        }
+		    });
+		});
+
+
+		/*$("#dislike-button").click(function(event) {
+		    event.preventDefault();
+		    like--;
+		    $("input[name=likeCount]").val(like); // 좋아요 수 업데이트
+		
+		    // AJAX 요청
+		    $.ajax({
+		        url: $("#dislike-btn-form").attr("action"),
+		        method: "POST",
+		        data: $("#dislike-btn-form").serialize(),
+		        success: function(response) {
+		            // 성공 시 업데이트된 내용을 특정 부분에 적용
+		            $(this).text('♡')
+		        }
+		    });
+		});
+*/
 /*
 	신청버튼 관련 코드
 */	

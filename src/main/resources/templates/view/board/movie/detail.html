@@ -50,44 +50,23 @@
 
 					<div class="d-flex justify-content-end" style="position: relative; bottom:10px;">
 						<p  style="font-size : 12px; "><img alt="댓글이미지" th:src="@{/images/board/comment.png}" width="15px" height="15px;" > <strong th:utext="${board.commentCount}">3</strong></p>
+						<div id="reload-box">
 						<form class="d-flex justify-content-end pe-4 me-3" 
-							  th:action="@{/board/movie/addlike}"   
+							  th:action="@{/board/movie/changelike}"   
 							  method="post"
 							  sec:authorize="isAuthenticated()"
 							  style="position: absolute; bottom: 5px;"
 							  id="like-btn-form"
-							  th:if="${like == null || (like != null && #strings.equals(like.cancel, 'Y'))}"
 							 >
 							<input type="hidden" name="no" th:value="${board.no}" />
 							<input type="hidden" name="id" th:value="${#authentication.principal.id}" />
 							<input type="hidden" name="likeCount" th:value="${board.likeCount}">
-							<input type="hidden" name="page" th:value="${param.page }" />
-							<input type="hidden" name="rows" th:value="${param.rows }" />
-							<input type="hidden" name="sort" th:value="${param.sort }" />
-							<input type="hidden" name="opt" th:value="${param.opt }" />
-							<input type="hidden" name="keyword" th:value="${param.keyword }" />
-							<button class="btn btn-ligth pe-1" type="button" id="like-button" style="color:red; border-color: white; font-size:16px">♡</button>
+							<button  th:if="${like == null || (like != null && #strings.equals(like.cancel, 'Y'))}" class="btn btn-ligth pe-1" type="button" id="like-button" style="color:red; border-color: white; font-size:16px" data-button-type="plus">♡</button>
+							<button  th:if="${like != null && #strings.equals(like.cancel, 'N')}" class="btn btn-ligth pe-1" type="button" id="like-button" style="color:red; border-color: white; font-size:16px"  data-button-type="minus">♥</button>
 							<p class="mt-3 pt-1" th:text="${board.likeCount}"></p>
 						</form>
-						<form class="d-flex justify-content-end pe-4 me-3" 
-							  th:action="@{/board/movie/minuslike}"   
-							  method="post"
-							  sec:authorize="isAuthenticated()"
-							  style="position: absolute; bottom: 5px;"
-							  id="dislike-btn-form"	
-							   th:if="${like != null && #strings.equals(like.cancel, 'N')}"
-							 >
-							<input type="hidden" name="no" th:value="${board.no}" />
-							<input type="hidden" name="id" th:value="${#authentication.principal.id}" />
-							<input type="hidden" name="likeCount" th:value="${board.likeCount}">
-							<input type="hidden" name="page" th:value="${param.page }" />
-							<input type="hidden" name="rows" th:value="${param.rows }" />
-							<input type="hidden" name="sort" th:value="${param.sort }" />
-							<input type="hidden" name="opt" th:value="${param.opt }" />
-							<input type="hidden" name="keyword" th:value="${param.keyword }" />
-							<button class="btn btn-ligth pe-1" type="button" id="dislike-button" style="color:red; border-color: white; font-size:16px">♥</button>
-							<p class="mt-3 pt-1" th:text="${board.likeCount}"></p>
-						</form>
+						
+						</div>
 					</div>
 				</div>
 			</div>
@@ -118,7 +97,7 @@
    		<div class="comment-like pt-5 d-flex justify-content-between">
    			<div class="d-flex justify-content-start">
    				<p class="me-3" style="font-size : 12px;"><img class=" me-1" alt="댓글이미지" th:src="@{/images/board/comment.png}" width="15px" height="15px">댓글 <strong th:utext="${board.commentCount}">3</strong></p>
-				<p class="float-end me-2" style="font-size : 12px;"><img class=" me-1" alt="좋아요" th:src="@{/images/board/like.png}" width="14px" height="14px"/> 좋아요 <strong  th:utext="${board.likeCount}">5</strong></p>
+				<p class="float-end me-2" style="font-size : 12px;"><img class=" me-1" alt="좋아요" th:src="@{/images/board/like.png}" width="14px" height="14px"/> 좋아요 <strong id="guest-like-count" th:utext="${board.likeCount}">5</strong></p>
 		</div>
 			<div class="d-flex justify-content-end ">
 		   		<button class="btn btn-outline-white btn-sm mb-2"  style="border: none; font-size: 12px" >공유</button>
@@ -200,7 +179,7 @@
 						</div>
 			   			<div class="col-sm-1 d-flex justify-content-end pt-0" sec:authorize="isAuthenticated()">
 			   				
-			   				<a th:href="@{/board/movie/deleteComment(no=${board.no},page=${param.page }, rows=${param.rows}, sort=${param.sort}, opt=${param.opt}, keyword=${param.keyword}, commentNo=${comment.no})}"
+			   				<a th:href="@{/board/movie/deleteComment(no=${param.no}, page=${param.page }, rows=${param.rows}, sort=${param.sort}, opt=${param.opt}, keyword=${param.keyword}, commentNo=${comment.no})}"
 			   					class="btn btn-link btn-sm text-danger text-decoration-none"
 		   						sec:authorize="isAuthenticated()"
    		        				th:if="${#authentication.principal.id == comment.user.id}">삭제</a>
@@ -241,7 +220,7 @@
 								</div>
 					   			<div class="col-sm-1 d-flex justify-content-end pt-0" sec:authorize="isAuthenticated()">
 					   				
-					   				<a th:href="@{/board/movie/deleteComment(no=${board.no},page=${param.page }, rows=${param.rows}, sort=${param.sort}, opt=${param.opt}, keyword=${param.keyword}, commentNo=${child.no})}" 
+					   				<a th:href="@{/board/movie/deleteComment(no=${param.no}, page=${param.page }, rows=${param.rows}, sort=${param.sort}, opt=${param.opt}, keyword=${param.keyword}, commentNo=${child.no})}" 
 					   					class="btn btn-link btn-sm text-danger text-decoration-none"
 					   					sec:authorize="isAuthenticated()"
 		   		        				th:if="${#authentication.principal.id == child.user.id}">삭제</a>

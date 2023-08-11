@@ -15,7 +15,6 @@
             <br>
             <li>문의하시기 전 FAQ를 확인하시면 궁금증을 더욱 빠르게 해결하실 수 있습니다. </li>
         </ul>
-
     </div>
 
     <div class="agree-box">
@@ -25,7 +24,6 @@
 					<input type="checkbox" id="chk">
 					<label for="chk"><strong>개인정보 수집에 대한 동의</strong></label>
 				</span>
-
                 <span class="font-orange">[필수]</span>
             </dt>
             <dd style="font-size:13px;">
@@ -163,18 +161,17 @@
                 </tr>
 
                 <tr sec:authorize="isAnonymous()">
-                    <th scope="row"><label for="name">비밀번호</label> <em class="font-orange">*</em></th>
+                    <th scope="row"><label for="password">비밀번호</label> <em class="font-orange">*</em></th>
                     <td colspan="3">
-                        <input type="text" id="nonMbInqPw" name="guestPassword" class="input-text w150px pwnew" maxlength="4" oninput="gfn_numberMaxLength(this);">
+                        <input type="number" maxlength="4" name="guestPassword" class="input-text w150px pwnew" placeholder="숫자 4자리">
                         <em class="fc_r ml10">* 1:1 문의에 대한 고객정보 보호를 위해 게시글의 비밀번호를 설정해주세요.</em>
                     </td>
                 </tr>
-
                 </tbody>
             </table>
         </div>
 
-        <div class="btn-group pt40">
+        <div class="btn-group pt40" style="display: block;">
             <button type="submit" class="button purple large">등록</button>
         </div>
     </form>
