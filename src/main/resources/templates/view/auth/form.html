@@ -73,12 +73,13 @@
                                             <input id="userEmail" maxlength="50" name="email" type="email" class="input-text w210px" placeholder="name@example.com" autocomplete="off">
                                         </div>
                                         <div class="col">
-                                            <!--                                        <button id="btnCheckMail" type="button" class="button gray-line small w75px ml08">체크</button>-->
+                                            <!-- 중복체크 -->
+                                            <button id="btnCheckMail" type="button" class="button gray-line small w75px ml08" style="display: block">중복체크</button>
                                             <!-- 인증번호 요청 -->
-                                            <button id="btnAuthMail" type="button" class="button gray-line small w75px ml08">인증번호</button>
+                                            <button id="btnAuthMail" type="button" class="button gray-line small w75px ml08" style="display: none;">인증번호</button>
                                         </div>
                                     </div>
-                                        <span id="email-error-text" class="alert"></span>
+                                    <span id="email-error-text" class="alert"></span>
 
                                     <!-- 인증번호 -->
                                     <div id="mail-number" class="row" style="display: none;">
@@ -86,7 +87,7 @@
                                             <input id="userAuth" name="authNumber" maxlength="8" type="text" class="input-text w210px" placeholder="인증번호를 입력하세요" autocomplete="off">
                                         </div>
                                         <div class="col">
-                                            <button id="confirmBtn" type="button" class="button gray-line small w75px ml08">인증하기</button>
+                                            <button id="btnConfirm" type="button" class="button gray-line small w75px ml08">인증하기</button>
                                         </div>
                                     </div>
                                 </td>

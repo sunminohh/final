@@ -18,13 +18,13 @@ public class EmailServiceImpl implements EmailService {
     private final JavaMailSender javaMailSender;
     private final AuthenticationService service;
 
-    private String ePw; // 인증번호
+    private String authNumber; // 인증번호
 
     // 메일 내용 작성
     @Override
     public MimeMessage createMessage(String to) throws MessagingException, UnsupportedEncodingException {
     //		System.out.println("보내는 대상 : " + to);
-    //		System.out.println("인증 번호 : " + ePw);
+    //		System.out.println("인증 번호 : " + authNumber);
 
         MimeMessage message = javaMailSender.createMimeMessage();
 
@@ -44,7 +44,7 @@ public class EmailServiceImpl implements EmailService {
         msgg += "<h3 style='color:blue;'>회원가입 인증 코드입니다.</h3>";
         msgg += "<div style='font-size:130%'>";
         msgg += "인증번호 : <strong>";
-        msgg += ePw + "</strong><div><br/> "; // 메일에 인증번호 넣기
+        msgg += authNumber + "</strong><div><br/> "; // 메일에 인증번호 넣기
         msgg += "</div>";
         message.setText(msgg, "utf-8", "html");// 내용, charset 타입, subtype
         // 보내는 사람의 이메일 주소, 보내는 사람 이름
@@ -88,9 +88,8 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public String sendSimpleMessage(String to) throws Exception {
 
-        ePw = createKey(); // 랜덤 인증번호 생성
+        authNumber = createKey(); // 랜덤 인증번호 생성
 
-        // TODO Auto-generated method stub
         MimeMessage message = createMessage(to); // 메일 발송
         User user = service.getUserByEmail(to);
         if (user != null) {
@@ -101,6 +100,6 @@ public class EmailServiceImpl implements EmailService {
                 throw new IllegalArgumentException("메일 발송 중 오류가 발생했습니다.");
             }
         }
-        return ePw; // 메일로 보냈던 인증 코드를 서버로 반환
+        return authNumber; // 메일로 보냈던 인증 코드를 서버로 반환
     };
 }

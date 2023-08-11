@@ -116,7 +116,7 @@ public class AuthenticationController {
     }
 
     // 이메일 인증
-    @PostMapping("/mailConfirm")
+    @PostMapping("/mail")
     @ResponseBody
     String mailConfirm(@RequestParam("email") String email) throws Exception {
 
