@@ -1,6 +1,5 @@
 package kr.co.mgv.support.controller;
 
-
 import java.util.List;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -11,55 +10,63 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import kr.co.mgv.support.form.AddOneForm;
-import kr.co.mgv.support.service.OneService;
-import kr.co.mgv.support.vo.SupportCategory;
+import kr.co.mgv.support.form.AddLostForm;
+import kr.co.mgv.support.service.LostService;
 import kr.co.mgv.theater.vo.Location;
 import kr.co.mgv.theater.vo.Theater;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 
 @Controller
-@RequestMapping("/support/one")
+@RequestMapping("/support/lost")
 @RequiredArgsConstructor
-public class OneController {
-
-	private final OneService oneService;
+public class LostController {
 	
+	private final LostService lostService;
+
 	@GetMapping()
-    public String one() {
-        return "/view/support/one/form";
+    public String lost() {
+        return "/view/support/lost/list";
+    }
+	 
+	@GetMapping("/form")
+    public String lostForm() {
+        return "/view/support/lost/form";
     }
 	
 	@PostMapping("/add")
-	public String createOne(@AuthenticationPrincipal User user, AddOneForm form) {
-		oneService.createOne(form, user);
+	public String createLost(@AuthenticationPrincipal User user, AddLostForm form) {
+		lostService.insertLost(form, user);
 		
-		return "redirect:/support/one";
-	}
-	
-	@GetMapping("/getCategory")
-	@ResponseBody
-	public List<SupportCategory> getCategories(@RequestParam String type) {
-		
-		return oneService.getCategoriesByType(type);
+		return "redirect:/support/lost";
 	}
 	
 	@GetMapping("/getLocation")
 	@ResponseBody
 	public List<Location> getLocations() {
 		
-		return oneService.getLocations();
+		return lostService.getLocations();
 	}
 	
 	@GetMapping("/getTheaterByLocationNo")
 	@ResponseBody
 	public List<Theater> getTheatersByLocationNo(@RequestParam("locationNo") int locationNo) {
 		
-		return oneService.getTheatesrByLocationNo(locationNo);
+		return lostService.getTheatesrByLocationNo(locationNo);
 	}
-	
-	
-	
-	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
