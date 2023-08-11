@@ -11,7 +11,6 @@ $(function() {
 			$selectLocation.append(option);
 		})
 		
-		getLostList();
 	})
 	
 	$("#location").change(function() {
@@ -28,8 +27,6 @@ $(function() {
 				$selectTheater.append(option);
 			})
 		})
-		
-		getLostList();
 		
 	});
 	
