@@ -141,4 +141,9 @@ public class MovieBoardService {
 		return movieBoardDao.getChildComment(comment);
 	}
 
+	// 게시물 등록 관련
+	public List<Movie> getMovieTitle() {
+		return movieBoardDao.getMovieTitle();
+	} 
+	
 }

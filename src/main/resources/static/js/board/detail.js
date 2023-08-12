@@ -106,9 +106,9 @@ $(function() {
 		        $("#btn-a-reply-" + commentNo).attr('id', 'btn-a-re-reply-' + commentNo).text('취소');
 	    });
 	
-	    // 답글 작성 취소 버튼을 클릭하면 폼을 제거하고 버튼을 답글쓰기로 변경
-	    $(".commentUserInfo").on("click", "[data-cancel-comment]", function (event) {
-	        event.preventDefault();
+		    // 답글 작성 취소 버튼을 클릭하면 폼을 제거하고 버튼을 답글쓰기로 변경
+		    $(".commentUserInfo").on("click", "[data-cancel-comment]", function (event) {
+		        event.preventDefault();
 	
 	
 	        // 답글 작성 폼을 제거하고 버튼을 답글쓰기로 변경
@@ -174,7 +174,7 @@ $(function() {
 									   					<p >${comment.content}</p>
 									   					<div id="comment-info" class="d-flex justify-content-start">
 									   						<p class="float-start me-2" style="font-size: 12px; color: gray" >${formattedDate}</p>
-									   						<a id="btn-a-reply-" th:attrappend="id=${comment.no}" th:attr="data-comment-no=${comment.no}" href="" class="float-satrt" style="text-decoration:none; font-size: 12px; color: gray" sec:authorize="isAuthenticated()">답글쓰기</a>
+									   						<a id="btn-a-reply-" th:attrappend="id=${comment.no}" th:attr="data-comment-no=${comment.no}" href="" class="reply-btn float-satrt" style="text-decoration:none; font-size: 12px; color: gray" sec:authorize="isAuthenticated()">답글쓰기</a>
 									   					</div>
 													
 												</div>
@@ -275,7 +275,7 @@ $(function() {
 						   					<div id="comment-info" class="d-flex justify-content-start">
 						   						<p class="float-start me-2" style="font-size: 12px; color: gray">${formattedDate}</p>
 						   						<!-- 
-						   						<a id="a-re-reply" href="" class="float-satrt" style="text-decoration:none; font-size: 12px; color: gray" sec:authorize="isAuthenticated()">답글쓰기</a>
+						   						<a id="a-re-reply" href="" class="reply-btn float-satrt" style="text-decoration:none; font-size: 12px; color: gray" sec:authorize="isAuthenticated()">답글쓰기</a>
 						   						-->
 						   					</div>
 										
@@ -296,9 +296,10 @@ $(function() {
 						</div>`
 						
 						$that.closest('.comment-box').find('.re-comment-here').append(content);
+						
 						 // 답글 작성 폼을 제거하고 답글 쓰기 버튼으로 변경
-                		$("#reply-form-" + result).remove();
-            		    $("#btn-a-re-reply-" + result).attr('id', 'btn-a-reply-' + result).text('답글쓰기');
+						$that.closest('.comment-box').find('.new-register-box ').remove();
+            		    $that.closest('.comment-box').find(".reply-btn").attr('id', 'btn-a-reply-' + result).text('답글쓰기');
             
             			// 댓글 등록 완료 후 포커스 이동
 						let newCommentElement = $(".re-comment-here").children().last(); // 새로 추가된 댓글 요소 선택

@@ -173,7 +173,7 @@
 				   					<p th:text="${comment.content}"></p>
 				   					<div id="comment-info" class="d-flex justify-content-start">
 				   						<p class="float-start me-2" style="font-size: 12px; color: gray" th:text="${#dates.format(comment.createDate, 'yyyy/MM/dd HH:mm')}">1998/06/24 07:00:00</p>
-				   						<a id="btn-a-reply-" th:attrappend="id=${comment.no}" th:attr="data-comment-no=${comment.no}" href="" class="float-satrt" style="text-decoration:none; font-size: 12px; color: gray" sec:authorize="isAuthenticated()">답글쓰기</a>
+				   						<a id="btn-a-reply-" th:attrappend="id=${comment.no}" th:attr="data-comment-no=${comment.no}" href="" class="reply-btn float-satrt" style="text-decoration:none; font-size: 12px; color: gray" sec:authorize="isAuthenticated()">답글쓰기</a>
 				   					</div>
 								
 							</div>
