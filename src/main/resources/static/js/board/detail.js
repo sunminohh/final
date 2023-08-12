@@ -139,10 +139,21 @@ $(function() {
 			        method: "POST",
 			        data: $("#form-comment").serialize(),
 			        success: function(comment) {
-			            // 성공 시 새로운 댓글 목록을 업데이트		            
+			            $("#content-box textarea").val('');
 			           	
-			           
 						
+			            // 성공 시 새로운 댓글 목록을 업데이트		            
+						// 주어진 날짜 문자열
+						const originalDateString = comment.createDate;
+						
+						// Date 객체로 변환
+						const dateObject = new Date(originalDateString);
+						
+						// 원하는 날짜 형식으로 포맷팅
+						const formattedDate = `${dateObject.getFullYear()}/${(dateObject.getMonth() + 1).toString().padStart(2, '0')}/${dateObject.getDate().toString().padStart(2, '0')} ${dateObject.getHours().toString().padStart(2, '0')}:${dateObject.getMinutes().toString().padStart(2, '0')}`;
+						
+
+												
 			            content = `
 			            		<div class="row great-comment-box" >
 						   			<div class="p-1 col-12" id="comment-box">
@@ -162,7 +173,7 @@ $(function() {
 												<div class="commentUserInfo ps-5" >
 									   					<p >${comment.content}</p>
 									   					<div id="comment-info" class="d-flex justify-content-start">
-									   						<p class="float-start me-2" style="font-size: 12px; color: gray" >${comment.createDate}</p>
+									   						<p class="float-start me-2" style="font-size: 12px; color: gray" >${formattedDate}</p>
 									   						<a id="btn-a-reply-" th:attrappend="id=${comment.no}" th:attr="data-comment-no=${comment.no}" href="" class="float-satrt" style="text-decoration:none; font-size: 12px; color: gray" sec:authorize="isAuthenticated()">답글쓰기</a>
 									   					</div>
 													
@@ -184,11 +195,19 @@ $(function() {
 								</div>
 			            
 			            `
-
-					   
-			           	
 			           	$("#comment-here").append(content);
+			          
+						// 댓글 등록 완료 후 포커스 이동
+						let newCommentElement = $("#comment-here").children().last(); // 새로 추가된 댓글 요소 선택
+						
+						window.scrollTo(0, newCommentElement.offset().top - 100); // 댓글 요소로 바로 이동 (100은 여유 공간 조절)
+
 			            
+			            let commentCountUpdate = parseInt($('#ajax-comment-count').text()) + 1;
+			            $('#ajax-comment-count').text(commentCountUpdate);
+			            $('#ajax-comment-count-2').text(commentCountUpdate);
+			            
+
 			        }
 			        
 			    });
@@ -196,7 +215,7 @@ $(function() {
 		    }   
 		});
 		
-		// 댓글 axax
+		// 대댓글 axax
 		$(".new-register-box").on('click','#btn-comment' ,function() {
 			
 			let $that = $(this);
@@ -218,6 +237,21 @@ $(function() {
 			        method: "POST",
 			        data: $("#re-form-comment").serialize(),
 			        success: function(comment) {
+						
+						 $("#new-content-div textarea").val('');
+						 
+						  // 성공 시 새로운 댓글 목록을 업데이트		            
+						// 주어진 날짜 문자열
+						const originalDateString = comment.createDate;
+						
+						// Date 객체로 변환
+						const dateObject = new Date(originalDateString);
+						
+						// 원하는 날짜 형식으로 포맷팅
+						const formattedDate = `${dateObject.getFullYear()}/${(dateObject.getMonth() + 1).toString().padStart(2, '0')}/${dateObject.getDate().toString().padStart(2, '0')} ${dateObject.getHours().toString().padStart(2, '0')}:${dateObject.getMinutes().toString().padStart(2, '0')}`;
+						
+
+						
 			            // 성공 시 새로운 댓글 목록을 업데이트		            
 			           	let thisCommentNo = $(".re-comment-here").attr('id');
 			           	let result = thisCommentNo.substr(16);
@@ -239,7 +273,7 @@ $(function() {
 									<div class="re-commentUserInfo ps-5" >
 						   					<p><strong >${comment.parent.user.id} </strong> <span >${comment.content}</span></p>
 						   					<div id="comment-info" class="d-flex justify-content-start">
-						   						<p class="float-start me-2" style="font-size: 12px; color: gray">${comment.createDate}</p>
+						   						<p class="float-start me-2" style="font-size: 12px; color: gray">${formattedDate}</p>
 						   						<!-- 
 						   						<a id="a-re-reply" href="" class="float-satrt" style="text-decoration:none; font-size: 12px; color: gray" sec:authorize="isAuthenticated()">답글쓰기</a>
 						   						-->
@@ -262,7 +296,18 @@ $(function() {
 						</div>`
 						
 						$that.closest('.comment-box').find('.re-comment-here').append(content);
-			            
+						 // 답글 작성 폼을 제거하고 답글 쓰기 버튼으로 변경
+                		$("#reply-form-" + result).remove();
+            		    $("#btn-a-re-reply-" + result).attr('id', 'btn-a-reply-' + result).text('답글쓰기');
+            
+            			// 댓글 등록 완료 후 포커스 이동
+						let newCommentElement = $(".re-comment-here").children().last(); // 새로 추가된 댓글 요소 선택
+						
+						window.scrollTo(0, newCommentElement.offset().top - 100); // 댓글 요소로 바로 이동 (100은 여유 공간 조절)			
+            
+			           	let commentCountUpdate = parseInt($('#ajax-comment-count').text()) + 1;
+			            $('#ajax-comment-count').text(commentCountUpdate);
+			            $('#ajax-comment-count-2').text(commentCountUpdate);
 			        }
 			    });
 		    }   

@@ -49,7 +49,7 @@
 
 
 					<div class="d-flex justify-content-end" style="position: relative; bottom:10px;">
-						<p  style="font-size : 12px; "><img alt="댓글이미지" th:src="@{/images/board/comment.png}" width="15px" height="15px;" > <strong th:utext="${board.commentCount}">3</strong></p>
+						<p  style="font-size : 12px; "><img alt="댓글이미지" th:src="@{/images/board/comment.png}" width="15px" height="15px;" > <strong id="ajax-comment-count" th:utext="${board.commentCount}">3</strong></p>
 						<div id="reload-box">
 						<form class="d-flex justify-content-end pe-4 me-3" 
 							  th:action="@{/board/movie/changelike}"   
@@ -73,8 +73,7 @@
 			
 			<div class="txc-textbox" style=" padding: 20px;">
 				<p th:utext="${board.content}">파이널 화이팅~~</p>
-		
-			<img th:src="@{/images/board/sample.png}" />
+			<img th:src="@{/images/board/cute.png}" width="520px"/>
 			</div>
 			
 			<div class="text-end mt-1" id="board-function">
@@ -96,7 +95,7 @@
 
    		<div class="comment-like pt-5 d-flex justify-content-between">
    			<div class="d-flex justify-content-start">
-   				<p class="me-3" style="font-size : 12px;"><img class=" me-1" alt="댓글이미지" th:src="@{/images/board/comment.png}" width="15px" height="15px">댓글 <strong th:utext="${board.commentCount}">3</strong></p>
+   				<p class="me-3" style="font-size : 12px;"><img class=" me-1" alt="댓글이미지" th:src="@{/images/board/comment.png}" width="15px" height="15px">댓글 <strong id="ajax-comment-count-2" th:utext="${board.commentCount}">3</strong></p>
 				<p class="float-end me-2" style="font-size : 12px;"><img class=" me-1" alt="좋아요" th:src="@{/images/board/like.png}" width="14px" height="14px"/> 좋아요 <strong id="guest-like-count" th:utext="${board.likeCount}">5</strong></p>
 		</div>
 			<div class="d-flex justify-content-end ">
