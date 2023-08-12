@@ -42,13 +42,6 @@ public class LostService {
 		lostDao.insertLost(lost);
 	}
 	
-	public List<Location> getLocations() {
-		return lostDao.getLocations();
-	}
-	
-	public List<Theater> getTheatesrByLocationNo(int locationNo) {
-		return lostDao.getTheatersByLocationNo(locationNo);
-	}
 
 	public LostList search(Map<String, Object> param) {
 		log.info("param -> {}", param);
@@ -69,6 +62,19 @@ public class LostService {
 		result.setLostList(lostList);
 		
 		return result;
+	}
+	
+	public Lost getLostByNo(int lostNo) {
+		
+		return lostDao.getLostByNo(lostNo);
+	}
+	
+	public List<Location> getLocations() {
+		return lostDao.getLocations();
+	}
+	
+	public List<Theater> getTheatesrByLocationNo(int locationNo) {
+		return lostDao.getTheatersByLocationNo(locationNo);
 	}
 }
 

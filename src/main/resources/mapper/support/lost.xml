@@ -73,6 +73,34 @@
 		LIMIT 10 OFFSET #{begin}
 	</select>
 	
+	<select id="getLostByNo" parameterType="int" resultType="kr.co.mgv.support.vo.Lost">
+		SELECT 
+			A.Lost_NO				as no, 
+			A.LOST_TITLE			as title, 
+			A.LOST_CONTENT			as content, 
+			A.LOST_ANSWERED			as answered, 
+			A.LOST_DELETED			as deleted, 
+			A.LOST_FILENAME			as fileName, 
+			A.LOST_UPDATE_DATE		as updateDate,
+			A.LOST_CREATE_DATE		as createDate, 
+			A.LOCATION_NO			as "location.no",
+			B.Location_name			as "location.name",
+			A.THEATER_NO 			as "theater.no",
+			C.theater_name			as "theater.name",
+			D.user_email			as "user.email"
+		FROM 
+			MGV_SUPPORT_LOST A, MGV_LOCATION B , MGV_THEATERS C, MGV_USER D
+		where 
+			A.LOCATION_NO = B.LOCATION_NO
+			and A.theater_NO = C.theater_NO
+			and A.user_email = D.user_email
+			and A.Lost_NO = #{value} 
+	</select>
+	
+	
+	
+	
+	
 	<select id="getLocations" resultType="kr.co.mgv.theater.vo.Location">
 		SELECT
     		location_no		as no,

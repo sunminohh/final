@@ -23,4 +23,6 @@ public interface LostDao {
 	List<Lost> getlosts(Map<String, Object> param);
 	int getTotalRows(Map<String, Object> param);
 	
+	// 분실물문의 디테일 조회
+	Lost getLostByNo (int lostNo);
 }

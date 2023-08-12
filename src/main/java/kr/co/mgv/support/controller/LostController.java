@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import kr.co.mgv.support.dto.LostList;
 import kr.co.mgv.support.form.AddLostForm;
 import kr.co.mgv.support.service.LostService;
+import kr.co.mgv.support.vo.Lost;
 import kr.co.mgv.theater.vo.Location;
 import kr.co.mgv.theater.vo.Theater;
 import kr.co.mgv.user.vo.User;
@@ -88,9 +89,14 @@ public class LostController {
 	}
 	
 	@GetMapping("/detail")
-	public String getLostByUser() {
+	public String getLostByNo(@RequestParam("no") int lostNo, Model model) {
+		Lost lost = lostService.getLostByNo(lostNo);
+		model.addAttribute("lost", lost);
+		
 		return "/view/support/lost/detail";
 	}
+	
+	
 	
 	@GetMapping("/getLocation")
 	@ResponseBody
