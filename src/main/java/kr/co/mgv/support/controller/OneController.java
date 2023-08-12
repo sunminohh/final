@@ -31,6 +31,11 @@ public class OneController {
         return "/view/support/one/form";
     }
 	
+	@GetMapping("/myinquery")
+	public String myinquery() {
+		return "/view/support/one/list";
+	}
+	
 	@PostMapping("/add")
 	public String createOne(@AuthenticationPrincipal User user, AddOneForm form) {
 		oneService.createOne(form, user);

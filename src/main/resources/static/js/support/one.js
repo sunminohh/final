@@ -1,5 +1,20 @@
+
 $(function() {
 	
+	// 탭메뉴	
+	$('li.tab-link.current').click();
+
+    $('li.tab-link').click(function() {
+
+      $('li.tab-link').removeClass('current');
+      $('button.btn').removeClass('current');
+
+      $(this).addClass('current');
+      $(this).find('button.btn').addClass('current');
+      
+    });
+    // 탭메뉴 끝
+
 	$("#onesupport").change(function() {
 		let $selectCategory = $("#oneCat").empty();
 		$selectCategory.append(`<option value="" selected disabled>문의유형 선택</option>`)

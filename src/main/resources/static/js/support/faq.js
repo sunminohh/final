@@ -1,7 +1,7 @@
 
-// 탭메뉴	
 $(document).ready(function() {
 	  
+	// 탭메뉴	
     $('li.tab-link.current').click();
 
     $('li.tab-link').click(function() {
@@ -12,6 +12,7 @@ $(document).ready(function() {
 	      $(this).addClass('current');
 	      $(this).find('button.btn').addClass('current');
     });
+    // 탭메뉴 끝
 
 	// 검색버튼 클릭했을 때
 	$("#btn-search").click(function() {

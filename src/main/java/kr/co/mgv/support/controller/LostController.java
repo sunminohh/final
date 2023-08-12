@@ -87,6 +87,11 @@ public class LostController {
 		return "redirect:/support/lost";
 	}
 	
+	@GetMapping("/detail")
+	public String getLostByUser() {
+		return "/view/support/lost/detail";
+	}
+	
 	@GetMapping("/getLocation")
 	@ResponseBody
 	public List<Location> getLocations() {
