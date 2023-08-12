@@ -54,7 +54,7 @@
 		FROM MGV_SUPPORT_LOST A, MGV_LOCATION B , MGV_THEATERS C
 		where 
 			A.LOCATION_NO = B.LOCATION_NO
-			and B.LOCATION_NO = C.LOCATION_NO
+			and A.theater_NO = C.theater_NO
 			and A.LOST_DELETED = 'N'
 			<if test="locationNo != null">
 				and A.LOCATION_NO = #{locationNo}
