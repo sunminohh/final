@@ -313,14 +313,34 @@ $(function() {
 		    }   
 		});
 		
-		
-		
-		
+      const quickMenu = $("#quick-scroll");
+      const triggerOffset = 700; // 퀵 메뉴를 나타낼 스크롤 위치
 
+      // 페이지 로딩 시 퀵 메뉴 숨김
+      quickMenu.hide();
 
-	
+      $(window).on("scroll", function () {
+        const currentScroll = $(this).scrollTop();
+
+        if (currentScroll >= triggerOffset) {
+          quickMenu.show();
+        } else {
+          quickMenu.hide();
+        }
+
+        // 스크롤이 맨 아래까지 내려간 경우
+        if (currentScroll + $(window).height()+30 > $(document).height()) {
+          quickMenu.css("bottom", '30%');
+        } else {
+          quickMenu.css("bottom", "0%");
+        }
+      });
+      
+		
+		$("#quick-scroll").on("click", function () {
+        $("html, body").animate({ scrollTop: 0 }, "fast");
+      });
 
 })
-
 
 		
