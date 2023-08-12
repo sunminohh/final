@@ -118,10 +118,19 @@ public class AuthenticationController {
     // 이메일 인증
     @PostMapping("/mail")
     @ResponseBody
-    String mailConfirm(@RequestParam("email") String email) throws Exception {
-
+    String mailConfirm(@RequestParam("email") String email, HttpSession session) throws Exception {
         String code = emailService.sendSimpleMessage(email);
         log.info("인증코드 -> {}", code);
-        return code;
+
+        // 생성한 인증 코드를 세션에 저장
+        session.setAttribute("emailConfirmCode", code);
+        return "success";
+    }
+
+    @GetMapping("/session")
+    @ResponseBody
+    public String getSessionAuthCode(HttpSession session) {
+        String code = (String) session.getAttribute("emailConfirmCode");
+        return code != null ? code : "error";
     }
 }

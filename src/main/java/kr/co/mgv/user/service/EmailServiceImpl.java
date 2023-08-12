@@ -77,6 +77,12 @@ public class EmailServiceImpl implements EmailService {
                     break;
             }
         }
+        /*  숫자 6자리 인증번호
+            for (int i = 0; i < 6; i++) {
+                int num = rnd.nextInt(10); // 0~9 중 랜덤한 숫자
+                key.append(num);
+            }
+        */
 
         return key.toString();
     }
