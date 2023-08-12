@@ -23,6 +23,8 @@ import kr.co.mgv.board.service.MovieBoardService;
 import kr.co.mgv.board.vo.MBoardComment;
 import kr.co.mgv.board.vo.MBoardLike;
 import kr.co.mgv.board.vo.MovieBoard;
+import kr.co.mgv.movie.service.MovieService;
+import kr.co.mgv.movie.vo.Movie;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -115,12 +117,6 @@ public class MovieBoardController {
     	
         return "/view/board/movie/detail";
     }
-
-    @GetMapping("/add")
-    public String theaterForm() {
-        return "/view/board/movie/form";
-    }
-    
     
     @PostMapping("/changelike")
     @ResponseBody
@@ -153,7 +149,17 @@ public class MovieBoardController {
 
     	return ResponseEntity.ok().build();
     }
-        
+      
+    // 게시물 등록 관련
+    @GetMapping("/add")
+    public String theaterForm(Model model) {
+    	List<Movie> movieList = movieBoardService.getMovieTitle();
+    	model.addAttribute("movies", movieList);
+    	for(Movie movie : movieList) {
+    	log.info("영화 제목 -> {}", movie.getTitle());
+    	}
+        return "/view/board/movie/form";
+    }
 
     // 댓글 관련
     @PostMapping("/addComment")

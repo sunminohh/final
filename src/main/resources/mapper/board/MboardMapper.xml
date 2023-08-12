@@ -271,4 +271,12 @@
 		ORDER BY A.comment_create_date DESC
 		LIMIT 1;
 	</select>
+	
+	<!-- 게시물 등록 관련 -->
+	<select id="getMovieTitle" resultType="kr.co.mgv.movie.vo.Movie">
+		select movie_no		as no,
+			   movie_title	as title
+		from MGV_MOVIE
+		order by movie_title asc
+	</select>
 </mapper>
