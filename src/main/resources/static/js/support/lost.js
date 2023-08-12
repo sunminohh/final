@@ -81,16 +81,16 @@ $(function() {
 				lostList.forEach(function(lost, index) {
 					let content = `
 						<tr>
-						 	<td >${lost.no}</td>
-				            <td >${lost.theater.name}</td>
-				            <td style="text-align:left;">${lost.title}</td>
-				            <!-- 
-				            <th scope="row">
-				            	<a href="" class="btn-layer-open moveBtn">분실물 문의</a>
-				            </th>
-				            -->
-				            <td >${lost.answered == 'Y' ? '답변완료' : '미답변'}</td>
-				            <td >${lost.updateDate}</td>
+						 	<td>${lost.no}</td>
+				            <td>${lost.theater.name}</td>
+				            <td style="text-align:left;">
+				            	<a class="text-black text-decoration-none"
+				            		href="/support/lost/detail?no=${lost.no}">
+				            		${lost.title }
+				            	</a>
+				            </td>
+				            <td>${lost.answered == 'Y' ? '답변완료' : '미답변'}</td>
+				            <td>${lost.updateDate}</td>
 			           </tr>
 					`
 					$tbody.append(content);

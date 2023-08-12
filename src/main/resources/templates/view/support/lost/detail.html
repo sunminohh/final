@@ -27,8 +27,9 @@
                     			th:text="${lost.theater.name}"></span>
                 </p>
                 <p>
-                    <span class="txt" th:text="${lost.user.email}"></span>
-                </p>
+				    <span class="txt" th:if="${lost.user.email != null}" th:text="${lost.user.email}"></span>
+				    <span class="txt" th:if="${lost.user.email == null}" th:text="${lost.guestEmail}"></span>
+				</p>
                 <p>
                     <span class="txt" th:text="${#dates.format(lost.updateDate, 'yyyy.MM.dd')}"></span>
                 </p>
