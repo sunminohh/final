@@ -15,7 +15,7 @@
         <div class="table-wrap mt30">
             <div class="board-view">
             <div class="tit-area">
-                <p class="tit" th:text="${lost.title}">글 제목</p>
+                <p class="tit" th:text="${lost.title}"></p>
             </div>
 
             <div class="info">
@@ -24,16 +24,16 @@
                 </p>
                 <p>
                     <span class="txt font-gblue" style="font-weight: bold;"
-                    			th:text="${lost.theater.name}">극장지점</span>
+                    			th:text="${lost.theater.name}"></span>
                 </p>
                 <p>
-                    <span class="txt" th:text="${lost.user.email}">회원이메일</span>
+                    <span class="txt" th:text="${lost.user.email}"></span>
                 </p>
                 <p>
-                    <span class="txt" th:text="${#dates.format(lost.updateDate, 'yyyy.MM.dd')}">등록일</span>
+                    <span class="txt" th:text="${#dates.format(lost.updateDate, 'yyyy.MM.dd')}"></span>
                 </p>
                 <p>    
-                    <span class="txt" th:text="${lost.answered == 'Y' ? '답변완료' : '미답변'}">답변여부</span>
+                    <span class="txt" th:text="${lost.answered == 'Y' ? '답변완료' : '미답변'}"></span>
                 </p>
             </div>
 
