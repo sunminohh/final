@@ -298,7 +298,7 @@ $(() => {
                     url: "/user/auth/session",
                     dataType: "text"
                 });
-
+                console.log("인증번호 ->", savedAuthNumber);
                 $("#userEmail").prop("readonly", true);
                 $("#btnAuthMail").prop("disabled", true);
                 $("#mail-number").show();
@@ -318,20 +318,19 @@ $(() => {
         const $auth = $("#userAuth");
         const userEnteredAuthNumber = $auth.val();
 
-        console.log(savedAuthNumber);
-
         // 서버에서 받은 인증번호와 사용자 입력한 인증번호 비교
         try {
             if (savedAuthNumber !== userEnteredAuthNumber) {
                 console.log("인증 실패");
+                console.log("비교 -> ", userEnteredAuthNumber === savedAuthNumber);
                 authCheck = false;
-                console.log("서버 인증번호" + savedAuthNumber);
 
                 errorAlert($auth, "인증번호가 일치하지 않습니다. 다시 확인해주세요.");
             } else {
                 console.log("인증 성공");
+                console.log("비교 -> ", userEnteredAuthNumber === savedAuthNumber);
                 authCheck = true;
-                console.log("서버 인증번호" + savedAuthNumber);
+
                 successAlert($auth, "인증번호가 일치합니다.");
                 $("#userAuth").prop("readonly", true);
                 $("#btnConfirm").prop("disabled", true);
