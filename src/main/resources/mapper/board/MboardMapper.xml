@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.co.mgv.board.mboard.MovieBoardDao">
-
+<mapper namespace="kr.co.mgv.board.mapper.MovieBoardDao">
+	<!-- 게시물 관련 -->
     <select id="getTotalRows" parameterType="map" resultType="int">
     	SELECT COUNT(*)
     	FROM MGV_MOVIE_BOARD A, MGV_MOVIE B
@@ -26,7 +26,7 @@
   		</choose>
     </select>
     
-	<select id="getMBoards" parameterType="map" resultType="kr.co.mgv.board.mboard.MovieBoard">
+	<select id="getMBoards" parameterType="map" resultType="kr.co.mgv.board.vo.MovieBoard">
 	    select *
 	    from (
 	        select 
@@ -71,9 +71,9 @@
 	            <when test="opt == 'content'">
 	                and board_content like  CONCAT('%', #{keyword}, '%')
 	            </when>
-	            <when test="opt == 'all'">
-	                and (board_name like  CONCAT('%', #{keyword}, '%') or board_content like  CONCAT('%', #{keyword}, '%')
-	            </when>
+    			<when test="opt == 'all'">
+    				and board_name like CONCAT('%', #{keyword}, '%') or board_content like CONCAT('%', #{keyword}, '%')
+    			</when>
 	            <when test="opt == 'writer'">
 	                and member_id like  CONCAT('%', #{keyword}, '%')
 	            </when>
@@ -81,8 +81,9 @@
 	    ) A
 	    having A.ROWNUMBER between #{begin} and #{end}
 	</select>
-
-	<select id="getMBoardByNo" parameterType="int" resultType="kr.co.mgv.board.mboard.MovieBoard">
+	
+	<!-- 상세페이지 관련 -->
+	<select id="getMBoardByNo" parameterType="int" resultType="kr.co.mgv.board.vo.MovieBoard">
 		select
             A.board_no              as no,
             A.board_name            as name,
@@ -103,7 +104,7 @@
 	    	and A.board_no = #{value}
 	</select>
 	
-	<update id="updateMBoardByNo" parameterType="kr.co.mgv.board.mboard.MovieBoard">
+	<update id="updateMBoardByNo" parameterType="kr.co.mgv.board.vo.MovieBoard">
 		update MGV_MOVIE_BOARD
 			<set>
 				<if test="name != null">
@@ -136,10 +137,138 @@
 				<if test="likeCount != null">
 					board_like_count = #{likeCount},
 				</if>
-				<if test="movie != null">
-					movie_no = #{movie.no},
-				</if>
 			</set>
 			where board_no = #{no}
 	</update>
+	<!-- 
+				<if test="movie != null">
+					movie_no = #{movie.no},
+				</if>
+	 -->
+	 
+	 <insert id="insertMBoardLike" parameterType="kr.co.mgv.board.vo.MBoardLike">
+	 	INSERT INTO jhta_2302.MOVIE_BOARD_LIKE
+		(USER_ID, BOARD_NO)
+		VALUES(#{user.id}, #{board.no});
+	 </insert>
+	 
+	 <select id="getLikeByBnoAndId" parameterType="kr.co.mgv.board.vo.MBoardLike" resultType="kr.co.mgv.board.vo.MBoardLike">
+	 	SELECT 
+	 		LIKE_NO		as no, 
+	 		LIKE_CANCEL as cancel,
+	 		USER_ID		as "user.id", 
+	 		BOARD_NO	as "board.no"
+		FROM 
+			MOVIE_BOARD_LIKE
+		where
+			user_id = #{user.id}
+			and board_no = #{board.no}
+	 	
+	 </select>
+	 
+	 <update id="updateLike" parameterType="kr.co.mgv.board.vo.MBoardComment">
+	 	UPDATE 
+	 		MOVIE_BOARD_LIKE
+		SET 
+			like_cancel = #{cancel}
+		WHERE user_id = #{user.id}
+			  and board_no = #{board.no}
+	 	
+	 </update>
+	
+	
+	<!-- 댓글 관련  -->
+	<insert id="insertMBoardComment" parameterType="kr.co.mgv.board.vo.MBoardComment">
+		INSERT INTO jhta_2302.MGV_MBOARD_COMMENT
+		(COMMENT_CONTENT, USER_ID, BOARD_NO, PARENT_COMMENT_NO, GREAT_COMMENT_NO)
+		VALUES(#{content}, #{user.id}, #{board.no}, #{parent.no}, #{great.no});
+	</insert>
+	
+	<select id="getMBoardComments" resultType="kr.co.mgv.board.vo.MBoardComment" parameterType="int">
+		SELECT 
+			COMMENT_NO				as no, 
+			COMMENT_CREATE_dATE		as createDate, 
+			COMMENT_UPDATE_DATE		as updateDate, 
+			COMMENT_CONTENT			as content, 
+			USER_ID					as "user.id", 
+			COMMENT_DELETED			as deleted, 
+			BOARD_NO				as "board.no"
+		FROM 
+			MGV_MBOARD_COMMENT 
+		WHERE 
+			comment_deleted = 'N'
+			and board_no = #{value}
+			and great_comment_no is null
+		order by comment_create_date;
+	</select>
+	
+	<select id="getMBoardChildComments" resultType="kr.co.mgv.board.vo.MBoardComment" parameterType="int">
+		SELECT 
+			A.COMMENT_NO				as no, 
+			A.COMMENT_CREATE_dATE		as createDate, 
+			A.COMMENT_UPDATE_DATE		as updateDate, 
+			A.COMMENT_CONTENT			as content, 
+			A.USER_ID					as "user.id", 
+			A.COMMENT_DELETED			as deleted, 
+			A.BOARD_NO					as "board.no", 
+			A.PARENT_COMMENT_NO			as "parent.no", 
+			A.GREAT_COMMENT_NO			as "great.no",
+			P.USER_ID					as "parent.user.id",
+			G.USER_ID					as "great.user.id"
+		FROM 
+			MGV_MBOARD_COMMENT A, MGV_MBOARD_COMMENT P, MGV_MBOARD_COMMENT G
+		WHERE 
+			A.parent_comment_no = P.comment_no
+			and A.great_comment_no = G.comment_no
+			and A.comment_deleted = 'N'
+			and A.board_no = #{value}
+			and A.great_comment_no is NOT null
+		order by A.comment_create_date;
+	</select>
+	
+		<select id="getGreatComment" resultType="kr.co.mgv.board.vo.MBoardComment" parameterType="kr.co.mgv.board.vo.MBoardComment">
+		SELECT 
+			COMMENT_NO				as no, 
+			COMMENT_CREATE_dATE		as createDate, 
+			COMMENT_UPDATE_DATE		as updateDate, 
+			COMMENT_CONTENT			as content, 
+			USER_ID					as "user.id", 
+			COMMENT_DELETED			as deleted, 
+			BOARD_NO				as "board.no"
+		FROM 
+			MGV_MBOARD_COMMENT 
+		WHERE 
+			comment_deleted = 'N'
+			and board_no = #{board.no}
+			and user_id = #{user.id}
+			and great_comment_no is null
+			ORDER BY comment_create_date DESC
+			LIMIT 1;
+	</select>
+	
+	<select id="getChildComment" resultType="kr.co.mgv.board.vo.MBoardComment" parameterType="kr.co.mgv.board.vo.MBoardComment">
+		SELECT 
+			A.COMMENT_NO				as no, 
+			A.COMMENT_CREATE_dATE		as createDate, 
+			A.COMMENT_UPDATE_DATE		as updateDate, 
+			A.COMMENT_CONTENT			as content, 
+			A.USER_ID					as "user.id", 
+			A.COMMENT_DELETED			as deleted, 
+			A.BOARD_NO					as "board.no", 
+			A.PARENT_COMMENT_NO			as "parent.no", 
+			A.GREAT_COMMENT_NO			as "great.no",
+			P.USER_ID					as "parent.user.id",
+			G.USER_ID					as "great.user.id"
+		FROM 
+			MGV_MBOARD_COMMENT A, MGV_MBOARD_COMMENT P, MGV_MBOARD_COMMENT G
+		WHERE 
+			A.parent_comment_no = P.comment_no
+			and A.great_comment_no = G.comment_no
+			and A.comment_deleted = 'N'
+			and A.board_no = #{board.no}
+			and A.user_id = #{user.id} 
+			and A.great_comment_no is NOT null
+		ORDER BY A.comment_create_date DESC
+		LIMIT 1;
+	</select>
 </mapper>

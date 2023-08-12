@@ -20,9 +20,9 @@ $(() => {
 				weekDay = '내일';
 			}
 			let weekdayno = currentDay.get('day')
-			htmlContents += `<button class="disabled ${weekdayno == 0 ? 'holi': 
-														weekdayno == 6 ? 'sat':''}" type="button" date-data="${currentDay.format('YYYY.MM.DD')}"
-											month="7">
+			htmlContents += `<button class=" ${weekdayno == 0 ? 'holi': 
+														weekdayno == 6 ? 'sat':''}" type="button" date-data="${currentDay.format('YYYY-MM-DD')}"
+											month="${currentDay.get('month')}">
 											<span class="ir">${currentDay.format('YYYY년MM월')}</span><em
 												style="pointer-events: none;">${currentDay.get('date')}<span
 												style="pointer-events: none;" class="ir">일</span></em><span
@@ -52,6 +52,13 @@ $(() => {
 			$theatersarea.html(contents);
 		})
 	})
+
+	
+	/*let theaterno = $(this).attr("data-job-id");
+	$.getJSON("/theater/detail/${}",function(){
+		
+	})*/
+
 
 	// 상영시간표 날짜버튼 클릭시 이벤트 핸들러 등록
 	$(".date-area .wrap").on("click","button", function(){
@@ -96,9 +103,10 @@ $(() => {
 		
 		// 주소-좌표 변환 객체를 생성합니다
 		var geocoder = new kakao.maps.services.Geocoder();
-
+		let address=$("#theater-address").text()
+		let locationname = $("p.name").text();
 		// 주소로 좌표를 검색합니다
-		geocoder.addressSearch('서울특별시 서초구 서초대로 77길 3 (서초동) 아라타워 8층', function(result, status) {
+		geocoder.addressSearch(address, function(result, status) {
 
 	    	// 정상적으로 검색이 완료됐으면 
 	     	if (status === kakao.maps.services.Status.OK) {
@@ -117,9 +125,9 @@ $(() => {
 					map: map,
 				    position: coords,
 		            content: `<div class="card card-body p-2" style="width:150px;text-align:center;">
-		            			<span>강남메가박스</span>
+		            			<span>${locationname}</span>
 		            			<div class="px-auto py-2">
-		            				<a class="btn btn-primary btn-sm " href="https://map.kakao.com/link/to/Hello World!,${result[0].y},${result[0].x}" style="width:100px; color:white" target="_blank"> 빠른 길찾기</a>
+		            				<a class="btn btn-primary btn-sm " href="https://map.kakao.com/link/to/${locationname},${result[0].y},${result[0].x}" style="width:100px; color:white" target="_blank"> 빠른 길찾기</a>
 		            			</div>
 		           			</div>`,
 		            yAnchor: 1.5

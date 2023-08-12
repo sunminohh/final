@@ -9,7 +9,7 @@
 	    border-radius: 50%;
 	    overflow: hidden;
 		position: absolute; 
-		bottom: 4px;
+		bottom: 26px;
 	}
 	
 	#profileimg{
@@ -68,7 +68,22 @@
 	}
 	
 
-	
+	  .quick-menu {
+      position: fixed;
+      bottom: -50px;
+      right: 20px;
+      transform: translateY(-50%);
+      background-color:ghostwhite;
+      color: midnightblue;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 50px;
+      height: 40px;
+      text-align: center;
+      transition: bottom 0.3s;
+    }
+
 	
 	
 	

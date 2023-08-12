@@ -1,0 +1,180 @@
+<html xmlns:th="http://www.thymeleaf.org"
+   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/support}">
+<head th:fragment="extra-head-content">
+	<script type="text/javascript" th:src="@{/js/support/one.js}"></script>
+</head>
+<div id="contents" layout:fragment="content">
+    <h2 class="tit">1:1 문의</h2>
+    <div class="mypage-infomation mb30">
+        <ul class="dot-list">
+            <li><span style="font-weight: bold;">고객님의 문의에 답변하는 직원은 <span style="color: #EB323A;">고객 여러분의 가족 중 한 사람일 수 있습니다.</span></span><br>
+                고객의 언어폭력(비하, 욕설, 협박, 성희롱 등)으로부터 직원을 보호하기 위해<br>
+                관련 법에 따라 수사기관에 필요한 조치를 요구할 수 있으며, 형법에 의해 처벌 대상이 될 수 있습니다.<br>
+            </li>
+            <br>
+            <li>문의하시기 전 FAQ를 확인하시면 궁금증을 더욱 빠르게 해결하실 수 있습니다. </li>
+        </ul>
+    </div>
+
+    <div class="agree-box">
+        <dl>
+            <dt>
+				<span class="bg-chk mr10">
+					<input type="checkbox" id="chk">
+					<label for="chk"><strong>개인정보 수집에 대한 동의</strong></label>
+				</span>
+                <span class="font-orange">[필수]</span>
+            </dt>
+            <dd style="font-size:13px;">
+                귀하께서 문의하신 다음의 내역은 법률에 의거 개인정보 수집·이용에 대한 본인동의가 필요한 항목입니다.<br><br>
+
+                [개인정보의 수집 및 이용목적]<br>
+                회사는 1:1 문의 내역의 확인, 요청사항 처리 또는 완료 시 원활한 의사소통 경로 확보를 위해 수집하고 있습니다.<br><br>
+
+                [필수 수집하는 개인정보의 항목]<br>
+                이름, 휴대전화, 이메일, 문의내용<br><br>
+
+                [개인정보의 보유기간 및 이용기간]<br>
+                <span class="ismsimp">문의 접수 ~ 처리 완료 후 3년<br>
+							(단, 관계법령의 규정에 의하여 보존 할 필요성이 있는 경우에는 관계 법령에 따라 보존)<br>
+							자세한 내용은 '개인정보 처리방침'을 확인하시기 바랍니다.</span>
+            </dd>
+        </dl>
+    </div>
+
+    <p class="reset mt10">* 원활한 서비스 이용을 위한 최소한의 개인정보이므로 동의하지 않을 경우 서비스를 이용하실 수 없습니다</p>
+    <p class="reset mt30 a-r font-orange">* 필수</p>
+
+	<!--폼 시작 -->
+    <form name="regFrm" method="post" th:action="@{/support/one/add}" th:object=${addOneForm}>
+        <div class="table-wrap mt10">
+            <table class="board-form va-m">
+                <colgroup>
+                    <col style="width:150px;">
+                    <col>
+                    <col style="width:150px;">
+                    <col>
+                </colgroup>
+                <tbody>
+                <tr>
+                    <th scope="row">문의선택<em class="font-orange">*</em></th>
+                    <td colspan="3" >
+                    	<div class="d-flex justify-content-start" style="margin-bottom: -15px;">
+                    	
+                    		<!-- 라디오버튼 -->
+							<div class="me-2 pt-2">
+		                        <input type="radio" name="inquiryType" id="onesupport" checked>
+								<label for="aq1">고객센터문의</label>
+							</div>
+							<div class="me-3 pt-2">
+								<input type="radio" name="inquiryType" id="onetheater" class="ml20">
+								<label for="aq2">극장별문의</label>
+							</div>
+	
+							<!-- 지역, 극장선택 셀렉트박스 -->
+	                        <select id="location" title="지역선택" name="locationNo"
+	                                class="form-select form-select-sm  ml07 form-control-sm mb-3"
+	                                style="width: 100px; float:left">
+	                            <option value="" selected disabled>지역선택</option>
+	                        </select>
+	
+	                        <select id="theater" title="극장선택" name="theaterNo" 
+	                        		class="form-select form-select-sm ml07 form-control-sm mb-3"
+	                                style="width: 100px; float:left; position: relative; left:5px;">
+	      						<option value="" selected disabled>극장선택</option>
+	                        </select>
+                    	</div>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <th scope="row"><label for="ask-type">문의유형</label> <em class="font-orange">*</em></th>
+                    <td colspan="3">
+                        <div class="d-flex justify-content-start" style="margin-bottom: -15px; margin-left: -8px;">
+                           	<select id="oneCat" title="문의유형 선택" name="categoryNo"
+                                class="form-select form-select-sm  ml07 form-control-sm mb-3"
+                                style="width: 130px; float:left;">
+                            	<option value="" selected disabled>문의유형 선택</option>
+                       		</select>
+						</div>
+                    </td>
+                </tr>
+                
+                <tr sec:authorize="isAuthenticated()">
+                    <th scope="row"><label for="name">이름</label> <em class="font-orange">*</em></th>
+                    <td>
+                        <input type="text" id="name" name="username" class="input-text w150px" th:value="${#authentication.principal.username}" maxlength="30" disabled>
+                    </td>
+                    <th scope="row"><label for="email">이메일</label> <em class="font-orange">*</em></th>
+                    <td>
+                        <input type="text" name="useremail" id="email" class="input-text" th:value="${#authentication.principal.email}" maxlength="50" disabled>
+                    </td>
+                </tr>
+                <tr sec:authorize="isAnonymous()">
+                    <th scope="row"><label for="name">이름</label> <em class="font-orange">*</em></th>
+                    <td>
+                        <input type="text" id="name" name="guestName" class="input-text w150px" value="" maxlength="30">
+                    </td>
+                    <th scope="row"><label for="email">이메일</label> <em class="font-orange">*</em></th>
+                    <td>
+                        <input type="text" id="email" name="guestEmail" class="input-text" value="" maxlength="50">
+                    </td>
+                </tr>
+            
+                <tr>
+                    <th scope="row"><label for="qnaCustInqTitle">제목</label> <em class="font-orange">*</em></th>
+                    <td colspan="3"><input type="text" name="title" class="input-text" maxlength="100"></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="textarea">내용</label> <em class="font-orange">*</em></th>
+                    <td colspan="3">
+                        <div class="textarea">
+                            <div id="textarea-notice" style="color: #999999; margin-left: 10px;">
+                                <ul>- 문의내용에 개인정보(이름,연락처,카드번호 등)가 포함되지 않도록 유의하시기 바랍니다.</ul>
+                                <ul style="font-weight: bold"> - 비회원 문의시 이메일로 답변내용이 발송되오니 정확하게 작성부탁드립니다.</ul>
+                                <ul> - 회원로그인 후 문의작성시 나의 문의내역을 통해 답변을 확인하실 수 있습니다.</ul>
+                            </div>
+                            <textarea id="textarea" name="content" rows="5" cols="30" class="input-textarea"></textarea>
+                            <div class="util">
+                                <p class="count">
+                                    <span id="textareaCnt">0</span> / 2000
+                                </p>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">사진첨부</th>
+                    <td colspan="3">
+                        <div class="upload-image-box">
+                            <div class="info-txt">
+                                <p>* JPEG, PNG 형식의 5M 이하의 파일만 첨부 가능합니다. (최대 5개)</p>
+                                <!--이미지 추가가 5개가 되면 버튼 숨김 -->
+                                <p>* 개인정보가 포함된 이미지 등록은 자제하여 주시기 바랍니다.</p>
+                                <input type="file" name="upfile" >
+                            </div>
+                            <div id="imgList">
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr sec:authorize="isAnonymous()">
+                    <th scope="row"><label for="password">비밀번호</label> <em class="font-orange">*</em></th>
+                    <td colspan="3">
+                        <input type="number" maxlength="4" name="guestPassword" class="input-text w150px pwnew" placeholder="숫자 4자리">
+                        <em class="fc_r ml10">* 1:1 문의에 대한 고객정보 보호를 위해 게시글의 비밀번호를 설정해주세요.</em>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="btn-group pt40" style="display: block;">
+            <button type="submit" class="button purple large">등록</button>
+        </div>
+    </form>
+    <!-- 폼 끝 -->
+</div>
+</html>

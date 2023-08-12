@@ -45,10 +45,13 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
-
-        for (String roleName : roleName) {
-            authorities.add(new SimpleGrantedAuthority(roleName));
+        
+        if (roleName != null) {
+        	for (String roleName : roleName) {
+        		authorities.add(new SimpleGrantedAuthority(roleName));
+        	}
         }
+
 
         return authorities;
     }
