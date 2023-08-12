@@ -1,0 +1,59 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/support}">
+<head th:fragment="extra-head-content">
+	<script type="text/javascript" th:src="@{/js/support/lost.js}"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<div id="contents" layout:fragment="content">
+    <h2 class="tit">분실물 문의</h2>
+    <ul class="dot-list">
+        <li>MGV에서 잃어버린 물건이 있다면 ‘분실물 문의/접수’를 통해 접수해주세요.</li>
+        <li>접수하신 글은 비밀글로 등록되어 작성자와 관리자만 확인 가능합니다.</li>
+    </ul>
+
+        <div class="table-wrap mt30">
+            <div class="board-view">
+            <div class="tit-area">
+                <p class="tit">글 제목</p>
+            </div>
+
+            <div class="info">
+                <p>
+                    <span class="txt">문의사항</span>
+                </p>
+                <p>
+                    <span class="txt font-gblue" style="font-weight: bold;">극장지점</span>
+                </p>
+                <p>
+                    <span class="txt">회원폰번호</span>
+                </p>
+                <p>
+                    <span class="txt">회원이메일</span>
+                </p>
+                <p>
+                    <span class="txt">등록일</span>
+                </p>
+                <p>    
+                    <span class="txt">답변여부</span>
+                </p>
+            </div>
+
+            <div class="cont">
+				<p>
+					하이
+               
+                </p>
+            </div>
+        </div>
+        </div>
+
+        <div class="btn-group pt40" style="display: block;">
+            <a href="/support/lost">
+			  <button type="button" class="button large">목록</button>
+			</a>
+            <a href="/support/lost">
+			  <button type="button" class="button large">삭제</button>
+			</a>
+        </div>
+</div>
