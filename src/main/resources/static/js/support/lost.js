@@ -108,10 +108,26 @@ $(function() {
 				}
 			}
 		})
-		
-		
 	}
 	
+	// 폼 시작
+	$(document).ready(function() {
+	    $("#pw").on("input", function() {
+	        // 입력값에서 숫자 이외의 문자 제거
+	        var numericValue = $(this).val().replace(/[^0-9]/g, '');
+	
+	        // 4자리로 제한
+	        if (numericValue.length > 4) {
+	            numericValue = numericValue.slice(0, 4);
+	        }
+	
+	        // 입력 필드에 반영
+	        $(this).val(numericValue);
+	    });
+	});
+	
+	// 폼 끝
+		
 })
 
 
