@@ -2,9 +2,6 @@ $(() => {
 
     const $id = $(".join-form input[name='id']");
     const $name = $(".join-form input[name='name']");
-    const $password = $(".join-form input[name='password']");
-    const $repassword = $(".join-form input[name='repassword']");
-    const $birth = $(".join-form input[name='birth']");
     const $email = $(".join-form input[name='email']");
     const $auth = $("#userAuth");
 
@@ -145,7 +142,6 @@ $(() => {
         const $id = $(".join-form input[name='id']");
         const $name = $(".join-form input[name='name']");
         const $password = $(".join-form input[name='password']");
-        const $repassword = $(".join-form input[name='repassword']");
         const $email = $(".join-form input[name='email']");
         const $birth = $(".join-form input[name='birth']");
         const birth = $("#datepicker").val();
@@ -275,33 +271,26 @@ $(() => {
         }
     }
 
-    let savedAuthNumber;
-
     // todo 이메일 인증번호 요청
     async function sendNumber() {
         try {
             const response = await $.ajax({
                 type: "POST",
                 url: "/user/auth/mail",
-                data: {
-                    "email": $email.val()
-                }
+                data: {"email": $email.val()}
             });
             // 성공 메시지에 따른 조건문
             if (response === "success") {
+                // 서버에서 보낸 인증코드 세션에 저장
+                sessionStorage.setItem("emailConfirmCode", response);
+
                 successAlert($email, "해당 이메일로 인증번호가 발송이 완료되었습니다. \n 확인부탁드립니다.");
                 console.log("인증번호 요청 성공");
-
-                // 서버에서 보낸 인증코드를 savedAuthNumber에 저장
-                savedAuthNumber = await $.ajax({
-                    type: "GET",
-                    url: "/user/auth/session",
-                    dataType: "text"
-                });
-                console.log("인증번호 ->", savedAuthNumber);
+                // console.log("인증번호 ->", savedAuthNumber);
                 $("#userEmail").prop("readonly", true);
                 $("#btnAuthMail").prop("disabled", true);
                 $("#mail-number").show();
+                // sessionStorage.setItem("emailConfirmCode", savedAuthNumber);
             } else {
                 console.error("인증번호 요청 실패");
                 handleErrorMessage(response);
@@ -314,31 +303,51 @@ $(() => {
     }
 
     // todo 이메일 인증번호 체크 함수
-    function checkNumber() {
-        const $auth = $("#userAuth");
-        const userEnteredAuthNumber = $auth.val();
+    async function checkNumber() {
+        const userAuthNumber = $("#userAuth").val();
+        const savedAuthNumber = sessionStorage.getItem("emailConfirmCode");
+        if (!userAuthNumber) {
+            errorAlert($auth, "인증번호를 입력하세요.");
+            authCheck = false;
+            return;
 
-        // 서버에서 받은 인증번호와 사용자 입력한 인증번호 비교
+        }
+
         try {
-            if (savedAuthNumber !== userEnteredAuthNumber) {
-                console.log("인증 실패");
-                console.log("비교 -> ", userEnteredAuthNumber === savedAuthNumber);
-                authCheck = false;
+            // 서버에서 인증번호를 확인하는 요청
+            const checkResponse = await $.ajax({
+                type: "POST",
+                url: "/user/auth/check",
+                data: {"code": userAuthNumber}, // 사용자가 입력한 인증번호를 보냄
+                dataType: "text"
+            });
+            console.log("응답 결과 -> {}", checkResponse);
 
+            if (checkResponse === "AUTHENTICATION_FAILED") {
+                console.log("인증 실패");
+                authCheck = false;
                 errorAlert($auth, "인증번호가 일치하지 않습니다. 다시 확인해주세요.");
+            } else if (checkResponse === "SESSION_CODE_NULL") {
+                console.error("세션 인증코드 null");
+                errorAlert($auth, "세션에서 인증코드를 찾을 수 없습니다.");
+                return false;
+            } else if (checkResponse === "USER_CODE_NULL") {
+                console.error("사용자 인증코드 입력하지 않음");
+                errorAlert($auth, "인증번호를 입력하세요.");
+                return false;
             } else {
                 console.log("인증 성공");
-                console.log("비교 -> ", userEnteredAuthNumber === savedAuthNumber);
                 authCheck = true;
-
                 successAlert($auth, "인증번호가 일치합니다.");
                 $("#userAuth").prop("readonly", true);
                 $("#btnConfirm").prop("disabled", true);
             }
-        } catch (e) {
-            console.error("Error checkNumber");
-            errorAlert($auth, "이메일 인증 중 오류가 발생하였습니다. 잠시 후 이용해주세요.")
+        } catch (error) {
+            console.error("Error checkNumber", error);
+            authCheck = false;
+            errorAlert($auth, "이메일 인증 중 오류가 발생하였습니다. 잠시 후 이용해주세요.");
         }
+
     }
 
     // 만 12세 이상 가입 제한

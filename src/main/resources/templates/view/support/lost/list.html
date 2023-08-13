@@ -2,6 +2,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/support}">
 <head th:fragment="extra-head-content">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" th:src="@{/js/support/lost.js}"></script>
 </head>
 <div id="contents" layout:fragment="content">
@@ -72,7 +73,12 @@
 	            <tr th:each="lost: ${result.lostList}">
 		            <td th:text="${lost.no}"></td>
 		            <td th:text="${lost.theater.name}"></td>
-		            <td th:text="${lost.title}" style="text-align:left;"></td>
+		            <td style="text-align:left;">
+						<a class="text-black text-decoration-none"
+			            	 th:href="@{/support/lost/detail(no=${lost.no})}"
+			            	 th:text="${lost.title}">
+		            	</a>
+		            </td>
 		            <!-- 
 		            <th scope="row">
 		            	<a href="" class="btn-layer-open moveBtn">분실물 문의</a>
