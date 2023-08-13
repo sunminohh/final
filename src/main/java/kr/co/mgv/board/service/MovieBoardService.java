@@ -7,6 +7,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import kr.co.mgv.board.BoardPagination;
+import kr.co.mgv.board.form.MBoardForm;
 import kr.co.mgv.board.list.MovieBoardList;
 import kr.co.mgv.board.mapper.MovieBoardDao;
 import kr.co.mgv.board.vo.MBoardComment;
@@ -145,5 +146,16 @@ public class MovieBoardService {
 	public List<Movie> getMovieTitle() {
 		return movieBoardDao.getMovieTitle();
 	} 
+	
+	public void addMBoard(MBoardForm form) {
+	    try {
+	        MovieBoard board = new MovieBoard();
+	        BeanUtils.copyProperties(board, form);
+
+	        movieBoardDao.insertMBoard(board);            
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
 	
 }

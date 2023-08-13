@@ -111,7 +111,6 @@ $(function() {
 		        event.preventDefault();
 	
 	
-	        // 답글 작성 폼을 제거하고 버튼을 답글쓰기로 변경
 	        $("#reply-form-" + commentNo).remove();
 	        $("#btn-a-re-reply-" + commentNo).attr('id', 'btn-a-reply-' + commentNo).text('답글쓰기');
 	    });

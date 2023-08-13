@@ -279,4 +279,13 @@
 		from MGV_MOVIE
 		order by movie_title asc
 	</select>
+	
+	<insert id="insertMBoard" parameterType="kr.co.mgv.movie.vo.Movie">
+		INSERT INTO 
+			MGV_MOVIE_BOARD
+		(BOARD_NAME, BOARD_CONTENT, MEMBER_ID, MOVIE_NO, BORAD_FILENAME)
+		VALUES
+		(#{name}, #{content}, #{user.id}, #{movie.no}, #{fileName});
+		
+	</insert>
 </mapper>

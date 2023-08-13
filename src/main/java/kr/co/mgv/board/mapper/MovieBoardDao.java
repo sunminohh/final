@@ -28,4 +28,5 @@ public interface MovieBoardDao {
 	MBoardComment getChildComment(MBoardComment comment);
 	
 	List<Movie> getMovieTitle();
+	void insertMBoard(MovieBoard board);
 }

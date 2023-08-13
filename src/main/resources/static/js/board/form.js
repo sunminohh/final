@@ -55,7 +55,8 @@ $(function() {
 				
 				let content =`	
 					    <div id="selected-box" >
-					        <div id="selected-movie-title" th:value="${selectedValue}">${selectedTitle}</div>
+					    	<input type="hidden" name="movieNo" value="${selectedValue}" />
+					        <div id="selected-movie-title" value="${selectedValue}">${selectedTitle}</div>
 					        <div id="btn-x" role="button" tabindex="0" class="notion-token-remove-button">
 					            <svg viewBox="0 0 8 8" class="closeThick" style="width: 8px; height: 8px; display: block; fill: inherit; flex-shrink: 0; backface-visibility: hidden; opacity: 0.5;">
 					                <polygon points="8 1.01818182 6.98181818 0 4 2.98181818 1.01818182 0 0 1.01818182 2.98181818 4 0 6.98181818 1.01818182 8 4 5.01818182 6.98181818 8 8 6.98181818 5.01818182 4"></polygon>
