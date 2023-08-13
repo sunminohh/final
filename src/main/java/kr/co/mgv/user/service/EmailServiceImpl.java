@@ -1,6 +1,5 @@
 package kr.co.mgv.user.service;
 
-import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -16,7 +15,6 @@ import java.util.Random;
 @RequiredArgsConstructor
 public class EmailServiceImpl implements EmailService {
     private final JavaMailSender javaMailSender;
-    private final AuthenticationService service;
 
     private String authNumber; // 인증번호
 
@@ -64,11 +62,11 @@ public class EmailServiceImpl implements EmailService {
 
             switch (index) {
                 case 0:
-                    key.append((char) ((int) (rnd.nextInt(26)) + 97));
+                    key.append((char) (rnd.nextInt(26) + 97));
                     // a~z (ex. 1+97=98 => (char)98 = 'b')
                     break;
                 case 1:
-                    key.append((char) ((int) (rnd.nextInt(26)) + 65));
+                    key.append((char) (rnd.nextInt(26) + 65));
                     // A~Z
                     break;
                 case 2:
@@ -97,15 +95,12 @@ public class EmailServiceImpl implements EmailService {
         authNumber = createKey(); // 랜덤 인증번호 생성
 
         MimeMessage message = createMessage(to); // 메일 발송
-        User user = service.getUserByEmail(to);
-        if (user != null) {
             try {// 예외처리
                 javaMailSender.send(message);
             } catch (MailException es) {
                 es.printStackTrace();
                 throw new IllegalArgumentException("메일 발송 중 오류가 발생했습니다.");
             }
-        }
         return authNumber; // 메일로 보냈던 인증 코드를 서버로 반환
-    };
+    }
 }
