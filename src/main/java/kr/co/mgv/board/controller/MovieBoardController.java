@@ -13,6 +13,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -332,9 +333,39 @@ public class MovieBoardController {
     }
     
 
-    @PostMapping("/deleteComment")
+    @PostMapping("/deleteGreatComment")
     @ResponseBody
-    public ResponseEntity<Void> deleteComment(@RequestParam("no") int no, 
+    public ResponseEntity<Integer> deleteGreateComment(@RequestBody Map<String, Integer> request) {
+        int no = request.get("no");
+        int commentNo = request.get("greatCommentNo");
+
+        if (no == 0 || commentNo == 0) {
+            return ResponseEntity.badRequest().build(); // 값이 없는 경우 잘못된 요청 응답 반환
+        }
+        
+        // 자식 삭제
+        movieBoardService.childsCommentDelete(commentNo);
+        
+        // 조상 삭제
+        movieBoardService.greatCommentDelete(commentNo);
+        
+        // table의 commentCount 구하기
+        MovieBoard board = movieBoardService.getMovieBoardByNo(no);
+        
+        int childCount = movieBoardService.gatTotalChildCount(commentNo);
+        int	commentCount = board.getCommentCount() - (childCount + 1);
+        
+        board.setCommentCount(commentCount);
+        movieBoardService.updateBoardComment(no, commentCount);
+        
+        return ResponseEntity.ok().body(commentCount);
+    }
+
+
+    
+    @PostMapping("/deleteReComment")
+    @ResponseBody
+    public ResponseEntity<Void> deleteReComment(@RequestParam("no") int no, 
 					    		@RequestParam("commentNo") int commentNo) {
     	
     	// comment table의 deleted 를 y로 바꾸기

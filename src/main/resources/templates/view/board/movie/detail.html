@@ -156,7 +156,7 @@
 	<div id="all-comment-box">
 		<div class="comment-box" 
              th:each="comment : ${comments}">
-			
+			<div class="great-box">
 			<div class="row great-comment-box" >
 	   			<div class="p-1 col-12" id="comment-box">
 	   				<div class="d-flex justify-content-between">
@@ -169,7 +169,7 @@
 								</div>
 								<div class="ps-5">
 									<p><strong th:text="${comment.user.id}" >작성자아이디</strong></p>
-									<input type="hidden" name="commentNo" th:value="${comment.no}" />
+									<input type="hidden" name="greatCommentNo" th:value="${comment.no}" />
 								</div>
 							</div>
 							<div class="commentUserInfo ps-5" >
@@ -183,10 +183,11 @@
 						</div>
 			   			<div class="col-sm-1 d-flex justify-content-end pt-0" sec:authorize="isAuthenticated()">
 			   				
-			   				<a th:href="@{/board/movie/deleteComment(no=${param.no}, page=${param.page }, rows=${param.rows}, sort=${param.sort}, opt=${param.opt}, keyword=${param.keyword}, commentNo=${comment.no})}"
+			   				<a th:href="@{/board/movie/deleteGreatComment}"
 			   					class="btn btn-link btn-sm text-danger text-decoration-none"
 		   						sec:authorize="isAuthenticated()"
-   		        				th:if="${#authentication.principal.id == comment.user.id}">삭제</a>
+   		        				th:if="${#authentication.principal.id == comment.user.id}"
+   		        				id="delete-comment-btn">삭제</a>
 		
 		   				</div>   			
 					</div>
@@ -195,7 +196,7 @@
 	   			<div class="new-register-box row mb-3 pt-2" id="reply-comment-box-" th:attrappend="id=${comment.no}" >
 	   			</div>			
 			</div>
-			
+			</div>
 				<div th:each="child : ${childComments}"  >
 					<div id="child-comment-here" class=" row child-comment-box" th:if="${not #lists.isEmpty(childComments)} and ${comment.no == child.great.no}">
 						<div class="p-1 offset-1 col-11" id="comment-box" >
@@ -224,9 +225,10 @@
 								</div>
 					   			<div class="col-sm-1 d-flex justify-content-end pt-0" sec:authorize="isAuthenticated()">
 					   				<input type="hidden" name="userId" th:value="${#authentication.principal.id}">
-					   				<a th:href="@{/board/movie/deleteComment(no=${param.no}, page=${param.page }, rows=${param.rows}, sort=${param.sort}, opt=${param.opt}, keyword=${param.keyword}, commentNo=${child.no})}" 
+					   				<a th:href="@{/board/movie/deleteReComment(no=${param.no}, commentNo=${child.no})}" 
 					   					class="btn btn-link btn-sm text-danger text-decoration-none"
 					   					sec:authorize="isAuthenticated()"
+					   					id="delete-reComment-box"
 		   		        				th:if="${#authentication.principal.id == child.user.id}">삭제</a>
 				
 				   				</div>   			

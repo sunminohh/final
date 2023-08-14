@@ -146,6 +146,18 @@ public class MovieBoardService {
 		
 		return movieBoardDao.getChildComment(comment);
 	}
+	
+	public void greatCommentDelete (int no) {
+		movieBoardDao.deleteGreatComment(no);
+	}
+	
+	public void childsCommentDelete (int greatNo) {
+		movieBoardDao.deleteChildsComment(greatNo);
+	}
+	
+	public int gatTotalChildCount (int no) {
+		return movieBoardDao.getTotalCommentCount(no);
+	}
 
 	// 게시물 등록 관련
 	public List<Movie> getMovieTitle() {

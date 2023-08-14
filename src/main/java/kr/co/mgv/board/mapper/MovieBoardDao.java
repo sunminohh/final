@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import kr.co.mgv.board.list.MboardCommentList;
 import kr.co.mgv.board.vo.MBoardComment;
 import kr.co.mgv.board.vo.MBoardLike;
 import kr.co.mgv.board.vo.MboardReport;
@@ -28,6 +29,9 @@ public interface MovieBoardDao {
 	List<MBoardComment> getMBoardChildComments(int no);
 	MBoardComment getGreatComment(MBoardComment comment);
 	MBoardComment getChildComment(MBoardComment comment);
+	int getTotalCommentCount (int no);
+	void deleteGreatComment(int no);
+	void deleteChildsComment(int no);
 	
 	List<Movie> getMovieTitle();
 	void insertMBoard(MovieBoard board);

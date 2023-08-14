@@ -180,10 +180,11 @@ $(function() {
 											</div>
 								   			<div class="col-sm-1 d-flex justify-content-end pt-0" sec:authorize="isAuthenticated()">
 								   				
-								   				<a href="/board/movie/deleteComment?no=${comment.board.no}&commentNo=${comment.no}}"
+								   				<a href="/board/movie/deleteComment}"
 								   					class="btn btn-link btn-sm text-danger text-decoration-none"
 							   						sec:authorize="isAuthenticated()"
-					   		        				th:if="${id == comment.user.id}">삭제</a>
+					   		        				th:if="${id == comment.user.id}"
+					   		        				id="delete-comment-btn">삭제</a>
 							
 							   				</div>   			
 										</div>
@@ -282,10 +283,11 @@ $(function() {
 								</div>
 					   			<div class="col-sm-1 d-flex justify-content-end pt-0" sec:authorize="isAuthenticated()">
 					   				<input type="hidden" name="userId" value="${id}">
-					   				<a th:href="@{/board/movie/deleteComment?no=${comment.no}, commentNo=${comment.no}}" 
+					   				<a th:href="@{/board/movie/deleteReComment?no=${comment.no}, commentNo=${comment.no}}" 
 					   					class="btn btn-link btn-sm text-danger text-decoration-none"
 					   					sec:authorize="isAuthenticated()"
-		   		        				th:if="${id== comment.user.id}">삭제</a>
+		   		        				th:if="${id== comment.user.id}"
+		   		        				id="delete-reComment-btn">삭제</a>
 				
 				   				</div>   			
 							</div>
@@ -312,6 +314,49 @@ $(function() {
 			    });
 		    }   
 		});
+		
+		
+$(".great-box").on('click', '#delete-comment-btn', function(event) {
+    event.preventDefault();
+    let $that = $(this);
+
+    let requestData = {
+        no: $("input[name=no]").val(),
+        greatCommentNo: $that.closest('.great-box').find("input[name=greatCommentNo]").val()
+    };
+
+
+    Swal.fire({
+        icon: 'warning',
+        title: '정말 삭제하시겠습니까?',
+        showCancelButton: true,
+        confirmButtonText: '네',
+        cancelButtonText: '아니오',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: '/board/movie/deleteGreatComment', // 변경된 엔드포인트
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(requestData),
+                success: function(commentCount) {
+                    // 삭제 후의 댓글 수를 받아와서 업데이트
+                    $('#ajax-comment-count').text(commentCount);
+                    $("#ajax-comment-count-2").text(commentCount);
+                    $that.parents('.comment-box').remove();
+                }
+            });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+            // 취소 버튼 클릭 시
+        }
+    });
+});
+
+
+
+
+
+	
 	
 
 // 퀵메뉴 (위로)
