@@ -259,25 +259,24 @@
 							<p style="font-size : 18px;"><strong>이 게시물을 신고하는 이유</strong></p>
 							<p style="font-size : 15px;">지식재산권 침해를 신고하는 경우를 제외하고 회원님의 신고는익명으로 처리됩니다. 누군가 위급한 상황에 있다고 생각된다면 즉시 현지 응급 서비스 기관에 연락하시기 바랍니다.</p>
 							
-								<form class="border bg-light p-3" method="get" action="/board/movie/report(no=${board.no})" >
-									<input type="hidden" name="no" value="boardNo">
-					
+								<form class="border bg-light p-3" method="post" th:action="@{/board/movie/report(boardNo=${param.no})}" id="report-form">
+									<input type="hidden" name="boardNo" value="${param.no}">
 									<div class="form-group mb-2" style="width: 33%; padding:5px;">
 										<label class="form-label">신고이유</label>
-										<select class="form-select" name="reasonNo" id="selectbox" >
-				
-											<option value="" id="reason">신고이유목록</option>
-											<option value="" id="reason">신고이유목록</option>
-			
-										</select>
+										    <select class="form-select" name="reasonNo" id="report-select" onchange="toggleContentField()">
+										        <option value="" id="reason" selected disabled>신고이유</option>
+										        <option th:each="reason : ${reasons}" 
+										                th:text="${reason.name}" 
+										                th:value="${reason.no}" >신고 이유</option>
+										    </select>
 									</div>
 									<div class="form-group mb-2">
 										<label class="form-label">상세내용</label>
-										<textarea rows="5" class="form-control" name="reasonContent" ></textarea>
+										<textarea rows="5" class="form-control" name="reasonContent" disabled></textarea>
 									</div>
 									<div class="text-end">
 										<button type="reset" class="btn btn-secondary btn-sm" >취소</button>
-										<button type="submit" class="btn btn-primary btn-sm" >신고</button>
+										<button type="submit" id="report-submit-btn" class="btn btn-primary btn-sm" >신고</button>
 									</div>
 								</form>
 						</div>

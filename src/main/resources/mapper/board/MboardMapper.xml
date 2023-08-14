@@ -101,6 +101,7 @@
             A.board_create_date     as createDate,
             A.board_update_date     as updateDate,
             A.board_read_cnt        as readCount,
+            A.report_count			as reportCount,
             A.board_comment_cnt     as commentCount,
             A.member_id             as "user.id",
             A.movie_no				as "movie.no",
@@ -296,4 +297,27 @@
 		(#{name}, #{content}, #{user.id}, #{movie.no}, #{fileName});
 		
 	</insert>
+	
+	<!-- 신고 관련 -->
+	<select id="getReportReason" resultType="kr.co.mgv.board.vo.ReportReason">
+		SELECT REASON_NO as no, REASON_NAME as name
+		FROM MGV_REPORT_REASON;
+	</select>
+	
+	<insert id="insertMboardReport" parameterType="kr.co.mgv.board.vo.ReportReason">
+		INSERT MGV_MBOARD_REPORT
+		(REPORT_REASON, REASON_NO, BOARD_NO, USER_ID)
+		VALUES(#{reasonContent}, #{reason.no}, #{board.no}, #{user.id});
+	</insert>
+	
+	<select id="getMboardReportById" parameterType="String" resultType="kr.co.mgv.board.vo.MboardReport">
+		SELECT 
+			report_NO as no, 
+			REPORT_REASON as reasonContent, 
+			REASON_NO as "reason.no", 
+			BOARD_NO as "board.no", 
+			USER_ID as "user.id"
+		FROM MGV_MBOARD_REPORT A
+		where user_id = #{value};
+	</select>
 </mapper>

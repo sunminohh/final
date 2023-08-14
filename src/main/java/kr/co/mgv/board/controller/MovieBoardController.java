@@ -1,5 +1,6 @@
 package kr.co.mgv.board.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,15 +18,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import kr.co.mgv.board.form.AddMboardForm;
 import kr.co.mgv.board.form.MBoardForm;
-import kr.co.mgv.board.list.MboardCommentList;
+import kr.co.mgv.board.form.MboardReportForm;
 import kr.co.mgv.board.list.MovieBoardList;
 import kr.co.mgv.board.service.MovieBoardService;
-import kr.co.mgv.board.vo.AddMboardForm;
 import kr.co.mgv.board.vo.MBoardComment;
 import kr.co.mgv.board.vo.MBoardLike;
+import kr.co.mgv.board.vo.MboardReport;
 import kr.co.mgv.board.vo.MovieBoard;
-import kr.co.mgv.movie.service.MovieService;
+import kr.co.mgv.board.vo.ReportReason;
 import kr.co.mgv.movie.vo.Movie;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
@@ -40,32 +42,54 @@ public class MovieBoardController {
 	private final MovieBoardService movieBoardService;
 	
 	// 게시물 리스트 관련
-    @GetMapping("/list")
-    public String movieList(@RequestParam(name = "sort", required = false, defaultValue = "id") String sort,
-			@RequestParam(name = "rows", required = false, defaultValue = "10") int rows,
-			@RequestParam(name = "page", required = false, defaultValue = "1") int page,
-			@RequestParam(name = "opt", required = false, defaultValue = "") String opt,
-			@RequestParam(name = "keyword", required = false, defaultValue = "") String keyword,
-			Model model) {
-    	
-    	Map<String, Object> param = new HashMap<String, Object>();
-		param.put("sort", sort);
-		param.put("rows", rows);
-		param.put("page", page);
+	// 게시물 리스트 관련
+	@GetMapping("/list")
+	public String movieList(@RequestParam(name = "sort", required = false, defaultValue = "id") String sort,
+	        @RequestParam(name = "rows", required = false, defaultValue = "10") int rows,
+	        @RequestParam(name = "page", required = false, defaultValue = "1") int page,
+	        @RequestParam(name = "opt", required = false, defaultValue = "") String opt,
+	        @RequestParam(name = "keyword", required = false, defaultValue = "") String keyword,
+	        @AuthenticationPrincipal User user,
+	        Model model) {
 
-		if(StringUtils.hasText(opt) && StringUtils.hasText(keyword)) {
-			param.put("opt", opt);
-			param.put("keyword", keyword);
-		}
-    	
-		// service로 영화게시물 목록 조회하기 
-		MovieBoardList result = movieBoardService.getMBoards(param);
-		
-		// model에 조회한 극장게시물 담기
-		model.addAttribute("result", result);
-		
-        return "/view/board/movie/list";
-    }
+	    Map<String, Object> param = new HashMap<String, Object>();
+	    param.put("sort", sort);
+	    param.put("rows", rows);
+	    param.put("page", page);
+
+	    if(StringUtils.hasText(opt) && StringUtils.hasText(keyword)) {
+	        param.put("opt", opt);
+	        param.put("keyword", keyword);
+	    }
+
+	    // service로 영화게시물 목록 조회하기 
+	    MovieBoardList result = movieBoardService.getMBoards(param);
+
+	    if (user != null) {
+	        // 로그인한 사용자의 신고 기록 가져오기
+	        List<MboardReport> reportList = movieBoardService.getReportById(user.getId());
+
+	        // 사용자가 신고한 게시물 제외
+	        List<MovieBoard> movieBoardsToShow = new ArrayList<>();
+
+	        for (MovieBoard board : result.getMovieBoards()) {
+	            boolean isReported = reportList.stream()
+	                    .anyMatch(report -> report.getBoard().getNo() == board.getNo());
+
+	            if (!isReported) {
+	                movieBoardsToShow.add(board);
+	            }
+	        }
+
+	        result.setMovieBoards(movieBoardsToShow);
+	        model.addAttribute("reports", reportList);
+	    }
+
+	    // model에 조회한 극장게시물 담기
+	    model.addAttribute("result", result);
+
+	    return "/view/board/movie/list";
+	}
 
     // 상세페이지 관련
     @GetMapping("/read")
@@ -111,10 +135,11 @@ public class MovieBoardController {
     	MovieBoard movieBoard = movieBoardService.getMovieBoardByNo(no);
     	List<MBoardComment> comments = movieBoardService.getComments(no);
     	List<MBoardComment> childComments = movieBoardService.getChildComments(no);
+    	List<ReportReason> reportReasons = movieBoardService.getReportReason(); 
     	model.addAttribute("comments", comments);
     	model.addAttribute("childComments", childComments);
     	model.addAttribute("board", movieBoard);
-    	
+    	model.addAttribute("reasons", reportReasons);
 
     	
         return "/view/board/movie/detail";
@@ -157,16 +182,16 @@ public class MovieBoardController {
     public String movieBoardForm(Model model) {
     	List<Movie> movieList = movieBoardService.getMovieTitle();
     	model.addAttribute("movies", movieList);
-    	for(Movie movie : movieList) {
-    	log.info("영화 제목 -> {}", movie.getTitle());
-    	}
+//    	for(Movie movie : movieList) {
+//    	log.info("영화 제목 -> {}", movie.getTitle());
+//    	}
         return "/view/board/movie/form";
     }
     
     @PostMapping("/add")
     public String addMovieBoard(@AuthenticationPrincipal User user, AddMboardForm form) {
     	
-    	log.info("입력한 정보 -> {}", form);
+//    	log.info("입력한 정보 -> {}", form);
     	movieBoardService.addMBoard(form, user);
     	
     	return "redirect:/board/movie/list";
@@ -187,7 +212,7 @@ public class MovieBoardController {
     @PostMapping("/modify")
     public String modifyBoard(@RequestParam("no") int no, AddMboardForm form) {
     	
-    	log.info("입력한 정보 -> {}", form);
+//    	log.info("입력한 정보 -> {}", form);
     	
     	movieBoardService.updateMBoard(form, no);
     	
@@ -212,11 +237,11 @@ public class MovieBoardController {
                              @RequestParam(name="greatNo", required = false) Integer greatNo, 
                              @RequestParam("content") String content) {
         
-    	log.info("게시물 번호 -> {}", no);
-    	log.info("사용자 아이디 -> {}", id);
-    	log.info("내용 -> {}", content);
-    	log.info("부모번호 -> {}", parentNo);
-    	log.info("조상번호 -> {}", greatNo);
+//    	log.info("게시물 번호 -> {}", no);
+//    	log.info("사용자 아이디 -> {}", id);
+//    	log.info("내용 -> {}", content);
+//    	log.info("부모번호 -> {}", parentNo);
+//    	log.info("조상번호 -> {}", greatNo);
     	
     	MBoardComment comment = new MBoardComment();
     	comment.setContent(content);
@@ -263,11 +288,11 @@ public class MovieBoardController {
     		@RequestParam(name="greatNo", required = false) Integer greatNo, 
     		@RequestParam("content") String content) {
     	
-    	log.info("게시물 번호 -> {}", no);
-    	log.info("사용자 아이디 -> {}", id);
-    	log.info("내용 -> {}", content);
-    	log.info("부모번호 -> {}", parentNo);
-    	log.info("조상번호 -> {}", greatNo);
+//    	log.info("게시물 번호 -> {}", no);
+//    	log.info("사용자 아이디 -> {}", id);
+//    	log.info("내용 -> {}", content);
+//    	log.info("부모번호 -> {}", parentNo);
+//    	log.info("조상번호 -> {}", greatNo);
     	
     	MBoardComment comment = new MBoardComment();
     	comment.setContent(content);
@@ -322,4 +347,26 @@ public class MovieBoardController {
     	return ResponseEntity.ok().build();
     }
 
+    // 신고관련
+    @PostMapping("/report")
+    public String reportBoard(MboardReportForm form, 
+    						  @AuthenticationPrincipal User user) {
+//    	log.info("입력 내용 -> {}", form.getReasonNo());
+//    	log.info("입력 내용 -> {}", form.getBoardNo());
+//    	log.info("입력 내용 -> {}", form.getReasonContent());
+//    	log.info("입력 내용 -> {}", user.getId());
+    	
+    	movieBoardService.insertReport(form, user);
+    	
+    	MovieBoard board = movieBoardService.getMovieBoardByNo(form.getBoardNo());
+    	int reportCount = board.getReportCount()+1;
+    	movieBoardService.updateReportCount(form.getBoardNo(), reportCount);
+    	
+    	if(reportCount == 5) {
+    		String report = "Y";
+    		movieBoardService.updateReport(form.getBoardNo(), report);
+    	}
+    	
+    	return "redirect:/board/movie/list";
+    }
 }
