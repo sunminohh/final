@@ -2,38 +2,37 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/support}">
 <head th:fragment="extra-head-content">
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script type="text/javascript" th:src="@{/js/support/lost.js}"></script>
+	<link th:href=@{/css/support/one.css} rel="stylesheet">
+	<script type="text/javascript" th:src="@{/js/support/one.js}"></script>
 </head>
 <div id="contents" layout:fragment="content">
-    <h2 class="tit">분실물 문의</h2>
-    <div class="clearfix">
+    <h2 class="tit">나의 문의내역</h2>
+     <div class="tab-block-one mb30">
+        <ul>
+            <li class="tab-link current">
+                <button type="button" class="btn rounded-0" data-tab="tab-1" title="">1:1 문의내역</button>
+            </li>
+            <li class="tab-link">
+                <button type="button" class="btn rounded-0" data-tab="tab-3" title="">분실물 문의내역</button>
+            </li>
+        </ul>
+    </div>
+    <div class="clearfix" style="margin-top: -10px; margin-bottom: -10px;">
         <ul class="dot-list">
             <li>
-               	MGV에서 잃어버린 물건이 있다면 ‘분실물 문의/접수’를 통해 접수해주세요.
-                <a href="/support/lost/form" class="button float-r" title="분실물 문의 등록하기">분실물 문의</a>
+               	고객센터를 통해 남기신 1:1 문의내역을 확인하실 수 있습니다.
+                <a href="/support/one" class="button float-r" title="일대일 문의 등록하기">1:1 문의하기</a>
             </li>
-            <li>접수하신 글은 비밀글로 등록되어 작성자와 관리자만 확인 가능합니다.</li>
         </ul>
     </div>
 
     <div class="board-list-util">
-        <p class="result-count"><strong>전체 <span class="font-gblue" id="totalCnt" th:text="${result.pagination.totalRows}"></span>건</strong></p>
+        <p class="result-count"><strong>전체 <span class="font-gblue" id="totalCnt" >5</span>건</strong></p>
         <div class="ml07 bs3  d-flex justify-content-end" style="margin-bottom: -15px;">
-         	<select id="location" title="지역선택" name="locationNo"
-	                                class="form-select form-select-sm  ml06 form-control-sm mb-3"
-	                                style="width: 100px; ">
-	                            <option value="" selected disabled>지역선택</option>
-         	</select>
-          	<select id="theater" title="극장선택" name="theaterNo" 
-	                        		class="form-select form-select-sm ml06 form-control-sm mb-3"
-	                                style="width: 100px; ">
-	      						<option value="" selected disabled>극장선택</option>
-	     	</select>
         	<select id="answer" title="접수상태 선택" name="answered" 
 	                        		class="form-select form-select-sm ml06 form-control-sm mb-3"
-	                                style="width: 120px;">
-	      						<option value="" selected disabled>접수상태 선택</option>
+	                                style="width: 80px;">
+	      						<option value="" selected disabled>전체</option>
 	      						<option value="N">미답변</option>
 	      						<option value="Y">답변완료</option>
 	        </select>
@@ -70,22 +69,12 @@
             </tr>
             </thead>
             <tbody class="lostList">
-	            <tr th:each="lost: ${result.lostList}">
-		            <td th:text="${lost.no}"></td>
-		            <td th:text="${lost.theater.name}"></td>
-		            <td style="text-align:left;">
-						<a class="text-black text-decoration-none"
-			            	 th:href="@{/support/lost/detail(no=${lost.no})}"
-			            	 th:text="${lost.title}">
-		            	</a>
-		            </td>
-		            <!-- 
-		            <th scope="row">
-		            	<a href="" class="btn-layer-open moveBtn">분실물 문의</a>
-		            </th>
-		             -->
-		            <td th:text="${lost.answered == 'Y' ? '답변완료' : '미답변'}"></td>
-		            <td th:text="${#dates.format(lost.updateDate, 'yyyy.MM.dd')}"></td>
+	            <tr>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
 	            </tr>
             </tbody>
         </table>
@@ -115,7 +104,7 @@
         </div>
     </section>
     
-    <!-- pagination -->
+    <!-- pagination 
     <div class="row mb-3">
       	<div class="col-12">
 		    <nav>
@@ -131,7 +120,7 @@
 			</nav>
 		</div>
 	</div>
-    <!--// pagination -->
+    pagination -->
 
     <!-- pagination 
     <nav class="pagination justify-content-center"><strong class="active">1</strong> <a title="2페이지보기" href="javascript:void(0)" pagenum="2">2</a> <a title="3페이지보기" href="javascript:void(0)" pagenum="3">3</a> <a title="4페이지보기" href="javascript:void(0)" pagenum="4">4</a> <a title="5페이지보기" href="javascript:void(0)" pagenum="5">5</a> <a title="6페이지보기" href="javascript:void(0)" pagenum="6">6</a> <a title="7페이지보기" href="javascript:void(0)" pagenum="7">7</a> <a title="8페이지보기" href="javascript:void(0)" pagenum="8">8</a> <a title="9페이지보기" href="javascript:void(0)" pagenum="9">9</a> <a title="10페이지보기" href="javascript:void(0)" pagenum="10">10</a> <a title="이후 10페이지 보기" href="javascript:void(0)" class="control next" pagenum="11">next</a> <a title="마지막 페이지 보기" href="javascript:void(0)" class="control last" pagenum="934">last</a> </nav>

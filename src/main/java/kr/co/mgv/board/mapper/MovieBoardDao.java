@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import kr.co.mgv.board.vo.MBoardComment;
 import kr.co.mgv.board.vo.MBoardLike;
 import kr.co.mgv.board.vo.MovieBoard;
+import kr.co.mgv.movie.vo.Movie;
 
 @Mapper
 public interface MovieBoardDao {
@@ -23,5 +24,9 @@ public interface MovieBoardDao {
 	void insertMBoardComment(MBoardComment comment);
 	List<MBoardComment> getMBoardComments(int no);
 	List<MBoardComment> getMBoardChildComments(int no);
+	MBoardComment getGreatComment(MBoardComment comment);
+	MBoardComment getChildComment(MBoardComment comment);
 	
+	List<Movie> getMovieTitle();
+	void insertMBoard(MovieBoard board);
 }

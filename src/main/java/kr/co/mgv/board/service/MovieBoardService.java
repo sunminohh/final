@@ -7,12 +7,14 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import kr.co.mgv.board.BoardPagination;
+import kr.co.mgv.board.form.MBoardForm;
 import kr.co.mgv.board.list.MovieBoardList;
 import kr.co.mgv.board.mapper.MovieBoardDao;
 import kr.co.mgv.board.vo.MBoardComment;
 import kr.co.mgv.board.vo.MBoardLike;
 import kr.co.mgv.board.vo.MovieBoard;
 import kr.co.mgv.movie.vo.Movie;
+import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -106,5 +108,54 @@ public class MovieBoardService {
 		return childComments;
 	}
 	
+	public MBoardComment getGreatComment(int no, String id) {
+		User user = User.builder()
+				.id(id)
+				.build();
+		
+		MovieBoard board = MovieBoard.builder()
+						.no(no)
+						.build();
+		MBoardComment comment = MBoardComment.builder()
+					.user(user)
+					.board(board)
+					.build();
+		
+		return movieBoardDao.getGreatComment(comment);
+		
+	}
+	
+	public MBoardComment getChildComment(int no, String id) {
+		
+		User user = User.builder()
+				.id(id)
+				.build();
+		
+		MovieBoard board = MovieBoard.builder()
+						.no(no)
+						.build();
+		MBoardComment comment = MBoardComment.builder()
+					.user(user)
+					.board(board)
+					.build();
+		
+		return movieBoardDao.getChildComment(comment);
+	}
 
+	// 게시물 등록 관련
+	public List<Movie> getMovieTitle() {
+		return movieBoardDao.getMovieTitle();
+	} 
+	
+	public void addMBoard(MBoardForm form) {
+	    try {
+	        MovieBoard board = new MovieBoard();
+	        BeanUtils.copyProperties(board, form);
+
+	        movieBoardDao.insertMBoard(board);            
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
+	
 }

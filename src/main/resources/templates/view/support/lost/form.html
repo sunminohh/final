@@ -3,11 +3,12 @@
       layout:decorate="~{layout/support}">
 <head th:fragment="extra-head-content">
 	<script type="text/javascript" th:src="@{/js/support/lost.js}"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <div id="contents" layout:fragment="content">
     <h2 class="tit">분실물 문의</h2>
     <ul class="dot-list">
-        <li>메가박스에서 잃어버린 물건이 있다면 ‘분실물 문의/접수’를 통해 접수해주세요.</li>
+        <li>MGV에서 잃어버린 물건이 있다면 ‘분실물 문의/접수’를 통해 접수해주세요.</li>
         <li>접수하신 글은 비밀글로 등록되어 작성자와 관리자만 확인 가능합니다.</li>
     </ul>
 
@@ -113,7 +114,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row">사진첨부</th>
+                    <th scope="row">사진첨부</th> <!-- 추가 예정 -->
                     <td colspan="3">
                         <div class="upload-image-box">
                             <div class="info-txt">
@@ -128,10 +129,10 @@
                     </td>
                 </tr>
                 
-                 <tr sec:authorize="isAnonymous()">
+                 <tr>
                     <th scope="row"><label for="pw">비밀번호</label> <em class="font-orange">*</em></th>
                     <td colspan="3">
-                        <input type="number" maxlength="4" name="guestPassword" id="pw" class="input-text w150px pwnew" placeholder="숫자 4자리" oninput="gfn_numberMaxLength(this);">
+                        <input type="number" maxlength="4" name="guestPassword" class="input-text w150px pwnew" placeholder="숫자 4자리" oninput="restrictToFourDigits(this);">
                         <em class="fc_r ml10">* 분실물에 대한 고객정보 보호를 위하여 게시글의 비밀번호를 설정해주세요.</em>
                     </td>
                 </tr>

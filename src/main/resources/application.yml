@@ -13,11 +13,12 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: mgv0307@gmail.com
-    password: okiydcgatofxrizx
+    username: mgv0731@gmail.com
+    password: imlfdeqsgtsgnkqb
     properties:
       mail:
         smtp:
+          debug: true
           auth: true
           starttls:
             enable: true
@@ -37,6 +38,12 @@ logging:
     root: info
     '[org.springframework-security]': trace
     '[kr.co.mgv.dao]': trace
+    '[kr.co.mgv.board.mapper]': trace
+    '[kr.co.mgv.movie.mapper]': trace
+    '[kr.co.mgv.store.mapper]': trace
+    '[kr.co.mgv.support.dao]': trace
+    '[kr.co.mgv.theater.dao]': trace
+    '[kr.co.mgv.user.mapper]': trace
 ---
 ## thymeleaf
 spring:
