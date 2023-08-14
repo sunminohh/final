@@ -7439,7 +7439,7 @@ var Buttons_Buttons = /*#__PURE__*/function () {
                 tooltip: _this.options.tooltip
               }).render());
             });
-            /* TODO: do we have to record recent custom colors within cookies? */
+            /*  do we have to record recent custom colors within cookies? */
 
             var customColors = [['#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF']];
             $dropdown.find('.note-holder-custom').each(function (idx, item) {
@@ -9761,7 +9761,7 @@ external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.summe
       'statusbar': Statusbar_Statusbar,
       'fullscreen': Fullscreen_Fullscreen,
       'handle': Handle_Handle,
-      // FIXME: HintPopover must be front of autolink
+      //  HintPopover must be front of autolink
       //  - Script error about range when Enter key is pressed on hint popover
       'hintPopover': HintPopover_HintPopover,
       'autoLink': AutoLink_AutoLink,
