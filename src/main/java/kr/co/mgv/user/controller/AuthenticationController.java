@@ -6,6 +6,7 @@ import kr.co.mgv.user.service.EmailServiceImpl;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -105,12 +106,18 @@ public class AuthenticationController {
     @PostMapping("/mail")
     @ResponseBody
     public ResponseEntity<String> mailConfirm(@RequestParam("email") String email, HttpSession session) throws Exception {
-        String code = emailService.sendSimpleMessage(email);
-        log.info("인증코드 -> {}", code);
+        try {
+            String code = emailService.sendSimpleMessage(email);
+            log.info("인증번호 -> {}", code);
 
-        // 생성한 인증 코드를 세션에 저장
-        session.setAttribute("emailConfirmCode", String.valueOf(code));
-        return ResponseEntity.ok().body("success");
+            // 생성한 인증 코드를 세션에 저장
+            session.setAttribute("emailConfirmCode", String.valueOf(code));
+            return ResponseEntity.ok().body("success");
+        } catch (Exception e) {
+            log.error("Error sending email", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("메일 전송 중 오류가 발생했습니다.");
+        }
+
     }
 
     // 인증번호 비교
@@ -121,15 +128,15 @@ public class AuthenticationController {
         if (savedCode == null) {
             log.error("세션 인증코드 null");
             return ResponseEntity.badRequest().body("SESSION_CODE_NULL");
-        } else if (userCode == null) {
-            log.error("사용자 인증코드 입력하지 않음");
-            return ResponseEntity.badRequest().body("USER_CODE_NULL");
-        } else if (savedCode.equals(userCode)) {
-            log.info("인증코드 일치");
-            return ResponseEntity.ok().body("인증성공");
+        } else if (userCode.isBlank()) {
+            log.error("USER_CODE_NULL");
+            return ResponseEntity.ok().body("USER_CODE_NULL");
+        } else if (!savedCode.equals(userCode)) {
+            log.error("인증번호 불일치");
+            return ResponseEntity.ok().body("인증실패");
         } else {
-            log.error("인증코드 불일치");
-            return ResponseEntity.badRequest().body("AUTHENTICATION_FAILED");
+            log.info("인증성공");
+            return ResponseEntity.ok().body("인증성공");
         }
     }
 }
