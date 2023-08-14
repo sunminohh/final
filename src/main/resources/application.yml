@@ -44,6 +44,7 @@ logging:
     '[kr.co.mgv.support.dao]': trace
     '[kr.co.mgv.theater.dao]': trace
     '[kr.co.mgv.user.mapper]': trace
+    '[kr.co.mgv.schedule.dao]': trace
 ---
 ## thymeleaf
 spring:

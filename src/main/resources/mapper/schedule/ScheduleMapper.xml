@@ -32,15 +32,28 @@
         <collection property="movieList" resultMap="MovieResultMap"/>
     </resultMap>
 
-<select id="getScheduleWithDate" parameterType="TheaterAndDateDto" resultMap="DateResultMap">
-select *
-	from MGV_THEATERS mt, MGV_THEATER_SCREEN mts , MGV_MOVIE mm, MGV_SCHEDULE ms
-	WHERE mt.THEATER_NO = #{theaterNo}
-	and mt.THEATER_NO = mts.THEATER_NO 
-	and mts.SCREEN_ID  = ms.SCREEN_ID
-	and ms.MOVIE_NO = mm.MOVIE_NO
-	and ms.SCHEDULE_DATE = #{date};
-</select>
+    
+
+	<select id="getScheduleWithDate" parameterType="TheaterAndDateDto" resultMap="DateResultMap">
+	select *
+		from MGV_THEATERS mt, MGV_THEATER_SCREEN mts , MGV_MOVIE mm, MGV_SCHEDULE ms
+		WHERE mt.THEATER_NO = #{theaterNo}
+		and mt.THEATER_NO = mts.THEATER_NO 
+		and mts.SCREEN_ID  = ms.SCREEN_ID
+		and ms.MOVIE_NO = mm.MOVIE_NO
+		and ms.SCHEDULE_DATE = #{date};
+	</select>
 	
-	
+	<resultMap id="CheckScheduleResultMap" type="CheckScheduleDto">
+        <id property="theaterNo" column="theater_no"/>
+        <collection property="dateList" ofType="String" column="schedule_date" />
+    </resultMap>
+    
+	<select id="checkSceduleByTheaterno" parameterType="int" resultMap="CheckScheduleResultMap">
+		select 	ms.schedule_date, mt.theater_no
+		from MGV_THEATERS mt, MGV_THEATER_SCREEN mts , MGV_SCHEDULE ms
+		WHERE mt.THEATER_NO = #{theaterNo}
+		and mt.THEATER_NO = mts.THEATER_NO 
+		and mts.SCREEN_ID  = ms.SCREEN_ID
+	</select>
 </mapper>

@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.co.mgv.schedule.dto.CheckScheduleDto;
 import kr.co.mgv.schedule.dto.DateWithMovieDto;
 import kr.co.mgv.schedule.service.ScheduleService;
 import kr.co.mgv.theater.dto.TheaterAndDateDto;
@@ -21,5 +22,11 @@ public class ScheduleController {
 	public DateWithMovieDto scheduleList(int theaterNo, String date) {
 		TheaterAndDateDto dto = new TheaterAndDateDto(theaterNo,date);
 		return scheduleService.getScheduleList(dto);
+	}
+	
+	@GetMapping("/checkSchedule")
+	@ResponseBody
+	public CheckScheduleDto checkSchedule(int theaterNo) {
+		return scheduleService.checkSchedule(theaterNo);
 	}
 }

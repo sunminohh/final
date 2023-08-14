@@ -3,6 +3,7 @@ package kr.co.mgv.schedule.service;
 import org.springframework.stereotype.Service;
 
 import kr.co.mgv.schedule.dao.ScheduleDao;
+import kr.co.mgv.schedule.dto.CheckScheduleDto;
 import kr.co.mgv.schedule.dto.DateWithMovieDto;
 import kr.co.mgv.theater.dto.TheaterAndDateDto;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,13 @@ public class ScheduleService {
 	public DateWithMovieDto getScheduleList(TheaterAndDateDto dto) {
 		return scheduleDao.getScheduleWithDate(dto);
 	}
+
+	public CheckScheduleDto checkSchedule(int theaterNo) {
+	
+		return scheduleDao.checkSceduleByTheaterno(theaterNo);
+	}
+	
+	
 	
 	
 }
