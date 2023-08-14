@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import kr.co.mgv.board.list.MboardCommentList;
 import kr.co.mgv.board.list.MovieBoardList;
 import kr.co.mgv.board.service.MovieBoardService;
+import kr.co.mgv.board.vo.AddMboardForm;
 import kr.co.mgv.board.vo.MBoardComment;
 import kr.co.mgv.board.vo.MBoardLike;
 import kr.co.mgv.board.vo.MovieBoard;
@@ -152,7 +153,7 @@ public class MovieBoardController {
       
     // 게시물 등록 관련
     @GetMapping("/add")
-    public String theaterForm(Model model) {
+    public String movieBoardForm(Model model) {
     	List<Movie> movieList = movieBoardService.getMovieTitle();
     	model.addAttribute("movies", movieList);
     	for(Movie movie : movieList) {
@@ -160,7 +161,16 @@ public class MovieBoardController {
     	}
         return "/view/board/movie/form";
     }
-
+    
+    @PostMapping("/add")
+    public String addMovieBoard(@AuthenticationPrincipal User user, AddMboardForm form) {
+    	
+    	log.info("입력한 정보 -> {}", form);
+    	movieBoardService.addMBoard(form, user);
+    	
+    	return "redirect:/board/movie/list";
+    }
+    
     // 댓글 관련
     @PostMapping("/addComment")
     @ResponseBody

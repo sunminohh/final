@@ -129,8 +129,8 @@
                     </td>
                 </tr>
                 
-                 <tr>
-                    <th scope="row"><label for="pw">비밀번호</label> <em class="font-orange">*</em></th>
+                 <tr sec:authorize="isAnonymous()">
+                    <th scope="row"><label for="pwd">비밀번호</label> <em class="font-orange">*</em></th>
                     <td colspan="3">
                         <input type="number" maxlength="4" name="guestPassword" class="input-text w150px pwnew" placeholder="숫자 4자리" oninput="restrictToFourDigits(this);">
                         <em class="fc_r ml10">* 분실물에 대한 고객정보 보호를 위하여 게시글의 비밀번호를 설정해주세요.</em>

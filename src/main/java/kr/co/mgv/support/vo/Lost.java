@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import kr.co.mgv.theater.vo.Location;
 import kr.co.mgv.theater.vo.Theater;
 import kr.co.mgv.user.vo.User;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,6 +33,27 @@ public class Lost {
 	private User user;
 	private Location location;
 	private Theater theater;
+	
+	@Builder
+	public Lost(int no, String title, String content, String answered, String deleted, String guestName,
+			String guestEmail, int guestPassword, String fileName, Date updateDate, Date createDate, User user,
+			Location location, Theater theater) {
+		super();
+		this.no = no;
+		this.title = title;
+		this.content = content;
+		this.answered = answered;
+		this.deleted = deleted;
+		this.guestName = guestName;
+		this.guestEmail = guestEmail;
+		this.guestPassword = guestPassword;
+		this.fileName = fileName;
+		this.updateDate = updateDate;
+		this.createDate = createDate;
+		this.user = user;
+		this.location = location;
+		this.theater = theater;
+	}
 	
 	
 	
