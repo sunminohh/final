@@ -107,6 +107,20 @@ $(function() {
 		        `;
 		        $pagination.append(firstContent);
 		        
+		       	if (result.pagination.currentBlock > 1) {
+					let prePage = (pagination.currentBlock -1)* 10
+		            let nextContent = `
+		                <li class="page-item">
+		                    <a title="이전 10페이지 보기"
+		                       href="list?page=${prePage}"
+		                       class="page-link page-number-link control prev"
+		                       data-page="${prePage}">${prePage}</a>
+		                </li>
+		            `;
+		            $pagination.append(nextContent);
+		        }
+		        
+		        
 				for (let i = pagination.beginPage; i <= pagination.endPage; i++) {
 				let content = `
 					 <li class="page-item">
