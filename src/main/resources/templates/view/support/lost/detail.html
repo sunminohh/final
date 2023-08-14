@@ -28,7 +28,7 @@
                 </p>
                 <p>
 				   <span class="txt" th:if="${lost.user != null}" th:text="${lost.user.email}"></span>
-				   <span class="txt" th:unless="${lost.user == null}" th:text="${lost.guestEmail}"></span>
+				   <span class="txt" th:if="${lost.user == null}" th:text="${lost.guestEmail}"></span>
 
 				</p>
                 <p>

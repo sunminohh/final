@@ -8,7 +8,7 @@ import lombok.Getter;
 public class SupportPagination {
 
    private int rows = 10;
-   private int pages = 5;
+   private int pages = 10;
    private int page;
    private int totalRows;
    private int totalPages;
