@@ -312,7 +312,9 @@ $(function() {
 			    });
 		    }   
 		});
-		
+	
+
+// 퀵메뉴 (위로)
       const quickMenu = $("#quick-scroll");
       const triggerOffset = 700; // 퀵 메뉴를 나타낼 스크롤 위치
 
@@ -340,6 +342,50 @@ $(function() {
 		$("#quick-scroll").on("click", function () {
         $("html, body").animate({ scrollTop: 0 }, "fast");
       });
+      
+// 삭제 버튼
+	$("#delete-btn").on("click", function(event) {
+	    event.preventDefault();
+		let no = $('[name="no"]').val();
+		
+	    Swal.fire({
+	        icon: 'warning',
+	        title: '정말 삭제하시겠습니까?',
+	        showCancelButton: true,
+	        confirmButtonText: '네',
+	        cancelButtonText: '아니오',
+	    }).then((result) => {
+	        if (result.isConfirmed) {
+	              window.location.href = 'delete?no=' + no;      
+	        } else if (result.dismiss === Swal.DismissReason.cancel) {
+	            
+	        }
+	    });
+	});
+
+	$("#link-btn").on("click", function() {
+	    // 현재 페이지의 URL을 클립보드에 복사
+	    navigator.clipboard.writeText(window.location.href)
+	        .then(() => {
+	            // 복사 성공 시 팝오버를 표시합니다.
+	            $("#link-btn").popover('show');
+	            
+	            // 2초 후에 팝오버를 숨깁니다.
+	            setTimeout(function() {
+	                $("#link-btn").popover('hide');
+	            }, 2000);
+	        })
+	        .catch((error) => {
+	            console.error("URL 복사 중 오류가 발생했습니다.", error);
+	            // 복사 실패 시에 수행할 작업을 여기에 추가할 수 있습니다.
+	        });
+	});
+	
+	// 페이지 로딩 시에 팝오버 초기화
+	$(function () {
+	    $('[data-bs-toggle="popover"]').popover();
+	});
+
 
 })
 

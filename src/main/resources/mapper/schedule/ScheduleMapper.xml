@@ -41,7 +41,9 @@
 		and mt.THEATER_NO = mts.THEATER_NO 
 		and mts.SCREEN_ID  = ms.SCREEN_ID
 		and ms.MOVIE_NO = mm.MOVIE_NO
-		and ms.SCHEDULE_DATE = #{date};
+		and ms.SCHEDULE_DATE = #{date}
+		and ms.SCHEDULE_START_TIME >= #{time}
+		ORDER BY mm.MOVIE_NO, ms.SCHEDULE_START_TIME, ms.SCHEDULE_TURN
 	</select>
 	
 	<resultMap id="CheckScheduleResultMap" type="CheckScheduleDto">

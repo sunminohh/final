@@ -96,6 +96,17 @@ $(function() {
 					$tbody.append(content);
 				})
 				
+				// 페이지네이션 시작
+				let firstContent = `
+		            <li class="page-item">
+		                <a title="첫번째 페이지 보기"
+		                   href="list?page=1"
+		                   class="page-link page-number-link control first"
+		                   data-page="1">1</a>
+		            </li>
+		        `;
+		        $pagination.append(firstContent);
+		        
 				for (let i = pagination.beginPage; i <= pagination.endPage; i++) {
 				let content = `
 					 <li class="page-item">
@@ -103,29 +114,55 @@ $(function() {
                       	 	class="page-link page-number-link ${i == pagination.page ? 'active' : ''}"
                        		data-page="${i}">${i}</a>
                		 </li>
+               		
 				`;
 				$pagination.append(content);	
 				}
+				
+				
+				if (result.pagination.currentBlock < result.pagination.totalBlocks) {
+					let nextpage = (pagination.currentBlock)* 10 + 1
+		            let nextContent = `
+		                <li class="page-item">
+		                    <a title="이후 10페이지 보기"
+		                       href="list?page=${nextpage}"
+		                       class="page-link page-number-link control next"
+		                       data-page="${nextpage}">${nextpage}</a>
+		                </li>
+		            `;
+		            $pagination.append(nextContent);
+		        }
+		        
+		        let lastContent = `
+		            <li class="page-item">
+		                <a title="마지막 페이지 보기"
+		                   href="list?page=${pagination.totalPages}"
+		                   class="page-link page-number-link control last"
+		                   data-page="${pagination.totalPages}">${pagination.totalPages}</a>
+		            </li>
+		        `;
+		        $pagination.append(lastContent);
+		        
+				
 			}
 		})
 	}
 	
-	// 폼 시작
+	// 폼 비번 4자리
 	$(document).ready(function() {
-	    $("#pwd").on("input", function() {
-	        // 입력값에서 숫자 이외의 문자 제거
-	        var numericValue = $(this).val().replace(/[^0-9]/g, '');
-	
-	        // 4자리로 제한
-	        if (numericValue.length > 4) {
-	            numericValue = numericValue.slice(0, 4);
-	        }
-	
-	        // 입력 필드에 반영
-	        $(this).val(numericValue);
-	    });
-	});
-	
+        $(".pwnew").on("input", function() {
+            // 입력값에서 숫자 이외의 문자 제거
+            var numericValue = $(this).val().replace(/[^0-9]/g, '');
+
+            // 4자리로 제한
+            if (numericValue.length > 4) {
+                numericValue = numericValue.slice(0, 4);
+            }
+
+            // 입력 필드에 반영
+            $(this).val(numericValue);
+        });
+    });
 	// 폼 끝
 		
 })
