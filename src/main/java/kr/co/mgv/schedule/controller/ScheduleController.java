@@ -19,8 +19,8 @@ public class ScheduleController {
 	
 	@GetMapping("/list")
 	@ResponseBody
-	public DateWithMovieDto scheduleList(int theaterNo, String date) {
-		TheaterAndDateDto dto = new TheaterAndDateDto(theaterNo,date);
+	public DateWithMovieDto scheduleList(int theaterNo, String date, String time) {
+		TheaterAndDateDto dto = new TheaterAndDateDto(theaterNo,date,time);
 		return scheduleService.getScheduleList(dto);
 	}
 	

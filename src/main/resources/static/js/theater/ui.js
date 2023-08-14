@@ -20,7 +20,7 @@ $(() => {
 				weekDay = '내일';
 			}
 			let weekdayno = currentDay.get('day')
-			htmlContents += `<button class="disabled ${weekdayno == 0 ? 'holi': 
+			htmlContents += `<button class="disabled ${today.isSame(currentDay) ? 'on':''} ${weekdayno == 0 ? 'holi': 
 														weekdayno == 6 ? 'sat':''}" type="button" date-data="${currentDay.format('YYYY-MM-DD')}"
 											month="${currentDay.get('month')}">
 											<span class="ir">${currentDay.format('YYYY년MM월')}</span><em
