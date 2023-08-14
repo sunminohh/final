@@ -18,7 +18,7 @@
   				and A.board_content like  CONCAT('%', #{keyword}, '%')
   			</when>
   			<when test="opt == 'all'">
-  				and A.board_name like  CONCAT('%', #{keyword}, '%') or A.board_content like  CONCAT('%', #{keyword}, '%')
+  				and (A.board_name like  CONCAT('%', #{keyword}, '%') or A.board_content like  CONCAT('%', #{keyword}, '%'))
   			</when>
   			<when test="opt == 'writer'">
   				and A.member_id like  CONCAT('%', #{keyword}, '%')
@@ -39,24 +39,34 @@
 	            A.member_id             as "user.id",
 	            A.board_content         as content,
 	            row_number() over (
-	            	<if test="sort == null">
-	                        order by board_create_date desc	            	
-	            	</if>
-	                <choose>
-	                    <when test="sort == 'new'">
-	                        order by board_create_date desc
-	                    </when>
-	                    <when test="sort == 'old'">
-	                        order by board_create_date asc
-	                    </when>
-	                    <when test="sort == 'view'">
-	                        order by board_read_cnt desc, board_create_date desc
-	                    </when>
-	                    <when test="sort == 'comment'">
-	                        order by board_comment_cnt desc, board_create_date desc
-	                    </when>
-	                </choose>
-	            ) as ROWNUMBER
+	            <choose>
+	                <!-- sort 파라미터가 없을 경우 -->
+	                <when test="sort == null">
+	                    order by board_create_date desc
+	                </when>
+	                <!-- sort 파라미터가 있을 경우 -->
+	                <otherwise>
+	                    <choose>
+	                        <when test="sort == 'new'">
+	                            order by board_create_date desc
+	                        </when>
+	                        <when test="sort == 'old'">
+	                            order by board_create_date asc
+	                        </when>
+	                        <when test="sort == 'view'">
+	                            order by board_read_cnt desc, board_create_date desc
+	                        </when>
+	                        <when test="sort == 'comment'">
+	                            order by board_comment_cnt desc, board_create_date desc
+	                        </when>
+	                        <!-- 기본 정렬 -->
+	                        <otherwise>
+	                            order by board_create_date desc
+	                        </otherwise>
+	                    </choose>
+	                </otherwise>
+	            </choose>
+	        ) as ROWNUMBER
 	        from
 	            MGV_MOVIE_BOARD A, MGV_MOVIE B
 	        where board_deleted = 'N' and board_report = 'N'
@@ -72,7 +82,7 @@
 	                and board_content like  CONCAT('%', #{keyword}, '%')
 	            </when>
     			<when test="opt == 'all'">
-    				and board_name like CONCAT('%', #{keyword}, '%') or board_content like CONCAT('%', #{keyword}, '%')
+    				and (board_name like CONCAT('%', #{keyword}, '%') or board_content like CONCAT('%', #{keyword}, '%'))
     			</when>
 	            <when test="opt == 'writer'">
 	                and member_id like  CONCAT('%', #{keyword}, '%')
