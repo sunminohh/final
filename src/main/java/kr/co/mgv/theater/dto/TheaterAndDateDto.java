@@ -14,9 +14,10 @@ public class TheaterAndDateDto {
 	
 	private int theaterNo;
 	private String date;
-
-	public TheaterAndDateDto(int theaterNo, String date) {
+	private String time;
+	public TheaterAndDateDto(int theaterNo, String date, String time) {
 		this.theaterNo = theaterNo;
 		this.date = date;
+		this.time = time;
 	}
 }
