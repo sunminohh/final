@@ -31,10 +31,10 @@ public class OneService {
 		}
 		
 		if (form.getLocationNo() != null) {
-			one.setLocation(new Location(form.getLocationNo()));
+			//one.setLocation(new Location(form.getLocationNo()));
 		}
 		if (form.getTheaterNo() != null) {
-			one.setTheater(new Theater(form.getTheaterNo()));
+			//one.setTheater(new Theater(form.getTheaterNo()));
 		}
 		
 		one.setCategory(new SupportCategory(form.getCategoryNo()));

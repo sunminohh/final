@@ -1,5 +1,7 @@
 package kr.co.mgv.support.service;
 
+import static org.hamcrest.CoreMatchers.nullValue;
+
 import java.util.List;
 import java.util.Map;
 
@@ -24,21 +26,37 @@ public class LostService {
 	private final LostDao lostDao;
 	
 	public void insertLost(AddLostForm form, User user) {
-		Lost lost = new Lost();
 		
+		Location location = Location.builder()
+							.no(form.getLocationNo())
+							.build();
+		
+		Theater theater = Theater.builder()
+							.no(form.getTheaterNo())
+							.build();
+		Lost lost = null;
 		if (user != null) {
-			lost.setUser(user);
+			lost = Lost.builder()
+					.user(user) // If user is not null
+					.location(location)
+					.theater(theater)
+					.title(form.getTitle())
+					.content(form.getContent())
+					.build();
+			
 		} else {
-			lost.setGuestName(form.getGuestName());
-			lost.setGuestEmail(form.getGuestEmail());
-			lost.setGuestPassword(form.getGuestPassword());
+			lost = Lost.builder()
+					.guestName(form.getGuestName()) // If user is null
+					.guestEmail(form.getGuestEmail()) // If user is null
+					.guestPassword(form.getGuestPassword()) // If user is null
+					.location(location)
+					.theater(theater)
+					.title(form.getTitle())
+					.content(form.getContent())
+					.build();
 		}
 		
-		lost.setLocation(new Location(form.getLocationNo()));
-		lost.setTheater(new Theater(form.getTheaterNo()));
-		lost.setTitle(form.getTitle());
-		lost.setContent(form.getContent());
-		
+
 		lostDao.insertLost(lost);
 	}
 	
