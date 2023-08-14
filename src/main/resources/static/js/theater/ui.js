@@ -20,7 +20,7 @@ $(() => {
 				weekDay = '내일';
 			}
 			let weekdayno = currentDay.get('day')
-			htmlContents += `<button class=" ${weekdayno == 0 ? 'holi': 
+			htmlContents += `<button class="disabled ${weekdayno == 0 ? 'holi': 
 														weekdayno == 6 ? 'sat':''}" type="button" date-data="${currentDay.format('YYYY-MM-DD')}"
 											month="${currentDay.get('month')}">
 											<span class="ir">${currentDay.format('YYYY년MM월')}</span><em
@@ -33,6 +33,7 @@ $(() => {
 			currentDay=currentDay.add(1,'day');
 		}
 		$(".date-area .wrap").html(htmlContents);
+		activateButton();
 	}
 
 	$.getJSON("/theater/theaterList", function(locations){
@@ -54,10 +55,25 @@ $(() => {
 	})
 
 	
-	/*let theaterno = $(this).attr("data-job-id");
-	$.getJSON("/theater/detail/${}",function(){
+	function activateButton(){
+		let $buttons = $(".date-area button");
+		let theaterNo = $("p.name").attr("data-theater-no");
 		
-	})*/
+		$.getJSON("/schedule/checkSchedule",{"theaterNo":theaterNo},function(data){
+			data.dateList.forEach(function(date){
+				$buttons.each(function(index, button){
+					let buttondate = dayjs($(button).attr("date-data"))
+					let scheduledate = dayjs(date)
+					if(dayjs(scheduledate).isSame(buttondate, 'day')){
+						$(button).removeClass("disabled");
+					}else{
+						console.log("날짜비교실패")
+					}
+				})
+			})
+		})
+		
+	}  
 
 
 	// 상영시간표 날짜버튼 클릭시 이벤트 핸들러 등록

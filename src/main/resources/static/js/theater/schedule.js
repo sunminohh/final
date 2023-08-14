@@ -2,7 +2,7 @@ $(() => {
 	
 	let today = dayjs().format("YYYY-MM-DD");
 	refreshSchedule(today);
-
+	
 	function refreshSchedule(date) {
 		let theaterNo = $("p.name").attr("data-theater-no");
 		let $theaterListBox = $(".theater-list-box").empty(); 
@@ -94,7 +94,7 @@ $(() => {
 		});
 	}
 	
-	$(".date-area").on("click","button", function(){
+	$(".date-area").on("click","button:not(.disabled)", function(){
 		let date = $(this).attr("date-data");
 		console.log(date);
 		
@@ -102,5 +102,7 @@ $(() => {
 		
 	 });
 	 
+	 
+	
 	
 });
