@@ -137,15 +137,13 @@
 				<if test="likeCount != null">
 					board_like_count = #{likeCount},
 				</if>
-			</set>
-			where board_no = #{no}
-	</update>
-	<!-- 
 				<if test="movie != null">
 					movie_no = #{movie.no},
 				</if>
-	 -->
-	 
+			</set>
+			where board_no = #{no}
+	</update>
+
 	 <insert id="insertMBoardLike" parameterType="kr.co.mgv.board.vo.MBoardLike">
 	 	INSERT INTO jhta_2302.MOVIE_BOARD_LIKE
 		(USER_ID, BOARD_NO)
