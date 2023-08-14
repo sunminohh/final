@@ -42,10 +42,11 @@ public class LostController {
         return "/view/support/lost/list";
     }
 	
-
+	// 분실물
 	@GetMapping("/list")
 	@ResponseBody
-	public LostList list(@RequestParam(name = "locationNo", required = false, defaultValue = "0") int locationNo,
+	public LostList list(@AuthenticationPrincipal User user,
+			@RequestParam(name = "locationNo", required = false, defaultValue = "0") int locationNo,
 			@RequestParam(name = "theaterNo", required = false, defaultValue = "0") int theaterNo,
 			@RequestParam(name = "page", required = false, defaultValue = "1") int page,
 			@RequestParam(name = "answered", required = false) String answered,
@@ -53,6 +54,7 @@ public class LostController {
 		
 		Map<String, Object> param = new HashMap<>();
 		
+		param.put("uesrId", user.getId());
 		param.put("page", page);
 		
 		if (locationNo != 0) {

@@ -16,14 +16,14 @@ public interface OneDao {
 	// 일대일문의글 등록
 	void insertOne(One one);
 	
-	// 유저 문의내역 가져오기
+	// 유저 문의내역 조회
 	List<One> getOnesByUserId(Map<String, Object> param);
 	int getTotalRows(Map<String, Object> param);
 	
-	// 전체 카테고리 가져오기
+	// 전체 카테고리 조회
 	List<SupportCategory> getCategories(String categoryType);
 	
-	// 극장별문의에서 지역, 극장 가져오기
+	// 극장별문의에서 지역, 극장 조회
 	List<Theater> getTheatersByLocationNo(int locationNo);
 	List<Location> getLocations();
 	

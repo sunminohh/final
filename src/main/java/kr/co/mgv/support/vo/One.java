@@ -26,9 +26,9 @@ public class One {
 	private String guestEmail; 
 	private int guestPassword;
 	private String fileName;
-	@JsonFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern = "yyyy.MM.dd")
 	private Date updateDate;
-	@JsonFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern = "yyyy.MM.dd")
 	private Date createDate;
 	private User user;
 	private Location location;

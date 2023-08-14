@@ -10,7 +10,7 @@ $(function() {
 	  if (tabType == "tab-one") {
 		  refreshOne(1);
 	  } else if (tabType == 'tab-lost') {
-		  
+		  refreshLost(1);
 	  }
 
       $('li.tab-link').removeClass('current');
@@ -18,9 +18,8 @@ $(function() {
 
       $(this).addClass('current');
       $(this).find('button.btn').addClass('current');
-      
     });
-    // 탭메뉴 끝
+    
 
 	// 폼
 	$("#onesupport").change(function() {
@@ -93,9 +92,8 @@ $(function() {
         // 입력 필드에 반영
         $(this).val(numericValue);
     });
-	// 폼 끝
 	
-	// 리스트 조회
+	// 일대일 문의내역 조회
 	// 검색버튼 클릭했을 때
 	$("#searchBtn").click(function() {
 		$("input[name=page]").val(1);
@@ -132,7 +130,7 @@ $(function() {
 		
 		if (oneList.length === 0) {
 			$tbody.append(`
-					<tr><th colspan='5' style="text-align:center;">조회된 내역이 없습니다.</th></tr>
+					<tr><th colspan='6' style="text-align:center;">조회된 내역이 없습니다.</th></tr>
 					`
 					);
 		} else {
@@ -219,4 +217,121 @@ $(function() {
 	}
 	
 	
+	
+	// 분실물 문의내역 조회
+	// 검색버튼 클릭했을 때
+	$("#searchBtn").click(function() {
+		$("input[name=page]").val(1);
+		
+		refreshLost();	
+	})
+	
+	// 페이지번호 클릭했을 때
+	$(".pagination").on("click", ".page-number-link", function(event) {
+		event.preventDefault();
+		let page = $(this).attr("data-page");
+		refreshLost(page);
+	})
+	
+	// 초기 페이지 로드
+	function refreshLost(page) {
+		let answered = $("select[name=answered]").val();
+		let keyword = $("input[name=keyword]").val();
+		
+		let $tbody = $(".oneList").empty();
+		let $pagination = $(".pagination").empty();
+		
+		$.getJSON("/support/lost/list", {answered:answered, page:page, keyword:keyword}, function(result) {
+			
+			$("#totalCnt").text(result.pagination.totalRows);	
+			
+			let lostList = result.lostList;
+			let pagination = result.pagination;
+			
+			if (lostList.length === 0) {
+				$tbody.append(`
+					<tr><th colspan='6' style="text-align:center;">조회된 내역이 없습니다.</th></tr>
+					`
+					);
+			} else {
+				lostList.forEach(function(lost, index) {
+				let content = `
+				<tr>
+		            <td>${lost.no}</td>
+		            <td>${lost.theater.name}</td>
+		            <td>분실물 문의</td>
+		            <td style="text-align:left;">${lost.title}</td>
+		            <td>${lost.answered == 'Y' ? '답변완료' : '미답변'}</td>
+		            <td>${lost.createDate}</td>
+	            </tr>
+				`
+				
+				$tbody.append(content);
+			})
+			
+			// 페이지네이션 
+			let firstContent = `
+		            <li class="page-item">
+		                <a title="첫번째 페이지 보기"
+		                   href="list?page=1"
+		                   class="page-link page-number-link control first"
+		                   data-page="1">1</a>
+		            </li>
+		        `;
+		        $pagination.append(firstContent);
+		        
+		       	if (result.pagination.currentBlock > 1) {
+					let prePage = (pagination.currentBlock -1)* 10
+		            let nextContent = `
+		                <li class="page-item">
+		                    <a title="이전 10페이지 보기"
+		                       href="list?page=${prePage}"
+		                       class="page-link page-number-link control prev"
+		                       data-page="${prePage}">${prePage}</a>
+		                </li>
+		            `;
+		            $pagination.append(nextContent);
+		        }
+		        
+		        
+				for (let i = pagination.beginPage; i <= pagination.endPage; i++) {
+				let content = `
+					 <li class="page-item">
+                    	<a href="list?page=${i}" 
+                      	 	class="page-link page-number-link ${i == pagination.page ? 'active' : ''}"
+                       		data-page="${i}">${i}</a>
+               		 </li>
+               		
+				`;
+				$pagination.append(content);	
+				}
+				
+				
+				if (result.pagination.currentBlock < result.pagination.totalBlocks) {
+					let nextpage = (pagination.currentBlock)* 10 + 1
+		            let nextContent = `
+		                <li class="page-item">
+		                    <a title="이후 10페이지 보기"
+		                       href="list?page=${nextpage}"
+		                       class="page-link page-number-link control next"
+		                       data-page="${nextpage}">${nextpage}</a>
+		                </li>
+		            `;
+		            $pagination.append(nextContent);
+		        }
+		        
+		        let lastContent = `
+		            <li class="page-item">
+		                <a title="마지막 페이지 보기"
+		                   href="list?page=${pagination.totalPages}"
+		                   class="page-link page-number-link control last"
+		                   data-page="${pagination.totalPages}">${pagination.totalPages}</a>
+		            </li>
+		        `;
+		        $pagination.append(lastContent);
+			
+			}
+			
+		})
+	}
 })
