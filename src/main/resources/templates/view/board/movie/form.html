@@ -12,7 +12,8 @@
     <div layout:fragment="content" class="container my-3">
         <div class="row mb-3">
             <div class="col-12">
-                <form method="post" class="p-3" enctype="multipart/form-data">
+                <form th:action="@{/board/movie/add}" method="post" class="board-insert-form p-3" enctype="multipart/form-data">
+                    <input type="hidden" name="userId" th:value="#{#authentication.principal.id}" />
                     <div class="border light p-3">
                         <div class="form-group mb-2 d-flex justify-content-start">
                             <div class="col-sm-1 pt-1">
@@ -20,7 +21,7 @@
                             </div>
                             <div class="col-sm-11">
                                 <div class="form-group mb-2">
-                                    <input type="text" class="form-control" name="name"/>
+                                    <input id="board-title" type="text" class="form-control" name="name"/>
                                 </div>
                             </div>
                         </div>
@@ -38,11 +39,11 @@
                             <textarea name="content" id="summernote"></textarea>
                         </div>
                     </div>
+	                <div style="text-align: center; padding:30px;">
+	                    <a href="list" class="btn btn-light btn-sm text-decoration-none text-reset">나가기</a>
+	                    <button id="btn-submit" type="button" class="btn btn-dark btn-sm" >등록</button>
+	                </div>
                 </form>
-                <div style="text-align: center; padding:30px;">
-                    <a href="list" class="btn btn-light btn-sm text-decoration-none text-reset">나가기</a>
-                    <button id="btn-submit" type="button" class="btn btn-dark btn-sm" >등록</button>
-                </div>
             </div>
         </div>
     </div>

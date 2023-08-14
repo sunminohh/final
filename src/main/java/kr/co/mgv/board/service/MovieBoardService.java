@@ -10,6 +10,7 @@ import kr.co.mgv.board.BoardPagination;
 import kr.co.mgv.board.form.MBoardForm;
 import kr.co.mgv.board.list.MovieBoardList;
 import kr.co.mgv.board.mapper.MovieBoardDao;
+import kr.co.mgv.board.vo.AddMboardForm;
 import kr.co.mgv.board.vo.MBoardComment;
 import kr.co.mgv.board.vo.MBoardLike;
 import kr.co.mgv.board.vo.MovieBoard;
@@ -147,10 +148,18 @@ public class MovieBoardService {
 		return movieBoardDao.getMovieTitle();
 	} 
 	
-	public void addMBoard(MBoardForm form) {
+	public void addMBoard(AddMboardForm form, User user) {
 	    try {
-	        MovieBoard board = new MovieBoard();
-	        BeanUtils.copyProperties(board, form);
+	    	Movie movie = Movie.builder()
+	    					.no(form.getMovieNo())
+	    					.build();
+	        MovieBoard board = MovieBoard.builder()
+	        					.user(user)
+	        					.movie(movie)
+	        					.name(form.getName())
+	        					.fileName(form.getFileName())
+	        					.content(form.getContent())
+	        					.build();
 
 	        movieBoardDao.insertMBoard(board);            
 	    } catch (Exception e) {

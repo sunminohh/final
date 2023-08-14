@@ -1,6 +1,7 @@
 package kr.co.mgv.movie.vo;
 
 import kr.co.mgv.movie.util.DateUtils;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -70,4 +71,40 @@ public class Movie {
         }
         return (double) seatsBooked/seatsOpen;
     }
+    
+    @Builder
+	public Movie(int no, double rating, int chartRank, int rankInten, int audiCnt, String title, String titleEng,
+			String genre, String contentRating, String director, String cast, String plot, String posterUrl,
+			String isPlaying, int runtime, String rankOldAndNew, Date releaseDate, Date updateDate, int score,
+			int scoreGiver, int likes, Date openDate, Date closeDate, int seatsOpen, int seatsBooked) {
+		super();
+		this.no = no;
+		this.rating = rating;
+		this.chartRank = chartRank;
+		this.rankInten = rankInten;
+		this.audiCnt = audiCnt;
+		this.title = title;
+		this.titleEng = titleEng;
+		this.genre = genre;
+		this.contentRating = contentRating;
+		this.director = director;
+		this.cast = cast;
+		this.plot = plot;
+		this.posterUrl = posterUrl;
+		this.isPlaying = isPlaying;
+		this.runtime = runtime;
+		this.rankOldAndNew = rankOldAndNew;
+		this.releaseDate = releaseDate;
+		this.updateDate = updateDate;
+		this.score = score;
+		this.scoreGiver = scoreGiver;
+		this.likes = likes;
+		this.openDate = openDate;
+		this.closeDate = closeDate;
+		this.seatsOpen = seatsOpen;
+		this.seatsBooked = seatsBooked;
+	}
+    
+    
+    
 }
