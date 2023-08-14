@@ -229,7 +229,7 @@ public class MovieBoardController {
     }
     
     // 댓글 관련
-    @GetMapping("/addComment")
+    @PostMapping("/addComment")
     @ResponseBody
     public ResponseEntity<MBoardComment> addComment(@RequestParam("no") int no, 
                              @RequestParam("id") String id, 
