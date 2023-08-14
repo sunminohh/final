@@ -2,6 +2,7 @@ package kr.co.mgv.schedule.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import kr.co.mgv.schedule.dto.CheckScheduleDto;
 import kr.co.mgv.schedule.dto.DateWithMovieDto;
 import kr.co.mgv.theater.dto.TheaterAndDateDto;
 
@@ -10,4 +11,5 @@ import kr.co.mgv.theater.dto.TheaterAndDateDto;
 public interface ScheduleDao {
 	
 	DateWithMovieDto getScheduleWithDate(TheaterAndDateDto dto);
+	CheckScheduleDto checkSceduleByTheaterno(int theaterNo);
 }
