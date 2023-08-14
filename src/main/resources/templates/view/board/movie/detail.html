@@ -78,10 +78,11 @@
 			
 			<div class="text-end mt-1" id="board-function">
 				<a class="pe-1" 
-				   th:href="@{/board/movie/modifyform(no=${param.no})}"
+				   th:href="@{/board/movie/modify(no=${param.no})}"
 				   sec:authorize="isAuthenticated()"
 				   th:if="${#authentication.principal.id == board.user.id}">수정</a>
 				<a class="pe-1" 
+				   id = "delete-btn"
 				   th:href="@{/board/movie/delete(no=${param.no})}" 
 				   sec:authorize="isAuthenticated()"
 				   th:if="${#authentication.principal.id == board.user.id}">삭제</a>
@@ -99,7 +100,9 @@
 				<p class="float-end me-2" style="font-size : 12px;"><img class=" me-1" alt="좋아요" th:src="@{/images/board/like.png}" width="14px" height="14px"/> 좋아요 <strong id="guest-like-count" th:utext="${board.likeCount}">5</strong></p>
 		</div>
 			<div class="d-flex justify-content-end ">
-		   		<button class="btn btn-outline-white btn-sm mb-2"  style="border: none; font-size: 12px" >공유</button>
+		   		<button class="btn btn-outline-white btn-sm mb-2" id="link-btn" style="border: none; font-size: 12px" 
+		   				data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="URL이 클립보드에 복사되었습니다."
+		   				>공유</button>
 		   		<button class="btn btn-outline-white btn-sm mb-2"  style="border: none; font-size: 12px" id="btn-report" 
 		   		        data-bs-toggle="modal" data-bs-target="#reportModal"
 		   		        sec:authorize="isAuthenticated()"

@@ -1,16 +1,17 @@
 $(() => {
 	
-	let today = dayjs().format("YYYY-MM-DD");
+	let today = dayjs();
 	refreshSchedule(today);
-
+	
 	function refreshSchedule(date) {
 		let theaterNo = $("p.name").attr("data-theater-no");
 		let $theaterListBox = $(".theater-list-box").empty(); 
-		$.getJSON("/schedule/list",{"theaterNo":theaterNo,"date":date},function(data){
-			console.log(data);
+		let time = dayjs(date).add(10, 'minute').format("HH:mm");
+		date = dayjs(date).format("YYYY-MM-DD");
+		let currenttime = dayjs();
+		$.getJSON("/schedule/list",{"theaterNo":theaterNo,"date":date,"time":time},function(data){
 			data.movieList.forEach(function(movie) {
             	// movie 객체를 반복문으로 처리
-            	console.log(movie);
             	let movieContents=`
             		<div class="theater-list movie-${movie.movieNo}">
             			<div class="theater-tit">
@@ -27,7 +28,6 @@ $(() => {
             	$theaterListBox.append(movieContents);
             	movie.screenList.forEach(function(screen) {
            			 // screen 객체를 반복문으로 처리
-            		console.log(screen);
             		let screenContents =`
             			<div class="theater-type-box screen-${screen.screenId}">
 							<div class="theater-type">
@@ -58,32 +58,34 @@ $(() => {
 							</div>
 						</div>	
             		`
-            		$theaterListBox.find(".movie-" + movie.movieNo).append(screenContents);
+            		let $movieBox = $theaterListBox.find(".movie-" + movie.movieNo).append(screenContents);
             		screen.scheduleList.forEach(function(schedule) {
+						let scheduleStartTime = dayjs(date+schedule.start);
             			// schedule 객체를 반복문으로 처리
-            			console.log(schedule);
-            			let scheduleContents = `
-            				<td class="" theater-no="${data.theaterNo}" play-schdl-no="${schedule.id}"
-														rpst-movie-no="${movie.movieNo}" theab-no="${screen.screenId}" play-de="${data.date}"
-														play-seq="${schedule.turn}" >
-								<div class="td-ab">
-									<div class="txt-center">
-										<a href="" title="영화예매하기">
-											<div class="ico-box">
-												<i class="iconset ico-off"></i>
-											</div>
-											<p class="time">${schedule.start}</p>
-											<p class="chair">${schedule.remainingSeats}석</p>
-											<div class="play-time">
-												<p>${schedule.start}~${schedule.end}</p>
-												<p>${schedule.turn}회차</p>
-											</div>
-										</a>
+            			if (scheduleStartTime.isAfter(currenttime)) {
+	            			let scheduleContents = `
+	            				<td class="" theater-no="${data.theaterNo}" play-schdl-no="${schedule.id}"
+															rpst-movie-no="${movie.movieNo}" theab-no="${screen.screenId}" play-de="${data.date}"
+															play-seq="${schedule.turn}" >
+									<div class="td-ab">
+										<div class="txt-center">
+											<a href="" title="영화예매하기">
+												<div class="ico-box">
+													<i class="iconset ico-off"></i>
+												</div>
+												<p class="time">${schedule.start}</p>
+												<p class="chair">${schedule.remainingSeats}석</p>
+												<div class="play-time">
+													<p>${schedule.start}~${schedule.end}</p>
+													<p>${schedule.turn}회차</p>
+												</div>
+											</a>
+										</div>
 									</div>
-								</div>
-							</td>
-            			`
-            			$theaterListBox.find("tr").append(scheduleContents);
+								</td>
+	            			`
+            			$movieBox.find("tr").append(scheduleContents);
+	            		}
         			});
         		});
         	});
@@ -94,13 +96,16 @@ $(() => {
 		});
 	}
 	
-	$(".date-area").on("click","button", function(){
+	$(".date-area").on("click","button:not(.disabled)", function(){
 		let date = $(this).attr("date-data");
-		console.log(date);
+		$(this).addClass("on");
+		$(this).siblings().removeClass("on");
 		
 		refreshSchedule(date);
 		
 	 });
 	 
+	 
+	
 	
 });

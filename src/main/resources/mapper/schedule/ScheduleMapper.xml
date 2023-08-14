@@ -41,16 +41,20 @@
 		and mt.THEATER_NO = mts.THEATER_NO 
 		and mts.SCREEN_ID  = ms.SCREEN_ID
 		and ms.MOVIE_NO = mm.MOVIE_NO
-		and ms.SCHEDULE_DATE = #{date};
+		and ms.SCHEDULE_DATE = #{date}
+		and ms.SCHEDULE_START_TIME >= #{time}
+		ORDER BY mm.MOVIE_NO, ms.SCHEDULE_START_TIME, ms.SCHEDULE_TURN
 	</select>
 	
 	<resultMap id="CheckScheduleResultMap" type="CheckScheduleDto">
         <id property="theaterNo" column="theater_no"/>
-        <collection property="dateList" ofType="String" column="schedule_date" />
+        <collection property="dateList" ofType="String"  javaType="list">
+        	<result column="schedule_date"/>
+        </collection>
     </resultMap>
     
 	<select id="checkSceduleByTheaterno" parameterType="int" resultMap="CheckScheduleResultMap">
-		select 	ms.schedule_date, mt.theater_no
+		select DISTINCT mt.theater_no, ms.schedule_date
 		from MGV_THEATERS mt, MGV_THEATER_SCREEN mts , MGV_SCHEDULE ms
 		WHERE mt.THEATER_NO = #{theaterNo}
 		and mt.THEATER_NO = mts.THEATER_NO 

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import kr.co.mgv.board.form.MBoardForm;
 import kr.co.mgv.board.list.MboardCommentList;
 import kr.co.mgv.board.list.MovieBoardList;
 import kr.co.mgv.board.service.MovieBoardService;
@@ -151,7 +152,7 @@ public class MovieBoardController {
     	return ResponseEntity.ok().build();
     }
       
-    // 게시물 등록 관련
+    // 게시물 등록/수정/삭제 관련
     @GetMapping("/add")
     public String movieBoardForm(Model model) {
     	List<Movie> movieList = movieBoardService.getMovieTitle();
@@ -171,8 +172,39 @@ public class MovieBoardController {
     	return "redirect:/board/movie/list";
     }
     
+    @GetMapping("/modify")
+    public String movieBoardModifyForm(@RequestParam("no") int no,
+    								   Model model) {
+    	List<Movie> movieList = movieBoardService.getMovieTitle();
+    	model.addAttribute("movies", movieList);
+    	
+    	MovieBoard savedBoard = movieBoardService.getMovieBoardByNo(no);
+    	model.addAttribute("board", savedBoard);
+    	
+        return "/view/board/movie/modifyForm";
+    }
+    
+    @PostMapping("/modify")
+    public String modifyBoard(@RequestParam("no") int no, AddMboardForm form) {
+    	
+    	log.info("입력한 정보 -> {}", form);
+    	
+    	movieBoardService.updateMBoard(form, no);
+    	
+    	return "redirect:/board/movie/detail?no=" + no;
+    }
+    
+    @GetMapping("/delete")
+    public String deleteBoard(@RequestParam("no") int no) {
+    	
+    	MBoardForm form = MBoardForm.builder().deleted("Y").build();
+    	movieBoardService.deleteBoard(no, form);
+    	
+    	return "redirect:/board/movie/list";
+    }
+    
     // 댓글 관련
-    @PostMapping("/addComment")
+    @GetMapping("/addComment")
     @ResponseBody
     public ResponseEntity<MBoardComment> addComment(@RequestParam("no") int no, 
                              @RequestParam("id") String id, 
