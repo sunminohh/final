@@ -62,7 +62,6 @@ public class LostService {
 	
 
 	public LostList search(Map<String, Object> param) {
-		log.info("param -> {}", param);
 		int totalRows = lostDao.getTotalRows(param);
 		int page = (int) param.get("page");
 		

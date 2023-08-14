@@ -15,7 +15,7 @@ public interface LostDao {
 	// 분실물문의 등록
 	void insertLost(Lost lost);
 	
-	// 분실장소에서 지역, 극장 가져오기
+	// 분실장소에서 지역, 극장 조회
 	List<Theater> getTheatersByLocationNo(int locationNo);
 	List<Location> getLocations();
 	
