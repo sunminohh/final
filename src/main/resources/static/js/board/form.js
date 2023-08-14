@@ -79,6 +79,10 @@ $(function() {
         }
     });
     
+    $("#selectd-movie-title-box").on("click", "#btn-x", function() {
+		$("#selectd-movie-title-box").empty();
+	});
+    
 	$("#btn-submit").on("click", function () {
 	    let movieTitle = $("#selectd-movie-title-box").find('#selected-movie-title').text();
 	    let title = $("input[name='name']").val();
@@ -103,5 +107,8 @@ $(function() {
 	        $(".board-insert-form").submit();
 	    }
 	});
+	
+
+
 
 });

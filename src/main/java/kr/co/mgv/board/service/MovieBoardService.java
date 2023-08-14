@@ -51,6 +51,12 @@ public class MovieBoardService {
 	}
 
 // 상세페이지
+	public MovieBoard getMovieBoardByNo(int no) {
+		MovieBoard movieBoard = movieBoardDao.getMBoardByNo(no);
+		
+		return movieBoard;
+	}
+
 	public void increaseRead(int no) {
 		MovieBoard movieBoard = movieBoardDao.getMBoardByNo(no);
 		movieBoard.setReadCount(movieBoard.getReadCount() + 1);
@@ -86,11 +92,6 @@ public class MovieBoardService {
 		
 	}
 	
-	public MovieBoard getMovieBoardByNo(int no) {
-		MovieBoard movieBoard = movieBoardDao.getMBoardByNo(no);
-		
-		return movieBoard;
-	}
 	
 // comment
 	
@@ -162,6 +163,25 @@ public class MovieBoardService {
 	        					.build();
 
 	        movieBoardDao.insertMBoard(board);            
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
+	
+	public void updateMBoard(AddMboardForm form, int no) {
+	    try {
+	    	Movie movie = Movie.builder()
+	    					.no(form.getMovieNo())
+	    					.build();
+	        MovieBoard board = MovieBoard.builder()
+	        					.no(no)
+	        					.movie(movie)
+	        					.name(form.getName())
+	        					.fileName(form.getFileName())
+	        					.content(form.getContent())
+	        					.build();
+
+	        movieBoardDao.updateMBoardByNo(board);         
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
