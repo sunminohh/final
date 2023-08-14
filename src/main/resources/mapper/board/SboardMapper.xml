@@ -13,7 +13,7 @@
     				and board_content like CONCAT('%', #{keyword}, '%')
     			</when>
     			<when test="opt == 'all'">
-    				and board_name like CONCAT('%', #{keyword}, '%') or board_content like CONCAT('%', #{keyword}, '%')
+    				and (board_name like CONCAT('%', #{keyword}, '%') or board_content like CONCAT('%', #{keyword}, '%'))
     			</when>
     			<when test="opt == 'writer'">
     				and user_id like CONCAT('%', #{keyword}, '%')
@@ -70,7 +70,7 @@
     				and board_content like CONCAT('%', #{keyword}, '%')
     			</when>
     			<when test="opt == 'all'">
-    				and board_name like CONCAT('%', #{keyword}, '%') or board_content like CONCAT('%', #{keyword}, '%')
+    				and (board_name like CONCAT('%', #{keyword}, '%') or board_content like CONCAT('%', #{keyword}, '%'))
     			</when>
     			<when test="opt == 'writer'">
     				and user_id like CONCAT('%', #{keyword}, '%')
