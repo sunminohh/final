@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import kr.co.mgv.support.dao.LostDao;
 import kr.co.mgv.support.dao.OneDao;
 import kr.co.mgv.support.dto.OneList;
 import kr.co.mgv.support.form.AddOneForm;
@@ -21,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 public class OneService {
 	
 	private final OneDao oneDao;
-
+	
 	public void insertOne(AddOneForm form, User user) {
 		
 		Location location = null;
