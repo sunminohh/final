@@ -33,6 +33,7 @@ public class LostService {
 		Theater theater = Theater.builder()
 							.no(form.getTheaterNo())
 							.build();
+		
 		Lost lost = null;
 		if (user != null) {
 			lost = Lost.builder()

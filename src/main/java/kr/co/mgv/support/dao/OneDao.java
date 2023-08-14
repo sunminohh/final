@@ -1,6 +1,7 @@
 package kr.co.mgv.support.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -14,6 +15,10 @@ public interface OneDao {
 	
 	// 일대일문의글 등록
 	void insertOne(One one);
+	
+	// 유저 문의내역 가져오기
+	List<One> getOnesByUserId(Map<String, Object> param);
+	int getTotalRows(Map<String, Object> param);
 	
 	// 전체 카테고리 가져오기
 	List<SupportCategory> getCategories(String categoryType);
