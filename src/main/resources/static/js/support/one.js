@@ -10,7 +10,7 @@ $(function() {
 	  if (tabType == "tab-one") {
 		  refreshOne(1);
 	  } else if (tabType == 'tab-lost') {
-		  refreshLost(1);
+		  //refreshLost(1);
 	  }
 
       $('li.tab-link').removeClass('current');
@@ -217,9 +217,8 @@ $(function() {
 	}
 	
 	
-	
+	/*
 	// 분실물 문의내역 조회
-	// 검색버튼 클릭했을 때
 	$("#searchBtn").click(function() {
 		$("input[name=page]").val(1);
 		
@@ -333,5 +332,7 @@ $(function() {
 			}
 			
 		})
+		
 	}
+	*/
 })
