@@ -76,10 +76,7 @@ $(() => {
 	}  
 
 
-	// 상영시간표 날짜버튼 클릭시 이벤트 핸들러 등록
-	$(".date-area .wrap").on("click","button", function(){
-		
-	})
+
 	// 극장 상세 탭 버튼 클릭시 
     $(".tab-list a").on("click", function(){
 		// 다른 버튼은 비활성화
