@@ -187,4 +187,12 @@ public class MovieBoardService {
 	    }
 	}
 	
+	public void deleteBoard(int no, MBoardForm form) {
+		MovieBoard movieBoard = movieBoardDao.getMBoardByNo(no);
+		movieBoard.setDeleted(form.getDeleted());
+		
+		movieBoardDao.updateMBoardByNo(movieBoard);
+		
+	}
+	
 }

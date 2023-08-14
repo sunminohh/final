@@ -82,6 +82,7 @@
 				   sec:authorize="isAuthenticated()"
 				   th:if="${#authentication.principal.id == board.user.id}">수정</a>
 				<a class="pe-1" 
+				   id = "delete-btn"
 				   th:href="@{/board/movie/delete(no=${param.no})}" 
 				   sec:authorize="isAuthenticated()"
 				   th:if="${#authentication.principal.id == board.user.id}">삭제</a>

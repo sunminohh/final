@@ -312,7 +312,9 @@ $(function() {
 			    });
 		    }   
 		});
-		
+	
+
+// 퀵메뉴 (위로)
       const quickMenu = $("#quick-scroll");
       const triggerOffset = 700; // 퀵 메뉴를 나타낼 스크롤 위치
 
@@ -340,6 +342,27 @@ $(function() {
 		$("#quick-scroll").on("click", function () {
         $("html, body").animate({ scrollTop: 0 }, "fast");
       });
+      
+// 삭제 버튼
+	$("#delete-btn").on("click", function(event) {
+	    event.preventDefault();
+		let no = $('[name="no"]').val();
+		
+	    Swal.fire({
+	        icon: 'warning',
+	        title: '정말 삭제하시겠습니까?',
+	        showCancelButton: true,
+	        confirmButtonText: '네',
+	        cancelButtonText: '아니오',
+	    }).then((result) => {
+	        if (result.isConfirmed) {
+	              window.location.href = 'delete?no=' + no;      
+	        } else if (result.dismiss === Swal.DismissReason.cancel) {
+	            
+	        }
+	    });
+	});
+
 
 })
 

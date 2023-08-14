@@ -194,8 +194,17 @@ public class MovieBoardController {
     	return "redirect:/board/movie/detail?no=" + no;
     }
     
+    @GetMapping("/delete")
+    public String deleteBoard(@RequestParam("no") int no) {
+    	
+    	MBoardForm form = MBoardForm.builder().deleted("Y").build();
+    	movieBoardService.deleteBoard(no, form);
+    	
+    	return "redirect:/board/movie/list";
+    }
+    
     // 댓글 관련
-    @PostMapping("/addComment")
+    @GetMapping("/addComment")
     @ResponseBody
     public ResponseEntity<MBoardComment> addComment(@RequestParam("no") int no, 
                              @RequestParam("id") String id, 
