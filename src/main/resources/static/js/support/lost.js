@@ -112,7 +112,7 @@ $(function() {
 	
 	// 폼 시작
 	$(document).ready(function() {
-	    $("#pw").on("input", function() {
+	    $("#pwd").on("input", function() {
 	        // 입력값에서 숫자 이외의 문자 제거
 	        var numericValue = $(this).val().replace(/[^0-9]/g, '');
 	

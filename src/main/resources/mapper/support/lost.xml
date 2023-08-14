@@ -21,7 +21,7 @@
 		FROM MGV_SUPPORT_LOST A, MGV_LOCATION B , MGV_THEATERS C
 		where 
 			A.LOCATION_NO = B.LOCATION_NO
-			and B.LOCATION_NO = C.LOCATION_NO
+			and A.theater_NO = C.theater_NO
 			and A.LOST_DELETED = 'N'
 			<if test="locationNo != null">
 				and A.LOCATION_NO = #{locationNo}
@@ -87,14 +87,13 @@
 			B.Location_name			as "location.name",
 			A.THEATER_NO 			as "theater.no",
 			C.theater_name			as "theater.name",
-			D.user_email			as "user.email",
+			A.user_email			as "user.email",
 			A.LOST_GUEST_EMAIL		as guestEmail
 		FROM 
-			MGV_SUPPORT_LOST A, MGV_LOCATION B , MGV_THEATERS C, MGV_USER D
+			MGV_SUPPORT_LOST A, MGV_LOCATION B , MGV_THEATERS C
 		where 
 			A.LOCATION_NO = B.LOCATION_NO
 			and A.theater_NO = C.theater_NO
-			and A.user_email = D.user_email
 			and A.Lost_NO = #{value} 
 	</select>
 	

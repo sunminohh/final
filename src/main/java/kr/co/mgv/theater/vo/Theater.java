@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.type.Alias;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,8 +26,22 @@ public class Theater {
 	private List<FloorInfo> floorInfos;
 	private ParkingInfo parkingInfo;
 	
-	public Theater(int no) {
+	@Builder
+	public Theater(int no, Location location, String name, String address, String tel, String disabled, String info,
+			List<TheaterFacility> facilities, List<FloorInfo> floorInfos, ParkingInfo parkingInfo) {
+		super();
 		this.no = no;
+		this.location = location;
+		this.name = name;
+		this.address = address;
+		this.tel = tel;
+		this.disabled = disabled;
+		this.info = info;
+		this.facilities = facilities;
+		this.floorInfos = floorInfos;
+		this.parkingInfo = parkingInfo;
 	}
+	
+	
 
 }
