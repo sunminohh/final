@@ -151,7 +151,7 @@ public class MovieBoardController {
     	return ResponseEntity.ok().build();
     }
       
-    // 게시물 등록 관련
+    // 게시물 등록/수정/삭제 관련
     @GetMapping("/add")
     public String movieBoardForm(Model model) {
     	List<Movie> movieList = movieBoardService.getMovieTitle();
@@ -169,6 +169,17 @@ public class MovieBoardController {
     	movieBoardService.addMBoard(form, user);
     	
     	return "redirect:/board/movie/list";
+    }
+    
+    @GetMapping("/modify")
+    public String movieBoardModifyForm(@RequestParam("no") int no,
+    								   Model model) {
+    	List<Movie> movieList = movieBoardService.getMovieTitle();
+    	model.addAttribute("movies", movieList);
+    	
+    	MovieBoard savedBoard = movieBoardService.getMovieBoardByNo(no);
+    	
+        return "/view/board/movie/modifyFomr";
     }
     
     // 댓글 관련

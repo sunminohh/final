@@ -79,31 +79,29 @@ $(function() {
         }
     });
     
-    // 등록 버튼을 눌렀을 때 영화제목, 글 제목, 글 내용이 비어있으면 경고창을 띄운다.
-     $("#btn-submit").on("click", function () {
-		
-		let movieTitle = $(".selectd-movie-title-box").find('#selected-movie-title').val();
-		let title =	$("#board-title").val();
-		let content = $("#summernote").val();
-		
-		if(movieTitle === ''){
-			Swal.fire({
-                    icon: 'error',
-                    text: '영화 제목을 선택해주세요.',
-            });
-		} else if(title === ''){
-			Swal.fire({
-                    icon: 'error',
-                    text: '게시글의 제목을 입력해주세요.',
-            });
-		} else if(content === ''){
-			Swal.fire({
-                    icon: 'error',
-                    text: '게시글의 내용을 입력해주세요.',
-            });
-		}
-		
-		$(".board-insert-form").submit();
-		 
+	$("#btn-submit").on("click", function () {
+	    let movieTitle = $("#selectd-movie-title-box").find('#selected-movie-title').text();
+	    let title = $("input[name='name']").val();
+	    let content = $("#summernote").val();
+	
+	    if (movieTitle === '') {
+	        Swal.fire({
+	            icon: 'error',
+	            text: '영화 제목을 선택해주세요.',
+	        });
+	    } else if (title === '') {
+	        Swal.fire({
+	            icon: 'error',
+	            text: '게시글의 제목을 입력해주세요.',
+	        });
+	    } else if (content === '') {
+	        Swal.fire({
+	            icon: 'error',
+	            text: '게시글의 내용을 입력해주세요.',
+	        });
+	    } else {
+	        $(".board-insert-form").submit();
+	    }
 	});
+
 });

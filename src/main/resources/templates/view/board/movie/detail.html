@@ -78,7 +78,7 @@
 			
 			<div class="text-end mt-1" id="board-function">
 				<a class="pe-1" 
-				   th:href="@{/board/movie/modifyform(no=${param.no})}"
+				   th:href="@{/board/movie/modify(no=${param.no})}"
 				   sec:authorize="isAuthenticated()"
 				   th:if="${#authentication.principal.id == board.user.id}">수정</a>
 				<a class="pe-1" 
