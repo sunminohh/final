@@ -105,7 +105,7 @@ public class AuthenticationController {
     // 이메일 인증
     @PostMapping("/mail")
     @ResponseBody
-    public ResponseEntity<String> mailConfirm(@RequestParam("email") String email, HttpSession session) throws Exception {
+    public ResponseEntity<String> mailConfirm(@RequestParam("email") String email, HttpSession session) {
         try {
             String code = emailService.sendSimpleMessage(email);
             log.info("인증번호 -> {}", code);
