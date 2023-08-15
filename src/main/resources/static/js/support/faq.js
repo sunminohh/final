@@ -1,8 +1,12 @@
 
 $(document).ready(function() {
-	  
-	// 탭메뉴	
-    $('li.tab-link.current').click();
+
+	const params = new URLSearchParams(location.search);
+	const defaultKeyword = params.get('keyword');
+	if (defaultKeyword) {
+		$("input[name=keyword]").val(defaultKeyword);
+		getFaqList();
+	}
 
     $('li.tab-link').click(function() {
 
@@ -24,7 +28,21 @@ $(document).ready(function() {
 		
 		getFaqList();
 	});
-	
+
+	// 폼 전송 이벤트
+	$("#actionForm").on('submit', function(e) {
+		e.preventDefault();
+		getFaqList();
+	});
+
+	/* 폼 없을때 사용
+	$("input[name='keyword']").on('keyup', function(e) {
+		if (e.keyCode === 13) {
+			getFaqList();
+		}
+	});
+	*/
+
 	// 페이저번호클릭했 떄
 	$('.pagination').on('click', '.page-number-link', function(event) {
 		event.preventDefault();
@@ -150,15 +168,3 @@ $(document).ready(function() {
         }
     });
 });
-
-
-
-
-
-
-
-
-
-
-
-

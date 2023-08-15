@@ -37,11 +37,7 @@ public class OneController {
 	
 	@GetMapping("/myinquery")
 	public String myinquery() {
-//		Map<String, Object> param = new HashMap<>();
-//		param.put("page", 1);
-//		OneList oneList = oneService.search(param);
-//		model.addAttribute("result", oneList);
-//		
+
 		return "/view/support/one/list";
 	}
 	
