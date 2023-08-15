@@ -23,7 +23,7 @@
 			<div class="location">
 				<span>Home</span> <a href="/theater/list" title="극장 페이지로 이동">극장</a>
 				<a href="/theater/list" title="전체극장 페이지로 이동">전체극장</a> <a
-					href="https://www.megabox.co.kr/theater?brchNo=1372"
+					th:href="@{/theater/detail(brchNo=${theater.no})}" 
 					title="극장정보 페이지로 이동">극장정보</a>
 			</div>
 		</div>

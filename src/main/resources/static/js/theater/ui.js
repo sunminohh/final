@@ -52,9 +52,37 @@ $(() => {
 			// 찾은 요소에 대입
 			$theatersarea.html(contents);
 		})
+		// 선호극장
+		$.ajax({
+	        url: "/theater/favorite",
+	        type: "GET",
+	        success: function(theaters) {
+				
+	                // 여기에서 원하는 동작 수행
+	                let $container = $(".user-theater .theater-circle").empty();
+	                if(theaters.length != 0){
+		                theaters.forEach(function(theater){
+							let htmlContent = `<li><a href="/theater/detail?brchNo=${theater.no}"
+										title="${theater.name} 상세보기">${theater.name}</a></li>
+							
+								`
+							$container.append(htmlContent);	
+							if(theater.no == $("p.name").attr("data-theater-no")){
+								$(".btn-util .block button").addClass("on");
+							}	
+							
+							let htmlContents = `<span class="favorit-theater"><i class="iconset ico-favo-theater"></i></span>`
+							$(".theater-place .theater-list li[data-brch-no="+theater.no+"]").prepend(htmlContents);
+								
+						}) 
+						
+					}
+	            } 
+		});
 	})
-
-	
+	$(".btn-util .block button").click(function(){
+		console.log("아")
+	})
 	function activateButton(){
 		let $buttons = $(".date-area button");
 		let theaterNo = $("p.name").attr("data-theater-no");
@@ -102,6 +130,22 @@ $(() => {
 	},function(){
 		$(this).removeClass("on");
 	})
+	
+	// 선호극장 모달 on
+	$(".user-theater .control-fav").on("click",function(event){
+		event.preventDefault()
+		$("#favor_theater_setting").addClass("on"),
+		$("#favorBrchReg").addClass("target")
+		$(".bg-modal").fadeIn();
+	});
+	
+	// 선호극장 모달 off
+	$(".btn-modal-close").on("click",function(event){
+		event.preventDefault()
+		$("#favor_theater_setting").removeClass("on"),
+		$("#favorBrchReg").removeClass("target")
+		$(".bg-modal").fadeOut();
+	});
 	
 	/*카카오맵 약도*/
 	$(".location-map-btn button").click(function(){

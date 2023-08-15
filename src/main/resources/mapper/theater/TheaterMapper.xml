@@ -78,4 +78,13 @@
 		from MGV_THEATER_FLOORS_INFO
 		where theater_no = #{value}
 	</select>
+	
+	<select id="getFavoriteTheaters" parameterType="String" resultType="theater">
+	select 
+		A.theater_no	as no,
+		B.theater_name	as name
+	from MGV_FAVORITE_THEATER A, MGV_THEATERS B
+	where member_id = #{value}
+	and A.theater_no = B. theater_no
+	</select>
 </mapper>

@@ -14,5 +14,6 @@ public interface TheaterDao {
 	Theater getTheaterDetailByNo(int theaterNo);
 	void updateTheater(Theater theater);
 	void insertTheater(Theater theater);
+	List<Theater> getFavoriteTheaters(String userId);
 	
 }

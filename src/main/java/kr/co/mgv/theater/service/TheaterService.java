@@ -22,4 +22,9 @@ public class TheaterService {
 	public Theater getTheaterDetail(int theaterNo) {
 		return theaterDao.getTheaterDetailByNo(theaterNo);
 	}
+
+	public List<Theater> getFavoriteTheaters(String userId) {
+		// TODO Auto-generated method stub
+		return theaterDao.getFavoriteTheaters(userId);
+	}
 }
