@@ -134,7 +134,12 @@ $(function() {
 		            <td>${board.no}</td>
 		            <td>${board.theater == null ? '센터' : board.theater.name}</td>
 		            <td>${tabType === 'tab-one' ? board.category.name : '분실물 문의'}</td>
-		            <td style="text-align:left;">${board.title}</td>
+		            <td style="text-align:left;">
+		            	<a class="text-black text-decoration-none"
+		            		>
+			            	${board.title}
+		            	</a>
+		            </td>
 		            <td>${board.answered == 'Y' ? '답변완료' : '미답변'}</td>
 		            <td>${board.createDate}</td>
 	            </tr>
