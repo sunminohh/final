@@ -3,8 +3,11 @@ package kr.co.mgv.support.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import kr.co.mgv.support.vo.Notice;
 
+@Mapper
 public interface NoticeDao {
 
 	// 공지사항 리스트 조회

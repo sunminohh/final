@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import kr.co.mgv.support.service.NoticeService;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
@@ -13,6 +14,8 @@ import lombok.ToString;
 @RequiredArgsConstructor
 @ToString
 public class NoticeController {
+	
+	private final NoticeService noticeService;
 	
     @GetMapping
     public String notice() {

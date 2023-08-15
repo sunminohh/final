@@ -17,18 +17,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Notice {
 
-	/*
-	NOTICE_NO,
-	 NOTICE_TITLE,
-	  NOTICE_CONTENT, 
-	  NOTICE_DELETED, 
-	  NOTICE_UPDATE_DATE, 
-	  NOTICE_CREATE_DATE,
-	   USER_ID,
-	    LOCATION_NO,
-	    THEATER_NO, 
-	    CATEGORY_NO
-	*/
 	private int no;
 	private String title;
 	private String content;
@@ -41,10 +29,11 @@ public class Notice {
 	private Location location;
 	private Theater theater;
 	private SupportCategory category;
+	private String type;
 	
 	@Builder
 	public Notice(int no, String title, String content, String deleted, Date updateDate, Date createDate, User user,
-			Location location, Theater theater, SupportCategory category) {
+			Location location, Theater theater, SupportCategory category, String type) {
 		super();
 		this.no = no;
 		this.title = title;
@@ -56,7 +45,10 @@ public class Notice {
 		this.location = location;
 		this.theater = theater;
 		this.category = category;
+		this.type = type;
 	}
+	
+	
 	
 }
 
