@@ -11,7 +11,7 @@ $(function() {
 	});
 
 
-	// 폼
+	// 폼/문의선택에서 고객센터 문의 선택했을 때
 	$("#onesupport").change(function() {
 		let $selectCategory = $("#oneCat").empty();
 		$selectCategory.append(`<option value="" selected disabled>문의유형 선택</option>`)
@@ -27,7 +27,7 @@ $(function() {
 		})
 	}).trigger("change");
 
-
+	// 폼/문의선택에서 극장별 문의 선택했을 때
 	$("#onetheater").change(function() {
 		let $selectCategory = $("#oneCat").empty();
 		$selectCategory.append(`<option value="" selected disabled>문의유형 선택</option>`)
@@ -40,7 +40,7 @@ $(function() {
 				$selectCategory.append(option);
 			})
 		})
-
+		// 지역 선택
 		let $selectLocation = $("#location").empty();
 		$selectLocation.append(`<option value="" selected disabled>지역선택</option>`)
 
@@ -51,7 +51,7 @@ $(function() {
 			})
 		})
 	})
-
+	// 극장선택
 	$("#location").change(function() {
 		$("#theater").prop("disabled", false);
 
@@ -69,7 +69,7 @@ $(function() {
 
 	});
 
-	// 폼 비번 4자리
+	// 폼 비번 숫자 4자리만 입력받기
 	$(".pwnew").on("input", function() {
 		// 입력값에서 숫자 이외의 문자 제거
 		var numericValue = $(this).val().replace(/[^0-9]/g, '');
@@ -114,10 +114,19 @@ $(function() {
 		// 요청 타입
 		// 1:1 문의: tab-one, 분실물 문의: tab-lost
 		const tabType = $(".tab-link .current").data('tab');
-		const requestUrl = tabType === 'tab-one' ? '/support/one/list' : '/support/lost/list';
+		
+		 if (tabType === 'tab-one') {
+                $('#tabType').text('1:1 문의내역');
+            } else if (tabType === 'tab-lost') {
+                $('#tabType').text('분실물 문의내역');
+            }
+            
+		const requestUrl = tabType === 'tab-one' ? '/support/one/list' : '/support/lost/mylist';
 
 		$.getJSON(requestUrl, {answered:answered, page:page,  keyword:keyword}, function(result) {
-
+			
+			
+			
 			// 총 건수 업데이트
 			$('#totalCnt').text(result.pagination.totalRows);
 
