@@ -343,12 +343,6 @@ public class MovieBoardController {
             return ResponseEntity.badRequest().build(); // 값이 없는 경우 잘못된 요청 응답 반환
         }
         
-        // 자식 삭제
-        movieBoardService.childsCommentDelete(commentNo);
-        
-        // 조상 삭제
-        movieBoardService.greatCommentDelete(commentNo);
-        
         // table의 commentCount 구하기
         MovieBoard board = movieBoardService.getMovieBoardByNo(no);
         
@@ -357,6 +351,13 @@ public class MovieBoardController {
         
         board.setCommentCount(commentCount);
         movieBoardService.updateBoardComment(no, commentCount);
+   
+        // 자식 삭제
+        movieBoardService.childsCommentDelete(commentNo);
+        
+        // 조상 삭제
+        movieBoardService.greatCommentDelete(commentNo);
+        
         
         return ResponseEntity.ok().body(commentCount);
     }
@@ -365,17 +366,23 @@ public class MovieBoardController {
     
     @PostMapping("/deleteReComment")
     @ResponseBody
-    public ResponseEntity<Void> deleteReComment(@RequestParam("no") int no, 
-					    		@RequestParam("commentNo") int commentNo) {
-    	
-    	// comment table의 deleted 를 y로 바꾸기
-    	// table의 commentCount -1
-    		// great_no == null이면 great_no == comment_no 인 comment 전부 y로 바꾸기
-    		// great_no == null이면 great_no == comment_no 인 comment 인 수만큼 commentCount - 하기
-    	
-    	
+    public ResponseEntity<Integer> deleteReComment(@RequestBody Map<String, Integer> request) {
+        int no = request.get("no");
+        int commentNo = request.get("commentNo");
+
+        if (no == 0 || commentNo == 0) {
+            return ResponseEntity.badRequest().build(); // 값이 없는 경우 잘못된 요청 응답 반환
+        }
         
-    	return ResponseEntity.ok().build();
+        MovieBoard board = movieBoardService.getMovieBoardByNo(no);
+        int commentCount = board.getCommentCount() -1 ;
+      
+        board.setCommentCount(commentCount);
+        movieBoardService.updateBoardComment(no, commentCount);
+   
+        movieBoardService.greatCommentDelete(commentNo);
+        
+        return ResponseEntity.ok().body(commentCount);
     }
 
     // 신고관련
