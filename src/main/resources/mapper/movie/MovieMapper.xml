@@ -4,7 +4,7 @@
     <insert id="insertMovie" parameterType="Movie">
         insert into MGV_MOVIE
         values
-        (#{no},#{chartRank},#{title},#{titleEng},#{genre},#{contentRating},#{director},#{cast},#{plot},#{isPlaying},#{runtime},#{rankInten},#{audiCnt},#{posterUrl},#{rankOldAndNew},#{releaseDate},SYSDATE(),#{likes},#{score},#{scoreGiver},#{openDate})</insert>
+        (#{no},#{chartRank},#{title},#{titleEng},#{genre},#{contentRating},#{director},#{cast},#{plot},#{isPlaying},#{runtime},#{rankInten},#{audiCnt},#{posterUrl},#{rankOldAndNew},#{releaseDate},SYSDATE(),#{likes},#{score},#{scoreGiver},#{openDate},#{closeDate},#{seatsOpen},#{seatsBooked})</insert>
 
     <select id="getMovieNos" resultType="int">
         select Movie_no
@@ -31,6 +31,7 @@
             MOVIE_SCORE_GIVER   as scoreGiver,
             MOVIE_LIKES          as likes,
             MOVIE_OPEN_DATE     as openDate,
+            MOVIE_CLOSE_DATE    as closeDate,
             MOVIE_SEATS_OPEN    as seatsOpen,
             MOVIE_SEATS_BOOKED  as seatsBooked
         from
@@ -46,6 +47,7 @@
              movie_title_eng     as titleEng,
             movie_genre         as genre,
             MOVIE_CONTENT_RATING as contentRating,
+            movie_director      as director,
             movie_cast          as cast,
             movie_plot          as plot,
             movie_isplaying     as isPlaying,
@@ -59,6 +61,7 @@
             MOVIE_SCORE_GIVER   as scoreGiver,
             MOVIE_LIKES         as likes,
             MOVIE_OPEN_DATE     as openDate,
+            MOVIE_CLOSE_DATE    as closeDate,
             MOVIE_SEATS_OPEN    as seatsOpen,
             MOVIE_SEATS_BOOKED  as seatsBooked
         from
@@ -78,6 +81,7 @@
                 movie_rankoldandnew = #{rankOldAndNew},
                 movie_update_date = SYSDATE(),
                 MOVIE_OPEN_DATE = #{openDate},
+                MOVIE_CLOSE_DATE = #{closeDate},
                 movie_likes = #{likes},
                 movie_score = #{score},
                 movie_score_giver = #{scoreGiver},
@@ -116,7 +120,13 @@
             movie_likes = #{likes},
             movie_score = #{score},
             movie_score_giver = #{scoreGiver},
-            MOVIE_OPEN_DATE = #{openDate}
+            MOVIE_OPEN_DATE = #{openDate},
+            MOVIE_CLOSE_DATE = #{closeDate},
+            movie_likes = #{likes},
+            movie_score = #{score},
+            movie_score_giver = #{scoreGiver},
+            movie_seats_open = #{seatsOpen},
+            movie_seats_booked = #{seatsBooked}
         where movie_no = #{no}
     </update>
 
@@ -142,6 +152,7 @@
         B.MOVIE_SCORE         as score,
         B.MOVIE_SCORE_GIVER   as scoreGiver,
         B.MOVIE_OPEN_DATE     as openDate,
+        B.MOVIE_CLOSE_DATE    as closeDate,
         B.MOVIE_SEATS_OPEN    as seatsOpen,
         B.MOVIE_SEATS_BOOKED  as seatsBooked
         from(
