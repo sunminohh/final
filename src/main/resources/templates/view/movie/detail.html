@@ -4,11 +4,12 @@
     <style></style>
 </head>
 <div layout:fragment="content">
-
     <form id="movieForm"></form>
 
     <!-- movie-detail -->
+
     <div class="movie-detail-page">
+        <script th:src="@{/js/movie/detail.js}"></script>
         <div class="bg-img" th:style="|background-image:url(${movie.getSubPoster()})|"></div>
         <div class="bg-pattern"></div>
         <div class="bg-mask"></div>
@@ -21,13 +22,11 @@
             <p class="title-eng" th:text="${movie.titleEng}"></p>
 
             <div class="btn-util">
-                <button type="button" title="보고싶어 안함" class="btn btn-like" rpst-movie-no="23029300">
-                    <i class="iconset ico-heart-line"></i>
-                    <span title="보고싶어 한 명수" id="intrstCnt" th:text="${movie.likes}">
-
+                    <button type="button" title="보고싶어 안함" th:class="${isLiked ? 'btn btn-like on' : 'btn btn-like'}" th:data="${movie.no}" th:data2="${#authentication.getName()}">
+                        <i class="iconset ico-heart-line"></i>
+                        <span title="보고싶어 한 명수" id="likesCnt" th:text="${movie.likes}">
 				</span>
-                </button>
-
+                    </button>
                 <div class="sns-share">
                     <a href="#" class="btn btn-common-share" title="공유하기">
                         <i class="iconset ico-sns-line"></i> 공유하기 <!-- 공유하기 -->
@@ -160,23 +159,26 @@
                 <p>상영타입 : 2D, 2D ATMOS, 디지털가치봄, 한글자막(CC)</p>
 
                 <div class="line">
-                    <p>감독&nbsp;: 류승완</p>
-                    <p>장르&nbsp;: 범죄 / 129 분</p>
-                    <p>등급&nbsp;: 15세이상관람가</p>
-
-                    <p>개봉일&nbsp;: 2023.07.26</p>
+                    <p th:text="|감독 : ${movie.director}|"></p>
+                    <p th:text="|장르 : ${movie.genre}  / ${movie.runtime} 분|"></p>
+                    <p th:if="${#strings.equals(movie.contentRating,'18')}" th:text="|등급 : 청소년관람불가|"></p>
+                    <p th:if="${#strings.equals(movie.contentRating,'15')}" th:text="|등급 : 15세이상관람가|"></p>
+                    <p th:if="${#strings.equals(movie.contentRating,'12')}" th:text="|등급 : 12세이상관람가|"></p>
+                    <p th:if="${#strings.equals(movie.contentRating,'all')}" th:text="|등급 : 전체관람가|"></p>
+                    <p th:if="${#strings.equals(movie.contentRating,'no')}" th:text="|등급 : 상영등급미정|"></p>
+                    <p th:text="|개봉일 : ${#dates.format(movie.releaseDate, 'YYYY-MM-dd')}|"></p>
 
                     <!--          <p>배급사 : &#40;주&#41;넥스트엔터테인먼트월드</p> -->
                 </div>
-                <p>출연진&nbsp;: 김혜수, 염정아, 조인성, 박정민, 김종수, 고민시</p>
+                <p th:text="|출연진 : ${movie.cast}|"></p>
             </div>
 
             <!-- movie-graph -->
             <div class="movie-graph infoContent">
                 <div class="col">
                     <dl>
-                        <dt>관람포인트</dt>
-                        <dd id="charByPoint">배우·스토리</dd>
+                        <dt>좋아요 수</dt>
+                        <dd id="charByPoint" th:text="${movie.likes}">배우·스토리</dd>
                     </dl>
 
                     <div class="graph" style="position: relative; bottom: 29px;"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
@@ -219,7 +221,7 @@
                     -->
                     <div class="score equal" style="position: relative; bottom: 15px;">
                         <div class="middle">
-                            <div class="circle"><em>8.6</em><span class="ir">점</span></div>
+                            <div class="circle"><em th:text="${movie.getAverageScore()}">8.6</em><span class="ir">점</span></div>
                         </div>
                     </div>
 
@@ -227,7 +229,7 @@
                     <dl>
                         <dt>예매율</dt>
                         <dd class="font-roboto regular">
-                            <span id="rkTag">30.1%</span>
+                            <span id="rkTag" th:text="${movie.getBookingRate()}">30.1%</span>
                         </dd>
                     </dl>
                 </div>
@@ -235,7 +237,7 @@
                 <div class="col">
                     <dl>
                         <dt>누적관객수</dt>
-                        <dd class="font-roboto regular">
+                        <dd class="font-roboto regular" th:text="${movie.audiCnt}">
 
 
 

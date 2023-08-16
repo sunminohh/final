@@ -1,8 +1,10 @@
 package kr.co.mgv.movie.service;
 
-import kr.co.mgv.movie.mapper.MovieMapper;
+import kr.co.mgv.movie.dao.MovieDao;
+import kr.co.mgv.movie.dao.MovieLikeDao;
 import kr.co.mgv.movie.util.DateUtils;
 import kr.co.mgv.movie.vo.Movie;
+import kr.co.mgv.movie.vo.MovieLike;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -50,8 +52,9 @@ public class MovieService {
 
     private Node trie;
 
-    public MovieService(MovieMapper movieMapper) {
-        this.movieMapper = movieMapper;
+    public MovieService(MovieDao movieDao, MovieLikeDao movieLikesDao) {
+        this.movieDao = movieDao;
+        this.movieLikeDao = movieLikesDao;
     }
 
     public String getJamo(String inputWord){
@@ -104,7 +107,7 @@ public class MovieService {
         if(trie!=null) {
             return trie;
         }
-        List<Movie> movies = movieMapper.getAllMovies();
+        List<Movie> movies = movieDao.getAllMovies();
         trie =new Node();
         for(Movie movie : movies) {
             String title=getJamo(movie.getTitle());
@@ -190,13 +193,15 @@ public class MovieService {
     }
 
     @Autowired
-    private final MovieMapper movieMapper;
+    private final MovieDao movieDao;
+    @Autowired
+    private final MovieLikeDao movieLikeDao;
     private static final String KOBIS_API_URL = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=45ac471b35ca42c983d971a438b31d25&targetDt=";
     private static final String KMDB_API_URL = "http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&detail=Y&ServiceKey=Y40OV2CFS1I2MTV081VG";
     private static final JSONParser JSON_PARSER = new JSONParser();
 
     public Movie getMovieByMovieNo(int movieNo){
-        return movieMapper.getMovieByMovieNo(movieNo);
+        return movieDao.getMovieByMovieNo(movieNo);
     }
     public List<Movie> getMovies() {
 
@@ -320,26 +325,26 @@ public class MovieService {
             e.printStackTrace();
         }
 
-        HashSet<Integer> movieNos= 	movieMapper.getMovieNos();
+        HashSet<Integer> movieNos= 	movieDao.getMovieNos();
 
         for (Movie movie: movies){
             if (movieNos.contains(movie.getNo())){
-                movieMapper.updateMovie(movie);
+                movieDao.updateMovie(movie);
                 movieNos.remove(movie.getNo());
             }else {
-                movieMapper.insertMovie(movie);
+                movieDao.insertMovie(movie);
             }
         }
 
         for (int movieNo : movieNos){
-            movieMapper.initChart(movieNo);
+            movieDao.initChart(movieNo);
         }
         return movies;
     }
 
     public void sync(){
         try {
-            List<Movie> movies = movieMapper.getAllMovies();
+            List<Movie> movies = movieDao.getAllMovies();
             for (Movie movie : movies) {
                 String movieTitle=movie.getTitle();
                 movieTitle=movieTitle.replace("무삭제","");
@@ -429,16 +434,31 @@ public class MovieService {
                 movie.setPlot(plot);
                 movie.setCast(cast);
                 movie.setRuntime(runtime);
-                movieMapper.syncMovie(movie);
+                movieDao.syncMovie(movie);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
     public List<Movie> getMovieChart(int rowNum){
-        return movieMapper.getMoviesByRowNum(rowNum);
+        return movieDao.getMoviesByRowNum(rowNum);
     }
     public List<Movie> getMovieChart(){
-        return movieMapper.getMoviesByRowNum(10);
+        return movieDao.getMoviesByRowNum(10);
+    }
+
+    public void insertMovieLike(MovieLike movieLike){
+        movieLikeDao.insertMovieLike(movieLike);
+    }
+    public void deleteMovieLike(MovieLike movielike){movieLikeDao.deleteMovieLike(movielike);}
+
+    public void incrementMovielikes(int movieNo){movieDao.incrementMovieLikes(movieNo);}
+    public void decrementMovielikes(int movieNo){movieDao.decrementMovieLikes(movieNo);}
+
+    public boolean isMovieLikedByUser(MovieLike movieLike){
+        return movieLikeDao.isMovieLikedByUser(movieLike) != null;
+    }
+    public HashSet<Integer> getAllLikedMovieNos(String userId){
+        return movieLikeDao.getLikedMovieNosByUserId(userId);
     }
 }
