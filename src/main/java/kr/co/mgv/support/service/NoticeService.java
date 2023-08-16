@@ -33,7 +33,7 @@ public class NoticeService {
 		
 		param.put("begin", begin);
 		param.put("end", end);
-		List<Notice> noticeList = noticeDao.getNotices(param);
+		List<Notice> noticeList = noticeDao.getNotice(param);
 		NoticeList result = new NoticeList();
 		
 		result.setPagination(pagination);
