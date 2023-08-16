@@ -22,10 +22,9 @@ public class Product {
 	private int stock;
 	private String soldOut;
 	private String description;
-	private String composition;
 	private Date createDate;
 	private Date updateDate;
 	private int discount;
-	private Category category;
-	
+	private int catNo;
+	private String imagePath;
 }

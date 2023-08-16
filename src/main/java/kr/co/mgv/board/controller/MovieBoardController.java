@@ -119,7 +119,7 @@ public class MovieBoardController {
     }
     
     @GetMapping("/detail")
-    public String theaterDetail(@RequestParam("no") int no,
+    public String movieDetail(@RequestParam("no") int no,
     							Model model,
     							@AuthenticationPrincipal User user) {
     	if(user != null) {
@@ -335,7 +335,7 @@ public class MovieBoardController {
 
     @PostMapping("/deleteGreatComment")
     @ResponseBody
-    public ResponseEntity<Integer> deleteGreateComment(@RequestBody Map<String, Integer> request) {
+    public ResponseEntity<Integer> deleteGreatComment(@RequestBody Map<String, Integer> request) {
         int no = request.get("no");
         int commentNo = request.get("greatCommentNo");
 
