@@ -102,7 +102,6 @@ public class MovieService {
         }
     }
 
-    @PostConstruct
     public Node initTrie() {
         if(trie!=null) {
             return trie;
