@@ -22,6 +22,7 @@ import kr.co.mgv.board.list.TheaterBoardList;
 import kr.co.mgv.board.service.TheaterBoardService;
 import kr.co.mgv.board.vo.BoardLocation;
 import kr.co.mgv.board.vo.BoardTheater;
+import kr.co.mgv.board.vo.MovieBoard;
 import kr.co.mgv.board.vo.TBoardComment;
 import kr.co.mgv.board.vo.TBoardLike;
 import kr.co.mgv.board.vo.TheaterBoard;
@@ -189,6 +190,26 @@ public class TheaterBoardController {
     	return "redirect:/board/theater/list";
     }
 	
+    @GetMapping("/modify")
+    public String theaterBoardModifyForm(@RequestParam("no") int no,
+			   Model model) {
+	
+	List<BoardLocation> locations = theaterBoardService.getLocations();
+	model.addAttribute("locations", locations);
+    	
+	TheaterBoard savedBoard = theaterBoardService.getTheaterBoardByNo(no);
+	model.addAttribute("board", savedBoard);
+	
+	return "/view/board/theater/modifyForm";
+	}
+    
+    @PostMapping("/modify")
+    public String modifyBoard(@RequestParam("no") int no, AddTboardForm form) {
+    	
+    	theaterBoardService.updateTBoard(form, no);
+    	
+    	return "redirect:/board/theater/detail?no=" + no;
+    }
     
 	
 	// 댓글 관련

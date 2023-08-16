@@ -11,9 +11,11 @@ import kr.co.mgv.board.list.TheaterBoardList;
 import kr.co.mgv.board.mapper.TheaterBoardDao;
 import kr.co.mgv.board.vo.BoardLocation;
 import kr.co.mgv.board.vo.BoardTheater;
+import kr.co.mgv.board.vo.MovieBoard;
 import kr.co.mgv.board.vo.TBoardComment;
 import kr.co.mgv.board.vo.TBoardLike;
 import kr.co.mgv.board.vo.TheaterBoard;
+import kr.co.mgv.movie.vo.Movie;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 
@@ -164,5 +166,22 @@ public class TheaterBoardService {
 		}
 	}
 	
+	public void updateTBoard(AddTboardForm form, int no) {
+	    try {
+	    	BoardTheater theater = BoardTheater.builder().no(form.getTheaterNo()).build();
+			BoardLocation location = BoardLocation.builder().no(form.getLocationNo()).build();
+			TheaterBoard board = TheaterBoard.builder()
+								.no(no)
+								.theater(theater)
+								.location(location)
+								.name(form.getName())
+								.content(form.getContent())
+								.build();
+
+	        theaterBoardDao.updateTBoardByNo(board);         
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
 	
 }
