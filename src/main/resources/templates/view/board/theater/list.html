@@ -7,9 +7,8 @@
     <title>게시판</title>
     <script type="text/javascript" th:src="@{/js/board/mboardList.js}"></script> 
 </head>
-<div layout:fragment="content" class="container my-3">
 
-    <div class="row">
+    <div layout:fragment="content"  class="row">
         <div class="col-12">
 
             <div>
@@ -147,13 +146,13 @@
                 </tbody>
             </table>
 
-            <div class="text-end">
+            <div class="text-end ">
                 <a th:href=@{/board/theater/add} class="btn btn-dark btn-sm" style="text-decoration: none; color: white; ">새 게시글
                     등록</a>
             </div>
 
 
-            <nav>
+            <nav th:if="${result.pagination.totalRows > 0}">
 				<ul class="pagination justify-content-center">
 				    <li class="page-item" th:if="${result.pagination.currentBlock > 1}">
 				        <a title="첫번째 페이지 보기"
@@ -192,7 +191,6 @@
 
         </div>
     </div>
-</div>
 
 
 </html>

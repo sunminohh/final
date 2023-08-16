@@ -315,5 +315,11 @@
 		WHERE GREAT_COMMENT_NO= #{value};
 	</delete>
 	
-
+	<!-- 게시물 등록 관련 -->
+	<insert id="insertTboard" parameterType="kr.co.mgv.board.vo.TheaterBoard">
+		INSERT INTO MGV_THEATER_BOARD
+		(BOARD_NAME, BOARD_CONTENT, user_ID, location_NO, theater_no, BOARD_FILENAME)
+		VALUES
+		(#{name}, #{content}, #{user.id}, #{location.no}, #{theater.no}, #{fileName});
+	</insert>
 </mapper>

@@ -326,7 +326,7 @@
 		order by movie_title asc
 	</select>
 	
-	<insert id="insertMBoard" parameterType="kr.co.mgv.movie.vo.Movie">
+	<insert id="insertMBoard" parameterType="kr.co.mgv.board.vo.MovieBoard">
 		INSERT INTO 
 			MGV_MOVIE_BOARD
 		(BOARD_NAME, BOARD_CONTENT, MEMBER_ID, MOVIE_NO, BORAD_FILENAME)

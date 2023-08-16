@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import kr.co.mgv.board.form.AddTboardForm;
 import kr.co.mgv.board.list.TheaterBoardList;
 import kr.co.mgv.board.service.TheaterBoardService;
 import kr.co.mgv.board.vo.BoardLocation;
@@ -27,10 +28,12 @@ import kr.co.mgv.board.vo.TheaterBoard;
 import kr.co.mgv.movie.vo.Movie;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/board/theater")
 @RequiredArgsConstructor
+@Slf4j
 public class TheaterBoardController {
 	
 	private final TheaterBoardService theaterBoardService;
@@ -176,7 +179,17 @@ public class TheaterBoardController {
     	
         return "/view/board/theater/form";
     }
+    
+    @PostMapping("/add")
+    public String addTheaterBoard(@AuthenticationPrincipal User user, AddTboardForm form) {
+    	
+    	log.info("입력한 정보 -> {}", form);
+    	theaterBoardService.addTboard(form, user);
+    	
+    	return "redirect:/board/theater/list";
+    }
 	
+    
 	
 	// 댓글 관련
 	@PostMapping("/addComment")

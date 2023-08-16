@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import kr.co.mgv.board.BoardPagination;
+import kr.co.mgv.board.form.AddTboardForm;
 import kr.co.mgv.board.list.TheaterBoardList;
 import kr.co.mgv.board.mapper.TheaterBoardDao;
 import kr.co.mgv.board.vo.BoardLocation;
@@ -145,5 +146,23 @@ public class TheaterBoardService {
 		return theaterBoardDao.getTotalCommentCount(no);
 	}
 	
-	// 게시물 등록 관련
+	// 게시물 CRUD 관련
+	public void addTboard(AddTboardForm form, User user) {
+		try {
+			BoardTheater theater = BoardTheater.builder().no(form.getTheaterNo()).build();
+			BoardLocation location = BoardLocation.builder().no(form.getLocationNo()).build();
+			TheaterBoard board = TheaterBoard.builder()
+								.user(user)
+								.theater(theater)
+								.location(location)
+								.name(form.getName())
+								.content(form.getContent())
+								.build();
+			theaterBoardDao.insertTboard(board);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 }
