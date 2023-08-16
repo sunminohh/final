@@ -19,10 +19,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.mgv.board.form.AddTboardForm;
 import kr.co.mgv.board.list.TheaterBoardList;
+import kr.co.mgv.board.service.MovieBoardService;
 import kr.co.mgv.board.service.TheaterBoardService;
 import kr.co.mgv.board.vo.BoardLocation;
 import kr.co.mgv.board.vo.BoardTheater;
 import kr.co.mgv.board.vo.MovieBoard;
+import kr.co.mgv.board.vo.ReportReason;
 import kr.co.mgv.board.vo.TBoardComment;
 import kr.co.mgv.board.vo.TBoardLike;
 import kr.co.mgv.board.vo.TheaterBoard;
@@ -38,6 +40,7 @@ import lombok.extern.slf4j.Slf4j;
 public class TheaterBoardController {
 	
 	private final TheaterBoardService theaterBoardService;
+	private final MovieBoardService movieBoardService;
 
     @GetMapping("/list")
     public String theaterList(@RequestParam(name = "sort", required = false, defaultValue = "id") String sort,
@@ -134,7 +137,8 @@ public class TheaterBoardController {
 		List<TBoardComment> childComments = theaterBoardService.getChildComments(no);
 		model.addAttribute("childComments", childComments);
 		// 신고 이유
-		
+		List<ReportReason> reportReasons = movieBoardService.getReportReason();
+		model.addAttribute("reasons", reportReasons);
 		
 		return "/view/board/theater/detail";
 	}
@@ -211,6 +215,13 @@ public class TheaterBoardController {
     	return "redirect:/board/theater/detail?no=" + no;
     }
     
+    @GetMapping("/delete")
+    public String deleteBoard(@RequestParam("no") int no) {
+    	
+    	theaterBoardService.deleteBoard(no);
+    	
+    	return "redirect:/board/theater/list";
+    }
 	
 	// 댓글 관련
 	@PostMapping("/addComment")

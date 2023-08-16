@@ -341,7 +341,7 @@
 		FROM MGV_REPORT_REASON;
 	</select>
 	
-	<insert id="insertMboardReport" parameterType="kr.co.mgv.board.vo.ReportReason">
+	<insert id="insertMboardReport" parameterType="kr.co.mgv.board.vo.MboardReport">
 		INSERT MGV_MBOARD_REPORT
 		(REPORT_REASON, REASON_NO, BOARD_NO, USER_ID)
 		VALUES(#{reasonContent}, #{reason.no}, #{board.no}, #{user.id});

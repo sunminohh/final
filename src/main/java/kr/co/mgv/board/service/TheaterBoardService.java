@@ -11,11 +11,9 @@ import kr.co.mgv.board.list.TheaterBoardList;
 import kr.co.mgv.board.mapper.TheaterBoardDao;
 import kr.co.mgv.board.vo.BoardLocation;
 import kr.co.mgv.board.vo.BoardTheater;
-import kr.co.mgv.board.vo.MovieBoard;
 import kr.co.mgv.board.vo.TBoardComment;
 import kr.co.mgv.board.vo.TBoardLike;
 import kr.co.mgv.board.vo.TheaterBoard;
-import kr.co.mgv.movie.vo.Movie;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 
@@ -183,5 +181,18 @@ public class TheaterBoardService {
 	        e.printStackTrace();
 	    }
 	}
+	
+	public void deleteBoard(int no) {
+		TheaterBoard board = theaterBoardDao.getTBoardByNo(no);
+		board.setDeleted("Y");
+		
+		theaterBoardDao.updateTBoardByNo(board);
+	}
+	
+	// 신고관련
+
+	
+	
+	
 	
 }

@@ -41,9 +41,6 @@
     			user_id					as "user.id",
     			board_content           as content,
 	            row_number() over(
-	            	<if test="sort == null">
-	                        order by board_create_date desc	            	
-	            	</if>
 	                <choose>
 	                    <when test="sort == 'new'">
 	                        order by board_create_date desc
@@ -57,6 +54,10 @@
 	                    <when test="sort == 'comment'">
 	                        order by board_comment_cnt desc, board_create_date desc
 	                    </when>
+                        <!-- 기본 정렬 -->
+                        <otherwise>
+                            order by board_create_date desc
+                        </otherwise>
 	                </choose>
     			) as ROWNUMBER
     		from
@@ -322,4 +323,22 @@
 		VALUES
 		(#{name}, #{content}, #{user.id}, #{location.no}, #{theater.no}, #{fileName});
 	</insert>
+	
+	<!-- 신고 관련 -->
+	<insert id="insertTboardReport" parameterType="kr.co.mgv.board.vo.TboardReport">
+		INSERT MGV_TBOARD_REPORT
+		(REPORT_REASON, REASON_NO, BOARD_NO, USER_ID)
+		VALUES(#{reasonContent}, #{reason.no}, #{board.no}, #{user.id});
+	</insert>
+	
+	<select id="getTboardReportById" parameterType="String" resultType="kr.co.mgv.board.vo.TboardReport">
+		SELECT 
+			report_NO as no, 
+			REPORT_REASON as reasonContent, 
+			REASON_NO as "reason.no", 
+			BOARD_NO as "board.no", 
+			USER_ID as "user.id"
+		FROM MGV_TBOARD_REPORT A
+		where user_id = #{value};
+	</select>	
 </mapper>
