@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.co.mgv.support.dto.NoticeList;
 import kr.co.mgv.support.service.NoticeService;
+import kr.co.mgv.support.vo.Notice;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
@@ -65,7 +66,17 @@ public class NoticeController {
     }
 
     @GetMapping("/detail")
-    public String noticeDetail(@RequestParam(defaultValue = "1") int noticeNo) {
+    public String getNoticeByNo(@RequestParam("no") int noticeNo, Model model) {
+    	Notice notice = noticeService.getNoticeByNo(noticeNo);
+    	
+//    	Notice preNotice = noticeService.getPrevNotice(noticeNo);
+//    	Notice nextNotice = noticeService.getNextNotice(noticeNo);
+    	
+    	model.addAttribute("notice", notice);
+    	
+//    	model.addAttribute("preNotice", preNotice);
+//    	model.addAttribute("nextNotice", nextNotice);
+    	
         return "/view/support/notice/detail";
     }
 }

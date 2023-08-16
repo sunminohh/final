@@ -42,6 +42,10 @@ public class NoticeService {
 		return result;
 	}
 	
+	public Notice getNoticeByNo(int noticeNo) {
+		return noticeDao.getNoticeByNo(noticeNo);
+	}
+	
 	public List<Location> getloLocations() {
 		return supportDao.getLocations();
 	}
@@ -49,6 +53,8 @@ public class NoticeService {
 	public List<Theater> getTheatesrByLocationNo (int locationNo) {
 		return supportDao.getTheatersByLocationNo(locationNo);
 	}
+	
+	
 	
 }
 
