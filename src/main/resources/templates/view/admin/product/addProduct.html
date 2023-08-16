@@ -7,7 +7,91 @@
 <body>
 	<div layout:fragment="content">
 		<div class="container-fluid">
-			
+			<div class="row mb-3">
+				<div class="col-12">
+					<div class="card">
+						<div class="card-body col-7">
+							<h5 class="card-title fw-semibold mb-4">상품등록</h5>
+							<form name="product-add-form" action="http://localhost/admin/product/add-form" method="post" enctype="multipart/form-data">
+								<table>
+									<tr>
+										<td>
+											카테고리
+										</td>
+										<td>
+											<label for="category"></label>
+											<select id="category" name="catNo" required>
+												<option th:each="category : ${categories}" th:value="${category.catNo}" th:text="${category.catName}"></option>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											상품명
+										</td>
+										<td>
+											<label>
+												<input type="text" id="name" name="name">
+											</label>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											상품 가격
+										</td>
+										<td>
+											<label>
+												<input type="number" id="price" name="price">
+											</label>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											상품 수량
+										</td>
+										<td>
+											<label>
+												<input type="number" id="stock" name="stock">
+											</label>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											할인율
+										</td>
+										<td>
+											<label>
+												<input type="number" id="discount" name="discount">
+											</label>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											상품설명
+										</td>
+										<td>
+											<label>
+												<textarea type="text" id="description" name="description"></textarea>
+											</label>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											상품 이미지
+										</td>
+										<td>
+											<label for="imageFile">
+												<input type="file" id="imageFile" name="imageFile" accept="image/*" required>
+											</label>
+										</td>
+									</tr>
+								</table>
+								<button type="submit">등록</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </body>
