@@ -69,7 +69,6 @@ $(document).ready(function() {
 	});
 	
 	function getFaqList() {
-		// form의 값을 조회한다.
 		
 		let keyword = $("input[name=keyword]").val();
 		let categoryNo = $("input[name=catNo]").val();
@@ -79,13 +78,6 @@ $(document).ready(function() {
 		let $pagination = $(".pagination").empty();
 		
 		$.getJSON("/support/faq/list", {keyword:keyword, catNo:categoryNo, page:page}, function(result) {
-			/*
-				result = {
-					faqList: [{}, {}, {}],
-					pagination: {page:1, beginPage:1 endPage:2}
-				}
-			*/
-			
 			// 총 건수 업데이트
        		$('#totalCnt').text(result.pagination.totalRows);
 			

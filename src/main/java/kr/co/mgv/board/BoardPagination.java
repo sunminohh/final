@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 public class BoardPagination {
 
-	private final int rows;
+	private int rows = 10;
 	private int pages = 5;
 	private int page;
 	private int totalRows;
@@ -24,6 +24,14 @@ public class BoardPagination {
 	private int begin;
 	private int end;
 	private int[] pageNumbers;
+	
+
+	public BoardPagination(int page, int totalRows) {
+		super();
+		this.page = page;
+		this.totalRows = totalRows;
+	}
+
 	
 	public BoardPagination(int rows, int page, int totalRows) {
 		this.rows = rows;
@@ -52,6 +60,9 @@ public class BoardPagination {
 		end = page*rows;
 		pageNumbers = IntStream.range(beginPage, endPage+1).toArray();
 	}
+
+
+
 
 
 
