@@ -3,15 +3,6 @@
 <head th:fragment="extra-head-content">
 <title>관리자페이지</title>
 <style>
-	.delete {
-		background-color: orangered;
-		float: left;
-		margin-right: 5px;
-	}
-	.modify {
-		background-color: deepskyblue;
-		float: left;
-	}
 	.add {
 		background-color: forestgreen;
 		float: right;
@@ -26,7 +17,7 @@
 				<div class="col-12">
 					<div class="card" >
 						<div class="card-body">
-							<h5 class="card-title fw-semibold mb-4">상품관리</h5>
+							<h5 class="card-title fw-semi-bold mb-4">상품관리</h5>
 							<table class="table">
 								<thead>
 									<tr>
@@ -40,21 +31,19 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
+									<tr th:each="product : ${products}">
 										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
+										<td th:text="${product.getNo()}"></td>
+										<td th:text="${product.getName()}"></td>
+										<td th:text="${product.getPrice()}"></td>
+										<td th:text="${product.getSoldOut()}"></td>
+										<td th:text="${product.getCatNo()}"></td>
+										<td th:text="${product.getCreateDate()}"></td>
 									</tr>
 								</tbody>
 							</table>
 							<div class="util-button">
-								<button class="btn btn-danger delete" onclick="location.href=''">삭제</a></button>
-								<button class="btn btn-success modify" onclick="location.href=''">수정</a></button>
-								<button class="btn btn-primary add" onclick="location.href='/admin/product/addProduct'">등록</a></button>								
+								<button class="btn btn-primary add" onclick="location.href='/admin/product/add-form'">등록</a></button>
 							</div>
 						</div>
 					</div>

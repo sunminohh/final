@@ -105,4 +105,215 @@
     	from MGV_LOCATION
     </select>
     
+    <!-- 상세페이지 관련 -->
+	<select id="getTBoardByNo" parameterType="int" resultType="kr.co.mgv.board.vo.TheaterBoard">
+		select
+            A.board_no              as no,
+            A.board_name            as name,
+            A.board_content         as content,
+            A.board_create_date     as createDate,
+            A.board_update_date     as updateDate,
+            A.board_read_cnt        as readCount,
+            A.report_count			as reportCount,
+            A.board_comment_cnt     as commentCount,
+            A.user_id             as "user.id",
+            A.BOARD_FILENAME		as fileName,
+			A.board_like_count		as likeCount,
+			A.theater_no			as "theater.no",
+			B.theater_name			as "theater.name",
+			A.location_no			as "location.no",
+			C.LOCATION_NAME		as "location.name"
+	    from
+	        MGV_THEATER_BOARD A, MGV_THEATERS B, MGV_LOCATION C
+	    where 
+	    	A.theater_no = B.theater_no
+	    	and A.LOCATION_NO = C.LOCATION_NO
+	    	and A.board_no = #{value}
+	</select>
+	
+	<update id="updateTBoardByNo" parameterType="kr.co.mgv.board.vo.TheaterBoard">
+		update MGV_THEATER_BOARD
+			<set>
+				<if test="name != null">
+					board_name = #{name},
+				</if>
+				<if test="content != null">
+					board_content = #{content},
+				</if>
+				<if test="updateDate != null">
+					board_update_date = CURRENT_TIMESTAMP,
+				</if>
+				<if test="readCount != null">
+					board_read_cnt = #{readCount},
+				</if>
+				<if test="commentCount != null">
+					board_comment_cnt = #{commentCount},
+				</if>
+				<if test="deleted != null">
+					board_deleted = #{deleted},
+				</if>
+				<if test="report != null">
+					board_report = #{report},
+				</if>
+				<if test="fileName != null">
+					BORAD_FILENAME = #{fileName},
+				</if>
+				<if test="reportCount != null">
+					report_count = #{reportCount},
+				</if>
+				<if test="likeCount != null">
+					board_like_count = #{likeCount},
+				</if>
+				<if test="theater != null">
+					theater_no = #{theater.no},
+				</if>
+				<if test="location != null">
+					locatIon_no = #{location.no},
+				</if>
+			</set>
+			where board_no = #{no}
+	</update>
+
+	 <insert id="insertTBoardLike" parameterType="kr.co.mgv.board.vo.TBoardLike">
+	 	INSERT INTO THEATER_BOARD_LIKE
+		(USER_ID, BOARD_NO)
+		VALUES(#{user.id}, #{board.no});
+	 </insert>
+	 
+	 <select id="getLikeByBnoAndId" parameterType="kr.co.mgv.board.vo.TBoardLike" resultType="kr.co.mgv.board.vo.TBoardLike">
+	 	SELECT 
+	 		LIKE_NO		as no, 
+	 		LIKE_CANCEL as cancel,
+	 		USER_ID		as "user.id", 
+	 		BOARD_NO	as "board.no"
+		FROM 
+			THEATER_BOARD_LIKE
+		where
+			user_id = #{user.id}
+			and board_no = #{board.no}
+	 	
+	 </select>
+	 
+	 <update id="updateLike" parameterType="kr.co.mgv.board.vo.TBoardLike">
+	 	UPDATE 
+	 		THEATER_BOARD_LIKE
+		SET 
+			like_cancel = #{cancel}
+		WHERE user_id = #{user.id}
+			  and board_no = #{board.no}
+	 	
+	 </update>
+	
+	<!-- 댓글 관련 -->
+	<insert id="insertTBoardComment" parameterType="kr.co.mgv.board.vo.TBoardComment">
+		INSERT INTO jhta_2302.MGV_TBOARD_COMMENT
+		(COMMENT_CONTENT, USER_ID, BOARD_NO, PARENT_COMMENT_NO, GREAT_COMMENT_NO)
+		VALUES(#{content}, #{user.id}, #{board.no}, #{parent.no}, #{great.no});
+	</insert>
+	
+	<select id="geTBoardComments" resultType="kr.co.mgv.board.vo.TBoardComment" parameterType="int">
+		SELECT 
+			COMMENT_NO				as no, 
+			COMMENT_CREATE_dATE		as createDate, 
+			COMMENT_UPDATE_DATE		as updateDate, 
+			COMMENT_CONTENT			as content, 
+			USER_ID					as "user.id", 
+			COMMENT_DELETED			as deleted, 
+			BOARD_NO				as "board.no"
+		FROM 
+			MGV_TBOARD_COMMENT 
+		WHERE 
+			comment_deleted = 'N'
+			and board_no = #{value}
+			and great_comment_no is null
+		order by comment_create_date;
+	</select>
+	
+	<select id="getTBoardChildComments" resultType="kr.co.mgv.board.vo.TBoardComment" parameterType="int">
+		SELECT 
+			A.COMMENT_NO				as no, 
+			A.COMMENT_CREATE_dATE		as createDate, 
+			A.COMMENT_UPDATE_DATE		as updateDate, 
+			A.COMMENT_CONTENT			as content, 
+			A.USER_ID					as "user.id", 
+			A.COMMENT_DELETED			as deleted, 
+			A.BOARD_NO					as "board.no", 
+			A.PARENT_COMMENT_NO			as "parent.no", 
+			A.GREAT_COMMENT_NO			as "great.no",
+			P.USER_ID					as "parent.user.id",
+			G.USER_ID					as "great.user.id"
+		FROM 
+			MGV_TBOARD_COMMENT A, MGV_TBOARD_COMMENT P, MGV_TBOARD_COMMENT G
+		WHERE 
+			A.parent_comment_no = P.comment_no
+			and A.great_comment_no = G.comment_no
+			and A.comment_deleted = 'N'
+			and A.board_no = #{value}
+			and A.great_comment_no is NOT null
+		order by A.comment_create_date;
+	</select>
+	
+	<select id="getGreatComment" resultType="kr.co.mgv.board.vo.TBoardComment" parameterType="kr.co.mgv.board.vo.TBoardComment">
+		SELECT 
+			COMMENT_NO				as no, 
+			COMMENT_CREATE_dATE		as createDate, 
+			COMMENT_UPDATE_DATE		as updateDate, 
+			COMMENT_CONTENT			as content, 
+			USER_ID					as "user.id", 
+			COMMENT_DELETED			as deleted, 
+			BOARD_NO				as "board.no"
+		FROM 
+			MGV_TBOARD_COMMENT 
+		WHERE 
+			comment_deleted = 'N'
+			and board_no = #{board.no}
+			and user_id = #{user.id}
+			and great_comment_no is null
+			ORDER BY comment_create_date DESC
+			LIMIT 1;
+	</select>
+	
+	<select id="getTotalCommentCount" parameterType="int" resultType="int">
+		select count(*)
+		from MGV_TBOARD_COMMENT
+		where great_comment_no = #{value}
+	</select>
+	
+	<select id="getChildComment" resultType="kr.co.mgv.board.vo.TBoardComment" parameterType="kr.co.mgv.board.vo.TBoardComment">
+		SELECT 
+			A.COMMENT_NO				as no, 
+			A.COMMENT_CREATE_dATE		as createDate, 
+			A.COMMENT_UPDATE_DATE		as updateDate, 
+			A.COMMENT_CONTENT			as content, 
+			A.USER_ID					as "user.id", 
+			A.COMMENT_DELETED			as deleted, 
+			A.BOARD_NO					as "board.no", 
+			A.PARENT_COMMENT_NO			as "parent.no", 
+			A.GREAT_COMMENT_NO			as "great.no",
+			P.USER_ID					as "parent.user.id",
+			G.USER_ID					as "great.user.id"
+		FROM 
+			MGV_TBOARD_COMMENT A, MGV_TBOARD_COMMENT P, MGV_TBOARD_COMMENT G
+		WHERE 
+			A.parent_comment_no = P.comment_no
+			and A.great_comment_no = G.comment_no
+			and A.comment_deleted = 'N'
+			and A.board_no = #{board.no}
+			and A.user_id = #{user.id} 
+			and A.great_comment_no is NOT null
+		ORDER BY A.comment_create_date DESC
+		LIMIT 1;
+	</select>
+	
+	<delete id="deleteGreatComment" parameterType="int">
+		DELETE FROM MGV_TBOARD_COMMENT
+		WHERE COMMENT_NO= #{value};
+	</delete>
+	
+	<delete id="deleteChildsComment" parameterType="int">
+		DELETE FROM MGV_TBOARD_COMMENT
+		WHERE GREAT_COMMENT_NO= #{value};
+	</delete>
+	
+
 </mapper>
