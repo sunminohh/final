@@ -39,14 +39,18 @@
     </div>
 
     <div class="prev-next">
-        <div class="line prev">
+        <div class="line prev" th:if="${preNotice != null}">
             <p class="tit">이전</p>
-            <a href="#" class="link moveBtn" data-no="" title="이전글">이전글</a>
+            <a th:href="@{/support/notice/detail(no=${preNotice.no})}"
+            	th:text=${preNotice.title}
+            class="link moveBtn" data-no="" title="이전글" ></a>
         </div>
-
-        <div class="line next">
+		
+        <div class="line next" th:if="${nextNotice != null}">
             <p class="tit">다음</p>
-            <a href="#" class="link moveBtn" data-no="" title="다음글">다음글</a>
+            <a th:href="@{/support/notice/detail(no=${nextNotice.no})}"
+            	th:text=${nextNotice.title}
+            class="link moveBtn" data-no="" title="다음글">다음글</a>
         </div>
     </div>
 
@@ -55,3 +59,5 @@
     </div>
 </div>
 </html>
+
+

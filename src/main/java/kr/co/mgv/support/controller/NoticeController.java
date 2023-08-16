@@ -69,13 +69,13 @@ public class NoticeController {
     public String getNoticeByNo(@RequestParam("no") int noticeNo, Model model) {
     	Notice notice = noticeService.getNoticeByNo(noticeNo);
     	
-//    	Notice preNotice = noticeService.getPrevNotice(noticeNo);
-//    	Notice nextNotice = noticeService.getNextNotice(noticeNo);
+    	Notice preNotice = noticeService.getPrevNotice(noticeNo);
+    	Notice nextNotice = noticeService.getNextNotice(noticeNo);
     	
     	model.addAttribute("notice", notice);
     	
-//    	model.addAttribute("preNotice", preNotice);
-//    	model.addAttribute("nextNotice", nextNotice);
+    	model.addAttribute("preNotice", preNotice);
+    	model.addAttribute("nextNotice", nextNotice);
     	
         return "/view/support/notice/detail";
     }
