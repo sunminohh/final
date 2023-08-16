@@ -120,8 +120,11 @@ $(function() {
 	                <td>${notice.theater.name == null ? 'MGV' : notice.theater.name}</td>
 	                <td>${notice.type == '공지' ? '공지' : '이벤트'}</td>
 	                <td style="text-align:left;">
-	              	  ${notice.title}
-	                </td>
+				            	<a class="text-black text-decoration-none"
+				            		href="/support/notice/detail?no=${notice.no}">
+				            		${notice.title }
+				            	</a>
+				            </td>
 	                <td>${notice.updateDate}</td>
 	            </tr>
 				`	 

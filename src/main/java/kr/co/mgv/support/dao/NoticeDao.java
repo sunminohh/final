@@ -1,6 +1,7 @@
 package kr.co.mgv.support.dao;
 
 import java.util.List;
+
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -15,5 +16,5 @@ public interface NoticeDao {
 	int getTotalRows(Map<String, Object> param);
 	
 	// 공지사항 디테일 조회
-	
+	Notice getNoticeByNo(int noticeNo);
 }
