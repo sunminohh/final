@@ -1169,7 +1169,7 @@ class Carousel extends BaseComponent {
     this._slide(ORDER_NEXT);
   }
   nextWhenVisible() {
-    // FIXME TODO use `document.visibilityState`
+    //  use `document.visibilityState`
     // Don't call next when the page isn't visible
     // or the carousel or its parent isn't visible
     if (!document.hidden && isVisible(this._element)) {

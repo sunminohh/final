@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="kr.co.mgv.support.dao.SupportDao">
+	
+	<select id="getLocations" resultType="kr.co.mgv.theater.vo.Location">
+		SELECT
+    		location_no		as no,
+    		location_name	as name
+    	from MGV_LOCATION
+	</select>
+	
+	<select id="getTheatersByLocationNo" parameterType="int" resultType="kr.co.mgv.theater.vo.Theater">
+		SELECT 
+    		A.theater_no		as no,
+    		A.theater_name		as name,
+    		A.location_no		as "location.no",
+    		B.location_name		as "location.name"
+    	from MGV_THEATERS A, MGV_LOCATION B
+    	where
+    		A.location_no = B.location_no 
+    		and A.location_no = #{value}
+	</select>
+
+</mapper>

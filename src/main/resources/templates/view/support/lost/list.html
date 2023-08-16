@@ -1,13 +1,16 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/support}">
+<head th:fragment="extra-head-content">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" th:src="@{/js/support/lost.js}"></script>
+</head>
 <div id="contents" layout:fragment="content">
     <h2 class="tit">분실물 문의</h2>
-
     <div class="clearfix">
         <ul class="dot-list">
             <li>
-                메가박스에서 잃어버린 물건이 있다면 ‘분실물 문의/접수’를 통해 접수해주세요.
+               	MGV에서 잃어버린 물건이 있다면 ‘분실물 문의/접수’를 통해 접수해주세요.
                 <a href="/support/lost/form" class="button float-r" title="분실물 문의 등록하기">분실물 문의</a>
             </li>
             <li>접수하신 글은 비밀글로 등록되어 작성자와 관리자만 확인 가능합니다.</li>
@@ -15,62 +18,41 @@
     </div>
 
     <div class="board-list-util">
-        <p class="result-count"><strong>전체 <span id="totalCnt" class="font-gblue">9,331</span>건</strong></p>
-
-        <div class="dropdown bootstrap-select bs3"><select id="theater" title="지역 선택" class="selectpicker" tabindex="-98"><option class="bs-title-option" value=""></option>
-            <option value="">지역 선택</option>
-
-            <option value="10">서울</option>
-
-            <option value="30">경기</option>
-
-            <option value="35">인천</option>
-
-            <option value="45">대전/충청/세종</option>
-
-            <option value="55">부산/대구/경상</option>
-
-            <option value="65">광주/전라</option>
-
-            <option value="70">강원</option>
-
-            <option value="80">제주</option>
-
-        </select><button type="button" class="btn dropdown-toggle btn-default bs-placeholder" data-toggle="dropdown" role="button" data-id="theater" title="지역 선택"><div class="filter-option"><div class="filter-option-inner"><div class="filter-option-inner-inner">지역 선택</div></div> </div><span class="bs-caret"><span class="caret"></span></span></button><div class="dropdown-menu open" role="combobox"><div class="inner open" role="listbox" aria-expanded="false" tabindex="-1"><ul class="dropdown-menu inner "></ul></div></div></div>
-
-        <div class="dropdown bootstrap-select disabled ml07 bs3"><select id="theater02" title="극장 선택" class="selectpicker ml07" disabled="disabled" tabindex="-98"><option class="bs-title-option" value=""></option>
-            <option value="">극장 선택</option>
-
-        </select><button type="button" class="btn dropdown-toggle disabled btn-default bs-placeholder" data-toggle="dropdown" role="button" data-id="theater02" tabindex="-1" aria-disabled="true" title="극장 선택"><div class="filter-option"><div class="filter-option-inner"><div class="filter-option-inner-inner">극장 선택</div></div> </div><span class="bs-caret"><span class="caret"></span></span></button><div class="dropdown-menu open" role="combobox"><div class="inner open" role="listbox" aria-expanded="false" tabindex="-1"><ul class="dropdown-menu inner "></ul></div></div></div>
-
-        <div class="dropdown bootstrap-select ml07 bs3"><select id="custInqStatCd" class="selectpicker ml07" tabindex="-98">
-            <option value="">접수상태 선택</option>
-
-
-            <option value="INQST1">미답변</option>
-
-
-
-            <option value="INQST2">답변완료</option>
-
-
-
-
-
-
-
-
-        </select><button type="button" class="btn dropdown-toggle btn-default bs-placeholder" data-toggle="dropdown" role="button" data-id="custInqStatCd" title="접수상태 선택"><div class="filter-option"><div class="filter-option-inner"><div class="filter-option-inner-inner">접수상태 선택</div></div> </div><span class="bs-caret"><span class="caret"></span></span></button><div class="dropdown-menu open" role="combobox"><div class="inner open" role="listbox" aria-expanded="false" tabindex="-1"><ul class="dropdown-menu inner "></ul></div></div></div>
-
-        <div class="board-search">
-            <input type="text" id="searchTxt" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" value="">
-            <button type="button" id="searchBtn" class="btn-search-input">검색</button>
-        </div>
+        <p class="result-count"><strong>전체 <span class="font-gblue" id="totalCnt" th:text="${result.pagination.totalRows}"></span>건</strong></p>
+        <div class="ml07 bs3  d-flex justify-content-end" style="margin-bottom: -15px;">
+         	<select id="location" title="지역선택" name="locationNo"
+	                                class="form-select form-select-sm  ml06 form-control-sm mb-3"
+	                                style="width: 100px; ">
+	                            <option value="" selected disabled>지역선택</option>
+         	</select>
+          	<select id="theater" title="극장선택" name="theaterNo" 
+	                        		class="form-select form-select-sm ml06 form-control-sm mb-3"
+	                                style="width: 100px; ">
+	      						<option value="" selected disabled>극장선택</option>
+	     	</select>
+        	<select id="answer" title="접수상태 선택" name="answered" 
+	                        		class="form-select form-select-sm ml06 form-control-sm mb-3"
+	                                style="width: 120px;">
+	      						<option value="" selected disabled>접수상태 선택</option>
+	      						<option value="N">미답변</option>
+	      						<option value="Y">답변완료</option>
+	        </select>
+	        
+	    <form action="list">    
+	        <div class="board-search">
+	           
+	            <input type="hidden" name="answered">
+		        <input type="hidden" name="page" value="1" />
+	            <input type="search" name="keyword" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" value=""  autocomplete="off">
+	            <button type="button" id="searchBtn" class="btn-search-input">검색</button>
+	        </div>
+        </form>
+	    </div>
+	    
     </div>
 
     <div class="table-wrap">
         <table class="board-list">
-            <caption>번호, 극장, 구분, 제목, 등록일이 들어간 공지사항 전체 리스트</caption>
             <colgroup>
                 <col style="width:72px;">
                 <col style="width:133px;">
@@ -80,14 +62,32 @@
             </colgroup>
             <thead>
             <tr>
-                <th scope="col">번호</th>
-                <th scope="col">극장</th>
-                <th scope="col">제목</th>
-                <th scope="col">접수상태</th>
-                <th scope="col">등록일</th>
+                <th scope="col" style="text-align:center;">번호</th>
+                <th scope="col" style="text-align:center;">극장</th>
+                <th scope="col" style="text-align:center;">제목</th>
+                <th scope="col" style="text-align:center;">접수상태</th>
+                <th scope="col" style="text-align:center;">등록일</th>
             </tr>
             </thead>
-            <tbody><tr><td>9331</td><td>하남스타필드</td><th scope="row"><a href="#layer-01" class="btn-layer-open moveBtn" data-sn="661239" data-no="6886863" title="분실물 문의 상세보기">분실물 문의</a></th><td>미답변</td><td>2023.07.29</td></tr><tr><td>9330</td><td>대전유성</td><th scope="row"><a href="#layer-01" class="btn-layer-open moveBtn" data-sn="661237" data-no="14020681" title="분실물 문의 상세보기">지갑분실</a></th><td>미답변</td><td>2023.07.29</td></tr><tr><td>9329</td><td>전주객사</td><th scope="row"><a href="#layer-01" class="btn-layer-open moveBtn" data-sn="661236" data-no="14032003" title="분실물 문의 상세보기">7/22 토 엘리멘탈 애플워치</a></th><td>미답변</td><td>2023.07.29</td></tr><tr><td>9328</td><td>전주객사</td><th scope="row"><a href="#layer-01" class="btn-layer-open moveBtn" data-sn="661228" data-no="14032003" title="분실물 문의 상세보기">애플워치</a></th><td>미답변</td><td>2023.07.29</td></tr><tr><td>9327</td><td>동대문</td><th scope="row"><a href="#layer-01" class="btn-layer-open moveBtn" data-sn="661225" data-no="13989472" title="분실물 문의 상세보기">에어팟 프로</a></th><td>미답변</td><td>2023.07.29</td></tr><tr><td>9326</td><td>송파파크하비오</td><th scope="row"><a href="#layer-01" class="btn-layer-open moveBtn" data-sn="661224" data-no="2824751" title="분실물 문의 상세보기">빵모양 그립톡</a></th><td>미답변</td><td>2023.07.29</td></tr><tr><td>9325</td><td>대전</td><th scope="row"><a href="#layer-01" class="btn-layer-open moveBtn" data-sn="661207" title="분실물 문의 상세보기">분실물 문의요</a></th><td>답변완료</td><td>2023.07.29</td></tr><tr><td>9324</td><td>백석벨라시타</td><th scope="row"><a href="#layer-01" class="btn-layer-open moveBtn" data-sn="661204" data-no="14018072" title="분실물 문의 상세보기">카드지갑 분실물 문의드립니다.</a></th><td>미답변</td><td>2023.07.29</td></tr><tr><td>9323</td><td>영통</td><th scope="row"><a href="#layer-01" class="btn-layer-open moveBtn" data-sn="661203" data-no="13780217" title="분실물 문의 상세보기">분실물 문의</a></th><td>미답변</td><td>2023.07.29</td></tr><tr><td>9322</td><td>대구신세계(동대구)</td><th scope="row"><a href="#layer-01" class="btn-layer-open moveBtn" data-sn="661202" data-no="3267174" title="분실물 문의 상세보기"> 쇼핑백(안에 미니휴대용선풍기, 형광펜 등)</a></th><td>미답변</td><td>2023.07.29</td></tr></tbody>
+            <tbody class="lostList">
+	            <tr th:each="lost: ${result.lostList}">
+		            <td th:text="${lost.no}"></td>
+		            <td th:text="${lost.theater.name}"></td>
+		            <td style="text-align:left;">
+						<a class="text-black text-decoration-none"
+			            	 th:href="@{/support/lost/detail(no=${lost.no})}"
+			            	 th:text="${lost.title}">
+		            	</a>
+		            </td>
+		            <!-- 
+		            <th scope="row">
+		            	<a href="" class="btn-layer-open moveBtn">분실물 문의</a>
+		            </th>
+		             -->
+		            <td th:text="${lost.answered == 'Y' ? '답변완료' : '미답변'}"></td>
+		            <td th:text="${#dates.format(lost.updateDate, 'yyyy.MM.dd')}"></td>
+	            </tr>
+            </tbody>
         </table>
     </div>
 
@@ -114,8 +114,48 @@
             <button type="button" class="btn-layer-close">레이어 닫기</button>
         </div>
     </section>
-
+    
     <!-- pagination -->
-    <nav class="pagination justify-content-center"><strong class="active">1</strong> <a title="2페이지보기" href="javascript:void(0)" pagenum="2">2</a> <a title="3페이지보기" href="javascript:void(0)" pagenum="3">3</a> <a title="4페이지보기" href="javascript:void(0)" pagenum="4">4</a> <a title="5페이지보기" href="javascript:void(0)" pagenum="5">5</a> <a title="6페이지보기" href="javascript:void(0)" pagenum="6">6</a> <a title="7페이지보기" href="javascript:void(0)" pagenum="7">7</a> <a title="8페이지보기" href="javascript:void(0)" pagenum="8">8</a> <a title="9페이지보기" href="javascript:void(0)" pagenum="9">9</a> <a title="10페이지보기" href="javascript:void(0)" pagenum="10">10</a> <a title="이후 10페이지 보기" href="javascript:void(0)" class="control next" pagenum="11">next</a> <a title="마지막 페이지 보기" href="javascript:void(0)" class="control last" pagenum="934">last</a> </nav>
+    <div class="row mb-3">
+      	<div class="col-12">
+		    <nav>
+				<ul class="pagination justify-content-center">
+				    <li class="page-item" th:if="${result.pagination.currentBlock > 1}">
+				        <a title="첫번째 페이지 보기"
+				           th:href="@{list(page=1)}"
+				           class="page-link page-number-link control first"
+				           data-page="1"></a>
+				    </li>
+				    <li class="page-item" th:if="${result.pagination.currentBlock > 1}">
+				        <a title="이전 10페이지 보기"
+				           th:href="@{list(page=${(pagination.currentBlock -1)* 10})}"
+				           class="page-link page-number-link control prev"
+				           th:attr="data-page=${(pagination.currentBlock -1)* 10}"></a>
+				    </li>
+				    <li class="page-item" th:each="num : ${result.pagination.pageNumbers}">
+                        <a th:href="@{list(page=${num})}" 
+                           th:text="${num}"
+                           th:classappend="${result.pagination.page == (num) ? 'active' : '' }"
+                           class="page-link page-number-link"
+                           th:attr="data-page=${num}">1</a>
+                    </li>
+                    <li class="page-item" th:if="${result.pagination.currentBlock < result.pagination.totalBlocks}">
+				        <a title="이후 10페이지 보기"
+				           th:href="@{list(page=${result.pagination.currentBlock * 10 + 1})}"
+				           class="page-link page-number-link control next"
+				           th:attr="data-page=${result.pagination.currentBlock * 10 + 1}"></a>
+				    </li>
+                 	<li class="page-item">
+				        <a title="마지막 페이지 보기"
+				           th:href="@{list(page=${result.pagination.totalPages})}"
+				           class="page-link page-number-link control last"
+				           th:attr="data-page=${result.pagination.totalPages}"></a>
+				    </li>
+				    
+				</ul>
+			</nav>
+		</div>
+	</div>
     <!--// pagination -->
+
 </div>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.co.mgv.board.tboard.TheaterBoardDao">
+<mapper namespace="kr.co.mgv.board.mapper.TheaterBoardDao">
     <select id="getTotalRows" parameterType="map" resultType="int">
     	select count(*)
     	from MGV_THEATER_BOARD
@@ -13,7 +13,7 @@
     				and board_content like CONCAT('%', #{keyword}, '%')
     			</when>
     			<when test="opt == 'all'">
-    				and board_name like CONCAT('%', #{keyword}, '%') or board_content like CONCAT('%', #{keyword}, '%')
+    				and (board_name like CONCAT('%', #{keyword}, '%') or board_content like CONCAT('%', #{keyword}, '%'))
     			</when>
     			<when test="opt == 'writer'">
     				and user_id like CONCAT('%', #{keyword}, '%')
@@ -27,7 +27,7 @@
 			</if>
     </select>
     
-    <select id="getTBoards" parameterType="map" resultType="kr.co.mgv.board.tboard.TheaterBoard">
+    <select id="getTBoards" parameterType="map" resultType="kr.co.mgv.board.vo.TheaterBoard">
     	select *
     	
     	from (
@@ -70,7 +70,7 @@
     				and board_content like CONCAT('%', #{keyword}, '%')
     			</when>
     			<when test="opt == 'all'">
-    				and board_name like CONCAT('%', #{keyword}, '%') or board_content like CONCAT('%', #{keyword}, '%')
+    				and (board_name like CONCAT('%', #{keyword}, '%') or board_content like CONCAT('%', #{keyword}, '%'))
     			</when>
     			<when test="opt == 'writer'">
     				and user_id like CONCAT('%', #{keyword}, '%')
@@ -86,7 +86,7 @@
     	having A.ROWNUMBER between #{begin} and #{end}
     </select>
     
-    <select id="getTheatersByLocationNo" parameterType="int" resultType="kr.co.mgv.board.tboard.BoardTheater">
+    <select id="getTheatersByLocationNo" parameterType="int" resultType="kr.co.mgv.board.vo.BoardTheater">
     	SELECT 
     		A.theater_no		as no,
     		A.theater_name		as name,
@@ -98,7 +98,7 @@
     		and A.location_no = #{value}
     </select>
     
-    <select id="getLocaions" resultType="kr.co.mgv.board.tboard.BoardLocation">
+    <select id="getLocaions" resultType="kr.co.mgv.board.vo.BoardLocation">
     	SELECT
     		location_no		as no,
     		location_name	as name

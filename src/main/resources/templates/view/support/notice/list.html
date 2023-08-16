@@ -9,7 +9,7 @@
     <div class="tab-block-notice mb30">
         <ul>
             <li class="tab-link current">
-                <button type="button" class="btn rounded-0" data-tab="tab-1" title="전체공지 보기">전체</button>
+                <button type="button" class="btn rounded-0 current" data-tab="tab-1" title="전체공지 보기">전체</button>
             </li>
             <li class="tab-link">
                 <button type="button" class="btn rounded-0" data-tab="tab-2" title="메가박스 공지 보기">메가박스 공지</button>
@@ -21,63 +21,28 @@
     </div>
     <div class="board-list-util">
         <p class="result-count">
-            <strong>전체 <em class="font-gblue">5,914</em>건 </strong>
+            <strong>전체 <em class="font-gblue">0</em>건 </strong>
         </p>
-        <div class="dropdown bootstrap-select mr07 bs3">
-            <select id="theater" title="지역 선택" class="mr07" tabindex="-98">
-                <option class="bs-title-option" value=""></option>
-                <option value="">지역 선택</option>
-                <option value="10">서울</option>
-                <option value="30">경기</option>
-                <option value="35">인천</option>
-                <option value="45">대전/충청/세종</option>
-                <option value="55">부산/대구/경상</option>
-                <option value="65">광주/전라</option>
-                <option value="70">강원</option>
-                <option value="80">제주</option>
-            </select>
-            <button type="button" class="btn dropdown-toggle btn-default bs-placeholder" data-toggle="dropdown" role="button" data-id="theater" title="지역 선택">
-                <div class="filter-option">
-                    <div class="filter-option-inner">
-                        <div class="filter-option-inner-inner">지역 선택</div>
-                    </div>
-                </div>
-                <span class="bs-caret">
-            <span class="caret"></span>
-          </span>
-            </button>
-            <div class="dropdown-menu open" role="combobox">
-                <div class="inner open" role="listbox" aria-expanded="false" tabindex="-1">
-                    <ul class="dropdown-menu inner "></ul>
-                </div>
-            </div>
-        </div>
-        <div class="dropdown bootstrap-select disabled mr07 bs3">
-            <select id="theater02" title="극장 선택" disabled="disabled" class="mr07" tabindex="-98">
-                <option class="bs-title-option" value=""></option>
-                <option value="">극장 선택</option>
-            </select>
-            <button type="button" class="btn dropdown-toggle disabled btn-default bs-placeholder" data-toggle="dropdown" role="button" data-id="theater02" tabindex="-1" aria-disabled="true" title="극장 선택">
-                <div class="filter-option">
-                    <div class="filter-option-inner">
-                        <div class="filter-option-inner-inner">극장 선택</div>
-                    </div>
-                </div>
-                <span class="bs-caret">
-            <span class="caret"></span>
-          </span>
-            </button>
-            <div class="dropdown-menu open" role="combobox">
-                <div class="inner open" role="listbox" aria-expanded="false" tabindex="-1">
-                    <ul class="dropdown-menu inner "></ul>
-                </div>
-            </div>
-        </div>
-        <div class="board-search">
-            <input type="text" id="searchTxt" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" value="" maxlength="15">
-            <button type="button" id="searchBtn" class="btn-search-input">검색</button>
-        </div>
-    </div>
+     <div class="ml07 bs3  d-flex justify-content-end">
+         	<select id="location" title="지역선택" name="locationNo"
+	                                class="form-select form-select-sm  ml06 form-control-sm mb-3"
+	                                style="width: 100px; ">
+	                            <option value="" selected disabled>지역선택</option>
+         	</select>
+          	<select id="theater" title="극장선택" name="theaterNo" 
+	                        		class="form-select form-select-sm ml06 form-control-sm mb-3"
+	                                style="width: 100px; ">
+	      						<option value="" selected disabled>극장선택</option>
+	     	</select>
+       
+		<form action="list" id="actionForm">    
+	        <div class="board-search">
+		        <input type="hidden" name="page" value="1" />
+	            <input type="search" name="keyword" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" value=""  autocomplete="off">
+	            <button type="button" id="searchBtn" class="btn-search-input">검색</button>
+	        </div>
+        </form>
+	</div>
     <div class="table-wrap">
         <table class="board-list">
             <caption>번호, 극장, 구분, 제목, 등록일이 들어간 공지사항 전체 리스트</caption>

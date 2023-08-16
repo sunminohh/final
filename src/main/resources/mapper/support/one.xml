@@ -1,18 +1,110 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="kr.co.mgv.support.one.OneDao">
+<mapper namespace="kr.co.mgv.support.dao.OneDao">
 
-	<insert id="insertOne" parameterType="kr.co.mgv.support.one.One">
+	<insert id="insertOne" parameterType="kr.co.mgv.support.vo.One">
 		insert into MGV_SUPPORT_ONE
 		(one_title, one_content, one_filename, 
 		user_id, user_name, user_email, 
 		location_no, theater_no, category_no, 
 		one_guest_name, one_guest_email, one_guest_password)
 		VALUES
-		('#{title}', '#{content}', '#{fileName}', 
-		'#{user.id}', '#{user.name}', '#{user.email}', 
-		'#{location.no}', '#{theater.no}', '#{category.no}',
-		 '#{guestName}', '#{guestEmail}', '#{guestPassword}'); 
+		(#{title}, #{content}, #{fileName}, 
+	    #{user.id}, #{user.name}, #{user.email}, 
+	    #{location.no}, #{theater.no}, #{category.no}, 
+	    #{guestName}, #{guestEmail}, #{guestPassword});
 	</insert>
+	
+	<select id="getTotalRows" parameterType="map" resultType="int">
+		select count(*)
+		FROM MGV_SUPPORT_ONE A
+		where 
+			A.USER_ID = #{userId}
+			and A.ONE_DELETED = 'N'
+			<if test="answered != null">
+				and A.ONE_ANSWERED = #{answered}
+			</if>
+			<if test="keyword != null">
+				and A.ONE_TITLE like  CONCAT('%', #{keyword}, '%')	
+			</if>
+	</select>
+	
+	<select id="getOnesByUserId" parameterType="map" resultType="kr.co.mgv.support.vo.One">
+		SELECT 
+			A.ONE_NO				as no,
+			A.ONE_TITLE				as title,
+			A.ONE_CONTENT			as content, 
+			A.ONE_ANSWERED			as answered, 
+			A.ONE_DELETED			as deleted, 
+			A.ONE_FILENAME			as fileName, 
+			A.ONE_UPDATE_DATE		as updateDate, 
+			A.ONE_CREATE_DATE		as createDate, 
+			A.USER_ID 				as "user.id",
+			A.LOCATION_NO			as "location.no", 
+			B.LOCATION_NAME			as "location.name", 
+			A.THEATER_NO			as "theater.no",
+			C.THEATER_NAME			as "theater.name",
+			A.CATEGORY_NO			as "category.no", 
+			D.CATEGORY_NAME			as "category.name" 
+		FROM 
+			MGV_SUPPORT_ONE A 
+			left outer join MGV_LOCATION B on A.LOCATION_NO = B.LOCATION_NO 
+			left outer join MGV_THEATERS C on A.THEATER_NO = C.THEATER_NO 
+			inner join MGV_SUPPORT_CATEGORIES D on A.CATEGORY_NO = D.CATEGORY_NO 
+		WHERE 
+			A.USER_ID = #{userId}
+			and A.ONE_DELETED = 'N'
+			<if test="answered != null">
+				and A.ONE_ANSWERED = #{answered}
+			</if>
+			<if test="keyword != null">
+				and A.ONE_TITLE like  CONCAT('%', #{keyword}, '%')	
+			</if>
+		order by
+			A.ONE_NO DESC
+		LIMIT 10 OFFSET #{begin}
+	</select>
+	
+	<select id="getCategories" parameterType="string" resultType="kr.co.mgv.support.vo.SupportCategory">
+		SELECT 
+			CATEGORY_NO		as no,
+			CATEGORY_NAME	as name, 
+			CATEGORY_TYPE	as type
+		FROM 
+			MGV_SUPPORT_CATEGORIES
+		where 
+			CATEGORY_TYPE = #{value}
+	</select>
+	
+	<select id="getLocations" resultType="kr.co.mgv.theater.vo.Location">
+		SELECT
+    		location_no		as no,
+    		location_name	as name
+    	from MGV_LOCATION
+	</select>
+	
+	<select id="getTheatersByLocationNo" parameterType="int" resultType="kr.co.mgv.theater.vo.Theater">
+		SELECT 
+    		A.theater_no		as no,
+    		A.theater_name		as name,
+    		A.location_no		as "location.no",
+    		B.location_name		as "location.name"
+    	from MGV_THEATERS A, MGV_LOCATION B
+    	where
+    		A.location_no = B.location_no 
+    		and A.location_no = #{value}
+	</select>
+	
 
 </mapper>
+
+
+
+
+
+
+
+
+
+
+

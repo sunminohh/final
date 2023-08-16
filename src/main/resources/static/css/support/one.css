@@ -1,0 +1,84 @@
+/* 탭 메뉴 스타일 */
+.tab-block-one {
+    position: relative;
+}
+
+.tab-block-one:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 35px;
+    width: 100%;
+    height: 1px;
+    background-color: #d8d9db;
+}
+
+.tab-block-one ul:after,
+.tab-block-one ul:before {
+    content: '';
+    display: table;
+}
+
+.tab-block-one ul:after {
+    clear: both;
+}
+
+.tab-block-one ul li {
+    position: relative;
+    float: left;
+    width: 20%;
+    border: 1px solid #d8d9db;
+    border-left: 0;
+}
+
+.tab-block-one ul li:first-child,
+.tab-block-ones ul li:nth-child(6) {
+    border-left: 1px solid #d8d9db;
+}
+
+.tab-block-ones ul li:nth-child(5)~li {
+    margin-top: -1px;
+}
+
+.tab-block-one ul li:last-child {
+    border-right: 1px solid #d8d9db;
+}
+
+.tab-block-one ul li .btn {
+    display: block;
+    width: 100%;
+    height: 34px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    line-height: 34px;
+    text-align: center;
+    background-color: transparent;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.tab-block-one ul li.current {
+    border-color: #555;
+}
+
+.tab-block-one ul li.current .btn {
+    color: #fff;
+    background-color: #555;
+}
+
+.tab-block-one ul li.current:first-child {
+    border-color: #555;
+}
+
+/* 탭 메뉴 작은 버전 스타일 */
+.tab-block-one.small ul li .btn {
+    letter-spacing: -1px;
+    font-size: .9333em;
+}
+
+/* 탭 메뉴 포커스 스타일 */
+.tab-block-one ul li .btn:focus {
+    color: #fff;
+    background-color: #555;
+}
