@@ -119,7 +119,7 @@ public class MovieBoardController {
     }
     
     @GetMapping("/detail")
-    public String theaterDetail(@RequestParam("no") int no,
+    public String movieDetail(@RequestParam("no") int no,
     							Model model,
     							@AuthenticationPrincipal User user) {
     	if(user != null) {

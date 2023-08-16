@@ -175,7 +175,7 @@
 	 	
 	 </select>
 	 
-	 <update id="updateLike" parameterType="kr.co.mgv.board.vo.MBoardComment">
+	 <update id="updateLike" parameterType="kr.co.mgv.board.vo.MBoardLike">
 	 	UPDATE 
 	 		MOVIE_BOARD_LIKE
 		SET 
