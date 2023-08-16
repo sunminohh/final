@@ -11,7 +11,7 @@
     <div class="table-wrap">
         <div class="board-view">
            <div class="tit-area">
-			    <p class="tit" th:text="${notice.theater.name == null ? '[MGV] ' + notice.title : '[지점] ' + notice.theater.name + ' ' + notice.title}">
+			    <p class="tit" th:text="${notice.theater.name == null ? '[MGV] ' + notice.title : '[지점] ' + '['+ notice.theater.name + '] ' + notice.title}">
 			    </p>
 			</div>
 
