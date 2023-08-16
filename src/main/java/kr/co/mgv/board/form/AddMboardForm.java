@@ -1,4 +1,4 @@
-package kr.co.mgv.board.vo;
+package kr.co.mgv.board.form;
 
 import lombok.Builder;
 import lombok.Getter;

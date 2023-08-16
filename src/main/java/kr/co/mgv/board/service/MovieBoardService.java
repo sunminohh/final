@@ -7,13 +7,16 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import kr.co.mgv.board.BoardPagination;
+import kr.co.mgv.board.form.AddMboardForm;
 import kr.co.mgv.board.form.MBoardForm;
+import kr.co.mgv.board.form.MboardReportForm;
 import kr.co.mgv.board.list.MovieBoardList;
 import kr.co.mgv.board.mapper.MovieBoardDao;
-import kr.co.mgv.board.vo.AddMboardForm;
 import kr.co.mgv.board.vo.MBoardComment;
 import kr.co.mgv.board.vo.MBoardLike;
+import kr.co.mgv.board.vo.MboardReport;
 import kr.co.mgv.board.vo.MovieBoard;
+import kr.co.mgv.board.vo.ReportReason;
 import kr.co.mgv.movie.vo.Movie;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
@@ -143,6 +146,18 @@ public class MovieBoardService {
 		
 		return movieBoardDao.getChildComment(comment);
 	}
+	
+	public void greatCommentDelete (int no) {
+		movieBoardDao.deleteGreatComment(no);
+	}
+	
+	public void childsCommentDelete (int greatNo) {
+		movieBoardDao.deleteChildsComment(greatNo);
+	}
+	
+	public int gatTotalChildCount (int no) {
+		return movieBoardDao.getTotalCommentCount(no);
+	}
 
 	// 게시물 등록 관련
 	public List<Movie> getMovieTitle() {
@@ -195,4 +210,42 @@ public class MovieBoardService {
 		
 	}
 	
+	// 신고 관련
+	public List<ReportReason> getReportReason() {
+		return movieBoardDao.getReportReason();
+	}
+	
+	public void insertReport (MboardReportForm form, User user) {
+		
+	    try {
+	    	MovieBoard board = movieBoardDao.getMBoardByNo(form.getBoardNo());
+	    	ReportReason reason = ReportReason.builder().no(form.getReasonNo()).build();
+	    	
+	    	MboardReport report = MboardReport.builder()
+	    							.reasonContent(form.getReasonContent())
+	    							.board(board)
+	    							.user(user)
+	    							.reason(reason)
+	    							.build();
+	    	movieBoardDao.insertMboardReport(report);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
+	
+	public void updateReportCount (int no, int reportCount) {
+		MovieBoard board = movieBoardDao.getMBoardByNo(no);
+		board.setReportCount(reportCount);
+		movieBoardDao.updateMBoardByNo(board);
+	}
+	
+	public void updateReport (int no, String report) {
+		MovieBoard board = movieBoardDao.getMBoardByNo(no);
+		board.setReport(report);
+		movieBoardDao.updateMBoardByNo(board);
+	}
+	
+	public List<MboardReport> getReportById (String id) {
+		return movieBoardDao.getMboardReportById(id);
+	}
 }

@@ -42,16 +42,18 @@ public class LostController {
         return "/view/support/lost/list";
     }
 	
-
+	
 	@GetMapping("/list")
 	@ResponseBody
-	public LostList list(@RequestParam(name = "locationNo", required = false, defaultValue = "0") int locationNo,
+	public LostList list(
+			@RequestParam(name = "locationNo", required = false, defaultValue = "0") int locationNo,
 			@RequestParam(name = "theaterNo", required = false, defaultValue = "0") int theaterNo,
 			@RequestParam(name = "page", required = false, defaultValue = "1") int page,
 			@RequestParam(name = "answered", required = false) String answered,
 			@RequestParam(name ="keyword", required = false) String keyword) {
 		
 		Map<String, Object> param = new HashMap<>();
+		
 		
 		param.put("page", page);
 		
@@ -67,6 +69,41 @@ public class LostController {
 			param.put("answered", answered);
 		}
 	
+		if (StringUtils.hasText(keyword)) {
+			param.put("keyword", keyword);
+		}
+		
+		LostList lostList = lostService.search(param);
+		
+		return lostList;
+	}
+	
+	@GetMapping("/mylist")
+	@ResponseBody
+	public LostList list(@AuthenticationPrincipal User user,
+			@RequestParam(name = "locationNo", required = false, defaultValue = "0") int locationNo,
+			@RequestParam(name = "theaterNo", required = false, defaultValue = "0") int theaterNo,
+			@RequestParam(name = "page", required = false, defaultValue = "1") int page,
+			@RequestParam(name = "answered", required = false) String answered,
+			@RequestParam(name ="keyword", required = false) String keyword) {
+		
+		Map<String, Object> param = new HashMap<>();
+		
+		param.put("userId", user.getId());
+		param.put("page", page);
+		
+		if (locationNo != 0) {
+			param.put("locationNo", locationNo);
+		}
+		
+		if (theaterNo != 0) {
+			param.put("theaterNo", theaterNo);
+		} 
+		
+		if (StringUtils.hasText(answered)) {
+			param.put("answered", answered);
+		}
+		
 		if (StringUtils.hasText(keyword)) {
 			param.put("keyword", keyword);
 		}

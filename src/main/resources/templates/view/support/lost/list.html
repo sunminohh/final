@@ -43,7 +43,7 @@
 	           
 	            <input type="hidden" name="answered">
 		        <input type="hidden" name="page" value="1" />
-	            <input type="search" name="keyword" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" value="">
+	            <input type="search" name="keyword" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" value=""  autocomplete="off">
 	            <button type="button" id="searchBtn" class="btn-search-input">검색</button>
 	        </div>
         </form>
@@ -120,6 +120,18 @@
       	<div class="col-12">
 		    <nav>
 				<ul class="pagination justify-content-center">
+				    <li class="page-item" th:if="${result.pagination.currentBlock > 1}">
+				        <a title="첫번째 페이지 보기"
+				           th:href="@{list(page=1)}"
+				           class="page-link page-number-link control first"
+				           data-page="1"></a>
+				    </li>
+				    <li class="page-item" th:if="${result.pagination.currentBlock > 1}">
+				        <a title="이전 10페이지 보기"
+				           th:href="@{list(page=${(pagination.currentBlock -1)* 10})}"
+				           class="page-link page-number-link control prev"
+				           th:attr="data-page=${(pagination.currentBlock -1)* 10}"></a>
+				    </li>
 				    <li class="page-item" th:each="num : ${result.pagination.pageNumbers}">
                         <a th:href="@{list(page=${num})}" 
                            th:text="${num}"
@@ -127,13 +139,23 @@
                            class="page-link page-number-link"
                            th:attr="data-page=${num}">1</a>
                     </li>
+                    <li class="page-item" th:if="${result.pagination.currentBlock < result.pagination.totalBlocks}">
+				        <a title="이후 10페이지 보기"
+				           th:href="@{list(page=${result.pagination.currentBlock * 10 + 1})}"
+				           class="page-link page-number-link control next"
+				           th:attr="data-page=${result.pagination.currentBlock * 10 + 1}"></a>
+				    </li>
+                 	<li class="page-item">
+				        <a title="마지막 페이지 보기"
+				           th:href="@{list(page=${result.pagination.totalPages})}"
+				           class="page-link page-number-link control last"
+				           th:attr="data-page=${result.pagination.totalPages}"></a>
+				    </li>
+				    
 				</ul>
 			</nav>
 		</div>
 	</div>
     <!--// pagination -->
 
-    <!-- pagination 
-    <nav class="pagination justify-content-center"><strong class="active">1</strong> <a title="2페이지보기" href="javascript:void(0)" pagenum="2">2</a> <a title="3페이지보기" href="javascript:void(0)" pagenum="3">3</a> <a title="4페이지보기" href="javascript:void(0)" pagenum="4">4</a> <a title="5페이지보기" href="javascript:void(0)" pagenum="5">5</a> <a title="6페이지보기" href="javascript:void(0)" pagenum="6">6</a> <a title="7페이지보기" href="javascript:void(0)" pagenum="7">7</a> <a title="8페이지보기" href="javascript:void(0)" pagenum="8">8</a> <a title="9페이지보기" href="javascript:void(0)" pagenum="9">9</a> <a title="10페이지보기" href="javascript:void(0)" pagenum="10">10</a> <a title="이후 10페이지 보기" href="javascript:void(0)" class="control next" pagenum="11">next</a> <a title="마지막 페이지 보기" href="javascript:void(0)" class="control last" pagenum="934">last</a> </nav>
-    pagination -->
 </div>

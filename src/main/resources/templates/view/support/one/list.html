@@ -10,29 +10,29 @@
      <div class="tab-block-one mb30">
         <ul>
             <li class="tab-link current">
-                <button type="button" class="btn rounded-0" data-tab="tab-1" title="">1:1 문의내역</button>
+                <button type="button" class="btn rounded-0 current" data-tab="tab-one" title="1:1 문의내역">1:1 문의내역</button>
             </li>
             <li class="tab-link">
-                <button type="button" class="btn rounded-0" data-tab="tab-3" title="">분실물 문의내역</button>
+                <button type="button" class="btn rounded-0" data-tab="tab-lost" title="분실물 문의내역">분실물 문의내역</button>
             </li>
         </ul>
     </div>
     <div class="clearfix" style="margin-top: -10px; margin-bottom: -10px;">
         <ul class="dot-list">
             <li>
-               	고객센터를 통해 남기신 1:1 문의내역을 확인하실 수 있습니다.
+               	고객센터를 통해 남기신 <span id="tabType"></span>을 확인하실 수 있습니다.
                 <a href="/support/one" class="button float-r" title="일대일 문의 등록하기">1:1 문의하기</a>
             </li>
         </ul>
     </div>
 
     <div class="board-list-util">
-        <p class="result-count"><strong>전체 <span class="font-gblue" id="totalCnt" >5</span>건</strong></p>
+        <p class="result-count"><strong>전체 <span class="font-gblue" id="totalCnt"></span>건</strong></p>
         <div class="ml07 bs3  d-flex justify-content-end" style="margin-bottom: -15px;">
         	<select id="answer" title="접수상태 선택" name="answered" 
 	                        		class="form-select form-select-sm ml06 form-control-sm mb-3"
-	                                style="width: 80px;">
-	      						<option value="" selected disabled>전체</option>
+	                                style="width: 100px;">
+	      						<option value="" selected>전체</option>
 	      						<option value="N">미답변</option>
 	      						<option value="Y">답변완료</option>
 	        </select>
@@ -42,7 +42,7 @@
 	           
 	            <input type="hidden" name="answered">
 		        <input type="hidden" name="page" value="1" />
-	            <input type="search" name="keyword" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" value="">
+	            <input type="search" name="keyword" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" value=""  autocomplete="off">
 	            <button type="button" id="searchBtn" class="btn-search-input">검색</button>
 	        </div>
         </form>
@@ -55,6 +55,7 @@
             <colgroup>
                 <col style="width:72px;">
                 <col style="width:133px;">
+                <col style="width:133px;">
                 <col>
                 <col style="width:100px;">
                 <col style="width:116px;">
@@ -63,19 +64,14 @@
             <tr>
                 <th scope="col" style="text-align:center;">번호</th>
                 <th scope="col" style="text-align:center;">극장</th>
+                <th scope="col" style="text-align:center;">유형</th>
                 <th scope="col" style="text-align:center;">제목</th>
-                <th scope="col" style="text-align:center;">접수상태</th>
+                <th scope="col" style="text-align:center;">답변상태</th>
                 <th scope="col" style="text-align:center;">등록일</th>
             </tr>
             </thead>
-            <tbody class="lostList">
-	            <tr>
-		            <td></td>
-		            <td></td>
-		            <td></td>
-		            <td></td>
-		            <td></td>
-	            </tr>
+            <tbody class="oneList">
+	           
             </tbody>
         </table>
     </div>
@@ -104,25 +100,16 @@
         </div>
     </section>
     
-    <!-- pagination 
+   <!-- pagination -->
     <div class="row mb-3">
       	<div class="col-12">
 		    <nav>
 				<ul class="pagination justify-content-center">
-				    <li class="page-item" th:each="num : ${result.pagination.pageNumbers}">
-                        <a th:href="@{list(page=${num})}" 
-                           th:text="${num}"
-                           th:classappend="${result.pagination.page == (num) ? 'active' : '' }"
-                           class="page-link page-number-link"
-                           th:attr="data-page=${num}">1</a>
-                    </li>
+				   
 				</ul>
 			</nav>
 		</div>
 	</div>
-    pagination -->
+    <!--// pagination -->
 
-    <!-- pagination 
-    <nav class="pagination justify-content-center"><strong class="active">1</strong> <a title="2페이지보기" href="javascript:void(0)" pagenum="2">2</a> <a title="3페이지보기" href="javascript:void(0)" pagenum="3">3</a> <a title="4페이지보기" href="javascript:void(0)" pagenum="4">4</a> <a title="5페이지보기" href="javascript:void(0)" pagenum="5">5</a> <a title="6페이지보기" href="javascript:void(0)" pagenum="6">6</a> <a title="7페이지보기" href="javascript:void(0)" pagenum="7">7</a> <a title="8페이지보기" href="javascript:void(0)" pagenum="8">8</a> <a title="9페이지보기" href="javascript:void(0)" pagenum="9">9</a> <a title="10페이지보기" href="javascript:void(0)" pagenum="10">10</a> <a title="이후 10페이지 보기" href="javascript:void(0)" class="control next" pagenum="11">next</a> <a title="마지막 페이지 보기" href="javascript:void(0)" class="control last" pagenum="934">last</a> </nav>
-    pagination -->
 </div>

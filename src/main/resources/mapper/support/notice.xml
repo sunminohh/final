@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="kr.co.mgv.support.dao.NoticeDao">
+
+	<select id="getTotalRows" parameterType="map" resultType="int">
+		select count(*)
+		FROM 
+			MGV_SUPPORT_NOTICE A 
+			left outer join MGV_LOCATION B on A.LOCATION_NO = B.LOCATION_NO 
+			left outer join MGV_THEATERS C on A.THEATER_NO = C.THEATER_NO 
+			inner join MGV_SUPPORT_CATEGORIES D on A.CATEGORY_NO = D.CATEGORY_NO
+		where
+			A.NOTICE_DELETED = 'N'
+			<if test="catNo != 1">
+				and A.CATEGORY_NO = #{catNo}
+			</if>
+			<if test="locationNo != null">
+				and A.LOCATION_NO = #{locationNo}
+			</if>
+			<if test="theaterNo != null">
+				and A.THEATER_NO = #{theaterNo}
+			</if>
+			<if test="keyword != null">
+				and A.NOTICE_TITLE like  CONCAT('%', #{keyword}, '%')	
+			</if>
+	</select>
+	
+	<select id="getNotices" parameterType="map" resultType="kr.co.mgv.support.vo.Notice">
+		SELECT 
+			A.NOTICE_NO				as no, 
+			A.NOTICE_TITLE			as title, 
+			A.NOTICE_CONTENT		as content, 
+			A.NOTICE_DELETED		as deleted,
+			A.NOTICE_UPDATE_DATE	as updateDate,
+			A.NOTICE_CREATE_DATE	as createDate, 
+			A.LOCATION_NO			as "location.no", 
+			B.LOCATION_NAME			as "location.name", 
+			A.THEATER_NO			as "theater.no", 
+			C.THEATER_NAME			as "theater.name", 
+			A.CATEGORY_NO			as "category.no",
+			D.CATEGORY_NAME			as "category.name",
+			A.NOTICE_TYPE			as type 
+		FROM 
+			MGV_SUPPORT_NOTICE A 
+			left outer join MGV_LOCATION B on A.LOCATION_NO = B.LOCATION_NO 
+			left outer join MGV_THEATERS C on A.THEATER_NO = C.THEATER_NO 
+			inner join MGV_SUPPORT_CATEGORIES D on A.CATEGORY_NO = D.CATEGORY_NO
+		where
+			A.NOTICE_DELETED = 'N'
+			<if test="catNo != 1">
+				and A.CATEGORY_NO = #{catNo}
+			</if>
+			<if test="locationNo != null">
+				and A.LOCATION_NO = #{locationNo}
+			</if>
+			<if test="theaterNo != null">
+				and A.THEATER_NO = #{theaterNo}
+			</if>
+			<if test="keyword != null">
+				and A.NOTICE_TITLE like  CONCAT('%', #{keyword}, '%')	
+			</if>
+		order by
+			A.ONE_NO DESC
+		LIMIT 10 OFFSET #{begin}
+	</select>
+	
+
+</mapper>

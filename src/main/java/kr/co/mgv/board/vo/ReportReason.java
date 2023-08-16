@@ -1,4 +1,4 @@
-package kr.co.mgv.support.vo;
+package kr.co.mgv.board.vo;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -8,20 +8,15 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class SupportCategory {
+public class ReportReason {
 
 	private int no;
 	private String name;
-	private String type;
 	
 	@Builder
-	public SupportCategory(int no, String name, String type) {
+	public ReportReason(int no, String name) {
 		super();
 		this.no = no;
 		this.name = name;
-		this.type = type;
 	}
-	
-	
-	
 }

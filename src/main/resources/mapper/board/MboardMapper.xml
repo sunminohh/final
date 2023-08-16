@@ -18,7 +18,7 @@
   				and A.board_content like  CONCAT('%', #{keyword}, '%')
   			</when>
   			<when test="opt == 'all'">
-  				and A.board_name like  CONCAT('%', #{keyword}, '%') or A.board_content like  CONCAT('%', #{keyword}, '%')
+  				and (A.board_name like  CONCAT('%', #{keyword}, '%') or A.board_content like  CONCAT('%', #{keyword}, '%'))
   			</when>
   			<when test="opt == 'writer'">
   				and A.member_id like  CONCAT('%', #{keyword}, '%')
@@ -39,24 +39,34 @@
 	            A.member_id             as "user.id",
 	            A.board_content         as content,
 	            row_number() over (
-	            	<if test="sort == null">
-	                        order by board_create_date desc	            	
-	            	</if>
-	                <choose>
-	                    <when test="sort == 'new'">
-	                        order by board_create_date desc
-	                    </when>
-	                    <when test="sort == 'old'">
-	                        order by board_create_date asc
-	                    </when>
-	                    <when test="sort == 'view'">
-	                        order by board_read_cnt desc, board_create_date desc
-	                    </when>
-	                    <when test="sort == 'comment'">
-	                        order by board_comment_cnt desc, board_create_date desc
-	                    </when>
-	                </choose>
-	            ) as ROWNUMBER
+	            <choose>
+	                <!-- sort 파라미터가 없을 경우 -->
+	                <when test="sort == null">
+	                    order by board_create_date desc
+	                </when>
+	                <!-- sort 파라미터가 있을 경우 -->
+	                <otherwise>
+	                    <choose>
+	                        <when test="sort == 'new'">
+	                            order by board_create_date desc
+	                        </when>
+	                        <when test="sort == 'old'">
+	                            order by board_create_date asc
+	                        </when>
+	                        <when test="sort == 'view'">
+	                            order by board_read_cnt desc, board_create_date desc
+	                        </when>
+	                        <when test="sort == 'comment'">
+	                            order by board_comment_cnt desc, board_create_date desc
+	                        </when>
+	                        <!-- 기본 정렬 -->
+	                        <otherwise>
+	                            order by board_create_date desc
+	                        </otherwise>
+	                    </choose>
+	                </otherwise>
+	            </choose>
+	        ) as ROWNUMBER
 	        from
 	            MGV_MOVIE_BOARD A, MGV_MOVIE B
 	        where board_deleted = 'N' and board_report = 'N'
@@ -72,7 +82,7 @@
 	                and board_content like  CONCAT('%', #{keyword}, '%')
 	            </when>
     			<when test="opt == 'all'">
-    				and board_name like CONCAT('%', #{keyword}, '%') or board_content like CONCAT('%', #{keyword}, '%')
+    				and (board_name like CONCAT('%', #{keyword}, '%') or board_content like CONCAT('%', #{keyword}, '%'))
     			</when>
 	            <when test="opt == 'writer'">
 	                and member_id like  CONCAT('%', #{keyword}, '%')
@@ -91,6 +101,7 @@
             A.board_create_date     as createDate,
             A.board_update_date     as updateDate,
             A.board_read_cnt        as readCount,
+            A.report_count			as reportCount,
             A.board_comment_cnt     as commentCount,
             A.member_id             as "user.id",
             A.movie_no				as "movie.no",
@@ -224,7 +235,7 @@
 		order by A.comment_create_date;
 	</select>
 	
-		<select id="getGreatComment" resultType="kr.co.mgv.board.vo.MBoardComment" parameterType="kr.co.mgv.board.vo.MBoardComment">
+	<select id="getGreatComment" resultType="kr.co.mgv.board.vo.MBoardComment" parameterType="kr.co.mgv.board.vo.MBoardComment">
 		SELECT 
 			COMMENT_NO				as no, 
 			COMMENT_CREATE_dATE		as createDate, 
@@ -242,6 +253,12 @@
 			and great_comment_no is null
 			ORDER BY comment_create_date DESC
 			LIMIT 1;
+	</select>
+	
+	<select id="getTotalCommentCount" parameterType="int" resultType="int">
+		select count(*)
+		from MGV_MBOARD_COMMENT
+		where great_comment_no = #{value}
 	</select>
 	
 	<select id="getChildComment" resultType="kr.co.mgv.board.vo.MBoardComment" parameterType="kr.co.mgv.board.vo.MBoardComment">
@@ -270,6 +287,37 @@
 		LIMIT 1;
 	</select>
 	
+	<delete id="deleteGreatComment" parameterType="int">
+		DELETE FROM MGV_MBOARD_COMMENT
+		WHERE COMMENT_NO= #{value};
+	</delete>
+	
+	<delete id="deleteChildsComment" parameterType="int">
+		DELETE FROM MGV_MBOARD_COMMENT
+		WHERE GREAT_COMMENT_NO= #{value};
+	</delete>
+	
+	<select id="getReCommentByGreatNo" parameterType="int" resultType="kr.co.mgv.board.vo.MBoardComment">
+		SELECT 
+			A.COMMENT_NO				as no, 
+			A.COMMENT_CREATE_dATE		as createDate, 
+			A.COMMENT_UPDATE_DATE		as updateDate, 
+			A.COMMENT_CONTENT			as content, 
+			A.USER_ID					as "user.id", 
+			A.COMMENT_DELETED			as deleted, 
+			A.BOARD_NO					as "board.no", 
+			A.PARENT_COMMENT_NO			as "parent.no", 
+			A.GREAT_COMMENT_NO			as "great.no",
+			P.USER_ID					as "parent.user.id",
+			G.USER_ID					as "great.user.id"
+		FROM 
+			MGV_MBOARD_COMMENT A, MGV_MBOARD_COMMENT P, MGV_MBOARD_COMMENT G
+		WHERE 
+			A.parent_comment_no = P.comment_no
+			and A.great_comment_no = G.comment_no
+			A.great_comment_no = #{value}
+	</select>
+	
 	<!-- 게시물 등록 관련 -->
 	<select id="getMovieTitle" resultType="kr.co.mgv.movie.vo.Movie">
 		select movie_no		as no,
@@ -286,4 +334,27 @@
 		(#{name}, #{content}, #{user.id}, #{movie.no}, #{fileName});
 		
 	</insert>
+	
+	<!-- 신고 관련 -->
+	<select id="getReportReason" resultType="kr.co.mgv.board.vo.ReportReason">
+		SELECT REASON_NO as no, REASON_NAME as name
+		FROM MGV_REPORT_REASON;
+	</select>
+	
+	<insert id="insertMboardReport" parameterType="kr.co.mgv.board.vo.ReportReason">
+		INSERT MGV_MBOARD_REPORT
+		(REPORT_REASON, REASON_NO, BOARD_NO, USER_ID)
+		VALUES(#{reasonContent}, #{reason.no}, #{board.no}, #{user.id});
+	</insert>
+	
+	<select id="getMboardReportById" parameterType="String" resultType="kr.co.mgv.board.vo.MboardReport">
+		SELECT 
+			report_NO as no, 
+			REPORT_REASON as reasonContent, 
+			REASON_NO as "reason.no", 
+			BOARD_NO as "board.no", 
+			USER_ID as "user.id"
+		FROM MGV_MBOARD_REPORT A
+		where user_id = #{value};
+	</select>
 </mapper>

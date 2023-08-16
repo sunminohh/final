@@ -1,6 +1,5 @@
 package kr.co.mgv.support.service;
 
-import static org.hamcrest.CoreMatchers.nullValue;
 
 import java.util.List;
 import java.util.Map;
@@ -34,6 +33,7 @@ public class LostService {
 		Theater theater = Theater.builder()
 							.no(form.getTheaterNo())
 							.build();
+		
 		Lost lost = null;
 		if (user != null) {
 			lost = Lost.builder()
@@ -62,7 +62,6 @@ public class LostService {
 	
 
 	public LostList search(Map<String, Object> param) {
-		log.info("param -> {}", param);
 		int totalRows = lostDao.getTotalRows(param);
 		int page = (int) param.get("page");
 		

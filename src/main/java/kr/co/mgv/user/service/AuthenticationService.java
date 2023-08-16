@@ -15,9 +15,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.mail.internet.MimeMessage;
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor

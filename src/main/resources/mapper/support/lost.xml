@@ -23,6 +23,9 @@
 			A.LOCATION_NO = B.LOCATION_NO
 			and A.theater_NO = C.theater_NO
 			and A.LOST_DELETED = 'N'
+			<if test="userId != null">
+				and A.user_id = #{userId}
+			</if>
 			<if test="locationNo != null">
 				and A.LOCATION_NO = #{locationNo}
 			</if>
@@ -47,6 +50,7 @@
 			A.LOST_FILENAME			as fileName, 
 			A.LOST_UPDATE_DATE		as updateDate,
 			A.LOST_CREATE_DATE		as createDate, 
+			A.USER_ID 				as "user.id",
 			A.LOCATION_NO			as "location.no",
 			B.Location_name			as "location.name",
 			A.THEATER_NO 			as "theater.no",
@@ -56,6 +60,9 @@
 			A.LOCATION_NO = B.LOCATION_NO
 			and A.theater_NO = C.theater_NO
 			and A.LOST_DELETED = 'N'
+			<if test="userId != null">
+				and A.USER_ID = #{userId}
+			</if>
 			<if test="locationNo != null">
 				and A.LOCATION_NO = #{locationNo}
 			</if>
@@ -72,6 +79,7 @@
 			A.Lost_NO DESC
 		LIMIT 10 OFFSET #{begin}
 	</select>
+	
 	
 	<select id="getLostByNo" parameterType="int" resultType="kr.co.mgv.support.vo.Lost">
 		SELECT 
