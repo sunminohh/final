@@ -46,6 +46,14 @@ public class NoticeService {
 		return noticeDao.getNoticeByNo(noticeNo);
 	}
 	
+	public Notice getPrevNotice(int noticeNo) {
+		return noticeDao.getPrevNotice(noticeNo);
+	}
+	
+	public Notice getNextNotice(int noticeNo) {
+		return noticeDao.getNextNotice(noticeNo);
+	}
+	
 	public List<Location> getloLocations() {
 		return supportDao.getLocations();
 	}

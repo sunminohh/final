@@ -17,4 +17,11 @@ public interface NoticeDao {
 	
 	// 공지사항 디테일 조회
 	Notice getNoticeByNo(int noticeNo);
+	
+	// 이전글가기
+	Notice getPrevNotice(int noticeNo);
+	// 다음글가기
+	Notice getNextNotice(int noticeNo);
+	
+	
 }
