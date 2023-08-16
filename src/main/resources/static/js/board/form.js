@@ -108,6 +108,31 @@ $(function() {
 	    }
 	});
 	
+	$("#tboard-btn-submit").on("click", function () {
+	    let theaterNo = document.querySelector("select[name=theaterNo]").value;
+	    let title = $("input[name='name']").val();
+	    let content = $("#summernote").val();
+	
+	    if (theaterNo === '0') {
+	        Swal.fire({
+	            icon: 'error',
+	            text: '극장을 선택해주세요.',
+	        });
+	    } else if (title === '') {
+	        Swal.fire({
+	            icon: 'error',
+	            text: '게시글의 제목을 입력해주세요.',
+	        });
+	    } else if (content === '') {
+	        Swal.fire({
+	            icon: 'error',
+	            text: '게시글의 내용을 입력해주세요.',
+	        });
+	    } else {
+	        $(".board-insert-form").submit();
+	    }
+	});
+	
 });
 
 /*
@@ -118,7 +143,6 @@ $(function() {
 		el.innerHTML = "";  // select박스의 내부 컨텐츠를 전부 지운다.
 		el.disabled =false; // select박스를 활성화상태로 바꾼다.
 		let locationNo = document.querySelector("select[name=locationNo]").value
-			
 		let xhr = new XMLHttpRequest();
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState == 4 && xhr.status == 200){
@@ -127,13 +151,13 @@ $(function() {
 				if (theaters.length === 0){
 					el.disabled = true;
 				}else {
-					let options = `<option value="" selected disabled>극장선택</option>`;
+					let options = `<option id="theater-option" value="0" selected disabled>극장선택</option>`;
 					theaters.forEach(function(theater) {
-						options += `<option value="${theater.no}" >${theater.name}</option>`;
+						options += `<option id="theater-option" value="${theater.no}" >${theater.name}</option>`;
 
 					});
 					el.innerHTML = options;
-
+					
 					
 				}
 			}

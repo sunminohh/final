@@ -273,7 +273,9 @@
                               <label class="form-label">신고이유</label>
                                   <select class="form-select" name="reasonNo" id="report-select" onchange="toggleContentField()">
                                       <option value="" id="reason" selected disabled>신고이유</option>
-<!--  -->
+                                      <option th:each="reason : ${reasons}" 
+                                              th:text="${reason.name}" 
+                                              th:value="${reason.no}" >신고 이유</option>
                                   </select>
                            </div>
                            <div class="form-group mb-2">

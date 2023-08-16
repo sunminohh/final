@@ -38,6 +38,7 @@ public interface TheaterBoardDao {
 	void deleteGreatComment(int no);
 	void deleteChildsComment(int no);
 	
-	
+	// 게시물 CRUD
+	void insertTboard(TheaterBoard board);
 	
 }

@@ -326,7 +326,7 @@
 		order by movie_title asc
 	</select>
 	
-	<insert id="insertMBoard" parameterType="kr.co.mgv.movie.vo.Movie">
+	<insert id="insertMBoard" parameterType="kr.co.mgv.board.vo.MovieBoard">
 		INSERT INTO 
 			MGV_MOVIE_BOARD
 		(BOARD_NAME, BOARD_CONTENT, MEMBER_ID, MOVIE_NO, BORAD_FILENAME)
@@ -341,7 +341,7 @@
 		FROM MGV_REPORT_REASON;
 	</select>
 	
-	<insert id="insertMboardReport" parameterType="kr.co.mgv.board.vo.ReportReason">
+	<insert id="insertMboardReport" parameterType="kr.co.mgv.board.vo.MboardReport">
 		INSERT MGV_MBOARD_REPORT
 		(REPORT_REASON, REASON_NO, BOARD_NO, USER_ID)
 		VALUES(#{reasonContent}, #{reason.no}, #{board.no}, #{user.id});
