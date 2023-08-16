@@ -335,7 +335,7 @@ public class MovieBoardController {
 
     @PostMapping("/deleteGreatComment")
     @ResponseBody
-    public ResponseEntity<Integer> deleteGreateComment(@RequestBody Map<String, Integer> request) {
+    public ResponseEntity<Integer> deleteGreatComment(@RequestBody Map<String, Integer> request) {
         int no = request.get("no");
         int commentNo = request.get("greatCommentNo");
 

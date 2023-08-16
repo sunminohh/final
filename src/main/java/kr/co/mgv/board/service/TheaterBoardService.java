@@ -61,6 +61,10 @@ public class TheaterBoardService {
 		
 	}
 	
+	public List<BoardLocation> getLocations (){
+		return theaterBoardDao.getLocaions();
+	}
+	
 	public List<BoardTheater> getTheatersByLocationNo(int locationNo){
 		List<BoardTheater> theaters = theaterBoardDao.getTheatersByLocationNo(locationNo);
 		return theaters;
@@ -133,7 +137,7 @@ public class TheaterBoardService {
 		theaterBoardDao.deleteGreatComment(no);
 	}
 	
-	public void childCommentDelete (int no) {
+	public void childCommentsDelete (int no) {
 		theaterBoardDao.deleteChildsComment(no);
 	}
 	

@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,10 +19,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.mgv.board.list.TheaterBoardList;
 import kr.co.mgv.board.service.TheaterBoardService;
+import kr.co.mgv.board.vo.BoardLocation;
 import kr.co.mgv.board.vo.BoardTheater;
-import kr.co.mgv.board.vo.MBoardLike;
+import kr.co.mgv.board.vo.TBoardComment;
 import kr.co.mgv.board.vo.TBoardLike;
 import kr.co.mgv.board.vo.TheaterBoard;
+import kr.co.mgv.movie.vo.Movie;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 
@@ -117,10 +120,15 @@ public class TheaterBoardController {
 			model.addAttribute("like", savedLike);
 		}
 		
+		// 게시물 번호로 게시물 조회
 		TheaterBoard theaterBoard = theaterBoardService.getTheaterBoardByNo(no);
 		model.addAttribute("board", theaterBoard);
 		// 모댓글 목록
+		List<TBoardComment> comments = theaterBoardService.getComments(no);
+		model.addAttribute("comments", comments);
 		// 자손댓글 목록
+		List<TBoardComment> childComments = theaterBoardService.getChildComments(no);
+		model.addAttribute("childComments", childComments);
 		// 신고 이유
 		
 		
@@ -158,7 +166,146 @@ public class TheaterBoardController {
 	 	return ResponseEntity.ok().build();
 	}
 
-	// 댓글 관련
+	// 게시물 등록/수정/삭제 관련
+    @GetMapping("/add")
+    public String theaterBoardForm(Model model) {
+    	
+    	// /theaterByLocationNo 사용
+    	List<BoardLocation> locations = theaterBoardService.getLocations();
+    	model.addAttribute("locations", locations);
+    	
+        return "/view/board/theater/form";
+    }
 	
+	
+	// 댓글 관련
+	@PostMapping("/addComment")
+	@ResponseBody
+	public ResponseEntity<TBoardComment> addComment(@RequestParam("no") int no, 
+										            @RequestParam("id") String id, 
+										            @RequestParam(name="parentNo", required = false) Integer parentNo, 
+										            @RequestParam(name="greatNo", required = false) Integer greatNo, 
+										            @RequestParam("content") String content){
+		TBoardComment comment = new TBoardComment();
+		comment.setContent(content);
+		
+		TheaterBoard tBoard = TheaterBoard.builder().no(no).build();
+		comment.setBoard(tBoard);
+		
+		if (parentNo != null) {
+			TBoardComment parentComment = TBoardComment.builder().no(parentNo).build();
+			comment.setParent(parentComment);
+		}
+		if (greatNo != null) {
+			TBoardComment greatComment = TBoardComment.builder().no(greatNo).build();
+			comment.setGreat(greatComment);
+		}
+		
+		User user = User.builder().id(id).build();
+		comment.setUser(user);
+		
+		theaterBoardService.TBoardCommentInsert(comment);
+		TheaterBoard board = theaterBoardService.getTheaterBoardByNo(no);
+		int commentCount = board.getCommentCount() + 1;
+		
+		theaterBoardService.updateBoardComment(no, commentCount);
+		
+		TBoardComment inputComment = theaterBoardService.getGreatComment(no, id);
+		
+		return ResponseEntity.ok().body(inputComment);
+	}
+	
+	@PostMapping("/addReComment")
+	@ResponseBody
+	public ResponseEntity<TBoardComment> addReComment (@RequestParam("no") int no, 
+											    	   @RequestParam("id") String id, 
+											    	   @RequestParam(name="parentNo", required = false) Integer parentNo, 
+											    	   @RequestParam(name="greatNo", required = false) Integer greatNo, 
+											    	   @RequestParam("content") String content) {
+		TBoardComment comment = new TBoardComment();
+		comment.setContent(content);
+		
+		TheaterBoard tBoard = TheaterBoard.builder().no(no).build();
+		comment.setBoard(tBoard);
+		
+		if (parentNo != null) {
+			TBoardComment parentComment = TBoardComment.builder().no(parentNo).build();
+			comment.setParent(parentComment);
+		}
+		if (greatNo != null) {
+			TBoardComment greatComment = TBoardComment.builder().no(greatNo).build();
+			comment.setGreat(greatComment);
+		}
+		
+		User user = User.builder().id(id).build();
+		comment.setUser(user);
+		
+		theaterBoardService.TBoardCommentInsert(comment);
+		TheaterBoard board = theaterBoardService.getTheaterBoardByNo(no);
+		int commentCount = board.getCommentCount() + 1;
+		
+		theaterBoardService.updateBoardComment(no, commentCount);
+		
+		TBoardComment inputComment = theaterBoardService.getChildComment(no, id);
+		
+		return ResponseEntity.ok().body(inputComment);
+	}
+	
+	@PostMapping("/deleteGreatComment")
+	@ResponseBody
+	public ResponseEntity<Integer> deleteGreatComment(@RequestBody Map<String, Integer> request){
+		int no = request.get("no");
+		int commentNo = request.get("greatCommentNo");
+		
+		if(no == 0 || commentNo == 0) {
+			return ResponseEntity.badRequest().build();// 값이 없는 경우 잘못된 요청 응답 반환
+		}
+		
+		// table의 commentCount 구하기
+		TheaterBoard board = theaterBoardService.getTheaterBoardByNo(no);
+		// commentNo를 조상으로 갖고 있는 자손 댓글의 수 구하기
+		int childCount = theaterBoardService.getTotalChildCount(commentNo);
+		// update할 commentCount 구하기
+		int commentCount = board.getCommentCount() - (childCount + 1);
+		
+		// commentCount update
+		board.setCommentCount(commentCount);
+		theaterBoardService.updateBoardComment(no, commentCount);
+		
+		// 자손 댓글 삭제
+		theaterBoardService.childCommentsDelete(commentNo);
+		
+		// 해당 댓글 삭제
+		theaterBoardService.greatCommentDelete(commentNo);
+		
+		return ResponseEntity.ok().body(commentCount);
+	}
+	
+	@PostMapping("/deleteReComment")
+	@ResponseBody
+	public ResponseEntity<Integer> deleteReComment(@RequestBody Map<String, Integer> request){
+		int no = request.get("no");
+		int commentNo = request.get("commentNo");
+		
+		if(no == 0 || commentNo == 0) {
+			return ResponseEntity.badRequest().build();// 값이 없는 경우 잘못된 요청 응답 반환
+		}
+		
+		// table의 commentCount 구하기
+		TheaterBoard board = theaterBoardService.getTheaterBoardByNo(no);
+		// update할 commentCount 구하기
+		int commentCount = board.getCommentCount() -1;
+		
+		// commentCount update
+		board.setCommentCount(commentCount);
+		theaterBoardService.updateBoardComment(no, commentCount);
+		
+		// 해당 댓글 삭제
+		theaterBoardService.greatCommentDelete(commentNo);
+		
+		return ResponseEntity.ok().body(commentCount);
+	}
 	// 신고관련 list
+	
+
 }
