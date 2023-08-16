@@ -1,4 +1,4 @@
-package kr.co.mgv.user.mapper;
+package kr.co.mgv.user.dao;
 
 import kr.co.mgv.user.vo.User;
 import org.apache.ibatis.annotations.Mapper;

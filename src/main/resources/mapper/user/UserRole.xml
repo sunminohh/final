@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.co.mgv.user.mapper.UserRoleDao">
+<mapper namespace="kr.co.mgv.user.dao.UserRoleDao">
     <insert id="insertUserRole" parameterType="kr.co.mgv.user.vo.UserRole">
         insert into MGV_USER_ROLES
             (user_id, role_name)
