@@ -178,6 +178,21 @@ $(function() {
         });
     });
 	// 폼 끝
+	
+		$("#btn-submit").on("click", function(event) {
+        event.preventDefault(); // 폼 제출 방지
+
+        let content = $("#textarea").val();
+        
+        if (content === '') {
+            Swal.fire({
+                icon: 'error',
+                text: '내용을 입력 해주세요.'
+            });
+        } else {
+            $(".insertform").submit();
+        }
+    });
 		
 })
 

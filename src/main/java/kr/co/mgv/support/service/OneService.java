@@ -89,6 +89,10 @@ public class OneService {
 	
 		return result;
 	}
+	
+	public One getOneByNo(int oneNo) {
+		return oneDao.getOneByNo(oneNo);
+	}
 
 	public List<SupportCategory> getCategoriesByType(String categoryType) {
 		

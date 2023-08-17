@@ -82,8 +82,26 @@ $(function() {
 		// 입력 필드에 반영
 		$(this).val(numericValue);
 	});
+	
+	// 폼에서 작성해야되는 칸 비우고 제출하면 알림창 뜨게하기
+	/*
+	$("#btn-submit").on("click", function(event) {
+        event.preventDefault(); // 폼 제출 방지
 
-	// 일대일 문의내역 조회
+        let content = $("#content").val();
+        
+        if (content === '') {
+            Swal.fire({
+                icon: 'error',
+                text: '내용을 입력 해주세요.'
+            });
+        } else {
+            $(".insertform").submit();
+        }
+    });
+    */
+
+	// 나의 문의내역에서 일대일 문의내역 조회
 	// 검색버튼 클릭했을 때
 	$("#searchBtn").click(function() {
 		$("input[name=page]").val(1);
@@ -144,10 +162,9 @@ $(function() {
 		            <td>${board.theater == null ? '센터' : board.theater.name}</td>
 		            <td>${tabType === 'tab-one' ? board.category.name : '분실물 문의'}</td>
 		            <td style="text-align:left;">
-		            	<a class="text-black text-decoration-none"
-		            		>
-			            	${board.title}
-		            	</a>
+		            	<a href="${tabType == 'tab-one' ? 'myinquery/detail?no=' + encodeURIComponent(board.no) : 'mylost/detail?no=' + encodeURIComponent(board.no)}" class="text-black text-decoration-none">
+						    ${board.title}
+						</a>
 		            </td>
 		            <td>${board.answered == 'Y' ? '답변완료' : '미답변'}</td>
 		            <td>${board.createDate}</td>
