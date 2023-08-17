@@ -25,4 +25,7 @@ public interface LostDao {
 	
 	// 분실물문의 디테일 조회
 	Lost getLostByNo (int lostNo);
+	
+	// 분실물 문의글 업데이트
+	void updateLostByNo(Lost lost);
 }

@@ -3,6 +3,10 @@ package kr.co.mgv.store.controller;
 import java.util.List;
 
 import kr.co.mgv.store.service.CategoryService;
+import kr.co.mgv.store.service.PackageService;
+import kr.co.mgv.store.service.ProductService;
+import kr.co.mgv.store.vo.Package;
+import kr.co.mgv.store.vo.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,20 +24,36 @@ public class StoreController {
 
 	@Autowired
     private final CategoryService categoryService;
+    private final ProductService productService;
+    private final PackageService packageService;
 
     @GetMapping({"/", ""})
     public String home(Model model) {
     	List<Category> categories = categoryService.getCategories();
+        List<Product> products = productService.getAllProducts();
+        List<Package> packages = packageService.getAllPackages();
     	model.addAttribute("categories", categories);
+        model.addAttribute("products", products);
+        model.addAttribute("packages", packages);
         return "/view/store/home";
     }
 
-    // 상품 카테고리가 아닌 상품 테이블에 외래키로 되어있는 카테고리를 사용해야함
+    @GetMapping("/detail/product")
+    public String productDetail(@RequestParam(defaultValue = "19") int productNo, Model model) {
+        Product product = productService.getProductByNo(productNo);
 
+        model.addAttribute("product", product);
 
-    @GetMapping("/detail")
-    public String detail(@RequestParam(defaultValue = "1") String storeNo) {
-        return "/view/store/detail";
+        return "view/store/productDetail";
+    }
+
+    @GetMapping("/detail/package")
+    public String packageDetail(@RequestParam(defaultValue = "1") int packageNo, Model model) {
+        Package productPackage = packageService.getPackageByNo(packageNo);
+
+        model.addAttribute("package", productPackage);
+
+        return "view/store/packageDetail";
     }
     
 }

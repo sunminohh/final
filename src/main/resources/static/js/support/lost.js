@@ -1,5 +1,12 @@
 $(function() {
 	
+	const params = new URLSearchParams(location.search);
+	const defaultKeyword = params.get('keyword');
+	if (defaultKeyword) {
+		$("input[name=keyword]").val(defaultKeyword);
+		getLostList();
+	}
+	
 	$("#theater").prop("disabled", true);
 	
 	let $selectLocation = $("#location").empty();
@@ -34,6 +41,12 @@ $(function() {
 	$("#searchBtn").click(function() {
 		$("input[name=page]").val(1);
 		
+		getLostList();
+	});
+	
+	// 폼 전송 이벤트
+	$("#actionForm").on('submit', function(e) {
+		e.preventDefault();
 		getLostList();
 	});
 	
@@ -85,7 +98,8 @@ $(function() {
 				            <td>${lost.theater.name}</td>
 				            <td style="text-align:left;">
 				            	<a class="text-black text-decoration-none"
-				            		href="/support/lost/detail?no=${lost.no}">
+				            		href="/support/lost/detail?no=${lost.no}"
+				            		data-no="${lost.no}">
 				            		${lost.title }
 				            	</a>
 				            </td>
@@ -177,7 +191,55 @@ $(function() {
             $(this).val(numericValue);
         });
     });
-	// 폼 끝
+	
+	// 폼 알림창
+	$("#btn-submit").on("click", function(event) {
+
+        let content = $("#textarea").val();
+        
+        if (content === '') {
+	        event.preventDefault(); // 폼 제출 방지
+            Swal.fire({
+                icon: 'error',
+                text: '내용을 입력 해주세요.'
+            });
+        } else {
+            $(".insertform").submit();
+        }
+    });
+    
+    // 삭제 버튼 띄우기
+    /*
+    $("#delete-btn").on("click", function(event) {
+	    event.preventDefault();
+		let no = $('[name=no]').val();
+		
+	    Swal.fire({
+	        icon: 'warning',
+	        title: '정말 삭제하시겠습니까?',
+	        showCancelButton: true,
+	        confirmButtonText: '네',
+	        cancelButtonText: '아니오',
+	    }).then((result) => {
+	        if (result.isConfirmed) {
+	              window.location.href = 'delete?no=' + no;      
+	        } else if (result.dismiss === Swal.DismissReason.cancel) {
+	            
+	        }
+	    });
+	});
+	*/
+    
+    
+     $("#table-lost tbody").on("click", "a", function(event) {
+		event.preventDefault();
+		
+		let lostNo = $(this).attr("data-no");
+		$("#actionForm input[name=no]").val(lostNo);
+		$("#actionForm").attr("action", 'lost/detail?no=' + lostNo);
+		
+		document.querySelector("#actionForm").submit();
+	})
 		
 })
 

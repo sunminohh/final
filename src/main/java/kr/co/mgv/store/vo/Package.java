@@ -16,4 +16,6 @@ public class Package {
     private int no;
     private String name;
     private int price;
+    private String image;
+    private String composition;
 }

@@ -34,19 +34,17 @@
 
             <div class="info">
                 <p>
-                    <span class="txt">문의지점</span>
+                    <span class="tit">문의지점</span>
+                    <span class="txt" th:text="${one.theater == null ? '서울 - 센터' : one.location.name +' - '+one.theater.name}"></span>
                 </p>
                 <p>
-                    <span class="txt"></span>
+                    <span class="tit">문의유형</span>
+                    <span class="txt" th:text="${one.category.name}"></span>
                 </p>
                 <p>
-				   <span class="txt"></span>
-				   <span class="txt"></span>
-
+				   <span class="tit">답변상태</span>
+				   <span class="txt" th:text="${one.answered == 'Y' ? '답변완료' : '미답변'}"></span>
 				</p>
-                <p>
-                    <span class="txt"></span>
-                </p>
                 <p>    
                     <span class="txt" th:text="${#dates.format(one.createDate, 'yyyy.MM.dd')}"></span>
                 </p>

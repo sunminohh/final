@@ -100,7 +100,7 @@ public class OneController {
 		Lost lost = lostService.getLostByNo(lostNo);
 		model.addAttribute("lost", lost);
 		
-		return "/view/support/lost/detail";
+		return "/view/support/one/lostdetail";
 	}
 	
 	

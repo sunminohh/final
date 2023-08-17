@@ -9,4 +9,30 @@
          PACKAGE_PRICE
         )
     </insert>
+
+    <select id="getPackages" resultType="Package">
+        select
+            PACKAGE_NO          as no,
+            PACKAGE_NAME        as name,
+            PACKAGE_PRICE       as price,
+            PACKAGE_IMAGE       as image,
+            PACKAGE_COMPOSITION as composition
+        from
+            MGV_PACKAGE
+        order by
+            PACKAGE_NO ASC
+    </select>
+
+    <select id="getPackageByNo" parameterType="int" resultType="Package">
+        select
+            PACKAGE_NO          as no,
+            PACKAGE_NAME        as name,
+            PACKAGE_PRICE       as price,
+            PACKAGE_IMAGE       as image,
+            PACKAGE_COMPOSITION as composition
+        from
+            MGV_PACKAGE
+        where
+            PACKAGE_NO = #{value}
+    </select>
 </mapper>
