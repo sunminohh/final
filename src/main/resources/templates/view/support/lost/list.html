@@ -19,7 +19,10 @@
 
     <div class="board-list-util">
         <p class="result-count"><strong>전체 <span class="font-gblue" id="totalCnt" th:text="${result.pagination.totalRows}"></span>건</strong></p>
+        
+        <form  method="post" action="lost/detail" id="actionForm">    
         <div class="ml07 bs3  d-flex justify-content-end" style="margin-bottom: -15px;">
+        	<input type="hidden" name="no" />
          	<select id="location" title="지역선택" name="locationNo"
 	                                class="form-select form-select-sm  ml06 form-control-sm mb-3"
 	                                style="width: 100px; ">
@@ -38,21 +41,18 @@
 	      						<option value="Y">답변완료</option>
 	        </select>
 	        
-	    <form action="list">    
 	        <div class="board-search">
-	           
 	            <input type="hidden" name="answered">
 		        <input type="hidden" name="page" value="1" />
 	            <input type="search" name="keyword" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" value=""  autocomplete="off">
 	            <button type="button" id="searchBtn" class="btn-search-input">검색</button>
 	        </div>
-        </form>
 	    </div>
-	    
+	</form>
     </div>
 
     <div class="table-wrap">
-        <table class="board-list">
+        <table class="board-list" id="table-lost">
             <colgroup>
                 <col style="width:72px;">
                 <col style="width:133px;">
@@ -76,6 +76,7 @@
 		            <td style="text-align:left;">
 						<a class="text-black text-decoration-none"
 			            	 th:href="@{/support/lost/detail(no=${lost.no})}"
+			            	 th:attr="data-no=${lost.no}"
 			            	 th:text="${lost.title}">
 		            	</a>
 		            </td>

@@ -24,7 +24,7 @@
     <p class="result-count">
             <strong><span id="totalTitle">전체</span> <span class="font-green" id="totalCnt" th:text="${result.pagination.totalRows}"></span>건</strong>
     </p>
-	<form  method="get" action="notice/detail" id="actionForm">    
+	<form  method="post" action="notice/detail" id="actionForm">    
 	     <div class="ml07 bs3  d-flex justify-content-end">
 	     		<input type="hidden" name="no" />
 	         	<select id="location" title="지역선택" name="locationNo"

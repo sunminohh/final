@@ -25,13 +25,14 @@ public class NoticeController {
 	
 	private final NoticeService noticeService;
 	
-    @GetMapping
+    @RequestMapping
     public String notice(@RequestParam(name = "catNo", required = false, defaultValue = "21") int catNo,
     		@RequestParam(name = "page", required = false, defaultValue = "1") int page,
     		@RequestParam(name = "locationNo", required = false, defaultValue = "0") int locationNo,
 			@RequestParam(name = "theaterNo", required = false, defaultValue = "0") int theaterNo,
 			@RequestParam(name ="keyword", required = false) String keyword, 
 			Model model) {
+    	
     	Map<String, Object> param = new HashMap<>();
     	param.put("catNo", catNo);
     	param.put("page", page);
@@ -82,7 +83,7 @@ public class NoticeController {
     	return noticeList;
     }
 
-    @GetMapping("/detail")
+    @RequestMapping("/detail")
     public String getNoticeByNo(@RequestParam("no") int noticeNo, Model model) {
     	Notice notice = noticeService.getNoticeByNo(noticeNo);
     	

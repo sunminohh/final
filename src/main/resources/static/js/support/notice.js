@@ -8,8 +8,6 @@ $(function() {
 	}
 	
     // 탭 클릭 이벤트
-
-    
     $('li.tab-link').click(function() {
         // 모든 탭과 버튼의 활성화 클래스 제거
         $('li.tab-link').removeClass('current');
@@ -208,6 +206,7 @@ $(function() {
 		
 		let noticeNo = $(this).attr("data-no");
 		$("#actionForm input[name=no]").val(noticeNo);
+		$("#actionForm").attr("action", 'notice/detail?no=' + noticeNo);
 		
 		document.querySelector("#actionForm").submit();
 	})
