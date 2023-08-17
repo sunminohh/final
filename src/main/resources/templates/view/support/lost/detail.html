@@ -51,9 +51,10 @@
         <div class="btn-group pt40" style="display: block;">
       	  <button class="button large listBtn" title="목록" onclick="document.querySelector('#form').submit();">목록
       	  </button>
-            <a href="#">
-			  <button type="button" class="button large">삭제</button>
-			</a>
+          <a id = "delete-btn"
+          	 class="button large"
+             th:href="@{/support/lost/delete(no=${param.no})}">삭제
+		  </a>
         </div>
         
         <form id="form" method="post" action="/support/lost">
@@ -63,6 +64,7 @@
 	    	<input type="hidden" name="keyword" th:value="${param.keyword}"/>
 	    	<input type="hidden" name="answered" th:value="${param.answered}"/>
         </form>
+        
 </div>
 </html>
 

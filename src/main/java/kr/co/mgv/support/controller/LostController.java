@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.co.mgv.support.dao.LostDao;
 import kr.co.mgv.support.dto.LostList;
 import kr.co.mgv.support.form.AddLostForm;
 import kr.co.mgv.support.service.LostService;
@@ -143,6 +144,13 @@ public class LostController {
 	@PostMapping("/add")
 	public String createLost(@AuthenticationPrincipal User user, AddLostForm form) {
 		lostService.insertLost(form, user);
+		return "redirect:/support/lost";
+	}
+	
+	@GetMapping("/delete")
+	public String deleteLost(@RequestParam("no") int lostNo, Model model) {
+		
+		lostService.deleteLost(lostNo);
 		return "redirect:/support/lost";
 	}
 	
