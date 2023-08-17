@@ -53,8 +53,6 @@ public class LostController {
 			@RequestParam(name ="keyword", required = false) String keyword) {
 		
 		Map<String, Object> param = new HashMap<>();
-		
-		
 		param.put("page", page);
 		
 		if (locationNo != 0) {
@@ -132,6 +130,8 @@ public class LostController {
 		
 		return "/view/support/lost/detail";
 	}
+	
+	
 	
 	
 	

@@ -1,9 +1,10 @@
 package kr.co.mgv.movie.service;
 
-import kr.co.mgv.movie.mapper.MovieMapper;
+import kr.co.mgv.movie.dao.MovieDao;
+import kr.co.mgv.movie.dao.MovieLikeDao;
 import kr.co.mgv.movie.util.DateUtils;
 import kr.co.mgv.movie.vo.Movie;
-import lombok.AllArgsConstructor;
+import kr.co.mgv.movie.vo.MovieLike;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -17,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -26,20 +28,179 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+class Node {
+
+    Map<Character, Node> children;
+    HashSet<String> data;
+
+    public Node(){
+        children=new HashMap<>();
+        data=new LinkedHashSet<>();
+    }
+}
 
 @Service
-@AllArgsConstructor
 public class MovieService {
+    private char[] choSet = { 'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ',
+            'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ' };
+    private char[] jungSet = { 'ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ', 'ㅔ', 'ㅕ', 'ㅖ', 'ㅗ', 'ㅘ',
+            'ㅙ', 'ㅚ', 'ㅛ', 'ㅜ', 'ㅝ', 'ㅞ', 'ㅟ', 'ㅠ', 'ㅡ', 'ㅢ',
+            'ㅣ' };
+    private char[] jongSet = {'\0', 'ㄱ', 'ㄲ', 'ㄳ', 'ㄴ', 'ㄵ', 'ㄶ', 'ㄷ', 'ㄹ', 'ㄺ',
+            'ㄻ', 'ㄼ', 'ㄽ', 'ㄾ', 'ㄿ', 'ㅀ', 'ㅁ', 'ㅂ', 'ㅄ', 'ㅅ',
+            'ㅆ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ' };
 
+    private Node trie;
+
+    public MovieService(MovieDao movieDao, MovieLikeDao movieLikesDao) {
+        this.movieDao = movieDao;
+        this.movieLikeDao = movieLikesDao;
+    }
+
+    public String getJamo(String inputWord){
+        StringBuilder jamo=new StringBuilder();
+        int l=inputWord.length();
+        for (int i=0; i<l; i++){
+            int uniCode = (int)( inputWord.charAt(i)& 0xFFFF);
+
+            if (uniCode==32){
+                jamo.append(' ');
+                continue;
+            }
+            if (uniCode < 0xAC00 || uniCode > 0xD7A3) {
+                if(uniCode>=65 && uniCode<=90) {
+                    uniCode+=32;
+                }
+                jamo.append((char)uniCode);
+                continue;
+            }
+            uniCode-=0xAC00;
+
+
+            int jong = uniCode % 28;
+            int jung = ((uniCode - jong) / 28 ) % 21;
+            int cho = (((uniCode - jong) / 28 ) - jung ) / 21 ;
+
+            jamo.append(choSet[cho]);
+            jamo.append( jungSet[jung] );
+            if (jong != 0) {
+                jamo.append( jongSet[jong] );
+            }
+        }
+        return jamo.toString();
+    }
+    public void insertWordIntoTrie(String keyword,Node head,String title) {
+        int l=keyword.length();
+        for(int i=0; i<l; i++) {
+            char key=keyword.charAt(i);
+
+            if(!head.children.containsKey(key)) {
+                head.children.put(key, new Node());
+            }
+            head=head.children.get(key);
+            head.data.add(title);
+        }
+    }
+
+    public Node initTrie() {
+        if(trie!=null) {
+            return trie;
+        }
+        List<Movie> movies = movieDao.getAllMovies();
+        trie =new Node();
+        for(Movie movie : movies) {
+            String title=getJamo(movie.getTitle());
+            String director=getJamo(movie.getDirector());
+            insertWordIntoTrie(director, trie, movie.getTitle());
+            insertWordIntoTrie(title, trie, movie.getTitle());
+            for(String actor : movie.getCast().split(", ")){
+                insertWordIntoTrie(actor,trie,title);
+            }
+        }
+        return trie;
+    }
+    public List<String> searchWord(String keyword){
+        String word=keyword;
+        keyword=getJamo(keyword);
+        Node head=initTrie();
+        int l=keyword.length();
+        for(int i=0; i<l; i++) {
+            char key=keyword.charAt(i);
+
+            if(!head.children.containsKey(key)) {
+                return new ArrayList<String>();
+            }
+            head=head.children.get(key);
+        }
+        List<String> result = new ArrayList<String>();
+        for (String x : head.data) {
+            result.add(modifyString(word,x));
+            if(result.size()==10) {
+                break;
+            }
+        }
+
+        return result;
+    }
+
+    private boolean compChar(char x, char y){
+        if(x==y){
+            return true;
+        }
+        if ((x-32==y || x==y-32) && ( (x>= 65 && x<= 90) || (x >= 97 && x<=122) ) &&
+                                ( ( y >= 65 && y <= 90) || ( y >= 97 && y<=122) ))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public String modifyString(String target, String s) {
+        if (target.isBlank()) {
+            return target;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        int l=target.length();
+        int[] tb = new int[l];
+        char[] a= target.toCharArray();
+        char[] b= s.toCharArray();
+        int i,j;
+        for( i=1, j=0; i<l; i++){
+            while(j>0 && compChar(b[i],b[j])){
+                j=tb[j-1];
+            }
+            if(compChar(b[i],b[j])){
+                tb[i]=++j;
+            }
+        }
+        for ( i=0, j=0; i<l; i++){
+            while(j>0 && compChar(a[i],b[j])){
+                j=tb[j-1];
+            }
+            if(compChar(a[i],b[j])){
+                if(j== l-1){
+                    sb.append("<span style='background-color:yellow'>"+s.substring(i, i+l)+"</span>");
+                    j=tb[j];
+                }else j++;
+            }
+
+        }
+        sb.append(s.substring(i));
+
+        return sb.toString();
+    }
 
     @Autowired
-    private final MovieMapper movieMapper;
+    private final MovieDao movieDao;
+    @Autowired
+    private final MovieLikeDao movieLikeDao;
     private static final String KOBIS_API_URL = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=45ac471b35ca42c983d971a438b31d25&targetDt=";
     private static final String KMDB_API_URL = "http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&detail=Y&ServiceKey=Y40OV2CFS1I2MTV081VG";
     private static final JSONParser JSON_PARSER = new JSONParser();
 
     public Movie getMovieByMovieNo(int movieNo){
-        return movieMapper.getMovieByMovieNo(movieNo);
+        return movieDao.getMovieByMovieNo(movieNo);
     }
     public List<Movie> getMovies() {
 
@@ -163,26 +324,26 @@ public class MovieService {
             e.printStackTrace();
         }
 
-        HashSet<Integer> movieNos= 	movieMapper.getMovieNos();
+        HashSet<Integer> movieNos= 	movieDao.getMovieNos();
 
         for (Movie movie: movies){
             if (movieNos.contains(movie.getNo())){
-                movieMapper.updateMovie(movie);
+                movieDao.updateMovie(movie);
                 movieNos.remove(movie.getNo());
             }else {
-                movieMapper.insertMovie(movie);
+                movieDao.insertMovie(movie);
             }
         }
 
         for (int movieNo : movieNos){
-            movieMapper.initChart(movieNo);
+            movieDao.initChart(movieNo);
         }
         return movies;
     }
 
     public void sync(){
         try {
-            List<Movie> movies = movieMapper.getAllMovies();
+            List<Movie> movies = movieDao.getAllMovies();
             for (Movie movie : movies) {
                 String movieTitle=movie.getTitle();
                 movieTitle=movieTitle.replace("무삭제","");
@@ -272,16 +433,31 @@ public class MovieService {
                 movie.setPlot(plot);
                 movie.setCast(cast);
                 movie.setRuntime(runtime);
-                movieMapper.syncMovie(movie);
+                movieDao.syncMovie(movie);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
     public List<Movie> getMovieChart(int rowNum){
-        return movieMapper.getMoviesByRowNum(rowNum);
+        return movieDao.getMoviesByRowNum(rowNum);
     }
     public List<Movie> getMovieChart(){
-        return movieMapper.getMoviesByRowNum(10);
+        return movieDao.getMoviesByRowNum(10);
+    }
+
+    public void insertMovieLike(MovieLike movieLike){
+        movieLikeDao.insertMovieLike(movieLike);
+    }
+    public void deleteMovieLike(MovieLike movielike){movieLikeDao.deleteMovieLike(movielike);}
+
+    public void incrementMovielikes(int movieNo){movieDao.incrementMovieLikes(movieNo);}
+    public void decrementMovielikes(int movieNo){movieDao.decrementMovieLikes(movieNo);}
+
+    public boolean isMovieLikedByUser(MovieLike movieLike){
+        return movieLikeDao.isMovieLikedByUser(movieLike) != null;
+    }
+    public HashSet<Integer> getAllLikedMovieNos(String userId){
+        return movieLikeDao.getLikedMovieNosByUserId(userId);
     }
 }

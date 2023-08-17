@@ -5,22 +5,7 @@
 
 <head th:fragment="extra-head-content">
     <title>게시판</title>
-    <style>
-        .page-item.active .page-link {
-            z-index: 1;
-            color: #ccc;
-            font-weight: bold;
-            background-color: #333;
-            border-color: #444;
 
-        }
-
-        .page-link:focus, .page-link:hover {
-            color: #ccc;
-            background-color: #222;
-            border-color: #444;
-        }
-    </style>
     <script type="text/javascript" th:src="@{/js/board/mboardList.js}"></script>
 </head>
 <div layout:fragment="content" class="container my-3">
@@ -165,32 +150,42 @@
                     등록</a>
             </div>
 
-			<nav>
-			    <ul class="pagination justify-content-center">
-			        <li class="page-item">
-			            <a th:href="@{list(page=${result.pagination.prePage}, sort=${param.sort}, rows=${param.rows}, productNo=${param.productNo}, catNo=${param.catNo}, opt=${param.opt}, keyword=${param.keyword})}" class="page-link"
-			               style="background-color: #000; color: white;"
-			               th:classappend="${result.pagination.first ? 'disabled' : ''}"
-			               th:onclick="changePage(event, ${result.pagination.prePage})">이전</a>
-			        </li>
-			
-			        <li class="page-item" th:each="num : ${result.pagination.pageNumbers}">
-			            <a th:href="@{list(page=${num}, sort=${param.sort}, rows=${param.rows}, theaterNo=${param.theaterNo}, locationNo=${param.locationNo}, opt=${param.opt}, keyword=${param.keyword})}"
-			               th:text="${num}"
-			               th:classappend="${result.pagination.page == (num) ? 'active' : '' }"
-			               class="page-link"
-			               style="background-color: white; color: #000;"
-			               th:onclick="changePage(event, ${num})">1</a>
-			        </li>
-			
-			        <li class="page-item">
-			            <a th:href="@{list(page=${result.pagination.nextPage}, sort=${param.sort}, rows=${param.rows}, theaterNo=${param.theaterNo}, locationNo=${param.locationNo}, opt=${param.opt}, keyword=${param.keyword})}" class="page-link"
-			               style="background-color: #000; color: white;"
-			               th:classappend="${result.pagination.last ? 'disabled' : ''}"
-			               th:onclick="changePage(event, ${result.pagination.nextPage})">다음</a>
-			        </li>
-			    </ul>
-			</nav>
+            <nav>
+				<ul class="pagination justify-content-center">
+				    <li class="page-item" th:if="${result.pagination.currentBlock > 1}">
+				        <a title="첫번째 페이지 보기"
+				           th:href="@{list(page=1, sort=${param.sort}, rows=${param.rows}, theaterNo=${param.theaterNo}, locationNo=${param.locationNo}, opt=${param.opt}, keyword=${param.keyword})}"
+				           class="page-link page-number-link control first"
+				           ></a>
+				    </li>
+				    <li class="page-item" th:if="${result.pagination.currentBlock > 1}">
+				        <a title="이전 5페이지 보기"
+				           th:href="@{list(page=${(result.pagination.currentBlock - 1) * 5} , sort=${param.sort}, rows=${param.rows}, theaterNo=${param.theaterNo}, locationNo=${param.locationNo}, opt=${param.opt}, keyword=${param.keyword})}"
+				           class="page-link page-number-link control prev"
+				           ></a>
+				    </li>
+				    <li class="page-item" th:each="num : ${result.pagination.pageNumbers}">
+                        <a th:href="@{list(page=${num}, sort=${param.sort}, rows=${param.rows}, theaterNo=${param.theaterNo}, locationNo=${param.locationNo}, opt=${param.opt}, keyword=${param.keyword})}" 
+                           th:text="${num}"
+                           th:classappend="${result.pagination.page == (num) ? 'active' : '' }"
+                           class="page-link page-number-link"
+                           >1</a>
+                    </li>
+                    <li class="page-item" th:if="${result.pagination.currentBlock < result.pagination.totalBlocks}">
+				        <a title="이후 5페이지 보기"
+				           th:href="@{list(page=${result.pagination.currentBlock * 5 + 1}, sort=${param.sort}, rows=${param.rows}, theaterNo=${param.theaterNo}, locationNo=${param.locationNo}, opt=${param.opt}, keyword=${param.keyword})}"
+				           class="page-link page-number-link control next"
+				          ></a>
+				    </li>
+                 	<li class="page-item" th:if="${result.pagination.currentBlock < result.pagination.totalBlocks}">
+				        <a title="마지막 페이지 보기"
+				           th:href="@{list(page=${result.pagination.totalPages}, sort=${param.sort}, rows=${param.rows}, theaterNo=${param.theaterNo}, locationNo=${param.locationNo}, opt=${param.opt}, keyword=${param.keyword})}"
+				           class="page-link page-number-link control last"
+				           ></a>
+				    </li>
+				    
+				</ul>
+            </nav>
         </div>
     </div>
 </div>

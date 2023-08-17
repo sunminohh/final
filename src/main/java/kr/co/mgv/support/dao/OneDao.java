@@ -19,6 +19,7 @@ public interface OneDao {
 	// 유저 문의내역 조회
 	List<One> getOnesByUserId(Map<String, Object> param);
 	int getTotalRows(Map<String, Object> param);
+	One getOneByNo(int oneNo);
 	
 	// 전체 카테고리 조회
 	List<SupportCategory> getCategories(String categoryType);

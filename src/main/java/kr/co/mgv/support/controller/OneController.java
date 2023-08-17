@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +17,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.co.mgv.support.dto.OneList;
 import kr.co.mgv.support.form.AddOneForm;
+import kr.co.mgv.support.service.LostService;
 import kr.co.mgv.support.service.OneService;
+import kr.co.mgv.support.vo.Lost;
+import kr.co.mgv.support.vo.One;
 import kr.co.mgv.support.vo.SupportCategory;
 import kr.co.mgv.theater.vo.Location;
 import kr.co.mgv.theater.vo.Theater;
@@ -29,6 +33,7 @@ import lombok.RequiredArgsConstructor;
 public class OneController {
 
 	private final OneService oneService;
+	private final LostService lostService;
 	
 	@GetMapping()
     public String one() {
@@ -81,6 +86,24 @@ public class OneController {
 		
 		return oneService.getCategoriesByType(type);
 	}
+	
+	@GetMapping("/myinquery/detail")
+	public String getOneByNo(@RequestParam("no") int oneNo, Model model) {
+		One one = oneService.getOneByNo(oneNo);
+		model.addAttribute("one", one);
+		
+		return "/view/support/one/detail";
+	}
+	
+	@GetMapping("/mylost/detail")
+	public String getMyLostByNo(@RequestParam("no") int lostNo, Model model) {
+		Lost lost = lostService.getLostByNo(lostNo);
+		model.addAttribute("lost", lost);
+		
+		return "/view/support/lost/detail";
+	}
+	
+	
 	
 	@GetMapping("/getLocation")
 	@ResponseBody

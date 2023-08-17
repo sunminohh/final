@@ -71,7 +71,13 @@ public class Movie {
         }
         return (double) seatsBooked/seatsOpen;
     }
-    
+
+    public double getAverageScore(){
+        if (score == 0){
+            return 0;
+        }
+        return (double) score/scoreGiver;
+    }
     @Builder
 	public Movie(int no, double rating, int chartRank, int rankInten, int audiCnt, String title, String titleEng,
 			String genre, String contentRating, String director, String cast, String plot, String posterUrl,

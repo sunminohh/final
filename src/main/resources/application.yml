@@ -39,7 +39,7 @@ logging:
     '[org.springframework-security]': trace
     '[kr.co.mgv.dao]': trace
     '[kr.co.mgv.board.mapper]': trace
-    '[kr.co.mgv.movie.mapper]': trace
+    '[kr.co.mgv.movie.dao]': trace
     '[kr.co.mgv.store.mapper]': trace
     '[kr.co.mgv.support.dao]': trace
     '[kr.co.mgv.theater.dao]': trace
@@ -51,5 +51,5 @@ spring:
   thymeleaf:
     cache: false
 
-    
-    
+upload:
+  directory: C:/workspace/final/src/main/resources/static/images/product/
