@@ -1,5 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns="http://www.w3.org/1999/html"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/default}">
 <head th:fragment="extra-head-content">
     <title>스토어</title>
@@ -41,16 +41,16 @@
         </div>
     </div>
     <div id="storeDtl">
-        <script src="/js/store/productDetail.js"></script>
+        <script src="/js/store/packageDetail.js"></script>
         <form id="loginForm" method="post">
             <input type="hidden" name="menuId">
             <input type="hidden" name="mappingId">
-            <input type="hidden" name="rtnParam" value="prdtNo:1980">
+            <input type="hidden" name="rtnParam" th:value="${package.getNo()}">
         </form>
         <form id="storeDtlForm" method="post">
             <input type="hidden" name="btnId" id="btnId">
         </form>
-        <input type="hidden" name="productTotalAmount" id="productTotalAmount" th:value="${product.getPrice()}">
+        <input type="hidden" name="productTotalAmount" id="productTotalAmount" th:value="${package.getPrice()}">
         <input type="hidden" name="prdtPurcCancelAbleAt" id="prdtPurcCancelAbleAt" value="N">
         <!-- 2019.08.12 hjchoi 수량제한 체크 -->
         <input type="hidden" id="prdtTotSellLmtQty" name="prdtTotSellLmtQty" value="300">
@@ -64,16 +64,16 @@
             <div class="inner-wrap">
                 <!-- store-view -->
                 <div class="store-view">
-                    <h2 class="tit" th:text="${product.getName()}"></h2>
+                    <h2 class="tit" th:text="${package.getName()}"></h2>
                     <div class="sub-info">
-                        <p class="bundle" th:text="${product.getDescription()}"></p>
+                        <p class="bundle" th:text="${package.getComposition()}"></p>
                     </div>
                     <!-- box-store-view -->
                     <div class="box-store-view">
                         <div class="left">
                             <div class="img">
                                 <p>
-                                    <img th:src="${product.getImagePath()}" th:alt="${product.getDescription()}"
+                                    <img th:src="${package.getImage()}" th:alt="${package.getComposition()}"
                                          onerror="noImg(this);">
                                 </p>
                             </div>
@@ -84,26 +84,22 @@
                             <!-- goods-info -->
                             <div class="goods-info">
                                 <div class="line">
-                                    <p class="tit">
-                                        <span class="line32">사용극장</span>
-                                    </p>
-                                    <div class="cont"> 수원AK플라자(수원역) <p class="store_alert">※ 수원AK플라자 돌비 시네마 전용</p>
+                                    <p class="tit">상품구성</p>
+                                    <div>
+                                        <p class="cont" th:text="${package.getComposition()}"></p>
                                     </div>
                                 </div>
                                 <div class="line">
-                                    <p class="tit">유효기간</p>
+                                    <p class="tit">원산지</p>
                                     <div class="cont">
-                                        <p class="txt"> 2023.08.07 ~ 2024.08.31 사용 가능 </p>
+                                        <p class="txt">팝콘: 옥수수-미국산</p>
                                     </div>
                                 </div>
                                 <div class="line">
                                     <p class="tit">판매수량</p>
                                     <div class="cont">
                                         <div class="sale-count">
-                                            <!-- <em>156</em> -->
-                                            <em>144</em>
-                                            <span>/300개 한정</span> | <span> 1회 1개 구매가능 </span> |
-                                            <span> 1인 1개 구매가능 </span>
+                                            <span>1인 최대 10개 구매가능</span>
                                         </div>
                                     </div>
                                 </div>
@@ -116,8 +112,8 @@
                             </div>
                             <!--// goods-info -->
                             <!--
-                                            판매종료일때는 각 select, button 에 disabled 처리
-                                        -->
+                                              판매종료일때는 각 select, button 에 disabled 처리
+                                          -->
                             <!-- type -->
                             <div class="type">
                                 <!-- 수량 금액 일 때 -->
@@ -138,7 +134,7 @@
                                                 <i class="iconset ico-plus"></i>
                                             </button>
                                             <div class="money">
-                                                <em id="prdtSumAmt" th:text="${product.getPrice()}"></em>
+                                                <em id="prdtSumAmt" th:text="${package.getPrice()}"></em>
                                                 <span>원</span>
                                             </div>
                                         </div>
@@ -193,18 +189,27 @@
                         <button type="button" class="btn-toggle">상품이용안내 <i class="iconset ico-arr-toggle-down"></i>
                         </button>
                     </div>
-                    <div class="dotList02"> -&nbsp;&nbsp;본 상품은 수원AK플라자 돌비 시네마 전용 5회 관람권 + &lt;미니 시네마 + 돌비 시네마 스페셜 무비칩&gt;
-                        교환권으로 구성되어 있습니다.&nbsp; <br> &nbsp;&nbsp;&nbsp;각각 다른 PIN 번호 2개가 발송됩니다. <br> -&nbsp;&nbsp;수원AK플라자
-                        돌비 시네마 5회 관람권은 PIN 번호 1개로 5회 관람이 가능합니다. <br> &nbsp;&nbsp;&nbsp;잔여 횟수는 나의 메가박스 &gt; 스토어교환권 &gt;
-                        해당 스토어권 클릭 시 확인 가능합니다. <br> -&nbsp;&nbsp;본권으로 수원AK플라자 컴포트관 관람은 불가하며, 3D 콘텐츠 관람 시 추가 금액이 발생됩니다.&nbsp;
-                        <br> -&nbsp;&nbsp;본 권은 구매 시&nbsp;계정으로 자동 등록되며, 등록된 계정에서만 사용 가능합니다. <br> &nbsp;&nbsp;&nbsp;(단! 선물
-                        받은 PIN번호는 계정 내 스토어 교환권 등록 후 사용 가능합니다.) <br> -&nbsp;&nbsp;관람권 유효기간은 2024년 8월 31일까지(예매일 기준) 입니다.
-                        <br> -&nbsp;&nbsp;&lt;미니 시네마 + 돌비 시네마 스페셜 무비칩&gt; 교환권 유효기간은 2023년 9월 30일까지이며, 지점 현장 방문 후 수령하실 수
-                        있습니다. <br> -&nbsp;&nbsp;본 권은 카카오 알림톡을 통해 전송 됩니다. (카카오톡 미설치 또는 미수신 고객은 MMS로 발송) <br> -&nbsp;&nbsp;본
-                        권은 메가박스 홈페이지, 어플에서&nbsp;예매 가능합니다. (전화예매, 현장 매표소, 무인발권기 예매 불가) <br> -&nbsp;&nbsp;어플 및 홈페이지 예매방법:
-                        지점 &gt; 영화명 &gt; 시간 &gt; 인원 &gt; 관람권/모바일상품권 &gt; 스토어 관람권으로 전송 받은 <br> &nbsp;&nbsp;&nbsp;&nbsp;PIN번호
-                        16자리 입력 &gt;&nbsp;결제 <br> -&nbsp;&nbsp;메가박스 홈페이지 스토어 구매내역에서 PIN 번호 확인 가능합니다. <br> -&nbsp;&nbsp;본
-                        권으로 영화 관람 시 메가박스 규정에 의해 일정의 포인트가 적립됩니다.
+                    <div class="dotList02">
+
+                        &nbsp;<br>
+                        ■ 사용가능 지점<br>
+                        구매 전 사용가능 지점을 반드시 확인해주세요!<br>
+                        - 서울 : 강남, 동대문, 마곡, 목동, 상봉, 상암월드컵경기장, 성수, 센트럴, 신촌, 이수, 코엑스, 홍대, 화곡<br>
+                        - 인천/경기 : 고양스타필드, 광명AK플라자, 광명소하, 금정AK플라자, 김포한강신도시, 남양주현대아울렛 스페이스원, 동탄, 백석, 부천스타필드시티, 부천스타필드, 분당, 송도, 안성스타필드, 영통, 용인기흥, 의정부민락, 일산벨라시타, 킨텍스, 파주출판도시, 하남스타필드<br>
+                        - 대전/충청 : 대전, 대전신세계 아트앤사이언스, 대전유성, 대전중앙로, 대전현대아울렛, 세종나성, 천안<br>
+                        - 부산/경상 : 구미강동, 남포항, 대구신세계(동대구), 대구이시아, 마산, 문경, 부산대, 사상, 양산라피에스타, 울산, 창원, 창원내서, 해운대(장산)<br>
+                        - 강원도 :&nbsp;춘천석사<br>
+                        <br>
+                        ■ 이용 안내<br>
+                        본 상품의 사용 기한은 구매일로부터 92일까지입니다.<br>
+                        - 영화관 매점에서 스토어 쿠폰번호 제시 후 상품으로 교환하실 수 있습니다.<br>
+                        - 본 상품은 온라인 전용 판매 상품으로 현장 구매는 불가합니다.<br>
+                        - 구매한 상품은 “나의 메가박스 &gt; 스토어 구매내역”에서 확인할 수 있습니다.<br>
+                        - 팝콘 및 음료의 맛, 크기, 종류 변경 시 추가 금액이 발생할 수 있습니다.<br>
+                        - 상기 이미지는 실제 제품과 다를 수 있습니다.<br>
+                        - 본 상품은 포인트 사용분 외 실 결제금액에 한하여 교환권 사용시 적립 가능합니다.<br>
+                        &nbsp;
+
                     </div>
                 </div>
                 <!--// box-pulldown -->
