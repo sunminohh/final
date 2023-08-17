@@ -7,7 +7,6 @@ $(function() {
 		getLostList();
 	}
 	
-	$("#theater").prop("disabled", true);
 	
 	let $selectLocation = $("#location").empty();
 	$selectLocation.append(`<option value="" selected disabled>지역선택</option>`)
@@ -194,11 +193,24 @@ $(function() {
 	
 	// 폼 알림창
 	$("#btn-submit").on("click", function(event) {
-
+		let location = $("#location").find('#location').text();
+		let title = $("input[name='title']").val();
         let content = $("#textarea").val();
         
-        if (content === '') {
-	        event.preventDefault(); // 폼 제출 방지
+        if (location === '') {
+			event.preventDefault();
+			 Swal.fire({
+                icon: 'error',
+                text: '지역을 선택 해주세요.'
+            });
+        } else if (title === '') {
+			event.preventDefault();
+			 Swal.fire({
+                icon: 'error',
+                text: '제목을 입력 해주세요.'
+            });
+		} else if (content === '') {
+	        event.preventDefault(); 
             Swal.fire({
                 icon: 'error',
                 text: '내용을 입력 해주세요.'
