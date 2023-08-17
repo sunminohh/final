@@ -14,24 +14,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Slf4j
 public class UserController {
 
-    @GetMapping("/home")
-    @ResponseBody
-    public ResponseEntity<String> home(@AuthenticationPrincipal User user) {
-        if (user != null) {
-            log.info("사용자 -> {}", user);
-            return ResponseEntity.ok("authenticated");
-        } else {
-            log.info("사용자 -> {}", (Object) null);
-            return ResponseEntity.ok("anonymous");
-        }
-    }
-    // todo 기존 코드
-    /*
     @RequestMapping({"/",""})
     public String home() {
         return "view/user/home";
     }
-    */
 
     @GetMapping("/booking")
     public String booking() {

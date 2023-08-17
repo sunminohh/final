@@ -3,31 +3,11 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:fragment="config">
     <script>
-        $(".btn-layer-mymgv").on('click', function (e) {
-            e.preventDefault();
-            $.ajax({
-                url: "user/info/home",
-                type: "GET",
-                dataType: "text",
-                success: function (res) {
-                    console.log("res -> ", res);
-                    if (res === "anonymous") {
-                        $(".btn-login").trigger('click');
-                    } else if (res === "authenticated") {
-                        location.href = "/view/user/home";
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error("Ajax error", error);
-                }
-            })
-            // todo 상기님 코드
-            /*
-                $(".btn-my-anonymous").on("click", function(e) {
-                    e.preventDefault();
-                    $(".btn-login").trigger("click");
-                });
-            */
+        $(() => {
+            $(".btn-my-anonymous").on("click", function(e) {
+                e.preventDefault();
+                $(".btn-login").trigger("click");
+            });
         });
     </script>
 </head>
@@ -115,12 +95,9 @@
         <a href="" class="header-open-layer btn-layer-sitemap" title="사이트맵">사이트맵</a>
         <a href="" class="header-open-layer btn-layer-search" title="검색">검색</a>
         <a href="" class="link-ticket" title="상영시간표">상영시간표</a>
-        <a th:href="@{/user/info/home}" class="btn-layer-mymgv" title="나의 MGV">나의 MGV</a>
-        <!--todo 상기님 코드-->
-        <!--
-            <a  sec:authorize="isAuthenticated()" th:href="@{/user}" class="header-open-layer btn-layer-mymega" title="나의 MGV">나의 MGV</a>
-            <a  sec:authorize="isAnonymous()" href="#" class="header-open-layer btn-layer-mymega btn-my-anonymous" title="나의 MGV">나의 MGV</a>
-        -->
+<!--        <a th:href="@{/user/info/home}" class="btn-layer-mymgv" title="나의 MGV">나의 MGV</a>-->
+        <a  sec:authorize="isAuthenticated()" th:href="@{/user/info}" class="btn-layer-mymgv" title="나의 MGV">나의 MGV</a>
+        <a  sec:authorize="isAnonymous()" href="#" class="btn-layer-mymgv btn-my-anonymous" title="나의 MGV">나의 MGV</a>
     </div>
 
     <!-- gnb -->
