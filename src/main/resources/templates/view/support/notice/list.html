@@ -9,7 +9,7 @@
     <h2 class="tit">공지사항</h2>
     <div class="tab-block-notice mb30">
         <ul>
-            <li class="tab-link " th:classappend="${#strings.equals(param.catNo, '21') ? 'current' : ''}">
+            <li class="tab-link" th:classappend="${param.catNo == null || #strings.equals(param.catNo, '21') ? 'current' : ''}">
                 <button type="button" class="btn rounded-0" data-tab="tab-1" data-category-no="21" title="전체공지 보기">전체</button>
             </li>
             <li class="tab-link"  th:classappend="${#strings.equals(param.catNo, '22') ? 'current' : ''}">
@@ -39,7 +39,7 @@
 		     	</select>
 	       
 		        <div class="board-search">
-			        <input type="hidden" name="catNo" th:value="${param.catNo}" />
+			        <input type="hidden" name="catNo" th:value="${param.catNo == null ? '21' : param.catNo}" />
 			        <input type="hidden" name="page" value="1" />
 		            <input type="search" name="keyword" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" value=""  autocomplete="off">
 		            <button type="button" id="searchBtn" class="btn-search-input">검색</button>
@@ -127,10 +127,5 @@
     
     </div>
 </div>
-<script>
 
-	$(function() {
-		
-	})
-</script>
 </html>

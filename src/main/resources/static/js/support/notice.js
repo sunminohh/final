@@ -7,14 +7,17 @@ $(function() {
 		getNoticeList();
 	}
 	
-	// 탭컬러 바꾸기
-	$('li.tab-link').click(function() {
+    // 탭 클릭 이벤트
 
-	      $('li.tab-link').removeClass('current');
-	      $('button.btn').removeClass('current');
-	
-	      $(this).addClass('current');
-	      $(this).find('button.btn').addClass('current');
+    
+    $('li.tab-link').click(function() {
+        // 모든 탭과 버튼의 활성화 클래스 제거
+        $('li.tab-link').removeClass('current');
+        $('button.btn').removeClass('current');
+
+        // 현재 탭과 버튼에 활성화 클래스 추가
+        $(this).addClass('current');
+        $(this).find('button.btn').addClass('current');
     });
 	
 	// 지역조회
@@ -205,6 +208,7 @@ $(function() {
 		
 		let noticeNo = $(this).attr("data-no");
 		$("#actionForm input[name=no]").val(noticeNo);
+		
 		document.querySelector("#actionForm").submit();
 	})
     
