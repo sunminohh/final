@@ -9,13 +9,13 @@
     <h2 class="tit">공지사항</h2>
     <div class="tab-block-notice mb30">
         <ul>
-            <li class="tab-link current">
+            <li class="tab-link" th:classappend="${param.catNo == null || #strings.equals(param.catNo, '21') ? 'current' : ''}">
                 <button type="button" class="btn rounded-0" data-tab="tab-1" data-category-no="21" title="전체공지 보기">전체</button>
             </li>
-            <li class="tab-link">
+            <li class="tab-link"  th:classappend="${#strings.equals(param.catNo, '22') ? 'current' : ''}">
                 <button type="button" class="btn rounded-0" data-tab="tab-2" data-category-no="22" title="메가박스 공지 보기">메가박스 공지</button>
             </li>
-            <li class="tab-link">
+            <li class="tab-link" th:classappend="${#strings.equals(param.catNo, '23') ? 'current' : ''}">
                 <button type="button" class="btn rounded-0" data-tab="tab-3" data-category-no="23" title="지점 공지 보기">지점 공지</button>
             </li>
         </ul>
@@ -24,7 +24,9 @@
     <p class="result-count">
             <strong><span id="totalTitle">전체</span> <span class="font-green" id="totalCnt" th:text="${result.pagination.totalRows}"></span>건</strong>
     </p>
+	<form  method="post" action="notice/detail" id="actionForm">    
 	     <div class="ml07 bs3  d-flex justify-content-end">
+	     		<input type="hidden" name="no" />
 	         	<select id="location" title="지역선택" name="locationNo"
 		                                class="form-select form-select-sm  ml06 form-control-sm mb-3"
 		                                style="width: 100px; ">
@@ -36,17 +38,16 @@
 		      						<option value="" selected disabled>극장선택</option>
 		     	</select>
 	       
-			<form action="list" id="actionForm">    
 		        <div class="board-search">
-			        <input type="hidden" name="catNo" value="21" />
+			        <input type="hidden" name="catNo" th:value="${param.catNo == null ? '21' : param.catNo}" />
 			        <input type="hidden" name="page" value="1" />
 		            <input type="search" name="keyword" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" value=""  autocomplete="off">
 		            <button type="button" id="searchBtn" class="btn-search-input">검색</button>
 		        </div>
-	        </form>
 		</div>
+	</form>
     <div class="table-wrap">
-        <table class="board-list">
+        <table class="board-list" id="table-notice">
             <caption>번호, 극장, 구분, 제목, 등록일이 들어간 공지사항 전체 리스트</caption>
             <colgroup>
                 <col style="width:72px;">
@@ -72,6 +73,7 @@
 	                <td style="text-align:left;">
 	                	<a class="text-black text-decoration-none"
 	                		th:href="@{/support/notice/detail(no=${notice.no})}"
+	                		th:attr="data-no=${notice.no}"
 	                		th:text=${notice.title}>
 	                	 </a>
 	                </td>

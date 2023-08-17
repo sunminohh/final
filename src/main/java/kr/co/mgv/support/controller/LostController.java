@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.co.mgv.support.dao.LostDao;
 import kr.co.mgv.support.dto.LostList;
 import kr.co.mgv.support.form.AddLostForm;
 import kr.co.mgv.support.service.LostService;
@@ -32,10 +33,33 @@ public class LostController {
 	
 	private final LostService lostService;
 
-	@GetMapping
-    public String lost(Model model) {
+	@RequestMapping
+    public String lost(	@RequestParam(name = "locationNo", required = false, defaultValue = "0") int locationNo,
+			@RequestParam(name = "theaterNo", required = false, defaultValue = "0") int theaterNo,
+			@RequestParam(name = "page", required = false, defaultValue = "1") int page,
+			@RequestParam(name = "answered", required = false) String answered,
+			@RequestParam(name ="keyword", required = false) String keyword,
+    		Model model) {
+		
 		Map<String, Object> param = new HashMap<>();
-		param.put("page", 1);
+		param.put("page", page);
+		
+		if (locationNo != 0) {
+			param.put("locationNo", locationNo);
+		}
+		
+		if (theaterNo != 0) {
+			param.put("theaterNo", theaterNo);
+		} 
+		
+		if (StringUtils.hasText(answered)) {
+			param.put("answered", answered);
+		}
+	
+		if (StringUtils.hasText(keyword)) {
+			param.put("keyword", keyword);
+		}
+		
 		LostList lostList = lostService.search(param);
 		model.addAttribute("result", lostList);
 		
@@ -123,7 +147,14 @@ public class LostController {
 		return "redirect:/support/lost";
 	}
 	
-	@GetMapping("/detail")
+	@GetMapping("/delete")
+	public String deleteLost(@RequestParam("no") int lostNo, Model model) {
+		
+		lostService.deleteLost(lostNo);
+		return "redirect:/support/lost";
+	}
+	
+	@RequestMapping("/detail")
 	public String getLostByNo(@RequestParam("no") int lostNo, Model model) {
 		Lost lost = lostService.getLostByNo(lostNo);
 		model.addAttribute("lost", lost);

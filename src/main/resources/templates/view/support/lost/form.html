@@ -41,7 +41,7 @@
     <p class="reset mt10">* 원활한 서비스 이용을 위한 최소한의 개인정보이므로 동의하지 않을 경우 서비스를 이용하실 수 없습니다</p>
     <p class="reset mt30 a-r font-orange">* 필수</p>
 
-    <form name="regFrm" method="post" th:action="@{/support/lost/add}" th:object=${addLostForm}>
+    <form id="insertform" name="regFrm" method="post" th:action="@{/support/lost/add}" th:object=${addLostForm}>
         <div class="table-wrap mt10">
             <table class="board-form va-m">
                 <colgroup>
@@ -141,7 +141,7 @@
         </div>
 
         <div class="btn-group pt40" style="display: block;">
-            <button type="submit" class="button purple large">등록</button>
+            <button id="btn-submit" type="submit" class="button purple large">등록</button>
         </div>
     </form>
 </div>

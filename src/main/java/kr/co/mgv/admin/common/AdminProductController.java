@@ -15,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 @Controller
 @RequestMapping("/admin/product")
@@ -53,7 +52,7 @@ public class AdminProductController {
 
 		if (!imageFile.isEmpty()) {
 			try {
-				String filePath = uploadDirectory + UUID.randomUUID() + imageFile.getOriginalFilename();
+				String filePath = uploadDirectory + imageFile.getOriginalFilename();
 				imageFile.transferTo(new File(filePath));
 				product.setImagePath(filePath);
 			} catch (IOException e) {
