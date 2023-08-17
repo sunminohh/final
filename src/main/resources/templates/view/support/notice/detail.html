@@ -55,7 +55,7 @@
     </div>
 
     <div class="btn-group pt40" style="display: block;">
-        <a href="/support/notice" class="button large listBtn" title="목록">목록</a>
+        <a th:href="@{/support/notice(catNo=${param.catNo},page=${param.page},locationNo=${param.locationN},theaterNo=${param.theaterNo})}" class="button large listBtn" title="목록">목록</a>
     </div>
 </div>
 </html>

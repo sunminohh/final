@@ -121,7 +121,8 @@ $(function() {
 	                <td>${notice.type == '공지' ? '공지' : '이벤트'}</td>
 	                <td style="text-align:left;">
 				            	<a class="text-black text-decoration-none"
-				            		href="/support/notice/detail?no=${notice.no}">
+				            		href="/support/notice/detail?no=${notice.no}"
+				            		data-no="${notice.no}">
 				            		${notice.title }
 				            	</a>
 				            </td>
@@ -197,6 +198,15 @@ $(function() {
 		})
     
     }
+    
+    
+    $("#table-notice tbody").on("click", "a", function(event) {
+		event.preventDefault();
+		
+		let noticeNo = $(this).attr("data-no");
+		$("#actionForm input[name=no]").val(noticeNo);
+		document.querySelector("#actionForm").submit();
+	})
     
     
 });
