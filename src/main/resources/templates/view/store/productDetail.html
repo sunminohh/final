@@ -63,7 +63,7 @@
             <div class="inner-wrap">
                 <!-- store-view -->
                 <div class="store-view">
-                    <h2 class="tit">[수원AK플라자 오픈 기념] 돌비패스 패키지 </h2>
+                    <h2 class="tit" th:text="${product.getName()}"></h2>
                     <div class="sub-info">
                         <p class="bundle"></p>
                     </div>
@@ -72,7 +72,7 @@
                         <div class="left">
                             <div class="img">
                                 <p>
-                                    <img src="https://img.megabox.co.kr/SharedImg/store/2023/07/27/gEi9pz7hO5d7BhVBl0pAIhrjYq4hJGty_280.jpg" alt="[수원AK플라자 오픈 기념] 돌비패스 패키지" onerror="noImg(this);">
+                                    <img th:src="${product.getImagePath()}" th:alt="${product.getDescription()}" onerror="noImg(this);">
                                 </p>
                             </div>
                             <p class="origin"></p>
