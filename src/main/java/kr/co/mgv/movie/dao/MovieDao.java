@@ -1,4 +1,4 @@
-package kr.co.mgv.movie.mapper;
+package kr.co.mgv.movie.dao;
 
 import kr.co.mgv.movie.vo.Movie;
 import org.apache.ibatis.annotations.Mapper;
@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 
 @Mapper
-public interface MovieMapper {
+public interface MovieDao {
     public Movie getMovieByMovieNo(int movieNo);
     public void insertMovie(Movie movie);
     public HashSet<Integer> getMovieNos();
@@ -16,5 +16,6 @@ public interface MovieMapper {
     public void updateMovie(Movie movie);
     public void initChart(int movieNo);
     public void syncMovie(Movie movie);
-
+    public void incrementMovieLikes(int movieNo);
+    public void decrementMovieLikes(int movieNo);
 }

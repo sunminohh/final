@@ -20,6 +20,23 @@
         <!-- inner-wrap -->
         <div class="inner-wrap">
             <h2 class="tit">전체영화</h2>
+            <div class="movie-search">
+                <input type="text" title="영화명을 입력하세요" id="ibxMovieNmSearch" name="ibxMovieNmSearch" placeholder="영화제목/배우/감독으로 검색" class="input-text">
+                <button type="button" class="btn-search-input" id="btnSearch">검색</button>
+
+            </div>
+            <div class="movie-list-util">
+                <ul class="float">
+                    <li>
+                        <div class="movie-fixed">
+                            <p th:text="dddd"></p></div>
+
+                    </li>
+                    <li th:text="bbbb">dd</li>
+                    <li th:text="cccc">dd</li>
+                </ul>
+            </div>
+
             <div class="tab-list fixed">
                 <ul id="topMenu">
                     <li class="on">
@@ -120,7 +137,7 @@
                 </p>
                 <!--// 검색결과 없을 때 -->
                 <div class="movie-search">
-                    <input type="text" title="영화명을 입력하세요" id="ibxMovieNmSearch" name="ibxMovieNmSearch" placeholder="영화명 검색" class="input-text">
+                    <input type="text" title="영화명을 입력하세요" id="ibxMovieNmSearch" name="ibxMovieNmSearch" placeholder="영화제목/배우/감독으로 검색" class="input-text">
                     <button type="button" class="btn-search-input" id="btnSearch">검색</button>
                 </div>
             </div>
@@ -172,7 +189,7 @@
                             <span class="date" th:text="|개봉일 ${movie.openDate != null ? movie.openDate :  '미정'}|"></span>
                         </div>
                         <div class="btn-util">
-                            <button type="button" class="button btn-like" data-no="23029300">
+                            <button type="button"  class='button btn-like' data-no="23029300">
                                 <i title="보고싶어 안함" class="iconset ico-heart-toggle-gray intrstType"></i>
                                 <span th:text="${movie.likes}"></span>
                             </button>

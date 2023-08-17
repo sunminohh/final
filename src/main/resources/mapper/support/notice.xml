@@ -11,7 +11,7 @@
 			inner join MGV_SUPPORT_CATEGORIES D on A.CATEGORY_NO = D.CATEGORY_NO
 		where
 			A.NOTICE_DELETED = 'N'
-			<if test="catNo != 1">
+			<if test="catNo != 21">
 				and A.CATEGORY_NO = #{catNo}
 			</if>
 			<if test="locationNo != null">
@@ -25,7 +25,7 @@
 			</if>
 	</select>
 	
-	<select id="getNotices" parameterType="map" resultType="kr.co.mgv.support.vo.Notice">
+	<select id="getNotice" parameterType="map" resultType="kr.co.mgv.support.vo.Notice">
 		SELECT 
 			A.NOTICE_NO				as no, 
 			A.NOTICE_TITLE			as title, 
@@ -47,7 +47,7 @@
 			inner join MGV_SUPPORT_CATEGORIES D on A.CATEGORY_NO = D.CATEGORY_NO
 		where
 			A.NOTICE_DELETED = 'N'
-			<if test="catNo != 1">
+			<if test="catNo != 21">
 				and A.CATEGORY_NO = #{catNo}
 			</if>
 			<if test="locationNo != null">
@@ -60,9 +60,97 @@
 				and A.NOTICE_TITLE like  CONCAT('%', #{keyword}, '%')	
 			</if>
 		order by
-			A.ONE_NO DESC
+			A.NOTICE_NO DESC
 		LIMIT 10 OFFSET #{begin}
 	</select>
 	
+	<select id="getNoticeByNo" parameterType="int" resultType="kr.co.mgv.support.vo.Notice">
+		SELECT 
+			A.NOTICE_NO				as no, 
+			A.NOTICE_TITLE			as title, 
+			A.NOTICE_CONTENT		as content, 
+			A.NOTICE_DELETED		as deleted,
+			A.NOTICE_UPDATE_DATE	as updateDate,
+			A.NOTICE_CREATE_DATE	as createDate, 
+			A.LOCATION_NO			as "location.no", 
+			B.LOCATION_NAME			as "location.name", 
+			A.THEATER_NO			as "theater.no", 
+			C.THEATER_NAME			as "theater.name", 
+			A.CATEGORY_NO			as "category.no",
+			D.CATEGORY_NAME			as "category.name",
+			A.NOTICE_TYPE			as type 
+		FROM 
+			MGV_SUPPORT_NOTICE A 
+			left outer join MGV_LOCATION B on A.LOCATION_NO = B.LOCATION_NO 
+			left outer join MGV_THEATERS C on A.THEATER_NO = C.THEATER_NO 
+			inner join MGV_SUPPORT_CATEGORIES D on A.CATEGORY_NO = D.CATEGORY_NO
+		where
+			A.NOTICE_DELETED = 'N'
+			and A.NOTICE_NO = #{value}
+	</select>
+	
+	<select id="getPrevNotice" parameterType="int" resultType="kr.co.mgv.support.vo.Notice">
+		SELECT 
+			A.NOTICE_NO				as no, 
+			A.NOTICE_TITLE			as title, 
+			A.NOTICE_CONTENT		as content, 
+			A.NOTICE_DELETED		as deleted,
+			A.NOTICE_UPDATE_DATE	as updateDate,
+			A.NOTICE_CREATE_DATE	as createDate, 
+			A.LOCATION_NO			as "location.no", 
+			B.LOCATION_NAME			as "location.name", 
+			A.THEATER_NO			as "theater.no", 
+			C.THEATER_NAME			as "theater.name", 
+			A.CATEGORY_NO			as "category.no",
+			D.CATEGORY_NAME			as "category.name",
+			A.NOTICE_TYPE			as type 
+		FROM 
+			MGV_SUPPORT_NOTICE A 
+			left outer join MGV_LOCATION B on A.LOCATION_NO = B.LOCATION_NO 
+			left outer join MGV_THEATERS C on A.THEATER_NO = C.THEATER_NO 
+			inner join MGV_SUPPORT_CATEGORIES D on A.CATEGORY_NO = D.CATEGORY_NO
+		where
+			A.NOTICE_DELETED = 'N'
+			and A.NOTICE_NO &lt; #{value}
+		order by
+			A.NOTICE_NO  DESC
+		LIMIT 1
+	</select>
+	
+	<select id="getNextNotice" parameterType="int" resultType="kr.co.mgv.support.vo.Notice">
+		SELECT 
+			A.NOTICE_NO				as no, 
+			A.NOTICE_TITLE			as title, 
+			A.NOTICE_CONTENT		as content, 
+			A.NOTICE_DELETED		as deleted,
+			A.NOTICE_UPDATE_DATE	as updateDate,
+			A.NOTICE_CREATE_DATE	as createDate, 
+			A.LOCATION_NO			as "location.no", 
+			B.LOCATION_NAME			as "location.name", 
+			A.THEATER_NO			as "theater.no", 
+			C.THEATER_NAME			as "theater.name", 
+			A.CATEGORY_NO			as "category.no",
+			D.CATEGORY_NAME			as "category.name",
+			A.NOTICE_TYPE			as type 
+		FROM 
+			MGV_SUPPORT_NOTICE A 
+			left outer join MGV_LOCATION B on A.LOCATION_NO = B.LOCATION_NO 
+			left outer join MGV_THEATERS C on A.THEATER_NO = C.THEATER_NO 
+			inner join MGV_SUPPORT_CATEGORIES D on A.CATEGORY_NO = D.CATEGORY_NO
+		where
+			A.NOTICE_DELETED = 'N'
+			and A.NOTICE_NO > #{value}
+		order by
+			A.NOTICE_NO  ASC
+		LIMIT 1
+	</select>
 
 </mapper>
+
+
+
+
+
+
+
+

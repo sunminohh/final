@@ -21,7 +21,7 @@
                 <div class="tab-list fixed">
                     <ul>
                         <li class="on" id="storeTab_">
-                            <a th:href="@{/store/}" title="새로운 상품 탭으로 이동">전체 상품</a>
+                            <a th:href="@{/store}" title="새로운 상품 탭으로 이동">전체 상품</a>
                         </li>
                         <li id="storeTab_CPC02" class="" th:each="category : ${categories}">
                             <a th:href="@{/store/list(no=${category.catNo})}" th:text="${category.catName}"></a>

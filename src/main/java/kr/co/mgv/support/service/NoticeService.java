@@ -33,13 +33,25 @@ public class NoticeService {
 		
 		param.put("begin", begin);
 		param.put("end", end);
-		List<Notice> noticeList = noticeDao.getNotices(param);
+		List<Notice> noticeList = noticeDao.getNotice(param);
 		NoticeList result = new NoticeList();
 		
 		result.setPagination(pagination);
 		result.setNoticeList(noticeList);
 		
 		return result;
+	}
+	
+	public Notice getNoticeByNo(int noticeNo) {
+		return noticeDao.getNoticeByNo(noticeNo);
+	}
+	
+	public Notice getPrevNotice(int noticeNo) {
+		return noticeDao.getPrevNotice(noticeNo);
+	}
+	
+	public Notice getNextNotice(int noticeNo) {
+		return noticeDao.getNextNotice(noticeNo);
 	}
 	
 	public List<Location> getloLocations() {
@@ -49,6 +61,8 @@ public class NoticeService {
 	public List<Theater> getTheatesrByLocationNo (int locationNo) {
 		return supportDao.getTheatersByLocationNo(locationNo);
 	}
+	
+	
 	
 }
 
