@@ -144,9 +144,9 @@ $(function() {
 		            <td>${board.theater == null ? '센터' : board.theater.name}</td>
 		            <td>${tabType === 'tab-one' ? board.category.name : '분실물 문의'}</td>
 		            <td style="text-align:left;">
-		            	<a href="${tabType == 'tab-one' ? "myinquery" : "mylost"}/detail?no=${board.no}" class="text-black text-decoration-none">
-			            	${board.title}
-		            	</a>
+		            	<a href="${tabType == 'tab-one' ? 'myinquery/detail?no=' + encodeURIComponent(board.no) : 'mylost/detail?no=' + encodeURIComponent(board.no)}" class="text-black text-decoration-none">
+						    ${board.title}
+						</a>
 		            </td>
 		            <td>${board.answered == 'Y' ? '답변완료' : '미답변'}</td>
 		            <td>${board.createDate}</td>
