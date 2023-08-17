@@ -52,4 +52,4 @@ spring:
     cache: false
 
 upload:
-  directory: C:/workspace/final/src/main/resources/static/images/product/
+  directory: /images/product/
