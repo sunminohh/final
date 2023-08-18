@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import kr.co.mgv.board.BoardPagination;
 import kr.co.mgv.board.form.AddTboardForm;
+import kr.co.mgv.board.form.ReportForm;
 import kr.co.mgv.board.list.TheaterBoardList;
 import kr.co.mgv.board.mapper.TheaterBoardDao;
 import kr.co.mgv.board.vo.BoardLocation;
@@ -190,8 +191,9 @@ public class TheaterBoardService {
 	}
 	
 	// 신고관련
-
-	
+	public void insertReport (ReportForm form, User user) {
+		
+	}
 	
 	
 	

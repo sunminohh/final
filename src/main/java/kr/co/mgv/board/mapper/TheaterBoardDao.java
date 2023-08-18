@@ -9,6 +9,7 @@ import kr.co.mgv.board.vo.BoardLocation;
 import kr.co.mgv.board.vo.BoardTheater;
 import kr.co.mgv.board.vo.TBoardComment;
 import kr.co.mgv.board.vo.TBoardLike;
+import kr.co.mgv.board.vo.TboardReport;
 import kr.co.mgv.board.vo.TheaterBoard;
 
 @Mapper
@@ -41,5 +42,9 @@ public interface TheaterBoardDao {
 	
 	// 게시물 CRUD
 	void insertTboard(TheaterBoard board);
+	
+	// 게시물 신고 관련
+	void insertTboardReport (TboardReport report);
+	List<TboardReport> getTboardReportById (String id);
 	
 }
