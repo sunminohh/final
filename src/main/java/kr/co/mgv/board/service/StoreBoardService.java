@@ -155,4 +155,28 @@ public class StoreBoardService {
 		}
 	}
 	
+	public void updateSBoard(AddSboardForm form, int no) {
+		try {
+			BoardCategory category = BoardCategory.builder().no(form.getCatNo()).build();
+			BoardProduct product = BoardProduct.builder().no(form.getProductNo()).build();
+			StoreBoard board = StoreBoard.builder()
+								.no(no)
+								.category(category)
+								.product(product)
+								.name(form.getName())
+								.content(form.getContent())
+								.build();
+			storeBoardDao.updateSBoardByNo(board);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteBoard(int no) {
+		StoreBoard board = storeBoardDao.getSBoardByNo(no);
+		board.setDeleted("Y");
+		
+		storeBoardDao.updateSBoardByNo(board);
+	}
+	
 }

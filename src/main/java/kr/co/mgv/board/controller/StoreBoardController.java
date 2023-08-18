@@ -310,4 +310,27 @@ public class StoreBoardController {
     	
     	return "redirect:/board/store/list";
     }
+    
+    @GetMapping("/modify")
+    public String storeBoardModifyForm(@RequestParam("no") int no, Model model) {
+    	List<BoardCategory> categories = storeBoardService.getCategories();
+    	model.addAttribute("categories", categories);
+    	
+    	StoreBoard savedBoard = storeBoardService.getStoreBoardByNo(no);
+    	model.addAttribute("board", savedBoard);
+    	
+    	return "/view/board/store/modifyForm";
+    }
+    
+    @PostMapping("/modify")
+    public String modifyBoard(@RequestParam("no") int no, AddSboardForm form) {
+    	storeBoardService.updateSBoard(form, no);
+    	return "redirect:/board/store/detail?no=" + no;
+    }
+    
+    @GetMapping("/delete")
+    public String deleteBoard(@RequestParam("no") int no) {
+    	storeBoardService.deleteBoard(no);
+    	return "redirect:/board/store/list";
+    }
 }
