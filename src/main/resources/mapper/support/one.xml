@@ -92,6 +92,36 @@
 			and A.ONE_DELETED = 'N'
 	</select>
 	
+	<update id="updateOneByNo" parameterType="kr.co.mgv.support.vo.One">
+		UPDATE 
+			MGV_SUPPORT_ONE
+		<set>
+			<if test="title != null">
+				ONE_TITLE = #{title},
+			</if>
+			<if test="content != null">
+				ONE_CONTENT = #{content},
+			</if>
+			<if test="answered != null">
+				ONE_ANSWERED = #{answered},
+			</if>
+			<if test="deleted != null">
+				ONE_DELETED = #{deleted},
+			</if>
+			<if test="updateDate != null">
+				ONE_UPDATE_DATE = #{updateDate},
+			</if>
+			<if test="createDate != null">
+				ONE_CREATE_DATE = #{createDate},
+			</if>
+			<if test="fileName != null">
+				ONE_FILENAME = #{fileName},
+			</if>
+		</set>
+		WHERE 
+			ONE_NO= #{no}
+	</update>
+	
 	<select id="getCategories" parameterType="string" resultType="kr.co.mgv.support.vo.SupportCategory">
 		SELECT 
 			CATEGORY_NO		as no,
