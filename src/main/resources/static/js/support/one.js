@@ -347,7 +347,7 @@ $(function() {
 	        cancelButtonText: '아니오',
 	    }).then((result) => {
 	        if (result.isConfirmed) {
-	              window.location.href = 'delete?no=' + no;      
+	              window.location.href = '/support/one/delete?no=' + no;      
 	              
 	        } else if (result.dismiss === Swal.DismissReason.cancel) {
 	            

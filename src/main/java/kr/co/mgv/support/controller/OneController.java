@@ -104,12 +104,17 @@ public class OneController {
 		return "/view/support/one/lostdetail";
 	}
 	
+	@GetMapping("/delete")
+	public String deleteOne(@RequestParam("no") int oneNo, Model model) {
+		
+		oneService.deleteOne(oneNo);
+		return "redirect:/support/one/myinquery";
+	}
+	
 	@GetMapping("/mylost/delete")
-	public String deletemyLost(@RequestParam("no") int lostNo, 
-			Model model) {
+	public String deletemyLost(@RequestParam("no") int lostNo, Model model) {
 		
 		lostService.deleteLost(lostNo);
-		
 		return "redirect:/support/one/myinquery?tab=tab-lost";
 	}
 	
