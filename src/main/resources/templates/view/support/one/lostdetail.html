@@ -3,6 +3,7 @@
       layout:decorate="~{layout/support}">
 <head th:fragment="extra-head-content">
 	<link th:href=@{/css/support/one.css} rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" th:src="@{/js/support/one.js}"></script>
 </head>
 <div id="contents" layout:fragment="content">
@@ -62,15 +63,18 @@
 
         <div class="btn-group pt40" style="display: block;">
 			  <button type="button" class="button large" onclick="document.querySelector('#form').submit();">목록</button>
-			  <button type="button" class="button large">삭제</button>
+			  <a id="delete-btn"
+	          	 class="button large"
+	             th:href="@{/support/one/mylost/delete(no=${param.no})}">삭제
+			  </a>
         </div>
         
+        <input type="hidden" name="no" th:value="${param.no}"/>
         <form id="form" method="post" action="/support/one/myinquery">
         	<input type="hidden" name="tab" th:value="tab-lost">
 	    	<input type="hidden" name="answered" th:value="${param.answered}"/>
 	    	<input type="hidden" name="page" th:value="${param.page}"/>
 	    	<input type="hidden" name="keyword" th:value="${param.keyword}"/>
         </form>
-        
         
 </div>

@@ -104,6 +104,14 @@ public class OneController {
 		return "/view/support/one/lostdetail";
 	}
 	
+	@GetMapping("/mylost/delete")
+	public String deletemyLost(@RequestParam("no") int lostNo, 
+			Model model) {
+		
+		lostService.deleteLost(lostNo);
+		
+		return "redirect:/support/one/myinquery?tab=tab-lost";
+	}
 	
 	
 	@GetMapping("/getLocation")
@@ -119,8 +127,5 @@ public class OneController {
 		
 		return oneService.getTheatesrByLocationNo(locationNo);
 	}
-	
-	
-	
 	
 }
