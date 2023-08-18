@@ -103,7 +103,7 @@
                                 style="width: 130px; float:left; position: relative; left:5px;" 
                                 name="theaterNo" th:onchange="changeTboard()">
       						<option value="" disabled selected th:text="극장선택"></option>
-      						<option th:each="theater:${theaters}" th:if="${param.locationNo != 0}" th:value="${theater.no}" th:text="${theater.name}" selected></option>
+      						<option th:each="theater:${theaters}" th:if="${param.locationNo != 0}" th:value="${theater.no}" th:text="${theater.name}"></option>
                         </select>
 
                     </div>

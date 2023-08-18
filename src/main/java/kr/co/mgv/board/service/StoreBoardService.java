@@ -10,6 +10,7 @@ import kr.co.mgv.board.list.StoreBoardList;
 import kr.co.mgv.board.mapper.StoreBoardDao;
 import kr.co.mgv.board.vo.BoardCategory;
 import kr.co.mgv.board.vo.BoardProduct;
+import kr.co.mgv.board.vo.SBoardLike;
 import kr.co.mgv.board.vo.StoreBoard;
 import lombok.RequiredArgsConstructor;
 
@@ -53,5 +54,34 @@ public class StoreBoardService {
 	public List<BoardProduct> getProductsByCatNo(int catNo){
 		List<BoardProduct> products = storeBoardDao.getProductsByCatNo(catNo);
 		return products;
+	}
+	
+	// 상세페이지
+	public void increseRead(int no) {
+		StoreBoard board = storeBoardDao.getSBoardByNo(no);
+		board.setReadCount(board.getReadCount()+1);
+		storeBoardDao.updateSBoardByNo(board);
+	}
+	
+	public StoreBoard getStoreBoardByNo (int no) {
+		return storeBoardDao.getSBoardByNo(no);
+	}
+	
+	public void updateBoardLike(int no, int likeCount) {
+		StoreBoard board = storeBoardDao.getSBoardByNo(no);
+		board.setLikeCount(likeCount);
+		storeBoardDao.updateSBoardByNo(board);
+	}
+	
+	public void insertBoardLike (SBoardLike like) {
+		storeBoardDao.insertSBoardLike(like);
+	}
+	
+	public SBoardLike getLike(SBoardLike like) {
+		return storeBoardDao.getLikeByBnoAndId(like);
+	}
+	
+	public void updateSboardLike(SBoardLike like) {
+		storeBoardDao.updateLike(like);
 	}
 }

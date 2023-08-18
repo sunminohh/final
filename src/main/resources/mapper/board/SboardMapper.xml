@@ -105,4 +105,103 @@
     	from MGV_PRODUCT_CATEGORY
     </select>
     
+    <!-- 상세페이지 관련 -->
+    	<select id="getSBoardByNo" parameterType="int" resultType="kr.co.mgv.board.vo.StoreBoard">
+		select
+            A.board_no              as no,
+            A.board_name            as name,
+            A.board_content         as content,
+            A.board_create_date     as createDate,
+            A.board_update_date     as updateDate,
+            A.board_read_cnt        as readCount,
+            A.report_count			as reportCount,
+            A.board_comment_cnt     as commentCount,
+            A.user_id            	as "user.id",
+            A.BORAD_FILENAME		as fileName,
+			A.board_like_count		as likeCount,
+			A.product_no			as "product.no",
+			B.product_name			as "product.name",
+			A.cat_no				as "category.no",
+			C.cat_NAME				as "category.name"
+	    from
+	        MGV_PRODUCT_BOARD A, MGV_PRODUCT B, MGV_PRODUCT_CATEGORY C
+	    where 
+	    	A.product_no = B.product_no
+	    	and A.cat_no = C.cat_NO
+	    	and A.board_no = #{value}
+	</select>
+	
+	<update id="updateSBoardByNo" parameterType="kr.co.mgv.board.vo.StoreBoard">
+		update MGV_PRODUCT_BOARD
+			<set>
+				<if test="name != null">
+					board_name = #{name},
+				</if>
+				<if test="content != null">
+					board_content = #{content},
+				</if>
+				<if test="updateDate != null">
+					board_update_date = CURRENT_TIMESTAMP,
+				</if>
+				<if test="readCount != null">
+					board_read_cnt = #{readCount},
+				</if>
+				<if test="commentCount != null">
+					board_comment_cnt = #{commentCount},
+				</if>
+				<if test="deleted != null">
+					board_deleted = #{deleted},
+				</if>
+				<if test="report != null">
+					board_report = #{report},
+				</if>
+				<if test="fileName != null">
+					BORAD_FILENAME = #{fileName},
+				</if>
+				<if test="reportCount != null">
+					report_count = #{reportCount},
+				</if>
+				<if test="likeCount != null">
+					board_like_count = #{likeCount},
+				</if>
+				<if test="product != null">
+					product_no = #{product.no},
+				</if>
+				<if test="category != null">
+					cat_no = #{category.no},
+				</if>
+			</set>
+			where board_no = #{no}
+	</update>
+	
+	<insert id="insertSBoardLike" parameterType="kr.co.mgv.board.vo.SBoardLike">
+	 	INSERT INTO STORE_BOARD_LIKE
+		(USER_ID, BOARD_NO)
+		VALUES(#{user.id}, #{board.no});	
+	</insert>
+	
+	 <select id="getLikeByBnoAndId" parameterType="kr.co.mgv.board.vo.SBoardLike" resultType="kr.co.mgv.board.vo.SBoardLike">
+	 	SELECT 
+	 		LIKE_NO		as no, 
+	 		LIKE_CANCEL as cancel,
+	 		USER_ID		as "user.id", 
+	 		BOARD_NO	as "board.no"
+		FROM 
+			STORE_BOARD_LIKE
+		where
+			user_id = #{user.id}
+			and board_no = #{board.no}
+	 	
+	 </select>
+	 
+	 <update id="updateLike" parameterType="kr.co.mgv.board.vo.SBoardLike">
+	 	UPDATE 
+	 		STORE_BOARD_LIKE
+		SET 
+			like_cancel = #{cancel}
+		WHERE user_id = #{user.id}
+			  and board_no = #{board.no}
+	 	
+	 </update>	
+	
 </mapper>
