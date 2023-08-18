@@ -1,5 +1,6 @@
 package kr.co.mgv.board.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,17 +19,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.mgv.board.form.AddTboardForm;
+import kr.co.mgv.board.form.ReportForm;
 import kr.co.mgv.board.list.TheaterBoardList;
 import kr.co.mgv.board.service.MovieBoardService;
 import kr.co.mgv.board.service.TheaterBoardService;
 import kr.co.mgv.board.vo.BoardLocation;
 import kr.co.mgv.board.vo.BoardTheater;
-import kr.co.mgv.board.vo.MovieBoard;
 import kr.co.mgv.board.vo.ReportReason;
 import kr.co.mgv.board.vo.TBoardComment;
 import kr.co.mgv.board.vo.TBoardLike;
+import kr.co.mgv.board.vo.TboardReport;
 import kr.co.mgv.board.vo.TheaterBoard;
-import kr.co.mgv.movie.vo.Movie;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,6 +51,7 @@ public class TheaterBoardController {
 			@RequestParam(name = "keyword", required = false, defaultValue = "") String keyword,
 			@RequestParam(name = "theaterNo", required = false) Integer theaterNo,
 			@RequestParam(name = "locationNo", required = false) Integer locationNo,
+			@AuthenticationPrincipal User user,
 			Model model) {
     	
     	Map<String, Object> param = new HashMap<String, Object>();
@@ -71,6 +73,24 @@ public class TheaterBoardController {
     	
 		// service로 극장게시물 목록, 극장,지역 목록, 페이지네이션 조회하기 
 		TheaterBoardList result = theaterBoardService.getTBoards(param);
+		
+		if(user != null) {
+			// 로그인한 사용자의 신고 기록 가져오기
+			List<TboardReport> reportList = theaterBoardService.getReportById(user.getId());
+			
+			// 사용자가 신고한 게시물 제외
+			List<TheaterBoard> theaterBoardsToShow = new ArrayList<>();
+			
+			for(TheaterBoard board : result.getTheaterBoards()) {
+				boolean isReported = reportList.stream()
+						.anyMatch(report -> report.getBoard().getNo() == board.getNo());
+				if(!isReported) {
+					theaterBoardsToShow.add(board);
+				}
+			}
+			result.setTheaterBoards(theaterBoardsToShow);
+			model.addAttribute("reports", theaterBoardsToShow);
+		}
 		
 		// model에 조회한 리스트 담기
 		model.addAttribute("result", result);
@@ -353,7 +373,25 @@ public class TheaterBoardController {
 		
 		return ResponseEntity.ok().body(commentCount);
 	}
-	// 신고관련 list
 	
+	// 신고관련 
+	@PostMapping("/report")
+	public String reportBoard(ReportForm form, @AuthenticationPrincipal User user) {
+    	log.info("입력 내용 -> {}", form.getReasonNo());
+    	log.info("입력 내용 -> {}", form.getBoardNo());
+    	log.info("입력 내용 -> {}", form.getReasonContent());
+    	log.info("입력 내용 -> {}", user.getId());
+		theaterBoardService.insertReport(form, user);
+		
+		TheaterBoard board = theaterBoardService.getTheaterBoardByNo(form.getBoardNo());
+		int reportCount = board.getReportCount()+1;
+		theaterBoardService.updateReportCount(form.getBoardNo(), reportCount);
+		
+		if (reportCount == 5) {
+			String report = "Y";
+			theaterBoardService.updateReport(form.getBoardNo(), report);
+		}
+		return "redirect:/board/theater/list";
+	}
 
 }

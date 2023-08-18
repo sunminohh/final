@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import kr.co.mgv.board.vo.BoardCategory;
 import kr.co.mgv.board.vo.BoardProduct;
+import kr.co.mgv.board.vo.SBoardLike;
 import kr.co.mgv.board.vo.StoreBoard;
 
 
@@ -22,5 +23,10 @@ public interface StoreBoardDao {
 	
 	// 게시물 상세페이지 관련
 	StoreBoard getSBoardByNo (int sbNo);
+	void updateSBoardByNo(StoreBoard board);
 	
+	// 좋아요 관련
+	void insertSBoardLike(SBoardLike like);
+	SBoardLike getLikeByBnoAndId (SBoardLike like);
+	void updateLike (SBoardLike like);
 }

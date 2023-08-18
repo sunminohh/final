@@ -2,247 +2,183 @@
    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
    layout:decorate="~{layout/boardDetail}">
 <head th:fragment="extra-head-content">
-	<title>게시판</title>
+   <title>게시판</title>
     <link th:href="@{/css/board/detail.css}" rel="stylesheet" />
-    <script type="text/javascript" th:src="@{/js/board/detail.js}"></script>    
+    <script type="text/javascript" th:src="@{/js/board/storeBoardDetail.js}"></script>    
 </head>
 
    <div layout:fragment="content" class="container my-3 pt-5">
-	<div class="row mb-3">
-		<div class="col-12">
-			<h2 class="fw-bold fs-4 p-2 pb-1">글 제목</h2>
-			<p class="p-2" style="font-size : 12px; line-height: 15%;">카테고리/상품</p>
-		</div>
+   <div class="row mb-3">
+      <div class="col-12 d-flex justify-content-between">
+         <div>
+            <h2 class="fw-bold fs-4 p-2 pb-1" th:utext="${board.name}">글 제목</h2>
+            <p class="p-2" style="font-size : 12px; line-height: 15%;" th:utext="|${board.category.name}/${board.product.name}|">카테고리/상품</p>
+         </div>
+      </div>
+   </div>
+   
+   <div class="row mb-3">
+      <div class="col-12">
+         <div id="profile" class="pb-1 ">
+            <div id="imgbox" class="float-start" >
+               <a href="사용자상세정보">
+                  <img id="profileimg"  th:src="@{/images/board/sample.png}" alt="프로필사진">
+               </a>
+            </div>
+            
+            <div class="boardinfo ps-5">
+               <div>
+                  <p ><strong th:text="${board.user.id}">작성자아이디</strong></p>
+                  <p class="float-start" style="font-size: 12px; line-height: 15%; color: gray" th:utext="|${#dates.format(board.createDate, 'yyyy-MM-dd HH:mm')} / 조회 ${board.readCount}|">등록일자 | 조회 조회수&nbsp;</p>
+               </div>
 
-<!-- 
-		<div class="alert alert-danger">
-			<strong>다른 사용자의 게시글을 [<%=job %>]할 수 없습니다.</strong>
-		</div>
 
-		<div class="alert alert-danger">
-			<strong>관리자가 아니면 사용자의 게시물을 [<%=job %>]할 수 없습니다.</strong>
-		</div>
+               <div class="d-flex justify-content-end" style="position: relative; bottom:10px;">
+                  <p  style="font-size : 12px; "><img alt="댓글이미지" th:src="@{/images/board/comment.png}" width="15px" height="15px;" > <strong id="ajax-comment-count" th:utext="${board.commentCount}">3</strong></p>
+                  <div id="reload-box">
+                  <form class="d-flex justify-content-end pe-4 me-3" 
+                       th:action="@{/board/store/changelike}"   
+                       method="post"
+                       sec:authorize="isAuthenticated()"
+                       style="position: absolute; bottom: 5px;"
+                       id="like-btn-form"
+                      >
+                     <input type="hidden" name="no" th:value="${board.no}" />
+                     <input type="hidden" name="id" th:value="${#authentication.principal.id}" />
+                     <input type="hidden" name="likeCount" th:value="${board.likeCount}">
+                     <button  th:if="${like == null || (like != null && #strings.equals(like.cancel, 'Y'))}" class="btn btn-ligth pe-1" type="button" id="like-button" style="color:red; border-color: white; font-size:16px" data-button-type="plus">♡</button>
+                     <button  th:if="${like != null && #strings.equals(like.cancel, 'N')}" class="btn btn-ligth pe-1" type="button" id="like-button" style="color:red; border-color: white; font-size:16px"  data-button-type="minus">♥</button>
+                     <p class="mt-3 pt-1" th:text="${board.likeCount}"></p>
+                  </form>
+                  
+                  </div>
+               </div>
+            </div>
+         </div>
+         
+         <div class="txc-textbox" style=" padding: 20px;">
+            <p th:utext="${board.content}">파이널 화이팅~~</p>
+            <img th:src="@{/images/board/cute.png}" width="520px"/>
+         </div>
+         
+         <div class="text-end mt-1" id="board-function">
+            <a class="pe-1" 
+               th:href="@{/board/theater/modify(no=${param.no})}"
+               sec:authorize="isAuthenticated()"
+               th:if="${#authentication.principal.id == board.user.id}">수정</a>
+            <a class="pe-1" 
+               id = "delete-btn"
+               th:href="@{/board/theater/delete(no=${param.no})}" 
+               sec:authorize="isAuthenticated()"
+               th:if="${#authentication.principal.id == board.user.id}">삭제</a>
+            <a class="pe-1" th:href="@{/board/store/list(page=${param.page},rows=${param.rows}, sort=${param.sort}, productNo=${param.productNo}, opt=${param.opt}, keyword=${param.keyword})}" >목록</a>
+         </div>
 
-		<div class="alert alert-danger">
-			<strong>다른 사용자의 댓글을 삭제할 수 없습니다.</strong>
-		</div>
- -->
+      </div>
+   </div>
+   
 
-	</div>
-	
-	<div class="row mb-3">
-		<div class="col-12">
-			<div id="profile" class="pb-3">
-				<div id="imgbox" class="float-start" >
-					<a href="사용자상세정보">
-						<img id="profileimg"  th:src="@{/images/board/sample.png}" alt="프로필사진">
-					</a>
-				</div>
-				
-				<div class="boardinfo ps-5">
 
-					<p ><strong>작성자아이디</strong></p>
-					<p class="float-start" style="font-size : 12px; line-height: 15%; color: gray">최종수정일자 | 조회 조회수&nbsp;</p>
+         <div class="comment-like pt-5 d-flex justify-content-between">
+            <div class="d-flex justify-content-start">
+               <p class="me-3" style="font-size : 12px;"><img class=" me-1" alt="댓글이미지" th:src="@{/images/board/comment.png}" width="15px" height="15px">댓글 <strong id="ajax-comment-count-2" th:utext="${board.commentCount}">3</strong></p>
+            <p class="float-end me-2" style="font-size : 12px;"><img class=" me-1" alt="좋아요" th:src="@{/images/board/like.png}" width="14px" height="14px"/> 좋아요 <strong id="guest-like-count" th:utext="${board.likeCount}">5</strong></p>
+      </div>
+         <div class="d-flex justify-content-end ">
+               <button class="btn btn-outline-white btn-sm mb-2" id="link-btn" style="border: none; font-size: 12px" 
+                     data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="URL이 클립보드에 복사되었습니다."
+                     >공유</button>
+               <button class="btn btn-outline-white btn-sm mb-2"  style="border: none; font-size: 12px" id="btn-report" 
+                       data-bs-toggle="modal" data-bs-target="#reportModal"
+                       sec:authorize="isAuthenticated()"
+                       th:if="${#authentication.principal.id != board.user.id}"
+                       >신고</button>
+         </div>
+         </div>
+            <hr class="mt-0 pt-0"/>
 
-					<p class="float-end" style="font-size : 12px;"><img alt="댓글이미지" th:src="@{/images/board/comment.png}" width="15px" height="15px"> <strong>3</strong></p>
-					<p class="float-end me-2" style="font-size : 12px;"><img class=" me-1" alt="좋아요" th:src="@{/images/board/like.png}" width="14px" height="14px"/> <strong>5</strong></p>
-			
-				</div>
-			</div>
-			
-			<div class="txc-textbox" style=" padding: 20px;">
-				<p>파이널 화이팅~~</p>
-		
-			<img th:src="@{/images/board/sample.png}" />
-			</div>
-			
-			<div class="text-end mt-1" id="board-function">
-				<a class="pe-1" th:href="@{/list(page=1)}" >목록</a>
-				<a class="pe-1" th:href="@{/modifyform(no=1)}">수정</a>
-				<a class="pe-1" th:href="@{/delete(no=1)}" >삭제</a>
-			</div>
-		</div>
-	</div>
-	
-	<!-- 
-		로그인시에만 보임
-	 -->
-	<div class="row mb-3">
-		<div class="col-12">
-			<div class=" d-flex justify-content-center">
-				<div id="like-button-box">
-					<button class="btn btn-outline-secondary btn-sm" type="button" id="like-button">좋아요♡</button>
-				</div>
-				<div>
-					
-				</div>
-			</div>
-		</div>
-	</div>
+      <!-- 댓글 등록창 -->   
+   <div class="row pb-2 pt-1">
+         <div class="col-12 CommentWriter" sec:authorize="isAuthenticated()">
+         <div class="comment-inbox border p-2 rounded" > 
 
-   		<div class="comment-like pt-5 d-flex justify-content-between">
-   			<div class="d-flex justify-content-start">
-   				<p class="me-3" style="font-size : 12px;"><img class=" me-1" alt="댓글이미지" th:src="@{/images/board/comment.png}" width="15px" height="15px">댓글 <strong>3</strong></p>
-<!-- 
-				<p class="" style="font-size : 12px;"><img class=" me-1" alt="좋아요" th:src="@{/images/board/like.png}" width="13px" height="13px"/><strong>5</strong></p>
-   				<p class="" style="font-size : 12px;"><img class="me-1" alt="좋아요" th:src="@{/images/board/like.png}" width="13px" height="12px"/><strong>5</strong></p>
- -->
-		</div>
-			<div class="d-flex justify-content-end">
-		   		<button class="btn btn-outline-white btn-sm mb-2"  style="border: none; font-size: 12px" >공유</button>
-		   		<button class="btn btn-outline-white btn-sm mb-2"  style="border: none; font-size: 12px" id="btn-report" data-bs-toggle="modal" data-bs-target="#reportModal">신고</button>
-			</div>
-   		</div>
-   			<hr class="mt-0 pt-0"/>
+            <em class="comment_inbox_name" th:text="${#authentication.principal.id}"
+               th:value="${#authentication.principal.id}"
+               id="login-id">로그인된 아이디</em>
+            
+            <form id="form-comment" method="post" th:action="@{/board/movie/addComment}" >
+               <input type="hidden" name="no" th:value="${board.no}" />
+               <input type="hidden" name="id" th:value="${#authentication.principal.id}" />
+                <div class="row">
+                  <div id="content-box">
+                     <textarea rows="2" class="comment_inbox_text" name="content" style="border: none; overflow: hidden; overflow-wrap: break-word; " 
+                     placeholder="댓글을 남겨보세요"></textarea>
+                  </div>
+                  <div class="register-box">
+                  <!-- 등록 버튼 -->
+                     <button class="btn btn-outline-white btn-sm float-end" id="btn-comment" style="border: none" type="button">등록</button>
+                  </div>
+               </div>
+            </form>      
+         </div>
+         </div>
+      </div>
+      
+      
+  <div class="quick-menu" id="quick-scroll">위로</div>
+      
+   <div class="row mb-3">
+         <div class="col-12">
+            <div class="comment-sort mb-5">
+               <p class="fs-5 fw-semibold float-start me-2">댓글</p>
+               <a href="#" class="comment-tab float-start fw-light me-2" aria-selected ="true" role="button" >등록순</a>
+               <a href="" class="comment-tab float-start fw-light" role="button" aria-selected ="true"  >최신순</a>
+            </div>
+         </div>
+   </div>
 
-   		
-	<div class="row mb-3 pt-2">
-
-   		<div class="col-12 CommentWriter">
-			<div class="comment-inbox border p-2 rounded"> 
-
-				<em class="comment_inbox_name">로그인된 아이디</em>
-				
-				<form class="" method="post" action="insertComment.jsp">
-					<input type="hidden" name="no" value= />
-	 				<div class="row">
-						<div >
-							<textarea rows="2" class="comment_inbox_text" name="content" style="border: none; overflow: hidden; overflow-wrap: break-word; " 
-							placeholder="댓글을 남겨보세요"></textarea>
-						</div>
-						<div class="register_box">
-							<button class="btn btn-outline-white btn-sm float-end" style="border: none">등록</button>
-						</div>
-					</div>
-				</form>   	
-			</div>
-   		</div>
-   	</div>
-   	
-   	
-   	
-	<div class="row mb-3">
-   		<div class="col-12">
-	   		<div class="comment-sort mb-5">
-	   			<p class="fs-5 fw-semibold float-start me-2">댓글</p>
-	   			<a href="#" class="comment-tab float-start fw-light me-2" aria-selected ="true" role="button" >등록순</a>
-	   			<a href="" class="comment-tab float-start fw-light" role="button" aria-selected ="true"  >최신순</a>
-	   		</div>
-
-   			<div class="p-1" id="comment-box">
-   				<div class="d-flex justify-content-between">
- 					<div class="col-sm-11">
-			 			<div id="profile">
-							<div id="comment-imgbox" class="float-start" >
-								<a href="사용자상세정보">
-									<img id="profileimg"  th:src="@{/images/board/sample.png}" alt="프로필사진">
-								</a>
-							</div>
-							<div class="ps-5">
-								<p ><strong>작성자아이디</strong></p>
-							</div>
-						</div>
-						<div class="commentUserInfo ps-5" >
-			   					<p>3조 파이널 화이팅~~!!★3조 파이널 화이팅~~!!★3조 파이널 화이팅~~!!★3조 파이널 화이팅~~!!★3조 파이널 화이팅~~!!★3조 파이널 화이팅~~!!★3조 파이널 화이팅~~!!★
-			   					3조 파이널 화이팅~~!!★3조 파이널 화이팅~~!!★3조 파이널 화이팅~~!!★3조 파이널 화이팅~~!!★3조 파이널 화이팅~~!!★3조 파이널 화이팅~~!!★3조 파이널 화이팅~~!!★3조 파이널 화이팅~~!!★3조 파이널 화이팅~~!!★
-			   					3조 파이널 화이팅~~!!★3조 파이널 화이팅~~!!★3조 파이널 화이팅~~!!★3조 파이널 화이팅~~!!★3조 파이널 화이팅~~!!★3조 파이널 화이팅~~!!★</p>
-			   					<div id="comment-info" class="d-flex justify-content-start">
-			   						<p class="float-start me-2" style="font-size: 12px; color: gray">1998/06/24 07:00:00</p>
-			   						<a id="a-reply" href="" class="float-satrt" style="text-decoration:none; font-size: 12px; color: gray">답글쓰기</a>
-			   					</div>
-							
-						</div>
-					</div>
-		   			<div class="col-sm-1 d-flex justify-content-end pt-0">
-		   				
-		   				<a th:href="@{/deleteComment(no=1, cno=1)}" 
-		   					class="btn btn-link btn-sm text-danger text-decoration-none">삭제</a>
-	
-	   				</div>   			
-				</div>
-			</div>	
-				<hr>
-	   			<div class="row mb-3 pt-2" id="reply-comment-box">
-	   			</div>			
-			
-
-				<div class="p-1 col-11 float-end" id="comment-box">
-	   				<div class="d-flex justify-content-between">
-	 					<div class="col-sm-11">
-				 			<div id="profile">
-								<div id="comment-imgbox" class="float-start" >
-									<a href="사용자상세정보">
-										<img id="profileimg"  th:src="@{/images/board/sample.png}" alt="프로필사진">
-									</a>
-								</div>
-								<div class="ps-5">
-									<p ><strong class="fs-6">작성자아이디</strong></p>
-								</div>
-							</div>
-							<div class="re-commentUserInfo ps-5" >
-				   					<p><strong>답글달린아이디 </strong> 파이널 화이팅</p>
-				   					<div id="comment-info" class="d-flex justify-content-start">
-				   						<p class="float-start me-2" style="font-size: 12px; color: gray">1998/06/24 07:00:00</p>
-				   						<a id="a-re-reply" href="" class="float-satrt" style="text-decoration:none; font-size: 12px; color: gray">답글쓰기</a>
-				   					</div>
-								
-							</div>
-						</div>
-			   			<div class="col-sm-1 d-flex justify-content-end pt-0">
-			   				
-			   				<a th:href="@{/deleteComment(no=1, cno=1)}" 
-			   					class="btn btn-link btn-sm text-danger text-decoration-none">삭제</a>
-		
-		   				</div>   			
-					</div>
-					<hr>
-		   			<div class="row mb-3 pt-2" id="re-reply-comment-box">
-		   			</div>
-				</div>	
-
-   		</div>
-   	</div>
-		
-	<div class="modal fade" id="reportModal"  aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-    		<div class="modal-content">
-      			<div class="modal-header">
-        			<h1 class="modal-title fs-5" id="exampleModalLabel">게시물 신고</h1>
-        			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
-      			</div>
-      			
-      			<div class="modal-body">
-	       			<div class="row mb-3">
-						<div class="col-12">
-							<p style="font-size : 18px;"><strong>이 게시물을 신고하는 이유</strong></p>
-							<p style="font-size : 15px;">지식재산권 침해를 신고하는 경우를 제외하고 회원님의 신고는익명으로 처리됩니다. 누군가 위급한 상황에 있다고 생각된다면 즉시 현지 응급 서비스 기관에 연락하시기 바랍니다.</p>
-							
-								<form class="border bg-light p-3" method="get" action="report.jsp?no=<%=boardNo %>" >
-									<input type="hidden" name="no" value="boardNo">
-					
-									<div class="form-group mb-2" style="width: 33%; padding:5px;">
-										<label class="form-label">신고이유</label>
-										<select class="form-select" name="reasonNo" id="selectbox" >
-				
-											<option value="" id="reason">신고이유목록</option>
-											<option value="" id="reason">신고이유목록</option>
-			
-										</select>
-									</div>
-									<div class="form-group mb-2">
-										<label class="form-label">상세내용</label>
-										<textarea rows="5" class="form-control" name="reasonContent" ></textarea>
-									</div>
-									<div class="text-end">
-										<button type="reset" class="btn btn-secondary btn-sm" >취소</button>
-										<button type="submit" class="btn btn-primary btn-sm" >신고</button>
-									</div>
-								</form>
-						</div>
-					</div>
-      			</div>
-    		</div>
-  		</div>
-	</div>
-</div>			
+   <!-- 댓글 표시 부분 -->
+  
+      
+   <div class="modal fade" id="reportModal"  aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+          <div class="modal-content">
+               <div class="modal-header">
+                 <h1 class="modal-title fs-5" id="exampleModalLabel">게시물 신고</h1>
+                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+               </div>
+               
+               <div class="modal-body">
+                   <div class="row mb-3">
+                  <div class="col-12">
+                     <p style="font-size : 18px;"><strong>이 게시물을 신고하는 이유</strong></p>
+                     <p style="font-size : 15px;">지식재산권 침해를 신고하는 경우를 제외하고 회원님의 신고는익명으로 처리됩니다. 누군가 위급한 상황에 있다고 생각된다면 즉시 현지 응급 서비스 기관에 연락하시기 바랍니다.</p>
+                     
+					<form class="border bg-light p-3" method="post" th:action="@{/board/theater/report(boardNo=${param.no})}" id="report-form">
+                           <input type="hidden" name="boardNo" value="${param.no}">
+                           <div class="form-group mb-2" style="width: 33%; padding:5px;">
+                              <label class="form-label">신고이유</label>
+                                  <select class="form-select" name="reasonNo" id="report-select" onchange="toggleContentField()">
+                                      <option value="" id="reason" selected disabled>신고이유</option>
+                                      <option th:each="reason : ${reasons}" 
+                                              th:text="${reason.name}" 
+                                              th:value="${reason.no}" >신고 이유</option>
+                                  </select>
+                           </div>
+                           <div class="form-group mb-2">
+                              <label class="form-label">상세내용</label>
+                              <textarea rows="5" class="form-control" name="reasonContent" disabled></textarea>
+                           </div>
+                           <div class="text-end">
+                              <button type="reset" class="btn btn-secondary btn-sm" >취소</button>
+                              <button type="submit" id="report-submit-btn" class="btn btn-primary btn-sm" >신고</button>
+                           </div>
+                        </form>
+                  </div>
+               </div>
+               </div>
+          </div>
+        </div>
+   </div>
+</div>         
 </html>

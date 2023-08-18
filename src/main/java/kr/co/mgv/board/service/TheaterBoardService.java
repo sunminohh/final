@@ -12,8 +12,10 @@ import kr.co.mgv.board.list.TheaterBoardList;
 import kr.co.mgv.board.mapper.TheaterBoardDao;
 import kr.co.mgv.board.vo.BoardLocation;
 import kr.co.mgv.board.vo.BoardTheater;
+import kr.co.mgv.board.vo.ReportReason;
 import kr.co.mgv.board.vo.TBoardComment;
 import kr.co.mgv.board.vo.TBoardLike;
+import kr.co.mgv.board.vo.TboardReport;
 import kr.co.mgv.board.vo.TheaterBoard;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
@@ -193,7 +195,37 @@ public class TheaterBoardService {
 	// 신고관련
 	public void insertReport (ReportForm form, User user) {
 		
+		try {
+			TheaterBoard board = theaterBoardDao.getTBoardByNo(form.getBoardNo());
+			ReportReason reason = ReportReason.builder().no(form.getReasonNo()).build();
+			TboardReport report = TboardReport.builder()
+								.reasonContent(form.getReasonContent())
+								.board(board)
+								.user(user)
+								.reason(reason)
+								.build();
+			theaterBoardDao.insertTboardReport(report);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
+	
+	public void updateReportCount (int no, int reportCount) {
+		TheaterBoard board = theaterBoardDao.getTBoardByNo(no);
+		board.setReportCount(reportCount);
+		theaterBoardDao.updateTBoardByNo(board);
+	}
+	
+	public void updateReport (int no, String report) {
+		TheaterBoard board= theaterBoardDao.getTBoardByNo(no);
+		board.setReport(report);
+		theaterBoardDao.updateTBoardByNo(board);
+	}
+	
+	public List<TboardReport> getReportById (String id){
+		return theaterBoardDao.getTboardReportById(id);
+	}
+	
 	
 	
 	

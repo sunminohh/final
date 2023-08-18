@@ -21,7 +21,7 @@ $(function() {
       
           // AJAX 요청
           $.ajax({
-              url: '/board/theater/changelike',
+              url: '/board/store/changelike',
               method: "POST",
               data: $("#like-btn-form").serialize(),
               success: function(response) {
