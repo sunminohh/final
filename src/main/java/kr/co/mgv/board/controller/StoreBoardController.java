@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -238,7 +239,60 @@ public class StoreBoardController {
 		
 		return ResponseEntity.ok().body(inputComment);
 	}
+	
+	@PostMapping("/deleteGreatComment")
+	@ResponseBody
+	public ResponseEntity<Integer> deleteGreatComment(@RequestBody Map<String, Integer> request) {
+		int no = request.get("no");
+		int commentNo = request.get("greatCommentNo");
+		if(no == 0 || commentNo == 0) {
+			return ResponseEntity.badRequest().build();// 값이 없는 경우 잘못된 요청 응답 반환
+		}
+		
+		// table의 commentCount 구하기
+		StoreBoard board = storeBoardService.getStoreBoardByNo(no);
+		// commentNo를 조상으로 갖고 있는 자손 댓글의 수 구하기
+		int childCount = storeBoardService.getTotalChildCount(commentNo);
+		// update할 commentCount 구하기
+		int commentCount = board.getCommentCount() - (childCount + 1);
+		
+		// commentCount update
+		board.setCommentCount(commentCount);
+		storeBoardService.updateBoardComment(no, commentCount);
+		
+		// 자손 댓글 삭제
+		storeBoardService.childCommentDelete(commentNo);
+		
+		// 해당 댓글 삭제
+		storeBoardService.greatCommentDelete(commentNo);
+		
+		return ResponseEntity.ok().body(commentCount);
+	}
     
+	@PostMapping("/deleteReComment")
+	@ResponseBody
+	public ResponseEntity<Integer> deleteReComment(@RequestBody Map<String, Integer> request) {
+		int no = request.get("no");
+		int commentNo = request.get("commentNo");
+		if(no == 0 || commentNo == 0) {
+			return ResponseEntity.badRequest().build();// 값이 없는 경우 잘못된 요청 응답 반환
+		}
+		
+		// table의 commentCount 구하기
+		StoreBoard board = storeBoardService.getStoreBoardByNo(no);
+		// update할 commentCount 구하기
+		int commentCount = board.getCommentCount() - 1;
+		
+		// commentCount update
+		board.setCommentCount(commentCount);
+		storeBoardService.updateBoardComment(no, commentCount);
+		
+		// 해당 댓글 삭제
+		storeBoardService.greatCommentDelete(commentNo);
+		
+		return ResponseEntity.ok().body(commentCount);
+	}
+	
     // 게시물 CRUD 관련
     @GetMapping("/add")
     public String storeForm() {

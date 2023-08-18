@@ -209,7 +209,7 @@
 	                              
 	                           </div>
 	                        </div>
-	                           <div class="col-sm-1 d-flex justify-content-end pt-0" sec:authorize="isAuthenticated()">
+	                           <div class="col-sm-1 d-flex justify-content-end pt-0 me-3" sec:authorize="isAuthenticated()">
 	                              <input type="hidden" name="userId" th:value="${#authentication.principal.id}">
 	                              <a th:href="@{/board/movie/deleteReComment}" 
 	                                 class="btn btn-link btn-sm text-danger text-decoration-none"
