@@ -104,6 +104,7 @@
 			A.LOCATION_NO = B.LOCATION_NO
 			and A.theater_NO = C.theater_NO
 			and A.Lost_NO = #{value} 
+			and A.LOST_DELETED = 'N'
 	</select>
 	
 	<update id="updateLostByNo" parameterType="kr.co.mgv.support.vo.Lost">
