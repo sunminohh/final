@@ -104,7 +104,19 @@ $(function() {
 	            text: '게시글의 내용을 입력해주세요.',
 	        });
 	    } else {
-	        $(".board-insert-form").submit();
+		   Swal.fire({
+           icon: 'warning',
+           title: '게시글을 등록 하시겠습니까?',
+           showCancelButton: true,
+           confirmButtonText: '네',
+           cancelButtonText: '아니오',
+	       }).then((result) => {
+	           if (result.isConfirmed) {
+					 $(".board-insert-form").submit();
+	           } else if (result.dismiss === Swal.DismissReason.cancel) {
+	               
+	           }
+	       });
 	    }
 	});
 	
@@ -129,7 +141,19 @@ $(function() {
 	            text: '게시글의 내용을 입력해주세요.',
 	        });
 	    } else {
-	        $(".board-insert-form").submit();
+		   Swal.fire({
+           icon: 'warning',
+           title: '게시글을 등록 하시겠습니까?',
+           showCancelButton: true,
+           confirmButtonText: '네',
+           cancelButtonText: '아니오',
+	       }).then((result) => {
+	           if (result.isConfirmed) {
+					 $(".board-insert-form").submit();
+	           } else if (result.dismiss === Swal.DismissReason.cancel) {
+	               
+	           }
+	       });
 	    }
 	});
 	
