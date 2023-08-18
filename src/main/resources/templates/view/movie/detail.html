@@ -88,7 +88,7 @@
 						</em>
 						</span>
                     </div>
-                    <p class="cont"><em th:text="${movie.audiCnt}"></em> 명</p>
+                    <p class="cont"><em th:text="${#numbers.formatInteger(movie.audiCnt,3,'COMMA')}"></em> 명</p>
                 </div>
 
             </div>

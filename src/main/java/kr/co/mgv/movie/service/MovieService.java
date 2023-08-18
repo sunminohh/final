@@ -9,21 +9,15 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponents;
-import org.springframework.web.util.UriComponentsBuilder;
-
-import javax.annotation.PostConstruct;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.util.DefaultUriBuilderFactory;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -41,12 +35,12 @@ class Node {
 
 @Service
 public class MovieService {
-    private char[] choSet = { 'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ',
+    private final char[] choSet = { 'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ',
             'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ' };
-    private char[] jungSet = { 'ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ', 'ㅔ', 'ㅕ', 'ㅖ', 'ㅗ', 'ㅘ',
+    private final char[] jungSet = { 'ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ', 'ㅔ', 'ㅕ', 'ㅖ', 'ㅗ', 'ㅘ',
             'ㅙ', 'ㅚ', 'ㅛ', 'ㅜ', 'ㅝ', 'ㅞ', 'ㅟ', 'ㅠ', 'ㅡ', 'ㅢ',
             'ㅣ' };
-    private char[] jongSet = {'\0', 'ㄱ', 'ㄲ', 'ㄳ', 'ㄴ', 'ㄵ', 'ㄶ', 'ㄷ', 'ㄹ', 'ㄺ',
+    private final char[] jongSet = {'\0', 'ㄱ', 'ㄲ', 'ㄳ', 'ㄴ', 'ㄵ', 'ㄶ', 'ㄷ', 'ㄹ', 'ㄺ',
             'ㄻ', 'ㄼ', 'ㄽ', 'ㄾ', 'ㄿ', 'ㅀ', 'ㅁ', 'ㅂ', 'ㅄ', 'ㅅ',
             'ㅆ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ' };
 
@@ -61,7 +55,7 @@ public class MovieService {
         StringBuilder jamo=new StringBuilder();
         int l=inputWord.length();
         for (int i=0; i<l; i++){
-            int uniCode = (int)( inputWord.charAt(i)& 0xFFFF);
+            int uniCode = inputWord.charAt(i)& 0xFFFF;
 
             if (uniCode==32){
                 jamo.append(' ');
@@ -147,12 +141,8 @@ public class MovieService {
         if(x==y){
             return true;
         }
-        if ((x-32==y || x==y-32) && ( (x>= 65 && x<= 90) || (x >= 97 && x<=122) ) &&
-                                ( ( y >= 65 && y <= 90) || ( y >= 97 && y<=122) ))
-        {
-            return true;
-        }
-        return false;
+        return (x - 32 == y || x == y - 32) && ((x >= 65 && x <= 90) || (x >= 97 && x <= 122)) &&
+                ((y >= 65 && y <= 90) || (y >= 97 && y <= 122));
     }
 
     public String modifyString(String target, String s) {
@@ -190,12 +180,10 @@ public class MovieService {
 
         return sb.toString();
     }
-
-    @Autowired
     private final MovieDao movieDao;
-    @Autowired
     private final MovieLikeDao movieLikeDao;
-    private static final String KOBIS_API_URL = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=45ac471b35ca42c983d971a438b31d25&targetDt=";
+    private static final String KOBIS_API_URL = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json";
+    private static final String KOBIS_API_KEY = "45ac471b35ca42c983d971a438b31d25";
     private static final String KMDB_API_URL = "http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&detail=Y&ServiceKey=Y40OV2CFS1I2MTV081VG";
     private static final JSONParser JSON_PARSER = new JSONParser();
 
@@ -207,21 +195,29 @@ public class MovieService {
         List<Movie> movies = new ArrayList<Movie>();
 
         try {
-            String kobisURLString = KOBIS_API_URL+LocalDate.now().minus(1, ChronoUnit.DAYS).format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-            RestTemplate restTemplate = new RestTemplate();
-            HttpHeaders header = new HttpHeaders();
-            HttpEntity<?> entity = new HttpEntity<>(header);
-            UriComponents kobisUri = UriComponentsBuilder.fromHttpUrl(kobisURLString).build();
-            ResponseEntity<Map> kobisResponseEntity = restTemplate.exchange(kobisUri.toString(), HttpMethod.GET,entity,Map.class);
-            LinkedHashMap resultMap = (LinkedHashMap)kobisResponseEntity.getBody().get("boxOfficeResult");
 
-            ArrayList<Map> dailyBoxOfficeList = (ArrayList<Map>)resultMap.get("dailyBoxOfficeList");
+            DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory(KOBIS_API_URL);
+            factory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE);
+            WebClient webClient = WebClient.builder().uriBuilderFactory(factory).baseUrl(KOBIS_API_URL).build();
+          String kobisResponse = webClient.get().uri(uriBuilder -> uriBuilder
+                    .queryParam("key",KOBIS_API_KEY)
+                    .queryParam("targetDt",LocalDate.now().minus(1, ChronoUnit.DAYS).format(DateTimeFormatter.ofPattern("yyyyMMdd")))
+                    .build())
+                    .retrieve()
+                    .bodyToMono(String.class)
+                   .block();
 
-            for (Map dailyBoxOfficeObj : dailyBoxOfficeList) {
+            JSONObject  kobisResponseJson = (JSONObject) JSON_PARSER.parse(kobisResponse);
+
+            JSONObject resultObject = (JSONObject) kobisResponseJson.get("boxOfficeResult");
+            JSONArray resultArray = (JSONArray)resultObject.get("dailyBoxOfficeList");
+
+            for (Object o : resultArray) {
+                JSONObject dailyBoxOfficeObj = (JSONObject) o;
                 Movie movie = new Movie();
                 movie.setChartRank(Integer.parseInt((String) dailyBoxOfficeObj.get("rank")));
                 movie.setTitle((String) dailyBoxOfficeObj.get("movieNm"));
-                String stringDate= dailyBoxOfficeObj.get("openDt").toString();
+                String stringDate = dailyBoxOfficeObj.get("openDt").toString();
                 if (!stringDate.isBlank() && !stringDate.isEmpty()) {
                     movie.setReleaseDate(DateUtils.toDate(stringDate));
                 }
@@ -238,8 +234,8 @@ public class MovieService {
                 String apiUrl = String.format(
                         "%s&title=%s&releaseDts=%s",
                         KMDB_API_URL,
-                        URLEncoder.encode(movieTitle, "UTF-8"),
-                        URLEncoder.encode(DateUtils.toText(movie.getReleaseDate()).replace("-",""), "UTF-8")
+                        URLEncoder.encode(movieTitle, StandardCharsets.UTF_8),
+                        URLEncoder.encode(DateUtils.toText(movie.getReleaseDate()).replace("-",""), StandardCharsets.UTF_8)
                 );
 
                 URL url = new URL(apiUrl);
@@ -303,7 +299,7 @@ public class MovieService {
                 int actorIndex;
                 for (actorIndex=0; actorIndex< (actorArray.size()<3 ? actorArray.size()-1 : 2); actorIndex++ ) {
                     actor= (JSONObject)actorArray.get(actorIndex);
-                    sb.append((String)actor.get("actorNm")+", ");
+                    sb.append(actor.get("actorNm") +", ");
                 }
                 actor= (JSONObject)actorArray.get(actorIndex);
                 sb.append((String)actor.get("actorNm"));
@@ -350,8 +346,8 @@ public class MovieService {
                 String apiUrl = String.format(
                         "%s&title=%s&releaseDts=%s",
                         KMDB_API_URL,
-                        URLEncoder.encode(movieTitle, "UTF-8"),
-                        URLEncoder.encode(DateUtils.toText(movie.getReleaseDate()).replace("-",""), "UTF-8")
+                        URLEncoder.encode(movieTitle, StandardCharsets.UTF_8),
+                        URLEncoder.encode(DateUtils.toText(movie.getReleaseDate()).replace("-",""), StandardCharsets.UTF_8)
                 );
 
                 URL url = new URL(apiUrl);
@@ -384,7 +380,7 @@ public class MovieService {
                 String[] poster = posters.split("\\|");
                 sb= new StringBuilder();
                 for (int i=0; i<(poster.length<4? poster.length : 3); i++) {
-                    sb.append(poster[i]+" ");
+                    sb.append(poster[i]).append(" ");
                 }
                 posters=sb.toString();
                 JSONObject directorResult = (JSONObject)result.get("directors");
@@ -418,7 +414,7 @@ public class MovieService {
                 int actorIndex;
                 for (actorIndex=0; actorIndex< (actorArray.size()<3 ? actorArray.size()-1 : 2); actorIndex++ ) {
                     actor= (JSONObject)actorArray.get(actorIndex);
-                    sb.append((String)actor.get("actorNm")+", ");
+                    sb.append(actor.get("actorNm") +", ");
                 }
                 actor= (JSONObject)actorArray.get(actorIndex);
                 sb.append((String)actor.get("actorNm"));

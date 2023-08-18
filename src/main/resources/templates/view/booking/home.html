@@ -5,15 +5,55 @@
     <script>
         $(() => {
             let currentStepIndex = 0;
-            setInterval(() => {
-                $(`#step${currentStepIndex}`).hide();
-                currentStepIndex = (++currentStepIndex) % 3;
-                $(`#step${currentStepIndex}`).show();
-            }, 2000);
+            // setInterval(() => {
+            //     $(`#step${currentStepIndex}`).hide();
+            //     currentStepIndex = (++currentStepIndex) % 3;
+            //     $(`#step${currentStepIndex}`).show();
+            // }, 2000);
         });
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.9/dayjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.9/locale/ko.min.js"></script>
+
 </head>
 <div layout:fragment="content">
+    <script>
+        $(()=>{
+            dayjs.locale('ko-kr')
+            const today= dayjs().add(-1,'day')
+            today.format()
+            let startDay=today;
+            for (var i =0; i<16; i++){
+                let day=today.add(i,'day')
+                let html=`<button class="${day.day() == 6 ? 'sat' : day.day() == 0 ? 'holi' : ''}" type="button" date-data="${day.format('YYYY-MM-dd')}" month="6" tabindex="-1">
+                                                <span class="ir"></span>
+                                                <em style="pointer-events:none;">${day.date()} <span style="pointer-events:none;" class="ir">일</span>
+                                                </em>
+                                                <span class="day-kr" style="pointer-events:none;display:inline-block">${day.format('dd')}</span>
+                                                <span class="day-en" style="pointer-events:none;display:none">Wed</span>
+                                            </button>`
+                console.log(html)
+                $("#formDeList").children().append(html);
+            }
+            $(".btn-next").click(function(event){
+                const fday= $("#formDeList").children().children().filter(':first-child')
+                fday.remove()
+                const day=startDay.add(16,'day')
+                startDay=startDay.add(1,'day')
+                let html=`<button class="${day.day() == 6 ? 'sat' : day.day() == 0 ? 'holi' : ''}" type="button" date-data="${day.format('YYYY-MM-dd')}" month="6" tabindex="-1">
+                                                <span class="ir"></span>
+                                                <em style="pointer-events:none;">${day.date()} <span style="pointer-events:none;" class="ir">일</span>
+                                                </em>
+                                                <span class="day-kr" style="pointer-events:none;display:inline-block">${day.format('dd')}</span>
+                                                <span class="day-en" style="pointer-events:none;display:none">Wed</span>
+                                            </button>`
+                $("#formDeList").children().append(html)
+
+            })
+
+
+        })
+    </script>
     <div class="container" style="padding-bottom:240px;">
         <input type="hidden" name="playDe" value="">
         <div class="page-util" style="">
@@ -73,118 +113,118 @@
                                     </div>
                                     <div class="date-area" id="formDeList">
                                         <div class="wrap" style="position: relative; width: 2100px; border: none; left: -70px;">
-                                            <button class="disabled" type="button" date-data="2023.07.26" month="6" tabindex="-1">
-                                                <span class="ir">2023년 7월</span>
-                                                <em style="pointer-events:none;">26 <span style="pointer-events:none;" class="ir">일</span>
-                                                </em>
-                                                <span class="day-kr" style="pointer-events:none;display:inline-block">수</span>
-                                                <span class="day-en" style="pointer-events:none;display:none">Wed</span>
-                                            </button>
-                                            <button class="on" type="button" date-data="2023.07.27" month="6">
-                                                <span class="ir">2023년 7월</span>
-                                                <em style="pointer-events:none;">27 <span style="pointer-events:none;" class="ir">일</span>
-                                                </em>
-                                                <span class="day-kr" style="pointer-events:none;display:inline-block">오늘</span>
-                                                <span class="day-en" style="pointer-events:none;display:none">Thu</span>
-                                            </button>
-                                            <button class="" type="button" date-data="2023.07.28" month="6">
-                                                <span class="ir">2023년 7월</span>
-                                                <em style="pointer-events:none;">28 <span style="pointer-events:none;" class="ir">일</span>
-                                                </em>
-                                                <span class="day-kr" style="pointer-events:none;display:inline-block">내일</span>
-                                                <span class="day-en" style="pointer-events:none;display:none">Fri</span>
-                                            </button>
-                                            <button class="sat" type="button" date-data="2023.07.29" month="6">
-                                                <span class="ir">2023년 7월</span>
-                                                <em style="pointer-events:none;">29 <span style="pointer-events:none;" class="ir">일</span>
-                                                </em>
-                                                <span class="day-kr" style="pointer-events:none;display:inline-block">토</span>
-                                                <span class="day-en" style="pointer-events:none;display:none">Sat</span>
-                                            </button>
-                                            <button class="holi" type="button" date-data="2023.07.30" month="6">
-                                                <span class="ir">2023년 7월</span>
-                                                <em style="pointer-events:none;">30 <span style="pointer-events:none;" class="ir">일</span>
-                                                </em>
-                                                <span class="day-kr" style="pointer-events:none;display:inline-block">일</span>
-                                                <span class="day-en" style="pointer-events:none;display:none">Sun</span>
-                                            </button>
-                                            <button class="" type="button" date-data="2023.07.31" month="6">
-                                                <span class="ir">2023년 7월</span>
-                                                <em style="pointer-events:none;">31 <span style="pointer-events:none;" class="ir">일</span>
-                                                </em>
-                                                <span class="day-kr" style="pointer-events:none;display:inline-block">월</span>
-                                                <span class="day-en" style="pointer-events:none;display:none">Mon</span>
-                                            </button>
-                                            <button class="" type="button" date-data="2023.08.01" month="7">
-                                                <span class="ir">2023년 8월</span>
-                                                <em style="pointer-events:none;">1 <span style="pointer-events:none;" class="ir">일</span>
-                                                </em>
-                                                <span class="day-kr" style="pointer-events:none;display:inline-block">화</span>
-                                                <span class="day-en" style="pointer-events:none;display:none">Tue</span>
-                                            </button>
-                                            <button class="" type="button" date-data="2023.08.02" month="7">
-                                                <span class="ir">2023년 8월</span>
-                                                <em style="pointer-events:none;">2 <span style="pointer-events:none;" class="ir">일</span>
-                                                </em>
-                                                <span class="day-kr" style="pointer-events:none;display:inline-block">수</span>
-                                                <span class="day-en" style="pointer-events:none;display:none">Wed</span>
-                                            </button>
-                                            <button class="" type="button" date-data="2023.08.03" month="7">
-                                                <span class="ir">2023년 8월</span>
-                                                <em style="pointer-events:none;">3 <span style="pointer-events:none;" class="ir">일</span>
-                                                </em>
-                                                <span class="day-kr" style="pointer-events:none;display:inline-block">목</span>
-                                                <span class="day-en" style="pointer-events:none;display:none">Thu</span>
-                                            </button>
-                                            <button class="" type="button" date-data="2023.08.04" month="7">
-                                                <span class="ir">2023년 8월</span>
-                                                <em style="pointer-events:none;">4 <span style="pointer-events:none;" class="ir">일</span>
-                                                </em>
-                                                <span class="day-kr" style="pointer-events:none;display:inline-block">금</span>
-                                                <span class="day-en" style="pointer-events:none;display:none">Fri</span>
-                                            </button>
-                                            <button class="sat" type="button" date-data="2023.08.05" month="7">
-                                                <span class="ir">2023년 8월</span>
-                                                <em style="pointer-events:none;">5 <span style="pointer-events:none;" class="ir">일</span>
-                                                </em>
-                                                <span class="day-kr" style="pointer-events:none;display:inline-block">토</span>
-                                                <span class="day-en" style="pointer-events:none;display:none">Sat</span>
-                                            </button>
-                                            <button class="holi" type="button" date-data="2023.08.06" month="7">
-                                                <span class="ir">2023년 8월</span>
-                                                <em style="pointer-events:none;">6 <span style="pointer-events:none;" class="ir">일</span>
-                                                </em>
-                                                <span class="day-kr" style="pointer-events:none;display:inline-block">일</span>
-                                                <span class="day-en" style="pointer-events:none;display:none">Sun</span>
-                                            </button>
-                                            <button class="" type="button" date-data="2023.08.07" month="7">
-                                                <span class="ir">2023년 8월</span>
-                                                <em style="pointer-events:none;">7 <span style="pointer-events:none;" class="ir">일</span>
-                                                </em>
-                                                <span class="day-kr" style="pointer-events:none;display:inline-block">월</span>
-                                                <span class="day-en" style="pointer-events:none;display:none">Mon</span>
-                                            </button>
-                                            <button class="" type="button" date-data="2023.08.08" month="7">
-                                                <span class="ir">2023년 8월</span>
-                                                <em style="pointer-events:none;">8 <span style="pointer-events:none;" class="ir">일</span>
-                                                </em>
-                                                <span class="day-kr" style="pointer-events:none;display:inline-block">화</span>
-                                                <span class="day-en" style="pointer-events:none;display:none">Tue</span>
-                                            </button>
-                                            <button class="" type="button" date-data="2023.08.09" month="7">
-                                                <span class="ir">2023년 8월</span>
-                                                <em style="pointer-events:none;">9 <span style="pointer-events:none;" class="ir">일</span>
-                                                </em>
-                                                <span class="day-kr" style="pointer-events:none;display:inline-block">수</span>
-                                                <span class="day-en" style="pointer-events:none;display:none">Wed</span>
-                                            </button>
-                                            <button class="" type="button" date-data="2023.08.10" month="7" tabindex="-1">
-                                                <span class="ir">2023년 8월</span>
-                                                <em style="pointer-events:none;">10 <span style="pointer-events:none;" class="ir">일</span>
-                                                </em>
-                                                <span class="day-kr" style="pointer-events:none;display:inline-block">목</span>
-                                                <span class="day-en" style="pointer-events:none;display:none">Thu</span>
-                                            </button>
+<!--                                            <button class="disabled" type="button" date-data="2023.07.26" month="6" tabindex="-1">-->
+<!--                                                <span class="ir"></span>-->
+<!--                                                <em style="pointer-events:none;"> <span style="pointer-events:none;" class="ir">일</span>-->
+<!--                                                </em>-->
+<!--                                                <span class="day-kr" style="pointer-events:none;display:inline-block">수</span>-->
+<!--                                                <span class="day-en" style="pointer-events:none;display:none">Wed</span>-->
+<!--                                            </button>-->
+<!--                                            <button class="on" type="button" date-data="2023.07.27" month="6">-->
+<!--                                                <span class="ir">2023년 7월</span>-->
+<!--                                                <em style="pointer-events:none;">27 <span style="pointer-events:none;" class="ir">일</span>-->
+<!--                                                </em>-->
+<!--                                                <span class="day-kr" style="pointer-events:none;display:inline-block">오늘</span>-->
+<!--                                                <span class="day-en" style="pointer-events:none;display:none">Thu</span>-->
+<!--                                            </button>-->
+<!--                                            <button class="" type="button" date-data="2023.07.28" month="6">-->
+<!--                                                <span class="ir">2023년 7월</span>-->
+<!--                                                <em style="pointer-events:none;">28 <span style="pointer-events:none;" class="ir">일</span>-->
+<!--                                                </em>-->
+<!--                                                <span class="day-kr" style="pointer-events:none;display:inline-block">내일</span>-->
+<!--                                                <span class="day-en" style="pointer-events:none;display:none">Fri</span>-->
+<!--                                            </button>-->
+<!--                                            <button class="sat" type="button" date-data="2023.07.29" month="6">-->
+<!--                                                <span class="ir">2023년 7월</span>-->
+<!--                                                <em style="pointer-events:none;">29 <span style="pointer-events:none;" class="ir">일</span>-->
+<!--                                                </em>-->
+<!--                                                <span class="day-kr" style="pointer-events:none;display:inline-block">토</span>-->
+<!--                                                <span class="day-en" style="pointer-events:none;display:none">Sat</span>-->
+<!--                                            </button>-->
+<!--                                            <button class="holi" type="button" date-data="2023.07.30" month="6">-->
+<!--                                                <span class="ir">2023년 7월</span>-->
+<!--                                                <em style="pointer-events:none;">30 <span style="pointer-events:none;" class="ir">일</span>-->
+<!--                                                </em>-->
+<!--                                                <span class="day-kr" style="pointer-events:none;display:inline-block">일</span>-->
+<!--                                                <span class="day-en" style="pointer-events:none;display:none">Sun</span>-->
+<!--                                            </button>-->
+<!--                                            <button class="" type="button" date-data="2023.07.31" month="6">-->
+<!--                                                <span class="ir">2023년 7월</span>-->
+<!--                                                <em style="pointer-events:none;">31 <span style="pointer-events:none;" class="ir">일</span>-->
+<!--                                                </em>-->
+<!--                                                <span class="day-kr" style="pointer-events:none;display:inline-block">월</span>-->
+<!--                                                <span class="day-en" style="pointer-events:none;display:none">Mon</span>-->
+<!--                                            </button>-->
+<!--                                            <button class="" type="button" date-data="2023.08.01" month="7">-->
+<!--                                                <span class="ir">2023년 8월</span>-->
+<!--                                                <em style="pointer-events:none;">1 <span style="pointer-events:none;" class="ir">일</span>-->
+<!--                                                </em>-->
+<!--                                                <span class="day-kr" style="pointer-events:none;display:inline-block">화</span>-->
+<!--                                                <span class="day-en" style="pointer-events:none;display:none">Tue</span>-->
+<!--                                            </button>-->
+<!--                                            <button class="" type="button" date-data="2023.08.02" month="7">-->
+<!--                                                <span class="ir">2023년 8월</span>-->
+<!--                                                <em style="pointer-events:none;">2 <span style="pointer-events:none;" class="ir">일</span>-->
+<!--                                                </em>-->
+<!--                                                <span class="day-kr" style="pointer-events:none;display:inline-block">수</span>-->
+<!--                                                <span class="day-en" style="pointer-events:none;display:none">Wed</span>-->
+<!--                                            </button>-->
+<!--                                            <button class="" type="button" date-data="2023.08.03" month="7">-->
+<!--                                                <span class="ir">2023년 8월</span>-->
+<!--                                                <em style="pointer-events:none;">3 <span style="pointer-events:none;" class="ir">일</span>-->
+<!--                                                </em>-->
+<!--                                                <span class="day-kr" style="pointer-events:none;display:inline-block">목</span>-->
+<!--                                                <span class="day-en" style="pointer-events:none;display:none">Thu</span>-->
+<!--                                            </button>-->
+<!--                                            <button class="" type="button" date-data="2023.08.04" month="7">-->
+<!--                                                <span class="ir">2023년 8월</span>-->
+<!--                                                <em style="pointer-events:none;">4 <span style="pointer-events:none;" class="ir">일</span>-->
+<!--                                                </em>-->
+<!--                                                <span class="day-kr" style="pointer-events:none;display:inline-block">금</span>-->
+<!--                                                <span class="day-en" style="pointer-events:none;display:none">Fri</span>-->
+<!--                                            </button>-->
+<!--                                            <button class="sat" type="button" date-data="2023.08.05" month="7">-->
+<!--                                                <span class="ir">2023년 8월</span>-->
+<!--                                                <em style="pointer-events:none;">5 <span style="pointer-events:none;" class="ir">일</span>-->
+<!--                                                </em>-->
+<!--                                                <span class="day-kr" style="pointer-events:none;display:inline-block">토</span>-->
+<!--                                                <span class="day-en" style="pointer-events:none;display:none">Sat</span>-->
+<!--                                            </button>-->
+<!--                                            <button class="holi" type="button" date-data="2023.08.06" month="7">-->
+<!--                                                <span class="ir">2023년 8월</span>-->
+<!--                                                <em style="pointer-events:none;">6 <span style="pointer-events:none;" class="ir">일</span>-->
+<!--                                                </em>-->
+<!--                                                <span class="day-kr" style="pointer-events:none;display:inline-block">일</span>-->
+<!--                                                <span class="day-en" style="pointer-events:none;display:none">Sun</span>-->
+<!--                                            </button>-->
+<!--                                            <button class="" type="button" date-data="2023.08.07" month="7">-->
+<!--                                                <span class="ir">2023년 8월</span>-->
+<!--                                                <em style="pointer-events:none;">7 <span style="pointer-events:none;" class="ir">일</span>-->
+<!--                                                </em>-->
+<!--                                                <span class="day-kr" style="pointer-events:none;display:inline-block">월</span>-->
+<!--                                                <span class="day-en" style="pointer-events:none;display:none">Mon</span>-->
+<!--                                            </button>-->
+<!--                                            <button class="" type="button" date-data="2023.08.08" month="7">-->
+<!--                                                <span class="ir">2023년 8월</span>-->
+<!--                                                <em style="pointer-events:none;">8 <span style="pointer-events:none;" class="ir">일</span>-->
+<!--                                                </em>-->
+<!--                                                <span class="day-kr" style="pointer-events:none;display:inline-block">화</span>-->
+<!--                                                <span class="day-en" style="pointer-events:none;display:none">Tue</span>-->
+<!--                                            </button>-->
+<!--                                            <button class="" type="button" date-data="2023.08.09" month="7">-->
+<!--                                                <span class="ir">2023년 8월</span>-->
+<!--                                                <em style="pointer-events:none;">9 <span style="pointer-events:none;" class="ir">일</span>-->
+<!--                                                </em>-->
+<!--                                                <span class="day-kr" style="pointer-events:none;display:inline-block">수</span>-->
+<!--                                                <span class="day-en" style="pointer-events:none;display:none">Wed</span>-->
+<!--                                            </button>-->
+<!--                                            <button class="" type="button" date-data="2023.08.10" month="7" tabindex="-1">-->
+<!--                                                <span class="ir">2023년 8월</span>-->
+<!--                                                <em style="pointer-events:none;">10 <span style="pointer-events:none;" class="ir">일</span>-->
+<!--                                                </em>-->
+<!--                                                <span class="day-kr" style="pointer-events:none;display:inline-block">목</span>-->
+<!--                                                <span class="day-en" style="pointer-events:none;display:none">Thu</span>-->
+<!--                                            </button>-->
                                         </div>
                                     </div>
                                 </div>
