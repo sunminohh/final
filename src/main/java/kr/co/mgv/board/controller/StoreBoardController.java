@@ -327,4 +327,10 @@ public class StoreBoardController {
     	storeBoardService.updateSBoard(form, no);
     	return "redirect:/board/store/detail?no=" + no;
     }
+    
+    @GetMapping("/delete")
+    public String deleteBoard(@RequestParam("no") int no) {
+    	storeBoardService.deleteBoard(no);
+    	return "redirect:/board/store/list";
+    }
 }

@@ -152,7 +152,7 @@
                     등록</a>
             </div>
 
-            <nav>
+            <nav th:if="${result.pagination.totalRows > 0}">
 				<ul class="pagination justify-content-center">
 				    <li class="page-item" th:if="${result.pagination.currentBlock > 1}">
 				        <a title="첫번째 페이지 보기"

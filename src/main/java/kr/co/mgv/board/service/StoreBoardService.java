@@ -172,4 +172,11 @@ public class StoreBoardService {
 		}
 	}
 	
+	public void deleteBoard(int no) {
+		StoreBoard board = storeBoardDao.getSBoardByNo(no);
+		board.setDeleted("Y");
+		
+		storeBoardDao.updateSBoardByNo(board);
+	}
+	
 }
