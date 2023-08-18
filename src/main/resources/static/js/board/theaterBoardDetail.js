@@ -80,7 +80,7 @@ $(function() {
 	            <div class="col-11 ms-5 CommentWriter" id="reply-form-${commentNo}">
 	                <div class="comment-inbox border p-2 rounded">
 	                    <em class="comment_inbox_name">${loginId}</em>
-	                    <form id="re-form-comment" method="post" action="/board/movie/addReComment">
+	                    <form id="re-form-comment" method="post" action="/board/theater/addReComment">
 	                        <input type="hidden" name="no" value="${no}" />
 	                        <input type="hidden" name="parentNo" value="${commentNo}" />
 	                        <input type="hidden" name="greatNo" value="${commentNo}" />
@@ -134,7 +134,7 @@ $(function() {
 	            <div class="col-11 ms-5 CommentWriter" id="reply-form-${commentNo}">
 	                <div class="comment-inbox border p-2 rounded">
 	                    <em class="comment_inbox_name">${loginId}</em>
-	                    <form id="re-form-comment" method="post" action="/board/movie/addReComment">
+	                    <form id="re-form-comment" method="post" action="/board/theater/addReComment">
 	                        <input type="hidden" name="no" value="${no}" />
 	                        <input type="hidden" name="parentNo" value="${commentNo}" />
 	                        <input type="hidden" name="greatNo" value="${commentNo}" />
