@@ -21,7 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.mgv.board.form.AddMboardForm;
 import kr.co.mgv.board.form.MBoardForm;
-import kr.co.mgv.board.form.MboardReportForm;
+import kr.co.mgv.board.form.ReportForm;
 import kr.co.mgv.board.list.MovieBoardList;
 import kr.co.mgv.board.service.MovieBoardService;
 import kr.co.mgv.board.vo.MBoardComment;
@@ -387,7 +387,7 @@ public class MovieBoardController {
 
     // 신고관련
     @PostMapping("/report")
-    public String reportBoard(MboardReportForm form, 
+    public String reportBoard(ReportForm form, 
     						  @AuthenticationPrincipal User user) {
 //    	log.info("입력 내용 -> {}", form.getReasonNo());
 //    	log.info("입력 내용 -> {}", form.getBoardNo());
