@@ -318,6 +318,10 @@
 	</delete>	
 	
 	<!-- 게시판 등록 -->
-	
+	<insert id="insertSboard" parameterType="kr.co.mgv.board.vo.StoreBoard">
+	INSERT INTO MGV_PRODUCT_BOARD
+	(BOARD_NAME, BOARD_CONTENT, USER_ID, PRODUCT_NO, CAT_NO, BORAD_FILENAME)
+	VALUES(#{name}, #{content}, #{user.id}, #{product.no}, #{category.no}, #{fileName});
+	</insert>
 	
 </mapper>
