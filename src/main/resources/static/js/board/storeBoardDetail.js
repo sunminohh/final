@@ -80,7 +80,7 @@ $(function() {
 	            <div class="col-11 ms-5 CommentWriter" id="reply-form-${commentNo}">
 	                <div class="comment-inbox border p-2 rounded">
 	                    <em class="comment_inbox_name">${loginId}</em>
-	                    <form id="re-form-comment" method="post" action="/board/movie/addReComment">
+	                    <form id="re-form-comment" method="post" action="/board/store/addReComment">
 	                        <input type="hidden" name="no" value="${no}" />
 	                        <input type="hidden" name="parentNo" value="${commentNo}" />
 	                        <input type="hidden" name="greatNo" value="${commentNo}" />
@@ -134,7 +134,7 @@ $(function() {
 	            <div class="col-11 ms-5 CommentWriter" id="reply-form-${commentNo}">
 	                <div class="comment-inbox border p-2 rounded">
 	                    <em class="comment_inbox_name">${loginId}</em>
-	                    <form id="re-form-comment" method="post" action="/board/movie/addReComment">
+	                    <form id="re-form-comment" method="post" action="/board/store/addReComment">
 	                        <input type="hidden" name="no" value="${no}" />
 	                        <input type="hidden" name="parentNo" value="${commentNo}" />
 	                        <input type="hidden" name="greatNo" value="${commentNo}" />
@@ -187,7 +187,7 @@ $(function() {
           } else { // 댓글 내용이 비어있지 않을 때
               // AJAX 요청을 보내고 새로운 댓글 목록을 받아옴
              $.ajax({
-                 url: '/board/theater/addComment',
+                 url: '/board/store/addComment',
                  method: "POST",
                  data: $("#form-comment").serialize(),
                  success: function(comment) {
@@ -292,7 +292,7 @@ $(function() {
           } else { // 댓글 내용이 비어있지 않을 때
               // AJAX 요청을 보내고 새로운 댓글 목록을 받아옴
              $.ajax({
-                 url: '/board/theater/addReComment',
+                 url: '/board/store/addReComment',
                  method: "POST",
                  data: $("#re-form-comment").serialize(),
                  success: function(comment) {
@@ -326,7 +326,7 @@ $(function() {
                                  </a>
                               </div>
                               <div class="ps-5">
-                                 <p ><strong class="fs-6" >${comment.user.id}</strong></p>
+                                 <p><strong class="fs-6"  >${comment.user.id}</strong></p>
                                  <input type="hidden" name="commentNo" value="${comment.no}" />
                               </div>
                            </div>
@@ -394,7 +394,7 @@ $(function() {
           } else { // 댓글 내용이 비어있지 않을 때
               // AJAX 요청을 보내고 새로운 댓글 목록을 받아옴
              $.ajax({
-                 url: '/board/theater/addReComment',
+                 url: '/board/store/addReComment',
                  method: "POST",
                  data: $("#re-form-comment").serialize(),
                  success: function(comment) {
@@ -428,7 +428,7 @@ $(function() {
                                  </a>
                               </div>
                               <div class="ps-5">
-                                 <p ><strong class="fs-6" >${comment.user.id}</strong></p>
+                                 <p ><strong class="fs-6"  >${comment.user.id}</strong></p>
                                  <input type="hidden" name="commentNo" value="${comment.no}" />
                               </div>
                            </div>
@@ -497,7 +497,7 @@ $(".great-box").on('click', '#delete-comment-btn', function(event) {
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url: '/board/theater/deleteGreatComment', // 변경된 엔드포인트
+                url: '/board/store/deleteGreatComment', // 변경된 엔드포인트
                 method: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(requestData),
@@ -535,7 +535,7 @@ $(".great-box-2").on('click', '#delete-comment-btn', function(event) {
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url: '/board/theater/deleteGreatComment', // 변경된 엔드포인트
+                url: '/board/store/deleteGreatComment', // 변경된 엔드포인트
                 method: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(requestData),
@@ -577,7 +577,7 @@ $(".great-box-2").on('click', '#delete-comment-btn', function(event) {
           }).then((result) => {
               if (result.isConfirmed) {
                   $.ajax({
-                      url: '/board/theater/deleteReComment', // 변경된 엔드포인트
+                      url: '/board/store/deleteReComment', // 변경된 엔드포인트
                       method: 'POST',
                       contentType: 'application/json',
                       data: JSON.stringify(requestData),
@@ -616,7 +616,7 @@ $(".great-box-2").on('click', '#delete-comment-btn', function(event) {
           }).then((result) => {
               if (result.isConfirmed) {
                   $.ajax({
-                      url: '/board/theater/deleteReComment', // 변경된 엔드포인트
+                      url: '/board/store/deleteReComment', // 변경된 엔드포인트
                       method: 'POST',
                       contentType: 'application/json',
                       data: JSON.stringify(requestData),

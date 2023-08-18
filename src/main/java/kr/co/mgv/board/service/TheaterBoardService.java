@@ -103,7 +103,7 @@ public class TheaterBoardService {
 		theaterBoardDao.updateLike(like);
 	}
 	
-	// 댓글관련 - updateBoardComment
+	// 댓글관련
 	public void updateBoardComment(int no, int commentCount) {
 		TheaterBoard board = theaterBoardDao.getTBoardByNo(no);
 		board.setCommentCount(commentCount);

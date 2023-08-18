@@ -21,16 +21,17 @@ import kr.co.mgv.board.service.MovieBoardService;
 import kr.co.mgv.board.service.StoreBoardService;
 import kr.co.mgv.board.vo.BoardProduct;
 import kr.co.mgv.board.vo.ReportReason;
+import kr.co.mgv.board.vo.SBoardComment;
 import kr.co.mgv.board.vo.SBoardLike;
 import kr.co.mgv.board.vo.StoreBoard;
-import kr.co.mgv.board.vo.TBoardLike;
-import kr.co.mgv.board.vo.TheaterBoard;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/board/store")
 @RequiredArgsConstructor
+@Slf4j
 public class StoreBoardController {
 
 	private final StoreBoardService storeBoardService;
@@ -123,9 +124,11 @@ public class StoreBoardController {
     	StoreBoard storeBoard = storeBoardService.getStoreBoardByNo(no);
     	model.addAttribute("board", storeBoard);
     	// 모댓글 목록
-    	
+    	List<SBoardComment> comments = storeBoardService.getComments(no);
+    	model.addAttribute("comments", comments);
     	// 자손댓글 목록
-    	
+    	List<SBoardComment> childComments = storeBoardService.getChildComments(no);
+    	model.addAttribute("childComments", childComments);
     	// 신고이유 목록
 		List<ReportReason> reportReasons = movieBoardService.getReportReason();
 		model.addAttribute("reasons", reportReasons);
@@ -166,6 +169,75 @@ public class StoreBoardController {
 	}    
     
     // 댓글 관련
+	@PostMapping("/addComment")
+	@ResponseBody
+	public ResponseEntity<SBoardComment> addComment (@RequestParam("no") int no, 
+										             @RequestParam("id") String id, 
+										             @RequestParam(name="parentNo", required = false) Integer parentNo, 
+										             @RequestParam(name="greatNo", required = false) Integer greatNo, 
+										             @RequestParam("content") String content){
+		SBoardComment comment = new SBoardComment();
+		comment.setContent(content);
+		
+		StoreBoard sBoard = StoreBoard.builder().no(no).build();
+		comment.setBoard(sBoard);
+		
+		if (parentNo != null) {
+		SBoardComment parentComment = SBoardComment.builder().no(parentNo).build();
+		comment.setParent(parentComment);
+		}
+		if (greatNo != null) {
+		SBoardComment greatComment = SBoardComment.builder().no(greatNo).build();
+		comment.setGreat(greatComment);
+		}
+		
+		User user = User.builder().id(id).build();
+		comment.setUser(user);
+
+		storeBoardService.SBoardCommentInsert(comment);
+		StoreBoard board = storeBoardService.getStoreBoardByNo(no);
+		int commentCount = board.getCommentCount() + 1;
+		storeBoardService.updateBoardComment(no, commentCount);
+		
+		SBoardComment inputComment = storeBoardService.getGreatComment(no, id);
+		
+		return ResponseEntity.ok().body(inputComment);
+	}
+	
+	@PostMapping("/addReComment")
+	@ResponseBody
+	public ResponseEntity<SBoardComment> addReComment (@RequestParam("no") int no, 
+										             @RequestParam("id") String id, 
+										             @RequestParam(name="parentNo", required = false) Integer parentNo, 
+										             @RequestParam(name="greatNo", required = false) Integer greatNo, 
+										             @RequestParam("content") String content){
+		SBoardComment comment = new SBoardComment();
+		comment.setContent(content);
+		
+		StoreBoard sBoard = StoreBoard.builder().no(no).build();
+		comment.setBoard(sBoard);
+		
+		if (parentNo != null) {
+		SBoardComment parentComment = SBoardComment.builder().no(parentNo).build();
+		comment.setParent(parentComment);
+		}
+		if (greatNo != null) {
+		SBoardComment greatComment = SBoardComment.builder().no(greatNo).build();
+		comment.setGreat(greatComment);
+		}
+		
+		User user = User.builder().id(id).build();
+		comment.setUser(user);
+
+		storeBoardService.SBoardCommentInsert(comment);
+		StoreBoard board = storeBoardService.getStoreBoardByNo(no);
+		int commentCount = board.getCommentCount() + 1;
+		storeBoardService.updateBoardComment(no, commentCount);
+		
+		SBoardComment inputComment = storeBoardService.getChildComment(no, id);
+		
+		return ResponseEntity.ok().body(inputComment);
+	}
     
     // 게시물 CRUD 관련
     @GetMapping("/add")

@@ -10,8 +10,10 @@ import kr.co.mgv.board.list.StoreBoardList;
 import kr.co.mgv.board.mapper.StoreBoardDao;
 import kr.co.mgv.board.vo.BoardCategory;
 import kr.co.mgv.board.vo.BoardProduct;
+import kr.co.mgv.board.vo.SBoardComment;
 import kr.co.mgv.board.vo.SBoardLike;
 import kr.co.mgv.board.vo.StoreBoard;
+import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -84,4 +86,50 @@ public class StoreBoardService {
 	public void updateSboardLike(SBoardLike like) {
 		storeBoardDao.updateLike(like);
 	}
+
+	// 댓글관련
+	public void SBoardCommentInsert(SBoardComment comment) {
+		storeBoardDao.insertSBoardComment(comment);
+	}
+	
+	public void updateBoardComment(int no, int commentCount) {
+		StoreBoard board = storeBoardDao.getSBoardByNo(no);
+		board.setCommentCount(commentCount);
+		storeBoardDao.updateSBoardByNo(board);
+	}
+	
+	public List<SBoardComment> getComments(int no) {
+		return storeBoardDao.getSBoardComments(no);
+	}
+	
+	public List<SBoardComment> getChildComments(int no)	{
+		return storeBoardDao.getSBoardChildComments(no);
+	}
+	
+	public SBoardComment getGreatComment(int no, String id) {
+		User user = User.builder().id(id).build();
+		StoreBoard board = StoreBoard.builder().no(no).build();
+		SBoardComment comment = SBoardComment.builder().user(user).board(board).build();
+		return storeBoardDao.getGreatComment(comment);
+	}
+	
+	public SBoardComment getChildComment(int no, String id) {
+		User user = User.builder().id(id).build();
+		StoreBoard board = StoreBoard.builder().no(no).build();
+		SBoardComment comment = SBoardComment.builder().user(user).board(board).build();
+		return storeBoardDao.getChildComment(comment);
+	}
+	
+	public void greatCommentDelete (int no) {
+		storeBoardDao.deleteGreatComment(no);
+	}
+	
+	public void childCommentDelete (int no) {
+		storeBoardDao.deleteChildsComment(no);
+	}
+	
+	public int getTotalChildCount (int no) {
+		return storeBoardDao.getTotalCommentCount(no);
+	}
+	
 }
