@@ -165,6 +165,8 @@ $(function() {
             $(".insertform").submit();
         }
     });
+    
+   
 
 	// 나의 문의내역에서 일대일 문의내역 조회
 	// 검색버튼 클릭했을 때
@@ -331,6 +333,28 @@ $(function() {
 		
 		document.querySelector("#actionForm").submit();
 	})
+	
+	// 삭제 버튼 띄우기
+    $("#delete-btn").on("click", function(event) {
+	    event.preventDefault();
+		let no = $('[name=no]').val();
+		
+	    Swal.fire({
+	        icon: 'warning',
+	        title: '정말 삭제하시겠습니까?',
+	        showCancelButton: true,
+	        confirmButtonText: '네',
+	        cancelButtonText: '아니오',
+	    }).then((result) => {
+	        if (result.isConfirmed) {
+	              window.location.href = 'delete?no=' + no;      
+	              
+	        } else if (result.dismiss === Swal.DismissReason.cancel) {
+	            
+	        }
+	    });
+	});
+	
 	
 });
 
