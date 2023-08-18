@@ -40,18 +40,19 @@ public class OneController {
         return "/view/support/one/form";
     }
 	
-	@GetMapping("/myinquery")
+	@RequestMapping("/myinquery")
 	public String myinquery() {
 
 		return "/view/support/one/list";
 	}
 	
-	@GetMapping("/list")
+	@RequestMapping("/list")
 	@ResponseBody
 	public OneList list(@AuthenticationPrincipal User user,
 			@RequestParam(name = "page", required = false, defaultValue = "1") int page,
 			@RequestParam(name = "answered", required = false) String answered,
-			@RequestParam(name ="keyword", required = false) String keyword) {
+			@RequestParam(name ="keyword", required = false) String keyword,
+			Model model) {
 		
 		Map<String, Object> param = new HashMap<>();
 		
@@ -87,7 +88,7 @@ public class OneController {
 		return oneService.getCategoriesByType(type);
 	}
 	
-	@GetMapping("/myinquery/detail")
+	@RequestMapping("/myinquery/detail")
 	public String getOneByNo(@RequestParam("no") int oneNo, Model model) {
 		One one = oneService.getOneByNo(oneNo);
 		model.addAttribute("one", one);
@@ -95,7 +96,7 @@ public class OneController {
 		return "/view/support/one/detail";
 	}
 	
-	@GetMapping("/mylost/detail")
+	@RequestMapping("/mylost/detail")
 	public String getMyLostByNo(@RequestParam("no") int lostNo, Model model) {
 		Lost lost = lostService.getLostByNo(lostNo);
 		model.addAttribute("lost", lost);

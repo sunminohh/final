@@ -12,9 +12,7 @@
             <li class="tab-link current">
                 <button type="button" class="btn rounded-0 current" data-tab="tab-one" title="1:1 문의내역">1:1 문의내역</button>
             </li>
-            <li class="tab-link">
-                <button type="button" class="btn rounded-0" data-tab="tab-lost" title="분실물 문의내역">분실물 문의내역</button>
-            </li>
+           
         </ul>
     </div>
     <div class="clearfix" style="margin-top: -10px; margin-bottom: -10px;">
@@ -60,11 +58,28 @@
         </div>
 
         <div class="btn-group pt40" style="display: block;">
-            <a href="#">
-			  <button type="button" class="button large">목록</button>
-			</a>
-            <a href="#">
+			  <button type="button" class="button large" onclick="document.querySelector('#form').submit();">목록</button>
 			  <button type="button" class="button large">삭제</button>
-			</a>
         </div>
+        
+        <form id="form" method="post" action="/support/one/myinquery">
+        	<input type="hidden" name="data-tab" value="tab-one">
+	    	<input type="hidden" name="answered" th:value="${param.answered}"/>
+	    	<input type="hidden" name="page" th:value="${param.page}"/>
+	    	<input type="hidden" name="keyword" th:value="${param.keyword}"/>
+        </form>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

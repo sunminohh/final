@@ -9,11 +9,9 @@
      <h2 class="tit">나의 문의내역</h2>
      <div class="tab-block-one mb30">
         <ul>
+           
             <li class="tab-link current">
-                <button type="button" class="btn rounded-0 current" data-tab="tab-one" title="1:1 문의내역">1:1 문의내역</button>
-            </li>
-            <li class="tab-link">
-                <button type="button" class="btn rounded-0" data-tab="tab-lost" title="분실물 문의내역">분실물 문의내역</button>
+                <button type="button" class="btn rounded-0 current" data-tab="tab-lost" title="분실물 문의내역">분실물 문의내역</button>
             </li>
         </ul>
     </div>
@@ -21,7 +19,7 @@
         <ul class="dot-list">
             <li>
                	고객센터를 통해 남기신 <span id="tabType"></span>을 확인하실 수 있습니다.
-                <a href="/support/one" class="button float-r" title="일대일 문의 등록하기">1:1 문의하기</a>
+                <a href="/support/lost/form" class="button float-r" title="분실물 문의 등록하기">분실물 문의하기</a>
             </li>
         </ul>
     </div>
@@ -63,11 +61,16 @@
         </div>
 
         <div class="btn-group pt40" style="display: block;">
-            <a href="#">
-			  <button type="button" class="button large">목록</button>
-			</a>
-            <a href="#">
+			  <button type="button" class="button large" onclick="document.querySelector('#form').submit();">목록</button>
 			  <button type="button" class="button large">삭제</button>
-			</a>
         </div>
+        
+        <form id="form" method="post" action="/support/one/myinquery">
+        	<input type="hidden" name="tab" th:value="tab-lost">
+	    	<input type="hidden" name="answered" th:value="${param.answered}"/>
+	    	<input type="hidden" name="page" th:value="${param.page}"/>
+	    	<input type="hidden" name="keyword" th:value="${param.keyword}"/>
+        </form>
+        
+        
 </div>
