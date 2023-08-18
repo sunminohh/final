@@ -17,6 +17,7 @@ public interface TheaterBoardDao {
 	// 게시물 목록 관련
 	int getTotalRows(Map<String, Object> param);
 	List<TheaterBoard> getTBoards(Map<String, Object> param);
+	BoardTheater getTheater(int theaterNo);
 	// 게시물 목록 멀티 셀렉트 관련
 	List<BoardTheater> getTheatersByLocationNo(int locationNo);
 	List<BoardLocation> getLocaions();

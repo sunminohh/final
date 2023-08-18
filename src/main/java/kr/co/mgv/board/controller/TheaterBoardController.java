@@ -61,6 +61,8 @@ public class TheaterBoardController {
 		}
 		if (locationNo != null) {
 			param.put("locationNo", locationNo);
+			List<BoardTheater> theaters = theaterBoardService.getTheatersByLocationNo(locationNo);
+			model.addAttribute("theaters", theaters);
 		}
 		if(StringUtils.hasText(opt) && StringUtils.hasText(keyword)) {
 			param.put("opt", opt);
@@ -72,6 +74,7 @@ public class TheaterBoardController {
 		
 		// model에 조회한 리스트 담기
 		model.addAttribute("result", result);
+		
 		
         return "/view/board/theater/list";
     }
