@@ -36,6 +36,91 @@ $(function() {
 		
 	});
 	
+	// 폼 알림창
+	$("#btn-submit").on("click", function(event) {
+		let checkbox = $('#chk').prop('checked');
+		let location = $("#location").val();
+		let theater = $("#theater").val();
+		let guestname = $("input[name='guestName']").val();
+		let guestemail = $("input[name='guestEmail']").val();
+		let guestPassword = $("input[name='guestPassword']").val();
+		let title = $("input[name='title']").val();
+        let content = $("#textarea").val();
+        
+        if (checkbox == false) {
+			event.preventDefault();
+			 Swal.fire({
+                icon: 'error',
+                text: '개인정보 수집에 대한 동의가 필요합니다.'
+            });
+		} else if (location === null) {
+			event.preventDefault();
+			 Swal.fire({
+                icon: 'error',
+                text: '지역을 선택 해주세요.'
+            });
+        } else if (theater === null) {
+			event.preventDefault();
+			 Swal.fire({
+                icon: 'error',
+                text: '극장을 선택 해주세요.'
+            });
+        } else if (guestname === '') {
+			event.preventDefault();
+			 Swal.fire({
+                icon: 'error',
+                text: '이름을 입력 해주세요.'
+            });
+        } else if (guestemail === '') {
+			event.preventDefault();
+			 Swal.fire({
+                icon: 'error',
+                text: '이메일을 입력 해주세요.'
+            });
+        } else if (guestPassword === '') {
+			event.preventDefault();
+			 Swal.fire({
+                icon: 'error',
+                text: '비밀번호를 입력 해주세요.'
+            });
+        } else if (title === '') {
+			event.preventDefault();
+			 Swal.fire({
+                icon: 'error',
+                text: '제목을 입력 해주세요.'
+            });
+		} else if (content === '') {
+	        event.preventDefault(); 
+            Swal.fire({
+                icon: 'error',
+                text: '내용을 입력 해주세요.'
+            });
+        } else {
+            $(".insertform").submit();
+        }
+    });
+    
+    // 삭제 버튼 띄우기
+    $("#delete-btn").on("click", function(event) {
+	    event.preventDefault();
+		let no = $('[name=no]').val();
+		
+	    Swal.fire({
+	        icon: 'warning',
+	        title: '정말 삭제하시겠습니까?',
+	        showCancelButton: true,
+	        confirmButtonText: '네',
+	        cancelButtonText: '아니오',
+	    }).then((result) => {
+	        if (result.isConfirmed) {
+	              window.location.href = 'delete?no=' + no;      
+	              
+	        } else if (result.dismiss === Swal.DismissReason.cancel) {
+	            
+	        }
+	    });
+	});
+	
 	// 검색버튼 클릭했을 때
 	$("#searchBtn").click(function() {
 		$("input[name=page]").val(1);
@@ -191,90 +276,6 @@ $(function() {
         });
     });
 	
-	// 폼 알림창
-	$("#btn-submit").on("click", function(event) {
-		let checkbox = $('#chk').prop('checked');
-		let location = $("#location").val();
-		let theater = $("#theater").val();
-		let guestname = $("input[name='guestName']").val();
-		let guestemail = $("input[name='guestEmail']").val();
-		let guestPassword = $("input[name='guestPassword']").val();
-		let title = $("input[name='title']").val();
-        let content = $("#textarea").val();
-        
-        if (checkbox == false) {
-			event.preventDefault();
-			 Swal.fire({
-                icon: 'error',
-                text: '개인정보 수집에 대한 동의가 필요합니다.'
-            });
-		} else if (location === null) {
-			event.preventDefault();
-			 Swal.fire({
-                icon: 'error',
-                text: '지역을 선택 해주세요.'
-            });
-        } else if (theater === null) {
-			event.preventDefault();
-			 Swal.fire({
-                icon: 'error',
-                text: '극장을 선택 해주세요.'
-            });
-        } else if (guestname === '') {
-			event.preventDefault();
-			 Swal.fire({
-                icon: 'error',
-                text: '이름을 입력 해주세요.'
-            });
-        } else if (guestemail === '') {
-			event.preventDefault();
-			 Swal.fire({
-                icon: 'error',
-                text: '이메일을 입력 해주세요.'
-            });
-        } else if (guestPassword === '') {
-			event.preventDefault();
-			 Swal.fire({
-                icon: 'error',
-                text: '비밀번호를 입력 해주세요.'
-            });
-        } else if (title === '') {
-			event.preventDefault();
-			 Swal.fire({
-                icon: 'error',
-                text: '제목을 입력 해주세요.'
-            });
-		} else if (content === '') {
-	        event.preventDefault(); 
-            Swal.fire({
-                icon: 'error',
-                text: '내용을 입력 해주세요.'
-            });
-        } else {
-            $(".insertform").submit();
-        }
-    });
-    
-    // 삭제 버튼 띄우기
-    $("#delete-btn").on("click", function(event) {
-	    event.preventDefault();
-		let no = $('[name=no]').val();
-		
-	    Swal.fire({
-	        icon: 'warning',
-	        title: '정말 삭제하시겠습니까?',
-	        showCancelButton: true,
-	        confirmButtonText: '네',
-	        cancelButtonText: '아니오',
-	    }).then((result) => {
-	        if (result.isConfirmed) {
-	              window.location.href = 'delete?no=' + no;      
-	              
-	        } else if (result.dismiss === Swal.DismissReason.cancel) {
-	            
-	        }
-	    });
-	});
 	
     
     
