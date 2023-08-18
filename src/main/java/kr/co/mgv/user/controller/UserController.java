@@ -1,13 +1,16 @@
 package kr.co.mgv.user.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/user/info")
+@Slf4j
 public class UserController {
-    @RequestMapping({"/", ""})
+
+    @RequestMapping({"/",""})
     public String home() {
         return "view/user/home";
     }

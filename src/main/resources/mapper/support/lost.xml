@@ -96,6 +96,7 @@
 			A.THEATER_NO 			as "theater.no",
 			C.theater_name			as "theater.name",
 			A.user_email			as "user.email",
+			A.user_id			as "user.id",
 			A.LOST_GUEST_EMAIL		as guestEmail
 		FROM 
 			MGV_SUPPORT_LOST A, MGV_LOCATION B , MGV_THEATERS C
@@ -103,9 +104,38 @@
 			A.LOCATION_NO = B.LOCATION_NO
 			and A.theater_NO = C.theater_NO
 			and A.Lost_NO = #{value} 
+			and A.LOST_DELETED = 'N'
 	</select>
 	
-	
+	<update id="updateLostByNo" parameterType="kr.co.mgv.support.vo.Lost">
+		UPDATE 
+			MGV_SUPPORT_LOST
+		<set>
+			<if test="title != null">
+				LOST_TITLE = #{title},
+			</if>
+			<if test="content != null">
+				LOST_CONTENT = #{content},
+			</if>
+			<if test="answered != null">
+				LOST_ANSWERED = #{answered},
+			</if>
+			<if test="deleted != null">
+				LOST_DELETED = #{deleted},
+			</if>
+			<if test="updateDate != null">
+				LOST_UPDATE_DATE = #{updateDate},
+			</if>
+			<if test="createDate != null">
+				LOST_CREATE_DATE = #{createDate},
+			</if>
+			<if test="fileName != null">
+				LOST_FILENAME = #{fileName},
+			</if>
+		</set>
+		WHERE 
+			Lost_NO= #{no}
+	</update>
 	
 	
 	

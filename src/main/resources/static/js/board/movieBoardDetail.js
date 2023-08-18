@@ -722,7 +722,19 @@ $(".great-box-2").on('click', '#delete-comment-btn', function(event) {
                text: `신고이유를 선택해주세요.`,
            });
       } else {
-         $("#report-form").submit();
+           Swal.fire({
+           icon: 'warning',
+           title: '정말 신고하시겠습니까?',
+           showCancelButton: true,
+           confirmButtonText: '네',
+           cancelButtonText: '아니오',
+	       }).then((result) => {
+	           if (result.isConfirmed) {
+					$("#report-form").submit();
+	           } else if (result.dismiss === Swal.DismissReason.cancel) {
+	               
+	           }
+	       });
       }
    })
    

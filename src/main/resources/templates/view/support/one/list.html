@@ -9,11 +9,11 @@
     <h2 class="tit">나의 문의내역</h2>
      <div class="tab-block-one mb30">
         <ul>
-            <li class="tab-link current">
-                <button type="button" class="btn rounded-0 current" data-tab="tab-one" title="1:1 문의내역">1:1 문의내역</button>
+            <li class="tab-link " th:classappend="${param.tab == null || #strings.equals(param.tab, 'tab-one') ? 'current' : ''}">
+                <button type="button" class="btn rounded-0 " th:classappend="${param.tab == null || #strings.equals(param.tab, 'tab-one') ? 'current' : ''}" data-tab="tab-one" title="1:1 문의내역">1:1 문의내역</button>
             </li>
-            <li class="tab-link">
-                <button type="button" class="btn rounded-0" data-tab="tab-lost" title="분실물 문의내역">분실물 문의내역</button>
+            <li class="tab-link" th:classappend="${#strings.equals(param.tab, 'tab-lost') ? 'current' : ''}">
+                <button type="button" class="btn rounded-0" th:classappend="${#strings.equals(param.tab, 'tab-lost') ? 'current' : ''}" data-tab="tab-lost" title="분실물 문의내역">분실물 문의내역</button>
             </li>
         </ul>
     </div>
@@ -21,13 +21,15 @@
         <ul class="dot-list">
             <li>
                	고객센터를 통해 남기신 <span id="tabType"></span>을 확인하실 수 있습니다.
-                <a href="/support/one" class="button float-r" title="일대일 문의 등록하기">1:1 문의하기</a>
+                <a href="/support/one" class="button float-r" title="일대일 문의 등록하기" >1:1 문의하기</a>
             </li>
         </ul>
     </div>
 
     <div class="board-list-util">
         <p class="result-count"><strong>전체 <span class="font-gblue" id="totalCnt"></span>건</strong></p>
+        
+	    <form method="post" id="actionForm">    
         <div class="ml07 bs3  d-flex justify-content-end" style="margin-bottom: -15px;">
         	<select id="answer" title="접수상태 선택" name="answered" 
 	                        		class="form-select form-select-sm ml06 form-control-sm mb-3"
@@ -37,20 +39,18 @@
 	      						<option value="Y">답변완료</option>
 	        </select>
 	        
-	    <form action="list">    
 	        <div class="board-search">
-	           
-	            <input type="hidden" name="answered">
-		        <input type="hidden" name="page" value="1" />
+	            <input type="hidden" name="tab" th:value="${param.tab == null ? 'tab-one' : param.tab}">
+		        <input type="hidden" name="page" th:value="${param.page == null ? '1' : param.page}" />
 	            <input type="search" name="keyword" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" value=""  autocomplete="off">
 	            <button type="button" id="searchBtn" class="btn-search-input">검색</button>
 	        </div>
-        </form>
 	    </div>
+        </form>
 	    
     </div>
 
-    <div class="table-wrap">
+    <div class="table-wrap" id="board-table">
         <table class="board-list">
             <colgroup>
                 <col style="width:72px;">

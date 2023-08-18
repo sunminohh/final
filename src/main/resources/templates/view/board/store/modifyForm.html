@@ -18,8 +18,8 @@
 					th:object="${addTBoardForm}"
 					th:action="@{/board/theater/add}"
 				 -->
-				<form  method="post" th:action="@{/board/store/add}"  class="board-insert-form p-3" enctype="multipart/form-data" >
-	
+				<form  method="post" th:action="@{/board/store/modify}"  class="board-insert-form p-3" enctype="multipart/form-data" >
+					<input type="hidden" name="no" th:value="${board.no}" />
 					<div class="border light p-3">
 						<div class="d-flex justify-content-start">
 							<div class="form-group mb-2 pe-2" >
@@ -31,13 +31,13 @@
 	                            <option th:each="category : ${categories}" 
 	                            		th:text="${category.name}" 
 	                            	    th:value="${category.no}"
-	                            	    th:selected="${#strings.equals(category.no, param.categoryNo)}">지역 이름</option>
+	                            	    th:selected="${#strings.equals(category.no, board.category.no)}">지역 이름</option>
 	                        </select>
 	
 	                        <select id="product" title="상품 선택" class="form-select form-select-sm ml07 form-control-sm mb-3"
 	                                style="width: 130px; float:left; position: relative; left:5px; border: none;" 
 	                                name="productNo" >
-	      						<option th:value="0" selected disabled th:text="상품선택"></option>
+	      						<option id="product-option" th:value="${board.product.no}" th:text="${board.product.name}" selected>극장선택</option>
 	                        </select>
 							</div>
 						</div>
@@ -46,18 +46,18 @@
 			           
 				            <div class="col-sm-11">
 					            <div class="form-group mb-2">		      
-			  						<input type="text" class="form-control" name="name"/>
+			  						<input type="text" class="form-control" name="name" th:value="${board.name}" />
 			  					</div>
 				            </div> 
 			           	</div>
 						<div class="form-group mb-2" >
-							<textarea name="content" id="summernote" ></textarea>
+							<textarea name="content" id="summernote" th:text="${board.content}" ></textarea>
 						</div>
 					</div>	
 				</form>	
 				<div style="text-align: center; padding:30px;">
 					<a href="list" class="btn btn-light btn-sm text-decoration-none text-reset">나가기</a>
-					<button id="sboard-btn-submit" type="button" class="btn btn-dark btn-sm" >등록</button>
+					<button id="sboard-btn-submit" type="button" class="btn btn-dark btn-sm" >수정</button>
 				</div>	
 			</div>
 		</div>

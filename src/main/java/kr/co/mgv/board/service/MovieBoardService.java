@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import kr.co.mgv.board.BoardPagination;
 import kr.co.mgv.board.form.AddMboardForm;
 import kr.co.mgv.board.form.MBoardForm;
-import kr.co.mgv.board.form.MboardReportForm;
+import kr.co.mgv.board.form.ReportForm;
 import kr.co.mgv.board.list.MovieBoardList;
 import kr.co.mgv.board.mapper.MovieBoardDao;
 import kr.co.mgv.board.vo.MBoardComment;
@@ -215,7 +215,7 @@ public class MovieBoardService {
 		return movieBoardDao.getReportReason();
 	}
 	
-	public void insertReport (MboardReportForm form, User user) {
+	public void insertReport (ReportForm form, User user) {
 		
 	    try {
 	    	MovieBoard board = movieBoardDao.getMBoardByNo(form.getBoardNo());

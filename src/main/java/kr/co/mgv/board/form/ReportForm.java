@@ -8,14 +8,14 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class MboardReportForm {
+public class ReportForm {
 
 	private String reasonContent; // 신고이유 내용
 	private int reasonNo;
 	private int boardNo;
 	
 	@Builder
-	public MboardReportForm(String reasonContent, int reasonNo, int boardNo) {
+	public ReportForm(String reasonContent, int reasonNo, int boardNo) {
 		super();
 		this.reasonContent = reasonContent;
 		this.reasonNo = reasonNo;

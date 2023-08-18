@@ -60,6 +60,13 @@ public class LostService {
 		lostDao.insertLost(lost);
 	}
 	
+	public void deleteLost(int no) {
+		Lost lost = lostDao.getLostByNo(no);
+		lost.setDeleted("Y");
+		
+		lostDao.updateLostByNo(lost);
+	}
+	
 
 	public LostList search(Map<String, Object> param) {
 		int totalRows = lostDao.getTotalRows(param);

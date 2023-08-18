@@ -6,11 +6,15 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import kr.co.mgv.board.BoardPagination;
+import kr.co.mgv.board.form.AddSboardForm;
 import kr.co.mgv.board.list.StoreBoardList;
 import kr.co.mgv.board.mapper.StoreBoardDao;
 import kr.co.mgv.board.vo.BoardCategory;
 import kr.co.mgv.board.vo.BoardProduct;
+import kr.co.mgv.board.vo.SBoardComment;
+import kr.co.mgv.board.vo.SBoardLike;
 import kr.co.mgv.board.vo.StoreBoard;
+import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -50,8 +54,129 @@ public class StoreBoardService {
 		return result;
 	}
 	
+	public List<BoardCategory> getCategories(){
+		return storeBoardDao.getCatetories();
+	}
+	
 	public List<BoardProduct> getProductsByCatNo(int catNo){
 		List<BoardProduct> products = storeBoardDao.getProductsByCatNo(catNo);
 		return products;
 	}
+	
+	// 상세페이지
+	public void increseRead(int no) {
+		StoreBoard board = storeBoardDao.getSBoardByNo(no);
+		board.setReadCount(board.getReadCount()+1);
+		storeBoardDao.updateSBoardByNo(board);
+	}
+	
+	public StoreBoard getStoreBoardByNo (int no) {
+		return storeBoardDao.getSBoardByNo(no);
+	}
+	
+	public void updateBoardLike(int no, int likeCount) {
+		StoreBoard board = storeBoardDao.getSBoardByNo(no);
+		board.setLikeCount(likeCount);
+		storeBoardDao.updateSBoardByNo(board);
+	}
+	
+	public void insertBoardLike (SBoardLike like) {
+		storeBoardDao.insertSBoardLike(like);
+	}
+	
+	public SBoardLike getLike(SBoardLike like) {
+		return storeBoardDao.getLikeByBnoAndId(like);
+	}
+	
+	public void updateSboardLike(SBoardLike like) {
+		storeBoardDao.updateLike(like);
+	}
+
+	// 댓글관련
+	public void SBoardCommentInsert(SBoardComment comment) {
+		storeBoardDao.insertSBoardComment(comment);
+	}
+	
+	public void updateBoardComment(int no, int commentCount) {
+		StoreBoard board = storeBoardDao.getSBoardByNo(no);
+		board.setCommentCount(commentCount);
+		storeBoardDao.updateSBoardByNo(board);
+	}
+	
+	public List<SBoardComment> getComments(int no) {
+		return storeBoardDao.getSBoardComments(no);
+	}
+	
+	public List<SBoardComment> getChildComments(int no)	{
+		return storeBoardDao.getSBoardChildComments(no);
+	}
+	
+	public SBoardComment getGreatComment(int no, String id) {
+		User user = User.builder().id(id).build();
+		StoreBoard board = StoreBoard.builder().no(no).build();
+		SBoardComment comment = SBoardComment.builder().user(user).board(board).build();
+		return storeBoardDao.getGreatComment(comment);
+	}
+	
+	public SBoardComment getChildComment(int no, String id) {
+		User user = User.builder().id(id).build();
+		StoreBoard board = StoreBoard.builder().no(no).build();
+		SBoardComment comment = SBoardComment.builder().user(user).board(board).build();
+		return storeBoardDao.getChildComment(comment);
+	}
+	
+	public void greatCommentDelete (int no) {
+		storeBoardDao.deleteGreatComment(no);
+	}
+	
+	public void childCommentDelete (int no) {
+		storeBoardDao.deleteChildsComment(no);
+	}
+	
+	public int getTotalChildCount (int no) {
+		return storeBoardDao.getTotalCommentCount(no);
+	}
+	
+	// 게시물 CRUD
+	public void addSboard(AddSboardForm form, User user) {
+		try {
+			BoardCategory category = BoardCategory.builder().no(form.getCatNo()).build();
+			BoardProduct product = BoardProduct.builder().no(form.getProductNo()).build();
+			StoreBoard board = StoreBoard.builder()
+								.user(user)
+								.category(category)
+								.product(product)
+								.name(form.getName())
+								.content(form.getContent())
+								.build();
+			storeBoardDao.insertSboard(board);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void updateSBoard(AddSboardForm form, int no) {
+		try {
+			BoardCategory category = BoardCategory.builder().no(form.getCatNo()).build();
+			BoardProduct product = BoardProduct.builder().no(form.getProductNo()).build();
+			StoreBoard board = StoreBoard.builder()
+								.no(no)
+								.category(category)
+								.product(product)
+								.name(form.getName())
+								.content(form.getContent())
+								.build();
+			storeBoardDao.updateSBoardByNo(board);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteBoard(int no) {
+		StoreBoard board = storeBoardDao.getSBoardByNo(no);
+		board.setDeleted("Y");
+		
+		storeBoardDao.updateSBoardByNo(board);
+	}
+	
 }
