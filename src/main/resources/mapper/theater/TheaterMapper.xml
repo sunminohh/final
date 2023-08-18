@@ -86,5 +86,16 @@
 	from MGV_FAVORITE_THEATER A, MGV_THEATERS B
 	where member_id = #{value}
 	and A.theater_no = B. theater_no
+	order by A.favorite_rank ASC
 	</select>
+	
+	<delete id="deleteFavoriteTheaters" parameterType="String">
+		delete
+		from MGV_FAVORITE_THEATER
+		where member_id = #{value}
+	</delete>
+	<insert id="insertFavoriteTheaters" parameterType="FavoriteTheater">
+		insert into MGV_FAVORITE_THEATER(member_id, theater_no, favorite_rank)
+		values (#{userId}, #{theaterNo}, #{rank})
+	</insert>
 </mapper>

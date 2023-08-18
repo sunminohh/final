@@ -1,547 +1,290 @@
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default}">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/default}">
 <head th:fragment="extra-head-content">
-    <title>극장</title>
-    <script type="text/javascript" th:src="@{/js/theater/ui.js}"></script>
+<title>극장</title>
+<script type="text/javascript" th:src="@{/js/theater/ui.js}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js" 
+	integrity="sha512-yDlE7vpGDP7o2eftkCiPZ+yuUyEcaBwoJoIhdXv71KZWugFqEphIS3PU60lEkFaz8RxaVsMpSvQxMBaKVwA5xg==" 
+	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<style type="text/css">
+	p{
+		margin-top: 1em;
+		margin-bottom: 1em;
+	}
+
+.dropdown{    height: 32px;
+    vertical-align: middle;
+    margin: 0;
+    border: 1px solid #666;
+    background-color: #fff;
+    display: inline-block;
+    font-size: 1em;
+    text-align: right;
+    }
+.dropdown select{
+    padding: 0px 30px 0px 9px;
+    text-align: left;
+    border: 0;
+    height: 30px;
+} 
+</style>
 </head>
 <div layout:fragment="content">
-    <div class="page-util">
-        <div class="inner-wrap">
-            <div class="location">
-                <span>Home</span>
-                <a href="#">극장</a>
-                <a href="#">전체극장</a>
-            </div>
-        </div>
-    </div>
-    <!-- content -->
-    <div id="contents" class="no-padding">
-        <!--// theater-main -->
-        <div class="inner-wrap">
-            <h2 class="tit mt40">전체극장</h2>
-            <div class="theater-box" style="height: 292px;">
-                <div class="theater-place">
-                    <ul>
-                        <li class="on">
-                            <button type="button" class="sel-city">서울 </button>
-                            <div class="theater-list">
-                                <ul>
-                                    
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <button type="button" class="sel-city">경기 </button>
-                            <div class="theater-list">
-                                <ul>
-                                    <li data-brch-no="4121">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="고양스타필드 상세보기">고양스타필드</a>
-                                    </li>
-                                    <li data-brch-no="0029">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="광명AK플라자 상세보기">광명AK플라자</a>
-                                    </li>
-                                    <li data-brch-no="0053">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="광명소하 상세보기">광명소하</a>
-                                    </li>
-                                    
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <button type="button" class="sel-city">인천 </button>
-                            <div class="theater-list">
-                                <ul>
-                                    <li data-brch-no="4041">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="검단 상세보기">검단</a>
-                                    </li>
-                                    <li data-brch-no="4062">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="송도 상세보기">송도</a>
-                                    </li>
-                                    <li data-brch-no="4001">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="영종 상세보기">영종</a>
-                                    </li>
-                                    <li data-brch-no="4051">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="인천논현 상세보기">인천논현</a>
-                                    </li>
-                                    <li data-brch-no="0027">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="청라지젤 상세보기">청라지젤</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <button type="button" class="sel-city">대전/충청/세종 </button>
-                            <div class="theater-list">
-                                <ul>
-                                    <li data-brch-no="3141">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="공주 상세보기">공주</a>
-                                    </li>
-                                    <li data-brch-no="0018">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="논산 상세보기">논산</a>
-                                    </li>
-                                    <li data-brch-no="3021">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="대전 상세보기">대전</a>
-                                    </li>
-                                   
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <button type="button" class="sel-city">부산/대구/경상 </button>
-                            <div class="theater-list">
-                                <ul>
-                                    <li data-brch-no="0040">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="경북도청 상세보기">경북도청</a>
-                                    </li>
-                                    <li data-brch-no="7122">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="경산하양 상세보기">경산하양</a>
-                                    </li>
-                                    <li data-brch-no="0043">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="경주 상세보기">경주</a>
-                                    </li>
-                                    
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <button type="button" class="sel-city">광주/전라 </button>
-                            <div class="theater-list">
-                                <ul>
-                                    <li data-brch-no="5021">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="광주상무 상세보기">광주상무</a>
-                                    </li>
-                                    <li data-brch-no="5061">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="광주하남 상세보기">광주하남</a>
-                                    </li>
-                                    <li data-brch-no="5302">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="목포하당(포르모) 상세보기">목포하당(포르모)</a>
-                                    </li>
-                                    <li data-brch-no="5302">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="목포하당(포르모) 상세보기">순천</a>
-                                    </li>
-                                   
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <button type="button" class="sel-city">강원 </button>
-                            <div class="theater-list">
-                                <ul>
-                                    <li data-brch-no="2001">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="남춘천 상세보기">남춘천</a>
-                                    </li>
-                                    <li data-brch-no="2171">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="속초 상세보기">속초</a>
-                                    </li>
-                                   
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="user-theater">
-                    <!-- 로그인 전 -->
-                    <div sec:authorize="isAnonymous()">
-                        <i class="iconset ico-favo-theater"></i> 나의 선호영화관 정보 <button th:href="@{/theater/detail(brchNo='1')}" class="button small ml10 btn-login" id="moveLogin" title="로그인하기">로그인하기</button>
-                    </div>
+	<div class="page-util">
+		<div class="inner-wrap">
+			<div class="location">
+				<span>Home</span> <a href="#">극장</a> <a href="#">전체극장</a>
+			</div>
+		</div>
+	</div>
+	<!-- content -->
+	<div id="contents" class="no-padding">
+		<!--// theater-main -->
+		<div class="inner-wrap">
+			<h2 class="tit mt40">전체극장</h2>
+			<div class="theater-box" style="height: 292px;">
+				<div class="theater-place">
+					<ul>
+						<li class="on">
+							<button type="button" class="sel-city">서울</button>
+							<div class="theater-list">
+								<ul>
+
+								</ul>
+							</div>
+						</li>
+						<li>
+							<button type="button" class="sel-city">경기</button>
+							<div class="theater-list">
+								<ul>
+									<li data-brch-no="4121"><a
+										th:href="@{/theater/detail(brchNo='1')}" title="고양스타필드 상세보기">고양스타필드</a>
+									</li>
+									<li data-brch-no="0029"><a
+										th:href="@{/theater/detail(brchNo='1')}" title="광명AK플라자 상세보기">광명AK플라자</a>
+									</li>
+									<li data-brch-no="0053"><a
+										th:href="@{/theater/detail(brchNo='1')}" title="광명소하 상세보기">광명소하</a>
+									</li>
+
+								</ul>
+							</div>
+						</li>
+						<li>
+							<button type="button" class="sel-city">인천</button>
+							<div class="theater-list">
+								<ul>
+									<li data-brch-no="4041"><a
+										th:href="@{/theater/detail(brchNo='1')}" title="검단 상세보기">검단</a>
+									</li>
+									<li data-brch-no="4062"><a
+										th:href="@{/theater/detail(brchNo='1')}" title="송도 상세보기">송도</a>
+									</li>
+									<li data-brch-no="4001"><a
+										th:href="@{/theater/detail(brchNo='1')}" title="영종 상세보기">영종</a>
+									</li>
+									<li data-brch-no="4051"><a
+										th:href="@{/theater/detail(brchNo='1')}" title="인천논현 상세보기">인천논현</a>
+									</li>
+									<li data-brch-no="0027"><a
+										th:href="@{/theater/detail(brchNo='1')}" title="청라지젤 상세보기">청라지젤</a>
+									</li>
+								</ul>
+							</div>
+						</li>
+						<li>
+							<button type="button" class="sel-city">대전/충청/세종</button>
+							<div class="theater-list">
+								<ul>
+									<li data-brch-no="3141"><a
+										th:href="@{/theater/detail(brchNo='1')}" title="공주 상세보기">공주</a>
+									</li>
+									<li data-brch-no="0018"><a
+										th:href="@{/theater/detail(brchNo='1')}" title="논산 상세보기">논산</a>
+									</li>
+									<li data-brch-no="3021"><a
+										th:href="@{/theater/detail(brchNo='1')}" title="대전 상세보기">대전</a>
+									</li>
+
+								</ul>
+							</div>
+						</li>
+						<li>
+							<button type="button" class="sel-city">부산/대구/경상</button>
+							<div class="theater-list">
+								<ul>
+									<li data-brch-no="0040"><a
+										th:href="@{/theater/detail(brchNo='1')}" title="경북도청 상세보기">경북도청</a>
+									</li>
+									<li data-brch-no="7122"><a
+										th:href="@{/theater/detail(brchNo='1')}" title="경산하양 상세보기">경산하양</a>
+									</li>
+									<li data-brch-no="0043"><a
+										th:href="@{/theater/detail(brchNo='1')}" title="경주 상세보기">경주</a>
+									</li>
+
+								</ul>
+							</div>
+						</li>
+						<li>
+							<button type="button" class="sel-city">광주/전라</button>
+							<div class="theater-list">
+								<ul>
+									<li data-brch-no="5021"><a
+										th:href="@{/theater/detail(brchNo='1')}" title="광주상무 상세보기">광주상무</a>
+									</li>
+									<li data-brch-no="5061"><a
+										th:href="@{/theater/detail(brchNo='1')}" title="광주하남 상세보기">광주하남</a>
+									</li>
+									<li data-brch-no="5302"><a
+										th:href="@{/theater/detail(brchNo='1')}"
+										title="목포하당(포르모) 상세보기">목포하당(포르모)</a></li>
+									<li data-brch-no="5302"><a
+										th:href="@{/theater/detail(brchNo='1')}"
+										title="목포하당(포르모) 상세보기">순천</a></li>
+
+								</ul>
+							</div>
+						</li>
+						<li>
+							<button type="button" class="sel-city">강원</button>
+							<div class="theater-list">
+								<ul>
+									<li data-brch-no="2001"><a
+										th:href="@{/theater/detail(brchNo='1')}" title="남춘천 상세보기">남춘천</a>
+									</li>
+									<li data-brch-no="2171"><a
+										th:href="@{/theater/detail(brchNo='1')}" title="속초 상세보기">속초</a>
+									</li>
+
+								</ul>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div class="user-theater">
+					<!-- 로그인 전 -->
+					<div sec:authorize="isAnonymous()">
+						<i class="iconset ico-favo-theater"></i> 나의 선호영화관 정보
+						<button th:href="@{/theater/detail(brchNo='1')}"
+							class="button small ml10 btn-login" id="moveLogin" title="로그인하기">로그인하기</button>
+					</div>
 
 
 					<!-- 로그인 후 -->
 					<div sec:authorize="isAuthenticated()">
-						<i class="iconset ico-favo-theater"></i> <span class="font-gblue" th:id-data="${#authentication.principal.id}" th:text="${#authentication.principal.name}">홍길동</span>님의
-						선호영화관
+						<i class="iconset ico-favo-theater"></i> <span class="font-gblue"
+							th:id-data="${#authentication.principal.id}"
+							th:text="${#authentication.principal.name}">홍길동</span>님의 선호영화관
 						<ul class="theater-circle">
 
 
 						</ul>
-						<a href="" class="button small float-r control-fav" title="선호영화관 관리"> <i
-							class="iconset ico-edit"></i> 선호영화관 관리
+						<a href="" class="button small float-r control-fav"
+							title="선호영화관 관리"> <i class="iconset ico-edit"></i> 선호영화관 관리
 						</a>
 					</div>
 
 				</div>
-            </div>
-            <div class="tit-util mt70 mb15">
-                <h3 class="tit">극장 이벤트</h3>
-                <a th:href="@{/event}" class="more" title="극장 이벤트 더보기">더보기 <i class="iconset ico-arr-right-gray"></i>
-                </a>
-            </div>
-            <div class="event-box">
-                <ul>
-                    <li>
-                        <a th:href="@{/event/detail/1}" class="eventBtn" data-no="13755" data-netfunnel="N" title="[세종(조치원)] 포대팝콘이 떴다! 상세보기">
-                            <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/27/KJkY8Fmjc7jz46x5Q2TBizZObelFFOlm.jpg" alt="[세종(조치원)] 포대팝콘이 떴다!" onerror="noImg(this)">
-                        </a>
-                    </li>
-                    <li>
-                        <a th:href="@{/event/detail/1}" data-no="13753" data-netfunnel="N" title="[영통] 일반요금으로 MX관에서 관람하자! 상세보기">
-                            <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/27/tXljOiyKSH44mET4IOy6z5OOFHk2Rgdc.jpg" alt="[영통] 일반요금으로 MX관에서 관람하자!" onerror="noImg(this)">
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="tit-util mt70 mb15">
-                <h3 class="tit">극장 공지사항</h3>
-                <a th:href="@{/support/notice}" class="more" title="극장 공지사항 더보기">더보기 <i class="iconset ico-arr-right-gray"></i>
-                </a>
-            </div>
-            <div class="table-wrap">
-                <table class="board-list">
-                    <caption>극장, 제목, 지역, 등록일이 들어간 극장 공지사항 목록</caption>
-                    <colgroup>
-                        <col style="width:150px;">
-                        <col>
-                        <col style="width:150px;">
-                        <col style="width:120px;">
-                    </colgroup>
-                    <thead>
-                    <tr>
-                        <th scope="col">극장</th>
-                        <th scope="col">제목</th>
-                        <th scope="col">지역</th>
-                        <th scope="col">등록일</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>수원AK플라자(수원역)</td>
-                        <th scope="row">
-                            <a th:href="@{/support/notice/detail(noticeNo='1')}" title="[수원AK플라자] 주차장 이용 안내 상세보기"> [수원AK플라자] 주차장 이용 안내 </a>
-                        </th>
-                        <td>경기</td>
-                        <td>2023.07.26</td>
-                    </tr>
-                    <tr>
-                        <td>수원AK플라자(수원역)</td>
-                        <th scope="row">
-                            <a th:href="@{/support/notice/detail(noticeNo='1')}" title="[수원AK플라자] 극장 도보 이용 안내 상세보기"> [수원AK플라자] 극장 도보 이용 안내 </a>
-                        </th>
-                        <td>경기</td>
-                        <td>2023.07.26</td>
-                    </tr>
-                    <tr>
-                        <td>대전신세계 아트앤사이언스</td>
-                        <th scope="row">
-                            <a th:href="@{/support/notice/detail(noticeNo='1')}" title="[대전신세계 아트앤사이언스]시사회 진행에 따른 고객 안내문(7/27) 상세보기"> [대전신세계 아트앤사이언스]시사회 진행에 따른 고객 안내문(7/27) </a>
-                        </th>
-                        <td>대전/충청/세종</td>
-                        <td>2023.07.26</td>
-                    </tr>
-                    <tr>
-                        <td>코엑스</td>
-                        <th scope="row">
-                            <a th:href="@{/support/notice/detail(noticeNo='1')}" title="[코엑스] 시사회 진행에 따른 고객 안내문 (7/27) 상세보기"> [코엑스] 시사회 진행에 따른 고객 안내문 (7/27) </a>
-                        </th>
-                        <td>서울</td>
-                        <td>2023.07.25</td>
-                    </tr>
-                    <tr>
-                        <td>수원남문</td>
-                        <th scope="row">
-                            <a th:href="@{/support/notice/detail(noticeNo='1')}" title="[수원남문] 공무원 할인 종료 안내(~7/31까지) 상세보기"> [수원남문] 공무원 할인 종료 안내(~7/31까지) </a>
-                        </th>
-                        <td>경기</td>
-                        <td>2023.07.24</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <a href="#favor_theater_setting" class="right btn-modal-open "  id="favorBrchReg" w-data="500" h-data="360"></a>
-		<section id="favor_theater_setting" class="modal-layer "
+			</div>
+			<div class="tit-util mt70 mb15">
+				<h3 class="tit">극장 이벤트</h3>
+				<a th:href="@{/event}" class="more" title="극장 이벤트 더보기">더보기 <i
+					class="iconset ico-arr-right-gray"></i>
+				</a>
+			</div>
+			<div class="event-box">
+				<ul>
+					<li><a th:href="@{/event/detail/1}" class="eventBtn"
+						data-no="13755" data-netfunnel="N"
+						title="[세종(조치원)] 포대팝콘이 떴다! 상세보기"> <img
+							src="https://img.megabox.co.kr/SharedImg/event/2023/07/27/KJkY8Fmjc7jz46x5Q2TBizZObelFFOlm.jpg"
+							alt="[세종(조치원)] 포대팝콘이 떴다!" onerror="noImg(this)">
+					</a></li>
+					<li><a th:href="@{/event/detail/1}" data-no="13753"
+						data-netfunnel="N" title="[영통] 일반요금으로 MX관에서 관람하자! 상세보기"> <img
+							src="https://img.megabox.co.kr/SharedImg/event/2023/07/27/tXljOiyKSH44mET4IOy6z5OOFHk2Rgdc.jpg"
+							alt="[영통] 일반요금으로 MX관에서 관람하자!" onerror="noImg(this)">
+					</a></li>
+				</ul>
+			</div>
+			<div class="tit-util mt70 mb15">
+				<h3 class="tit">극장 공지사항</h3>
+				<a th:href="@{/support/notice}" class="more" title="극장 공지사항 더보기">더보기
+					<i class="iconset ico-arr-right-gray"></i>
+				</a>
+			</div>
+			<div class="table-wrap">
+				<table class="board-list">
+					<caption>극장, 제목, 지역, 등록일이 들어간 극장 공지사항 목록</caption>
+					<colgroup>
+						<col style="width: 150px;">
+						<col>
+						<col style="width: 150px;">
+						<col style="width: 120px;">
+					</colgroup>
+					<thead>
+						<tr>
+							<th scope="col">극장</th>
+							<th scope="col">제목</th>
+							<th scope="col">지역</th>
+							<th scope="col">등록일</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>수원AK플라자(수원역)</td>
+							<th scope="row"><a
+								th:href="@{/support/notice/detail(noticeNo='1')}"
+								title="[수원AK플라자] 주차장 이용 안내 상세보기"> [수원AK플라자] 주차장 이용 안내 </a></th>
+							<td>경기</td>
+							<td>2023.07.26</td>
+						</tr>
+						<tr>
+							<td>수원AK플라자(수원역)</td>
+							<th scope="row"><a
+								th:href="@{/support/notice/detail(noticeNo='1')}"
+								title="[수원AK플라자] 극장 도보 이용 안내 상세보기"> [수원AK플라자] 극장 도보 이용 안내 </a></th>
+							<td>경기</td>
+							<td>2023.07.26</td>
+						</tr>
+						<tr>
+							<td>대전신세계 아트앤사이언스</td>
+							<th scope="row"><a
+								th:href="@{/support/notice/detail(noticeNo='1')}"
+								title="[대전신세계 아트앤사이언스]시사회 진행에 따른 고객 안내문(7/27) 상세보기"> [대전신세계
+									아트앤사이언스]시사회 진행에 따른 고객 안내문(7/27) </a></th>
+							<td>대전/충청/세종</td>
+							<td>2023.07.26</td>
+						</tr>
+						<tr>
+							<td>코엑스</td>
+							<th scope="row"><a
+								th:href="@{/support/notice/detail(noticeNo='1')}"
+								title="[코엑스] 시사회 진행에 따른 고객 안내문 (7/27) 상세보기"> [코엑스] 시사회 진행에
+									따른 고객 안내문 (7/27) </a></th>
+							<td>서울</td>
+							<td>2023.07.25</td>
+						</tr>
+						<tr>
+							<td>수원남문</td>
+							<th scope="row"><a
+								th:href="@{/support/notice/detail(noticeNo='1')}"
+								title="[수원남문] 공무원 할인 종료 안내(~7/31까지) 상세보기"> [수원남문] 공무원 할인 종료
+									안내(~7/31까지) </a></th>
+							<td>경기</td>
+							<td>2023.07.24</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<a href="#favor_theater_setting" class="right btn-modal-open "
+			id="favorBrchReg" w-data="500" h-data="360"></a>
+		<section id="favor_theater_setting" class="modal-layer"
 			style="z-index: 504;">
-
-
-
-
-
-			<script type="text/javascript">
-				
-			</script>
-
-
-
-
-
-			<script type="text/javascript">
-				var saveCnt = 0;
-				var option = {};
-				var messages = {};
-
-				var favorBrchRegInit = function(param) {
-
-					// 셀렉트 박스 라이브러리 적용
-					MegaboxUtil.Common.bindSelectBox({
-						obj : $('#favorBrchReg select'),
-						size : 5
-					});
-
-					if (param != undefined) {
-						option = param;
-					}
-
-					// 선택된 값 설정
-					$.each(option.list, function(i, data) {
-
-						fn_makeHtml(i, data.favorCdVal, data.favorNmVal);
-					});
-
-					// 영문화
-					if (option.list == undefined) {
-
-						$.each($('#favorBrchReg .circle p'), function() {
-
-							if (option.localeCode == 'en') {
-								$(this).html($(this).data('engNm'));
-							} else {
-								$(this).html($(this).data('korNm'));
-							}
-						});
-					}
-
-					// 극장 설정
-					$
-							.ajaxMegaBox({
-								contentType : 'application/json;charset=UTF-8',
-								url : '/on/oh/ohc/Brch/selectBrchListWithArea.do',
-								success : function(data, textStatus, jqXHR) {
-
-									var arr = new Array();
-
-									var $selArea = $('[name=areaList]');
-									var $selBrch = $('[name=brchList]');
-
-									$
-											.each(
-													data.list,
-													function(i, param) {
-
-														if (option.localeCode == 'en') {
-															param.areaCdNm = param.areaCdEngNm;
-															param.brchNm = param.brchEngNm;
-														}
-
-														if ($.inArray(
-																param.areaCd,
-																arr) == -1) {
-															arr
-																	.push(param.areaCd);
-															$selArea
-																	.append('<option value="'+ param.areaCd +'">'
-																			+ param.areaCdNm
-																			+ '</option>');
-														}
-
-														$selBrch
-																.append('<option value="'+ param.brchNo +'" data-area-cd="'+ param.areaCd +'">'
-																		+ param.brchNm
-																		+ '</option>');
-													});
-
-									$('#favorBrchReg [name=areaList]').change();
-									$('#favorBrchReg [name=areaList]')
-											.selectpicker('refresh');
-								}
-							});
-
-					if (option.localeCode != null) {
-
-						messages.MSG001 = '등록할 극장을 선택해 주세요.'
-						messages.MSG002 = '이미 선택한  극장입니다. 다시 선택해 주시요.'
-						messages.MSG003 = '선호 극장은 최대 3개까지 추가하실 수 있습니다.'
-						messages.MSG004 = '등록되었습니다.'
-
-					} else {
-
-						messages.MSG001 = '등록할 극장을 선택해 주세요.';
-						messages.MSG002 = '이미 선택한  극장입니다. 다시 선택해 주세요.';
-						messages.MSG003 = '선호 극장은 최대 3개까지 추가하실 수 있습니다.';
-						messages.MSG004 = '등록되었습니다.';
-					}
-				};
-
-				$(function() {
-
-					$(document)
-							.ready(
-									function() {
-										saveCnt = $('#favorBrchReg .theater-choice-list .circle').length;
-									});
-
-					// 지역 변경
-					$('#favorBrchReg [name=areaList]')
-							.off()
-							.on(
-									'change',
-									function() {
-
-										var reg = '[data-area-cd="@"]'.replace(
-												'@', this.value);
-
-										var $sel = $('#favorBrchReg [name=brchList] option');
-
-										$sel.not(reg).hide();
-										$sel.filter(reg).show();
-										$sel.eq(0).show()
-												.prop('selected', true);
-
-										$('#favorBrchReg [name=brchList]')
-												.selectpicker('refresh');
-									});
-
-					// 추가 버튼 클릭
-					$('#favorBrchReg .box-gray button')
-							.off()
-							.on(
-									'click',
-									function() {
-
-										var $obj = $(
-												'#favorBrchReg [name=brchList]')
-												.find('option:selected');
-
-										var idx = $('#favorBrchReg .bg').has(
-												'.circle').length;
-
-										// 지점 선택 확인
-										if ($obj.val() == '') {
-											gfn_alertMsgBox(messages.MSG001);
-											return;
-										}
-
-										// 중복 지점 확인
-										if ($('#favorBrchReg div[data-brch-no="'
-												+ $obj.val() + '"]').length != 0) {
-											gfn_alertMsgBoxSize(
-													messages.MSG002, 330);
-											return;
-										}
-
-										// 최대 선택 갯수 확인
-										if (idx == 3) {
-											gfn_alertMsgBoxSize(
-													messages.MSG003, 350);
-											return;
-										}
-
-										// 값 설정
-										fn_makeHtml(idx, $obj.val(), $obj
-												.text());
-									});
-
-					// 삭제 버튼 클릭
-					$('#favorBrchReg .theater-choice-list').off().on(
-							'click',
-							'.del',
-							function() {
-
-								var $lObj = $('#favorBrchReg .bg').has(
-										$('#favorBrchReg .del').last());
-								var $tObj = $('#favorBrchReg .bg').has(this);
-
-								$lObj.after($tObj);
-								$tObj.empty();
-							});
-
-					// 등록
-					$('#favorBrchReg .btn-group-fixed')
-							.off()
-							.on(
-									'click',
-									'.purple',
-									function() {
-										var param, arr = new Array();
-										var paramData = {
-											mbFavorList : arr
-										};
-
-										var $obj = $('#favorBrchReg .theater-choice-list .circle');
-
-										// 값 설정
-										$.each($obj, function(i, obj) {
-											arr.push(param = new Object());
-
-											param.favorCdVal = $(this).data(
-													'brchNo');
-											param.favorRank = i + 1;
-											param.favorDivCd = 'FDC02';
-											param.favorNmVal = $(obj).find('p')
-													.html();
-										});
-
-										// 저장 여부
-										if (option.saveYn == 'N') {
-											option.callbackFn(arr);
-											$('#favorBrchReg .close-layer')
-													.click();
-											return;
-										}
-
-										// 저장값이 있었다 전체삭제 했을 경우
-										if ($obj.length == 0 && saveCnt > 0) {
-
-											$
-													.each(
-															$('#favorBrchReg .theater-choice-list .bg'),
-															function(i) {
-																arr
-																		.push(param = new Object());
-
-																param.favorCdVal = '';
-																param.favorNmVal = '';
-																param.favorRank = i + 1;
-																param.favorDivCd = 'FDC02';
-															});
-										}
-
-										// 등록요청
-										$
-												.ajaxMegaBox({
-													contentType : 'application/json;charset=UTF-8',
-													url : '/on/oc/ocz/commOn/chgFavorBrchReg.do',
-													data : JSON
-															.stringify(paramData),
-													success : function(data,
-															textStatus, jqXHR) {
-
-														if (data.isSucc) {
-
-															gfn_alertMsgBox(
-																	messages.MSG004,
-																	function() {
-																		option
-																				.callbackFn(arr);
-																	});
-
-															$(
-																	'#favorBrchReg .close-layer')
-																	.click();
-														}
-													}
-												});
-									});
-				});
-
-				function fn_makeHtml(idx, brchCd, brchNm) {
-
-					var $div = $($('#divFavorBrch').html());
-
-					// 값 설정
-					$div.find('p').html(brchNm);
-					$div.attr('data-brch-no', brchCd);
-
-					$('#favorBrchReg .bg').eq(idx).html($div);
-				}
-			</script>
-
-
-
-
-
-
-
-
-
-
 
 			<div class="wrap" id="favorBrchReg"
 				style="width: 500px; height: 360px; margin-left: -250px; margin-top: -180px;">
@@ -552,509 +295,31 @@
 				<div class="layer-con" style="min-height: 220px; height: 248px;">
 
 					<div class="box-gray v1 a-c">
-						<div class="dropdown bootstrap-select w150px small bs3">
-							<select title="" class="w150px small" name="areaList"
-								tabindex="-98">
-								<option value="10">서울</option>
-								<option value="30">경기</option>
-								<option value="35">인천</option>
-								<option value="45">대전/충청/세종</option>
-								<option value="55">부산/대구/경상</option>
-								<option value="65">광주/전라</option>
-								<option value="70">강원</option>
-							</select>
-							<button type="button" class="btn dropdown-toggle btn-default"
-								data-toggle="dropdown" role="button" title="서울">
-								<div class="filter-option">
-									<div class="filter-option-inner">
-										<div class="filter-option-inner-inner">서울</div>
-									</div>
-								</div>
-								<span class="bs-caret"><span class="caret"></span></span>
-							</button>
-							<div class="dropdown-menu open" role="combobox"
-								style="max-height: 152px; overflow: hidden; min-width: 150px;">
-								<div class="inner open" role="listbox" aria-expanded="false"
-									tabindex="-1" style="max-height: 150px; overflow-y: auto;">
-									<ul class="dropdown-menu inner ">
-										<li class="selected active"><a role="option"
-											aria-disabled="false" tabindex="0" class="selected active"
-											aria-selected="true"><span class="text">서울</span></a></li>
-										<li><a role="option" aria-disabled="false" tabindex="0"
-											aria-selected="false"><span class="text">경기</span></a></li>
-										<li><a role="option" aria-disabled="false" tabindex="0"
-											aria-selected="false"><span class="text">인천</span></a></li>
-										<li><a role="option" aria-disabled="false" tabindex="0"
-											aria-selected="false"><span class="text">대전/충청/세종</span></a></li>
-										<li><a role="option" aria-disabled="false" tabindex="0"
-											aria-selected="false"><span class="text">부산/대구/경상</span></a></li>
-										<li><a role="option" aria-disabled="false" tabindex="0"
-											aria-selected="false"><span class="text">광주/전라</span></a></li>
-										<li><a role="option" aria-disabled="false" tabindex="0"
-											aria-selected="false"><span class="text">강원</span></a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
+						<div class="dropdown  w150px small bs3" style="">
 
-						<div class="dropdown bootstrap-select w150px small ml05 bs3">
-							<select title="" class="w150px small ml05" name="brchList"
-								tabindex="-98">
-								<option value="" data-area-cd="" style="display: block;">극장
-									선택</option>
-								<option value="1372" data-area-cd="10">강남</option>
-								<option value="0023" data-area-cd="10">강남대로(씨티)</option>
-								<option value="1341" data-area-cd="10">강동</option>
-								<option value="1431" data-area-cd="10">군자</option>
-								<option value="0041" data-area-cd="10">더 부티크 목동현대백화점</option>
-								<option value="1003" data-area-cd="10">동대문</option>
-								<option value="1572" data-area-cd="10">마곡</option>
-								<option value="1581" data-area-cd="10">목동</option>
-								<option value="1311" data-area-cd="10">상봉</option>
-								<option value="1211" data-area-cd="10">상암월드컵경기장</option>
-								<option value="1331" data-area-cd="10">성수</option>
-								<option value="1371" data-area-cd="10">센트럴</option>
-								<option value="1381" data-area-cd="10">송파파크하비오</option>
-								<option value="1202" data-area-cd="10">신촌</option>
-								<option value="1561" data-area-cd="10">이수</option>
-								<option value="1321" data-area-cd="10">창동</option>
-								<option value="1351" data-area-cd="10">코엑스</option>
-								<option value="1212" data-area-cd="10">홍대</option>
-								<option value="1571" data-area-cd="10">화곡</option>
-								<option value="1562" data-area-cd="10">ARTNINE</option>
-								<option value="4121" data-area-cd="30" style="display: none;">고양스타필드</option>
-								<option value="0029" data-area-cd="30" style="display: none;">광명AK플라자</option>
-								<option value="0053" data-area-cd="30" style="display: none;">광명소하</option>
-								<option value="0035" data-area-cd="30" style="display: none;">금정AK플라자</option>
-								<option value="4152" data-area-cd="30" style="display: none;">김포한강신도시</option>
-								<option value="0039" data-area-cd="30" style="display: none;">남양주</option>
-								<option value="0019" data-area-cd="30" style="display: none;">남양주현대아울렛
-									스페이스원</option>
-								<option value="4451" data-area-cd="30" style="display: none;">동탄</option>
-								<option value="4652" data-area-cd="30" style="display: none;">미사강변</option>
-								<option value="4104" data-area-cd="30" style="display: none;">백석벨라시타</option>
-								<option value="4722" data-area-cd="30" style="display: none;">별내</option>
-								<option value="4221" data-area-cd="30" style="display: none;">부천스타필드시티</option>
-								<option value="4631" data-area-cd="30" style="display: none;">분당</option>
-								<option value="0030" data-area-cd="30" style="display: none;">수원</option>
-								<option value="0052" data-area-cd="30" style="display: none;">수원AK플라자(수원역)</option>
-								<option value="0042" data-area-cd="30" style="display: none;">수원남문</option>
-								<option value="0036" data-area-cd="30" style="display: none;">수원호매실</option>
-								<option value="4291" data-area-cd="30" style="display: none;">시흥배곧</option>
-								<option value="4253" data-area-cd="30" style="display: none;">안산중앙</option>
-								<option value="0020" data-area-cd="30" style="display: none;">안성스타필드</option>
-								<option value="4821" data-area-cd="30" style="display: none;">양주</option>
-								<option value="4431" data-area-cd="30" style="display: none;">영통</option>
-								<option value="0012" data-area-cd="30" style="display: none;">용인기흥</option>
-								<option value="4462" data-area-cd="30" style="display: none;">용인테크노밸리</option>
-								<option value="4804" data-area-cd="30" style="display: none;">의정부민락</option>
-								<option value="4111" data-area-cd="30" style="display: none;">일산</option>
-								<option value="4112" data-area-cd="30" style="display: none;">킨텍스</option>
-								<option value="4132" data-area-cd="30" style="display: none;">파주금촌</option>
-								<option value="4115" data-area-cd="30" style="display: none;">파주운정</option>
-								<option value="4131" data-area-cd="30" style="display: none;">파주출판도시</option>
-								<option value="4651" data-area-cd="30" style="display: none;">하남스타필드</option>
-								<option value="4041" data-area-cd="35" style="display: none;">검단</option>
-								<option value="4062" data-area-cd="35" style="display: none;">송도</option>
-								<option value="4001" data-area-cd="35" style="display: none;">영종</option>
-								<option value="4051" data-area-cd="35" style="display: none;">인천논현</option>
-								<option value="0027" data-area-cd="35" style="display: none;">청라지젤</option>
-								<option value="3141" data-area-cd="45" style="display: none;">공주</option>
-								<option value="0018" data-area-cd="45" style="display: none;">논산</option>
-								<option value="3021" data-area-cd="45" style="display: none;">대전</option>
-								<option value="0028" data-area-cd="45" style="display: none;">대전신세계
-									아트앤사이언스</option>
-								<option value="0009" data-area-cd="45" style="display: none;">대전유성</option>
-								<option value="3011" data-area-cd="45" style="display: none;">대전중앙로</option>
-								<option value="0017" data-area-cd="45" style="display: none;">대전현대아울렛</option>
-								<option value="3391" data-area-cd="45" style="display: none;">세종(조치원)</option>
-								<option value="3392" data-area-cd="45" style="display: none;">세종나성</option>
-								<option value="0008" data-area-cd="45" style="display: none;">세종청사</option>
-								<option value="3631" data-area-cd="45" style="display: none;">오창</option>
-								<option value="3651" data-area-cd="45" style="display: none;">진천</option>
-								<option value="3301" data-area-cd="45" style="display: none;">천안</option>
-								<option value="0049" data-area-cd="45" style="display: none;">청주사창</option>
-								<option value="3501" data-area-cd="45" style="display: none;">홍성내포</option>
-								<option value="0040" data-area-cd="55" style="display: none;">경북도청</option>
-								<option value="7122" data-area-cd="55" style="display: none;">경산하양</option>
-								<option value="0043" data-area-cd="55" style="display: none;">경주</option>
-								<option value="7303" data-area-cd="55" style="display: none;">구미강동</option>
-								<option value="7401" data-area-cd="55" style="display: none;">김천</option>
-								<option value="7901" data-area-cd="55" style="display: none;">남포항</option>
-								<option value="7011" data-area-cd="55" style="display: none;">대구신세계(동대구)</option>
-								<option value="0022" data-area-cd="55" style="display: none;">대구이시아</option>
-								<option value="6161" data-area-cd="55" style="display: none;">덕천</option>
-								<option value="6312" data-area-cd="55" style="display: none;">마산</option>
-								<option value="7451" data-area-cd="55" style="display: none;">문경</option>
-								<option value="6001" data-area-cd="55" style="display: none;">부산극장</option>
-								<option value="6906" data-area-cd="55" style="display: none;">부산대</option>
-								<option value="0025" data-area-cd="55" style="display: none;">북대구(칠곡)</option>
-								<option value="0032" data-area-cd="55" style="display: none;">사상</option>
-								<option value="6642" data-area-cd="55" style="display: none;">삼천포</option>
-								<option value="6261" data-area-cd="55" style="display: none;">양산</option>
-								<option value="6262" data-area-cd="55" style="display: none;">양산증산</option>
-								<option value="6811" data-area-cd="55" style="display: none;">울산</option>
-								<option value="6191" data-area-cd="55" style="display: none;">정관</option>
-								<option value="0045" data-area-cd="55" style="display: none;">진주(중안)</option>
-								<option value="0048" data-area-cd="55" style="display: none;">창원</option>
-								<option value="0014" data-area-cd="55" style="display: none;">창원내서</option>
-								<option value="0038" data-area-cd="55" style="display: none;">포항</option>
-								<option value="0046" data-area-cd="55" style="display: none;">해운대(장산)</option>
-								<option value="5021" data-area-cd="65" style="display: none;">광주상무</option>
-								<option value="5061" data-area-cd="65" style="display: none;">광주하남</option>
-								<option value="5302" data-area-cd="65" style="display: none;">목포하당(포르모)</option>
-								<option value="5401" data-area-cd="65" style="display: none;">순천</option>
-								<option value="5552" data-area-cd="65" style="display: none;">여수웅천</option>
-								<option value="0010" data-area-cd="65" style="display: none;">전대(광주)</option>
-								<option value="0050" data-area-cd="65" style="display: none;">전주객사</option>
-								<option value="5612" data-area-cd="65" style="display: none;">전주송천</option>
-								<option value="0021" data-area-cd="65" style="display: none;">전주혁신</option>
-								<option value="5064" data-area-cd="65" style="display: none;">첨단</option>
-								<option value="2001" data-area-cd="70" style="display: none;">남춘천</option>
-								<option value="2171" data-area-cd="70" style="display: none;">속초</option>
-								<option value="2201" data-area-cd="70" style="display: none;">원주</option>
-								<option value="2202" data-area-cd="70" style="display: none;">원주센트럴</option>
-								<option value="0037" data-area-cd="70" style="display: none;">춘천석사</option>
-							</select>
-							<button type="button"
-								class="btn dropdown-toggle bs-placeholder btn-default"
-								data-toggle="dropdown" role="button" title="극장 선택">
-								<div class="filter-option">
-									<div class="filter-option-inner">
-										<div class="filter-option-inner-inner">극장 선택</div>
-									</div>
-								</div>
-								<span class="bs-caret"><span class="caret"></span></span>
-							</button>
-							<div class="dropdown-menu open" role="combobox"
-								style="max-height: 152px; overflow: hidden; min-width: 150px;">
-								<div class="inner open" role="listbox" aria-expanded="false"
-									tabindex="-1" style="max-height: 150px; overflow-y: auto;">
-									<ul class="dropdown-menu inner ">
-										<li class="selected active"><a role="option"
-											style="display: block;" aria-disabled="false" tabindex="0"
-											class="selected active" aria-selected="true"><span
-												class="text">극장 선택</span></a></li>
-										<li><a role="option" aria-disabled="false" tabindex="0"
-											aria-selected="false"><span class="text">강남</span></a></li>
-										<li><a role="option" aria-disabled="false" tabindex="0"
-											aria-selected="false"><span class="text">강남대로(씨티)</span></a></li>
-										<li><a role="option" aria-disabled="false" tabindex="0"
-											aria-selected="false"><span class="text">강동</span></a></li>
-										<li><a role="option" aria-disabled="false" tabindex="0"
-											aria-selected="false"><span class="text">군자</span></a></li>
-										<li><a role="option" aria-disabled="false" tabindex="0"
-											aria-selected="false"><span class="text">더 부티크
-													목동현대백화점</span></a></li>
-										<li><a role="option" aria-disabled="false" tabindex="0"
-											aria-selected="false"><span class="text">동대문</span></a></li>
-										<li><a role="option" aria-disabled="false" tabindex="0"
-											aria-selected="false"><span class="text">마곡</span></a></li>
-										<li><a role="option" aria-disabled="false" tabindex="0"
-											aria-selected="false"><span class="text">목동</span></a></li>
-										<li><a role="option" aria-disabled="false" tabindex="0"
-											aria-selected="false"><span class="text">상봉</span></a></li>
-										<li><a role="option" aria-disabled="false" tabindex="0"
-											aria-selected="false"><span class="text">상암월드컵경기장</span></a></li>
-										<li><a role="option" aria-disabled="false" tabindex="0"
-											aria-selected="false"><span class="text">성수</span></a></li>
-										<li><a role="option" aria-disabled="false" tabindex="0"
-											aria-selected="false"><span class="text">센트럴</span></a></li>
-										<li><a role="option" aria-disabled="false" tabindex="0"
-											aria-selected="false"><span class="text">송파파크하비오</span></a></li>
-										<li><a role="option" aria-disabled="false" tabindex="0"
-											aria-selected="false"><span class="text">신촌</span></a></li>
-										<li><a role="option" aria-disabled="false" tabindex="0"
-											aria-selected="false"><span class="text">이수</span></a></li>
-										<li><a role="option" aria-disabled="false" tabindex="0"
-											aria-selected="false"><span class="text">창동</span></a></li>
-										<li><a role="option" aria-disabled="false" tabindex="0"
-											aria-selected="false"><span class="text">코엑스</span></a></li>
-										<li><a role="option" aria-disabled="false" tabindex="0"
-											aria-selected="false"><span class="text">홍대</span></a></li>
-										<li><a role="option" aria-disabled="false" tabindex="0"
-											aria-selected="false"><span class="text">화곡</span></a></li>
-										<li><a role="option" aria-disabled="false" tabindex="0"
-											aria-selected="false"><span class="text">ARTNINE</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">고양스타필드</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">광명AK플라자</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">광명소하</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">금정AK플라자</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">김포한강신도시</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">남양주</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">남양주현대아울렛 스페이스원</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">동탄</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">미사강변</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">백석벨라시타</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">별내</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">부천스타필드시티</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">분당</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">수원</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">수원AK플라자(수원역)</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">수원남문</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">수원호매실</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">시흥배곧</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">안산중앙</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">안성스타필드</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">양주</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">영통</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">용인기흥</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">용인테크노밸리</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">의정부민락</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">일산</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">킨텍스</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">파주금촌</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">파주운정</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">파주출판도시</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">하남스타필드</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">검단</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">송도</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">영종</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">인천논현</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">청라지젤</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">공주</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">논산</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">대전</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">대전신세계 아트앤사이언스</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">대전유성</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">대전중앙로</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">대전현대아울렛</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">세종(조치원)</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">세종나성</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">세종청사</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">오창</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">진천</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">천안</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">청주사창</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">홍성내포</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">경북도청</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">경산하양</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">경주</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">구미강동</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">김천</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">남포항</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">대구신세계(동대구)</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">대구이시아</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">덕천</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">마산</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">문경</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">부산극장</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">부산대</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">북대구(칠곡)</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">사상</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">삼천포</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">양산</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">양산증산</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">울산</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">정관</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">진주(중안)</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">창원</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">창원내서</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">포항</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">해운대(장산)</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">광주상무</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">광주하남</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">목포하당(포르모)</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">순천</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">여수웅천</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">전대(광주)</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">전주객사</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">전주송천</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">전주혁신</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">첨단</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">남춘천</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">속초</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">원주</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">원주센트럴</span></a></li>
-										<li><a role="option" style="display: none;"
-											aria-disabled="false" tabindex="0" aria-selected="false"><span
-												class="text">춘천석사</span></a></li>
-									</ul>
-								</div>
-							</div>
+	                        <select id="location" title="지역 선택"
+	                                class="btn form-select form-select-sm   form-control-sm "
+	                                style="width: 100%; float:left; " name="locationNo"
+	                                 >
+	                            <option value="" selected disabled>지역선택</option>
+	                            <option value="1">서울</option>
+	                            <option value="2">경기</option>
+	                            <option value="3">인천</option>
+	                            <option value="4">대전/충청/세종</option>
+	                            <option value="5">부산/대구/경상</option>
+	                            <option value="6">광주/전라</option>
+	                            <option value="7">강원</option>
+	                        </select>
 						</div>
+						<div class="dropdown  w150px small bs3 ml05">
+	                        <select id="theater" title="극장 선택" class="btn form-select form-select-sm  form-control-sm "
+	                                style="width: 100%;  float:left; position: relative; " 
+	                                name="theaterNo" >
+	      						<option value="" selected disabled>극장선택</option>
+	                        </select>
 
-						<button type="button" class="button gray small ml05">추가</button>
+                    	</div>
+						<button type="button" class="button gray small ml05" id="button-add-fav">추가</button>
 					</div>
 
 					<!-- theater-choice-list -->
@@ -1081,10 +346,7 @@
 
 						<div class="bg">
 
-							<div class="circle" data-brch-no="1341">
-								<p class="txt" data-eng-nm="Gangdong" data-kor-nm="강동">강동</p>
-								<button type="button" class="del">삭제</button>
-							</div>
+							
 
 						</div>
 
@@ -1109,5 +371,6 @@
 
 		</section>
 		<div class="bg-modal" style="opacity: 1; display: none"></div>
+	</div>
 	</div>
 </html>

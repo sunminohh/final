@@ -6,10 +6,13 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.co.mgv.theater.dto.FavoriteTheater;
 import kr.co.mgv.theater.service.TheaterService;
 import kr.co.mgv.theater.vo.Location;
 import kr.co.mgv.theater.vo.Theater;
@@ -52,6 +55,20 @@ public class TheaterController {
     		List<Theater> theaters = theaterService.getFavoriteTheaters(userId);
     		return theaters;
     	}
+    }
+    
+    @PostMapping("/favorite")
+    @ResponseBody
+    public String registrationFavoriteTheater(@AuthenticationPrincipal User user, @RequestBody List<FavoriteTheater> favoriteTheaters ) {
+    	if(user == null) {
+    		return "undefined";
+    	}else {
+    		String userId = user.getId();
+    		theaterService.registFavoriteTheater(userId, favoriteTheaters);
+    		return "success";
+    		
+    	}
+    	
     }
 
 }

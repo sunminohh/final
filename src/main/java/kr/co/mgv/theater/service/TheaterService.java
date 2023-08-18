@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import kr.co.mgv.theater.dao.TheaterDao;
+import kr.co.mgv.theater.dto.FavoriteTheater;
 import kr.co.mgv.theater.vo.Location;
 import kr.co.mgv.theater.vo.Theater;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,16 @@ public class TheaterService {
 	}
 
 	public List<Theater> getFavoriteTheaters(String userId) {
-		// TODO Auto-generated method stub
 		return theaterDao.getFavoriteTheaters(userId);
+	}
+
+	public void registFavoriteTheater(String userId, List<FavoriteTheater> favoriteTheaters) {
+		theaterDao.deleteFavoriteTheaters(userId);
+		for(FavoriteTheater theater: favoriteTheaters) {
+			theater.setUserId(userId);
+			if(theater.getTheaterNo() != 0) {
+				theaterDao.insertFavoriteTheaters(theater);
+			}
+		}
 	}
 }
