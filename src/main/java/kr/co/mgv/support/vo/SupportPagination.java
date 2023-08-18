@@ -52,8 +52,8 @@ public class SupportPagination {
       isLast = page == totalPages;
       prePage = page - 1;
       nextPage = page + 1;
-      begin = (page - 1)*rows + 1;
-      end = page*rows -1;
+      begin = (page - 1)*rows;
+      end = page*rows;
       pageNumbers = IntStream.range(beginPage, endPage+1).toArray();
    }
 

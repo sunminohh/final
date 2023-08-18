@@ -7,7 +7,7 @@ $(function() {
 		getLostList();
 	}
 	
-	
+	// 폼에서 지역조회
 	let $selectLocation = $("#location").empty();
 	$selectLocation.append(`<option value="" selected disabled>지역선택</option>`)
 	
@@ -18,7 +18,7 @@ $(function() {
 		})
 		
 	})
-	
+	// 폼에서 극장조회
 	$("#location").change(function() {
 		$("#theater").prop("disabled", false);
 		
@@ -193,15 +193,15 @@ $(function() {
 	
 	// 폼 알림창
 	$("#btn-submit").on("click", function(event) {
-		let location = $("#location").find('#location').text();
+		let location = $("#location").val();
 		let title = $("input[name='title']").val();
         let content = $("#textarea").val();
         
-        if (location === '') {
+        if (location === null) {
 			event.preventDefault();
 			 Swal.fire({
                 icon: 'error',
-                text: '지역을 선택 해주세요.'
+                text: '분실장소를 선택 해주세요.'
             });
         } else if (title === '') {
 			event.preventDefault();
