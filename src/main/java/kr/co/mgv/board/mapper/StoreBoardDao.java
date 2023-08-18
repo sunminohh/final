@@ -40,4 +40,7 @@ public interface StoreBoardDao {
 	int getTotalCommentCount (int no);
 	void deleteGreatComment(int no);
 	void deleteChildsComment(int no);
+	
+	// 게시글 등록 관련
+	void insertSboard(StoreBoard board);
 }

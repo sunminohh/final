@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import kr.co.mgv.board.form.AddSboardForm;
 import kr.co.mgv.board.list.StoreBoardList;
 import kr.co.mgv.board.service.MovieBoardService;
 import kr.co.mgv.board.service.StoreBoardService;
+import kr.co.mgv.board.vo.BoardCategory;
 import kr.co.mgv.board.vo.BoardProduct;
 import kr.co.mgv.board.vo.ReportReason;
 import kr.co.mgv.board.vo.SBoardComment;
@@ -295,9 +297,17 @@ public class StoreBoardController {
 	
     // 게시물 CRUD 관련
     @GetMapping("/add")
-    public String storeForm() {
+    public String storeForm(Model model) {
+    	List<BoardCategory> categories = storeBoardService.getCategories();
+    	model.addAttribute("categories", categories);
+    	
         return "/view/board/store/form";
     }
     
-
+    @PostMapping("/add")
+    public String addStoreBoard(@AuthenticationPrincipal User user, AddSboardForm form) {
+    	storeBoardService.addSboard(form, user);
+    	
+    	return "redirect:/board/store/list";
+    }
 }

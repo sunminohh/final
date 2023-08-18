@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import kr.co.mgv.board.BoardPagination;
+import kr.co.mgv.board.form.AddSboardForm;
 import kr.co.mgv.board.list.StoreBoardList;
 import kr.co.mgv.board.mapper.StoreBoardDao;
 import kr.co.mgv.board.vo.BoardCategory;
@@ -51,6 +52,10 @@ public class StoreBoardService {
 		result.setStoreBoards(storeBoards);
 		
 		return result;
+	}
+	
+	public List<BoardCategory> getCategories(){
+		return storeBoardDao.getCatetories();
 	}
 	
 	public List<BoardProduct> getProductsByCatNo(int catNo){
@@ -130,6 +135,24 @@ public class StoreBoardService {
 	
 	public int getTotalChildCount (int no) {
 		return storeBoardDao.getTotalCommentCount(no);
+	}
+	
+	// 게시물 CRUD
+	public void addSboard(AddSboardForm form, User user) {
+		try {
+			BoardCategory category = BoardCategory.builder().no(form.getCatNo()).build();
+			BoardProduct product = BoardProduct.builder().no(form.getProductNo()).build();
+			StoreBoard board = StoreBoard.builder()
+								.user(user)
+								.category(category)
+								.product(product)
+								.name(form.getName())
+								.content(form.getContent())
+								.build();
+			storeBoardDao.insertSboard(board);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 }
