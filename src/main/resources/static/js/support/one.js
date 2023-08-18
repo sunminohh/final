@@ -83,14 +83,69 @@ $(function() {
 		$(this).val(numericValue);
 	});
 	
-	// 폼에서 작성해야되는 칸 비우고 제출하면 알림창 뜨게하기
-	/*
 	$("#btn-submit").on("click", function(event) {
-        event.preventDefault(); // 폼 제출 방지
-
-        let content = $("#content").val();
+		let checkbox = $('#chk').prop('checked');
+		let onesupport = $('#onesupport').prop('checked');
+		let onetheater = $('#onetheater').prop('checked');
+		let oneCat = $("#oneCat").val();
+		let location = $("#location").val();
+		let theater = $("#theater").val();
+		let guestname = $("input[name='guestName']").val();
+		let guestemail = $("input[name='guestEmail']").val();
+		let guestPassword = $("input[name='guestPassword']").val();
+		let title = $("input[name='title']").val();
+        let content = $("#textarea").val();
         
-        if (content === '') {
+        if (checkbox == false) {
+			event.preventDefault();
+			 Swal.fire({
+                icon: 'error',
+                text: '개인정보 수집에 대한 동의가 필요합니다.'
+            });
+        } else if (onetheater == true && location === null) {
+			event.preventDefault();
+			 Swal.fire({
+                icon: 'error',
+                text: '지역을 선택 해주세요.'
+            });
+        } else if (onetheater == true && theater === null) {
+			event.preventDefault();
+			 Swal.fire({
+                icon: 'error',
+                text: '극장을 선택 해주세요.'
+            });
+		} else if (oneCat === null) {
+			event.preventDefault();
+			 Swal.fire({
+                icon: 'error',
+                text: '문의유형을 선택 해주세요.'
+            });
+        } else if (guestname === '') {
+			event.preventDefault();
+			 Swal.fire({
+                icon: 'error',
+                text: '이름을 입력 해주세요.'
+            });
+        } else if (guestemail === '') {
+			event.preventDefault();
+			 Swal.fire({
+                icon: 'error',
+                text: '이메일을 입력 해주세요.'
+            });
+        } else if (guestPassword === '') {
+			event.preventDefault();
+			 Swal.fire({
+                icon: 'error',
+                text: '비밀번호를 입력 해주세요.'
+            });
+        } else if (title === '') {
+			event.preventDefault();
+			 Swal.fire({
+                icon: 'error',
+                text: '제목을 입력 해주세요.'
+            });
+		} else if (content === '') {
+	        event.preventDefault(); 
             Swal.fire({
                 icon: 'error',
                 text: '내용을 입력 해주세요.'
@@ -99,7 +154,6 @@ $(function() {
             $(".insertform").submit();
         }
     });
-    */
 
 	// 나의 문의내역에서 일대일 문의내역 조회
 	// 검색버튼 클릭했을 때
