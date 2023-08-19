@@ -25,7 +25,8 @@
                         <td>
                             <input type="hidden" id="userId" th:value="${userId}">
                             <input type="text" id="userEmail" th:value="${userEmail}" class="input-text w230px" disabled>
-                            <button id="btnAuthMail" type="button" class="button gray w75px ml08">인증요청</button>
+                            <button id="btnSendAuthMail" type="button" class="button gray w75px ml08">인증요청</button>
+                            <button id="btnResendAuthMail" type="button" class="button gray w75px ml08" style="display: none">재전송</button>
                         </td>
                     </tr>
                     <tr id="mail-number" style="display: none;">

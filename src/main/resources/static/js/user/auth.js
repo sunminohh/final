@@ -10,7 +10,8 @@ $(() => {
 
     $authNumber.keyup(() => authCheck = false);
 
-    $("#btnAuthMail").click(() => sendNumber());
+    $("#btnSendAuthMail").click(() => sendNumber());
+    $("#btnResendAuthMail").click(() => resendNumber());
     $("#btnConfirm").click(() => checkNumber());
 
     $("#btnCancel").click(function () {
@@ -78,6 +79,9 @@ $(() => {
             if (response === "success") {
                 sessionStorage.setItem("emailConfirmCode", response);
                 successAlert($email, "해당 이메일로 인증번호가 전송되었습니다. \n 확인부탁드립니다.");
+
+                $("#btnResendAuthMail").show();
+                $("#btnSendAuthMail").hide();
                 startTimer(); // 타이머 시작
 
             } else {
@@ -87,6 +91,14 @@ $(() => {
             // Ajax 요청 실패한 경우
             handleErrorMessage("서버와 통신 중 오류가 발생했습니다.", response);
         }
+    }
+
+    async function resendNumber() {
+        // Clear any existing timer and reset timeLeft
+        clearInterval(timer);
+        timeLeft = 180;
+
+        await sendNumber();
     }
 
     // 인증번호 입력 시 이벤트
@@ -127,16 +139,20 @@ $(() => {
                 authCheck = true;
                 successAlert($authNumber, "인증되었습니다.");
                 stopTimer();
-
-                $("#btnSuccess").prop("disabled", false);
-                $("#userAuth").prop("readonly", true);
-                $("#btnConfirm").prop("disabled", true);
+                successCheck();
             }
         } catch (error) {
             authCheck = false;
             errorAlert($authNumber, "이메일 인증 중 오류가 발생하였습니다. 잠시 후 이용해주세요.");
         }
 
+    }
+
+    function successCheck() {
+        $("#mail-number").hide();
+        $("#btnSuccess").prop("disabled", false);
+        $("#userAuth").prop("readonly", true);
+        $("#btnConfirm").prop("disabled", true);
     }
 
     function errorAlert($el, text) {
