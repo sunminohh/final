@@ -154,6 +154,8 @@ public class LostController {
 		return "redirect:/support/lost";
 	}
 	
+	
+	
 	@RequestMapping("/detail")
 	public String getLostByNo(@RequestParam("no") int lostNo, Model model) {
 		Lost lost = lostService.getLostByNo(lostNo);

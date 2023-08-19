@@ -1,5 +1,12 @@
 
 $(function() {
+	
+	const params = new URLSearchParams(location.search);
+	const defaultKeyword = params.get('keyword');
+	if (defaultKeyword) {
+		$("input[name=keyword]").val(defaultKeyword);
+		refreshList();
+	}
 
 	// 탭메뉴
 	$('li.tab-link').click(function() {
@@ -7,7 +14,11 @@ $(function() {
 		$('button.btn').removeClass('current');
 		$(this).addClass('current');
 		$(this).find('button.btn').addClass('current');
-		refreshList(1);
+		
+		let tab = $(this).find('button').attr("data-tab");
+		$("input[name=tab]").val(tab);
+		$("input[name=page]").val(1);
+		refreshList();
 	});
 
 
@@ -82,7 +93,7 @@ $(function() {
 		// 입력 필드에 반영
 		$(this).val(numericValue);
 	});
-	
+	// 폼 알림창
 	$("#btn-submit").on("click", function(event) {
 		let checkbox = $('#chk').prop('checked');
 		let onesupport = $('#onesupport').prop('checked');
@@ -154,12 +165,20 @@ $(function() {
             $(".insertform").submit();
         }
     });
+    
+   
 
 	// 나의 문의내역에서 일대일 문의내역 조회
 	// 검색버튼 클릭했을 때
 	$("#searchBtn").click(function() {
-		$("input[name=page]").val(1);
+		$("input[name=page]").val();
 
+		refreshList();
+	});
+	
+	// 폼 전송 이벤트
+	$("#actionForm").on('submit', function(e) {
+		e.preventDefault();
 		refreshList();
 	});
 
@@ -167,13 +186,18 @@ $(function() {
 	$(".pagination").on("click", ".page-number-link", function(event) {
 		event.preventDefault();
 		let page = $(this).attr("data-page");
-		refreshList(page); // 해당 페이지 내용 갱신
+		$("input[name=page]").val(page);
+		
+		
+		refreshList(); // 해당 페이지 내용 갱신
 	});
 
-	// 초기 페이지 로드
-	refreshList(1);
-	function refreshList(page) {
 
+	refreshList();
+	// 초기 페이지 로드
+	function refreshList() {
+
+		let page = $("input[name=page]").val();
 		// 답변여부 조회
 		let answered = $("select[name=answered]").val()
 		// 키워드 조회
@@ -189,8 +213,10 @@ $(function() {
 		
 		 if (tabType === 'tab-one') {
                 $('#tabType').text('1:1 문의내역');
+                $('.float-r').attr('href', '/support/one').attr('title', '1:1 문의하기').text('1:1 문의하기');
             } else if (tabType === 'tab-lost') {
                 $('#tabType').text('분실물 문의내역');
+                $('.float-r').attr('href', '/support/lost/form').attr('title', '분실물 문의 등록하기').text('분실물 문의하기');
             }
             
 		const requestUrl = tabType === 'tab-one' ? '/support/one/list' : '/support/lost/mylist';
@@ -216,7 +242,8 @@ $(function() {
 		            <td>${board.theater == null ? '센터' : board.theater.name}</td>
 		            <td>${tabType === 'tab-one' ? board.category.name : '분실물 문의'}</td>
 		            <td style="text-align:left;">
-		            	<a href="${tabType == 'tab-one' ? 'myinquery/detail?no=' + encodeURIComponent(board.no) : 'mylost/detail?no=' + encodeURIComponent(board.no)}" class="text-black text-decoration-none">
+		            	<a href="${tabType == 'tab-one' ? 'myinquery/detail?no=' + encodeURIComponent(board.no) : 'mylost/detail?no=' + encodeURIComponent(board.no)}" class="text-black text-decoration-none"
+		            		data-no="${board.no}">
 						    ${board.title}
 						</a>
 		            </td>
@@ -292,4 +319,43 @@ $(function() {
 			}
 		})
 	}
+	
+	$(".board-list tbody").on("click", "a", function(event) {
+		event.preventDefault();
+		
+		let boardNo = $(this).attr("data-no");
+		let tab = $("input[name=tab]").val(); 
+		if (tab == 'tab-one') {
+			$("#actionForm").attr("action", '/support/one/myinquery/detail?no=' + boardNo);
+		} else {
+			$("#actionForm").attr("action", '/support/one/mylost/detail?no=' + boardNo);
+		}
+		
+		document.querySelector("#actionForm").submit();
+	})
+	
+	// 삭제 버튼 띄우기
+    $("#delete-btn").on("click", function(event) {
+	    event.preventDefault();
+		let no = $('[name=no]').val();
+		
+	    Swal.fire({
+	        icon: 'warning',
+	        title: '정말 삭제하시겠습니까?',
+	        showCancelButton: true,
+	        confirmButtonText: '네',
+	        cancelButtonText: '아니오',
+	    }).then((result) => {
+	        if (result.isConfirmed) {
+	              window.location.href = '/support/one/delete?no=' + no;      
+	              
+	        } else if (result.dismiss === Swal.DismissReason.cancel) {
+	            
+	        }
+	    });
+	});
+	
+	
 });
+
+

@@ -28,5 +28,6 @@ public interface OneDao {
 	List<Theater> getTheatersByLocationNo(int locationNo);
 	List<Location> getLocations();
 	
-	
+	// 일대일 문의글 업데이트
+	void updateOneByNo(One one);
 }

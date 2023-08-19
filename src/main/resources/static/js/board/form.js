@@ -156,6 +156,43 @@ $(function() {
 	       });
 	    }
 	});
+
+	$("#sboard-btn-submit").on("click", function () {
+	    let productNo = document.querySelector("select[name=productNo]").value;
+	    let title = $("input[name='name']").val();
+	    let content = $("#summernote").val();
+	
+	    if (productNo === '0') {
+	        Swal.fire({
+	            icon: 'error',
+	            text: '상품을 선택해주세요.',
+	        });
+	    } else if (title === '') {
+	        Swal.fire({
+	            icon: 'error',
+	            text: '게시글의 제목을 입력해주세요.',
+	        });
+	    } else if (content === '') {
+	        Swal.fire({
+	            icon: 'error',
+	            text: '게시글의 내용을 입력해주세요.',
+	        });
+	    } else {
+		   Swal.fire({
+           icon: 'warning',
+           title: '게시글을 등록 하시겠습니까?',
+           showCancelButton: true,
+           confirmButtonText: '네',
+           cancelButtonText: '아니오',
+	       }).then((result) => {
+	           if (result.isConfirmed) {
+					 $(".board-insert-form").submit();
+	           } else if (result.dismiss === Swal.DismissReason.cancel) {
+	               
+	           }
+	       });
+	    }
+	});
 	
 });
 
@@ -187,5 +224,36 @@ $(function() {
 			}
 		}
 		xhr.open("GET", "theaterByLocationNo?locationNo=" + locationNo );
+		xhr.send();
+	}
+	
+	
+	// 스토어리스트
+	function changeCat() {
+		let el = document.querySelector("select[name=productNo]");
+		el.innerHTML = "";  // select박스의 내부 컨텐츠를 전부 지운다.
+		el.disabled =false; // select박스를 활성화상태로 바꾼다.
+		let catNo = document.querySelector("select[name=catNo]").value
+			
+		let xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function() {
+			if (xhr.readyState == 4 && xhr.status == 200){
+				let text = xhr.responseText;
+				let products = JSON.parse(text);
+				if (products.length === 0){
+					el.disabled = true;
+				}else {
+					let options = `<option value="" selected disabled>상품선택</option>`;
+					products.forEach(function(product) {
+						options += `<option value="${product.no}" >${product.name}</option>`;
+	
+					});
+					el.innerHTML = options;
+	
+					
+				}
+			}
+		}
+		xhr.open("GET", "productByCatNo?catNo=" + catNo );
 		xhr.send();
 	}

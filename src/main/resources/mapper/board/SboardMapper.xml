@@ -105,4 +105,223 @@
     	from MGV_PRODUCT_CATEGORY
     </select>
     
+    <!-- 상세페이지 관련 -->
+    	<select id="getSBoardByNo" parameterType="int" resultType="kr.co.mgv.board.vo.StoreBoard">
+		select
+            A.board_no              as no,
+            A.board_name            as name,
+            A.board_content         as content,
+            A.board_create_date     as createDate,
+            A.board_update_date     as updateDate,
+            A.board_read_cnt        as readCount,
+            A.report_count			as reportCount,
+            A.board_comment_cnt     as commentCount,
+            A.user_id            	as "user.id",
+            A.BORAD_FILENAME		as fileName,
+			A.board_like_count		as likeCount,
+			A.product_no			as "product.no",
+			B.product_name			as "product.name",
+			A.cat_no				as "category.no",
+			C.cat_NAME				as "category.name"
+	    from
+	        MGV_PRODUCT_BOARD A, MGV_PRODUCT B, MGV_PRODUCT_CATEGORY C
+	    where 
+	    	A.product_no = B.product_no
+	    	and A.cat_no = C.cat_NO
+	    	and A.board_no = #{value}
+	</select>
+	
+	<update id="updateSBoardByNo" parameterType="kr.co.mgv.board.vo.StoreBoard">
+		update MGV_PRODUCT_BOARD
+			<set>
+				<if test="name != null">
+					board_name = #{name},
+				</if>
+				<if test="content != null">
+					board_content = #{content},
+				</if>
+				<if test="updateDate != null">
+					board_update_date = CURRENT_TIMESTAMP,
+				</if>
+				<if test="readCount != null">
+					board_read_cnt = #{readCount},
+				</if>
+				<if test="commentCount != null">
+					board_comment_cnt = #{commentCount},
+				</if>
+				<if test="deleted != null">
+					board_deleted = #{deleted},
+				</if>
+				<if test="report != null">
+					board_report = #{report},
+				</if>
+				<if test="fileName != null">
+					BORAD_FILENAME = #{fileName},
+				</if>
+				<if test="reportCount != null">
+					report_count = #{reportCount},
+				</if>
+				<if test="likeCount != null">
+					board_like_count = #{likeCount},
+				</if>
+				<if test="product != null">
+					product_no = #{product.no},
+				</if>
+				<if test="category != null">
+					cat_no = #{category.no},
+				</if>
+			</set>
+			where board_no = #{no}
+	</update>
+	
+	<!-- 게시판 좋아요 버튼 관련 -->
+	
+	<insert id="insertSBoardLike" parameterType="kr.co.mgv.board.vo.SBoardLike">
+	 	INSERT INTO STORE_BOARD_LIKE
+		(USER_ID, BOARD_NO)
+		VALUES(#{user.id}, #{board.no});	
+	</insert>
+	
+	 <select id="getLikeByBnoAndId" parameterType="kr.co.mgv.board.vo.SBoardLike" resultType="kr.co.mgv.board.vo.SBoardLike">
+	 	SELECT 
+	 		LIKE_NO		as no, 
+	 		LIKE_CANCEL as cancel,
+	 		USER_ID		as "user.id", 
+	 		BOARD_NO	as "board.no"
+		FROM 
+			STORE_BOARD_LIKE
+		where
+			user_id = #{user.id}
+			and board_no = #{board.no}
+	 	
+	 </select>
+	 
+	 <update id="updateLike" parameterType="kr.co.mgv.board.vo.SBoardLike">
+	 	UPDATE 
+	 		STORE_BOARD_LIKE
+		SET 
+			like_cancel = #{cancel}
+		WHERE user_id = #{user.id}
+			  and board_no = #{board.no}
+	 	
+	 </update>	
+	
+	<!-- 댓글 관련 -->
+	<insert id="insertSBoardComment" parameterType="kr.co.mgv.board.vo.SBoardComment">
+		INSERT INTO MGV_PBOARD_COMMENT
+		(COMMENT_CONTENT, USER_ID, BOARD_NO, PARENT_COMMENT_NO, GREAT_COMMENT_NO)
+		VALUES(#{content}, #{user.id}, #{board.no}, #{parent.no}, #{great.no});
+	</insert>
+	
+	<select id="getSBoardComments" resultType="kr.co.mgv.board.vo.SBoardComment" parameterType="int">
+		SELECT 
+			COMMENT_NO				as no, 
+			COMMENT_CREATE_dATE		as createDate, 
+			COMMENT_UPDATE_DATE		as updateDate, 
+			COMMENT_CONTENT			as content, 
+			USER_ID					as "user.id", 
+			COMMENT_DELETED			as deleted, 
+			BOARD_NO				as "board.no"
+		FROM 
+			MGV_PBOARD_COMMENT 
+		WHERE 
+			comment_deleted = 'N'
+			and board_no = #{value}
+			and great_comment_no is null
+		order by comment_create_date;
+	</select>
+	
+	<select id="getSBoardChildComments" resultType="kr.co.mgv.board.vo.SBoardComment" parameterType="int">
+		SELECT 
+			A.COMMENT_NO				as no, 
+			A.COMMENT_CREATE_dATE		as createDate, 
+			A.COMMENT_UPDATE_DATE		as updateDate, 
+			A.COMMENT_CONTENT			as content, 
+			A.USER_ID					as "user.id", 
+			A.COMMENT_DELETED			as deleted, 
+			A.BOARD_NO					as "board.no", 
+			A.PARENT_COMMENT_NO			as "parent.no", 
+			A.GREAT_COMMENT_NO			as "great.no",
+			P.USER_ID					as "parent.user.id",
+			G.USER_ID					as "great.user.id"
+		FROM 
+			MGV_PBOARD_COMMENT A, MGV_PBOARD_COMMENT P, MGV_PBOARD_COMMENT G
+		WHERE 
+			A.parent_comment_no = P.comment_no
+			and A.great_comment_no = G.comment_no
+			and A.comment_deleted = 'N'
+			and A.board_no = #{value}
+			and A.great_comment_no is NOT null
+		order by A.comment_create_date;
+	</select>
+	
+	<select id="getGreatComment" resultType="kr.co.mgv.board.vo.SBoardComment" parameterType="kr.co.mgv.board.vo.TBoardComment">
+		SELECT 
+			COMMENT_NO				as no, 
+			COMMENT_CREATE_dATE		as createDate, 
+			COMMENT_UPDATE_DATE		as updateDate, 
+			COMMENT_CONTENT			as content, 
+			USER_ID					as "user.id", 
+			COMMENT_DELETED			as deleted, 
+			BOARD_NO				as "board.no"
+		FROM 
+			MGV_PBOARD_COMMENT 
+		WHERE 
+			comment_deleted = 'N'
+			and board_no = #{board.no}
+			and user_id = #{user.id}
+			and great_comment_no is null
+			ORDER BY comment_create_date DESC
+			LIMIT 1;
+	</select>
+	
+	<select id="getTotalCommentCount" parameterType="int" resultType="int">
+		select count(*)
+		from MGV_PBOARD_COMMENT
+		where great_comment_no = #{value}
+	</select>
+	
+	<select id="getChildComment" resultType="kr.co.mgv.board.vo.SBoardComment" parameterType="kr.co.mgv.board.vo.TBoardComment">
+		SELECT 
+			A.COMMENT_NO				as no, 
+			A.COMMENT_CREATE_dATE		as createDate, 
+			A.COMMENT_UPDATE_DATE		as updateDate, 
+			A.COMMENT_CONTENT			as content, 
+			A.USER_ID					as "user.id", 
+			A.COMMENT_DELETED			as deleted, 
+			A.BOARD_NO					as "board.no", 
+			A.PARENT_COMMENT_NO			as "parent.no", 
+			A.GREAT_COMMENT_NO			as "great.no",
+			P.USER_ID					as "parent.user.id",
+			G.USER_ID					as "great.user.id"
+		FROM 
+			MGV_PBOARD_COMMENT A, MGV_PBOARD_COMMENT P, MGV_PBOARD_COMMENT G
+		WHERE 
+			A.parent_comment_no = P.comment_no
+			and A.great_comment_no = G.comment_no
+			and A.comment_deleted = 'N'
+			and A.board_no = #{board.no}
+			and A.user_id = #{user.id} 
+			and A.great_comment_no is NOT null
+		ORDER BY A.comment_create_date DESC
+		LIMIT 1;
+	</select>
+	
+	<delete id="deleteGreatComment" parameterType="int">
+		DELETE FROM MGV_PBOARD_COMMENT
+		WHERE COMMENT_NO= #{value};
+	</delete>
+	
+	<delete id="deleteChildsComment" parameterType="int">
+		DELETE FROM MGV_PBOARD_COMMENT
+		WHERE GREAT_COMMENT_NO= #{value};
+	</delete>	
+	
+	<!-- 게시판 등록 -->
+	<insert id="insertSboard" parameterType="kr.co.mgv.board.vo.StoreBoard">
+	INSERT INTO MGV_PRODUCT_BOARD
+	(BOARD_NAME, BOARD_CONTENT, USER_ID, PRODUCT_NO, CAT_NO, BORAD_FILENAME)
+	VALUES(#{name}, #{content}, #{user.id}, #{product.no}, #{category.no}, #{fileName});
+	</insert>
+	
 </mapper>
