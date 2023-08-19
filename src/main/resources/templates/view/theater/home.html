@@ -1,445 +1,376 @@
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default}">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/default}">
 <head th:fragment="extra-head-content">
-    <title>극장</title>
-    <script type="text/javascript" th:src="@{/js/theater/ui.js}"></script>
+<title>극장</title>
+<script type="text/javascript" th:src="@{/js/theater/ui.js}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js" 
+	integrity="sha512-yDlE7vpGDP7o2eftkCiPZ+yuUyEcaBwoJoIhdXv71KZWugFqEphIS3PU60lEkFaz8RxaVsMpSvQxMBaKVwA5xg==" 
+	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<style type="text/css">
+	p{
+		margin-top: 1em;
+		margin-bottom: 1em;
+	}
+
+.dropdown{    height: 32px;
+    vertical-align: middle;
+    margin: 0;
+    border: 1px solid #666;
+    background-color: #fff;
+    display: inline-block;
+    font-size: 1em;
+    text-align: right;
+    }
+.dropdown select{
+    padding: 0px 30px 0px 9px;
+    text-align: left;
+    border: 0;
+    height: 30px;
+} 
+</style>
 </head>
 <div layout:fragment="content">
-    <div class="page-util">
-        <div class="inner-wrap">
-            <div class="location">
-                <span>Home</span>
-                <a href="#">극장</a>
-                <a href="#">전체극장</a>
-            </div>
-        </div>
-    </div>
-    <!-- content -->
-    <div id="contents" class="no-padding">
-        <!--// theater-main -->
-        <div class="inner-wrap">
-            <h2 class="tit mt40">전체극장</h2>
-            <div class="theater-box" style="height: 292px;">
-                <div class="theater-place">
-                    <ul>
-                        <li class="on">
-                            <button type="button" class="sel-city">서울 </button>
-                            <div class="theater-list">
-                                <ul>
-                                    
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <button type="button" class="sel-city">경기 </button>
-                            <div class="theater-list">
-                                <ul>
-                                    <li data-brch-no="4121">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="고양스타필드 상세보기">고양스타필드</a>
-                                    </li>
-                                    <li data-brch-no="0029">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="광명AK플라자 상세보기">광명AK플라자</a>
-                                    </li>
-                                    <li data-brch-no="0053">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="광명소하 상세보기">광명소하</a>
-                                    </li>
-                                    <li data-brch-no="0035">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="금정AK플라자 상세보기">금정AK플라자</a>
-                                    </li>
-                                    <li data-brch-no="4152">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="김포한강신도시 상세보기">김포한강신도시</a>
-                                    </li>
-                                    <li data-brch-no="0039">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="남양주 상세보기">남양주</a>
-                                    </li>
-                                    <li data-brch-no="0019">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="남양주현대아울렛 스페이스원 상세보기">남양주현대아울렛 스페이스원</a>
-                                    </li>
-                                    <li data-brch-no="4451">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="동탄 상세보기">동탄</a>
-                                    </li>
-                                    <li data-brch-no="4652">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="미사강변 상세보기">미사강변</a>
-                                    </li>
-                                    <li data-brch-no="4104">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="백석벨라시타 상세보기">백석벨라시타</a>
-                                    </li>
-                                    <li data-brch-no="4722">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="별내 상세보기">별내</a>
-                                    </li>
-                                    <li data-brch-no="4221">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="부천스타필드시티 상세보기">부천스타필드시티</a>
-                                    </li>
-                                    <li data-brch-no="4631">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="분당 상세보기">분당</a>
-                                    </li>
-                                    <li data-brch-no="0030">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="수원 상세보기">수원</a>
-                                    </li>
-                                    <li data-brch-no="0052">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="수원AK플라자(수원역) 상세보기">수원AK플라자(수원역)</a>
-                                        <i class="iconset ico-theater-open"></i>
-                                    </li>
-                                    <li data-brch-no="0042">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="수원남문 상세보기">수원남문</a>
-                                    </li>
-                                    <li data-brch-no="0036">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="수원호매실 상세보기">수원호매실</a>
-                                    </li>
-                                    <li data-brch-no="4291">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="시흥배곧 상세보기">시흥배곧</a>
-                                    </li>
-                                    <li data-brch-no="4253">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="안산중앙 상세보기">안산중앙</a>
-                                    </li>
-                                    <li data-brch-no="0020">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="안성스타필드 상세보기">안성스타필드</a>
-                                    </li>
-                                    <li data-brch-no="4821">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="양주 상세보기">양주</a>
-                                    </li>
-                                    <li data-brch-no="4431">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="영통 상세보기">영통</a>
-                                    </li>
-                                    <li data-brch-no="0012">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="용인기흥 상세보기">용인기흥</a>
-                                    </li>
-                                    <li data-brch-no="4462">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="용인테크노밸리 상세보기">용인테크노밸리</a>
-                                    </li>
-                                    <li data-brch-no="4804">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="의정부민락 상세보기">의정부민락</a>
-                                    </li>
-                                    <li data-brch-no="4111">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="일산 상세보기">일산</a>
-                                    </li>
-                                    <li data-brch-no="4112">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="킨텍스 상세보기">킨텍스</a>
-                                    </li>
-                                    <li data-brch-no="4132">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="파주금촌 상세보기">파주금촌</a>
-                                    </li>
-                                    <li data-brch-no="4115">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="파주운정 상세보기">파주운정</a>
-                                    </li>
-                                    <li data-brch-no="4131">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="파주출판도시 상세보기">파주출판도시</a>
-                                    </li>
-                                    <li data-brch-no="4651">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="하남스타필드 상세보기">하남스타필드</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <button type="button" class="sel-city">인천 </button>
-                            <div class="theater-list">
-                                <ul>
-                                    <li data-brch-no="4041">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="검단 상세보기">검단</a>
-                                    </li>
-                                    <li data-brch-no="4062">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="송도 상세보기">송도</a>
-                                    </li>
-                                    <li data-brch-no="4001">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="영종 상세보기">영종</a>
-                                    </li>
-                                    <li data-brch-no="4051">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="인천논현 상세보기">인천논현</a>
-                                    </li>
-                                    <li data-brch-no="0027">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="청라지젤 상세보기">청라지젤</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <button type="button" class="sel-city">대전/충청/세종 </button>
-                            <div class="theater-list">
-                                <ul>
-                                    <li data-brch-no="3141">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="공주 상세보기">공주</a>
-                                    </li>
-                                    <li data-brch-no="0018">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="논산 상세보기">논산</a>
-                                    </li>
-                                    <li data-brch-no="3021">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="대전 상세보기">대전</a>
-                                    </li>
-                                    <li data-brch-no="0028">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="대전신세계 아트앤사이언스 상세보기">대전신세계 아트앤사이언스</a>
-                                    </li>
-                                    <li data-brch-no="0009">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="대전유성 상세보기">대전유성</a>
-                                    </li>
-                                    <li data-brch-no="3011">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="대전중앙로 상세보기">대전중앙로</a>
-                                    </li>
-                                    <li data-brch-no="0017">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="대전현대아울렛 상세보기">대전현대아울렛</a>
-                                    </li>
-                                    <li data-brch-no="3391">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="세종(조치원) 상세보기">세종(조치원)</a>
-                                    </li>
-                                    <li data-brch-no="3392">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="세종나성 상세보기">세종나성</a>
-                                    </li>
-                                    <li data-brch-no="0008">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="세종청사 상세보기">세종청사</a>
-                                    </li>
-                                    <li data-brch-no="3631">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="오창 상세보기">오창</a>
-                                    </li>
-                                    <li data-brch-no="3651">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="진천 상세보기">진천</a>
-                                    </li>
-                                    <li data-brch-no="3301">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="천안 상세보기">천안</a>
-                                    </li>
-                                    <li data-brch-no="0049">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="청주사창 상세보기">청주사창</a>
-                                    </li>
-                                    <li data-brch-no="3501">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="홍성내포 상세보기">홍성내포</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <button type="button" class="sel-city">부산/대구/경상 </button>
-                            <div class="theater-list">
-                                <ul>
-                                    <li data-brch-no="0040">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="경북도청 상세보기">경북도청</a>
-                                    </li>
-                                    <li data-brch-no="7122">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="경산하양 상세보기">경산하양</a>
-                                    </li>
-                                    <li data-brch-no="0043">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="경주 상세보기">경주</a>
-                                    </li>
-                                    <li data-brch-no="7303">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="구미강동 상세보기">구미강동</a>
-                                    </li>
-                                    <li data-brch-no="7401">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="김천 상세보기">김천</a>
-                                    </li>
-                                    <li data-brch-no="7901">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="남포항 상세보기">남포항</a>
-                                    </li>
-                                    <li data-brch-no="7011">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="대구신세계(동대구) 상세보기">대구신세계(동대구)</a>
-                                    </li>
-                                    <li data-brch-no="0022">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="대구이시아 상세보기">대구이시아</a>
-                                    </li>
-                                    <li data-brch-no="6161">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="덕천 상세보기">덕천</a>
-                                    </li>
-                                    <li data-brch-no="6312">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="마산 상세보기">마산</a>
-                                    </li>
-                                    <li data-brch-no="7451">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="문경 상세보기">문경</a>
-                                    </li>
-                                    <li data-brch-no="6001">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="부산극장 상세보기">부산극장</a>
-                                    </li>
-                                    <li data-brch-no="6906">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="부산대 상세보기">부산대</a>
-                                    </li>
-                                    <li data-brch-no="0025">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="북대구(칠곡) 상세보기">북대구(칠곡)</a>
-                                    </li>
-                                    <li data-brch-no="0032">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="사상 상세보기">사상</a>
-                                    </li>
-                                    <li data-brch-no="6642">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="삼천포 상세보기">삼천포</a>
-                                    </li>
-                                    <li data-brch-no="6261">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="양산 상세보기">양산</a>
-                                    </li>
-                                    <li data-brch-no="6262">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="양산증산 상세보기">양산증산</a>
-                                    </li>
-                                    <li data-brch-no="6811">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="울산 상세보기">울산</a>
-                                    </li>
-                                    <li data-brch-no="6191">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="정관 상세보기">정관</a>
-                                    </li>
-                                    <li data-brch-no="0045">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="진주(중안) 상세보기">진주(중안)</a>
-                                    </li>
-                                    <li data-brch-no="0048">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="창원 상세보기">창원</a>
-                                    </li>
-                                    <li data-brch-no="0014">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="창원내서 상세보기">창원내서</a>
-                                    </li>
-                                    <li data-brch-no="0038">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="포항 상세보기">포항</a>
-                                    </li>
-                                    <li data-brch-no="0046">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="해운대(장산) 상세보기">해운대(장산)</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <button type="button" class="sel-city">광주/전라 </button>
-                            <div class="theater-list">
-                                <ul>
-                                    <li data-brch-no="5021">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="광주상무 상세보기">광주상무</a>
-                                    </li>
-                                    <li data-brch-no="5061">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="광주하남 상세보기">광주하남</a>
-                                    </li>
-                                    <li data-brch-no="5302">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="목포하당(포르모) 상세보기">목포하당(포르모)</a>
-                                    </li>
-                                    <li data-brch-no="5401">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="순천 상세보기">순천</a>
-                                    </li>
-                                    <li data-brch-no="5552">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="여수웅천 상세보기">여수웅천</a>
-                                    </li>
-                                    <li data-brch-no="0010">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="전대(광주) 상세보기">전대(광주)</a>
-                                    </li>
-                                    <li data-brch-no="0050">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="전주객사 상세보기">전주객사</a>
-                                    </li>
-                                    <li data-brch-no="5612">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="전주송천 상세보기">전주송천</a>
-                                    </li>
-                                    <li data-brch-no="0021">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="전주혁신 상세보기">전주혁신</a>
-                                    </li>
-                                    <li data-brch-no="5064">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="첨단 상세보기">첨단</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <button type="button" class="sel-city">강원 </button>
-                            <div class="theater-list">
-                                <ul>
-                                    <li data-brch-no="2001">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="남춘천 상세보기">남춘천</a>
-                                    </li>
-                                    <li data-brch-no="2171">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="속초 상세보기">속초</a>
-                                    </li>
-                                    <li data-brch-no="2201">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="원주 상세보기">원주</a>
-                                    </li>
-                                    <li data-brch-no="2202">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="원주센트럴 상세보기">원주센트럴</a>
-                                    </li>
-                                    <li data-brch-no="0037">
-                                        <a th:href="@{/theater/detail(brchNo='1')}" title="춘천석사 상세보기">춘천석사</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="user-theater">
-                    <!-- 로그인 전 -->
-                    <div>
-                        <i class="iconset ico-favo-theater"></i> 나의 선호영화관 정보 <a th:href="@{/theater/detail(brchNo='1')}" class="button small ml10" id="moveLogin" title="로그인하기">로그인하기</a>
-                    </div>
-                </div>
-            </div>
-            <div class="tit-util mt70 mb15">
-                <h3 class="tit">극장 이벤트</h3>
-                <a th:href="@{/event}" class="more" title="극장 이벤트 더보기">더보기 <i class="iconset ico-arr-right-gray"></i>
-                </a>
-            </div>
-            <div class="event-box">
-                <ul>
-                    <li>
-                        <a th:href="@{/event/detail/1}" class="eventBtn" data-no="13755" data-netfunnel="N" title="[세종(조치원)] 포대팝콘이 떴다! 상세보기">
-                            <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/27/KJkY8Fmjc7jz46x5Q2TBizZObelFFOlm.jpg" alt="[세종(조치원)] 포대팝콘이 떴다!" onerror="noImg(this)">
-                        </a>
-                    </li>
-                    <li>
-                        <a th:href="@{/event/detail/1}" data-no="13753" data-netfunnel="N" title="[영통] 일반요금으로 MX관에서 관람하자! 상세보기">
-                            <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/27/tXljOiyKSH44mET4IOy6z5OOFHk2Rgdc.jpg" alt="[영통] 일반요금으로 MX관에서 관람하자!" onerror="noImg(this)">
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="tit-util mt70 mb15">
-                <h3 class="tit">극장 공지사항</h3>
-                <a th:href="@{/support/notice}" class="more" title="극장 공지사항 더보기">더보기 <i class="iconset ico-arr-right-gray"></i>
-                </a>
-            </div>
-            <div class="table-wrap">
-                <table class="board-list">
-                    <caption>극장, 제목, 지역, 등록일이 들어간 극장 공지사항 목록</caption>
-                    <colgroup>
-                        <col style="width:150px;">
-                        <col>
-                        <col style="width:150px;">
-                        <col style="width:120px;">
-                    </colgroup>
-                    <thead>
-                    <tr>
-                        <th scope="col">극장</th>
-                        <th scope="col">제목</th>
-                        <th scope="col">지역</th>
-                        <th scope="col">등록일</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>수원AK플라자(수원역)</td>
-                        <th scope="row">
-                            <a th:href="@{/support/notice/detail(noticeNo='1')}" title="[수원AK플라자] 주차장 이용 안내 상세보기"> [수원AK플라자] 주차장 이용 안내 </a>
-                        </th>
-                        <td>경기</td>
-                        <td>2023.07.26</td>
-                    </tr>
-                    <tr>
-                        <td>수원AK플라자(수원역)</td>
-                        <th scope="row">
-                            <a th:href="@{/support/notice/detail(noticeNo='1')}" title="[수원AK플라자] 극장 도보 이용 안내 상세보기"> [수원AK플라자] 극장 도보 이용 안내 </a>
-                        </th>
-                        <td>경기</td>
-                        <td>2023.07.26</td>
-                    </tr>
-                    <tr>
-                        <td>대전신세계 아트앤사이언스</td>
-                        <th scope="row">
-                            <a th:href="@{/support/notice/detail(noticeNo='1')}" title="[대전신세계 아트앤사이언스]시사회 진행에 따른 고객 안내문(7/27) 상세보기"> [대전신세계 아트앤사이언스]시사회 진행에 따른 고객 안내문(7/27) </a>
-                        </th>
-                        <td>대전/충청/세종</td>
-                        <td>2023.07.26</td>
-                    </tr>
-                    <tr>
-                        <td>코엑스</td>
-                        <th scope="row">
-                            <a th:href="@{/support/notice/detail(noticeNo='1')}" title="[코엑스] 시사회 진행에 따른 고객 안내문 (7/27) 상세보기"> [코엑스] 시사회 진행에 따른 고객 안내문 (7/27) </a>
-                        </th>
-                        <td>서울</td>
-                        <td>2023.07.25</td>
-                    </tr>
-                    <tr>
-                        <td>수원남문</td>
-                        <th scope="row">
-                            <a th:href="@{/support/notice/detail(noticeNo='1')}" title="[수원남문] 공무원 할인 종료 안내(~7/31까지) 상세보기"> [수원남문] 공무원 할인 종료 안내(~7/31까지) </a>
-                        </th>
-                        <td>경기</td>
-                        <td>2023.07.24</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
+	<div class="page-util">
+		<div class="inner-wrap">
+			<div class="location">
+				<span>Home</span> <a href="#">극장</a> <a href="#">전체극장</a>
+			</div>
+		</div>
+	</div>
+	<!-- content -->
+	<div id="contents" class="no-padding">
+		<!--// theater-main -->
+		<div class="inner-wrap">
+			<h2 class="tit mt40">전체극장</h2>
+			<div class="theater-box" style="height: 292px;">
+				<div class="theater-place">
+					<ul>
+						<li class="on">
+							<button type="button" class="sel-city">서울</button>
+							<div class="theater-list">
+								<ul>
+
+								</ul>
+							</div>
+						</li>
+						<li>
+							<button type="button" class="sel-city">경기</button>
+							<div class="theater-list">
+								<ul>
+									<li data-brch-no="4121"><a
+										th:href="@{/theater/detail(brchNo='1')}" title="고양스타필드 상세보기">고양스타필드</a>
+									</li>
+									<li data-brch-no="0029"><a
+										th:href="@{/theater/detail(brchNo='1')}" title="광명AK플라자 상세보기">광명AK플라자</a>
+									</li>
+									<li data-brch-no="0053"><a
+										th:href="@{/theater/detail(brchNo='1')}" title="광명소하 상세보기">광명소하</a>
+									</li>
+
+								</ul>
+							</div>
+						</li>
+						<li>
+							<button type="button" class="sel-city">인천</button>
+							<div class="theater-list">
+								<ul>
+									<li data-brch-no="4041"><a
+										th:href="@{/theater/detail(brchNo='1')}" title="검단 상세보기">검단</a>
+									</li>
+									<li data-brch-no="4062"><a
+										th:href="@{/theater/detail(brchNo='1')}" title="송도 상세보기">송도</a>
+									</li>
+									<li data-brch-no="4001"><a
+										th:href="@{/theater/detail(brchNo='1')}" title="영종 상세보기">영종</a>
+									</li>
+									<li data-brch-no="4051"><a
+										th:href="@{/theater/detail(brchNo='1')}" title="인천논현 상세보기">인천논현</a>
+									</li>
+									<li data-brch-no="0027"><a
+										th:href="@{/theater/detail(brchNo='1')}" title="청라지젤 상세보기">청라지젤</a>
+									</li>
+								</ul>
+							</div>
+						</li>
+						<li>
+							<button type="button" class="sel-city">대전/충청/세종</button>
+							<div class="theater-list">
+								<ul>
+									<li data-brch-no="3141"><a
+										th:href="@{/theater/detail(brchNo='1')}" title="공주 상세보기">공주</a>
+									</li>
+									<li data-brch-no="0018"><a
+										th:href="@{/theater/detail(brchNo='1')}" title="논산 상세보기">논산</a>
+									</li>
+									<li data-brch-no="3021"><a
+										th:href="@{/theater/detail(brchNo='1')}" title="대전 상세보기">대전</a>
+									</li>
+
+								</ul>
+							</div>
+						</li>
+						<li>
+							<button type="button" class="sel-city">부산/대구/경상</button>
+							<div class="theater-list">
+								<ul>
+									<li data-brch-no="0040"><a
+										th:href="@{/theater/detail(brchNo='1')}" title="경북도청 상세보기">경북도청</a>
+									</li>
+									<li data-brch-no="7122"><a
+										th:href="@{/theater/detail(brchNo='1')}" title="경산하양 상세보기">경산하양</a>
+									</li>
+									<li data-brch-no="0043"><a
+										th:href="@{/theater/detail(brchNo='1')}" title="경주 상세보기">경주</a>
+									</li>
+
+								</ul>
+							</div>
+						</li>
+						<li>
+							<button type="button" class="sel-city">광주/전라</button>
+							<div class="theater-list">
+								<ul>
+									<li data-brch-no="5021"><a
+										th:href="@{/theater/detail(brchNo='1')}" title="광주상무 상세보기">광주상무</a>
+									</li>
+									<li data-brch-no="5061"><a
+										th:href="@{/theater/detail(brchNo='1')}" title="광주하남 상세보기">광주하남</a>
+									</li>
+									<li data-brch-no="5302"><a
+										th:href="@{/theater/detail(brchNo='1')}"
+										title="목포하당(포르모) 상세보기">목포하당(포르모)</a></li>
+									<li data-brch-no="5302"><a
+										th:href="@{/theater/detail(brchNo='1')}"
+										title="목포하당(포르모) 상세보기">순천</a></li>
+
+								</ul>
+							</div>
+						</li>
+						<li>
+							<button type="button" class="sel-city">강원</button>
+							<div class="theater-list">
+								<ul>
+									<li data-brch-no="2001"><a
+										th:href="@{/theater/detail(brchNo='1')}" title="남춘천 상세보기">남춘천</a>
+									</li>
+									<li data-brch-no="2171"><a
+										th:href="@{/theater/detail(brchNo='1')}" title="속초 상세보기">속초</a>
+									</li>
+
+								</ul>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div class="user-theater">
+					<!-- 로그인 전 -->
+					<div sec:authorize="isAnonymous()">
+						<i class="iconset ico-favo-theater"></i> 나의 선호영화관 정보
+						<button th:href="@{/theater/detail(brchNo='1')}"
+							class="button small ml10 btn-login" id="moveLogin" title="로그인하기">로그인하기</button>
+					</div>
+
+
+					<!-- 로그인 후 -->
+					<div sec:authorize="isAuthenticated()">
+						<i class="iconset ico-favo-theater"></i> <span class="font-gblue"
+							th:id-data="${#authentication.principal.id}"
+							th:text="${#authentication.principal.name}">홍길동</span>님의 선호영화관
+						<ul class="theater-circle">
+
+
+						</ul>
+						<a href="" class="button small float-r control-fav"
+							title="선호영화관 관리"> <i class="iconset ico-edit"></i> 선호영화관 관리
+						</a>
+					</div>
+
+				</div>
+			</div>
+			<div class="tit-util mt70 mb15">
+				<h3 class="tit">극장 이벤트</h3>
+				<a th:href="@{/event}" class="more" title="극장 이벤트 더보기">더보기 <i
+					class="iconset ico-arr-right-gray"></i>
+				</a>
+			</div>
+			<div class="event-box">
+				<ul>
+					<li><a th:href="@{/event/detail/1}" class="eventBtn"
+						data-no="13755" data-netfunnel="N"
+						title="[세종(조치원)] 포대팝콘이 떴다! 상세보기"> <img
+							src="https://img.megabox.co.kr/SharedImg/event/2023/07/27/KJkY8Fmjc7jz46x5Q2TBizZObelFFOlm.jpg"
+							alt="[세종(조치원)] 포대팝콘이 떴다!" onerror="noImg(this)">
+					</a></li>
+					<li><a th:href="@{/event/detail/1}" data-no="13753"
+						data-netfunnel="N" title="[영통] 일반요금으로 MX관에서 관람하자! 상세보기"> <img
+							src="https://img.megabox.co.kr/SharedImg/event/2023/07/27/tXljOiyKSH44mET4IOy6z5OOFHk2Rgdc.jpg"
+							alt="[영통] 일반요금으로 MX관에서 관람하자!" onerror="noImg(this)">
+					</a></li>
+				</ul>
+			</div>
+			<div class="tit-util mt70 mb15">
+				<h3 class="tit">극장 공지사항</h3>
+				<a th:href="@{/support/notice}" class="more" title="극장 공지사항 더보기">더보기
+					<i class="iconset ico-arr-right-gray"></i>
+				</a>
+			</div>
+			<div class="table-wrap">
+				<table class="board-list">
+					<caption>극장, 제목, 지역, 등록일이 들어간 극장 공지사항 목록</caption>
+					<colgroup>
+						<col style="width: 150px;">
+						<col>
+						<col style="width: 150px;">
+						<col style="width: 120px;">
+					</colgroup>
+					<thead>
+						<tr>
+							<th scope="col">극장</th>
+							<th scope="col">제목</th>
+							<th scope="col">지역</th>
+							<th scope="col">등록일</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>수원AK플라자(수원역)</td>
+							<th scope="row"><a
+								th:href="@{/support/notice/detail(noticeNo='1')}"
+								title="[수원AK플라자] 주차장 이용 안내 상세보기"> [수원AK플라자] 주차장 이용 안내 </a></th>
+							<td>경기</td>
+							<td>2023.07.26</td>
+						</tr>
+						<tr>
+							<td>수원AK플라자(수원역)</td>
+							<th scope="row"><a
+								th:href="@{/support/notice/detail(noticeNo='1')}"
+								title="[수원AK플라자] 극장 도보 이용 안내 상세보기"> [수원AK플라자] 극장 도보 이용 안내 </a></th>
+							<td>경기</td>
+							<td>2023.07.26</td>
+						</tr>
+						<tr>
+							<td>대전신세계 아트앤사이언스</td>
+							<th scope="row"><a
+								th:href="@{/support/notice/detail(noticeNo='1')}"
+								title="[대전신세계 아트앤사이언스]시사회 진행에 따른 고객 안내문(7/27) 상세보기"> [대전신세계
+									아트앤사이언스]시사회 진행에 따른 고객 안내문(7/27) </a></th>
+							<td>대전/충청/세종</td>
+							<td>2023.07.26</td>
+						</tr>
+						<tr>
+							<td>코엑스</td>
+							<th scope="row"><a
+								th:href="@{/support/notice/detail(noticeNo='1')}"
+								title="[코엑스] 시사회 진행에 따른 고객 안내문 (7/27) 상세보기"> [코엑스] 시사회 진행에
+									따른 고객 안내문 (7/27) </a></th>
+							<td>서울</td>
+							<td>2023.07.25</td>
+						</tr>
+						<tr>
+							<td>수원남문</td>
+							<th scope="row"><a
+								th:href="@{/support/notice/detail(noticeNo='1')}"
+								title="[수원남문] 공무원 할인 종료 안내(~7/31까지) 상세보기"> [수원남문] 공무원 할인 종료
+									안내(~7/31까지) </a></th>
+							<td>경기</td>
+							<td>2023.07.24</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<a href="#favor_theater_setting" class="right btn-modal-open "
+			id="favorBrchReg" w-data="500" h-data="360"></a>
+		<section id="favor_theater_setting" class="modal-layer"
+			style="z-index: 504;">
+
+			<div class="wrap" id="favorBrchReg"
+				style="width: 500px; height: 360px; margin-left: -250px; margin-top: -180px;">
+				<header class="layer-header">
+					<h3 class="tit">선호극장 관리</h3>
+				</header>
+
+				<div class="layer-con" style="min-height: 220px; height: 248px;">
+
+					<div class="box-gray v1 a-c">
+						<div class="dropdown  w150px small bs3" style="">
+
+	                        <select id="location" title="지역 선택"
+	                                class="btn form-select form-select-sm   form-control-sm "
+	                                style="width: 100%; float:left; " name="locationNo"
+	                                 >
+	                            <option value="" selected disabled>지역선택</option>
+	                            <option value="1">서울</option>
+	                            <option value="2">경기</option>
+	                            <option value="3">인천</option>
+	                            <option value="4">대전/충청/세종</option>
+	                            <option value="5">부산/대구/경상</option>
+	                            <option value="6">광주/전라</option>
+	                            <option value="7">강원</option>
+	                        </select>
+						</div>
+						<div class="dropdown  w150px small bs3 ml05">
+	                        <select id="theater" title="극장 선택" class="btn form-select form-select-sm  form-control-sm "
+	                                style="width: 100%;  float:left; position: relative; " 
+	                                name="theaterNo" >
+	      						<option value="" selected disabled>극장선택</option>
+	                        </select>
+
+                    	</div>
+						<button type="button" class="button gray small ml05" id="button-add-fav">추가</button>
+					</div>
+
+					<!-- theater-choice-list -->
+					<div class="theater-choice-list">
+
+						<div class="bg">
+
+							<div class="circle" data-brch-no="0023">
+								<p class="txt" data-eng-nm="Gangnam-daero (City)"
+									data-kor-nm="강남대로(씨티)">강남대로(씨티)</p>
+								<button type="button" class="del">삭제</button>
+							</div>
+
+						</div>
+
+						<div class="bg">
+
+							<div class="circle" data-brch-no="1372">
+								<p class="txt" data-eng-nm="Gangnam" data-kor-nm="강남">강남</p>
+								<button type="button" class="del">삭제</button>
+							</div>
+
+						</div>
+
+						<div class="bg">
+
+							
+
+						</div>
+
+					</div>
+					<!--// theater-choice-list -->
+				</div>
+
+				<div class="btn-group-fixed">
+					<button type="button" class="button close-layer">취소</button>
+					<button type="button" class="button purple">등록</button>
+				</div>
+
+				<button type="button" class="btn-modal-close">레이어 닫기</button>
+			</div>
+
+			<div id="divFavorBrch" style="display: none;">
+				<div class="circle">
+					<p class="txt"></p>
+					<button type="button" class="del">삭제</button>
+				</div>
+			</div>
+
+		</section>
+		<div class="bg-modal" style="opacity: 1; display: none"></div>
+	</div>
+	</div>
 </html>
