@@ -13,6 +13,11 @@ $(() => {
     $("#btnAuthMail").click(() => sendNumber());
     $("#btnConfirm").click(() => checkNumber());
 
+    $("#btnCancel").click(function () {
+        history.back();
+        return false;
+    })
+
     // 타이머 시작
     function startTimer() {
         timer = setInterval(() => {
