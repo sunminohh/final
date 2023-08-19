@@ -1,13 +1,54 @@
 $(() => {
     const $email = $("#userEmail");
-    const $authNumber = $("#userAuth"); // 인증번호
+    const $authNumber = $("#userAuth"); // 인증번호 입력
+    const $timerDisplay  = $("#schEmailtimer"); // 타이머 표시
+    const $confirmButton = $("#btnConfirm"); // 인증하기
 
     let authCheck = false;
+    let timer;
+    let timeLeft = 180; // 타이머 3분 180
 
     $authNumber.keyup(() => authCheck = false);
 
     $("#btnAuthMail").click(() => sendNumber());
     $("#btnConfirm").click(() => checkNumber());
+
+    // 타이머 시작
+    function startTimer() {
+        timer = setInterval(() => {
+            if (timeLeft > 0) {
+                timeLeft--;
+                $("#btnAuthMail").prop("disabled", true);
+                $("#mail-number").show();
+                updateTimerDisplay();
+            } else {
+                clearInterval(timer);
+                updateTimerDisplay(0);
+                Swal.fire({
+                    icon: 'error',
+                    text: '인증 시간이 초과되었습니다. 다시 인증해주세요.',
+                }).then(() => {
+                    location.reload();
+                });
+            }
+        }, 1000); // 1초마다 타이머 업데이트
+    }
+
+    // 타이머 종료 후 동작
+    function stopTimer() {
+        clearInterval(timer);
+        $timerDisplay.text("0:00"); // 타이머 종료 표시 업데이트
+        $confirmButton.prop("disabled", true); // 인증하기 버튼 비활성화
+        $authNumber.prop("readonly", true); // 인증번호 입력 필드 읽기 전
+    }
+
+    // 타이머 표시 업데이트
+    function updateTimerDisplay() {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        const formattedTime = `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+        $timerDisplay.text(formattedTime);
+    }
 
     $("#action-form").submit(function (e) {
         e.preventDefault();
@@ -20,13 +61,13 @@ $(() => {
         $(this)[0].submit();
     })
 
-    // todo 인증번호 발송
+    // 인증번호 발송
     async function sendNumber() {
         console.log("사용자 이메일 -> ", $email.val());
         try {
             const response = await $.ajax({
                 type: "POST",
-                url: "/user/info/mail",
+                url: "/user/auth/mail",
                 data: {"email": $email.val()}
             });
             // 성공 메시지에 따른 조건문
@@ -34,10 +75,9 @@ $(() => {
                 // 서버에서 보낸 인증코드 세션에 저장
                 sessionStorage.setItem("emailConfirmCode", response);
                 successAlert($email, "해당 이메일로 인증번호가 전송되었습니다. \n 확인부탁드립니다.");
-                // todo timer 설정
                 console.info("응답결과 -> ", response);
-                $("#btnAuthMail").prop("disabled", true);
-                $("#mail-number").show();
+                startTimer();
+
             } else {
                 errorAlert($email, "인증번호 요청 실패: " + response);
             }
@@ -60,7 +100,7 @@ $(() => {
         }
     })
 
-    // todo 인증번호 체크
+    // 인증번호 체크
     async function checkNumber() {
         const userAuthNumber = $("#userAuth").val();
 
@@ -68,7 +108,7 @@ $(() => {
             // 서버에서 인증번호를 확인하는 요청
             const checkResponse = await $.ajax({
                 type: "POST",
-                url: "/user/info/check",
+                url: "/user/auth/check",
                 data: {"code": userAuthNumber}, // 사용자가 입력한 인증번호를 보냄
                 dataType: "text"
             });
@@ -88,10 +128,11 @@ $(() => {
                 console.log("응답 메시지 -> ", checkResponse);
                 authCheck = true;
                 successAlert($authNumber, "인증되었습니다.");
+                stopTimer();
+
                 $("#btnSuccess").prop("disabled", false);
                 $("#userAuth").prop("readonly", true);
                 $("#btnConfirm").prop("disabled", true);
-                // todo timer 멈추고 hide
             }
         } catch (error) {
             console.error("Error checkNumber", error);
