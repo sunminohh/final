@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 public class AuthenticationService implements UserDetailsService {
 
     private final AuthenticationDao authenticationDao;
-    private final JavaMailSender javaMailSender;
     private final UserRoleDao userRoleDao;
 
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

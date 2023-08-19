@@ -1,0 +1,57 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/user}">
+<head th:fragment="extra-head-content">
+    <script th:src="@{/js/user/info.js}"></script>
+</head>
+<div layout:fragment="content" id="contents" class="join-form">
+    <h2 class="tit">회원정보</h2>
+
+    <form id="action-form" method="post" th:action="@{/user/info/auth}">
+        <div class="member-wrap">
+            <strong>회원님의 개인정보 보호를 위해 등록된 이메일로 인증을 하셔야 합니다.</strong>
+            <div class="table-wrap">
+                <table class="board-form">
+                    <caption>아이디이름, 이메일, 인증번호 항목을 가진 비밀번호 찾기 입력 표시<!--아이디이름, 휴대폰 번호, 인증번호 항목을 가진 비밀번호 찾기 입력 표--></caption>
+                    <colgroup>
+                        <col style="width:130px;">
+                        <col>
+                    </colgroup>
+                    <tbody>
+                    <input id="ibxSchPwdLoginId" type="hidden" th:value="${userId}"><!--아이디-->
+                    <input id="ibxSchPwdMbNm" type="hidden" th:value="${userName}"><!--이름-->
+                    <tr>
+                        <th scope="row"><label>E-mail<!-- 이매일 --></label></th>
+                        <td>
+                            <input type="hidden" id="userId" th:value="${userId}">
+                            <input type="text" id="userEmail" th:value="${userEmail}" class="input-text w230px" disabled>
+                            <button id="btnAuthMail" type="button" class="button gray w75px ml08">인증요청<!--인증요청--></button>
+                        </td>
+                    </tr>
+                    <tr id="mail-number" style="display: none;">
+                        <th scope="row"><label for="userAuth">인증번호<!--인증번호--></label></th>
+                        <td>
+                            <div class="chk-num">
+                                <div class="line">
+                                    <input maxlength="8" type="text" id="userAuth" class="input-text w180px" title="인증번호 입력">
+
+                                    <div class="time-limit" id="schPwdtimer">
+                                        3:00
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button id="btnConfirm" type="button" class="button gray-line w75px ml08" disabled>인증확인</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="btn-group" style="display: block;">
+                <button class="button large" onclick="history.back()">취소</button>
+                <button id="btnSuccess" type="submit" class="button large purple" disabled>확인</button>
+            </div>
+        </div>
+    </form>
+</div>
+</html>
