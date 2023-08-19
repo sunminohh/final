@@ -5,11 +5,15 @@ import kr.co.mgv.user.service.EmailServiceImpl;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
+import java.time.LocalDate;
 
 @Controller
 @Secured("ROLE_USER")
@@ -55,14 +59,38 @@ public class UserController {
 
     // 이메일 인증 후 회원정보 폼
     @GetMapping("/form")
-    public String myMGV() {
+    public String myMGV(@AuthenticationPrincipal User user, Model model) {
+        String id = user.getId();
+        String name = user.getName();
+        LocalDate birth = user.getBirth();
+        String email = user.getEmail();
+        // todo zipcode
+
+        model.addAttribute("userId", id);
+        model.addAttribute("userName", name);
+        model.addAttribute("userBirth", birth);
+        model.addAttribute("userEmail", email);
+
         return "view/user/info/form";
     }
 
-    // 비밀번호 수정 -> 비밀번호 체크 폼
-    @GetMapping("/pwdcheck")
+    @PostMapping("/form")
+    public String updateForm() {
+
+        return "redirect:/user/info/home";
+    }
+
+    // 비밀번호 수정 -> 비밀번호 체크 & 변경 폼
+    @GetMapping("/pwd-check")
     public String pwdCheck() {
         return "view/user/info/pwd-check";
+    }
+
+    @PostMapping("/pwd-check")
+    @ResponseBody
+    public ResponseEntity<String> updatePwd() {
+
+        return ResponseEntity.ok("ok");
     }
 
     @GetMapping("/booking")
