@@ -24,8 +24,8 @@
           </div>
 
         </div> -->
-        <div class="mbimg"><img src="https://img.megabox.co.kr/static/pc/images/2023/01/member_WELCOME_2.png" alt="WELCOME"></div>
-        <div class="mb_name">안녕하세요!<p>김아무개<span>님</span></p></div>
+        <div class="mbimg"><img th:src="@{/images/user/welcome.png}" alt="WELCOME"></div>
+        <div class="mb_name">안녕하세요!<p><span th:text="${userName}"></span>님</p></div>
 
        </div>
       <!--// top -->
@@ -41,7 +41,7 @@
 
           <div class="list">
             <div class="no-list" style="">
-              <span>선호극장</span>을  설정하세요.
+              <span>선호극장</span>을 설정하세요.
             </div>
             <ol></ol>
           </div>

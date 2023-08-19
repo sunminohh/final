@@ -70,20 +70,16 @@ $(() => {
                 url: "/user/auth/mail",
                 data: {"email": $email.val()}
             });
-            // 성공 메시지에 따른 조건문
             if (response === "success") {
-                // 서버에서 보낸 인증코드 세션에 저장
                 sessionStorage.setItem("emailConfirmCode", response);
                 successAlert($email, "해당 이메일로 인증번호가 전송되었습니다. \n 확인부탁드립니다.");
-                console.info("응답결과 -> ", response);
-                startTimer();
+                startTimer(); // 타이머 시작
 
             } else {
                 errorAlert($email, "인증번호 요청 실패: " + response);
             }
         } catch (error) {
             // Ajax 요청 실패한 경우
-            console.error("Error sending email", error);
             handleErrorMessage("서버와 통신 중 오류가 발생했습니다.", response);
         }
     }
@@ -118,14 +114,11 @@ $(() => {
                 return false;
             } else if (checkResponse === "USER_CODE_NULL") {
                 errorAlert($authNumber, "인증번호를 입력하세요.");
-                console.log("응답 메시지 -> ", checkResponse);
                 authCheck = false;
             } else if (checkResponse === "인증실패") {
-                console.log("응답 메시지 -> ", checkResponse);
                 authCheck = false;
                 errorAlert($authNumber, "인증번호가 일치하지 않습니다. 다시 확인해주세요.");
             } else {
-                console.log("응답 메시지 -> ", checkResponse);
                 authCheck = true;
                 successAlert($authNumber, "인증되었습니다.");
                 stopTimer();
@@ -135,8 +128,6 @@ $(() => {
                 $("#btnConfirm").prop("disabled", true);
             }
         } catch (error) {
-            console.error("Error checkNumber", error);
-
             authCheck = false;
             errorAlert($authNumber, "이메일 인증 중 오류가 발생하였습니다. 잠시 후 이용해주세요.");
         }

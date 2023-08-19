@@ -22,7 +22,15 @@ public class UserController {
     private final EmailServiceImpl emailService;
 
     @RequestMapping({"/",""})
-    public String home() {
+    public String home(@AuthenticationPrincipal User user, Model model) {
+        String userId = user.getId();
+        String userName = user.getName();
+        String userEmail = user.getEmail();
+
+        model.addAttribute("userId", userId);
+        model.addAttribute("userName", userName);
+        model.addAttribute("userEmail", userEmail);
+
         return "view/user/home";
     }
 
