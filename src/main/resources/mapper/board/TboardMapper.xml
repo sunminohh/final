@@ -326,7 +326,7 @@
 	
 	<!-- 신고 관련 -->
 	<insert id="insertTboardReport" parameterType="kr.co.mgv.board.vo.TboardReport">
-		INSERT MGV_TBOARD_REPORT
+		INSERT into MGV_TBOARD_REPORT
 		(REPORT_REASON, REASON_NO, BOARD_NO, USER_ID)
 		VALUES(#{reasonContent}, #{reason.no}, #{board.no}, #{user.id});
 	</insert>
@@ -338,7 +338,7 @@
 			REASON_NO as "reason.no", 
 			BOARD_NO as "board.no", 
 			USER_ID as "user.id"
-		FROM MGV_TBOARD_REPORT A
+		FROM MGV_TBOARD_REPORT
 		where user_id = #{value};
 	</select>	
 </mapper>

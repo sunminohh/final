@@ -102,7 +102,8 @@
                         <select id="theater" title="극장 선택" class="form-select form-select-sm ml07 form-control-sm mb-3"
                                 style="width: 130px; float:left; position: relative; left:5px;" 
                                 name="theaterNo" th:onchange="changeTboard()">
-      						<option value="" selected disabled>극장선택</option>
+      						<option value="" disabled selected th:text="극장선택"></option>
+      						<option th:each="theater:${theaters}" th:if="${param.locationNo != 0}" th:value="${theater.no}" th:text="${theater.name}"></option>
                         </select>
 
                     </div>

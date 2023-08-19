@@ -47,12 +47,13 @@ public class AuthenticationController {
     @PostMapping("/join")
     public String join(@ModelAttribute("userJoinForm") UserJoinForm form, SessionStatus sessionStatus, RedirectAttributes redirectAttributes) {
         // Service -> DAO (user, role)
-        User user = new User();
-        user.setId(form.getId());
-        user.setName(form.getName());
-        user.setEmail(form.getEmail());
-        user.setBirth(form.getBirth());
-        user.setPassword(form.getPassword());
+        User user = User.builder()
+                .id(form.getId())
+                .name(form.getName())
+                .email(form.getEmail())
+                .birth(form.getBirth())
+                .password(form.getPassword())
+                .build();
 
         authenticationService.createUser(user);
 

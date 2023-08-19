@@ -70,6 +70,13 @@ public class OneService {
 		oneDao.insertOne(one);
 	}
 	
+	public void deleteOne(int no) {
+		One one = oneDao.getOneByNo(no);
+		one.setDeleted("Y");
+		
+		oneDao.updateOneByNo(one);
+	}
+	
 	public OneList search(Map<String, Object> param) {
 		int totalRows = oneDao.getTotalRows(param);
 		int page = (int) param.get("page");

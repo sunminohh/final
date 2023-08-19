@@ -1,13 +1,12 @@
 package kr.co.mgv.user.service;
 
-import kr.co.mgv.user.mapper.AuthenticationDao;
-import kr.co.mgv.user.mapper.UserRoleDao;
+import kr.co.mgv.user.dao.AuthenticationDao;
+import kr.co.mgv.user.dao.UserRoleDao;
 import kr.co.mgv.user.vo.User;
 import kr.co.mgv.user.vo.UserRole;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,7 +22,6 @@ import java.util.stream.Collectors;
 public class AuthenticationService implements UserDetailsService {
 
     private final AuthenticationDao authenticationDao;
-    private final JavaMailSender javaMailSender;
     private final UserRoleDao userRoleDao;
 
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
