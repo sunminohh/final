@@ -203,7 +203,7 @@ $(function() {
 	$(document).ready(function() {
         $(".pwnew").on("input", function() {
             // 입력값에서 숫자 이외의 문자 제거
-            var numericValue = $(this).val().replace(/[^0-9]/g, '');
+            let numericValue = $(this).val().replace(/[^0-9]/g, '');
 
             // 4자리로 제한
             if (numericValue.length > 4) {

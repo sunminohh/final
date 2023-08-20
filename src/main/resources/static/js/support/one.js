@@ -83,7 +83,7 @@ $(function() {
 	// 폼 비번 숫자 4자리만 입력받기
 	$(".pwnew").on("input", function() {
 		// 입력값에서 숫자 이외의 문자 제거
-		var numericValue = $(this).val().replace(/[^0-9]/g, '');
+		let numericValue = $(this).val().replace(/[^0-9]/g, '');
 
 		// 4자리로 제한
 		if (numericValue.length > 4) {
