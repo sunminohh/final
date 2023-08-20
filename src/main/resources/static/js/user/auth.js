@@ -153,6 +153,7 @@ $(() => {
         $("#btnSuccess").prop("disabled", false);
         $("#userAuth").prop("readonly", true);
         $("#btnConfirm").prop("disabled", true);
+        $("#btnResendAuthMail").prop("disabled", true);
     }
 
     function errorAlert($el, text) {
