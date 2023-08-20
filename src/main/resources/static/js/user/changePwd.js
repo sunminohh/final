@@ -89,14 +89,7 @@ $(() => {
                 return false;
             }
 
-            if (pwdCheck &&
-                pwdnewValue &&
-                pwdnewValue !== pwdValue &&
-                pwdReg.test(pwdnewValue) &&
-                repwdnewValue &&
-                repwdnewValue === pwdnewValue) {
-                form[0].submit();
-            }
+            form[0].submit();
         }
 
     })
