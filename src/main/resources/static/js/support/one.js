@@ -205,7 +205,7 @@ $(function() {
 
 		// 요청데이터 생성
 		const $tbody = $(".oneList ").empty();
-		let $pagination = $(".pagination").empty();
+		let $pagination = $(".pagination");
 
 		// 요청 타입
 		// 1:1 문의: tab-one, 분실물 문의: tab-lost
@@ -254,68 +254,7 @@ $(function() {
 				}).join("\n");
 
 				$tbody.html(tbodyHtml);
-
-				// 페이지네이션
-				let firstContent = `
-		            <li class="page-item">
-		                <a title="첫번째 페이지 보기"
-		                   href="list?page=1"
-		                   class="page-link page-number-link control first"
-		                   data-page="1">1</a>
-		            </li>
-		        `;
-				$pagination.append(firstContent);
-
-				if (result.pagination.currentBlock > 1) {
-					let prePage = (pagination.currentBlock -1)* 10
-					let nextContent = `
-		                <li class="page-item">
-		                    <a title="이전 10페이지 보기"
-		                       href="list?page=${prePage}"
-		                       class="page-link page-number-link control prev"
-		                       data-page="${prePage}">${prePage}</a>
-		                </li>
-		            `;
-					$pagination.append(nextContent);
-				}
-
-
-				for (let i = pagination.beginPage; i <= pagination.endPage; i++) {
-					let content = `
-					 <li class="page-item">
-                    	<a href="list?page=${i}" 
-                      	 	class="page-link page-number-link ${i == pagination.page ? 'active' : ''}"
-                       		data-page="${i}">${i}</a>
-               		 </li>
-               		
-				`;
-					$pagination.append(content);
-				}
-
-
-				if (result.pagination.currentBlock < result.pagination.totalBlocks) {
-					let nextpage = (pagination.currentBlock)* 10 + 1
-					let nextContent = `
-		                <li class="page-item">
-		                    <a title="이후 10페이지 보기"
-		                       href="list?page=${nextpage}"
-		                       class="page-link page-number-link control next"
-		                       data-page="${nextpage}">${nextpage}</a>
-		                </li>
-		            `;
-					$pagination.append(nextContent);
-				}
-
-				let lastContent = `
-		            <li class="page-item">
-		                <a title="마지막 페이지 보기"
-		                   href="list?page=${pagination.totalPages}"
-		                   class="page-link page-number-link control last"
-		                   data-page="${pagination.totalPages}">${pagination.totalPages}</a>
-		            </li>
-		        `;
-				$pagination.append(lastContent);
-
+				$pagination.html(renderPagination(pagination));
 			}
 		})
 	}

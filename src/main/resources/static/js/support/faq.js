@@ -121,22 +121,11 @@ $(document).ready(function() {
 				})
 				$('.faq-list .qut:first').addClass('on');
 	    		$('.faq-list .awn:first').show();
-				
-				
-				for (let i = pagination.beginPage; i <= pagination.endPage; i++) {
-					let content = `
-						 <li class="page-item">
-                        	<a href="list?page=${i}" 
-                          	 	class="page-link page-number-link ${i == pagination.page ? 'active' : ''}"
-                           		data-page="${i}">${i}</a>
-                   		 </li>
-					`;
-					$pagination.append(content);	
-				}
-			
+
+				$pagination.html(renderPagination(pagination));
 
 			}
-		})
+		});
 		
 	}
 	
