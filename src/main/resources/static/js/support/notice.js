@@ -98,6 +98,7 @@ $(function() {
 
 	// 극장 조회 및 렌더링
 	async function getTheatersByLocation(locationNo) {
+		if (locationNo === null || locationNo === undefined) return;
 		const theaterNo = getQueryString("theaterNo");
 		$selectTheater.empty().append('<option value="" selected disabled>극장선택</option>');
 		await $.getJSON(`${API_URLS.THEATER}?locationNo=${locationNo}`, function(theaters) {
@@ -141,8 +142,10 @@ $(function() {
 
 		if (!noticeList.length) {
 			$noticeList.html(`<tr><th colspan='5' style="text-align:center;">조회된 내역이 없습니다.</th></tr>`);
+			$pagination.empty();
 			return;
 		}
+		
 
 		const noticeHtml = noticeList.map(notice =>
 			`<tr>
