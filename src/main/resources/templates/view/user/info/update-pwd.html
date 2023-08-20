@@ -1,57 +1,62 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/user}">
-<div id="contents" layout:fragment="content">
-  <h2 class="tit">비밀번호 변경</h2>
+<head th:fragment="extra-head-content">
+    <script th:src="@{/js/user/changePwd.js}"></script>
+</head>
+<div id="contents" layout:fragment="content" class="update-form">
+    <h2 class="tit">비밀번호 변경</h2>
+    <form id="action-form" method="post" th:action="@{/user/info/updatePwd}">
 
-  <ul class="dot-list mb10">
-    <li>현재 비밀번호를 입력한 후 새로 사용할 비밀번호를 입력하세요.</li>
-  </ul>
+        <ul class="dot-list mb10">
+            <li>현재 비밀번호를 입력한 후 새로 사용할 비밀번호를 입력하세요.</li>
+        </ul>
 
-  <div class="table-wrap mb20">
-    <table class="board-form">
-      <caption>현재 비밀번호, 새 비밀번호, 새 비밀번호 확인 항목을 가진 표</caption>
-      <colgroup>
-        <col style="width:180px;">
-        <col>
-      </colgroup>
-      <tbody>
-      <tr>
-        <th scope="row"><label for="pwdnow">현재 비밀번호</label></th>
-        <td>
-          <input type="password" id="pwdnow" class="input-text w150px">
-        </td>
-      </tr>
-      <tr>
-        <th scope="row"><label for="pwdnew">새 비밀번호</label></th>
-        <td>
-          <input type="password" id="pwdnew" class="input-text w150px">
-          <span class="tooltiptext">비밀번호 설정 시 사용가능한 특수문자는 ~ ! @ # $ % ^ &amp; * + = - ? _  입니다.</span>
-          <span class="ml10 font-size-14">※ 영문, 숫자, 특수문자 중 2가지 이상 조합하여 10자리 이상으로 입력 해 주세요.</span>
-        </td>
-      </tr>
-      <tr>
-        <th scope="row"><label for="repwdnew">새 비밀번호 재입력</label></th>
-        <td>
-          <input type="password" id="repwdnew" class="input-text w150px">
-          <span class="tooltiptext">비밀번호 설정 시 사용가능한 특수문자는 ~ ! @ # $ % ^ &amp; * + = - ? _  입니다.</span>
-          <span class="ml10 font-size-14">※ 비밀번호 확인을 위해 한 번 더 입력해 주시기 바랍니다.</span>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
+        <div class="table-wrap mb20">
+            <table class="board-form">
+                <caption>현재 비밀번호, 새 비밀번호, 새 비밀번호 확인 항목을 가진 표</caption>
+                <colgroup>
+                    <col style="width:180px;">
+                    <col>
+                </colgroup>
+                <tbody>
+                <tr>
+                    <th scope="row"><label for="pwdnow">현재 비밀번호</label></th>
+                    <td>
+                        <input type="password" id="pwdnow" name="pwdnow" class="input-text w150px">
+                        <span id="pwd-error-text" class="alert"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="pwdnew">새 비밀번호</label></th>
+                    <td>
+                        <input type="password" id="pwdnew" name="pwdnew" class="input-text w150px">
+                        <span id="pwdtooltip" class="ml10 font-size-14">※ 영문, 숫자, 특수문자 중 2가지 이상 조합하여 8자리 이상으로 입력 해 주세요.</span>
+                        <span id="pwdnew-error-text" class="alert"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="repwdnew">새 비밀번호 재입력</label></th>
+                    <td>
+                        <input type="password" id="repwdnew" name="repwdnew" class="input-text w150px">
+                        <span id="repwdnew-error-text" class="alert"></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
 
-  <ul class="dot-list">
-    <li>생년월일, 전화번호 등 개인 정보와 관련된 숫자, 연속된 숫자와 같이 쉬운 비밀번호는 다른 사람이 쉽게 알아낼 수 있으니 사용을 자제해 주세요.</li>
-    <li>비밀번호는 3-6개월마다 꼭 바꿔 주세요.</li>
-    <li>비밀번호 변경시 모바일 기기와 홈페이지에서 모두 로그아웃됩니다. 변경한 비밀번호로 다시 로그인해주세요.</li>
-    <li>비밀번호 설정 시 사용가능한 특수문자는 ~ ! @ # $ % ^ &amp; * + = - ? _  입니다.</li>
-  </ul>
+        <ul class="dot-list">
+            <li>생년월일, 전화번호 등 개인 정보와 관련된 숫자, 연속된 숫자와 같이 쉬운 비밀번호는 다른 사람이 쉽게 알아낼 수 있으니 사용을 자제해 주세요.</li>
+            <li>비밀번호는 3-6개월마다 꼭 바꿔 주세요.</li>
+            <li>비밀번호 변경시 모바일 기기와 홈페이지에서 모두 로그아웃됩니다. 변경한 비밀번호로 다시 로그인해주세요.</li>
+            <li>비밀번호 설정 시 사용가능한 특수문자는 ~ ! @ # $ % ^ &amp; * + = - ? _ 입니다.</li>
+        </ul>
 
-  <div class="btn-group pt40" style="display: block;">
-    <button class="button large" id="cancelBtn">취소</button>
-    <button class="button purple large" data-key="login_d8f825ca23ca41fcbfc70a14712f1ea4" id="updateBtn">수정</button>
-  </div>
+        <div class="btn-group pt40" style="display: block;">
+            <button id="btnCancel" class="button large">취소</button>
+            <button id="btnUpdatePwd" type="submit" class="button purple large">수정</button>
+        </div>
+    </form>
 </div>
 </html>

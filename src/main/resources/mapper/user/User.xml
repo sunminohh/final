@@ -9,11 +9,30 @@
             user_name               as name,
             user_birth              as birth,
             user_email              as email,
+            user_zipcode            as zipcode,
+            user_address            as address,
             user_create_date        as createDate,
             user_update_date        as updateDate
         from
             MGV_USER
         where
             user_id = #{value}
+    </select>
+
+    <select id="getUserByEmail" resultType="kr.co.mgv.user.vo.User">
+        select
+            user_id                 as id,
+            user_password           as password,
+            user_name               as name,
+            user_birth              as birth,
+            user_email              as email,
+            user_zipcode            as zipcode,
+            user_address            as address,
+            user_create_date        as createDate,
+            user_update_date        as updateDate
+        from
+            MGV_USER
+        where
+            user_email = #{value}
     </select>
 </mapper>

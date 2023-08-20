@@ -13,6 +13,7 @@ public class UserUpdateForm {
 
     private String id;
     private String name;
+    private String password;
     private Date birth;
     private String email;
     private String zipcode;

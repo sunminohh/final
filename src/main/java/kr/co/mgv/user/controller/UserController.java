@@ -1,7 +1,9 @@
 package kr.co.mgv.user.controller;
 
+import kr.co.mgv.user.form.UserUpdateForm;
 import kr.co.mgv.user.service.AuthenticationService;
 import kr.co.mgv.user.service.EmailServiceImpl;
+import kr.co.mgv.user.service.UserService;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,8 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.time.LocalDate;
+import java.util.Map;
 
 @Controller
 @Secured("ROLE_USER")
@@ -22,8 +24,7 @@ import java.time.LocalDate;
 @Slf4j
 public class UserController {
 
-    private final AuthenticationService authenticationService;
-    private final EmailServiceImpl emailService;
+    private final UserService userService;
 
     @RequestMapping({"/",""})
     public String home(@AuthenticationPrincipal User user, Model model) {
@@ -77,20 +78,20 @@ public class UserController {
     @PostMapping("/form")
     public String updateForm() {
 
-        return "redirect:/user/info/home";
+        return "redirect:/user/info";
     }
 
     // 비밀번호 수정 -> 비밀번호 체크 & 변경 폼
-    @GetMapping("/pwd-check")
+    @GetMapping("/changePwd")
     public String pwdCheck() {
-        return "view/user/info/pwd-check";
+        return "view/user/info/update-pwd";
     }
 
-    @PostMapping("/pwd-check")
-    @ResponseBody
-    public ResponseEntity<String> updatePwd() {
+    @PostMapping("/updatePwd")
+    public String updatePwd(@AuthenticationPrincipal User user, UserUpdateForm form) {
 
-        return ResponseEntity.ok("ok");
+
+        return "redirect:/user/info/changePwd";
     }
 
     @GetMapping("/booking")

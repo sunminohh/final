@@ -23,8 +23,9 @@ public class User implements UserDetails {
     private String password;
     private String name;
     private String email;
-    private String emailValifiled; // 이메일 인증여부
     private LocalDate birth;
+    private String zipcode;
+    private String address;
     private Date createDate;
     private Date updateDate;
     private List<String> roleName;
