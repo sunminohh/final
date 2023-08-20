@@ -27,6 +27,8 @@ $(() => {
     $("#action-form").submit(function (e) {
         e.preventDefault();
 
+        const form = $(this);
+
         const pwdValue = $pwd.val();
         const pwdnewValue = $pwdnew.val();
         const repwdnewValue = $repwdnew.val();
@@ -43,51 +45,60 @@ $(() => {
             data: {pwd: pwdValue},
             dataType: "text",
             success: function (res) {
-                if (res === "no") {
+                if (res === "yes") {
+                    console.log("비밀번호 일치 여부 ->", res);
+                    pwdCheck = true;
+
+                    check();
+                } else if (res === "no") {
                     console.log("비밀번호 일치 여부 ->", res);
                     errorAlert($pwd, "현재 비밀번호가 일치하지 않습니다.");
                     pwdErrMsg.text("다시 입력해주세요.");
-                    return false;
-                } else if (res === "yes") {
-                    console.log("비밀번호 일치 여부 ->", res);
+                    pwdCheck = false;
                 }
             },
-            error: function () {
-                console.error("Ajax request fail");
-                errorAlert($pwd, "오류가 발생하였습니다. 잠시 후 이용해 주세요.");
+        }).fail(handleAjaxError);
+
+        function check() {
+
+            if (!pwdnewValue) {
+                errorAlert($pwdnew, "새 비밀번호를 입력하세요.");
+                return false;
             }
-        });
+            if (pwdValue && pwdnewValue === pwdValue) {
+                errorAlert($pwdnew, "비밀번호가 동일합니다.")
+                pwdtooltip.hide();
+                pwdnewErrMsg.text("현재 비밀번호와 다르게 입력해주세요.");
+                return false;
+            }
 
-        if (!pwdnewValue) {
-            errorAlert($pwdnew, "새 비밀번호를 입력하세요.");
-            pwdtooltip.show();
-            return false;
-        }
-        if (pwdValue && pwdnewValue === pwdValue) {
-            errorAlert($pwdnew, "비밀번호가 동일합니다.")
-            pwdtooltip.hide();
-            pwdnewErrMsg.text("현재 비밀번호와 다르게 입력해주세요.");
-            return false;
+            if (!pwdReg.test(pwdnewValue)) {
+                errorAlert($pwdnew, "비밀번호 형식이 아닙니다.");
+                return false;
+            }
+
+            if (!repwdnewValue) {
+                errorAlert($repwdnew, "비밀번호를 확인해주세요");
+                repwdnewErrMsg.text("비밀번호 확인을 위해 한 번 더 입력해 주시기 바랍니다.");
+                return false;
+            }
+
+            if ($repwdnew.val() !== $pwdnew.val()) {
+                errorAlert($repwdnew, "비밀번호가 일치하지 않습니다.");
+                repwdnewErrMsg.text("다시 입력해주세요.");
+                return false;
+            }
+
+            if (pwdCheck &&
+                pwdnewValue &&
+                pwdnewValue !== pwdValue &&
+                pwdReg.test(pwdnewValue) &&
+                repwdnewValue &&
+                repwdnewValue === pwdnewValue) {
+                form[0].submit();
+            }
         }
 
-        if (!pwdReg.test(pwdnewValue)) {
-            errorAlert($pwdnew, "비밀번호 형식이 아닙니다.");
-            return false;
-        }
-
-        if (!repwdnewValue) {
-            errorAlert($repwdnew, "비밀번호를 확인해주세요");
-            repwdnewErrMsg.text("비밀번호 확인을 위해 한 번 더 입력해 주시기 바랍니다.");
-            return false;
-        }
-
-        if ($repwdnew.val() !== $pwdnew.val()) {
-            errorAlert($repwdnew, "비밀번호가 일치하지 않습니다.");
-            repwdnewErrMsg.text("다시 입력해주세요.");
-            return false;
-        }
-
-        $(this)[0].submit();
     })
 
     // 입력 이벤트
@@ -95,11 +106,8 @@ $(() => {
         const pwdValue = $pwd.val();
         if (!$pwd.val()) {
             pwdCheck = false;
-        } else if (!pwdReg.test(pwdValue)) {
-            pwdCheck = false;
         } else {
             pwdErrMsg.text("");
-            pwdCheck = true;
         }
     })
 
@@ -108,24 +116,26 @@ $(() => {
         const pwdnewValue = $pwdnew.val();
         const pwdReg = /(?=.*[0-9])(?=.*[a-zA-Z])(?=\S+$).{8,16}/;
 
-        if (pwdValue && pwdnewValue === pwdValue) {
-            pwdnewCheck = false;
-        } else if (!pwdReg.test(pwdnewValue)) {
+        if (!pwdnewValue) {
             pwdnewCheck = false;
         } else {
             pwdnewErrMsg.text("");
             pwdtooltip.show();
         }
 
-        if (!pwdnewValue) {
-            pwdnewCheck = false;
-        } else if (!pwdReg.test(pwdnewValue)) {
+        if (pwdValue && pwdnewValue === pwdValue) {
             pwdnewCheck = false;
         } else {
-            pwdnewCheck = true;
             pwdnewErrMsg.text("");
             pwdtooltip.show();
         }
+        if (!pwdReg.test(pwdnewValue)) {
+            pwdnewCheck = false;
+        } else {
+            pwdnewErrMsg.text("");
+            pwdtooltip.show();
+        }
+
 
     })
 
@@ -135,7 +145,11 @@ $(() => {
 
         if (!repwdnewValue) {
             repwdnewCheck = false;
-        } else if (repwdnewValue !== pwdnewValue) {
+        } else {
+            repwdnewErrMsg.text("");
+            repwdnewCheck = true;
+        }
+        if (repwdnewValue !== pwdnewValue) {
             repwdnewCheck = false;
         } else {
             repwdnewErrMsg.text("");
@@ -143,28 +157,10 @@ $(() => {
         }
     })
 
-    async function checkPwd() {
-        const pwdValue = $pwd.val();
-        // todo 비밀번호 db비밀번호 비교
-
-        $.ajax({
-            url: "/user/info/checkPwd",
-            type: "POST",
-            data: {pwd: pwdValue},
-            dataType: "text",
-            success: function (res) {
-                if (res === "no") {
-                    console.log("비밀번호 일치 여부 ->", res);
-                    errorAlert($pwd, "현재 비밀번호가 일치하지 않습니다.");
-                    pwdErrMsg.text("다시 입력해주세요.");
-                    pwdCheck = false;
-                } else if (res === "yes") {
-                    console.log("비밀번호 일치 여부 ->", res);
-                }
-            },
-            error: function () {
-                console.error("Ajax request fail");
-            }
+    function handleAjaxError() {
+        Swal.fire({
+            icon: 'error',
+            text: "오류가 발생하였습니다. 잠시 후 이용해 주세요."
         });
     }
 
