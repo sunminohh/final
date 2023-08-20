@@ -28964,7 +28964,6 @@ body.body-iframe .modal-layer2 {
 .store-view .box-store-view .right .btn-group .button {
     display: block;
     float: left;
-    width: calc(50% - 5px);
     margin: 0
 }
 
