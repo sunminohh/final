@@ -233,6 +233,7 @@ $(function() {
 
 			if (list.length === 0) {
 				$tbody.append(`<tr><th colspan='6' style="text-align:center;">조회된 내역이 없습니다.</th></tr>`);
+				$pagination.empty();
 			} else {
 
 				const tbodyHtml = list.map(function(board, index) {

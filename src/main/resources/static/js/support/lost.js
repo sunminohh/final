@@ -170,6 +170,7 @@ $(function() {
 			let pagination = result.pagination;
 			
 			if (lostList.length === 0) {
+				$pagination.empty();
 				$tbody.append(`
 					<tr><th colspan='5' style="text-align:center;">조회된 내역이 없습니다.</th></tr>
 					`
