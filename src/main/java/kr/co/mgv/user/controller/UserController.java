@@ -86,8 +86,8 @@ public class UserController {
         return "view/user/info/pwdForm";
     }
 
-    @PostMapping("/checkPwd")
     @ResponseBody
+    @PostMapping("/checkPwd")
     public ResponseEntity<String> updatePwd(@RequestParam("pwd") String currentPassword, @AuthenticationPrincipal User user) {
         if (passwordEncoder.matches(currentPassword, user.getPassword())) {
             return ResponseEntity.ok("yes");

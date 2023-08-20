@@ -2,6 +2,7 @@ $(() => {
     const $pwd = $(".update-form input[name='pwdnow']");
     const $pwdnew = $(".update-form input[name='pwdnew']");
     const $repwdnew = $(".update-form input[name='repwdnew']");
+    const pwdReg = /(?=.*[0-9])(?=.*[a-zA-Z])(?=\S+$).{8,16}/;
 
     const pwdtooltip = $("#pwdtooltip");
     const pwdErrMsg = $("#pwd-error-text");
@@ -26,38 +27,36 @@ $(() => {
     $("#action-form").submit(function (e) {
         e.preventDefault();
 
-        const $pwd = $(".update-form input[name=pwdnow]");
-        const $pwdnew = $(".update-form input[name=pwdnew]");
-        const $repwdnew = $(".update-form input[name=repwdnew]");
         const pwdValue = $pwd.val();
         const pwdnewValue = $pwdnew.val();
         const repwdnewValue = $repwdnew.val();
-        const pwdReg = /(?=.*[0-9])(?=.*[a-zA-Z])(?=\S+$).{8,16}/;
 
         if (!pwdValue) {
             errorAlert($pwd, "비밀번호를 입력하세요.");
             pwdErrMsg.text("현재 비밀번호를 입력하세요.");
             return false;
         }
-        // todo 비밀번호 db비밀번호 비교
+
         $.ajax({
             url: "/user/info/checkPwd",
             type: "POST",
             data: {pwd: pwdValue},
             dataType: "text",
             success: function (res) {
-                if (res === "yes") {
+                if (res === "no") {
                     console.log("비밀번호 일치 여부 ->", res);
-                    pwdCheck = true;
-                } else {
+                    errorAlert($pwd, "현재 비밀번호가 일치하지 않습니다.");
+                    pwdErrMsg.text("다시 입력해주세요.");
+                    return false;
+                } else if (res === "yes") {
                     console.log("비밀번호 일치 여부 ->", res);
-                    pwdCheck = false;
                 }
             },
             error: function () {
                 console.error("Ajax request fail");
+                errorAlert($pwd, "오류가 발생하였습니다. 잠시 후 이용해 주세요.");
             }
-        })
+        });
 
         if (!pwdnewValue) {
             errorAlert($pwdnew, "새 비밀번호를 입력하세요.");
@@ -93,7 +92,10 @@ $(() => {
 
     // 입력 이벤트
     $("input[name='pwdnow']").keyup(() => {
+        const pwdValue = $pwd.val();
         if (!$pwd.val()) {
+            pwdCheck = false;
+        } else if (!pwdReg.test(pwdValue)) {
             pwdCheck = false;
         } else {
             pwdErrMsg.text("");
@@ -140,6 +142,31 @@ $(() => {
             repwdnewCheck = true;
         }
     })
+
+    async function checkPwd() {
+        const pwdValue = $pwd.val();
+        // todo 비밀번호 db비밀번호 비교
+
+        $.ajax({
+            url: "/user/info/checkPwd",
+            type: "POST",
+            data: {pwd: pwdValue},
+            dataType: "text",
+            success: function (res) {
+                if (res === "no") {
+                    console.log("비밀번호 일치 여부 ->", res);
+                    errorAlert($pwd, "현재 비밀번호가 일치하지 않습니다.");
+                    pwdErrMsg.text("다시 입력해주세요.");
+                    pwdCheck = false;
+                } else if (res === "yes") {
+                    console.log("비밀번호 일치 여부 ->", res);
+                }
+            },
+            error: function () {
+                console.error("Ajax request fail");
+            }
+        });
+    }
 
     // 경고창
     function errorAlert($el, text) {
