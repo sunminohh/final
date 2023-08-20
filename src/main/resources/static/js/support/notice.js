@@ -98,6 +98,7 @@ $(function() {
 
 	// 극장 조회 및 렌더링
 	async function getTheatersByLocation(locationNo) {
+		if (locationNo === null || locationNo === undefined) return;
 		const theaterNo = getQueryString("theaterNo");
 		$selectTheater.empty().append('<option value="" selected disabled>극장선택</option>');
 		await $.getJSON(`${API_URLS.THEATER}?locationNo=${locationNo}`, function(theaters) {
