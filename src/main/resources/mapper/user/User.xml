@@ -35,4 +35,6 @@
         where
             user_email = #{value}
     </select>
+
+
 </mapper>

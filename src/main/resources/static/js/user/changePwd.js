@@ -40,6 +40,24 @@ $(() => {
             return false;
         }
         // todo 비밀번호 db비밀번호 비교
+        $.ajax({
+            url: "/user/info/checkPwd",
+            type: "POST",
+            data: {pwd: pwdValue},
+            dataType: "text",
+            success: function (res) {
+                if (res === "yes") {
+                    console.log("비밀번호 일치 여부 ->", res);
+                    pwdCheck = true;
+                } else {
+                    console.log("비밀번호 일치 여부 ->", res);
+                    pwdCheck = false;
+                }
+            },
+            error: function () {
+                console.error("Ajax request fail");
+            }
+        })
 
         if (!pwdnewValue) {
             errorAlert($pwdnew, "새 비밀번호를 입력하세요.");
@@ -69,6 +87,7 @@ $(() => {
             repwdnewErrMsg.text("다시 입력해주세요.");
             return false;
         }
+
         $(this)[0].submit();
     })
 
@@ -121,7 +140,7 @@ $(() => {
             repwdnewCheck = true;
         }
     })
-    
+
     // 경고창
     function errorAlert($el, text) {
         Swal.fire({

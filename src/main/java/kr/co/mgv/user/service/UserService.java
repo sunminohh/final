@@ -13,10 +13,24 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserDao userDao;
-    private PasswordEncoder passwordEncoder;
 
-    public User getUserById(String id) {
-        return userDao.getUserById(id);
+
+
+/*
+
+    public void changePassword(String username, String currentPassword, String newPassword) {
+        User user = userDao.getUserById(username);
+        if (user == null) {
+            throw new IllegalArgumentException("User not found");
+        }
+
+        if (passwordEncoder.matches(currentPassword, user.getPassword())) {
+            String encryptedPassword = passwordEncoder.encode(newPassword);
+            userDao.updateUserById(username, encryptedPassword);
+        } else {
+            throw new IllegalArgumentException("Current password is incorrect");
+        }
     }
+*/
 
 }

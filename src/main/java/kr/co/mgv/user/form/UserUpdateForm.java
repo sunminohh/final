@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @NoArgsConstructor
 @Getter
@@ -14,7 +14,7 @@ public class UserUpdateForm {
     private String id;
     private String name;
     private String password;
-    private Date birth;
+    private LocalDate birth;
     private String email;
     private String zipcode;
     private String bgAddress;
