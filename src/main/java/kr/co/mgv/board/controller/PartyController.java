@@ -12,9 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.co.mgv.board.service.MovieBoardService;
+import kr.co.mgv.board.service.PartyBoardService;
 import kr.co.mgv.board.service.TheaterBoardService;
 import kr.co.mgv.board.vo.BoardLocation;
 import kr.co.mgv.board.vo.BoardTheater;
+import kr.co.mgv.movie.vo.Movie;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -22,9 +25,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PartyController {
 
+		private final PartyBoardService partyBoardService;
 		private final TheaterBoardService theaterBoardService;
-	
-	   @GetMapping("/list")
+		private final MovieBoardService movieBoardService;
+
+		@GetMapping("/list")
 	    public String theaterList(@RequestParam(name = "sort", required = false, defaultValue = "id") String sort,
 				@RequestParam(name = "rows", required = false, defaultValue = "10") int rows,
 				@RequestParam(name = "page", required = false, defaultValue = "1") int page,
@@ -74,6 +79,9 @@ public class PartyController {
 	    public String theaterForm(Model model) {
 	    	List<BoardLocation> locations = theaterBoardService.getLocations();
 	    	model.addAttribute("locations", locations);
+	    	
+	    	List<Movie> movies = movieBoardService.getMovieTitle();
+	    	model.addAttribute("movies", movies);
 	        return "/view/board/party/form";
 	    }
 	

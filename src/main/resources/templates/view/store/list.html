@@ -1,0 +1,209 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default}">
+<head th:fragment="extra-head-content">
+    <title>스토어</title>
+    <style></style>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="page-util">
+        <div class="inner-wrap">
+            <div class="location">
+                <span>Home</span>
+                <a href="/store" title="스토어">스토어</a>
+            </div>
+        </div>
+    </div>
+    <div id="storeMainList">
+        <!-- contents -->
+        <div id="contents">
+            <!-- inner-wrap -->
+            <div class="inner-wrap">
+                <h2 class="tit">스토어</h2>
+                <div class="tab-list fixed">
+                    <ul>
+                        <li class="" id="storeTab_">
+                            <a th:href="@{/store}" title="새로운 상품 탭으로 이동">전체 상품</a>
+                        </li>
+                        <li th:id="storeTab + ${category.getCatNo()}" class="" th:each="category : ${categories}">
+                            <a th:href="@{/store/list(catNo=${category.catNo})}" th:text="${category.catName}"></a>
+                        </li>
+                    </ul>
+                </div>
+                <div id="divNewPrdtArea">
+                    <th:block th:if="${#request.getParameter('catNo') == '1'}">
+                        <div class="tit-util mt70 mb15">
+                            <h3 class="tit">패키지</h3>
+                        </div>
+                        <!-- store-list -->
+                        <div class="store-list">
+                            <ul class="list" th:each="package : ${packages}" th:if="${package.getCatNo() == 1}">
+                                <li class="">
+                                    <a th:href="@{/store/detail/package(packageNo=${package.getNo()})}" title="패키지 상세페이지">
+                                        <div class="soldout">SOLD OUT</div>
+                                        <div class="label event">EVENT</div>
+                                        <div class="img">
+                                            <img th:src="${package.getImage()}" onerror="noImg(this);">
+                                        </div>
+                                        <div class="info">
+                                            <div class="tit">
+                                                <!-- 제품명 최대 2줄 -->
+                                                <p class="name" th:text="${package.getName()}"></p>
+                                                <!-- 제품구성 최대 2줄 -->
+                                                <p class="description" th:text="${package.getComposition()}"></p>
+                                            </div>
+                                            <div class="price">
+                                                <p class="sale">
+                                                    <em th:text="${package.getPrice()}"></em>
+                                                    <span>원</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </th:block>
+                    <th:block th:if="${#request.getParameter('catNo') == '2'}">
+                        <div class="tit-util mt70 mb15">
+                            <h3 class="tit">팝콘/음료</h3>
+                        </div>
+                        <div class="store-list">
+                            <ul class="list" th:each="product : ${products}" th:if="${product.getCatNo() == 2}">
+                                <li class="">
+                                    <a th:href="@{/store/detail/product(productNo=${product.getNo()})}" title="">
+                                        <div class="soldout">SOLD OUT</div>
+                                        <div class="img">
+                                            <img th:src="${product.getImagePath()}" th:alt="${product.getDescription()}" onerror="noImg(this);">
+                                        </div>
+                                        <div class="info">
+                                            <div class="tit">
+                                                <!-- 제품명 최대 2줄 -->
+                                                <p class="name" th:text="${product.getName()}"></p>
+                                                <!-- 제품구성 최대 2줄 -->
+                                                <p class="description" th:text="${product.getDescription()}"></p>
+                                            </div>
+                                            <div class="price">
+                                                <p class="sale">
+                                                    <em th:text="${product.getPrice()}"></em>
+                                                    <span>원</span>
+                                                </p>
+                                                <p class="ea">
+                                                    <span></span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </th:block>
+                    <th:block th:if="${#request.getParameter('catNo') == '3'}">
+                        <div class="tit-util mt70 mb15">
+                            <h3 class="tit">MGV티켓</h3>
+                        </div>
+                        <div class="store-list">
+                            <ul class="list" th:each="product : ${products}" th:if="${product.getCatNo() == 3}">
+                                <li class="">
+                                    <a th:href="@{/store/detail/product(productNo=${product.getNo()})}" title="">
+                                        <div class="soldout">SOLD OUT</div>
+                                        <div class="img">
+                                            <img th:src="${product.getImagePath()}" th:alt="${product.getDescription()}" onerror="noImg(this);">
+                                        </div>
+                                        <div class="info">
+                                            <div class="tit">
+                                                <!-- 제품명 최대 2줄 -->
+                                                <p class="name" th:text="${product.getName()}"></p>
+                                                <!-- 제품구성 최대 2줄 -->
+                                                <p class="description" th:text="${product.getDescription()}"></p>
+                                            </div>
+                                            <div class="price">
+                                                <p class="sale">
+                                                    <em th:text="${product.getPrice()}"></em>
+                                                    <span>원</span>
+                                                </p>
+                                                <p class="ea">
+                                                    <span></span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </th:block>
+                    <th:block th:if="${#request.getParameter('catNo') == '4'}">
+                        <div class="tit-util mt70 mb15">
+                            <h3 class="tit">스낵</h3>
+                        </div>
+                        <div class="store-list">
+                            <ul class="list" th:each="product : ${products}" th:if="${product.getCatNo() == 4}">
+                                <li class="">
+                                    <a th:href="@{/store/detail/product(productNo=${product.getNo()})}" title="">
+                                        <div class="soldout">SOLD OUT</div>
+                                        <div class="img">
+                                            <img th:src="${product.getImagePath()}" th:alt="${product.getDescription()}" onerror="noImg(this);">
+                                        </div>
+                                        <div class="info">
+                                            <div class="tit">
+                                                <!-- 제품명 최대 2줄 -->
+                                                <p class="name" th:text="${product.getName()}"></p>
+                                                <!-- 제품구성 최대 2줄 -->
+                                                <p class="description" th:text="${product.getDescription()}"></p>
+                                            </div>
+                                            <div class="price">
+                                                <p class="sale">
+                                                    <em th:text="${product.getPrice()}"></em>
+                                                    <span>원</span>
+                                                </p>
+                                                <p class="ea">
+                                                    <span></span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </th:block>
+                    <th:block th:if="${#request.getParameter('catNo') == '5'}">
+                        <div class="tit-util mt70 mb15">
+                            <h3 class="tit">금액권</h3>
+                        </div>
+                        <div class="store-list">
+                            <ul class="list" th:each="product : ${products}" th:if="${product.getCatNo() == 5}">
+                                <li class="">
+                                    <a th:href="@{/store/detail/product(productNo=${product.getNo()})}" title="">
+                                        <div class="soldout">SOLD OUT</div>
+                                        <div class="label event">EVENT</div>
+                                        <div class="img">
+                                            <img th:src="${product.getImagePath()}" th:alt="${product.getDescription()}" onerror="noImg(this);">
+                                        </div>
+                                        <div class="info">
+                                            <div class="tit">
+                                                <!-- 제품명 최대 2줄 -->
+                                                <p class="name" th:text="${product.getName()}"></p>
+                                                <!-- 제품구성 최대 2줄 -->
+                                                <p class="description" th:text="${product.getDescription()}"></p>
+                                            </div>
+                                            <div class="price">
+                                                <p class="sale">
+                                                    <em th:text="${product.getPrice()}"></em>
+                                                    <span>원</span>
+                                                </p>
+                                                <p class="ea">
+                                                    <span></span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -35,4 +35,18 @@
         where
             PACKAGE_NO = #{value}
     </select>
+
+    <select id="getPackagesByCatNo" parameterType="int" resultType="Package">
+        select
+            PACKAGE_NO          as no,
+            PACKAGE_NAME        as name,
+            PACKAGE_PRICE       as price,
+            PACKAGE_IMAGE       as image,
+            PACKAGE_COMPOSITION as composition,
+            CAT_NO              as catNo
+        from
+            MGV_PACKAGE
+        where
+            CAT_NO = #{value}
+    </select>
 </mapper>

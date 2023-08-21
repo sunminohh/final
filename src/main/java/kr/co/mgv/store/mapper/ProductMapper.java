@@ -12,4 +12,6 @@ public interface ProductMapper {
     List<Product> getProducts();
 
     Product getProductByNo(int no);
+
+    List<Product> getProductByCatNo(int catNo);
 }

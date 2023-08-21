@@ -55,5 +55,36 @@ public class StoreController {
 
         return "view/store/packageDetail";
     }
-    
+
+    @GetMapping("/list")
+    public String list(@RequestParam(name = "catNo", defaultValue = "1") int catNo, Model model) {
+
+        List<Product> productList = productService.getProductByCatNo(catNo);
+        List<Package> packageList = packageService.getPackagesByCatNo(catNo);
+        List<Category> categories = categoryService.getCategories();
+        model.addAttribute("packages", packageList);
+        model.addAttribute("categories", categories);
+        model.addAttribute("products", productList);
+
+
+        return "view/store/list";
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

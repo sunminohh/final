@@ -45,7 +45,6 @@ $(function() {
 		
 		selectedDate = $(this).attr("th:value");
 		theaterNo =  document.querySelector("select[name=theaterNo]");
-		movieNo =  document.querySelector("select[name=movieNo]");
 		    // AJAX 요청을 보내서 선택한 날짜에 해당하는 데이터를 가져옴
 /*
 		    $.ajax({
@@ -66,8 +65,78 @@ $(function() {
  */
 	});
 	
+	 $(".movie-search-input").on("input", function () {
+	    const inputText = $(this).val();
+	    const searchItems = $(".movie-search-item");
+	
+	    if (inputText.length > 0) {
+	      $(".movie-search-list").show();
+	      searchItems.each(function () {
+	        const itemText = $(this).text().toLowerCase();
+	        if (itemText.includes(inputText)) {
+	          $(this).show();
+	        } else {
+	          $(this).hide();
+	        }
+	      });
+	    } else {
+	      $(".movie-search-list").hide();
+	      searchItems.hide();
+	    }
+	  });
+	
+	  $(".movie-search-item").on("click", function () {
+	    const selectedItem = $(this).text();
+	    $(".movie-search-input").val(selectedItem);
+	    $(".movie-search-list").hide();
+	  });
+	
+	  $(document).on("click", function (e) {
+	    if (!$(e.target).closest(".movie-search-select").length) {
+	      $(".movie-search-list").hide();
+	    }
+	  });
+	
+	$(function() {
+	    $(".movie-search-button").on("click", function () {
+	        let inputText = $(".movie-search-input").val();
+	        
+	        if (inputText === "") { // 입력창 내용이 비었을 때
+	            Swal.fire({
+	                icon: 'error',
+	                text: '내용을 작성해주세요.',
+	            });
+	        } else {
+	            let selectedValue = -1; // 기본값을 -1로 설정
+	            let selectedTitle = "";
+	            let found = false; // 영화 제목을 찾았는지 여부를 나타내는 변수
+	
+	            $(".movie-search-list .movie-search-item").each(function () {
+	                if ($(this).text() === inputText) {
+	                    selectedValue = parseInt($(this).attr("value"));
+	                    selectedTitle = $(this).text();
+	                    found = true; // 영화 제목을 찾았음을 표시
+	                    return false; // 반복문 종료
+	                }
+	            });
+	
+	            if (!found) { // 리스트에 없는 영화 제목일 경우
+	                Swal.fire({
+	                    icon: 'error',
+	                    text: '영화제목을 입력해주세요.',
+	                });
+	            } else { // 리스트에 있는 영화 제목일 경우
+	                const movieNo = $("input[name=movieNo]");
+	                movieNo.attr('value', selectedValue);
+	                $()
+	            }
+	        }
+	    });
+    })
+	
+	
 })
-
+ 
 	
 	 // 지역 멀티셀렉트
 	 	function changeLoc() {
@@ -121,4 +190,6 @@ $(function() {
 			xhr.open("GET", "movieBytheaterNo?locationNo=" + theaterNo );
 			xhr.send();
 		}
+		
+		
 	
