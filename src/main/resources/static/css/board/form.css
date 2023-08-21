@@ -22,7 +22,7 @@
     border-top: none;
     max-height: 200px;
     overflow-y: auto;
-    z-index: 1;
+    z-index: 2;
     display: none;
     left: 0; /* 입력창과 정렬하기 위해 left 값 설정 */
     margin-top: 8px; /* 입력창과 간격 주기 */
@@ -37,11 +37,11 @@
 .movie-search-item {
     padding: 8px;
     cursor: pointer;
+    display: block;
+    height: 35px;
 }
 
-.movie-search-item:hover {
-    background-color: #f2f2f2;
-}
+
 
 .movie-search-button {
     padding: 8px 12px;
