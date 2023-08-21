@@ -54,4 +54,23 @@
         where
             PRODUCT_NO = #{value}
     </select>
+
+    <select id="getProductByCatNo" parameterType="int" resultType="Product">
+        select
+            PRODUCT_NO              as no,
+            PRODUCT_NAME            as name,
+            PRODUCT_PRICE           as price,
+            PRODUCT_STOCK           as stock,
+            PRODUCT_SOLD_OUT        as soldOut,
+            PRODUCT_DESCRIPTION     as description,
+            PRODUCT_CREATE_DATE     as createDate,
+            PRODUCT_UPDATE_DATE     as updateDate,
+            CAT_NO                  as catNo,
+            PRODUCT_DISCOUNT        as discount,
+            PRODUCT_IMAGE           as imagePath
+        from
+            MGV_PRODUCT
+        where
+            CAT_NO = #{value}
+    </select>
 </mapper>

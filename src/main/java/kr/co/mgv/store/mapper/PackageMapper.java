@@ -11,4 +11,5 @@ public interface PackageMapper {
     Package getPackageByNo(int no);
 
     List<Package> getPackages();
+    List<Package> getPackagesByCatNo(int catNo);
 }

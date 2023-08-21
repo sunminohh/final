@@ -1,56 +1,12 @@
 $(() => {
 	let saveCnt = 0;
-	initSelector();
 	refrashtheater();
 	
-	function initSelector(){
-		const $theatersarea = $('.sel-city:contains(' + location.name + ') + div ul');
-		const $container = $(".user-theater .theater-circle");
-		const $selectedtheater = $("#theater").find('option:selected')
-	}
-	
-	function refreshDate() {
-		dayjs.locale('ko-kr')
-		dayjs.extend(dayjs_plugin_isSameOrAfter)
-		let today = dayjs();
-		let targetDay = today.add(13, 'day');
-		let htmlContents = `<div class="year" style="left: 30px; z-index: 1; opacity: 1;">${today.get("y")}.${today.get("M") + 1}</div>`;
-		if (!dayjs(today).isSameOrAfter(targetDay, 'month')) {
-			htmlContents += `<div class="year" style="left: 30px; z-index: 1; opacity: 0;">${targetDay.get("y")}.${targetDay.get("M") + 1}</div>`;
-		}
-		$(".year-area").html(htmlContents);
-		htmlContents = ``;
-		let currentDay = today.clone();
-		for (i = 1; i < 15; i++) {
-			let weekDay = currentDay.format('dd');
-			if (currentDay.diff(today, 'day') == 0) {
-				weekDay = '오늘';
-			}
-			if (currentDay.diff(today, 'day') == 1) {
-				weekDay = '내일';
-			}
-			let weekdayno = currentDay.get('day')
-			htmlContents += `<button class="disabled ${today.isSame(currentDay) ? 'on' : ''} ${weekdayno == 0 ? 'holi' :
-				weekdayno == 6 ? 'sat' : ''}" type="button" date-data="${currentDay.format('YYYY-MM-DD')}"
-											month="${currentDay.get('month')}">
-											<span class="ir">${currentDay.format('YYYY년MM월')}</span><em
-												style="pointer-events: none;">${currentDay.get('date')}<span
-												style="pointer-events: none;" class="ir">일</span></em><span
-												class="day-kr"
-												style="pointer-events: none; display: inline-block">${weekDay}</span><span
-												class="day-en" style="pointer-events: none; display: none">Tue</span>
-										</button>`;
-			currentDay = currentDay.add(1, 'day');
-		}
-		$(".date-area .wrap").html(htmlContents);
-		activateButton();
-	}
 	
 	// 극장리스트
 	function refrashtheater(){
 		$('#location').val($('#selectBoxId option:first').val());
 		$('#theater').val($('#selectBoxId option:first').val());
-		$('#location').change();
 		
 		let $favtheater = $("#theater")
 		$favtheater.html('<option value="" selected disabled>극장선택</option>');
@@ -58,7 +14,7 @@ $(() => {
 			locations.forEach(function(location) {
 				let contents = '';
 				// 로케이션 네임으로 입력할 요소를 찾아서
-				
+				let $theatersarea = $('.sel-city:contains(' + location.name + ') + div ul');
 				let favtheatercontent = ``;
 				let currentlocationno = $("#location").val(); 
 				location.theaters.forEach(function(theater) {
@@ -82,7 +38,7 @@ $(() => {
 	
 					// 여기에서 원하는 동작 수행
 					// 홈의 선호극장
-					
+					let $container = $(".user-theater .theater-circle");
 					$container.empty();
 					$('.theater-choice-list .bg').empty();
 					saveCnt = theaters.length; 
@@ -121,7 +77,7 @@ $(() => {
 	
 	// 추가버튼
 	$("#button-add-fav").off().on("click",function(){
-		
+		let $selectedtheater = $("#theater").find('option:selected')
 		let idx  = $('#favorBrchReg .bg').has('.circle').length;
 			// 지점 선택 확인
 		if ($selectedtheater.val() == '') {
@@ -285,41 +241,11 @@ $(() => {
 		
 	})
 	
-	// 날짜버튼 활성화
-	function activateButton() {
-		let $buttons = $(".date-area button");
-		let theaterNo = $("p.name").attr("data-theater-no");
-
-		$.getJSON("/schedule/checkSchedule", { "theaterNo": theaterNo }, function(data) {
-			data.dateList.forEach(function(date) {
-				$buttons.each(function(index, button) {
-					let buttondate = dayjs($(button).attr("date-data"))
-					let scheduledate = dayjs(date)
-					if (dayjs(scheduledate).isSame(buttondate, 'day')) {
-						$(button).removeClass("disabled");
-					} 
-				})
-			})
-		})
-
-	}
+	
 
 
 
-	// 극장 상세 탭 버튼 클릭시 
-	$(".tab-list a").on("click", function() {
-		// 다른 버튼은 비활성화
-		// 누른 버튼 활성화
-		$(this).closest("li").siblings().removeClass("on");
-		$(this).closest("li").addClass("on");
-		// 누른 탭의 href로 탭 아이디를 가져온다.
-		let tabId = $(this).attr("href");
-		// 다른 탭 비활성화
-		$(tabId).siblings().removeClass("on");
-		// 탭 아이디로 탭을 찾아서 활성화
-		$(tabId).addClass("on");
-		refreshDate();
-	})
+
 
 	$(".theater-place button").on("click", function() {
 		$(this).closest("li").addClass("on");
