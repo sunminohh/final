@@ -20,6 +20,7 @@ import kr.co.mgv.support.form.AddOneForm;
 import kr.co.mgv.support.service.LostService;
 import kr.co.mgv.support.service.OneService;
 import kr.co.mgv.support.vo.Lost;
+import kr.co.mgv.support.vo.LostFile;
 import kr.co.mgv.support.vo.One;
 import kr.co.mgv.support.vo.SupportCategory;
 import kr.co.mgv.theater.vo.Location;
@@ -99,7 +100,9 @@ public class OneController {
 	@RequestMapping("/mylost/detail")
 	public String getMyLostByNo(@RequestParam("no") int lostNo, Model model) {
 		Lost lost = lostService.getLostByNo(lostNo);
+		List<LostFile> lostFiles = lostService.getLostFilesByLostNo(lostNo);
 		model.addAttribute("lost", lost);
+		model.addAttribute("lostFiles", lostFiles);
 		
 		return "/view/support/one/lostdetail";
 	}
