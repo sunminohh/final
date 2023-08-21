@@ -1,13 +1,12 @@
 $(() => {
 	refrashtheater();
-	let savecnt = 0;
-	
+	let saveCnt = 0;
 	function refreshDate() {
 		dayjs.locale('ko-kr')
+		dayjs.extend(dayjs_plugin_isSameOrAfter)
 		let today = dayjs();
 		let targetDay = today.add(13, 'day');
 		let htmlContents = `<div class="year" style="left: 30px; z-index: 1; opacity: 1;">${today.get("y")}.${today.get("M") + 1}</div>`;
-		dayjs.extend(dayjs_plugin_isSameOrAfter)
 		if (!dayjs(today).isSameOrAfter(targetDay, 'month')) {
 			htmlContents += `<div class="year" style="left: 30px; z-index: 1; opacity: 0;">${targetDay.get("y")}.${targetDay.get("M") + 1}</div>`;
 		}
@@ -97,8 +96,8 @@ $(() => {
 	
 					}
 				}
-			});
-		})
+			}).fail(handleAjaxError);
+		}).fail(handleAjaxError)
 	}
 	// 선호극장관리 극장리스트 변경
 	$("#location").on("change",function(){
@@ -111,7 +110,6 @@ $(() => {
 	
 	// 추가버튼
 	$("#button-add-fav").off().on("click",function(){
-		console.log("클릭")
 		let $selectedtheater = $("#theater").find('option:selected')
 		let idx  = $('#favorBrchReg .bg').has('.circle').length;
 			// 지점 선택 확인
@@ -136,7 +134,7 @@ $(() => {
 		if (idx == 3) {
 			Swal.fire({
 	            icon: 'error',
-	            text: '최대 3개 까지 선택 하실 수 있습니다..',
+	            text: '최대 3개 까지 선택 하실 수 있습니다.'
 	        })
 			return;
 		}
@@ -164,9 +162,7 @@ $(() => {
 		
 	// 등록
 	$('#favorBrchReg .btn-group-fixed').off().on('click', '.purple', function() {
-		console.log(this);
 		let param, arr = new Array();
-		let paramData  = {mbFavorList : arr};
 
 		let $obj = $('#favorBrchReg .theater-choice-list .circle');
 
@@ -191,7 +187,6 @@ $(() => {
 				param.rank  = i+1;
 			});
 		}
-		console.log(JSON.stringify(arr))
 		// 등록요청
 		$.ajax({
             type: 'POST',
@@ -219,9 +214,8 @@ $(() => {
 
 					$('#favorBrchReg .close-layer').click();
 				}
-					console.log(data);
 			}
-		});
+		}).fail(handleAjaxError);
 	});	
 	
 
@@ -237,9 +231,49 @@ $(() => {
 	} 
 	
 	// 극장상세 선호극장 on/off
-	$(".btn-like").click(function() {
-		console.log("아")
+	$("#favorBrch").on('click',function() {
+		const $theaterSelector = $("p.name");
+		let param = new Object();
+		param.theaterNo = $theaterSelector.attr("data-theater-no");
+		param.theaterName = $theaterSelector.text();
+		param.rank  = saveCnt+1;
+		if(saveCnt === 3){
+			Swal.fire({
+				icon: 'error',
+				text: '최대 3개 까지 선택 하실 수 있습니다.'
+			})
+			return false;
+		}
+		$.ajax({
+			type: 'POST',
+			contentType: 'application/json',
+			url: '/theater/favorite/registfavorite',
+			data: JSON.stringify(param),
+			success: function(data, textStatus, jqXHR) {
+				if (data == 'undefined') {
+					Swal.fire({
+						icon: 'error',
+						text: '로그인된 사용자가 아닙니다. 로그인 해주세요.',
+					}).then((result) => {
+						if (result.isConfirmed) {
+							$('.btn-login').click();
+						}
+
+					})
+				} else {
+
+					Swal.fire({
+						icon: 'success',
+						text: '등록 되었습니다.',
+					})
+					$(this).toggleClass("on");
+				}
+			}
+			}).fail(handleAjaxError);
+		
+		
 	})
+	
 	// 날짜버튼 활성화
 	function activateButton() {
 		let $buttons = $(".date-area button");
@@ -252,12 +286,10 @@ $(() => {
 					let scheduledate = dayjs(date)
 					if (dayjs(scheduledate).isSame(buttondate, 'day')) {
 						$(button).removeClass("disabled");
-					} else {
-						console.log("날짜비교실패")
-					}
+					} 
 				})
 			})
-		})
+		}).fail(handleAjaxError)
 
 	}
 
@@ -307,7 +339,13 @@ $(() => {
 		event.preventDefault()
 		$("button.close-layer").click();
 	});
-
+	
+	function handleAjaxError() {
+		Swal.fire({
+			icon: 'error',
+			text: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
+		});
+	}
 	
 	/*카카오맵 약도*/
 	$(".location-map-btn button").click(function() {

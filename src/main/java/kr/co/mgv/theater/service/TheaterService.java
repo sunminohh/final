@@ -4,17 +4,21 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import kr.co.mgv.favoritetheater.dao.FavoriteTheaterDao;
+import kr.co.mgv.favoritetheater.vo.FavoriteTheater;
 import kr.co.mgv.theater.dao.TheaterDao;
-import kr.co.mgv.theater.dto.FavoriteTheater;
 import kr.co.mgv.theater.vo.Location;
 import kr.co.mgv.theater.vo.Theater;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class TheaterService {
 	
 	private final TheaterDao theaterDao;
+	private final FavoriteTheaterDao favoriteDao;
 	
 	public List<Location> getTheaters() {
 		return theaterDao.getTheaters();
@@ -25,16 +29,29 @@ public class TheaterService {
 	}
 
 	public List<Theater> getFavoriteTheaters(String userId) {
-		return theaterDao.getFavoriteTheaters(userId);
+		return favoriteDao.getFavoriteTheaters(userId);
 	}
 
-	public void registFavoriteTheater(String userId, List<FavoriteTheater> favoriteTheaters) {
-		theaterDao.deleteFavoriteTheaters(userId);
+	public void registFavoriteTheaters(String userId, List<FavoriteTheater> favoriteTheaters) {
+		favoriteDao.deleteFavoriteTheaters(userId);
 		for(FavoriteTheater theater: favoriteTheaters) {
 			theater.setUserId(userId);
 			if(theater.getTheaterNo() != 0) {
-				theaterDao.insertFavoriteTheaters(theater);
+				favoriteDao.insertFavoriteTheaters(theater);
 			}
 		}
+	}
+
+	public void registFavoriteTheater(String userId, FavoriteTheater favoriteTheater) {
+		favoriteTheater.setUserId(userId);
+		
+		FavoriteTheater theater = favoriteDao.getFavoriteTheater(favoriteTheater);
+		log.info("선호극장정보 ->{}",theater);
+		if(theater != null) {
+			favoriteDao.deleteFavoriteTheater(favoriteTheater);
+		}else {
+			favoriteDao.insertFavoriteTheaters(favoriteTheater);
+		}
+		
 	}
 }
