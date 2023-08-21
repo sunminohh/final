@@ -131,19 +131,21 @@
 							</div>			
 						</div>
 						<form action="">
-							<input type="hidden" name="date" value="date" />
 							<div class="theater-select d-flex justify-content-start ms-4 pt-2">
 		                        <select id="location" title="지역 선택"
 		                                class="form-select form-select-sm  ml07 form-control-sm mb-3"
 		                                style="width: 110px; float:left;  border-style: none;" name="locationNo"
-		                                onchange="changeLoc()">
+		                                th:onchange= "changeLoc()">
 		                            <option value="" selected disabled>지역선택</option>
-		                            <option th:value="locatioNo">지역 이름</option>
+		                            <option th:each="location : ${locations}" 
+		                            		th:text="${location.name}" 
+		                            	    th:value="${location.no}"
+		                            	    th:selected="${#strings.equals(location.no, param.locationNo)}">지역 이름</option>
 		                        </select>
 		
 		                        <select id="theater" title="극장 선택" class="form-select form-select-sm ml07 form-control-sm mb-3"
 		                                style="width: 130px; float:left; position: relative; left:5px;  border-style: none;" 
-		                                name="theaterNo" onchange="changeTBoard()">
+		                                name="theaterNo" >
 		      						<option value="" selected disabled>극장선택</option>
 		                        </select>
 								<select id="movie" title="영화 선택" class="form-select form-select-sm ml07 form-control-sm mb-3 me-1"
@@ -151,6 +153,9 @@
 		                                name="movieNo" >
 		      						<option value="" selected disabled>영화선택</option>
 		                        </select>
+		                        <div>
+		                        	<input type="hidden" name="sceduleId" >
+		                        </div>
 							</div>
 						
 							<div class="movie-select pb-1">
