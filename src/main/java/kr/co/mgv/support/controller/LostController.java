@@ -13,12 +13,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.mgv.support.dao.LostDao;
 import kr.co.mgv.support.dto.LostList;
 import kr.co.mgv.support.form.AddLostForm;
 import kr.co.mgv.support.service.LostService;
+import kr.co.mgv.support.view.SupportFileDownloadView;
 import kr.co.mgv.support.vo.Lost;
+import kr.co.mgv.support.vo.LostFile;
 import kr.co.mgv.theater.vo.Location;
 import kr.co.mgv.theater.vo.Theater;
 import kr.co.mgv.user.vo.User;
@@ -31,6 +34,7 @@ import lombok.ToString;
 @ToString
 public class LostController {
 	
+	private final SupportFileDownloadView supportFileDownloadView;
 	private final LostService lostService;
 
 	@RequestMapping
@@ -159,12 +163,27 @@ public class LostController {
 	@RequestMapping("/detail")
 	public String getLostByNo(@RequestParam("no") int lostNo, Model model) {
 		Lost lost = lostService.getLostByNo(lostNo);
+		List<LostFile> lostFiles = lostService.getLostFilesByLostNo(lostNo);
 		model.addAttribute("lost", lost);
+		model.addAttribute("lostFiles", lostFiles);
 		
 		return "/view/support/lost/detail";
 	}
 	
-	
+	@RequestMapping("/download")
+	public ModelAndView download(@RequestParam("no") int fileNo) {
+		
+		LostFile lostFile = lostService.getLostFileByFileNo(fileNo);
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setView(supportFileDownloadView);
+		
+		mav.addObject("directory", "static/images/support/lost");
+		mav.addObject("saveName", lostFile.getSaveName());
+		mav.addObject("originalName", lostFile.getOriginalName());
+		
+		return mav;
+	}
 	
 	
 	

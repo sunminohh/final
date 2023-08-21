@@ -208,15 +208,18 @@ public class TheaterBoardController {
         return "/view/board/theater/form";
     }
     
+    
     @PostMapping("/add")
     public String addTheaterBoard(@AuthenticationPrincipal User user, AddTboardForm form) {
-    	
-    	log.info("입력한 정보 -> {}", form);
-    	theaterBoardService.addTboard(form, user);
-    	
-    	return "redirect:/board/theater/list";
+        log.info("입력한 정보 -> {}", form);
+
+        theaterBoardService.addTboard(form, user);
+        return "redirect:/board/theater/list";
     }
-	
+
+
+
+    
     @GetMapping("/modify")
     public String theaterBoardModifyForm(@RequestParam("no") int no,
 			   Model model) {

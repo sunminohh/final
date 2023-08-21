@@ -11,6 +11,5 @@ public interface MovieLikeDao {
     public void insertMovieLike(MovieLike movieLike);
     public HashSet<Integer> getLikedMovieNosByUserId(String userId);
     public void deleteMovieLike(MovieLike movieLike);
-
     public Integer isMovieLikedByUser(MovieLike movieLike);
 }

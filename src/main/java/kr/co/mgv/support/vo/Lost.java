@@ -25,7 +25,6 @@ public class Lost {
 	private String guestName;
 	private String guestEmail; 
 	private int guestPassword;
-	private String fileName;
 	@JsonFormat(pattern = "yyyy.MM.dd")
 	private Date updateDate;
 	@JsonFormat(pattern = "yyyy.MM.dd")
@@ -36,7 +35,7 @@ public class Lost {
 	
 	@Builder
 	public Lost(int no, String title, String content, String answered, String deleted, String guestName,
-			String guestEmail, int guestPassword, String fileName, Date updateDate, Date createDate, User user,
+			String guestEmail, int guestPassword, Date updateDate, Date createDate, User user,
 			Location location, Theater theater) {
 		super();
 		this.no = no;
@@ -47,7 +46,6 @@ public class Lost {
 		this.guestName = guestName;
 		this.guestEmail = guestEmail;
 		this.guestPassword = guestPassword;
-		this.fileName = fileName;
 		this.updateDate = updateDate;
 		this.createDate = createDate;
 		this.user = user;

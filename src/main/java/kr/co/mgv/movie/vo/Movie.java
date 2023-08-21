@@ -111,6 +111,16 @@ public class Movie {
 		this.seatsBooked = seatsBooked;
 	}
     
-    
+    public String getContentRatingKr(){
+        if ("12".equals(contentRating)){
+            return "12세이용가";
+        }else if("15".equals(contentRating)){
+            return "15세이용가";
+        }else if("18".equals(contentRating)){
+            return "청소년관람불가";
+        }else if("all".equals(contentRating)){
+            return "전체이용가";
+        }else return "상영등급미정";
+    }
     
 }

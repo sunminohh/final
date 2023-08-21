@@ -25,4 +25,8 @@ public class PackageService {
     public List<Package> getAllPackages() {
         return packageMapper.getPackages();
     }
+
+    public List<Package> getPackagesByCatNo(int catNo) {
+        return packageMapper.getPackagesByCatNo(catNo);
+    }
 }

@@ -36,7 +36,8 @@
 	
 	                        <select id="theater" title="극장 선택" class="form-select form-select-sm ml07 form-control-sm mb-3"
 	                                style="width: 130px; float:left; position: relative; left:5px; border: none;" 
-	                                name="theaterNo" >
+	                                name="theaterNo" 
+	                                th:onchange="changeTh()">
 	      						<option th:value="0" selected disabled>극장선택</option>
 	                        </select>
 							</div>
