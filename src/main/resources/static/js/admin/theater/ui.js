@@ -5,26 +5,27 @@ $(() => {
     getTheaterList();
     
     $locationButton.on("click",toggleButton);
-    $theaters.on("click", "button", toggleButton);
+    $theaters.on("click", "button", toggleTheaterButton);
     $theaters.on("click", "button", refrashBoard);
-    $theaters.on("hide.bs.collapse", deactivateButton)
     
     function toggleButton(){
-		$(this).addClass("active");
 		$(this).siblings().removeClass("active");
+		$(this).addClass("active");
 	}
 	
-	function deactivateButton(){
-		$(this).find(".active").removeClass("active");
+	function toggleTheaterButton(){
+		$theaters.find("button").removeClass("active");
+		$(this).addClass("active");
 	}
+	
 	
 	function refrashBoard(){
 		let theaterNo = $theaters.find(".active").attr("data-theater-no");
 		$board.find("#disabled").addClass("d-none");
 		$board.find("#abled").removeClass("d-none");
-		/*$.getJSON("/theater/admin/detail",{"theaterNo":theaterNo}, function(data){
-			
-		})*/
+		$.getJSON("/admin/theater/detail",{"theaterNo":theaterNo}, function(data){
+			console.log(data)
+		})
 	}
 	
 	function getTheaterList(){
