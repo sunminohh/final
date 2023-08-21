@@ -43,4 +43,19 @@ public interface LostDao {
 	 * @return 해당 분실문 파일정보들
 	 */
 	List<LostFile> getLostFilesByLostNo(int lostNo);
+	LostFile getLostFileByFileNo(int fileNo);
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

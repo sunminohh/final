@@ -218,7 +218,6 @@ $(function() {
 	        this.value = "";
 	        return;
 	    }
-	    alert(selectedFiles.length)
 	
 	    // 선택된 파일을 순회하면서 파일명과 삭제 버튼을 #imgList에 추가
 	    for (let i = 0; i < selectedFiles.length; i++) {

@@ -110,6 +110,16 @@ public class LostService {
 		return lostDao.getLostByNo(lostNo);
 	}
 	
+	public List<LostFile> getLostFilesByLostNo(int lostNo) {
+		
+		return lostDao.getLostFilesByLostNo(lostNo);
+	}
+	
+	public LostFile getLostFileByFileNo(int fileNo) {
+		
+		return lostDao.getLostFileByFileNo(fileNo);
+	}
+	
 	public List<Location> getLocations() {
 		return lostDao.getLocations();
 	}
