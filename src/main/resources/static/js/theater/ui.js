@@ -1,6 +1,14 @@
 $(() => {
-	refrashtheater();
 	let saveCnt = 0;
+	initSelector();
+	refrashtheater();
+	
+	function initSelector(){
+		const $theatersarea = $('.sel-city:contains(' + location.name + ') + div ul');
+		const $container = $(".user-theater .theater-circle");
+		const $selectedtheater = $("#theater").find('option:selected')
+	}
+	
 	function refreshDate() {
 		dayjs.locale('ko-kr')
 		dayjs.extend(dayjs_plugin_isSameOrAfter)
@@ -37,6 +45,7 @@ $(() => {
 		$(".date-area .wrap").html(htmlContents);
 		activateButton();
 	}
+	
 	// 극장리스트
 	function refrashtheater(){
 		$('#location').val($('#selectBoxId option:first').val());
@@ -49,7 +58,7 @@ $(() => {
 			locations.forEach(function(location) {
 				let contents = '';
 				// 로케이션 네임으로 입력할 요소를 찾아서
-				let $theatersarea = $('.sel-city:contains(' + location.name + ') + div ul');
+				
 				let favtheatercontent = ``;
 				let currentlocationno = $("#location").val(); 
 				location.theaters.forEach(function(theater) {
@@ -73,7 +82,8 @@ $(() => {
 	
 					// 여기에서 원하는 동작 수행
 					// 홈의 선호극장
-					let $container = $(".user-theater .theater-circle").empty();
+					
+					$container.empty();
 					$('.theater-choice-list .bg').empty();
 					saveCnt = theaters.length; 
 					if (theaters.length != 0) {
@@ -96,9 +106,10 @@ $(() => {
 	
 					}
 				}
-			}).fail(handleAjaxError);
-		}).fail(handleAjaxError)
+			})
+		})
 	}
+	
 	// 선호극장관리 극장리스트 변경
 	$("#location").on("change",function(){
 		let locationno = $(this).val();
@@ -110,7 +121,7 @@ $(() => {
 	
 	// 추가버튼
 	$("#button-add-fav").off().on("click",function(){
-		let $selectedtheater = $("#theater").find('option:selected')
+		
 		let idx  = $('#favorBrchReg .bg').has('.circle').length;
 			// 지점 선택 확인
 		if ($selectedtheater.val() == '') {
@@ -289,7 +300,7 @@ $(() => {
 					} 
 				})
 			})
-		}).fail(handleAjaxError)
+		})
 
 	}
 
