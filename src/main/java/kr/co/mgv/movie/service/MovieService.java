@@ -442,6 +442,7 @@ public class MovieService {
         return movieDao.getMoviesByRowNum(10);
     }
 
+    public List<Movie> getAllMovies(){return movieDao.getAllMovies();}
     public void insertMovieLike(MovieLike movieLike){
         movieLikeDao.insertMovieLike(movieLike);
     }

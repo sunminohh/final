@@ -21,18 +21,18 @@
         $(()=>{
             dayjs.locale('ko-kr')
             const today= dayjs().add(-1,'day')
-            today.format()
             let startDay=today;
-            for (var i =0; i<16; i++){
+            let selectedMovies =new Set;
+            let selectedDay = today.format('YYYY-MM-DD')
+            for (let i =0; i<16; i++){
                 let day=today.add(i,'day')
-                let html=`<button class="${day.day() == 6 ? 'sat' : day.day() == 0 ? 'holi' : ''}" type="button" date-data="${day.format('YYYY-MM-dd')}" month="6" tabindex="-1">
+                let html=`<button class="${day.day() === 6 ? 'sat' : day.day() === 0 ? 'holi' : ''}" type="button" date-data="${day.format('YYYY-MM-DD')}" month="6" tabindex="-1">
                                                 <span class="ir"></span>
                                                 <em style="pointer-events:none;">${day.date()} <span style="pointer-events:none;" class="ir">일</span>
                                                 </em>
                                                 <span class="day-kr" style="pointer-events:none;display:inline-block">${day.format('dd')}</span>
                                                 <span class="day-en" style="pointer-events:none;display:none">Wed</span>
                                             </button>`
-                console.log(html)
                 $("#formDeList").children().append(html);
             }
             $(".btn-next").click(function(event){
@@ -40,7 +40,7 @@
                 fday.remove()
                 const day=startDay.add(16,'day')
                 startDay=startDay.add(1,'day')
-                let html=`<button class="${day.day() == 6 ? 'sat' : day.day() == 0 ? 'holi' : ''}" type="button" date-data="${day.format('YYYY-MM-dd')}" month="6" tabindex="-1">
+                let html=`<button class="${day.day() == 6 ? 'sat' : day.day() == 0 ? 'holi' : ''}" type="button" date-data="${day.format('YYYY-MM-DD')}" month="6" tabindex="-1">
                                                 <span class="ir"></span>
                                                 <em style="pointer-events:none;">${day.date()} <span style="pointer-events:none;" class="ir">일</span>
                                                 </em>
@@ -48,11 +48,79 @@
                                                 <span class="day-en" style="pointer-events:none;display:none">Wed</span>
                                             </button>`
                 $("#formDeList").children().append(html)
+            })
+            $(".btn-pre").click(function(event){
+                const lday= $("#formDeList").children().children().filter(':last-child')
+                lday.remove()
+                startDay=startDay.add(-1,'day')
+                const day=startDay
+                let html=`<button class="${day.day() == 6 ? 'sat' : day.day() == 0 ? 'holi' : ''}" type="button" date-data="${day.format('YYYY-MM-DD')}" month="6" tabindex="-1">
+                                                <span class="ir"></span>
+                                                <em style="pointer-events:none;">${day.date()} <span style="pointer-events:none;" class="ir">일</span>
+                                                </em>
+                                                <span class="day-kr" style="pointer-events:none;display:inline-block">${day.format('dd')}</span>
+                                                <span class="day-en" style="pointer-events:none;display:none">Wed</span>
+                                            </button>`
+                $("#formDeList").children().prepend(html)
+            })
+            $('#formDeList div').on('click','button',function(e){
+                selectedDay = $(this).attr('date-data')
+
+                fetch('api/movie/movies').then(res => res.json()).then(json=>{
+                    const mli = $("#mCSB_1_container ul li")
+                    $.each(json, function(index, movie){
+                        let html=
+                            `<button type="button" class="btn" movie-nm="${movie.title}" movie-no="${movie.no}" img-path="${movie.posterUrl.split(" ")[0]}" movie-popup-at="N" movie-popup-no="0" form-at="Y">
+                            <span class="movie-grade small age-${movie.contentRating}" >"${movie.contentRating}"</span>
+                            <i class="iconset ico-heart-small">보고싶어 설정안함</i>
+                            <span class="txt">${movie.title}</span>
+                        </button>`
+                        mli.append(html);
+                    })
+                })
+
+                fetch('')
+            })
+            $('#mCSB_1_container ul li').on('click','button',function(e) {
+                const moviesBox = $(".view-area")
+                mNo=$(this).attr('movie-no')
+                let len = selectedMovies.size
+                if (selectedMovies.has(mNo)) {
+                    let img = $("#choiceMovieList div div div img[movie-no="+mNo+"]")
+                    selectedMovies.delete(mNo)
+                    img.parent().parent().parent().remove()
+                    $("#choiceMovieList").append("<div class='bg'></div>")
+                    $(this).removeClass('on')
+                    if(selectedMovies.size==0){
+                        $("#choiceMovieList").css('display', 'none')
+                        $("#choiceMovieNone").css('display', 'block')
+                    }
+                }else if(len<3) {
+
+                        $(this).addClass('on')
+                    let box = $("#choiceMovieList").children().eq(len)
+
+                    selectedMovies.add($(this).attr('movie-no'))
+
+                    $("#choiceMovieNone").css('display', 'none')
+                    let html = `<div class="wrap">
+                    <div class="img">
+                    <img src="${$(this).attr('img-path')}"
+                    alt="달짝지근해: 7510" movie-no="${$(this).attr('movie-no')}" ></div>
+                    <button type="button" class="del">삭제</button></div>`
+                    box.append(html)
+                    $("#choiceMovieList").css('display', 'block')
+                }else
+
+                {
+                    alert('영화 3개까지선택가능')
+                }
 
             })
 
-
         })
+
+
     </script>
     <div class="container" style="padding-bottom:240px;">
         <input type="hidden" name="playDe" value="">
@@ -100,7 +168,7 @@
                         <div class="time-schedule quick">
                             <div class="wrap">
                                 <!-- 이전날짜 -->
-                                <button type="button" title="이전 날짜 보기" class="btn-pre" disabled="true">
+                                <button type="button" title="이전 날짜 보기" class="btn-pre">
                                     <i class="iconset ico-cld-pre"></i>
                                     <em>이전</em>
                                 </button>
@@ -113,118 +181,6 @@
                                     </div>
                                     <div class="date-area" id="formDeList">
                                         <div class="wrap" style="position: relative; width: 2100px; border: none; left: -70px;">
-<!--                                            <button class="disabled" type="button" date-data="2023.07.26" month="6" tabindex="-1">-->
-<!--                                                <span class="ir"></span>-->
-<!--                                                <em style="pointer-events:none;"> <span style="pointer-events:none;" class="ir">일</span>-->
-<!--                                                </em>-->
-<!--                                                <span class="day-kr" style="pointer-events:none;display:inline-block">수</span>-->
-<!--                                                <span class="day-en" style="pointer-events:none;display:none">Wed</span>-->
-<!--                                            </button>-->
-<!--                                            <button class="on" type="button" date-data="2023.07.27" month="6">-->
-<!--                                                <span class="ir">2023년 7월</span>-->
-<!--                                                <em style="pointer-events:none;">27 <span style="pointer-events:none;" class="ir">일</span>-->
-<!--                                                </em>-->
-<!--                                                <span class="day-kr" style="pointer-events:none;display:inline-block">오늘</span>-->
-<!--                                                <span class="day-en" style="pointer-events:none;display:none">Thu</span>-->
-<!--                                            </button>-->
-<!--                                            <button class="" type="button" date-data="2023.07.28" month="6">-->
-<!--                                                <span class="ir">2023년 7월</span>-->
-<!--                                                <em style="pointer-events:none;">28 <span style="pointer-events:none;" class="ir">일</span>-->
-<!--                                                </em>-->
-<!--                                                <span class="day-kr" style="pointer-events:none;display:inline-block">내일</span>-->
-<!--                                                <span class="day-en" style="pointer-events:none;display:none">Fri</span>-->
-<!--                                            </button>-->
-<!--                                            <button class="sat" type="button" date-data="2023.07.29" month="6">-->
-<!--                                                <span class="ir">2023년 7월</span>-->
-<!--                                                <em style="pointer-events:none;">29 <span style="pointer-events:none;" class="ir">일</span>-->
-<!--                                                </em>-->
-<!--                                                <span class="day-kr" style="pointer-events:none;display:inline-block">토</span>-->
-<!--                                                <span class="day-en" style="pointer-events:none;display:none">Sat</span>-->
-<!--                                            </button>-->
-<!--                                            <button class="holi" type="button" date-data="2023.07.30" month="6">-->
-<!--                                                <span class="ir">2023년 7월</span>-->
-<!--                                                <em style="pointer-events:none;">30 <span style="pointer-events:none;" class="ir">일</span>-->
-<!--                                                </em>-->
-<!--                                                <span class="day-kr" style="pointer-events:none;display:inline-block">일</span>-->
-<!--                                                <span class="day-en" style="pointer-events:none;display:none">Sun</span>-->
-<!--                                            </button>-->
-<!--                                            <button class="" type="button" date-data="2023.07.31" month="6">-->
-<!--                                                <span class="ir">2023년 7월</span>-->
-<!--                                                <em style="pointer-events:none;">31 <span style="pointer-events:none;" class="ir">일</span>-->
-<!--                                                </em>-->
-<!--                                                <span class="day-kr" style="pointer-events:none;display:inline-block">월</span>-->
-<!--                                                <span class="day-en" style="pointer-events:none;display:none">Mon</span>-->
-<!--                                            </button>-->
-<!--                                            <button class="" type="button" date-data="2023.08.01" month="7">-->
-<!--                                                <span class="ir">2023년 8월</span>-->
-<!--                                                <em style="pointer-events:none;">1 <span style="pointer-events:none;" class="ir">일</span>-->
-<!--                                                </em>-->
-<!--                                                <span class="day-kr" style="pointer-events:none;display:inline-block">화</span>-->
-<!--                                                <span class="day-en" style="pointer-events:none;display:none">Tue</span>-->
-<!--                                            </button>-->
-<!--                                            <button class="" type="button" date-data="2023.08.02" month="7">-->
-<!--                                                <span class="ir">2023년 8월</span>-->
-<!--                                                <em style="pointer-events:none;">2 <span style="pointer-events:none;" class="ir">일</span>-->
-<!--                                                </em>-->
-<!--                                                <span class="day-kr" style="pointer-events:none;display:inline-block">수</span>-->
-<!--                                                <span class="day-en" style="pointer-events:none;display:none">Wed</span>-->
-<!--                                            </button>-->
-<!--                                            <button class="" type="button" date-data="2023.08.03" month="7">-->
-<!--                                                <span class="ir">2023년 8월</span>-->
-<!--                                                <em style="pointer-events:none;">3 <span style="pointer-events:none;" class="ir">일</span>-->
-<!--                                                </em>-->
-<!--                                                <span class="day-kr" style="pointer-events:none;display:inline-block">목</span>-->
-<!--                                                <span class="day-en" style="pointer-events:none;display:none">Thu</span>-->
-<!--                                            </button>-->
-<!--                                            <button class="" type="button" date-data="2023.08.04" month="7">-->
-<!--                                                <span class="ir">2023년 8월</span>-->
-<!--                                                <em style="pointer-events:none;">4 <span style="pointer-events:none;" class="ir">일</span>-->
-<!--                                                </em>-->
-<!--                                                <span class="day-kr" style="pointer-events:none;display:inline-block">금</span>-->
-<!--                                                <span class="day-en" style="pointer-events:none;display:none">Fri</span>-->
-<!--                                            </button>-->
-<!--                                            <button class="sat" type="button" date-data="2023.08.05" month="7">-->
-<!--                                                <span class="ir">2023년 8월</span>-->
-<!--                                                <em style="pointer-events:none;">5 <span style="pointer-events:none;" class="ir">일</span>-->
-<!--                                                </em>-->
-<!--                                                <span class="day-kr" style="pointer-events:none;display:inline-block">토</span>-->
-<!--                                                <span class="day-en" style="pointer-events:none;display:none">Sat</span>-->
-<!--                                            </button>-->
-<!--                                            <button class="holi" type="button" date-data="2023.08.06" month="7">-->
-<!--                                                <span class="ir">2023년 8월</span>-->
-<!--                                                <em style="pointer-events:none;">6 <span style="pointer-events:none;" class="ir">일</span>-->
-<!--                                                </em>-->
-<!--                                                <span class="day-kr" style="pointer-events:none;display:inline-block">일</span>-->
-<!--                                                <span class="day-en" style="pointer-events:none;display:none">Sun</span>-->
-<!--                                            </button>-->
-<!--                                            <button class="" type="button" date-data="2023.08.07" month="7">-->
-<!--                                                <span class="ir">2023년 8월</span>-->
-<!--                                                <em style="pointer-events:none;">7 <span style="pointer-events:none;" class="ir">일</span>-->
-<!--                                                </em>-->
-<!--                                                <span class="day-kr" style="pointer-events:none;display:inline-block">월</span>-->
-<!--                                                <span class="day-en" style="pointer-events:none;display:none">Mon</span>-->
-<!--                                            </button>-->
-<!--                                            <button class="" type="button" date-data="2023.08.08" month="7">-->
-<!--                                                <span class="ir">2023년 8월</span>-->
-<!--                                                <em style="pointer-events:none;">8 <span style="pointer-events:none;" class="ir">일</span>-->
-<!--                                                </em>-->
-<!--                                                <span class="day-kr" style="pointer-events:none;display:inline-block">화</span>-->
-<!--                                                <span class="day-en" style="pointer-events:none;display:none">Tue</span>-->
-<!--                                            </button>-->
-<!--                                            <button class="" type="button" date-data="2023.08.09" month="7">-->
-<!--                                                <span class="ir">2023년 8월</span>-->
-<!--                                                <em style="pointer-events:none;">9 <span style="pointer-events:none;" class="ir">일</span>-->
-<!--                                                </em>-->
-<!--                                                <span class="day-kr" style="pointer-events:none;display:inline-block">수</span>-->
-<!--                                                <span class="day-en" style="pointer-events:none;display:none">Wed</span>-->
-<!--                                            </button>-->
-<!--                                            <button class="" type="button" date-data="2023.08.10" month="7" tabindex="-1">-->
-<!--                                                <span class="ir">2023년 8월</span>-->
-<!--                                                <em style="pointer-events:none;">10 <span style="pointer-events:none;" class="ir">일</span>-->
-<!--                                                </em>-->
-<!--                                                <span class="day-kr" style="pointer-events:none;display:inline-block">목</span>-->
-<!--                                                <span class="day-en" style="pointer-events:none;display:none">Thu</span>-->
-<!--                                            </button>-->
                                         </div>
                                     </div>
                                 </div>
@@ -259,423 +215,12 @@
                                                     <div id="mCSB_1_container" class="mCSB_container" style="position:relative; top:0; left:0;" dir="ltr">
                                                         <ul>
                                                             <li>
-                                                                <button type="button" class="btn" movie-nm="밀수" movie-no="23029300" img-path="/SharedImg/2023/07/17/2VGGGrBFIl8dOoqYw2jBF8JLSZKN3gu5_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="Y">
-                                                                    <span class="movie-grade small age-15">15세이상관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">밀수</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="비공식작전" movie-no="23048800" img-path="/SharedImg/2023/07/10/TgMefklyCwboQz4WM5uPCZ10gcPSBtsp_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="N">
-                                                                    <span class="movie-grade small age-12">12세이상관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">비공식작전</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="엘리멘탈" movie-no="23034900" img-path="/SharedImg/2023/05/26/UsO9OFOUA1z4jGKYVNK6mCX9AVT1zDEe_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="Y">
-                                                                    <span class="movie-grade small age-all">전체관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">엘리멘탈</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="미션 임파서블: 데드 레코닝 PART ONE" movie-no="23048900" img-path="/SharedImg/2023/07/13/1B2ukgEbeV6CB2fgZNY4M3kzfBKmw44P_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="Y">
-                                                                    <span class="movie-grade small age-15">15세이상관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">미션 임파서블: 데드 레코닝 PART ONE</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="더 문" movie-no="23035200" img-path="/SharedImg/2023/06/26/RHsULYVyvAWzoKMqDSQeb5r0e034XUE5_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="N">
-                                                                    <span class="movie-grade small age-12">12세이상관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">더 문</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="바비" movie-no="23049400" img-path="/SharedImg/2023/07/11/8DPwQz1flzGutc4yWfT7Xiv7OH2T1NAR_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="Y">
-                                                                    <span class="movie-grade small age-12">12세이상관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">바비</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="명탐정코난: 흑철의 어영" movie-no="23047900" img-path="/SharedImg/2023/07/25/Etg49ojyRrK0MbP3iotFkZffEVF5taHe_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="Y">
-                                                                    <span class="movie-grade small age-12">12세이상관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">명탐정코난: 흑철의 어영</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="더 퍼스트 슬램덩크" movie-no="22103500" img-path="/SharedImg/2023/04/02/XzaJQVMME9uYLyqeXsmasMOIHOV5ccOB_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="Y">
-                                                                    <span class="movie-grade small age-12">12세이상관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">더 퍼스트 슬램덩크</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="인시디어스: 빨간 문" movie-no="23050900" img-path="/SharedImg/2023/07/11/As767Tdd8D8o7JDBduRepKItWVBAxh1h_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="Y">
-                                                                    <span class="movie-grade small age-15">15세이상관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">인시디어스: 빨간 문</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="극장판 슈퍼윙스: 맥시멈 스피드" movie-no="23049200" img-path="/SharedImg/2023/07/03/GPwVeggUMJYK2wl9vo6mhUQVZJquhXC3_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="Y">
-                                                                    <span class="movie-grade small age-all">전체관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">극장판 슈퍼윙스: 맥시멈 스피드</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="비닐하우스" movie-no="23046500" img-path="/SharedImg/2023/07/05/BljCl2jSqfnwh3XhOOToC1lR1IwSMJMq_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="Y">
-                                                                    <span class="movie-grade small age-15">15세이상관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">비닐하우스</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="콘크리트 유토피아" movie-no="23047600" img-path="/SharedImg/2023/07/24/fTDlFw52l4qR9BgyWonyQ6eO8wKGSoJr_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="N">
-                                                                    <span class="movie-grade small age-15">15세이상관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">콘크리트 유토피아</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="스파이더맨: 어크로스 더 유니버스" movie-no="23028800" img-path="/SharedImg/2023/06/11/51LUhknQCeQgeUqXUXMPgdBrBT3bSPVl_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="Y">
-                                                                    <span class="movie-grade small age-all">전체관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">스파이더맨: 어크로스 더 유니버스</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="[2023 잘츠부르크 페스티벌] 틸레만 &amp; 빈 필하모닉" movie-no="23050500" img-path="/SharedImg/2023/07/13/O1XSm4tE0CAsVHmiC4iMh7hR8lM2ONMi_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="N">
-                                                                    <span class="movie-grade small age-all">전체관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">[2023 잘츠부르크 페스티벌] 틸레만 &amp; 빈 필하모닉</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="여름날 우리" movie-no="23035100" img-path="/SharedImg/2023/05/17/1jUklaAYK1YTZaGjb86uIwYZMc7JmG67_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="Y">
-                                                                    <span class="movie-grade small age-12">12세이상관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">여름날 우리</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="좋.댓.구" movie-no="23043900" img-path="/SharedImg/2023/07/12/F5MheQIBsNgXYzYUilBOgaYdj8Iqa1oz_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="N">
-                                                                    <span class="movie-grade small age-15">15세이상관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">좋.댓.구</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="엔니오: 더 마에스트로" movie-no="23041700" img-path="/SharedImg/2023/06/14/Ta2GwMSvrjk8ovXbAfPSqzhf6wvVN8W9_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="Y">
-                                                                    <span class="movie-grade small age-12">12세이상관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">엔니오: 더 마에스트로</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="[내 생애 첫 미술관] 오르세 미술관" movie-no="23048300" img-path="/SharedImg/2023/06/27/UfBwVtcJT7zfKuccg7cAOTP99EpemOKG_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="N">
-                                                                    <span class="movie-grade small age-all">전체관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">[내 생애 첫 미술관] 오르세 미술관</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="헌티드 맨션" movie-no="23053500" img-path="/SharedImg/2023/07/27/BaoDvxeSQEuZIHoOU7CZA3yz6NNV95Ju_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="Y">
-                                                                    <span class="movie-grade small age-12">12세이상관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">헌티드 맨션</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="[2023 오데온스 광장 콘서트] 랑랑 &amp; 에스트라다" movie-no="23050600" img-path="/SharedImg/2023/07/13/XBY0G68OA3FjqYfW788cN2FdAh0bSFMo_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="N">
-                                                                    <span class="movie-grade small age-all">전체관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">[2023 오데온스 광장 콘서트] 랑랑 &amp; 에스트라다</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="[내 생애 첫 미술관] 루브르 박물관" movie-no="23048200" img-path="/SharedImg/2023/06/27/smVA8mnr3yrYVLNaTCbHbBW8Eo1LKwWY_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="N">
-                                                                    <span class="movie-grade small age-all">전체관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">[내 생애 첫 미술관] 루브르 박물관</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="[시네도슨트 in 대전] 메트로폴리탄 미술관" movie-no="23051100" img-path="/SharedImg/2023/07/12/pdZgjN8OtpiymqohJ8BHY4RjedfEygQG_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="N">
-                                                                    <span class="movie-grade small age-12">12세이상관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">[시네도슨트 in 대전] 메트로폴리탄 미술관</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="[2023 잘츠부르크 페스티벌] 맥베스" movie-no="23050700" img-path="/SharedImg/2023/07/11/sxezM2V8If4OxrLzw667bmkQrBNaWxUm_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="N">
-                                                                    <span class="movie-grade small age-12">12세이상관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">[2023 잘츠부르크 페스티벌] 맥베스</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="[로열 오페라] 일 트로바토레" movie-no="23050400" img-path="/SharedImg/2023/07/11/b0sgCmkZOKXCWswySZkx8nWKa3YlraJu_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="N">
-                                                                    <span class="movie-grade small age-all">전체관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">[로열 오페라] 일 트로바토레</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="아버지의 마음" movie-no="23042200" img-path="/SharedImg/2023/07/05/fFekHOEQ4YlJ3uvyCi55EXlgE8dUHyOf_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="N">
-                                                                    <span class="movie-grade small age-all">전체관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">아버지의 마음</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="보 이즈 어프레이드" movie-no="23040000" img-path="/SharedImg/2023/05/24/Zo6krGpPHbUAGjaO8T1H9PcJVsqgGzjw_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="Y">
-                                                                    <span class="movie-grade small age-19">청소년관람불가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">보 이즈 어프레이드</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="몬스터 패밀리2" movie-no="23046400" img-path="/SharedImg/2023/07/03/B2eWGwBVuhuFXuD6686T49hAgQcNZkGU_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="N">
-                                                                    <span class="movie-grade small age-all">전체관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">몬스터 패밀리2</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="[내 생애 첫 미술관] 내셔널 갤러리" movie-no="23048400" img-path="/SharedImg/2023/06/27/lY9YMBaT3SfaqLm7wlK9hGf1OJ7kfSWf_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="N">
-                                                                    <span class="movie-grade small age-all">전체관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">[내 생애 첫 미술관] 내셔널 갤러리</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="범죄도시3" movie-no="23035600" img-path="/SharedImg/2023/05/07/XbkZesk2KFfQbbagfMtyp8rVUWi8568M_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="Y">
-                                                                    <span class="movie-grade small age-15">15세이상관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">범죄도시3</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="비밀의 언덕" movie-no="23043300" img-path="/SharedImg/2023/06/30/PYpT3kgezNYiJufJaVPCCgR8ty058F0U_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="Y">
-                                                                    <span class="movie-grade small age-all">전체관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">비밀의 언덕</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="에고이스트" movie-no="23046300" img-path="/SharedImg/2023/07/20/k9CR0Aic7ue2mZ2bWTZqZ3ffWq6WU4gX_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="Y">
-                                                                    <span class="movie-grade small age-19">청소년관람불가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">에고이스트</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="슈퍼 키드 헤일리" movie-no="23047800" img-path="/SharedImg/2023/06/26/6ZMN7L1krmr7gPpmZ0GSeHo6pwEK3WOZ_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="N">
-                                                                    <span class="movie-grade small age-all">전체관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">슈퍼 키드 헤일리</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="스즈메의 문단속" movie-no="23000600" img-path="/SharedImg/2023/04/02/jpVJy55iJTCzSxRk3NhLedZQnBo3xtVl_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="Y">
-                                                                    <span class="movie-grade small age-12">12세이상관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">스즈메의 문단속</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="더 썬" movie-no="23044000" img-path="/SharedImg/2023/07/19/zIdCDyR15XbdYjcXiziLjNpdMFM8mk8C_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="N">
-                                                                    <span class="movie-grade small age-15">15세이상관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">더 썬</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="귀공자" movie-no="23030000" img-path="/SharedImg/2023/06/22/NXIMqPPjdM5RE5HXL2dmmoZsaKuKTClH_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="Y">
-                                                                    <span class="movie-grade small age-19">청소년관람불가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">귀공자</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="인디아나 존스: 운명의 다이얼" movie-no="23015400" img-path="/SharedImg/2023/06/29/JbYAsIT7rLk4gnCrjvJKQ651EYLbonT0_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="N">
-                                                                    <span class="movie-grade small age-12">12세이상관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">인디아나 존스: 운명의 다이얼</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="노래하는 여자, 노래하지 않는 여자" movie-no="23049700" img-path="/SharedImg/2023/07/07/sJjq8WLZuKZehJQ1hrLUroeaPbMQe8Mk_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="N">
-                                                                    <span class="movie-grade small age-15">15세이상관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">노래하는 여자, 노래하지 않는 여자</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="애스터로이드 시티" movie-no="23038600" img-path="/SharedImg/2023/05/25/o9MOmWUvLD2YhB3kvIUowqRPjl2kb4xE_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="N">
-                                                                    <span class="movie-grade small age-12">12세이상관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">애스터로이드 시티</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="슬기로운 아내 수업" movie-no="23034600" img-path="/SharedImg/2023/06/17/U1Nk6H6QRB2KZ93mWwHaZI9xLmrVkAaN_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="Y">
-                                                                    <span class="movie-grade small age-12">12세이상관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">슬기로운 아내 수업</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="아녜스의 해변" movie-no="23050000" img-path="/SharedImg/2023/07/07/UNI4mclkH65xZb2udf2hYeiDU2fcNJnq_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="Y">
-                                                                    <span class="movie-grade small age-15">15세이상관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">아녜스의 해변</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="보통의 카스미" movie-no="23043000" img-path="/SharedImg/2023/06/14/rP0h50nH8AvyCRrktGNKP3ZKfF9Od3FV_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="Y">
-                                                                    <span class="movie-grade small age-12">12세이상관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">보통의 카스미</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="[시네마캐슬] 호쿠사이" movie-no="23047700" img-path="/SharedImg/2023/06/26/7lJgkNEneRfgYlBPiZP35Jnk4EL2bgZi_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="Y">
-                                                                    <span class="movie-grade small age-12">12세이상관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">[시네마캐슬] 호쿠사이</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="행복" movie-no="23049600" img-path="/SharedImg/2023/07/07/ELyxXJ9PCbmuoHuZvNRKeH0r5hKaLVlz_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="N">
-                                                                    <span class="movie-grade small age-15">15세이상관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">행복</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="붉은 사막" movie-no="23053600" img-path="/SharedImg/2023/07/18/ZfFVGHvuHszIyI9Z232A2TcMtzLQFhoq_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="Y">
-                                                                    <span class="movie-grade small age-15">15세이상관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">붉은 사막</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="낭트의 자코" movie-no="23049500" img-path="/SharedImg/2023/07/07/FDckdjTxgPdwNJSjuOiTLsK7b1gA87di_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="N">
-                                                                    <span class="movie-grade small age-15">15세이상관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">낭트의 자코</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="이삭줍는 사람들과 나" movie-no="23049900" img-path="/SharedImg/2023/07/07/WkXRGlwPHzRekCGLW1tin6gNew3Xgafp_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="N">
-                                                                    <span class="movie-grade small age-12">12세이상관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">이삭줍는 사람들과 나</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="5시부터 7시까지의 클레오" movie-no="20051400" img-path="/SharedImg/2020/09/23/ae7KXtrhXk3a0Tt20WsIIKPSJ86vfjyS_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="N">
-                                                                    <span class="movie-grade small age-15">15세이상관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">5시부터 7시까지의 클레오</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="러브 라이프" movie-no="23044400" img-path="/SharedImg/2023/06/20/mhliAiLZb2RgPMTnBRn5d9kKHOkNualY_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="Y">
-                                                                    <span class="movie-grade small age-12">12세이상관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">러브 라이프</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="메타모르포제의 툇마루" movie-no="22040300" img-path="" movie-popup-at="N" movie-popup-no="0" form-at="N">
-                                                                    <span class="movie-grade small age-15">15세이상관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">메타모르포제의 툇마루</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="하나님의 마음" movie-no="23039800" img-path="/SharedImg/2023/06/14/d9yvlI6pHJAodCvpFzlRpl8mD4GasCYm_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="N">
-                                                                    <span class="movie-grade small age-12">12세이상관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">하나님의 마음</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="[내 생애 첫 미술관] 뉴욕 현대미술관" movie-no="23048500" img-path="/SharedImg/2023/06/27/8Bar6t5Y1rPa6qoY081byx8pCEOdTvTE_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="N">
-                                                                    <span class="movie-grade small age-all">전체관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">[내 생애 첫 미술관] 뉴욕 현대미술관</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="수라" movie-no="23035400" img-path="/SharedImg/2023/06/17/gIxJfmAQvKo01X359CLCue95iQNY8zZE_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="N">
-                                                                    <span class="movie-grade small age-all">전체관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">수라</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="바깥 나라의 소녀" movie-no="23035000" img-path="/SharedImg/2023/05/10/CmBwQAWqhauVGrETYtOPop447Ox612Wu_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="N">
-                                                                    <span class="movie-grade small age-12">12세이상관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">바깥 나라의 소녀</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="[시네마캐슬] 요괴대전쟁" movie-no="23049300" img-path="/SharedImg/2023/07/04/xoNKcGSMkNn06facxydWFdHNd8Vhpy1x_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="N">
-                                                                    <span class="movie-grade small age-12">12세이상관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">[시네마캐슬] 요괴대전쟁</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="위대한 작은 농장" movie-no="23041800" img-path="/SharedImg/2023/06/05/dwAXD1eGaIhvBAoMZANiITtlrTanqiB3_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="N">
-                                                                    <span class="movie-grade small age-all">전체관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">위대한 작은 농장</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="자우림, 더 원더랜드" movie-no="23040100" img-path="/SharedImg/2023/05/31/lHRdZq9bTV2CCaBVNhVvrjpt2obHNTbo_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="N">
-                                                                    <span class="movie-grade small age-all">전체관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">자우림, 더 원더랜드</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="[아웃도어미션게임 극장판] 그놈을 잡아라!" movie-no="23042700" img-path="/SharedImg/2023/06/07/QmhvnGYpcpQejNvbPfsy7GHhdXcGuCwB_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="N">
-                                                                    <span class="movie-grade small age-15">15세이상관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">[아웃도어미션게임 극장판] 그놈을 잡아라!</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="그녀가 좋아하는 것은" movie-no="23052800" img-path="/SharedImg/2023/07/14/4Lu5VXXdySddidjCBYPbHjSIkT4kVmYR_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="N">
-                                                                    <span class="movie-grade small age-15">15세이상관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">그녀가 좋아하는 것은</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="btn" movie-nm="극장판 포켓몬스터DP : 아르세우스 초극의 시공으로" movie-no="23030200" img-path="/SharedImg/2023/06/13/Lwo3AcLsOZfZewQ4TBeb3MEFJMnPaWtt_150.jpg" movie-popup-at="N" movie-popup-no="0" form-at="N">
-                                                                    <span class="movie-grade small age-all">전체관람가</span>
-                                                                    <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                                                                    <span class="txt">극장판 포켓몬스터DP : 아르세우스 초극의 시공으로</span>
-                                                                </button>
                                                             </li>
                                                         </ul>
                                                     </div>
-                                                    <div id="mCSB_1_scrollbar_vertical" class="mCSB_scrollTools mCSB_1_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: block;">
+                                                    <div id="mCSB_1_scrollbar_verticalaaadfdfdf" class="mCSB_scrollTools mCSB_1_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: block;">
                                                         <div class="mCSB_draggerContainer">
-                                                            <div id="mCSB_1_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; display: block; max-height: 310px; top: 0px; height: 58px;">
+                                                            <div id="mCSB_1_dragger_vertical12" class="mCSB_dragger" style="position: absolute; min-height: 30px; display: block; max-height: 310px; top: 0px; height: 58px;">
                                                                 <div class="mCSB_dragger_bar" style="line-height: 30px;"></div>
                                                             </div>
                                                             <div class="mCSB_draggerRail"></div>
@@ -875,9 +420,95 @@
                                         <div class="list">
                                             <div class="scroll" id="brchList">
                                                 <ul>
+                                                    <li sec:authorize="isAuthenticated()">
+                                                        <button type="button" class="btn has-issue" id="10">
+                                                            <span class="txt" th:text="선호극장"></span>
+                                                        </button>
+                                                        <div class="depth">
+                                                            <div class="detail-list m-scroll area-cd10 mCustomScrollbar _mCS_4 mCS_no_scrollbar">
+                                                                <div id="mCSB_31" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" style="max-height: none;" tabindex="0">
+                                                                    <div id="mCSB_31_container" class="mCSB_container mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
+                                                                        <ul>
+                                                                            <li>
+                                                                                <button type="button" brch-no="1372" brch-nm="강남" brch-eng-nm="Gangnam" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">강남</button>
+                                                                            </li>
+                                                                            <li>
+                                                                                <button type="button" brch-no="0023" brch-nm="강남대로(씨티)" brch-eng-nm="Gangnam-daero (City)" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">강남대로(씨티)</button>
+                                                                            </li>
+                                                                            <li>
+                                                                                <button type="button" brch-no="1341" brch-nm="강동" brch-eng-nm="Gangdong" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">강동</button>
+                                                                            </li>
+                                                                            <li>
+                                                                                <button type="button" brch-no="1431" brch-nm="군자" brch-eng-nm="Gunja" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="1669">군자</button>
+                                                                            </li>
+                                                                            <li>
+                                                                                <button type="button" brch-no="0041" brch-nm="더 부티크 목동현대백화점" brch-eng-nm="The Boutique Mokdong-Hyundai Department store" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="2221">더 부티크 목동현대백화점</button>
+                                                                            </li>
+                                                                            <li>
+                                                                                <button type="button" brch-no="1003" brch-nm="동대문" brch-eng-nm="Dongdaemoon" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="962">동대문</button>
+                                                                            </li>
+                                                                            <li>
+                                                                                <button type="button" brch-no="1572" brch-nm="마곡" brch-eng-nm="Magok" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="936">마곡</button>
+                                                                            </li>
+                                                                            <li>
+                                                                                <button type="button" brch-no="1581" brch-nm="목동" brch-eng-nm="Mokdong" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="968">
+                                                                                    <span class="jq-tooltip" title="리뉴얼오픈">목동</span>
+                                                                                    <i class="iconset ico-theater-new" title="리뉴얼오픈">리뉴얼오픈</i>
+                                                                                </button>
+                                                                            </li>
+                                                                            <li>
+                                                                                <button type="button" brch-no="1311" brch-nm="상봉" brch-eng-nm="Sangbong" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="980">상봉</button>
+                                                                            </li>
+                                                                            <li>
+                                                                                <button type="button" brch-no="1211" brch-nm="상암월드컵경기장" brch-eng-nm="Sangam World Cup Stadium" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="1001">상암월드컵경기장</button>
+                                                                            </li>
+                                                                            <li>
+                                                                                <button type="button" brch-no="1331" brch-nm="성수" brch-eng-nm="SEOUNGSU" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="1006">성수</button>
+                                                                            </li>
+                                                                            <li>
+                                                                                <button type="button" brch-no="1371" brch-nm="센트럴" brch-eng-nm="Central" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="1002">센트럴</button>
+                                                                            </li>
+                                                                            <li>
+                                                                                <button type="button" brch-no="1381" brch-nm="송파파크하비오" brch-eng-nm="Songpa Park Habio" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">송파파크하비오</button>
+                                                                            </li>
+                                                                            <li>
+                                                                                <button type="button" brch-no="1202" brch-nm="신촌" brch-eng-nm="Sinchon" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">신촌</button>
+                                                                            </li>
+                                                                            <li>
+                                                                                <button type="button" brch-no="1561" brch-nm="이수" brch-eng-nm="Isu" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">이수</button>
+                                                                            </li>
+                                                                            <li>
+                                                                                <button type="button" brch-no="1321" brch-nm="창동" brch-eng-nm="Changdong" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">창동</button>
+                                                                            </li>
+                                                                            <li>
+                                                                                <button type="button" brch-no="1351" brch-nm="코엑스" brch-eng-nm="COEX" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="954">코엑스</button>
+                                                                            </li>
+                                                                            <li>
+                                                                                <button type="button" brch-no="1212" brch-nm="홍대" brch-eng-nm="Hongdae" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">홍대</button>
+                                                                            </li>
+                                                                            <li>
+                                                                                <button type="button" brch-no="1571" brch-nm="화곡" brch-eng-nm="Hwagok" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="999">화곡</button>
+                                                                            </li>
+                                                                            <li>
+                                                                                <button type="button" brch-no="1562" brch-nm="ARTNINE" brch-eng-nm="ARTNINE" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">ARTNINE</button>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                    <div id="mCSB_31_scrollbar_vertical" class="mCSB_scrollTools mCSB_4_scrollbar mCS-light mCSB_scrollTools_vertical">
+                                                                        <div class="mCSB_draggerContainer">
+                                                                            <div id="mCSB_31_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; display: none; top: 0px;">
+                                                                                <div class="mCSB_dragger_bar" style="line-height: 30px;"></div>
+                                                                            </div>
+                                                                            <div class="mCSB_draggerRail"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </li>
                                                     <li>
                                                         <button type="button" class="btn has-issue" id="10">
-                                                            <span calss="txt">서울(20)</span>
+                                                            <span class="txt">서울(20)</span>
                                                         </button>
                                                         <div class="depth">
                                                             <div class="detail-list m-scroll area-cd10 mCustomScrollbar _mCS_4 mCS_no_scrollbar">
@@ -961,9 +592,9 @@
                                                             </div>
                                                         </div>
                                                     </li>
-                                                    <li>
+                                                    <li >
                                                         <button type="button" class="btn has-issue" id="30">
-                                                            <span calss="txt">경기(31)</span>
+                                                            <span class="txt">경기(31)</span>
                                                         </button>
                                                         <div class="depth">
                                                             <div class="detail-list m-scroll area-cd30 mCustomScrollbar _mCS_5 mCS_no_scrollbar">
@@ -1942,11 +1573,11 @@
                                     <div class="alert" style="display: none;"></div>
                                     <div class="seat-count-before off" style="top: 0px">관람인원을 선택하십시요</div>
                                     <div class="scroll m-scroll mCustomScrollbar _mCS_1 mCS_no_scrollbar">
-                                        <div id="mCSB_1" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" style="max-height: none;" tabindex="0">
-                                            <div id="mCSB_1_container" class="mCSB_container mCS_no_scrollbar_y" style="position: relative; top: 0px; left: 0px; height: 210px;" dir="ltr">
+                                        <div id="mCSB_1222" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" style="max-height: none;" tabindex="0">
+                                            <div id="mCSB_1_container222" class="mCSB_container mCS_no_scrollbar_y" style="position: relative; top: 0px; left: 0px; height: 210px;" dir="ltr">
                                                 <div id="seatLayout" style="width: 100%; height: 210px;">
                                                     <img src="https://www.megabox.co.kr/static/pc/images/reserve/img-theater-screen.png" alt="screen" style="position: absolute; left: 62px; top: 10px;" class="mCS_img_loaded">
-                                                    <div class'row'="">
+                                                    <div ></div>
                                                     <button type="button" class="btn-seat-row" title="A 행" style="position:absolute; left:206px; top:52px;">A</button>
                                                     <button type="button" title="A1 (스탠다드/일반)" class="jq-tooltip seat-condition standard common" style="position:absolute; left:251px; top:50px; width:20px;" seatclasscd="GERN_CLS" seatzonecd="GERN_ZONE" seatuniqno="00100101" rownm="A" seatno="1" seatchoidircval="1" seatchoigrpno="2" seatchoigrpnm="A2" seatchoirowcnt="6" seatchoigrpseq="1" seattocnt="1">
                                                         <span class="num">1</span>
@@ -2573,7 +2204,6 @@
                                     </ul>
                                 </div>
                                 <p class="poster">
-                                    <img src="/SharedImg/2023/07/25/Etg49ojyRrK0MbP3iotFkZffEVF5taHe_150.jpg" onerror="noImg(this);" alt="&amp;#40;더빙&amp;#41; 명탐정코난: 흑철의 어영">
                                 </p>
                             </div>
                             <div class="choice-seat-area">
