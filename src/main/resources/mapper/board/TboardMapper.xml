@@ -40,6 +40,7 @@
     			board_comment_cnt		as commentCount,
     			user_id					as "user.id",
     			board_content           as content,
+    			report_count 			as reportCount,
 	            row_number() over(
 	                <choose>
 	                    <when test="sort == 'new'">

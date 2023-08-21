@@ -9,6 +9,7 @@ import kr.co.mgv.board.vo.BoardCategory;
 import kr.co.mgv.board.vo.BoardProduct;
 import kr.co.mgv.board.vo.SBoardComment;
 import kr.co.mgv.board.vo.SBoardLike;
+import kr.co.mgv.board.vo.SboardReport;
 import kr.co.mgv.board.vo.StoreBoard;
 
 
@@ -43,4 +44,8 @@ public interface StoreBoardDao {
 	
 	// 게시글 등록 관련
 	void insertSboard(StoreBoard board);
+	
+	// 게시물 신고 관련
+	void insertSboardReport (SboardReport report);
+	List<SboardReport> getSboardReportById (String id);
 }

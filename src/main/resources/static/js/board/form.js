@@ -103,22 +103,30 @@ $(function() {
 	            icon: 'error',
 	            text: '게시글의 내용을 입력해주세요.',
 	        });
-	    } else {
-		   Swal.fire({
-           icon: 'warning',
-           title: '게시글을 등록 하시겠습니까?',
-           showCancelButton: true,
-           confirmButtonText: '네',
-           cancelButtonText: '아니오',
-	       }).then((result) => {
-	           if (result.isConfirmed) {
-					 $(".board-insert-form").submit();
-	           } else if (result.dismiss === Swal.DismissReason.cancel) {
-	               
-	           }
-	       });
-	    }
-	});
+	       } else {
+        // 여기서 content의 크기를 확인하고 경고 메시지를 표시
+        if (content.length > 1048576) { // 1048576 바이트 = 1MB 
+            Swal.fire({
+                icon: 'error',
+                text: '내용이 너무 큽니다. 최대 허용 크기: 1MB',
+            });
+        } else {
+            Swal.fire({
+                icon: 'warning',
+                title: '게시글을 등록 하시겠습니까?',
+                showCancelButton: true,
+                confirmButtonText: '네',
+                cancelButtonText: '아니오',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $(".board-insert-form").submit();
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+
+                }
+            });
+        }
+    }
+});
 	
 	$("#tboard-btn-submit").on("click", function () {
 	    let theaterNo = document.querySelector("select[name=theaterNo]").value;
@@ -141,19 +149,28 @@ $(function() {
 	            text: '게시글의 내용을 입력해주세요.',
 	        });
 	    } else {
-		   Swal.fire({
-           icon: 'warning',
-           title: '게시글을 등록 하시겠습니까?',
-           showCancelButton: true,
-           confirmButtonText: '네',
-           cancelButtonText: '아니오',
-	       }).then((result) => {
-	           if (result.isConfirmed) {
-					 $(".board-insert-form").submit();
-	           } else if (result.dismiss === Swal.DismissReason.cancel) {
-	               
-	           }
-	       });
+		   // 여기서 content의 크기를 확인하고 경고 메시지를 표시
+        if (content.length > 1048576) { // 1048576 바이트 = 1MB 
+            Swal.fire({
+                icon: 'error',
+                text: '내용이 너무 큽니다. 최대 허용 크기: 1MB',
+            });
+        } else {
+            Swal.fire({
+                icon: 'warning',
+                title: '게시글을 등록 하시겠습니까?',
+                showCancelButton: true,
+                confirmButtonText: '네',
+                cancelButtonText: '아니오',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $(".board-insert-form").submit();
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+
+                }
+            });
+            
+           }
 	    }
 	});
 
@@ -178,19 +195,27 @@ $(function() {
 	            text: '게시글의 내용을 입력해주세요.',
 	        });
 	    } else {
-		   Swal.fire({
-           icon: 'warning',
-           title: '게시글을 등록 하시겠습니까?',
-           showCancelButton: true,
-           confirmButtonText: '네',
-           cancelButtonText: '아니오',
-	       }).then((result) => {
-	           if (result.isConfirmed) {
-					 $(".board-insert-form").submit();
-	           } else if (result.dismiss === Swal.DismissReason.cancel) {
-	               
-	           }
-	       });
+		   // 여기서 content의 크기를 확인하고 경고 메시지를 표시
+        if (content.length > 1048576) { // 1048576 바이트 = 1MB 
+            Swal.fire({
+                icon: 'error',
+                text: '내용이 너무 큽니다. 최대 허용 크기: 1MB',
+            });
+        } else {
+            Swal.fire({
+                icon: 'warning',
+                title: '게시글을 등록 하시겠습니까?',
+                showCancelButton: true,
+                confirmButtonText: '네',
+                cancelButtonText: '아니오',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $(".board-insert-form").submit();
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+
+                }
+            });
+           }
 	    }
 	});
 	
