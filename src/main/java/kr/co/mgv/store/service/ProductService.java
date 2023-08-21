@@ -27,4 +27,8 @@ public class ProductService {
 
         return productMapper.getProducts(); //productMapper.getProducts();
     }
+
+    public List<Product> getProductByCatNo(int catNo) {
+        return productMapper.getProductByCatNo(catNo);
+    }
 }

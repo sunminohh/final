@@ -38,8 +38,20 @@
                     <span class="txt" th:text="${lost.answered == 'Y' ? '답변완료' : '미답변'}"></span>
                 </p>
             </div>
+            
+            <div class="txt mb-2" th:if="${!#lists.isEmpty(lostFiles)}">
+            	<p style="margin-bottom:5px;"> 
+                    <span class="txt"><strong>첨부파일</strong></span>
+                </p>
+                <a th:each="lostFile : ${lostFiles}" 
+                	th:href="@{/support/lost/download(no=${lostFile.no})}" 
+                	th:text="${lostFile.originalName}"
+                	class="me-3 text-primary"
+                	></a>
+            </div>
 
             <div class="cont">
+            	
 				<p th:text="${lost.content}">
 					
                

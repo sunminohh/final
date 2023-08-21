@@ -18,4 +18,5 @@ public class Package {
     private int price;
     private String image;
     private String composition;
+    private int catNo;
 }

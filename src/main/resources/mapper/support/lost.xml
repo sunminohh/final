@@ -24,6 +24,26 @@
 		VALUES(#{lost.no}, #{originalName}, #{saveName})
 	</insert>
 	
+	<select id="getLostFilesByLostNo" parameterType="int" resultType="kr.co.mgv.support.vo.LostFile">
+		SELECT 
+			FILE_NO			as no, 
+			ORIGINAL_NAME	as originalName,
+			SAVE_NAME 		AS saveName
+		FROM 
+			MGV_LOST_FILE
+		where lost_no = #{value}
+	</select>
+	
+	<select id="getLostFileByFileNo" parameterType="int" resultType="kr.co.mgv.support.vo.LostFile">
+		SELECT 
+			FILE_NO			as no, 
+			ORIGINAL_NAME	as originalName,
+			SAVE_NAME 		AS saveName
+		FROM 
+			MGV_LOST_FILE
+		where FILE_NO = #{value}
+	</select>
+	
 	<select id="getTotalRows" parameterType="map" resultType="int">
 		select count(*)
 		FROM MGV_SUPPORT_LOST A, MGV_LOCATION B , MGV_THEATERS C
