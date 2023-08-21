@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/movie")
 @AllArgsConstructor
@@ -31,9 +33,8 @@ public class MovieRestController {
     }
     }
 
-    @GetMapping("like/{movieNo}/{userId}")
+    @GetMapping("/like/{movieNo}/{userId}")
     public ResponseEntity<MovieLike> isMovieLikedByUser(@PathVariable("movieNo") int movieNo, @PathVariable("userId") String userId) {
-        String res;
         MovieLike movieLike =  new MovieLike(userId,movieNo);
         if(movieService.isMovieLikedByUser(movieLike)){
             return ResponseEntity.status(HttpStatus.OK).body(movieLike);
@@ -41,5 +42,9 @@ public class MovieRestController {
 
     }
 
-
+    @GetMapping("/movies")
+    public ResponseEntity<List<Movie>> getAllMovies(){
+        List<Movie> movies = movieService.getAllMovies();
+        return ResponseEntity.status(HttpStatus.OK).body(movies);
+    }
 }
