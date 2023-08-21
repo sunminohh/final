@@ -57,6 +57,10 @@
 	                    <when test="sort == 'comment'">
 	                        order by board_comment_cnt desc, board_create_date desc
 	                    </when>
+	                    <!-- 기본 정렬 -->
+                        <otherwise>
+                            order by board_create_date desc
+                        </otherwise>
 	                </choose>
     			) as ROWNUMBER
     		from
