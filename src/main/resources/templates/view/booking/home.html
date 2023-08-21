@@ -19,10 +19,12 @@
 <div layout:fragment="content">
     <script>
         $(()=>{
+
             dayjs.locale('ko-kr')
             const today= dayjs().add(-1,'day')
             let startDay=today;
-            let selectedMovies =new Set;
+            let selectedMovies =new Map;
+            const movieChoices=$("#choiceMovieList")
             let selectedDay = today.format('YYYY-MM-DD')
             for (let i =0; i<16; i++){
                 let day=today.add(i,'day')
@@ -78,36 +80,27 @@
                         mli.append(html);
                     })
                 })
-
-                fetch('')
             })
             $('#mCSB_1_container ul li').on('click','button',function(e) {
                 const moviesBox = $(".view-area")
                 mNo=$(this).attr('movie-no')
                 let len = selectedMovies.size
                 if (selectedMovies.has(mNo)) {
-                    let img = $("#choiceMovieList div div div img[movie-no="+mNo+"]")
-                    selectedMovies.delete(mNo)
-                    img.parent().parent().parent().remove()
-                    $("#choiceMovieList").append("<div class='bg'></div>")
-                    $(this).removeClass('on')
-                    if(selectedMovies.size==0){
-                        $("#choiceMovieList").css('display', 'none')
-                        $("#choiceMovieNone").css('display', 'block')
-                    }
-                }else if(len<3) {
 
+                    deleteBox(mNo)
+
+                }else if(len<3) {
                         $(this).addClass('on')
                     let box = $("#choiceMovieList").children().eq(len)
-
-                    selectedMovies.add($(this).attr('movie-no'))
+                    const boxId="box-"+mNo
+                    selectedMovies.set(mNo,boxId)
 
                     $("#choiceMovieNone").css('display', 'none')
-                    let html = `<div class="wrap">
+                    let html = `<div class="wrap" id="${boxId}">
                     <div class="img">
                     <img src="${$(this).attr('img-path')}"
-                    alt="달짝지근해: 7510" movie-no="${$(this).attr('movie-no')}" ></div>
-                    <button type="button" class="del">삭제</button></div>`
+                    movie-no="${$(this).attr('movie-no')}" ></div>
+                    <button type="button" class="del" >삭제</button></div>`
                     box.append(html)
                     $("#choiceMovieList").css('display', 'block')
                 }else
@@ -118,8 +111,19 @@
 
             })
 
-        })
+            function deleteBox(mNo){
+                $("#mCSB_1_container").find('[movie-no='+mNo+']').removeClass('on')
+                const boxDiv = $("#"+selectedMovies.get(mNo)).parent()
+                boxDiv.remove()
+                selectedMovies.delete(mNo)
+                $("#choiceMovieList").append("<div class='bg'></div>")
+                if(selectedMovies.size==0){
+                    $("#choiceMovieList").css('display', 'none')
+                    $("#choiceMovieNone").css('display', 'block')
+                }
+            }
 
+        })
 
     </script>
     <div class="container" style="padding-bottom:240px;">
@@ -421,7 +425,7 @@
                                             <div class="scroll" id="brchList">
                                                 <ul>
                                                     <li sec:authorize="isAuthenticated()">
-                                                        <button type="button" class="btn has-issue" id="10">
+                                                        <button type="button" class="btn has-issue" id="112">
                                                             <span class="txt" th:text="선호극장"></span>
                                                         </button>
                                                         <div class="depth">
