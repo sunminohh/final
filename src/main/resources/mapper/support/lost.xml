@@ -4,16 +4,24 @@
 
 	<insert id="insertLost" parameterType="kr.co.mgv.support.vo.Lost">
 		INSERT INTO MGV_SUPPORT_LOST
-		(lost_title, lost_content, lost_filename,
+		(lost_title, lost_content,
 		user_id, user_name, user_email,
 		location_no, theater_no,
 		lost_guest_name, lost_guest_email, lost_guest_password)
 		values
-		(#{title}, #{content}, #{fileName}, 
+		(#{title}, #{content},
 	    #{user.id}, #{user.name}, #{user.email}, 
 	    #{location.no}, #{theater.no}, 
-	    #{guestName}, #{guestEmail}, #{guestPassword});
-				
+	    #{guestName}, #{guestEmail}, #{guestPassword})
+		<selectKey resultType="int" keyProperty="no" order="AFTER">
+        	SELECT LAST_INSERT_ID()
+    	</selectKey> 
+	</insert>
+	
+	<insert id="insertLostFile" parameterType="kr.co.mgv.support.vo.LostFile">
+		INSERT INTO MGV_LOST_FILE
+		(LOST_NO, ORIGINAL_NAME, SAVE_NAME)
+		VALUES(#{lost.no}, #{originalName}, #{saveName})
 	</insert>
 	
 	<select id="getTotalRows" parameterType="map" resultType="int">
@@ -47,7 +55,6 @@
 			A.LOST_CONTENT			as content, 
 			A.LOST_ANSWERED			as answered, 
 			A.LOST_DELETED			as deleted, 
-			A.LOST_FILENAME			as fileName, 
 			A.LOST_UPDATE_DATE		as updateDate,
 			A.LOST_CREATE_DATE		as createDate, 
 			A.USER_ID 				as "user.id",
@@ -88,7 +95,6 @@
 			A.LOST_CONTENT			as content, 
 			A.LOST_ANSWERED			as answered, 
 			A.LOST_DELETED			as deleted, 
-			A.LOST_FILENAME			as fileName, 
 			A.LOST_UPDATE_DATE		as updateDate,
 			A.LOST_CREATE_DATE		as createDate, 
 			A.LOCATION_NO			as "location.no",
@@ -129,9 +135,7 @@
 			<if test="createDate != null">
 				LOST_CREATE_DATE = #{createDate},
 			</if>
-			<if test="fileName != null">
-				LOST_FILENAME = #{fileName},
-			</if>
+		
 		</set>
 		WHERE 
 			Lost_NO= #{no}

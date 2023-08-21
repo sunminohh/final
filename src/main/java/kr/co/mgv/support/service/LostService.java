@@ -5,11 +5,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import kr.co.mgv.common.file.FileUtils;
 import kr.co.mgv.support.dao.LostDao;
 import kr.co.mgv.support.dto.LostList;
 import kr.co.mgv.support.form.AddLostForm;
 import kr.co.mgv.support.vo.Lost;
+import kr.co.mgv.support.vo.LostFile;
 import kr.co.mgv.support.vo.SupportPagination;
 import kr.co.mgv.theater.vo.Location;
 import kr.co.mgv.theater.vo.Theater;
@@ -23,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 public class LostService {
 
 	private final LostDao lostDao;
+	private final FileUtils fileUtils;
 	
 	public void insertLost(AddLostForm form, User user) {
 		
@@ -58,6 +62,19 @@ public class LostService {
 		
 
 		lostDao.insertLost(lost);
+		
+		List<MultipartFile> multipartFiles = form.getFiles();
+		for (MultipartFile multipartFile : multipartFiles) {
+			String originalFilename = multipartFile.getOriginalFilename();
+			String saveFilename = fileUtils.saveFile("static/images/support/lost", multipartFile);
+			
+			LostFile lostFile = new LostFile();
+			lostFile.setLost(lost);
+			lostFile.setOriginalName(originalFilename);
+			lostFile.setSaveName(saveFilename);
+			
+			lostDao.insertLostFile(lostFile);
+		}
 	}
 	
 	public void deleteLost(int no) {
