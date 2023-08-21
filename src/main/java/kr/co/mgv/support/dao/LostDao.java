@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import kr.co.mgv.support.vo.Lost;
+import kr.co.mgv.support.vo.LostFile;
 import kr.co.mgv.theater.vo.Location;
 import kr.co.mgv.theater.vo.Theater;
 
@@ -28,4 +29,18 @@ public interface LostDao {
 	
 	// 분실물 문의글 업데이트
 	void updateLostByNo(Lost lost);
+	
+	
+	/**
+     * 파일 정보 저장
+     * @param lostFile
+     */
+	void insertLostFile(LostFile lostFile);
+	
+	/**
+	 * 분실물 번호로 파일정보 조회하기
+	 * @param lostNo 분실물 번호
+	 * @return 해당 분실문 파일정보들
+	 */
+	List<LostFile> getLostFilesByLostNo(int lostNo);
 }
