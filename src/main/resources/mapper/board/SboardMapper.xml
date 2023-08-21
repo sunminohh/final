@@ -57,6 +57,10 @@
 	                    <when test="sort == 'comment'">
 	                        order by board_comment_cnt desc, board_create_date desc
 	                    </when>
+	                    <!-- 기본 정렬 -->
+                        <otherwise>
+                            order by board_create_date desc
+                        </otherwise>
 	                </choose>
     			) as ROWNUMBER
     		from
@@ -323,5 +327,23 @@
 	(BOARD_NAME, BOARD_CONTENT, USER_ID, PRODUCT_NO, CAT_NO, BORAD_FILENAME)
 	VALUES(#{name}, #{content}, #{user.id}, #{product.no}, #{category.no}, #{fileName});
 	</insert>
+	
+	<!-- 신고 -->
+	<insert id="insertSboardReport" parameterType="kr.co.mgv.board.vo.SboardReport">
+		INSERT into MGV_PBOARD_REPORT
+		(REPORT_REASON, REASON_NO, BOARD_NO, USER_ID)
+		VALUES(#{reasonContent}, #{reason.no}, #{board.no}, #{user.id});
+	</insert>
+	
+	<select id="getSboardReportById" parameterType="String" resultType="kr.co.mgv.board.vo.SboardReport">
+		SELECT 
+			report_NO as no, 
+			REPORT_REASON as reasonContent, 
+			REASON_NO as "reason.no", 
+			BOARD_NO as "board.no", 
+			USER_ID as "user.id"
+		FROM MGV_PBOARD_REPORT
+		where user_id = #{value};
+	</select>
 	
 </mapper>

@@ -18,6 +18,17 @@ $(function() {
 		})
 		
 	})
+	
+	const locationNo = getQueryString("locationNo");
+		$selectLocation.empty().append('<option value="" selected disabled>지역선택</option>');
+		$.getJSON("/support/lost/getLocation", function(locations) {
+			const options = locations.map(loc =>
+				`<option value="${loc.no}" ${String(loc.no) === locationNo ? 'selected' : ''}>
+					${loc.name}
+				</option>`
+			).join("");
+			$selectLocation.append(options);
+		}).fail(handleAjaxError);
 	// 폼에서 극장조회
 	$("#location").change(function() {
 		$("#theater").prop("disabled", false);
@@ -216,9 +227,6 @@ $(function() {
         });
     });
 	
-	
-    
-    
      $("#table-lost tbody").on("click", "a", function(event) {
 		event.preventDefault();
 		
