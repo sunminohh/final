@@ -9,6 +9,7 @@
 <script type="text/javascript" th:src="@{/js/board/partyForm.js}"></script>
 <link th:href="@{/css/summernote/summernote-lite.css}" rel="stylesheet">
 <link th:href="@{/css/board/partyForm.css}" rel="stylesheet">
+<link th:href="@{/css/board/form.css}" rel="stylesheet">
 </head>   
    
    <div layout:fragment="content" class="container my-3">
@@ -19,7 +20,6 @@
 					th:object="${addTBoardForm}"
 					th:action="@{/board/theater/add}"
 				 -->
-				 <button class="btn btn-outline-white btn-sm mb-2" id="btn-select-movie" data-bs-toggle="modal" data-bs-target="#modal-select-movie">영화선택</button>
 				<form  method="post"  class="p-3" enctype="multipart/form-data" >
 					<div class="border light p-3">
 						
@@ -34,6 +34,16 @@
 			            </div> 
 			           </div>
 			           	<div class="d-flex justify-content-start">
+								<div class="movie-search-select mb-3" >
+								    <input type="text" class="movie-search-input"  placeholder="영화제목검색">
+								    <button class="movie-search-button btn-sm me-2" id="btn-select-movie" type="button"  data-bs-toggle="modal" data-bs-target="#modal-select-movie">선택</button>
+								    <div id="selectd-movie-title-box">									
+									</div>
+								    <div class="movie-search-list me-2" th:each="movie:${movies}">
+								        <div class="movie-search-item" th:text="${movie.title}" th:value="${movie.no}"></div>
+								    </div>
+								    <input type="hidden" name="movieNo">
+								</div>
 								<div class="form-group mb-2 pe-2 " >
 									<select class="required form-select form-select-sm  ml07 form-control-sm" name="headCount" id="select-headCount"  required="required"
 											style="border-style: none;">
@@ -131,26 +141,26 @@
 							</div>			
 						</div>
 						<form action="">
-							<input type="hidden" name="date" value="date" />
 							<div class="theater-select d-flex justify-content-start ms-4 pt-2">
 		                        <select id="location" title="지역 선택"
 		                                class="form-select form-select-sm  ml07 form-control-sm mb-3"
 		                                style="width: 110px; float:left;  border-style: none;" name="locationNo"
-		                                onchange="changeLoc()">
+		                                th:onchange= "changeLoc()">
 		                            <option value="" selected disabled>지역선택</option>
-		                            <option th:value="locatioNo">지역 이름</option>
+		                            <option th:each="location : ${locations}" 
+		                            		th:text="${location.name}" 
+		                            	    th:value="${location.no}"
+		                            	    th:selected="${#strings.equals(location.no, param.locationNo)}">지역 이름</option>
 		                        </select>
 		
 		                        <select id="theater" title="극장 선택" class="form-select form-select-sm ml07 form-control-sm mb-3"
 		                                style="width: 130px; float:left; position: relative; left:5px;  border-style: none;" 
-		                                name="theaterNo" onchange="changeTBoard()">
+		                                name="theaterNo" >
 		      						<option value="" selected disabled>극장선택</option>
 		                        </select>
-								<select id="movie" title="영화 선택" class="form-select form-select-sm ml07 form-control-sm mb-3 me-1"
-		                                style="width: 130px; float:left; position: relative; left:5px;  border-style: none;" 
-		                                name="movieNo" >
-		      						<option value="" selected disabled>영화선택</option>
-		                        </select>
+		                        <div>
+		                        	<input type="hidden" name="sceduleId" >
+		                        </div>
 							</div>
 						
 							<div class="movie-select pb-1">

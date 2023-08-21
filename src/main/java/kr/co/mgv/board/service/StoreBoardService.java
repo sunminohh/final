@@ -7,12 +7,15 @@ import org.springframework.stereotype.Service;
 
 import kr.co.mgv.board.BoardPagination;
 import kr.co.mgv.board.form.AddSboardForm;
+import kr.co.mgv.board.form.ReportForm;
 import kr.co.mgv.board.list.StoreBoardList;
 import kr.co.mgv.board.mapper.StoreBoardDao;
 import kr.co.mgv.board.vo.BoardCategory;
 import kr.co.mgv.board.vo.BoardProduct;
+import kr.co.mgv.board.vo.ReportReason;
 import kr.co.mgv.board.vo.SBoardComment;
 import kr.co.mgv.board.vo.SBoardLike;
+import kr.co.mgv.board.vo.SboardReport;
 import kr.co.mgv.board.vo.StoreBoard;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
@@ -177,6 +180,40 @@ public class StoreBoardService {
 		board.setDeleted("Y");
 		
 		storeBoardDao.updateSBoardByNo(board);
+	}
+	
+	// 신고관련
+	public void insertReport (ReportForm form, User user) {
+		
+		try {
+			StoreBoard board = storeBoardDao.getSBoardByNo(form.getBoardNo());
+			ReportReason reason = ReportReason.builder().no(form.getReasonNo()).build();
+			SboardReport report = SboardReport.builder()
+								.reasonContent(form.getReasonContent())
+								.board(board)
+								.user(user)
+								.reason(reason)
+								.build();
+			storeBoardDao.insertSboardReport(report);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void updateReportCount (int no, int reportCount) {
+		StoreBoard board = storeBoardDao.getSBoardByNo(no);
+		board.setReportCount(reportCount);
+		storeBoardDao.updateSBoardByNo(board);
+	}
+	
+	public void updateReport (int no, String report) {
+		StoreBoard board= storeBoardDao.getSBoardByNo(no);
+		board.setReport(report);
+		storeBoardDao.updateSBoardByNo(board);
+	}
+	
+	public List<SboardReport> getReportById (String id){
+		return storeBoardDao.getSboardReportById(id);
 	}
 	
 }

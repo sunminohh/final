@@ -1,6 +1,9 @@
 package kr.co.mgv.support.form;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Getter;
@@ -20,6 +23,6 @@ public class AddOneForm {
 	private Integer guestPassword;
 	private String title;
 	private String content;
-	private MultipartFile upFile;
+	private List<MultipartFile> files = new ArrayList<>();
 	
 }

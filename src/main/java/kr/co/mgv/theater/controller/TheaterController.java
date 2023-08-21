@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import kr.co.mgv.theater.dto.FavoriteTheater;
+import kr.co.mgv.favoritetheater.vo.FavoriteTheater;
 import kr.co.mgv.theater.service.TheaterService;
 import kr.co.mgv.theater.vo.Location;
 import kr.co.mgv.theater.vo.Theater;
@@ -59,12 +59,26 @@ public class TheaterController {
     
     @PostMapping("/favorite")
     @ResponseBody
-    public String registrationFavoriteTheater(@AuthenticationPrincipal User user, @RequestBody List<FavoriteTheater> favoriteTheaters ) {
+    public String registrationFavoriteTheaters(@AuthenticationPrincipal User user, @RequestBody List<FavoriteTheater> favoriteTheaters ) {
     	if(user == null) {
     		return "undefined";
     	}else {
     		String userId = user.getId();
-    		theaterService.registFavoriteTheater(userId, favoriteTheaters);
+    		theaterService.registFavoriteTheaters(userId, favoriteTheaters);
+    		return "success";
+    		
+    	}
+    	
+    }
+    
+    @PostMapping("/favorite/registfavorite")
+    @ResponseBody
+    public String registrationFavoriteTheater(@AuthenticationPrincipal User user, @RequestBody FavoriteTheater favoriteTheater ) {
+    	if(user == null) {
+    		return "undefined";
+    	}else {
+    		String userId = user.getId();
+    		theaterService.registFavoriteTheater(userId, favoriteTheater);
     		return "success";
     		
     	}

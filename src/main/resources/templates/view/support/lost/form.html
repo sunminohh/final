@@ -2,6 +2,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/support}">
 <head th:fragment="extra-head-content">
+	<link th:href=@{/css/support/lost.css} rel="stylesheet">
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" th:src="@{/js/support/lost.js}"></script>
 </head>
@@ -41,7 +42,7 @@
     <p class="reset mt10">* 원활한 서비스 이용을 위한 최소한의 개인정보이므로 동의하지 않을 경우 서비스를 이용하실 수 없습니다</p>
     <p class="reset mt30 a-r font-orange">* 필수</p>
 
-    <form id="insertform" name="regFrm" method="post" th:action="@{/support/lost/add}" th:object=${addLostForm}>
+    <form id="insertform" name="regFrm" method="post" th:action="@{/support/lost/add}" th:object=${addLostForm} enctype="multipart/form-data">
         <div class="table-wrap mt10">
             <table class="board-form va-m">
                 <colgroup>
@@ -120,11 +121,13 @@
                             <div class="info-txt">
                                 <p>* JPEG, PNG 형식의 5M 이하의 파일만 첨부 가능합니다. (최대 5개)</p>
                                 <!--이미지 추가가 5개가 되면 버튼 숨김 -->
+                                <button type="button" id="uploadBtn" class="btn-image-add">
+								  <span>파일선택</span>
+								  <input type="file" name="files" id="fileInput" style="display: none;" multiple>
+								</button>
                                 <p>* 개인정보가 포함된 이미지 등록은 자제하여 주시기 바랍니다.</p>
-                                <input type="file" name="upfile" >
                             </div>
-                            <div id="imgList">
-                            </div>
+                            <div id="imgList"></div>
                         </div>
                     </td>
                 </tr>

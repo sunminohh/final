@@ -1,5 +1,6 @@
 package kr.co.mgv.board.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.mgv.board.form.AddSboardForm;
+import kr.co.mgv.board.form.ReportForm;
 import kr.co.mgv.board.list.StoreBoardList;
 import kr.co.mgv.board.service.MovieBoardService;
 import kr.co.mgv.board.service.StoreBoardService;
@@ -26,7 +28,10 @@ import kr.co.mgv.board.vo.BoardProduct;
 import kr.co.mgv.board.vo.ReportReason;
 import kr.co.mgv.board.vo.SBoardComment;
 import kr.co.mgv.board.vo.SBoardLike;
+import kr.co.mgv.board.vo.SboardReport;
 import kr.co.mgv.board.vo.StoreBoard;
+import kr.co.mgv.board.vo.TboardReport;
+import kr.co.mgv.board.vo.TheaterBoard;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,6 +53,7 @@ public class StoreBoardController {
 			@RequestParam(name = "keyword", required = false, defaultValue = "") String keyword,
 			@RequestParam(name = "productNo", required = false) Integer productNo,
 			@RequestParam(name = "catNo", required = false) Integer catNo,
+			@AuthenticationPrincipal User user,
 			Model model) {
     	
     	Map<String , Object> param = new HashMap<String, Object>();
@@ -69,6 +75,24 @@ public class StoreBoardController {
     	
 		// service로 스토어게시물 목록, 카테고리/상품 목록, 페이지네이션 조회하기
 		StoreBoardList result = storeBoardService.getSBoards(param);
+		
+		if(user != null) {
+			// 로그인한 사용자의 신고 기록 가져오기
+			List<SboardReport> reportList = storeBoardService.getReportById(user.getId());
+			
+			// 사용자가 신고한 게시물 제외
+			List<StoreBoard> StoreBoardsToShow = new ArrayList<>();
+			
+			for(StoreBoard board : result.getStoreBoards()) {
+				boolean isReported = reportList.stream()
+						.anyMatch(report -> report.getBoard().getNo() == board.getNo());
+				if(!isReported) {
+					StoreBoardsToShow.add(board);
+				}
+			}
+			result.setStoreBoards(StoreBoardsToShow);
+			model.addAttribute("reports", StoreBoardsToShow);
+		}
 		
 		// model에 조회한 리스트 담기
 		model.addAttribute("result", result);
@@ -333,4 +357,24 @@ public class StoreBoardController {
     	storeBoardService.deleteBoard(no);
     	return "redirect:/board/store/list";
     }
+    
+	// 신고관련 
+	@PostMapping("/report")
+	public String reportBoard(ReportForm form, @AuthenticationPrincipal User user) {
+    	log.info("입력 내용 -> {}", form.getReasonNo());
+    	log.info("입력 내용 -> {}", form.getBoardNo());
+    	log.info("입력 내용 -> {}", form.getReasonContent());
+    	log.info("입력 내용 -> {}", user.getId());
+		storeBoardService.insertReport(form, user);
+		
+		StoreBoard board = storeBoardService.getStoreBoardByNo(form.getBoardNo());
+		int reportCount = board.getReportCount()+1;
+		storeBoardService.updateReportCount(form.getBoardNo(), reportCount);
+		
+		if (reportCount == 5) {
+			String report = "Y";
+			storeBoardService.updateReport(form.getBoardNo(), report);
+		}
+		return "redirect:/board/store/list";
+	}
 }
