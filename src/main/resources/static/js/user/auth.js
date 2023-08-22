@@ -34,7 +34,7 @@ $(() => {
                     icon: 'error',
                     text: '인증 시간이 초과되었습니다. 다시 인증해주세요.',
                 }).then(() => {
-                    location.reload();
+                    $("#btnResendAuthMail").prop('disabled', false);
                 });
             }
         }, 1000); // 1초마다 타이머 업데이트
