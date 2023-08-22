@@ -40,4 +40,26 @@
 		LIMIT 10 OFFSET #{begin}
 	</select>
 	
+	<select id="getCategories" parameterType="string" resultType="kr.co.mgv.support.vo.SupportCategory">
+		SELECT 
+			CATEGORY_NO		as no,
+			CATEGORY_NAME	as name, 
+			CATEGORY_TYPE	as type
+		FROM 
+			MGV_SUPPORT_CATEGORIES
+		where 
+			CATEGORY_TYPE = #{value}
+			and CATEGORY_no != 1
+	</select>
+	
 </mapper>
+
+
+
+
+
+
+
+
+
+

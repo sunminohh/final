@@ -1,5 +1,15 @@
 
 $(document).ready(function() {
+	
+	// 폼에서 카테고리 조회
+	let $selectCategory = $("#faqCat").empty();
+	$selectCategory.append(`<option value="" selected disabled>카테고리 선택</option>`)
+	$.getJSON("/admin/support/faq/getCategory?type=faq", function(categories) {
+		categories.forEach(function(cat) {
+			let option = `<option value="${cat.no}"> ${cat.name}</option>`;
+				$selectCategory.append(option);
+		})
+	})
 
 	const params = new URLSearchParams(location.search);
 	const defaultKeyword = params.get('keyword');

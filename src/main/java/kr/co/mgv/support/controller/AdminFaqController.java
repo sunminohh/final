@@ -1,8 +1,10 @@
-package kr.co.mgv.admin.support.controller;
+package kr.co.mgv.support.controller;
 
 
 
 import java.util.HashMap;
+
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.co.mgv.support.dto.FaqList;
 import kr.co.mgv.support.service.FaqService;
+import kr.co.mgv.support.vo.SupportCategory;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -54,5 +57,29 @@ public class AdminFaqController {
 		return faqList;
 	}
 	
+	@GetMapping("/form")
+	public String faqForm() {
+		return "/view/admin/support/faq/form";
+	}
+	
+	@GetMapping("/getCategory")
+	@ResponseBody
+	public List<SupportCategory> getCategories(@RequestParam String type) {
+		
+		return faqService.getCategoriesByType(type);
+	}
+	
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
