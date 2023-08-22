@@ -26,7 +26,9 @@
         </div> -->
         <div class="mbimg"><img th:src="@{/images/user/welcome.png}" alt="WELCOME"></div>
         <div class="mb_name">안녕하세요!<p><span th:text="${userName}"></span>님</p></div>
-
+        <div class="link">
+          <a th:href="@{/user/info/auth}">개인정보수정</a>
+        </div>
        </div>
       <!--// top -->
 
@@ -36,7 +38,7 @@
         <div class="items theater" id="myFaverBrch">
           <div class="tit-area">
             <p class="tit">선호하는 극장</p>
-            <a href="" class="more" title="선호극장 변경"><i class="iconset ico-arr-right-gray">변경</i></a>
+            <a href="" class="more"><i class="iconset ico-arr-right-gray">변경</i></a>
           </div>
 
           <div class="list">
@@ -52,7 +54,7 @@
         <div class="items coupon" id="myCoupon">
           <div class="tit-area">
             <p class="tit">관람권</p>
-            <a href="/mypage/movie-coupon" class="more"><i class="iconset ico-arr-right-gray" title="영화관람권 페이지로 이동">더보기</i></a>
+            <a href="/mypage/movie-coupon" class="more"><i class="iconset ico-arr-right-gray">더보기</i></a>
           </div>
 
           <div class="list">
@@ -79,14 +81,14 @@
 
           <div class="tit-area">
             <p class="tit">스페셜 멤버십</p>
-            <a href="/curation/specialcontent" class="more"><i class="iconset ico-arr-right-gray" title="스페셜멤버십 가입 페이지로 이동">더보기</i></a>
+            <a href="/curation/specialcontent" class="more"><i class="iconset ico-arr-right-gray">더보기</i></a>
           </div>
 
           <!-- 스폐셜 가입 안했을 때 -->
           <div class="no-join">
             <p class="txt">가입된 스페셜 멤버십이 없습니다.</p>
 
-            <a href="/curation/specialcontent" title="스페셜멤버십 가입 페이지로 이동">스페셜멤버십</a>
+            <a href="/curation/specialcontent">스페셜멤버십</a>
           </div>
 
           <!-- <div class="join">
@@ -113,27 +115,27 @@
           <h2 class="tit small">나의 무비스토리</h2>
 
           <div class="right">
-            <a href="#saw_movie_regi" class="button gray-line small btn-modal-open" w-data="600" h-data="470" title="본 영화 등록">본 영화 등록</a>
+            <a href="#saw_movie_regi" class="button gray-line small btn-modal-open" w-data="600" h-data="470">본 영화 등록</a>
           </div>
         </div>
 
         <div class="box-border link-movie-story">
-          <a href="/mypage/moviestory?cd=sm" title="본 영화 탭으로 이동">
+          <a href="#" title="본 영화 탭으로 이동">
             <em>0</em>
             <span>본 영화</span>
           </a>
 
-          <a href="/mypage/moviestory?cd=one" title="관람평 탭으로 이동">
+          <a href="#" title="관람평 탭으로 이동">
             <em>0</em>
             <span>관람평</span>
           </a>
 
-          <a href="/mypage/moviestory?cd=lm" title="보고싶어 탭으로 이동">
+          <a href="#" title="보고싶어 탭으로 이동">
             <em>0</em>
             <span>보고싶어</span>
           </a>
 
-          <a href="/mypage/moviestory?cd=mp" title="무비포스트 탭으로 이동">
+          <a href="#" title="무비포스트 탭으로 이동">
             <em>0</em>
             <span>무비포스트</span>
           </a>
@@ -147,7 +149,7 @@
           <h2 class="tit small">선호관람정보</h2>
 
           <div class="right">
-            <a href="" class="button gray-line small" title="설정">설정</a>
+            <a href="#" class="button gray-line small">설정</a>
           </div>
         </div>
 
@@ -166,17 +168,12 @@
       <div class="tit-util mt70">
         <h2 class="tit small">나의 예매내역</h2>
 
-        <a href="/mypage/bookinglist?tab=01" class="more" title="나의 예매내역 더보기">더보기 <i class="iconset ico-arr-right-gray"></i></a>
+        <a href="#" class="more">더보기 <i class="iconset ico-arr-right-gray"></i></a>
       </div>
 
       <!-- my-reserve-history -->
       <div class="my-reserve-history">
         <ul>
-          <li class="no-result">
-            <div class="no-history-reservation">
-              예매 내역이 없습니다.
-            </div>
-          </li>
           <li class="no-result">
             <div class="no-history-reservation">
               예매 내역이 없습니다.
@@ -191,11 +188,11 @@
       <div class="tit-util mt70">
         <h2 class="tit small">나의 구매내역</h2>
 
-        <a href="/mypage/bookinglist?tab=02" class="more" title="나의 구매내역 더보기">더보기 <i class="iconset ico-arr-right-gray"></i></a>
+        <a href="#" class="more">더보기 <i class="iconset ico-arr-right-gray"></i></a>
       </div>
 
       <div class="table-wrap">
-        <table class="board-list line" summary="나의 구매내역 요약 표">
+        <table class="board-list line">
           <caption>나의 구매내역 요약 표</caption>
           <colgroup>
             <col style="width:160px;">
@@ -215,7 +212,7 @@
       <div class="col left" id="mySbsc">
         <div class="tit-util">
           <h2 class="tit small">참여이벤트</h2>
-          <a href="/mypage/myevent" class="more" title="참여이벤트 더보기">더보기 <i class="iconset ico-arr-right-gray"></i></a>
+          <a href="#" class="more" title="참여이벤트 더보기">더보기 <i class="iconset ico-arr-right-gray"></i></a>
         </div>
 
         <div class="brd-list">
@@ -233,7 +230,7 @@
         <div class="tit-util">
           <h2 class="tit small">문의내역</h2>
 
-          <a href="/mypage/myinquiry?tab=" class="more" title="문의내역 더보기">더보기 <i class="iconset ico-arr-right-gray"></i></a>
+          <a href="#" class="more" title="문의내역 더보기">더보기 <i class="iconset ico-arr-right-gray"></i></a>
         </div>
 
         <div class="brd-list">

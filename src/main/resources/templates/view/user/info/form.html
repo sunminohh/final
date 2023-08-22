@@ -98,7 +98,7 @@
                     <tr>
                         <th scope="row">비밀번호 <em class="font-orange">*</em></th>
                         <td>
-                            <a th:href="@{/user/info/modifyPwd}" class="button small gray-line" title="비밀번호 변경">비밀번호 변경</a>
+                            <a th:href="@{/user/info/update/password}" class="button small gray-line" title="비밀번호 변경">비밀번호 변경</a>
 
                             마지막 비밀번호 변경: 48일전에 함 (2023-06-13 22:33:43)
                         </td>
@@ -106,9 +106,12 @@
                     <tr>
                         <th scope="row">주소</th>
                         <td>
-                            <span>zipcode</span>
-                            <a href="#" id="btnZipcode" class="button small gray-line ml10" title="우편번호 검색">우편번호 검색</a>
-                            <p class="reset mt10">기본주소(동, 아파트)</p>
+                            <span th:if="${zipcode}" th:text="${zipcode}"></span>
+                            <span th:unless="${zipcode}">&nbsp;</span>
+
+                            <a href="#" id="btnZipcode" class="button small gray-line ml10">우편번호 검색</a>
+                            <p class="reset mt10" th:if="${address}" th:text="${address}"></p>
+                            <p class="reset mt10" th:unless="${address}">&nbsp;</p>
                         </td>
                     </tr>
 

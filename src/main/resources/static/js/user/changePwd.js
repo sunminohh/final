@@ -1,6 +1,6 @@
 $(() => {
-    const $pwd = $(".update-form input[name='pwdnow']");
-    const $pwdnew = $(".update-form input[name='pwdnew']");
+    const $pwd = $(".update-form input[name='checkPassword']");
+    const $pwdnew = $(".update-form input[name='newPassword']");
     const $repwdnew = $(".update-form input[name='repwdnew']");
     const pwdReg = /(?=.*[0-9])(?=.*[a-zA-Z])(?=\S+$).{8,16}/;
 
@@ -40,24 +40,15 @@ $(() => {
         }
 
         $.ajax({
-            url: "/user/info/checkPwd",
+            url: "/user/info/update/password",
             type: "POST",
-            data: {pwd: pwdValue},
             dataType: "text",
             success: function (res) {
-                if (res === "yes") {
-                    console.log("비밀번호 일치 여부 ->", res);
                     pwdCheck = true;
 
                     check();
-                } else if (res === "no") {
-                    console.log("비밀번호 일치 여부 ->", res);
-                    errorAlert($pwd, "현재 비밀번호가 일치하지 않습니다.");
-                    pwdErrMsg.text("다시 입력해주세요.");
-                    pwdCheck = false;
-                }
             },
-        }).fail(handleAjaxError);
+        }).fail();
 
         function check() {
 
@@ -91,11 +82,10 @@ $(() => {
 
             form[0].submit();
         }
-
     })
 
     // 입력 이벤트
-    $("input[name='pwdnow']").keyup(() => {
+    $("input[name='checkPassword']").keyup(() => {
         const pwdValue = $pwd.val();
         if (!$pwd.val()) {
             pwdCheck = false;
@@ -104,7 +94,7 @@ $(() => {
         }
     })
 
-    $("input[name='pwdnew']").keyup(() => {
+    $("input[name='newPassword']").keyup(() => {
         const pwdValue = $pwd.val();
         const pwdnewValue = $pwdnew.val();
         const pwdReg = /(?=.*[0-9])(?=.*[a-zA-Z])(?=\S+$).{8,16}/;
@@ -153,7 +143,7 @@ $(() => {
     function handleAjaxError() {
         Swal.fire({
             icon: 'error',
-            text: "오류가 발생하였습니다. 잠시 후 이용해 주세요."
+            text: "현재 비밀번호가 일치하지 않습니다.",
         });
     }
 
