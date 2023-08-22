@@ -36,7 +36,7 @@
 			           	<div class="d-flex justify-content-start">
 								<div class="movie-search-select mb-3" >
 								    <input type="text" class="movie-search-input"  placeholder="영화제목검색">
-								    <button class="movie-search-button btn-sm me-2" id="btn-select-movie" type="button"  data-bs-toggle="modal" data-bs-target="#modal-select-movie">선택</button>
+								    <button class="movie-search-button btn-sm me-2" id="btn-select-movie" type="button" >선택</button>
 								    <div id="selectd-movie-title-box">									
 									</div>
 								    <div class="movie-search-list me-2" th:each="movie:${movies}">
@@ -82,57 +82,57 @@
 		<div class="modal fade modal-lg" id="modal-select-movie" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		  <div class="modal-dialog">
 		    <div class="modal-content">
-		      <div class="modal-header">
-		        <h5 class="modal-title">영화선택</h5>
+		      <div class="modal-header" style="background-color: #A06E8D;">
+		        <h5 class="modal-title fw-semibold" style="color: white;">영화선택</h5>
 		      </div>
 		      <div class="modal-body">
 		        
 		        <div class="movie-schedule pt-2 pe-5">
-					<div class="movie-schedule-date border ms-5" style="border-color: black;">
-						<div class="today-date pt-3 border" style="background-color: #9370db; border-color: #9370db;">
-							<p class="area_subtitle text-center fs-6 fw-bold mt-1" style="color: white">2023.08.02</p>
+					<div class="movie-schedule-date border ms-5" style="border-color: rgb(255, 244, 244);">
+						<div class="today-date pt-3" >
+							<p class="area_subtitle text-center fw-bold mt-1" >2023.08.02</p>
 						</div>
-						<div class="schedule-select d-flex justify-content-center pt-2" >
+						<div class="schedule-select d-flex justify-content-center" >
 							<div class="date-select">
 								<ul class="date-nav nav nav-tabs" id="date-select">
 									  <li class="date-nav-item nav-item">
-									    <button class="nav-link active" id="btn-date-1" name="date"  style="border-color: #E6E6FA;">
+									    <button class="nav-link active" id="btn-date-1" name="date"  style="border-color: rgb(255, 244, 244);">
 									    	<span id="span-date-1"></span><br>
 									    	<span >오늘</span>
 									    </button>
 									  </li>
 									  <li class="date-nav-item nav-item" >
-									  	<button class="nav-link active" id="btn-date-2" name="date" style="border-color: #E6E6FA;">
+									  	<button class="nav-link active" id="btn-date-2" name="date" style="border-color: rgb(255, 244, 244);">
 									    	<span id="span-date-2"></span><br>
 									    	<span id="span-day-2"></span>
 									    </button>
 									  </li>
 									  <li class="date-nav-item nav-item">
-									    <button class="nav-link active" id="btn-date-3" name="date" style="border-color: #E6E6FA;">
+									    <button class="nav-link active" id="btn-date-3" name="date" style="border-color: rgb(255, 244, 244);">
 									    	<span id="span-date-3"></span><br>
 									    	<span id="span-day-3"></span>
 									    </button>
 									  </li>
 									  <li class="date-nav-item nav-item">
-									    <button class="nav-link active" id="btn-date-4" name="date" style="border-color: #E6E6FA;">
+									    <button class="nav-link active" id="btn-date-4" name="date" style="border-color: rgb(255, 244, 244);">
 									    	<span id="span-date-4"></span><br>
 									    	<span id="span-day-4"></span>
 									    </button>
 									  </li>
 									  <li class="date-nav-item nav-item">
-									    <button class="nav-link active" id="btn-date-5" name="date" style="border-color: #E6E6FA;">
+									    <button class="nav-link active" id="btn-date-5" name="date" style="border-color: rgb(255, 244, 244);">
 									    	<span id="span-date-5"></span><br>
 									    	<span id="span-day-5"></span>
 									    </button>
 									  </li>
 									  <li class="date-nav-item nav-item">
-									    <button class="nav-link active" id="btn-date-6" name="date" style="border-color: #E6E6FA;">
+									    <button class="nav-link active" id="btn-date-6" name="date" style="border-color: rgb(255, 244, 244);">
 									    	<span id="span-date-6"></span><br>
 									    	<span id="span-day-6"></span>
 									    </button>
 									  </li>
 									  <li class="date-nav-item nav-item">
-									    <button class="nav-link active" id="btn-date-7" name="date" style="border-color: #E6E6FA;">
+									    <button class="nav-link active" id="btn-date-7" name="date" style="border-color: rgb(255, 244, 244);">
 									    	<span id="span-date-7"></span><br>
 									    	<span id="span-day-7"></span>
 									    </button>
@@ -169,8 +169,8 @@
 										<span class="fw-bold">MGV 종로3가</span>
 									</div>
 									<div class="movie-info ms-3 pt-2 d-flex justify-content-start ">
-										<button class="border rounded me-3" style="width: 120px; height: 60px; background-color: white">
-											<div class="me-4" id="movie-time">
+										<button class="border rounded me-3" style="border-color:rgb(255, 244, 244); width: 120px; height: 60px; background-color: white">
+											<div class="me-4" id="movie-time" style="border-bottom-color:rgb(255, 244, 244);">
 												<p><strong>8:10</strong> ~ 10:20</p>
 												<p class="pe-5 me-1 mt-1">3관</p>
 											</div>

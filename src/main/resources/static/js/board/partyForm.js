@@ -38,8 +38,8 @@ $(function() {
 	let selectedDate;
 	$("#date-select button").click(function() {
 		
-		$(this).css('border-bottom-color', 'white')
-		$(this).parent().siblings().find('button').css('border-bottom-color', '#E6E6FA')
+		$(this).css('border-bottom-color', 'white').css('color', '#A06E8D')
+		$(this).parent().siblings().find('button').css('border-bottom-color', 'rgb(255, 244, 244)').css('color', 'black')
 		
 		let today = new Date();
 		
@@ -96,43 +96,51 @@ $(function() {
 	      $(".movie-search-list").hide();
 	    }
 	  });
-	
-	$(function() {
-	    $(".movie-search-button").on("click", function () {
-	        let inputText = $(".movie-search-input").val();
-	        
-	        if (inputText === "") { // 입력창 내용이 비었을 때
-	            Swal.fire({
-	                icon: 'error',
-	                text: '내용을 작성해주세요.',
-	            });
-	        } else {
-	            let selectedValue = -1; // 기본값을 -1로 설정
-	            let selectedTitle = "";
-	            let found = false; // 영화 제목을 찾았는지 여부를 나타내는 변수
-	
-	            $(".movie-search-list .movie-search-item").each(function () {
-	                if ($(this).text() === inputText) {
-	                    selectedValue = parseInt($(this).attr("value"));
-	                    selectedTitle = $(this).text();
-	                    found = true; // 영화 제목을 찾았음을 표시
-	                    return false; // 반복문 종료
-	                }
-	            });
-	
-	            if (!found) { // 리스트에 없는 영화 제목일 경우
-	                Swal.fire({
-	                    icon: 'error',
-	                    text: '영화제목을 입력해주세요.',
-	                });
-	            } else { // 리스트에 있는 영화 제목일 경우
-	                const movieNo = $("input[name=movieNo]");
-	                movieNo.attr('value', selectedValue);
-	                $()
-	            }
-	        }
-	    });
-    })
+
+	       $(".movie-search-button").on("click", function () {
+        let inputText = $(".movie-search-input").val();
+        
+        if (inputText === "") { // 입력창 내용이 비었을 때
+            Swal.fire({
+                icon: 'error',
+                text: '검색하실 내용을 입력해 주세요.',
+            });
+        } else {
+            let selectedValue = -1; // 기본값을 -1로 설정
+            let selectedTitle = "";
+            let found = false; // 영화 제목을 찾았는지 여부를 나타내는 변수
+
+            $(".movie-search-list .movie-search-item").each(function () {
+                if ($(this).text() === inputText) {
+                    selectedValue = parseInt($(this).attr("value"));
+                    selectedTitle = $(this).text();
+                    found = true; // 영화 제목을 찾았음을 표시
+                    return false; // 반복문 종료
+                }
+            });
+
+            if (!found) { // 리스트에 없는 영화 제목일 경우
+                Swal.fire({
+                    icon: 'error',
+                    text: '영화제목을 입력해주세요.',
+                });
+            } else { // 리스트에 있는 영화 제목일 경우
+                const movieNo = $("input[name=movieNo]");
+                movieNo.attr('value', selectedValue);
+                
+                $(".modal-title").text(selectedTitle);
+                // 모달 열기
+                openModal(); // 모달을 열기 위한 사용자 정의 함수 호출
+            }
+        }
+    });
+
+    // 모달 열기 함수 정의
+    function openModal() {
+        const modal = new bootstrap.Modal(document.getElementById('modal-select-movie'));
+        modal.show();
+    }
+
 	
 	
 })
