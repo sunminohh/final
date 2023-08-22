@@ -1,5 +1,50 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.mgv.board.mapper.PartyBoardDao">
- 
+	<select id="getSceduleByDateAndTNoAndMNo" parameterType="map" resultType="kr.co.mgv.board.vo.PartyBoardSchedule">
+		select 
+			A.schedule_id			as id,
+			A.schedule_date			as date,
+			A.SCHEDULE_START_TIME	as start,
+			A.SCHEDULE_END_TIME		as end,
+			A.REMAINING_SEATS		as remainingSeats,
+			A.SCREEN_SEATS			as seats,
+			A.movie_no				as "movie.no",
+			C.movie_title			as "movie.title",
+			B.theater_no			as "theater.no",
+			D.theater_name			as "theater.name",
+			A.screen_id				as "screen.id",
+			B.screen_name			as "screen.name"
+		from 
+			MGV_SCHEDULE A, MGV_THEATER_SCREEN B, MGV_MOVIE C, MGV_THEATERS D
+		where 
+			A.screen_id = B.screen_id
+			and B.theater_no = D.theater_no
+		    and A.movie_no = C.movie_no
+		    and A.movie_no = #{movieNo}
+		    and A.schedule_date = #{date}
+		    and B.theater_no = #{theaterNo}
+	</select>
+	<select id="getSceduleById" parameterType="int" resultType="kr.co.mgv.board.vo.PartyBoardSchedule">
+		select 
+			A.schedule_id			as id,
+			A.schedule_date			as date,
+			A.SCHEDULE_START_TIME	as start,
+			A.SCHEDULE_END_TIME		as end,
+			A.REMAINING_SEATS		as remainingSeats,
+			A.SCREEN_SEATS			as seats,
+			A.movie_no				as "movie.no",
+			C.movie_title			as "movie.title",
+			B.theater_no			as "theater.no",
+			D.theater_name			as "theater.name",
+			A.screen_id				as "screen.id",
+			B.screen_name			as "screen.name"
+		from 
+			MGV_SCHEDULE A, MGV_THEATER_SCREEN B, MGV_MOVIE C, MGV_THEATERS D
+		where 
+			A.screen_id = B.screen_id
+			and B.theater_no = D.theater_no
+		    and A.movie_no = C.movie_no
+		    and A.schedule_id = #{scheduleId}
+	</select>
 </mapper>
