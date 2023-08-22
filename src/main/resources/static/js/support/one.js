@@ -93,6 +93,7 @@ $(function() {
 		// 입력 필드에 반영
 		$(this).val(numericValue);
 	});
+	
 	// 폼 알림창
 	$("#btn-submit").on("click", function(event) {
 		let checkbox = $('#chk').prop('checked');
@@ -223,8 +224,6 @@ $(function() {
 
 		$.getJSON(requestUrl, {answered:answered, page:page,  keyword:keyword}, function(result) {
 			
-			
-			
 			// 총 건수 업데이트
 			$('#totalCnt').text(result.pagination.totalRows);
 
@@ -235,7 +234,6 @@ $(function() {
 				$tbody.append(`<tr><th colspan='6' style="text-align:center;">조회된 내역이 없습니다.</th></tr>`);
 				$pagination.empty();
 			} else {
-
 				const tbodyHtml = list.map(function(board, index) {
 					return `
 				<tr>
@@ -294,7 +292,6 @@ $(function() {
 	        }
 	    });
 	});
-	
 	
 });
 

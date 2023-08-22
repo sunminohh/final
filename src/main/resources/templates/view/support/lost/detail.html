@@ -46,15 +46,11 @@
                 <a th:each="lostFile : ${lostFiles}" 
                 	th:href="@{/support/lost/download(no=${lostFile.no})}" 
                 	th:text="${lostFile.originalName}"
-                	class="me-3 text-primary"
-                	></a>
+                	class="me-3 text-primary"></a>
             </div>
 
             <div class="cont">
-            	
 				<p th:text="${lost.content}">
-					
-               
                 </p>
             </div>
         </div>
