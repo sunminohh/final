@@ -1,3 +1,4 @@
+
 $(function() {
       // 오늘 날짜를 구합니다.
       let today = new Date();
@@ -32,6 +33,10 @@ $(function() {
 		let formattedDate = year + "-" + month + "-" + day ;
         
         $(date).attr("th:value", formattedDate)
+        
+          if (index === 0) {
+		    $("#today-date").text(formattedDate);
+		  }
       });
 
 	
@@ -43,26 +48,10 @@ $(function() {
 		
 		let today = new Date();
 		
-		selectedDate = $(this).attr("th:value");
-		theaterNo =  document.querySelector("select[name=theaterNo]");
-		    // AJAX 요청을 보내서 선택한 날짜에 해당하는 데이터를 가져옴
-/*
-		    $.ajax({
-	        url: '/board/party/getSchedule',
-	        method: 'GET',
-	        data: {
-	            date: selectedDate,
-	            movieNo: movieNo,
-	            theaterNo: theaterNo
-       		 },
-	        success: function(response) {
-				
-	        },
-	        error: function(xhr, status, error) {
-	            console.error(error); // 오류 메시지 출력
-	        }
-	    });
- */
+		const selectedDate = $(this).attr("th:value");
+		const movieNo =  $("input[name=movieNo]");
+		$("input[name=date]").attr('th:value', selectedDate);
+
 	});
 	
 	 $(".movie-search-input").on("input", function () {
@@ -141,10 +130,51 @@ $(function() {
         modal.show();
     }
 
+	// 영화선택 모달 안에서의 정보 출력
+	$("#btn-schedule").on("click", "#movie-select-btn", function(){
+	    const start = $(this).find("input[name=start]").val();
+	    const end = $(this).find("input[name=end]").val();
+	    const theaterName = $(this).find("input[name=theaterName]").val();
+	    const screen = $(this).find("input[name=screen]").val();
+	    const schedule = $(this).find("input[name=schedule]").val();
+	    $("#input-group input[name=scheduleId]").attr('value', schedule);
+	    
+		let htmlContent = `
+						<div class="d-flex justify-content-end">
+                    		<p class="me-1"><strong>${theaterName}</strong></p>
+                    		<p class="me-1"><strong class="mt-3">${start}~${end}</strong></p>
+                    		<p class="me-1"><strong class="mt-3">${screen}</strong></p>
+                    	</div>
+		`
+		$(".seleted-movie-here").html(htmlContent)
+	});
+
+	// 모달 선택완료 버튼 -> 성별 셀렉트박스 옆에 영화 정보 표시
+	$("#select-complete").on("click", function(){
+			const scheduleId = $("input[name=scheduleId]").val();
+			$.ajax({
+	        url: '/board/party/selectedInfoBySId',
+	        method: 'GET',
+	        data: {
+	            scheduleId: scheduleId
+	        },
+	        success: function(schedule) {
+					
+				let htmlContent = `	<div class="selected-movie-info-box pe-2 pt-2 border" style="border-radius: 7px; border-color:rgb(254, 243, 220); background-color: rgb(254, 243, 220); height: 36px;">
+					           			<p class="ms-2" style="color:rgb(64, 44, 27); font-size: 13px;">${schedule.movie.title} MGV${schedule.theater.name} ${schedule.date}(수)${schedule.start} ${schedule.screen.name}</p>
+					           		</div>`
+				$("#info-here").html(htmlContent);
+				
+				 $("#modal-select-movie").modal("hide");
+	        },
+	        error: function(xhr, status, error) {
+	        }
+	    });
+		
+	})
 	
 	
 })
- 
 	
 	 // 지역 멀티셀렉트
 	 	function changeLoc() {
@@ -173,31 +203,64 @@ $(function() {
 			xhr.send();
 		}
 	
-		function changeTh(){
-		let el = document.querySelector("select[name=movieNo]");
-		el.innerHTML = "";  // select박스의 내부 컨텐츠를 전부 지운다.
-		el.disabled =false; // select박스를 활성화상태로 바꾼다.
-		let theaterNo = document.querySelector("select[name=theaterNo]").value
-		let xhr = new XMLHttpRequest();
-		xhr.onreadystatechange = function() {
-			if (xhr.readyState == 4 && xhr.status == 200){
-				let text = xhr.responseText;
-				let theaters = JSON.parse(text);
-				if (theaters.length === 0){
-					el.disabled = true;
-				}else {
-					let options = `<option id="theater-option" value="0" selected disabled>영화선택</option>`;
-					theaters.forEach(function(movie) {
-						options += `<option id="theater-option" value="${movie.no}" >${movie.name}</option>`;
+function changeTh() {
+    const date = $("input[name=date]").attr('th:value');
+    const movieNo = $("input[name=movieNo]").val();
+    const theaterNo = document.querySelector("select[name=theaterNo]").value
+    $("input[name=theaterNo]").attr('value', theaterNo);
 
-					});
-					el.innerHTML = options;
-					}
-				}
-			}
-			xhr.open("GET", "movieBytheaterNo?locationNo=" + theaterNo );
-			xhr.send();
-		}
+    $.ajax({
+        url: '/board/party/scheduleBydateAndMNoAndTno',
+        method: 'GET',
+        data: {
+            date: date,
+            movieNo: movieNo,
+            theaterNo: theaterNo
+        },
+        success: function(schedules) {
+            const htmlContents = [];
+            $("#btn-schedule").html(""); // 버튼 목록 내부 컨텐츠를 전부 지운다.
+            $("#theater-name-here .theater-name span").html("");
+            if (schedules.length === 0) {
+                htmlContents.push(`<div class="ps-5 pb-3 text-center" id="no-answer" >
+                                    <span class="fw-bold ps-5 ms-5">검색 결과가 없습니다.</span> <br>
+                                    <span class="ps-5 ms-5">옵션을 재선택 하시거나 초기화 해보시기 바랍니다.</span>
+                                   </div>`);
+                $("#btn-schedule #no-answer").css("left", "50px");
+            } else {
+                schedules.forEach(function (schedule) {
+					const theaterName = schedule.theater.name;
+					$("#theater-name-here .theater-name span").text(theaterName);
+					$("#theater-name-here .theater-name span").css('color', '#329eb1');
+                    htmlContents.push(`
+
+                        <div class="movie-info ms-3 pt-2 d-flex justify-content-start ">
+                            <button id="movie-select-btn" class="border rounded me-3" style="border-color:rgb(255, 244, 244); width: 120px; height: 60px; background-color: white">
+                                <div class="me-4" id="movie-time" style="border-bottom-color:rgb(255, 244, 244);">
+                                    <p><strong>${schedule.start}</strong> ~ ${schedule.end}</p>
+                                    <p class="pe-5 me-1 mt-1">${schedule.screen.name}</p>
+                                </div>
+                                
+                                <input type="hidden" name="start" value="${schedule.start}">
+                                <input type="hidden" name="end" value="${schedule.end}">
+                                <input type="hidden" name="theaterName" value="${schedule.theater.name}">
+                                <input type="hidden" name="screen" value="${schedule.screen.name}">
+                                <input type="hidden" name="movieTitle" value="${schedule.movie.title}">
+                                <input type="hidden" name="schedule" value="${schedule.id}">
+                            </button>
+                        </div>
+                    `);
+
+                });
+            }
+            const htmlContent = htmlContents.join('');
+            $("#btn-schedule").html(htmlContent);
+        },
+        error: function(xhr, status, error) {
+        }
+    });
+}
+
 		
 		
 	
