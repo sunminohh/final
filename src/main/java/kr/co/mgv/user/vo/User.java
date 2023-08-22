@@ -30,18 +30,23 @@ public class User implements UserDetails {
     private String address;
     private Date createDate;
     private Date updateDate;
+    private String disabled;
     private List<String> roleName;
 
     @Builder
-    public User(String id, String email, String password, String name, LocalDate birth, Date createDate, Date updateDate, List<String> roleName) {
+    public User(String id, String email, String password, String name, LocalDate birth, Date createDate,
+               String zipcode, String address, Date updateDate, String disabled, List<String> roleName) {
         super();
         this.id = id;
         this.email = email;
         this.name = name;
         this.password = password;
         this.birth = birth;
+        this.zipcode = zipcode;
+        this.address = address;
         this.createDate = createDate;
         this.updateDate = updateDate;
+        this.disabled = disabled;
         this.roleName = roleName;
     }
 
