@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 @Controller
 @Secured("ROLE_USER")
@@ -66,6 +67,7 @@ public class UserController {
         String email = user.getEmail();
         String zipcode = user.getZipcode();
         String address = user.getAddress();
+        Date updateDate = user.getUpdateDate();
 
         model.addAttribute("userId", id);
         model.addAttribute("userName", name);
@@ -73,6 +75,7 @@ public class UserController {
         model.addAttribute("userEmail", email);
         model.addAttribute("zipcode", zipcode);
         model.addAttribute("address", address);
+        model.addAttribute("updateDate", updateDate);
 
         return "view/user/info/form";
     }

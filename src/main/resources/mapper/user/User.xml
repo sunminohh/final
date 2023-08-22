@@ -36,19 +36,43 @@
             user_email = #{value}
     </select>
 
-    <!--<update id="updateUser" parameterType="updateForm">
+    <!--<update id="updateUser" parameterType="User">
         update MGV_USER
-        set user_name = #{name},
-            user_birth = #{birth},
-            user_email = #{email},
-            user_zipcode = #{zipcode},
-            user_address = #{address}
-        where id = #{id}
+        <set>
+            <if test="name != null">
+                user_name = #{name},
+            </if>
+            <if test="birth != null">
+                user_birth = #{birth},
+            </if>
+            <if test="email != null">
+                user_email = #{email},
+            </if>
+            <if test="zipcode != null">
+                user_zipcode = #{zipcode},
+            </if>
+            <if test="address != null">
+                user_address = #{address},
+            </if>
+            <if test="updateDate != null">
+                user_update_date = #{updateDate},
+            </if>
+
+        </set>
+        where
+            id = #{id}
     </update>-->
 
     <update id="updatePassword" parameterType="User">
         UPDATE MGV_USER
-        SET user_password = #{password}
+        <set>
+            <if test="password != null">
+                user_password = #{password},
+            </if>
+            <if test="updateDate != null">
+                user_update_date = CURRENT_TIMESTAMP,
+            </if>
+        </set>
         WHERE user_id = #{id}
     </update>
 

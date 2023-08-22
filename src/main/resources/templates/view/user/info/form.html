@@ -57,13 +57,12 @@
         </div>
 
         <form name="mbInfoForm">
-            <input type="hidden" name="mbNo" value="">
+            <input type="hidden" name="userId" th:value="${userId}">
 
-            <!-- todo zipcode, address 테이블 질문 -->
-            <input type="hidden" name="zipcode" value="">
-            <input type="hidden" name="mbAddr" value="">
+            <input type="hidden" name="zipcode" th:value="${zipcode}">
+            <input type="hidden" name="mbAddr" th:value="${address}">
             <input type="hidden" name="mbProfilFileNo" value="">
-            <input type="hidden" id="userBirth" value="">
+            <input type="hidden" id="userBirth" th:value="${userBirth}">
 
             <div class="table-wrap mb40">
                 <table class="board-form">
@@ -101,17 +100,16 @@
                         <th scope="row">비밀번호 <em class="font-orange">*</em></th>
                         <td>
                             <a th:href="@{/user/info/update/password}" class="button small gray-line" title="비밀번호 변경">비밀번호 변경</a>
-
-                            마지막 비밀번호 변경: (2023-06-13 22:33:43)
+                            <span th:text="|마지막 비밀번호 변경: (${#dates.format(updateDate, 'yyyy-MM-dd HH:mm:ss')})|"></span>
                         </td>
                     </tr>
                     <tr>
                         <th scope="row">주소</th>
                         <td>
-                            <span id="" th:if="${zipcode}" th:text="${zipcode}"></span>
+                            <span th:if="${zipcode}" th:text="${zipcode}"></span>
                             <span th:unless="${zipcode}">&nbsp;</span>
 
-                            <a href="#" id="btnZipcode" class="button small gray-line ml10">우편번호 검색</a>
+                            <button id="btnZipcode" class="button small gray-line ml10">우편번호 검색</button>
                             <p class="reset mt10" th:if="${address}" th:text="${address}"></p>
                             <p class="reset mt10" th:unless="${address}">&nbsp;</p>
                         </td>
@@ -169,7 +167,7 @@
 
         <div class="btn-group mt40" style="display: block;">
             <button class="button large" id="btnCancel">취소</button>
-            <button class="button purple large" id="btnUpdate">등록</button>
+            <button class="button purple large" type="submit" id="btnUpdate">등록</button>
         </div>
     </form>
 </div>

@@ -1,47 +1,38 @@
 $(() => {
-    $("#btnZipcode").click(function () {
+    $("#btnZipcode").click(function (e) {
+        e.preventDefault();
+
+        const target = $(this);
+        // daum.postcode.load(function() {
         new daum.Postcode({
-            oncomplete: function (data) {
-                console.log(data);
-                // 전체 주소 변수 설정
-                let fullAddr = '';
-                // 추가 주소 변수 설정
-                let extraAddr = '';
+            oncomplete: function (d) {
+                let extraAddr = "";
 
-                // userSelectedType이 'R'(도로명주소)를 클릭했을 때 도로명 주소를 입력받고
-                if (data.userSelectedType === 'R') {
-                    fullAddr = data.roadAddress;
-                } else { // userSelectedType이 'R'이 아닌 경우는 지번 주소를 넣는다.
-                    fullAddr = data.jibunAddress;
+                if (d.bname !== '' && /[동|로|가]$/g.test(d.bname)) {
+                    extraAddr += d.bname;
+                }
+                // 건물명이 있고, 공동주택일 경우 추가한다.
+                if (d.buildingName !== '' && d.apartment === 'Y') {
+                    extraAddr += (extraAddr !== '' ? ', ' + d.buildingName : d.buildingName);
+                }
+                // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                if (extraAddr !== '') {
+                    extraAddr = ' (' + extraAddr + ')';
                 }
 
-                // userSelectedType이 'R'(도로명주소)일 때
-                if (data.userSelectedType === 'R') {
-                    // 법정동이 비어 있지 않는 경우
-                    if (data.bname !== '') {
-                        extraAddr += data.bname;
-                    }
-                    // 건물명이 비어 있지 않는 경우
-                    if (data.buildingName !== '') {
-                        // extraAddr이 비어있지 않으면 ,로 연결해주고 건물명 넣고
-                        // bname(법정동)이 없으면 건물명을 바로 넣어준다.
-                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                    }
+                target.prev().html(d.zonecode);
+                target.next().html(d.address + extraAddr);
 
-                    // extraAddr 이 비어있지 않으면 좌우 ()로 싸고 없으면 빈 값을 반환한다.
-                    fullAddr += (extraAddr !== '' ? ' (' + extraAddr + ') ' : '');
-                }
-
-                document.getElementById('zipcode').value = data.zonecode;
-                document.getElementById("Addr").value = fullAddr;
-                // 커서를 상세주소 필드로 이동한다.
-                document.getElementById("detailAddr").focus();
+                $('[name=zipcd]').val(d.zonecode);
+                $('[name=mbAddr]').val(d.address + extraAddr);
             }
         }).open();
-    })
+        // });
+    });
+
     $("#btnCancel").click(function () {
         history.back();
         return false;
     })
 
-})
+});

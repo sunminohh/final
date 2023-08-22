@@ -6,6 +6,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -16,7 +19,10 @@ public class UserService {
     // 비밀번호 변경
     public void updatePassword(String id, String newPassword) {
         User user = userDao.getUserById(id);
+
         user.setPassword(newPassword);
+        user.setUpdateDate(new Date());
+
         userDao.updatePassword(user);
     }
 }
