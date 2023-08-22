@@ -30,7 +30,7 @@ public class FaqService {
 					.user(user)
 					.category(category)
 					.title(form.getTitle())
-					.title(form.getContent())
+					.content(form.getContent())
 					.build();
 		
 		faqDao.insertFaq(faq);
