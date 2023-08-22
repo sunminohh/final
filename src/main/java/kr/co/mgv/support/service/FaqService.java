@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import kr.co.mgv.support.dao.FaqDao;
 import kr.co.mgv.support.dto.FaqList;
 import kr.co.mgv.support.vo.Faq;
+import kr.co.mgv.support.vo.SupportCategory;
 import kr.co.mgv.support.vo.SupportPagination;
 import lombok.RequiredArgsConstructor;
 
@@ -36,6 +37,11 @@ public class FaqService {
 		result.setFaqList(faqList);
 		
 		return result;
+	}
+	
+	public List<SupportCategory> getCategoriesByType(String categoryType) {
+		
+		return faqDao.getCategories(categoryType);
 	}
 }
 

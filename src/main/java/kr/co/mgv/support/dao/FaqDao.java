@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import kr.co.mgv.support.vo.Faq;
+import kr.co.mgv.support.vo.SupportCategory;
 
 @Mapper
 public interface FaqDao {
@@ -14,4 +15,6 @@ public interface FaqDao {
 	int getTotalRows(Map<String, Object> param);
 	List<Faq> getFaqListByNo(Map<String, Object> param);
 	
+	// faq 카테고리 조회
+	List<SupportCategory> getCategories(String categoryType);
 }
