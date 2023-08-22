@@ -24,6 +24,7 @@
 		    and A.movie_no = #{movieNo}
 		    and A.schedule_date = #{date}
 		    and B.theater_no = #{theaterNo}
+		    AND TIMESTAMPDIFF(HOUR, NOW(), CONCAT(A.schedule_date, ' ', STR_TO_DATE(A.SCHEDULE_START_TIME, '%H:%i'))) >= 1
 	</select>
 	<select id="getSceduleById" parameterType="int" resultType="kr.co.mgv.board.vo.PartyBoardSchedule">
 		select 

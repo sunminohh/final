@@ -5,15 +5,18 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.co.mgv.board.form.AddPboardForm;
 import kr.co.mgv.board.service.MovieBoardService;
 import kr.co.mgv.board.service.PartyBoardService;
 import kr.co.mgv.board.service.TheaterBoardService;
@@ -22,6 +25,7 @@ import kr.co.mgv.board.vo.BoardTheater;
 import kr.co.mgv.board.vo.PartyBoardSchedule;
 import kr.co.mgv.board.vo.SBoardComment;
 import kr.co.mgv.movie.vo.Movie;
+import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -71,7 +75,7 @@ public class PartyController {
 	    }
 
 	    
-	    // 게시물 등록 관련
+	    // 게시물 등록 폼 관련
 		@GetMapping("/theaterByLocationNo")
 		@ResponseBody
 		public List<BoardTheater> getTheaterbyLocationNo(@RequestParam("locationNo") int locationNo) {
@@ -120,5 +124,13 @@ public class PartyController {
 	    	
 	    	return ResponseEntity.ok().body(schedule);
 	    }
+	    
+	    // 게시물 등록 관련
+	    @PostMapping("/add")
+	    public String addPartyBoard(@AuthenticationPrincipal User user, AddPboardForm form) {
+	    	
+	    	return "redirect:/board/party/list";
+	    }
+	    
 	    
 }
