@@ -10,7 +10,7 @@
 <div id="contents" layout:fragment="content" class="update-form">
     <h2 class="tit">개인정보 수정</h2>
 
-    <form id="action-form" method="post" th:action="@{/user/info/form}">
+    <form id="action-form" method="post" th:action="@{/user/info/update}">
         <ul class="dot-list mb10">
             <li>회원님의 정보를 정확히 입력해주세요.</li>
         </ul>
@@ -34,7 +34,7 @@
                                 <img th:src="@{/images/user/myprofile.png}" alt="기본 이미지">
                             </div>
                             <button type="button" class="button small gray-line" id="btnAddProfileImg">이미지 등록</button>
-                            <a href="#" class="button small member-out" title="회원탈퇴" onclick="alert('서비스 준비중입니다.')">회원탈퇴</a>
+                            <a th:href="@{/user/info/disabled}" class="button small member-out">회원탈퇴</a>
                         </div>
                         <p style="font-size:0.8em; color:#999; margin-top:10px; padding:0; text-align:left; position:absolute; top:22px; left:194px;">
                             ※ 개인정보가 포함된 이미지 등록은 자제하여 주시기 바랍니다.</p>
