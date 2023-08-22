@@ -4,12 +4,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import kr.co.mgv.common.file.FileUtils;
 import kr.co.mgv.support.dao.LostDao;
 import kr.co.mgv.support.dao.OneDao;
 import kr.co.mgv.support.dto.OneList;
 import kr.co.mgv.support.form.AddOneForm;
 import kr.co.mgv.support.vo.One;
+import kr.co.mgv.support.vo.OneFile;
 import kr.co.mgv.support.vo.SupportCategory;
 import kr.co.mgv.support.vo.SupportPagination;
 import kr.co.mgv.theater.vo.Location;
@@ -22,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 public class OneService {
 	
 	private final OneDao oneDao;
+	private final FileUtils fileUtils;
 	
 	public void insertOne(AddOneForm form, User user) {
 		
@@ -66,8 +70,20 @@ public class OneService {
 					.build();
 		}
 		
-		
 		oneDao.insertOne(one);
+		
+		List<MultipartFile> multipartFiles = form.getFiles();
+		for (MultipartFile multipartFile : multipartFiles) {
+			String originalFilename = multipartFile.getOriginalFilename();
+			String saveFilename = fileUtils.saveFile("static/images/support/one", multipartFile);
+			
+			OneFile oneFile = new OneFile();
+			oneFile.setOne(one);
+			oneFile.setOriginalName(originalFilename);
+			oneFile.setSaveName(saveFilename);
+			
+			oneDao.insertOneFile(oneFile);
+		}
 	}
 	
 	public void deleteOne(int no) {
@@ -99,6 +115,14 @@ public class OneService {
 	
 	public One getOneByNo(int oneNo) {
 		return oneDao.getOneByNo(oneNo);
+	}
+	
+	public List<OneFile> getOneFileByOneNo(int oneNo) {
+		return oneDao.getOneFileByOneNo(oneNo);
+	}
+	
+	public OneFile getOneFileByFileNo(int fileNo) {
+		return oneDao.getOneFileByFileNo(fileNo);
 	}
 
 	public List<SupportCategory> getCategoriesByType(String categoryType) {

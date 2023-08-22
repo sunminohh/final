@@ -30,19 +30,11 @@ public interface LostDao {
 	// 분실물 문의글 업데이트
 	void updateLostByNo(Lost lost);
 	
-	
-	/**
-     * 파일 정보 저장
-     * @param lostFile
-     */
+	// 첨부파일 정보 저장
 	void insertLostFile(LostFile lostFile);
-	
-	/**
-	 * 분실물 번호로 파일정보 조회하기
-	 * @param lostNo 분실물 번호
-	 * @return 해당 분실문 파일정보들
-	 */
+	// 분실물문의글 번호로 첨부파일 조회
 	List<LostFile> getLostFilesByLostNo(int lostNo);
+	// 파일번호로 파일조회
 	LostFile getLostFileByFileNo(int fileNo);
 	
 }
