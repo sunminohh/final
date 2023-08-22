@@ -1,5 +1,15 @@
 
 $(document).ready(function() {
+	
+	// 폼에서 카테고리 조회
+	let $selectCategory = $("#faqCat").empty();
+	$selectCategory.append(`<option value="" selected disabled>카테고리 선택</option>`)
+	$.getJSON("/admin/support/faq/getCategory?type=faq", function(categories) {
+		categories.forEach(function(cat) {
+			let option = `<option value="${cat.no}"> ${cat.name}</option>`;
+				$selectCategory.append(option);
+		})
+	})
 
 	const params = new URLSearchParams(location.search);
 	const defaultKeyword = params.get('keyword');
@@ -77,7 +87,7 @@ $(document).ready(function() {
 		let $ul = $(".faq-list ul").empty()
 		let $pagination = $(".pagination").empty();
 		
-		$.getJSON("/support/faq/list", {keyword:keyword, catNo:categoryNo, page:page}, function(result) {
+		$.getJSON("/admin/support/faq/list", {keyword:keyword, catNo:categoryNo, page:page}, function(result) {
 			// 총 건수 업데이트
        		$('#totalCnt').text(result.pagination.totalRows);
 			
