@@ -19,7 +19,7 @@ $(function() {
 		
 	})
 	
-
+	// 극장선택
 	$("#location").change(function() {
 		$("#theater").prop("disabled", false);
 		
@@ -36,6 +36,22 @@ $(function() {
 		})
 		
 	});
+	
+	// 폼 비번 4자리
+	$(document).ready(function() {
+        $(".pwnew").on("input", function() {
+            // 입력값에서 숫자 이외의 문자 제거
+            let numericValue = $(this).val().replace(/[^0-9]/g, '');
+
+            // 4자리로 제한
+            if (numericValue.length > 4) {
+                numericValue = numericValue.slice(0, 4);
+            }
+
+            // 입력 필드에 반영
+            $(this).val(numericValue);
+        });
+    });
 	
 	// 폼 알림창
 	$("#btn-submit").on("click", function(event) {
@@ -253,21 +269,7 @@ $(function() {
 
 
 
-	// 폼 비번 4자리
-	$(document).ready(function() {
-        $(".pwnew").on("input", function() {
-            // 입력값에서 숫자 이외의 문자 제거
-            let numericValue = $(this).val().replace(/[^0-9]/g, '');
-
-            // 4자리로 제한
-            if (numericValue.length > 4) {
-                numericValue = numericValue.slice(0, 4);
-            }
-
-            // 입력 필드에 반영
-            $(this).val(numericValue);
-        });
-    });
+	
 	
      $("#table-lost tbody").on("click", "a", function(event) {
 		event.preventDefault();

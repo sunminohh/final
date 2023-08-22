@@ -2,6 +2,7 @@
    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/support}">
 <head th:fragment="extra-head-content">
+	<link th:href=@{/css/support/one.css} rel="stylesheet">
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" th:src="@{/js/support/one.js}"></script>
 </head>
@@ -50,7 +51,7 @@
     <p class="reset mt30 a-r font-orange">* 필수</p>
 
 	<!--폼 시작 -->
-    <form id="insertform" name="regFrm" method="post" th:action="@{/support/one/add}" th:object=${addOneForm}>
+    <form id="insertform" name="regFrm" method="post" th:action="@{/support/one/add}" th:object=${addOneForm} enctype="multipart/form-data">
         <div class="table-wrap mt10">
             <table class="board-form va-m">
                 <colgroup>
@@ -146,18 +147,18 @@
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row">사진첨부</th>  <!-- 추가 예정 -->
+                    <th scope="row">사진첨부</th> 
                     <td colspan="3">
                         <div class="upload-image-box">
                             <div class="info-txt">
                                 <p>* JPEG, PNG 형식의 5M 이하의 파일만 첨부 가능합니다. (최대 5개)</p>
-                                <!--이미지 추가가 5개가 되면 버튼 숨김 -->
-                                
+                                <button type="button" id="uploadBtn" class="btn-image-add">
+								  <span>파일선택</span>
+								  <input type="file" name="files" id="fileInput" style="display: none;" accept="image/png, image/jpeg" multiple>
+								</button>
                                 <p>* 개인정보가 포함된 이미지 등록은 자제하여 주시기 바랍니다.</p>
-                                <input type="file" name="upfile" >
                             </div>
-                            <div id="imgList">
-                            </div>
+                            <div id="imgList"></div>
                         </div>
                     </td>
                 </tr>
