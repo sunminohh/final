@@ -1,6 +1,6 @@
 $(() => {
-    const $pwd = $(".update-form input[name='pwdnow']");
-    const $pwdnew = $(".update-form input[name='pwdnew']");
+    const $pwd = $(".update-form input[name='checkPassword']");
+    const $pwdnew = $(".update-form input[name='newPassword']");
     const $repwdnew = $(".update-form input[name='repwdnew']");
     const pwdReg = /(?=.*[0-9])(?=.*[a-zA-Z])(?=\S+$).{8,16}/;
 
@@ -33,34 +33,36 @@ $(() => {
         const pwdnewValue = $pwdnew.val();
         const repwdnewValue = $repwdnew.val();
 
-        if (!pwdValue) {
-            errorAlert($pwd, "비밀번호를 입력하세요.");
-            pwdErrMsg.text("현재 비밀번호를 입력하세요.");
+
+        const check = checkInput();
+        if (!check) {
+            console.log(check);
             return false;
         }
+        console.log("pass");
 
         $.ajax({
-            url: "/user/info/checkPwd",
+            url: "/user/info/update/password",
             type: "POST",
-            data: {pwd: pwdValue},
-            dataType: "text",
+            data: form.serialize(),
             success: function (res) {
-                if (res === "yes") {
-                    console.log("비밀번호 일치 여부 ->", res);
-                    pwdCheck = true;
+                successAlert($pwd, "비밀번호가 변경되었습니다.", function () {
+                    $pwd.val("");
+                    $pwdnew.val("");
+                    $repwdnew.val("");
 
-                    check();
-                } else if (res === "no") {
-                    console.log("비밀번호 일치 여부 ->", res);
-                    errorAlert($pwd, "현재 비밀번호가 일치하지 않습니다.");
-                    pwdErrMsg.text("다시 입력해주세요.");
-                    pwdCheck = false;
-                }
+                    // 만약 다른 페이지로 이동 필요할 시
+                    location.href = "/user/info/form";
+                });
+
             },
-        }).fail(handleAjaxError);
+            error: function (e) {
+                errorAlert($pwd, e.responseText);
+                pwdErrMsg.text("현재 비밀번호를 입력하세요.");
+            }
+        });
 
-        function check() {
-
+        function checkInput() {
             if (!pwdnewValue) {
                 errorAlert($pwdnew, "새 비밀번호를 입력하세요.");
                 return false;
@@ -88,14 +90,12 @@ $(() => {
                 repwdnewErrMsg.text("다시 입력해주세요.");
                 return false;
             }
-
-            form[0].submit();
+            return true;
         }
-
     })
 
     // 입력 이벤트
-    $("input[name='pwdnow']").keyup(() => {
+    $("input[name='checkPassword']").keyup(() => {
         const pwdValue = $pwd.val();
         if (!$pwd.val()) {
             pwdCheck = false;
@@ -104,7 +104,7 @@ $(() => {
         }
     })
 
-    $("input[name='pwdnew']").keyup(() => {
+    $("input[name='newPassword']").keyup(() => {
         const pwdValue = $pwd.val();
         const pwdnewValue = $pwdnew.val();
         const pwdReg = /(?=.*[0-9])(?=.*[a-zA-Z])(?=\S+$).{8,16}/;
@@ -153,7 +153,7 @@ $(() => {
     function handleAjaxError() {
         Swal.fire({
             icon: 'error',
-            text: "오류가 발생하였습니다. 잠시 후 이용해 주세요."
+            text: "현재 비밀번호가 일치하지 않습니다.",
         });
     }
 
@@ -166,11 +166,18 @@ $(() => {
         $($el).focus();
     }
 
-    function successAlert($el, text) {
+    function successAlert($el, text, callback) {
         Swal.fire({
             icon: 'success',
             text: text,
+            confirmButtonText: '확인',
+            allowOutsideClick: false,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                if (typeof callback === 'function') {
+                    callback();
+                }
+            }
         });
-        $($el).focus();
     }
 })

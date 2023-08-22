@@ -38,7 +38,7 @@
 		SELECT 
 			FILE_NO			as no, 
 			ORIGINAL_NAME	as originalName,
-			SAVE_NAME 		AS saveName
+			SAVE_NAME 		as saveName
 		FROM 
 			MGV_LOST_FILE
 		where FILE_NO = #{value}

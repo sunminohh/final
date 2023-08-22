@@ -60,7 +60,6 @@ public class LostService {
 					.build();
 		}
 		
-
 		lostDao.insertLost(lost);
 		
 		List<MultipartFile> multipartFiles = form.getFiles();
@@ -106,17 +105,14 @@ public class LostService {
 	}
 	
 	public Lost getLostByNo(int lostNo) {
-		
 		return lostDao.getLostByNo(lostNo);
 	}
 	
 	public List<LostFile> getLostFilesByLostNo(int lostNo) {
-		
 		return lostDao.getLostFilesByLostNo(lostNo);
 	}
 	
 	public LostFile getLostFileByFileNo(int fileNo) {
-		
 		return lostDao.getLostFileByFileNo(fileNo);
 	}
 	
