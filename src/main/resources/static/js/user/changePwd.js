@@ -58,16 +58,11 @@ $(() => {
             },
             error: function (e) {
                 errorAlert($pwd, e.responseText);
+                pwdErrMsg.text("현재 비밀번호를 입력하세요.");
             }
         });
 
         function checkInput() {
-            if (!pwdValue) {
-                errorAlert($pwd, "비밀번호를 입력하세요.");
-                pwdErrMsg.text("현재 비밀번호를 입력하세요.");
-                return false;
-            }
-
             if (!pwdnewValue) {
                 errorAlert($pwdnew, "새 비밀번호를 입력하세요.");
                 return false;
