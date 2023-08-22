@@ -1,9 +1,9 @@
 
 $(function() {
-      // 오늘 날짜를 구합니다.
+      // 날짜 버튼 만들기
       let today = new Date();
 
-      // 일주일 간의 날짜와 요일을 배열에 저장합니다.
+      // 일주일 간의 날짜와 요일을 배열에 저장
       let weekDatesAndDays = [];
       for (let i = 0; i < 7; i++) {
         let date = new Date(today.getTime() + (i * 24 * 60 * 60 * 1000));
@@ -17,7 +17,7 @@ $(function() {
         });
       }
 
-      // 결과를 출력합니다.
+      // 결과 출력
       $.each(weekDatesAndDays, function(index, item) {
         let dateSpanId = "#span-date-" + (index + 1);
         let daySpanId = "#span-day-" + (index + 1);
@@ -39,7 +39,7 @@ $(function() {
 		  }
       });
 
-	
+	// #date-select button 클릭시 css 조정 및 selectedDate input의 value로 정의
 	let selectedDate;
 	$("#date-select button").click(function() {
 		
@@ -54,6 +54,7 @@ $(function() {
 
 	});
 	
+	// 영화검새&선택 입력창
 	 $(".movie-search-input").on("input", function () {
 	    const inputText = $(this).val();
 	    const searchItems = $(".movie-search-item");
@@ -86,7 +87,8 @@ $(function() {
 	    }
 	  });
 
-	       $(".movie-search-button").on("click", function () {
+		// 선택 버튼 클릭시 모달을 열고 선택된 영화제목을 모달의 title로 한다. 
+	  $(".movie-search-button").on("click", function () {
         let inputText = $(".movie-search-input").val();
         
         if (inputText === "") { // 입력창 내용이 비었을 때
@@ -161,7 +163,7 @@ $(function() {
 	        success: function(schedule) {
 					
 				let htmlContent = `	<div class="selected-movie-info-box pe-2 pt-2 border" style="border-radius: 7px; border-color:rgb(254, 243, 220); background-color: rgb(254, 243, 220); height: 36px;">
-					           			<p class="ms-2" style="color:rgb(64, 44, 27); font-size: 13px;">${schedule.movie.title} MGV${schedule.theater.name} ${schedule.date}(수)${schedule.start} ${schedule.screen.name}</p>
+					           			<p class="ms-2" style="color:rgb(64, 44, 27); font-size: 13px;">${schedule.movie.title} MGV${schedule.theater.name} ${schedule.date} ${schedule.start} ${schedule.screen.name}</p>
 					           		</div>`
 				$("#info-here").html(htmlContent);
 				
@@ -173,6 +175,50 @@ $(function() {
 		
 	})
 	
+		$("#btn-submit").on("click", function () {
+	    let movieTitle = $("#info-here").find('.selected-movie-info-box p').text();
+	    let title = $("input[name='name']").val();
+	    let content = $("#summernote").val();
+	
+	    if (movieTitle === '') {
+	        Swal.fire({
+	            icon: 'error',
+	            text: '영화를 선택해주세요.',
+	        });
+	    } else if (title === '') {
+	        Swal.fire({
+	            icon: 'error',
+	            text: '게시글의 제목을 입력해주세요.',
+	        });
+	    } else if (content === '') {
+	        Swal.fire({
+	            icon: 'error',
+	            text: '게시글의 내용을 입력해주세요.',
+	        });
+	       } else {
+        // 여기서 content의 크기를 확인하고 경고 메시지를 표시
+        if (content.length > 1048576) { // 1048576 바이트 = 1MB 
+            Swal.fire({
+                icon: 'error',
+                text: '내용이 너무 큽니다. 최대 허용 크기: 1MB',
+            });
+        } else {
+            Swal.fire({
+                icon: 'warning',
+                title: '게시글을 등록 하시겠습니까?',
+                showCancelButton: true,
+                confirmButtonText: '네',
+                cancelButtonText: '아니오',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $(".board-insert-form").submit();
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+
+                	}
+            	});
+        	}
+    	}
+	});
 	
 })
 	
@@ -203,63 +249,64 @@ $(function() {
 			xhr.send();
 		}
 	
-function changeTh() {
-    const date = $("input[name=date]").attr('th:value');
-    const movieNo = $("input[name=movieNo]").val();
-    const theaterNo = document.querySelector("select[name=theaterNo]").value
-    $("input[name=theaterNo]").attr('value', theaterNo);
-
-    $.ajax({
-        url: '/board/party/scheduleBydateAndMNoAndTno',
-        method: 'GET',
-        data: {
-            date: date,
-            movieNo: movieNo,
-            theaterNo: theaterNo
-        },
-        success: function(schedules) {
-            const htmlContents = [];
-            $("#btn-schedule").html(""); // 버튼 목록 내부 컨텐츠를 전부 지운다.
-            $("#theater-name-here .theater-name span").html("");
-            if (schedules.length === 0) {
-                htmlContents.push(`<div class="ps-5 pb-3 text-center" id="no-answer" >
-                                    <span class="fw-bold ps-5 ms-5">검색 결과가 없습니다.</span> <br>
-                                    <span class="ps-5 ms-5">옵션을 재선택 하시거나 초기화 해보시기 바랍니다.</span>
-                                   </div>`);
-                $("#btn-schedule #no-answer").css("left", "50px");
-            } else {
-                schedules.forEach(function (schedule) {
-					const theaterName = schedule.theater.name;
-					$("#theater-name-here .theater-name span").text(theaterName);
-					$("#theater-name-here .theater-name span").css('color', '#329eb1');
-                    htmlContents.push(`
-
-                        <div class="movie-info ms-3 pt-2 d-flex justify-content-start ">
-                            <button id="movie-select-btn" class="border rounded me-3" style="border-color:rgb(255, 244, 244); width: 120px; height: 60px; background-color: white">
-                                <div class="me-4" id="movie-time" style="border-bottom-color:rgb(255, 244, 244);">
-                                    <p><strong>${schedule.start}</strong> ~ ${schedule.end}</p>
-                                    <p class="pe-5 me-1 mt-1">${schedule.screen.name}</p>
-                                </div>
-                                
-                                <input type="hidden" name="start" value="${schedule.start}">
-                                <input type="hidden" name="end" value="${schedule.end}">
-                                <input type="hidden" name="theaterName" value="${schedule.theater.name}">
-                                <input type="hidden" name="screen" value="${schedule.screen.name}">
-                                <input type="hidden" name="movieTitle" value="${schedule.movie.title}">
-                                <input type="hidden" name="schedule" value="${schedule.id}">
-                            </button>
-                        </div>
-                    `);
-
-                });
-            }
-            const htmlContent = htmlContents.join('');
-            $("#btn-schedule").html(htmlContent);
-        },
-        error: function(xhr, status, error) {
-        }
-    });
-}
+	// 날짜, 지역을 선택후 최종적으로 극장 선택시 영화 정보 출력
+	function changeTh() {
+	    const date = $("input[name=date]").attr('th:value');
+	    const movieNo = $("input[name=movieNo]").val();
+	    const theaterNo = document.querySelector("select[name=theaterNo]").value
+	    $("input[name=theaterNo]").attr('value', theaterNo);
+	
+	    $.ajax({
+	        url: '/board/party/scheduleBydateAndMNoAndTno',
+	        method: 'GET',
+	        data: {
+	            date: date,
+	            movieNo: movieNo,
+	            theaterNo: theaterNo
+	        },
+	        success: function(schedules) {
+	            const htmlContents = [];
+	            $("#btn-schedule").html(""); // 버튼 목록 내부 컨텐츠를 전부 지운다.
+	            $("#theater-name-here .theater-name span").html("");
+	            if (schedules.length === 0) {
+	                htmlContents.push(`<div class="ps-5 pb-3 text-center" id="no-answer" >
+	                                    <span class="fw-bold ps-5 ms-5">검색 결과가 없습니다.</span> <br>
+	                                    <span class="ps-5 ms-5">옵션을 재선택 하시거나 초기화 해보시기 바랍니다.</span>
+	                                   </div>`);
+	                $("#btn-schedule #no-answer").css("left", "50px");
+	            } else {
+	                schedules.forEach(function (schedule) {
+						const theaterName = schedule.theater.name;
+						$("#theater-name-here .theater-name span").text(theaterName);
+						$("#theater-name-here .theater-name span").css('color', '#329eb1');
+	                    htmlContents.push(`
+	
+	                        <div class="movie-info ms-3 pt-2 d-flex justify-content-start ">
+	                            <button id="movie-select-btn" class="border rounded me-3" style="border-color:rgb(255, 244, 244); width: 120px; height: 60px; background-color: white">
+	                                <div class="me-4" id="movie-time" style="border-bottom-color:rgb(255, 244, 244);">
+	                                    <p><strong>${schedule.start}</strong> ~ ${schedule.end}</p>
+	                                    <p class="pe-5 me-1 mt-1">${schedule.screen.name}</p>
+	                                </div>
+	                                
+	                                <input type="hidden" name="start" value="${schedule.start}">
+	                                <input type="hidden" name="end" value="${schedule.end}">
+	                                <input type="hidden" name="theaterName" value="${schedule.theater.name}">
+	                                <input type="hidden" name="screen" value="${schedule.screen.name}">
+	                                <input type="hidden" name="movieTitle" value="${schedule.movie.title}">
+	                                <input type="hidden" name="schedule" value="${schedule.id}">
+	                            </button>
+	                        </div>
+	                    `);
+	
+	                });
+	            }
+	            const htmlContent = htmlContents.join('');
+	            $("#btn-schedule").html(htmlContent);
+	        },
+	        error: function(xhr, status, error) {
+	        }
+	    });
+	}
 
 		
 		

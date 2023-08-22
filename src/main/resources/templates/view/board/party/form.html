@@ -20,7 +20,7 @@
 					th:object="${addTBoardForm}"
 					th:action="@{/board/theater/add}"
 				 -->
-				<form  method="post"  class="p-3"  >
+				<form  method="post" th:action="@{/board/party/add}" enctype="multipart/form-data" class="board-insert-form p-3" >
 					<div class="border light p-3">
 						<div class="form-group mb-2 d-flex justify-content-start">
 			             	<div class="col-sm-1 pt-1" >
@@ -77,11 +77,11 @@
 							<textarea name="content" id="summernote" ></textarea>
 						</div>
 					</div>	
+					<div style="text-align: center; padding:30px;">
+						<a href="list" class="btn btn-light btn-sm text-decoration-none text-reset">나가기</a>
+						<button id="btn-submit" type="button" class="btn btn-dark btn-sm" >등록</button>
+					</div>	
 				</form>	
-				<div style="text-align: center; padding:30px;">
-					<a href="list" class="btn btn-light btn-sm text-decoration-none text-reset">나가기</a>
-					<button id="btn-submit" type="button" class="btn btn-dark btn-sm" >등록</button>
-				</div>	
 			</div>
 		</div>
 		
@@ -199,10 +199,6 @@
 	</div>
 </body>
 </html>
-
-<!-- 
-		(파티생성시간 - 1시간) 보다 전 타임 영화는 보이지 않는다.
- -->
 
 
 
