@@ -17,4 +17,7 @@ public interface FaqDao {
 	
 	// faq 카테고리 조회
 	List<SupportCategory> getCategories(String categoryType);
+	
+	// faq 등록
+	void insertFaq(Faq faq);
 }

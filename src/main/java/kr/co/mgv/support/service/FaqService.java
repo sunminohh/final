@@ -7,9 +7,11 @@ import org.springframework.stereotype.Service;
 
 import kr.co.mgv.support.dao.FaqDao;
 import kr.co.mgv.support.dto.FaqList;
+import kr.co.mgv.support.form.AddFaqForm;
 import kr.co.mgv.support.vo.Faq;
 import kr.co.mgv.support.vo.SupportCategory;
 import kr.co.mgv.support.vo.SupportPagination;
+import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -17,6 +19,22 @@ import lombok.RequiredArgsConstructor;
 public class FaqService {
 
 	private final FaqDao faqDao;
+	
+	public void insertFaq(AddFaqForm form, User user) {
+		
+		SupportCategory category = SupportCategory.builder()
+								.no(form.getCategoryNo())
+								.build();
+		
+		Faq faq = Faq.builder()
+					.user(user)
+					.category(category)
+					.title(form.getTitle())
+					.title(form.getContent())
+					.build();
+		
+		faqDao.insertFaq(faq);
+	}
 	
 	public FaqList search(Map<String, Object> param) {
 		
