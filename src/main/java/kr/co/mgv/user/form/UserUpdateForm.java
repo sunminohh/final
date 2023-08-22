@@ -5,7 +5,6 @@ import org.apache.ibatis.type.Alias;
 
 import java.time.LocalDate;
 
-@Alias("updateForm")
 @Data
 public class UserUpdateForm {
 

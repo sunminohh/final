@@ -33,11 +33,6 @@ $(() => {
         const pwdnewValue = $pwdnew.val();
         const repwdnewValue = $repwdnew.val();
 
-        if (!pwdValue) {
-            errorAlert($pwd, "비밀번호를 입력하세요.");
-            pwdErrMsg.text("현재 비밀번호를 입력하세요.");
-            return false;
-        }
 
         const check = checkInput();
         if (!check) {
@@ -51,19 +46,27 @@ $(() => {
             type: "POST",
             data: form.serialize(),
             success: function (res) {
-                successAlert($pwd, "비밀번호가 변경되었습니다.");
-                $pwd.val("");
-                $pwdnew.val("");
-                $repwdnew.val("");
-                // 만약 다른 페이지로 이동 필요할 시
-                // location.href = "/user/info";
+                successAlert($pwd, "비밀번호가 변경되었습니다.", function () {
+                    $pwd.val("");
+                    $pwdnew.val("");
+                    $repwdnew.val("");
+
+                    // 만약 다른 페이지로 이동 필요할 시
+                    location.href = "/user/info/form";
+                });
+
             },
-            error: function(e) {
+            error: function (e) {
                 errorAlert($pwd, e.responseText);
             }
         });
 
         function checkInput() {
+            if (!pwdValue) {
+                errorAlert($pwd, "비밀번호를 입력하세요.");
+                pwdErrMsg.text("현재 비밀번호를 입력하세요.");
+                return false;
+            }
 
             if (!pwdnewValue) {
                 errorAlert($pwdnew, "새 비밀번호를 입력하세요.");
@@ -168,11 +171,18 @@ $(() => {
         $($el).focus();
     }
 
-    function successAlert($el, text) {
+    function successAlert($el, text, callback) {
         Swal.fire({
             icon: 'success',
             text: text,
+            confirmButtonText: '확인',
+            allowOutsideClick: false,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                if (typeof callback === 'function') {
+                    callback();
+                }
+            }
         });
-        $($el).focus();
     }
 })

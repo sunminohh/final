@@ -1,7 +1,6 @@
 package kr.co.mgv.user.service;
 
 import kr.co.mgv.user.dao.UserDao;
-import kr.co.mgv.user.form.UserUpdateForm;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

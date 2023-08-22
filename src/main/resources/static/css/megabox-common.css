@@ -31981,59 +31981,59 @@ body.body-iframe .modal-layer2 {
     top: 0
 }
 
-.my-megabox-main p {
+.my-mgv-main p {
     margin: 0;
     padding: 0
 }
 
-.my-megabox-main .tit-util {
+.my-mgv-main .tit-util {
     padding-bottom: 15px
 }
 
-.my-megabox-main .tit-util .tit {
+.my-mgv-main .tit-util .tit {
     line-height: 32px
 }
 
-.my-megabox-main .tit-util .more {
+.my-mgv-main .tit-util .more {
     line-height: 32px
 }
 
-.my-megabox-main .column {
+.my-mgv-main .column {
     overflow: hidden
 }
 
-.my-megabox-main .column .col {
+.my-mgv-main .column .col {
     width: 400px
 }
 
-.my-megabox-main .column .col.left {
+.my-mgv-main .column .col.left {
     float: left
 }
 
-.my-megabox-main .column .col.right {
+.my-mgv-main .column .col.right {
     float: right
 }
 
-.my-magabox-info {
+.my-mgv-info {
     overflow: hidden;
     height: 367px;
     border-radius: 10px;
     background-color: #f3f4f6
 }
 
-.my-magabox-info .top {
+.my-mgv-info .top {
     position: relative;
     height: 198px;
     padding: 30px 30px 0 0
 }
 
-.my-magabox-info .top .photo {
+.my-mgv-info .top .photo {
     float: left;
     width: 200px;
     padding: 20px 0 0 60px
 }
 
-.my-magabox-info .top .photo .wrap {
+.my-mgv-info .top .photo .wrap {
     position: relative;
     width: 93px;
     margin: 0;
@@ -32041,7 +32041,7 @@ body.body-iframe .modal-layer2 {
     background: url(https://img.megabox.co.kr/static/pc/images/mypage/bg-photo-back.png) no-repeat center bottom
 }
 
-.my-magabox-info .top .photo .wrap i {
+.my-mgv-info .top .photo .wrap i {
     overflow: hidden;
     display: block;
     position: absolute;
@@ -32052,7 +32052,7 @@ body.body-iframe .modal-layer2 {
     box-shadow: -2px 2px 5px 0 rgba(45,45,45,.3)
 }
 
-.my-magabox-info .top .photo .wrap .img {
+.my-mgv-info .top .photo .wrap .img {
     overflow: hidden;
     display: block;
     width: 93px;
@@ -32067,37 +32067,37 @@ body.body-iframe .modal-layer2 {
     box-shadow: 0 5px 5px 0 rgba(45,45,45,.2)
 }
 
-.my-magabox-info .top .photo .wrap .img img {
+.my-mgv-info .top .photo .wrap .img img {
     width: 100%;
     height: 100%;
     border-radius: 93px
 }
 
-.my-magabox-info .top .grade {
+.my-mgv-info .top .grade {
     float: left;
     padding-top: 20px
 }
 
-.my-magabox-info .top .grade .name {
+.my-mgv-info .top .grade .name {
     font-size: 1.8666em;
     line-height: 1.3;
     color: #222
 }
 
-.my-magabox-info .top .grade .link {
+.my-mgv-info .top .grade .link {
     padding: 15px 0 0 0
 }
 
-.my-magabox-info .top .grade .link a {
+.my-mgv-info .top .grade .link a {
     margin-right: 10px;
     color: #666
 }
 
-.my-magabox-info .top .grade .link a i {
+.my-mgv-info .top .grade .link a i {
     margin-left: 2px
 }
 
-.my-magabox-info .top .special-membership {
+.my-mgv-info .top .special-membership {
     float: right;
     width: 206px;
     height: 131px;
@@ -32106,84 +32106,84 @@ body.body-iframe .modal-layer2 {
     border-radius: 10px
 }
 
-.my-magabox-info .top .special-membership .tit {
+.my-mgv-info .top .special-membership .tit {
     height: 50px;
     line-height: 50px;
     text-transform: uppercase
 }
 
-.my-magabox-info .top .special-membership .no-join {
+.my-mgv-info .top .special-membership .no-join {
     padding: 0
 }
 
-.my-magabox-info .top .special-membership .no-join .txt {
+.my-mgv-info .top .special-membership .no-join .txt {
     padding: 0 0 10px 0;
     font-size: .9333em;
     line-height: 1.3
 }
 
-.my-magabox-info .top .special-membership .no-join a {
+.my-mgv-info .top .special-membership .no-join a {
     color: #444
 }
 
-.my-magabox-info .top .special-membership .join {
+.my-mgv-info .top .special-membership .join {
     text-align: center
 }
 
-.my-magabox-info .top .special-membership .join .box {
+.my-mgv-info .top .special-membership .join .box {
     display: inline-block;
     width: 90px;
     vertical-align: top
 }
 
-.my-magabox-info .top .special-membership .join .box span {
+.my-mgv-info .top .special-membership .join .box span {
     display: block;
     padding: 5px 0 0 0;
     font-size: .9333em
 }
 
-.my-magabox-info .top .special-membership .join .box+.box {
+.my-mgv-info .top .special-membership .join .box+.box {
     margin: 0 0 0 -3px;
     border-left: 1px solid #d8d9db
 }
 
-.my-magabox-info .bottom {
+.my-mgv-info .bottom {
     overflow: hidden;
     height: calc(100% - 198px);
     padding: 26px 30px 29px 30px;
     background-color: #eaebed
 }
 
-.my-magabox-info .bottom .tit-area {
+.my-mgv-info .bottom .tit-area {
     overflow: hidden
 }
 
-.my-magabox-info .bottom .tit-area .tit {
+.my-mgv-info .bottom .tit-area .tit {
     float: left;
     font-size: 1.2em;
     color: #222
 }
 
-.my-magabox-info .bottom .tit-area a {
+.my-mgv-info .bottom .tit-area a {
     float: right;
     color: #444
 }
 
-.my-magabox-info .bottom .point {
+.my-mgv-info .bottom .point {
     float: left;
     width: 337px;
     min-height: 116px
 }
 
-.my-magabox-info .bottom .point .tit-area {
+.my-mgv-info .bottom .point .tit-area {
     padding-right: 30px
 }
 
-.my-magabox-info .bottom .point .cont-area .total {
+.my-mgv-info .bottom .point .cont-area .total {
     overflow: hidden
 }
 
-.my-magabox-info .bottom .point .cont-area .total .now {
+.my-mgv-info .bottom .point .cont-area .total .now {
     overflow: hidden;
     display: block;
     float: left;
@@ -32197,12 +32197,12 @@ body.body-iframe .modal-layer2 {
     letter-spacing: -1px
 }
 
-.my-magabox-info .bottom .point .cont-area .total .division {
+.my-mgv-info .bottom .point .cont-area .total .division {
     display: table;
     float: left
 }
 
-.my-magabox-info .bottom .point .cont-area .total .division .cell {
+.my-mgv-info .bottom .point .cont-area .total .division .cell {
     display: table-cell;
     height: 44px;
     padding: 0 0 0 36px;
@@ -32210,35 +32210,35 @@ body.body-iframe .modal-layer2 {
     background: url(https://img.megabox.co.kr/static/pc/images/common/ico/ico-equal-black.png) no-repeat 10px center
 }
 
-.my-magabox-info .bottom .point .cont-area .total .division .cell p span {
+.my-mgv-info .bottom .point .cont-area .total .division .cell p span {
     display: inline-block;
     width: 60px
 }
 
-.my-magabox-info .bottom .point .cont-area .change {
+.my-mgv-info .bottom .point .cont-area .change {
     overflow: hidden;
     margin: 10px 30px 0 0;
     padding: 10px 0 0 0;
     border-top: 1px solid #d8d9db
 }
 
-.my-magabox-info .bottom .point .cont-area .change .save {
+.my-mgv-info .bottom .point .cont-area .change .save {
     float: left
 }
 
-.my-magabox-info .bottom .point .cont-area .change .save em {
+.my-mgv-info .bottom .point .cont-area .change .save em {
     margin-left: 4px;
     color: #222
 }
 
-.my-magabox-info .bottom .point .cont-area .change .del {
+.my-mgv-info .bottom .point .cont-area .change .del {
     float: left;
     position: relative;
     margin: 0 0 0 10px;
     padding: 0 0 0 11px
 }
 
-.my-magabox-info .bottom .point .cont-area .change .del:before {
+.my-mgv-info .bottom .point .cont-area .change .del:before {
     content: '';
     display: block;
     position: absolute;
@@ -32249,12 +32249,12 @@ body.body-iframe .modal-layer2 {
     background-color: #d8d9db
 }
 
-.my-magabox-info .bottom .point .cont-area .change .del em {
+.my-mgv-info .bottom .point .cont-area .change .del em {
     margin-left: 4px;
     color: #e81003
 }
 
-.my-magabox-info .bottom .theater {
+.my-mgv-info .bottom .theater {
     float: left;
     width: 237px;
     height: 100%;
@@ -32263,12 +32263,12 @@ body.body-iframe .modal-layer2 {
     border-left: 1px solid #d8d9db
 }
 
-.my-magabox-info .bottom .theater .list ol li {
+.my-mgv-info .bottom .theater .list ol li {
     padding: 9px 0 0 0;
     line-height: 1.1
 }
 
-.my-magabox-info .bottom .theater .list ol li em {
+.my-mgv-info .bottom .theater .list ol li em {
     display: inline-block;
     margin: 0 5px 0 0;
     font-family: Roboto;
@@ -32277,16 +32277,16 @@ body.body-iframe .modal-layer2 {
     vertical-align: middle
 }
 
-.my-magabox-info .bottom .theater .no-list {
+.my-mgv-info .bottom .theater .no-list {
     padding-top: 9px
 }
 
-.my-magabox-info .bottom .theater .no-list span {
+.my-mgv-info .bottom .theater .no-list span {
     display: inline-block;
     border-bottom: 1px solid #444
 }
 
-.my-magabox-info .bottom .coupon {
+.my-mgv-info .bottom .coupon {
     float: left;
     width: 206px;
     height: 100%;
@@ -32294,138 +32294,138 @@ body.body-iframe .modal-layer2 {
     border-left: 1px solid #d8d9db
 }
 
-.my-magabox-info .bottom .coupon .list ul li {
+.my-mgv-info .bottom .coupon .list ul li {
     overflow: hidden;
     padding: 9px 0 0 0;
     line-height: 1.1
 }
 
-.my-magabox-info .bottom .coupon .list ul li span {
+.my-mgv-info .bottom .coupon .list ul li span {
     display: block;
     float: left
 }
 
-.my-magabox-info .bottom .coupon .list ul li em {
+.my-mgv-info .bottom .coupon .list ul li em {
     display: block;
     float: right;
     text-align: right
 }
 
-.my-magabox-info .ico-arr-right-reverse {
+.my-mgv-info .ico-arr-right-reverse {
     width: 6px;
     height: 9px;
     background-image: url(https://img.megabox.co.kr/static/pc/images/common/ico/ico-arr-right-reverse-gray.png)
 }
 
-.my-magabox-info.vip {
+.my-mgv-info.vip {
     background-color: #25132a
 }
 
-.my-magabox-info.vip .top {
-    background: url(https://img.megabox.co.kr/static/pc/images/mypage/bg-my-magabox-info-vip.png) no-repeat 0 0
+.my-mgv-info.vip .top {
+    background: url(https://img.megabox.co.kr/static/pc/images/mypage/bg-my-mgv-info-vip.png) no-repeat 0 0
 }
 
-.my-magabox-info.vip .top .grade .name {
+.my-mgv-info.vip .top .grade .name {
     color: #fff
 }
 
-.my-magabox-info.vip .top .grade .link a {
+.my-mgv-info.vip .top .grade .link a {
     color: #fff
 }
 
-.my-magabox-info.vip .top .special-membership {
+.my-mgv-info.vip .top .special-membership {
     border-color: #45364a;
     color: #fff
 }
 
-.my-magabox-info.vip .top .special-membership .join .box+.box {
+.my-mgv-info.vip .top .special-membership .join .box+.box {
     border-color: #45364a
 }
 
-.my-magabox-info.vip .top .special-membership .no-join {
+.my-mgv-info.vip .top .special-membership .no-join {
     padding: 0
 }
 
-.my-magabox-info.vip .top .special-membership .no-join a {
+.my-mgv-info.vip .top .special-membership .no-join a {
     color: #fff
 }
 
-.my-magabox-info.vip .top .txt-vip-coupon {
+.my-mgv-info.vip .top .txt-vip-coupon {
     position: absolute;
     left: 200px;
     bottom: 10px;
     color: #c4c4c4
 }
 
-.my-magabox-info.vip .top .txt-vip-coupon i {
+.my-mgv-info.vip .top .txt-vip-coupon i {
     margin-right: 4px
 }
 
-.my-magabox-info.vip .top .txt-vip-coupon a {
+.my-mgv-info.vip .top .txt-vip-coupon a {
     color: #59bec9
 }
 
-.my-magabox-info.vip .bottom {
+.my-mgv-info.vip .bottom {
     background-color: #180f26
 }
 
-.my-magabox-info.vip .bottom .tit-area .tit {
+.my-mgv-info.vip .bottom .tit-area .tit {
     color: #fff
 }
 
-.my-magabox-info.vip .bottom .tit-area a {
+.my-mgv-info.vip .bottom .tit-area a {
     color: #fff
 }
 
-.my-magabox-info.vip .bottom .point .cont-area .total {
+.my-mgv-info.vip .bottom .point .cont-area .total {
     color: #fff
 }
 
-.my-magabox-info.vip .bottom .point .cont-area .total .division .cell {
+.my-mgv-info.vip .bottom .point .cont-area .total .division .cell {
     background-image: url(https://img.megabox.co.kr/static/pc/images/common/ico/ico-equal-white.png)
 }
 
-.my-magabox-info.vip .bottom .point .cont-area .total .division .cell p span {
+.my-mgv-info.vip .bottom .point .cont-area .total .division .cell p span {
     color: #c4c4c4
 }
 
-.my-magabox-info.vip .bottom .point .cont-area .change {
+.my-mgv-info.vip .bottom .point .cont-area .change {
     color: #c4c4c4;
     border-color: #2a2237
 }
 
-.my-magabox-info.vip .bottom .point .cont-area .change .save em {
+.my-mgv-info.vip .bottom .point .cont-area .change .save em {
     color: #fff
 }
 
-.my-magabox-info.vip .bottom .point .cont-area .change .del:before {
+.my-mgv-info.vip .bottom .point .cont-area .change .del:before {
     background-color: #2a2237
 }
 
-.my-magabox-info.vip .bottom .theater {
+.my-mgv-info.vip .bottom .theater {
     color: #fff;
     border-color: #2a2237
 }
 
-.my-magabox-info.vip .bottom .theater .no-list {
+.my-mgv-info.vip .bottom .theater .no-list {
     color: #c4c4c4
 }
 
-.my-magabox-info.vip .bottom .theater .no-list span {
+.my-mgv-info.vip .bottom .theater .no-list span {
     display: inline-block;
     border-bottom: 1px solid #c4c4c4
 }
 
-.my-magabox-info.vip .bottom .coupon {
+.my-mgv-info.vip .bottom .coupon {
     color: #fff;
     border-color: #2a2237
 }
 
-.my-magabox-info.vip .bottom .coupon .list ul li span {
+.my-mgv-info.vip .bottom .coupon .list ul li span {
     color: #c4c4c4
 }
 
-.my-magabox-info.vip .ico-arr-right-reverse {
+.my-mgv-info.vip .ico-arr-right-reverse {
     width: 6px;
     height: 9px;
     background-image: url(https://img.megabox.co.kr/static/pc/images/common/ico/ico-arr-right-reverse-white.png)
@@ -32486,20 +32486,20 @@ body.body-iframe .modal-layer2 {
     background: url(https://img.megabox.co.kr/static/pc/images/reserve/btn-choice-dell-circle.png) no-repeat 0 0
 }
 
-.my-megabox-main .my-stamp-mission {
+.my-mgv-main .my-stamp-mission {
     height: 175px;
     border-radius: 10px;
     background-color: #f2f4f5
 }
 
-.my-megabox-main .my-stamp-mission .tit-area {
+.my-mgv-main .my-stamp-mission .tit-area {
     float: left;
     width: 260px;
     padding: 40px 0 0 28px;
     line-height: 1.1
 }
 
-.my-megabox-main .my-stamp-mission .tit-area .tit em {
+.my-mgv-main .my-stamp-mission .tit-area .tit em {
     display: inline-block;
     line-height: 32px;
     font-size: 1.6em;
@@ -32507,7 +32507,7 @@ body.body-iframe .modal-layer2 {
     vertical-align: middle
 }
 
-.my-megabox-main .my-stamp-mission .tit-area .tit .bg-vip-mission-success {
+.my-mgv-main .my-stamp-mission .tit-area .tit .bg-vip-mission-success {
     display: inline-block;
     width: 97px;
     height: 32px;
@@ -32520,32 +32520,32 @@ body.body-iframe .modal-layer2 {
     background: url(https://img.megabox.co.kr/static/pc/images/mypage/bg-vip-mission-success.png) no-repeat 0 0
 }
 
-.my-megabox-main .my-stamp-mission .tit-area .txt {
+.my-mgv-main .my-stamp-mission .tit-area .txt {
     padding: 10px 0 5px 0;
     color: #222
 }
 
-.my-megabox-main .my-stamp-mission .tit-area .period {
+.my-mgv-main .my-stamp-mission .tit-area .period {
     padding: 0 0 15px 0
 }
 
-.my-megabox-main .my-stamp-mission .tit-area a i {
+.my-mgv-main .my-stamp-mission .tit-area a i {
     margin-left: 4px
 }
 
-.my-megabox-main .my-stamp-mission .list-stamp {
+.my-mgv-main .my-stamp-mission .list-stamp {
     float: left;
     width: calc(100% - 260px);
     padding: 20px 0 0 0
 }
 
-.my-megabox-main .my-stamp-mission .list-stamp .cell {
+.my-mgv-main .my-stamp-mission .list-stamp .cell {
     float: left;
     width: 90px;
     margin: 0 0 0 20px
 }
 
-.my-megabox-main .my-stamp-mission .list-stamp .cell .bg {
+.my-mgv-main .my-stamp-mission .list-stamp .cell .bg {
     overflow: hidden;
     width: 90px;
     height: 90px;
@@ -32554,17 +32554,17 @@ body.body-iframe .modal-layer2 {
     background-size: 90px 90px
 }
 
-.my-megabox-main .my-stamp-mission .list-stamp .cell .bg img {
+.my-mgv-main .my-stamp-mission .list-stamp .cell .bg img {
     width: 100%;
     height: 100%
 }
 
-.my-megabox-main .my-stamp-mission .list-stamp .cell .txt {
+.my-mgv-main .my-stamp-mission .list-stamp .cell .txt {
     text-align: center;
     line-height: 1.1
 }
 
-.my-megabox-main .my-stamp-mission .list-stamp .cell .txt em {
+.my-mgv-main .my-stamp-mission .list-stamp .cell .txt em {
     display: block;
     overflow: hidden;
     white-space: nowrap;
@@ -32572,12 +32572,12 @@ body.body-iframe .modal-layer2 {
     padding: 10px 0 0 0
 }
 
-.my-megabox-main .my-stamp-mission .list-stamp .cell .txt span {
+.my-mgv-main .my-stamp-mission .list-stamp .cell .txt span {
     display: block;
     padding: 5px 0 0 0
 }
 
-.my-megabox-main .my-stamp-mission .list-stamp .cell.done .bg {
+.my-mgv-main .my-stamp-mission .list-stamp .cell.done .bg {
     text-indent: -99999px;
     background-image: url(https://img.megabox.co.kr/static/pc/images/mypage/bg-vip-stamp-done.png)
 }
@@ -32688,14 +32688,14 @@ body.body-iframe .modal-layer2 {
     background-image: url(https://img.megabox.co.kr/static/pc/images/mypage/bg-vip-stamp-done.png)
 }
 
-.my-megabox-main .link-movie-story {
+.my-mgv-main .link-movie-story {
     overflow: hidden;
     height: 100px;
     padding: 20px 10px;
     text-align: center
 }
 
-.my-megabox-main .link-movie-story a {
+.my-mgv-main .link-movie-story a {
     display: block;
     float: left;
     width: calc(25% - 10px);
@@ -32706,7 +32706,7 @@ body.body-iframe .modal-layer2 {
     text-decoration: none
 }
 
-.my-megabox-main .link-movie-story a em {
+.my-mgv-main .link-movie-story a em {
     display: block;
     font-family: Roboto;
     font-size: 2em;
@@ -32714,22 +32714,22 @@ body.body-iframe .modal-layer2 {
     color: #01738b
 }
 
-.my-megabox-main .link-movie-story a span {
+.my-mgv-main .link-movie-story a span {
     display: block;
     padding: 3px 0 0 0
 }
 
-.my-megabox-main .favor-see {
+.my-mgv-main .favor-see {
     overflow: hidden;
     height: 100px;
     padding-top: 30px
 }
 
-.my-megabox-main .my-reserve-history {
+.my-mgv-main .my-reserve-history {
     border-top: 1px solid #555
 }
 
-.my-megabox-main .my-reserve-history ul li {
+.my-mgv-main .my-reserve-history ul li {
     position: relative;
     min-height: 140px;
     margin: 0;
@@ -32737,7 +32737,7 @@ body.body-iframe .modal-layer2 {
     border-bottom: 1px solid #eaeaea
 }
 
-.my-megabox-main .my-reserve-history ul li .img {
+.my-mgv-main .my-reserve-history ul li .img {
     position: absolute;
     left: 0;
     top: 20px;
@@ -32747,37 +32747,37 @@ body.body-iframe .modal-layer2 {
     line-height: 0
 }
 
-.my-megabox-main .my-reserve-history ul li .img img {
+.my-mgv-main .my-reserve-history ul li .img img {
     width: 100%;
     min-height: 100px;
     height: auto
 }
 
-.my-megabox-main .my-reserve-history ul li .cont {
+.my-mgv-main .my-reserve-history ul li .cont {
     line-height: 1.1
 }
 
-.my-megabox-main .my-reserve-history ul li .cont p {
+.my-mgv-main .my-reserve-history ul li .cont p {
     padding-top: 7px
 }
 
-.my-megabox-main .my-reserve-history ul li .cont .pay {
+.my-mgv-main .my-reserve-history ul li .cont .pay {
     padding: 0 0 10px 0
 }
 
-.my-megabox-main .my-reserve-history ul li .cont .ticket em {
+.my-mgv-main .my-reserve-history ul li .cont .ticket em {
     display: inline-block;
     color: #01738b
 }
 
-.my-megabox-main .my-reserve-history ul li .cont .ticket span {
+.my-mgv-main .my-reserve-history ul li .cont .ticket span {
     display: inline-block;
     position: relative;
     margin: 0 0 0 6px;
     padding: 0 0 0 8px
 }
 
-.my-megabox-main .my-reserve-history ul li .cont .ticket span:before {
+.my-mgv-main .my-reserve-history ul li .cont .ticket span:before {
     content: '';
     display: block;
     position: absolute;
@@ -32788,7 +32788,7 @@ body.body-iframe .modal-layer2 {
     background-color: #d8d9db
 }
 
-.my-megabox-main .my-reserve-history ul li .util {
+.my-mgv-main .my-reserve-history ul li .util {
     position: absolute;
     right: 0;
     top: 50%;
@@ -32798,54 +32798,54 @@ body.body-iframe .modal-layer2 {
     text-align: right
 }
 
-.my-megabox-main .my-reserve-history ul li .util .button {
+.my-mgv-main .my-reserve-history ul li .util .button {
     margin-top: 6px
 }
 
-.my-megabox-main .my-reserve-history ul li .util .saw {
+.my-mgv-main .my-reserve-history ul li .util .saw {
     display: block;
     text-align: center;
     color: #503396
 }
 
-.my-megabox-main .my-reserve-history ul li.no-result {
+.my-mgv-main .my-reserve-history ul li.no-result {
     min-height: 0;
     padding: 20px 0
 }
 
-.my-megabox-main .my-reserve-history ul li.no-result .no-history-reservation {
+.my-mgv-main .my-reserve-history ul li.no-result .no-history-reservation {
     border: none
 }
 
-.my-megabox-main .brd-list {
+.my-mgv-main .brd-list {
     overflow: hidden;
     border-top: 1px solid #555;
     border-bottom: 1px solid #eaeaea
 }
 
-.my-megabox-main .brd-list ul li {
+.my-mgv-main .brd-list ul li {
     position: relative;
     height: 63px;
     padding: 0 90px 0 0
 }
 
-.my-megabox-main .brd-list ul li .link {
+.my-mgv-main .brd-list ul li .link {
     display: block;
     padding: 12px 0 11px 0
 }
 
-.my-megabox-main .brd-list ul li .link .cate {
+.my-mgv-main .brd-list ul li .link .cate {
     padding-bottom: 5px;
     line-height: 1.1
 }
 
-.my-megabox-main .brd-list ul li .link .cate em {
+.my-mgv-main .brd-list ul li .link .cate em {
     display: inline-block;
     vertical-align: middle;
     color: #01738b
 }
 
-.my-megabox-main .brd-list ul li .link .cate span {
+.my-mgv-main .brd-list ul li .link .cate span {
     display: inline-block;
     position: relative;
     margin: 0 0 0 6px;
@@ -32853,7 +32853,7 @@ body.body-iframe .modal-layer2 {
     vertical-align: middle
 }
 
-.my-megabox-main .brd-list ul li .link .cate span:before {
+.my-mgv-main .brd-list ul li .link .cate span:before {
     content: '';
     display: block;
     position: absolute;
@@ -32864,7 +32864,7 @@ body.body-iframe .modal-layer2 {
     background-color: #d8d9db
 }
 
-.my-megabox-main .brd-list ul li .link .tit {
+.my-mgv-main .brd-list ul li .link .tit {
     overflow: hidden;
     display: block;
     white-space: nowrap;
@@ -32872,13 +32872,13 @@ body.body-iframe .modal-layer2 {
     line-height: 1.1
 }
 
-.my-megabox-main .brd-list ul li .button {
+.my-mgv-main .brd-list ul li .button {
     position: absolute;
     right: 0;
     top: 13px
 }
 
-.my-megabox-main .brd-list ul li .answer {
+.my-mgv-main .brd-list ul li .answer {
     position: absolute;
     right: 0;
     top: 13px;
@@ -32894,11 +32894,11 @@ body.body-iframe .modal-layer2 {
     vertical-align: middle
 }
 
-.my-megabox-main .brd-list ul li .answer.done {
+.my-mgv-main .brd-list ul li .answer.done {
     border-color: #888
 }
 
-.my-megabox-main .brd-list ul li.no-result {
+.my-mgv-main .brd-list ul li.no-result {
     padding: 20px 0 0 0;
     text-align: center
 }
@@ -41363,14 +41363,14 @@ dl.dotListv2 dd {
     padding-left: 8px
 }
 
-.my-magabox-info {
+.my-mgv-info {
     overflow: hidden;
     height: 387px;
     border-radius: 10px;
     background-color: #f3f4f6
 }
 
-.my-magabox-info .top2 {
+.my-mgv-info .top2 {
     position: relative;
     padding: 40px 0 0 364px;
     height: 221px;
@@ -41378,7 +41378,7 @@ dl.dotListv2 dd {
     background-size: 840px 221px
 }
 
-.my-magabox-info .top2 .mbimg {
+.my-mgv-info .top2 .mbimg {
     position: absolute;
     top: 43px;
     left: 40px;
@@ -41386,11 +41386,11 @@ dl.dotListv2 dd {
     height: 90px
 }
 
-.my-magabox-info .top2 .mbimg img {
+.my-mgv-info .top2 .mbimg img {
     width: 100%
 }
 
-.my-magabox-info .top2 .mb_name {
+.my-mgv-info .top2 .mb_name {
     position: absolute;
     top: 43px;
     left: 150px;
@@ -41400,7 +41400,7 @@ dl.dotListv2 dd {
     font-weight: 300
 }
 
-.my-magabox-info .top2 .mb_name p {
+.my-mgv-info .top2 .mb_name p {
     padding-top: 5px;
     font-size: 38px;
     line-height: 44px;
@@ -41409,18 +41409,18 @@ dl.dotListv2 dd {
     font-weight: 600
 }
 
-.my-magabox-info .top2 .mb_name p span {
+.my-mgv-info .top2 .mb_name p span {
     font-weight: 300
 }
 
-.my-magabox-info .top2 .link {
+.my-mgv-info .top2 .link {
     position: absolute;
     bottom: 30px;
     left: 40px;
     display: flex
 }
 
-.my-magabox-info .top2 .link a {
+.my-mgv-info .top2 .link a {
     display: block;
     font-size: 13px;
     line-height: 15px;
@@ -41428,13 +41428,13 @@ dl.dotListv2 dd {
     color: #ccc
 }
 
-.my-magabox-info .top2 .link a:first-child {
+.my-mgv-info .top2 .link a:first-child {
     position: relative;
     padding-right: 13px;
     margin-right: 12px
 }
 
-.my-magabox-info .top2 .link a:first-child:after {
+.my-mgv-info .top2 .link a:first-child:after {
     position: absolute;
     top: 2px;
     right: 0;
@@ -41444,11 +41444,11 @@ dl.dotListv2 dd {
     content: ""
 }
 
-.my-magabox-info .top2 .rightBox {
+.my-mgv-info .top2 .rightBox {
     position: relative
 }
 
-.my-magabox-info .top2 .rightBox .inbox {
+.my-mgv-info .top2 .rightBox .inbox {
     position: relative;
     display: flex;
     flex-wrap: wrap;
@@ -41456,7 +41456,7 @@ dl.dotListv2 dd {
     padding-left: 16px
 }
 
-.my-magabox-info .top2 .rightBox .inbox .totalPoint {
+.my-mgv-info .top2 .rightBox .inbox .totalPoint {
     font-size: 38px;
     line-height: 54px;
     font-weight: 400;
@@ -41466,13 +41466,13 @@ dl.dotListv2 dd {
     align-items: flex-start
 }
 
-.my-magabox-info .top2 .rightBox .inbox ul {
+.my-mgv-info .top2 .rightBox .inbox ul {
     display: flex;
     flex-flow: column;
     flex-wrap: wrap
 }
 
-.my-magabox-info .top2 .rightBox .inbox ul li {
+.my-mgv-info .top2 .rightBox .inbox ul li {
     position: relative;
     width: 100%;
     color: #fff;
@@ -41480,22 +41480,22 @@ dl.dotListv2 dd {
     padding-left: 53px
 }
 
-.my-magabox-info .top2 .rightBox .inbox ul li span {
+.my-mgv-info .top2 .rightBox .inbox ul li span {
     position: absolute;
     top: 0;
     left: 0
 }
 
-.my-magabox-info .top2 .rightBox .inbox .nowClass {
+.my-mgv-info .top2 .rightBox .inbox .nowClass {
     line-height: 24px
 }
 
-.my-magabox-info .top2 .rightBox .inbox .nowClass span {
+.my-mgv-info .top2 .rightBox .inbox .nowClass span {
     top: 5px;
     line-height: 15px
 }
 
-.my-magabox-info .top2 .rightBox .inbox .nowClass em {
+.my-mgv-info .top2 .rightBox .inbox .nowClass em {
     font-weight: 700;
     font-size: 16px;
     color: #04c9df;
@@ -41504,7 +41504,7 @@ dl.dotListv2 dd {
     font-family: 'Spoqa Han Sans Neo',sans-serif
 }
 
-.my-magabox-info .top2 .rightBox .inbox .vipCoup {
+.my-mgv-info .top2 .rightBox .inbox .vipCoup {
     display: none;
     padding: 5px 0 0 0;
     font-size: 13px;
@@ -41512,62 +41512,62 @@ dl.dotListv2 dd {
     color: #999
 }
 
-.my-magabox-info .top2 .rightBox .inbox .vipCoup a {
+.my-mgv-info .top2 .rightBox .inbox .vipCoup a {
     display: inline-block;
     color: #fff;
     font-weight: 600;
     text-decoration: underline
 }
 
-.my-magabox-info .top2 .rightBox.mbClassInx0 .inbox .nowClass em {
+.my-mgv-info .top2 .rightBox.mbClassInx0 .inbox .nowClass em {
     color: #04c9df
 }
 
-.my-magabox-info .top2 .rightBox.mbClassInx1 .inbox .nowClass em {
+.my-mgv-info .top2 .rightBox.mbClassInx1 .inbox .nowClass em {
     color: #1f92ff
 }
 
-.my-magabox-info .top2 .rightBox.mbClassInx2 .inbox .nowClass em {
+.my-mgv-info .top2 .rightBox.mbClassInx2 .inbox .nowClass em {
     color: #1c50c4
 }
 
-.my-magabox-info .top2 .rightBox.mbClassInx3 .inbox .nowClass em {
+.my-mgv-info .top2 .rightBox.mbClassInx3 .inbox .nowClass em {
     color: #4802bc
 }
 
-.my-magabox-info .top2 .rightBox.mbClassInx4 .inbox .nowClass em {
+.my-mgv-info .top2 .rightBox.mbClassInx4 .inbox .nowClass em {
     color: #9206ed
 }
 
-.my-magabox-info .top2 .rightBox .inbox .continue {
+.my-mgv-info .top2 .rightBox .inbox .continue {
     line-height: 15px
 }
 
-.my-magabox-info .top2 .rightBox .inbox .continue span {
+.my-mgv-info .top2 .rightBox .inbox .continue span {
     line-height: 15px
 }
 
-.my-magabox-info .top2 .rightBox .graphBox {
+.my-mgv-info .top2 .rightBox .graphBox {
     padding-right: 38px
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .inner {
+.my-mgv-info .top2 .rightBox .graphBox .inner {
     position: relative;
     padding: 39px 24px 0 18px
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .inner .bar {
+.my-mgv-info .top2 .rightBox .graphBox .inner .bar {
     height: 2px;
     background-color: #666
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .list {
+.my-mgv-info .top2 .rightBox .graphBox .list {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .list li {
+.my-mgv-info .top2 .rightBox .graphBox .list li {
     position: relative;
     width: 20%;
     color: #666;
@@ -41578,7 +41578,7 @@ dl.dotListv2 dd {
     padding-top: 19px
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .list li:after {
+.my-mgv-info .top2 .rightBox .graphBox .list li:after {
     content: "";
     position: absolute;
     top: -8px;
@@ -41592,56 +41592,56 @@ dl.dotListv2 dd {
     box-sizing: border-box
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .list li:nth-child(1) {
+.my-mgv-info .top2 .rightBox .graphBox .list li:nth-child(1) {
     z-index: 5
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .list li:nth-child(2) {
+.my-mgv-info .top2 .rightBox .graphBox .list li:nth-child(2) {
     z-index: 4;
     text-indent: 9px
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .list li:nth-child(3) {
+.my-mgv-info .top2 .rightBox .graphBox .list li:nth-child(3) {
     z-index: 3;
     text-align: center
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .list li:nth-child(4) {
+.my-mgv-info .top2 .rightBox .graphBox .list li:nth-child(4) {
     z-index: 2;
     text-indent: 43px
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .list li:nth-child(5) {
+.my-mgv-info .top2 .rightBox .graphBox .list li:nth-child(5) {
     z-index: 1;
     text-align: right
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .list li:nth-child(1):after {
+.my-mgv-info .top2 .rightBox .graphBox .list li:nth-child(1):after {
     left: 23px
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .list li:nth-child(2):after {
+.my-mgv-info .top2 .rightBox .graphBox .list li:nth-child(2):after {
     margin-left: -20px
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .list li:nth-child(3):after {
+.my-mgv-info .top2 .rightBox .graphBox .list li:nth-child(3):after {
     margin-left: -7px
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .list li:nth-child(4):after {
+.my-mgv-info .top2 .rightBox .graphBox .list li:nth-child(4):after {
     margin-left: 5px
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .list li:nth-child(5):after {
+.my-mgv-info .top2 .rightBox .graphBox .list li:nth-child(5):after {
     right: 9px;
     left: auto
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .list li.on {
+.my-mgv-info .top2 .rightBox .graphBox .list li.on {
     color: #fff
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .list li.on:before {
+.my-mgv-info .top2 .rightBox .graphBox .list li.on:before {
     content: "";
     position: absolute;
     top: -3px;
@@ -41650,60 +41650,60 @@ dl.dotListv2 dd {
     height: 4px
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .list li.on:nth-child(1):after {
+.my-mgv-info .top2 .rightBox .graphBox .list li.on:nth-child(1):after {
     background-color: #fff;
     border-color: #04c9df
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .list li.on:nth-child(2):after {
+.my-mgv-info .top2 .rightBox .graphBox .list li.on:nth-child(2):after {
     background-color: #fff;
     border-color: #1f92ff
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .list li.on:nth-child(3):after {
+.my-mgv-info .top2 .rightBox .graphBox .list li.on:nth-child(3):after {
     background-color: #fff;
     border-color: #1c50c4
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .list li.on:nth-child(4):after {
+.my-mgv-info .top2 .rightBox .graphBox .list li.on:nth-child(4):after {
     background-color: #fff;
     border-color: #4802bc
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .list li.on:nth-child(5):after {
+.my-mgv-info .top2 .rightBox .graphBox .list li.on:nth-child(5):after {
     background-color: #fff;
     border-color: #9206ed
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .list li.on:nth-child(1):before {
+.my-mgv-info .top2 .rightBox .graphBox .list li.on:nth-child(1):before {
     display: none
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .list li.on:nth-child(2):before {
+.my-mgv-info .top2 .rightBox .graphBox .list li.on:nth-child(2):before {
     left: -69px;
     background: linear-gradient(90deg,#04c9df 8.46%,#1f92ff 94.62%)
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .list li.on:nth-child(3):before {
+.my-mgv-info .top2 .rightBox .graphBox .list li.on:nth-child(3):before {
     left: -56px;
     background: linear-gradient(90deg,#1f92ff 8.46%,#1c50c4 94.62%)
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .list li.on:nth-child(4):before {
+.my-mgv-info .top2 .rightBox .graphBox .list li.on:nth-child(4):before {
     left: -44px;
     background: linear-gradient(90deg,#1c50c4 8.46%,#4802bc 94.62%)
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .list li.on:nth-child(5):before {
+.my-mgv-info .top2 .rightBox .graphBox .list li.on:nth-child(5):before {
     left: -31px;
     background: linear-gradient(90deg,#4802bc 8.46%,#9206ed 94.62%)
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .list li .pointFlag {
+.my-mgv-info .top2 .rightBox .graphBox .list li .pointFlag {
     display: none
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .list li.act .pointFlag {
+.my-mgv-info .top2 .rightBox .graphBox .list li.act .pointFlag {
     display: block;
     position: absolute;
     top: -42px;
@@ -41712,7 +41712,7 @@ dl.dotListv2 dd {
     border-radius: 2px
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .list li.act .pointFlag span {
+.my-mgv-info .top2 .rightBox .graphBox .list li.act .pointFlag span {
     position: relative;
     display: block;
     text-indent: 0;
@@ -41724,7 +41724,7 @@ dl.dotListv2 dd {
     z-index: 2
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .list li.act .pointFlag:after {
+.my-mgv-info .top2 .rightBox .graphBox .list li.act .pointFlag:after {
     position: absolute;
     bottom: -19px;
     content: "";
@@ -41735,56 +41735,56 @@ dl.dotListv2 dd {
     z-index: 1
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .list li.act:nth-child(1) .pointFlag {
+.my-mgv-info .top2 .rightBox .graphBox .list li.act:nth-child(1) .pointFlag {
     background-color: #04c9df
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .list li.act:nth-child(2) .pointFlag {
+.my-mgv-info .top2 .rightBox .graphBox .list li.act:nth-child(2) .pointFlag {
     background-color: #1f92ff
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .list li.act:nth-child(3) .pointFlag {
+.my-mgv-info .top2 .rightBox .graphBox .list li.act:nth-child(3) .pointFlag {
     background-color: #1c50c4
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .list li.act:nth-child(4) .pointFlag {
+.my-mgv-info .top2 .rightBox .graphBox .list li.act:nth-child(4) .pointFlag {
     background-color: #4802bc;
     left: auto;
     right: 0
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .list li.act:nth-child(5) .pointFlag {
+.my-mgv-info .top2 .rightBox .graphBox .list li.act:nth-child(5) .pointFlag {
     background-color: #9206ed;
     left: auto;
     right: 0
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .list li.act:nth-child(1) .pointFlag:after {
+.my-mgv-info .top2 .rightBox .graphBox .list li.act:nth-child(1) .pointFlag:after {
     left: 5px;
     border-color: #04c9df transparent transparent transparent
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .list li.act:nth-child(2) .pointFlag:after {
+.my-mgv-info .top2 .rightBox .graphBox .list li.act:nth-child(2) .pointFlag:after {
     left: 13px;
     border-color: #1f92ff transparent transparent transparent
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .list li.act:nth-child(3) .pointFlag:after {
+.my-mgv-info .top2 .rightBox .graphBox .list li.act:nth-child(3) .pointFlag:after {
     left: 27px;
     border-color: #1c50c4 transparent transparent transparent
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .list li.act:nth-child(4) .pointFlag:after {
+.my-mgv-info .top2 .rightBox .graphBox .list li.act:nth-child(4) .pointFlag:after {
     right: 23px;
     border-color: #4802bc transparent transparent transparent
 }
 
-.my-magabox-info .top2 .rightBox .graphBox .list li.act:nth-child(5) .pointFlag:after {
+.my-mgv-info .top2 .rightBox .graphBox .list li.act:nth-child(5) .pointFlag:after {
     right: 7px;
     border-color: #9206ed transparent transparent transparent
 }
 
-.my-magabox-info .bottom2 {
+.my-mgv-info .bottom2 {
     display: flex;
     flex-wrap: wrap;
     height: 166px;
@@ -41792,11 +41792,11 @@ dl.dotListv2 dd {
     background-color: #f2f4f5
 }
 
-.my-magabox-info .bottom2 .tit-area {
+.my-mgv-info .bottom2 .tit-area {
     position: relative
 }
 
-.my-magabox-info .bottom2 .tit-area .tit {
+.my-mgv-info .bottom2 .tit-area .tit {
     font-size: 16px;
     color: #351f66;
     font-weight: 600;
@@ -41804,22 +41804,22 @@ dl.dotListv2 dd {
     letter-spacing: -.01em
 }
 
-.my-magabox-info .bottom2 .tit-area a {
+.my-mgv-info .bottom2 .tit-area a {
     position: absolute;
     top: -2px;
     right: 0
 }
 
-.my-magabox-info .bottom2 .items {
+.my-mgv-info .bottom2 .items {
     width: 25%;
     padding: 0 20px
 }
 
-.my-magabox-info .bottom2 .point .change {
+.my-mgv-info .bottom2 .point .change {
     padding-top: 4px
 }
 
-.my-magabox-info .bottom2 .point .change div {
+.my-mgv-info .bottom2 .point .change div {
     padding-top: 14px;
     position: relative;
     font-size: 14px;
@@ -41827,7 +41827,7 @@ dl.dotListv2 dd {
     letter-spacing: -.01em
 }
 
-.my-magabox-info .bottom2 .point .change div span {
+.my-mgv-info .bottom2 .point .change div span {
     position: absolute;
     top: 14px;
     left: 0;
@@ -41835,43 +41835,43 @@ dl.dotListv2 dd {
     display: block
 }
 
-.my-magabox-info .bottom2 .point .change div em {
+.my-mgv-info .bottom2 .point .change div em {
     text-align: right;
     font-weight: 600;
     display: block
 }
 
-.my-magabox-info .bottom2 .theater .list {
+.my-mgv-info .bottom2 .theater .list {
     padding-top: 4px
 }
 
-.my-magabox-info .bottom2 .theater .list ol li {
+.my-mgv-info .bottom2 .theater .list ol li {
     padding: 12px 0 0 0;
     font-size: 14px;
     line-height: 17px;
     letter-spacing: -.01em
 }
 
-.my-magabox-info .bottom2 .theater .list ol li em {
+.my-mgv-info .bottom2 .theater .list ol li em {
     display: none
 }
 
-.my-magabox-info .bottom2 .theater .no-list {
+.my-mgv-info .bottom2 .theater .no-list {
     padding-top: 12px
 }
 
-.my-magabox-info .bottom2 .theater .no-list span {
+.my-mgv-info .bottom2 .theater .no-list span {
     display: block;
     font-size: 14px;
     line-height: 17px;
     letter-spacing: -.01em
 }
 
-.my-magabox-info .bottom2 .coupon .list {
+.my-mgv-info .bottom2 .coupon .list {
     padding-top: 4px
 }
 
-.my-magabox-info .bottom2 .coupon .list li {
+.my-mgv-info .bottom2 .coupon .list li {
     padding-top: 12px;
     position: relative;
     font-size: 14px;
@@ -41879,7 +41879,7 @@ dl.dotListv2 dd {
     letter-spacing: -.01em
 }
 
-.my-magabox-info .bottom2 .coupon .list li span {
+.my-mgv-info .bottom2 .coupon .list li span {
     position: absolute;
     top: 14px;
     left: 0;
@@ -41887,17 +41887,17 @@ dl.dotListv2 dd {
     display: block
 }
 
-.my-magabox-info .bottom2 .coupon .list li em {
+.my-mgv-info .bottom2 .coupon .list li em {
     text-align: right;
     font-weight: 600;
     display: block
 }
 
-.my-magabox-info .bottom2 .special-membership .no-join {
+.my-mgv-info .bottom2 .special-membership .no-join {
     padding-top: 30px
 }
 
-.my-magabox-info .bottom2 .special-membership .no-join .txt {
+.my-mgv-info .bottom2 .special-membership .no-join .txt {
     margin-bottom: 10px;
     font-size: 12px;
     font-weight: 300;
@@ -41905,7 +41905,7 @@ dl.dotListv2 dd {
     letter-spacing: -.01em
 }
 
-.my-magabox-info .bottom2 .special-membership .no-join a {
+.my-mgv-info .bottom2 .special-membership .no-join a {
     display: block;
     width: 83px;
     height: 24px;
@@ -41918,38 +41918,38 @@ dl.dotListv2 dd {
     letter-spacing: -.01em
 }
 
-.my-magabox-info .bottom2 .special-membership .join {
+.my-mgv-info .bottom2 .special-membership .join {
     text-align: center;
     padding-top: 4px
 }
 
-.my-magabox-info .bottom2 .special-membership .join .box {
+.my-mgv-info .bottom2 .special-membership .join .box {
     padding-top: 14px;
     text-align: left
 }
 
-.my-magabox-info .bottom2 .special-membership .join .box img {
+.my-mgv-info .bottom2 .special-membership .join .box img {
     width: 77px
 }
 
-.my-megabox-main .my-stamp-mission2 {
+.my-mgv-main .my-stamp-mission2 {
     margin-top: 35px
 }
 
-.my-megabox-main .my-stamp-mission2 .tit-area {
+.my-mgv-main .my-stamp-mission2 .tit-area {
     position: relative;
     padding-bottom: 20px;
     border-bottom: 1px solid #ccc
 }
 
-.my-megabox-main .my-stamp-mission2 .tit-area .tit {
+.my-mgv-main .my-stamp-mission2 .tit-area .tit {
     font-size: 20px;
     color: #503396;
     line-height: 23px;
     letter-spacing: -.04em
 }
 
-.my-megabox-main .my-stamp-mission2 .tit-area .passMission {
+.my-mgv-main .my-stamp-mission2 .tit-area .passMission {
     position: absolute;
     top: 0;
     right: 0;
@@ -41963,67 +41963,67 @@ dl.dotListv2 dd {
     font-weight: 600
 }
 
-.my-megabox-main .my-stamp-mission2 .botBox {
+.my-mgv-main .my-stamp-mission2 .botBox {
     position: relative;
     padding: 15px 0 0 268px
 }
 
-.my-megabox-main .my-stamp-mission2 .botBox .left {
+.my-mgv-main .my-stamp-mission2 .botBox .left {
     position: absolute;
     top: 16px;
     left: 0
 }
 
-.my-megabox-main .my-stamp-mission2 .botBox .left .period {
+.my-mgv-main .my-stamp-mission2 .botBox .left .period {
     display: flex;
     font-size: 15px;
     line-height: 17px;
     color: #333
 }
 
-.my-megabox-main .my-stamp-mission2 .botBox .left .period span {
+.my-mgv-main .my-stamp-mission2 .botBox .left .period span {
     padding-right: 10px;
     font-weight: 600
 }
 
-.my-megabox-main .my-stamp-mission2 .botBox .left .bg-vip-mission-success {
+.my-mgv-main .my-stamp-mission2 .botBox .left .bg-vip-mission-success {
     min-width: 180px;
     line-height: 16px;
     text-align: center
 }
 
-.my-megabox-main .my-stamp-mission2 .botBox .left .bg-vip-mission-success .img {
+.my-mgv-main .my-stamp-mission2 .botBox .left .bg-vip-mission-success .img {
     width: 82px;
     margin: auto
 }
 
-.my-megabox-main .my-stamp-mission2 .botBox .left .bg-vip-mission-success .img img {
+.my-mgv-main .my-stamp-mission2 .botBox .left .bg-vip-mission-success .img img {
     width: 100%
 }
 
-.my-megabox-main .my-stamp-mission2 .botBox .left .bg-vip-mission-success em {
+.my-mgv-main .my-stamp-mission2 .botBox .left .bg-vip-mission-success em {
     display: block;
     padding-top: 8px;
     color: #000;
     font-weight: 600
 }
 
-.my-megabox-main .my-stamp-mission2 .botBox .left .bg-vip-mission-success span {
+.my-mgv-main .my-stamp-mission2 .botBox .left .bg-vip-mission-success span {
     display: block;
     padding-top: 3px;
     color: #666
 }
 
-.my-megabox-main .my-stamp-mission2 .botBox .list-stamp {
+.my-mgv-main .my-stamp-mission2 .botBox .list-stamp {
     display: flex;
     justify-content: space-between
 }
 
-.my-megabox-main .my-stamp-mission2 .botBox .list-stamp .cell {
+.my-mgv-main .my-stamp-mission2 .botBox .list-stamp .cell {
     min-width: 100px
 }
 
-.my-megabox-main .my-stamp-mission2 .botBox .list-stamp .cell .bg {
+.my-mgv-main .my-stamp-mission2 .botBox .list-stamp .cell .bg {
     overflow: hidden;
     width: 84px;
     height: 84px;
@@ -42031,42 +42031,42 @@ dl.dotListv2 dd {
     margin: auto
 }
 
-.my-megabox-main .my-stamp-mission2 .botBox .list-stamp .cell .bg img {
+.my-mgv-main .my-stamp-mission2 .botBox .list-stamp .cell .bg img {
     width: 100%;
     height: 100%
 }
 
-.my-megabox-main .my-stamp-mission2 .botBox .list-stamp .cell:nth-child(1) .bg {
+.my-mgv-main .my-stamp-mission2 .botBox .list-stamp .cell:nth-child(1) .bg {
     background: url(https://img.megabox.co.kr/static/pc/images/2023/01/stamp_mission_01.png) no-repeat;
     background-size: 84px 84px
 }
 
-.my-megabox-main .my-stamp-mission2 .botBox .list-stamp .cell:nth-child(2) .bg {
+.my-mgv-main .my-stamp-mission2 .botBox .list-stamp .cell:nth-child(2) .bg {
     background: url(https://img.megabox.co.kr/static/pc/images/2023/01/stamp_mission_02.png) no-repeat;
     background-size: 84px 84px
 }
 
-.my-megabox-main .my-stamp-mission2 .botBox .list-stamp .cell:nth-child(3) .bg {
+.my-mgv-main .my-stamp-mission2 .botBox .list-stamp .cell:nth-child(3) .bg {
     background: url(https://img.megabox.co.kr/static/pc/images/2023/01/stamp_mission_03.png) no-repeat;
     background-size: 84px 84px
 }
 
-.my-megabox-main .my-stamp-mission2 .botBox .list-stamp .cell:nth-child(4) .bg {
+.my-mgv-main .my-stamp-mission2 .botBox .list-stamp .cell:nth-child(4) .bg {
     background: url(https://img.megabox.co.kr/static/pc/images/2023/01/stamp_mission_04.png) no-repeat;
     background-size: 84px 84px
 }
 
-.my-megabox-main .my-stamp-mission2 .botBox .list-stamp .cell:nth-child(5) .bg {
+.my-mgv-main .my-stamp-mission2 .botBox .list-stamp .cell:nth-child(5) .bg {
     background: url(https://img.megabox.co.kr/static/pc/images/2023/01/stamp_mission_05.png) no-repeat;
     background-size: 84px 84px
 }
 
-.my-megabox-main .my-stamp-mission2 .botBox .list-stamp .cell .txt {
+.my-mgv-main .my-stamp-mission2 .botBox .list-stamp .cell .txt {
     text-align: center;
     line-height: 16px
 }
 
-.my-megabox-main .my-stamp-mission2 .botBox .list-stamp .cell .txt em {
+.my-mgv-main .my-stamp-mission2 .botBox .list-stamp .cell .txt em {
     display: block;
     overflow: hidden;
     white-space: nowrap;
@@ -42076,13 +42076,13 @@ dl.dotListv2 dd {
     font-size: 14px
 }
 
-.my-megabox-main .my-stamp-mission2 .botBox .list-stamp .cell .txt span {
+.my-mgv-main .my-stamp-mission2 .botBox .list-stamp .cell .txt span {
     display: block;
     padding: 3px 0 0 0;
     color: #666
 }
 
-.my-megabox-main .my-stamp-mission2 .botBox .list-stamp .cell.done .bg {
+.my-mgv-main .my-stamp-mission2 .botBox .list-stamp .cell.done .bg {
     text-indent: -99999px;
     background-image: url(https://img.megabox.co.kr/static/pc/images/mypage/bg-vip-stamp-done.png)
 }

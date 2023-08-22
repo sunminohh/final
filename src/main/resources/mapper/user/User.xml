@@ -36,7 +36,7 @@
             user_email = #{value}
     </select>
 
-    <update id="updateUser" parameterType="updateForm">
+    <!--<update id="updateUser" parameterType="updateForm">
         update MGV_USER
         set user_name = #{name},
             user_birth = #{birth},
@@ -44,7 +44,7 @@
             user_zipcode = #{zipcode},
             user_address = #{address}
         where id = #{id}
-    </update>
+    </update>-->
 
     <update id="updatePassword" parameterType="User">
         UPDATE MGV_USER
