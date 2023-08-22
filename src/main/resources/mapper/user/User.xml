@@ -37,7 +37,7 @@
     </select>
 
     <update id="updateUser" parameterType="updateForm">
-        update mgv_user
+        update MGV_USER
         set user_name = #{name},
             user_birth = #{birth},
             user_email = #{email},
@@ -47,9 +47,9 @@
     </update>
 
     <update id="updatePassword" parameterType="User">
-        UPDATE mgv_user
-        SET password = #{password}
-        WHERE id = #{id}
+        UPDATE MGV_USER
+        SET user_password = #{password}
+        WHERE user_id = #{id}
     </update>
 
 </mapper>

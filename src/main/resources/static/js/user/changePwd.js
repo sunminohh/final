@@ -39,18 +39,31 @@ $(() => {
             return false;
         }
 
+        const check = checkInput();
+        if (!check) {
+            console.log(check);
+            return false;
+        }
+        console.log("pass");
+
         $.ajax({
             url: "/user/info/update/password",
             type: "POST",
-            dataType: "text",
+            data: form.serialize(),
             success: function (res) {
-                    pwdCheck = true;
-
-                    check();
+                successAlert($pwd, "비밀번호가 변경되었습니다.");
+                $pwd.val("");
+                $pwdnew.val("");
+                $repwdnew.val("");
+                // 만약 다른 페이지로 이동 필요할 시
+                // location.href = "/user/info";
             },
-        }).fail();
+            error: function(e) {
+                errorAlert($pwd, e.responseText);
+            }
+        });
 
-        function check() {
+        function checkInput() {
 
             if (!pwdnewValue) {
                 errorAlert($pwdnew, "새 비밀번호를 입력하세요.");
@@ -79,8 +92,7 @@ $(() => {
                 repwdnewErrMsg.text("다시 입력해주세요.");
                 return false;
             }
-
-            form[0].submit();
+            return true;
         }
     })
 

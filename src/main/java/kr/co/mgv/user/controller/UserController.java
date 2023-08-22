@@ -92,12 +92,12 @@ public class UserController {
     @PostMapping("/update/password")
     public ResponseEntity<String> updatePwd(@AuthenticationPrincipal User user, UserUpdateForm form) {
         if (passwordEncoder.matches(form.getCheckPassword(), user.getPassword())) {
-            userService.updatePassword(user.getId(), form.getNewPassword());
+            userService.updatePassword(user.getId(), passwordEncoder.encode(form.getNewPassword()));
             log.info("입력값 -> {}", form.getCheckPassword());
             log.info("새비밀번호 -> {}", form.getNewPassword());
             return ResponseEntity.ok("비밀번호가 변경되었습니다.");
         } else {
-            return ResponseEntity.badRequest().body("비밀번호가 일치하지 않습니다.");
+            return ResponseEntity.badRequest().body("현재 비밀번호가 일치하지 않습니다.");
         }
     }
 
