@@ -64,12 +64,15 @@ public class UserController {
         String name = user.getName();
         LocalDate birth = user.getBirth();
         String email = user.getEmail();
-        // todo zipcode
+        String zipcode = user.getZipcode();
+        String address = user.getAddress();
 
         model.addAttribute("userId", id);
         model.addAttribute("userName", name);
         model.addAttribute("userBirth", birth);
         model.addAttribute("userEmail", email);
+        model.addAttribute("zipcode", zipcode);
+        model.addAttribute("address", address);
 
         return "view/user/info/form";
     }
@@ -81,26 +84,21 @@ public class UserController {
     }
 
     // 비밀번호 수정 -> 비밀번호 변경 폼
-    @GetMapping("/modifyPwd")
+    @GetMapping("/update/password")
     public String pwdForm() {
         return "view/user/info/pwdForm";
     }
 
-    @ResponseBody
-    @PostMapping("/checkPwd")
-    public ResponseEntity<String> updatePwd(@RequestParam("pwd") String currentPassword, @AuthenticationPrincipal User user) {
-        if (passwordEncoder.matches(currentPassword, user.getPassword())) {
-            return ResponseEntity.ok("yes");
+    @PostMapping("/update/password")
+    public ResponseEntity<String> updatePwd(@AuthenticationPrincipal User user, UserUpdateForm form) {
+        if (passwordEncoder.matches(form.getCheckPassword(), user.getPassword())) {
+            userService.updatePassword(user.getId(), passwordEncoder.encode(form.getNewPassword()));
+            log.info("입력값 -> {}", form.getCheckPassword());
+            log.info("새비밀번호 -> {}", form.getNewPassword());
+            return ResponseEntity.ok("비밀번호가 변경되었습니다.");
         } else {
-            return ResponseEntity.ok("no");
+            return ResponseEntity.badRequest().body("현재 비밀번호가 일치하지 않습니다.");
         }
-    }
-
-    @PostMapping("/modifyPwd")
-    public String updatePwd(@AuthenticationPrincipal User user, UserUpdateForm form) {
-
-
-        return "redirect:/user/info/modifyPwd";
     }
 
     @GetMapping("/booking")
