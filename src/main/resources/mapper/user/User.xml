@@ -36,15 +36,9 @@
             user_email = #{value}
     </select>
 
-    <!--<update id="updateUser" parameterType="User">
+    <update id="updateUser" parameterType="User">
         update MGV_USER
         <set>
-            <if test="name != null">
-                user_name = #{name},
-            </if>
-            <if test="birth != null">
-                user_birth = #{birth},
-            </if>
             <if test="email != null">
                 user_email = #{email},
             </if>
@@ -55,13 +49,15 @@
                 user_address = #{address},
             </if>
             <if test="updateDate != null">
-                user_update_date = #{updateDate},
+                user_update_date = CURRENT_TIMESTAMP,
             </if>
-
+            <if test="disabled != null">
+                user_disabled = #{disabled},
+            </if>
         </set>
         where
-            id = #{id}
-    </update>-->
+            user_id = #{id}
+    </update>
 
     <update id="updatePassword" parameterType="User">
         UPDATE MGV_USER
@@ -74,6 +70,9 @@
             </if>
         </set>
         WHERE user_id = #{id}
+    </update>
+    <update id="disabledUser">
+
     </update>
 
 </mapper>

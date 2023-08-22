@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.rmi.server.RemoteServer;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -58,7 +59,7 @@ public class UserController {
         return "redirect:/user/info/form";
     }
 
-    // 이메일 인증 후 회원정보 폼
+    // 회원정보 수정
     @GetMapping("/form")
     public String myMGV(@AuthenticationPrincipal User user, Model model) {
         String id = user.getId();
@@ -80,13 +81,15 @@ public class UserController {
         return "view/user/info/form";
     }
 
-    @PostMapping("/form")
-    public String updateForm() {
+    // todo 회원정보 수정
+    @PostMapping("/update")
+    public String updateUser(@AuthenticationPrincipal User user, UserUpdateForm form) {
+//        userService.updateUser();
 
         return "redirect:/user/info";
     }
 
-    // 비밀번호 수정 -> 비밀번호 변경 폼
+    // 비밀번호 변경
     @GetMapping("/update/password")
     public String pwdForm() {
         return "view/user/info/pwdForm";
@@ -99,6 +102,39 @@ public class UserController {
             log.info("입력값 -> {}", form.getCheckPassword());
             log.info("새비밀번호 -> {}", form.getNewPassword());
             return ResponseEntity.ok("비밀번호가 변경되었습니다.");
+        } else {
+            return ResponseEntity.badRequest().body("현재 비밀번호가 일치하지 않습니다.");
+        }
+    }
+
+    @GetMapping("/disabled")
+    public String disableForm(@AuthenticationPrincipal User user, Model model) {
+        String id = user.getId();
+        String name = user.getName();
+
+        model.addAttribute("userId", id);
+        model.addAttribute("userName", name);
+
+        return "view/user/info/disabled";
+    }
+
+    // todo 사용자 이메일 체크
+    @PostMapping("/checkEmail")
+    public ResponseEntity<String> checkEmail(@AuthenticationPrincipal User user, UserUpdateForm form) {
+        if (form.getEmail().equals(user.getEmail())) {
+            return ResponseEntity.ok("등록된 이메일과 일치합니다.");
+        } else {
+            return ResponseEntity.badRequest().body("등록된 이메일 주소와 일치하지 않습니다.");
+        }
+    }
+
+    // todo 회원 탈퇴
+    @PostMapping("/disabled")
+    public ResponseEntity<String> disabled(@AuthenticationPrincipal User user, UserUpdateForm form) {
+        if (passwordEncoder.matches(form.getCheckPassword(), user.getPassword())) {
+            // todo service 작성
+
+            return ResponseEntity.ok("탈퇴처리 되었습니다.");
         } else {
             return ResponseEntity.badRequest().body("현재 비밀번호가 일치하지 않습니다.");
         }

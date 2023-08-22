@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Service
@@ -25,4 +24,14 @@ public class UserService {
 
         userDao.updatePassword(user);
     }
+
+    // todo 회원 정보 수정
+    public void updateUser(User user) {
+        // todo 로직
+
+        userDao.updateUser(user);
+    }
+
+    // todo 회원탈퇴
+
 }
