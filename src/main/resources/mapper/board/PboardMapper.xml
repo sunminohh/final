@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.mgv.board.mapper.PartyBoardDao">
+	<!-- 등록폼 관련  -->
 	<select id="getSceduleByDateAndTNoAndMNo" parameterType="map" resultType="kr.co.mgv.board.vo.PartyBoardSchedule">
 		select 
 			A.schedule_id			as id,
@@ -47,5 +48,50 @@
 			and B.theater_no = D.theater_no
 		    and A.movie_no = C.movie_no
 		    and A.schedule_id = #{scheduleId}
+	</select>
+	
+	<!-- CRUD -->
+	<insert id="insertPboard" parameterType="kr.co.mgv.board.vo.PartyBoard">
+		INSERT INTO PARTY_BOARD
+		(PARTY_HEADCOUNT, USER_ID,  PARTY_GENDER, SCHEDULE_ID, BOARD_CONTENT, BOARD_NAME)
+		VALUES(#{headCount}, #{user.id}, #{gender}, #{schedule.id}, #{content}, #{name});
+	</insert>
+	
+	
+	<!-- 목록 -->
+	<select id="getPartyBoards" resultType="kr.co.mgv.board.vo.PartyBoard">
+		select
+			A.party_no				as no,
+			A.party_headcount		as headCount,
+			A.user_id				as "user.id",
+			A.PARTY_CREATE_DATE		as createDate,
+			A.PARTY_update_DATE		as updateDate,
+			A.party_gender			as gender,
+			A.board_name			as name,
+			A.board_comment_count	as commentCount,
+			A.board_read_count		as readCount,
+			A.PARTY_COMPLETE		as complete,
+			B.schedule_id			as "schedule.id",
+			B.schedule_date			as "schedule.date",
+			B.SCHEDULE_START_TIME	as "schedule.start",
+			B.SCHEDULE_END_TIME		as "schedule.end",
+			B.REMAINING_SEATS		as "schedule.remainingSeats",
+			B.SCREEN_SEATS			as "schedule.seats",
+			B.movie_no				as "schedule.movie.no",
+			D.movie_title			as "schedule.movie.title",
+			C.theater_no			as "schedule.theater.no",
+			E.theater_name			as "schedule.theater.name",
+			B.screen_id				as "schedule.screen.id",
+			C.screen_name			as "schedule.screen.name"
+		from 
+			PARTY_BOARD A, MGV_SCHEDULE B, MGV_THEATER_SCREEN C, MGV_MOVIE D, MGV_THEATERS E
+		where 
+			A.schedule_id = B.schedule_id
+			and B.screen_id = C.screen_id
+			and C.theater_no = E.theater_no
+		    and B.movie_no = D.movie_no
+		    and A.PARTY_DELETED = 'N'
+		    and A.BOARD_REPORT = 'N'
+		    and A.
 	</select>
 </mapper>

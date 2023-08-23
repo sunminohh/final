@@ -48,8 +48,16 @@
 		select count(*)
 		FROM MGV_SUPPORT_ONE A
 		where 
-			A.USER_ID = #{userId}
-			and A.ONE_DELETED = 'N'
+			A.ONE_DELETED = 'N'
+			<if test="userId != null">
+				and A.USER_ID = #{userId}
+			</if>
+			<if test="guestName != null">
+				and A.ONE_GUEST_NAME = #{guestName}
+			</if>
+			<if test="guestEmail != null">
+				and A.ONE_GUEST_EMAIL = #{guestEmail}
+			</if>
 			<if test="answered != null">
 				and A.ONE_ANSWERED = #{answered}
 			</if>
@@ -58,7 +66,7 @@
 			</if>
 	</select>
 	
-	<select id="getOnesByUserId" parameterType="map" resultType="kr.co.mgv.support.vo.One">
+	<select id="getOnes" parameterType="map" resultType="kr.co.mgv.support.vo.One">
 		SELECT 
 			A.ONE_NO				as no,
 			A.ONE_TITLE				as title,
@@ -73,15 +81,25 @@
 			A.THEATER_NO			as "theater.no",
 			C.THEATER_NAME			as "theater.name",
 			A.CATEGORY_NO			as "category.no", 
-			D.CATEGORY_NAME			as "category.name" 
+			D.CATEGORY_NAME			as "category.name",
+			A.ONE_GUEST_NAME		as "guestName",
+			A.ONE_GUEST_EMAIL		as "guestEmail"
 		FROM 
 			MGV_SUPPORT_ONE A 
 			left outer join MGV_LOCATION B on A.LOCATION_NO = B.LOCATION_NO 
 			left outer join MGV_THEATERS C on A.THEATER_NO = C.THEATER_NO 
 			inner join MGV_SUPPORT_CATEGORIES D on A.CATEGORY_NO = D.CATEGORY_NO 
 		WHERE 
-			A.USER_ID = #{userId}
-			and A.ONE_DELETED = 'N'
+			A.ONE_DELETED = 'N'
+			<if test="userId != null">
+				and A.USER_ID = #{userId}
+			</if>
+			<if test="guestName != null">
+				and A.ONE_GUEST_NAME = #{guestName}
+			</if>
+			<if test="guestEmail != null">
+				and A.ONE_GUEST_EMAIL = #{guestEmail}
+			</if>
 			<if test="answered != null">
 				and A.ONE_ANSWERED = #{answered}
 			</if>
