@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import kr.co.mgv.support.dao.FaqDao;
 import kr.co.mgv.support.dto.FaqList;
 import kr.co.mgv.support.form.AddFaqForm;
+import kr.co.mgv.support.form.ModifyFaqForm;
 import kr.co.mgv.support.vo.Faq;
 import kr.co.mgv.support.vo.SupportCategory;
 import kr.co.mgv.support.vo.SupportPagination;
@@ -36,6 +37,23 @@ public class FaqService {
 		faqDao.insertFaq(faq);
 	}
 	
+	public void modifyFaq(ModifyFaqForm form, int faqNo) {
+		Faq faq = faqDao.getFaqByNo(faqNo);
+		faq.setTitle(form.getTitle());
+		faq.setContent(form.getContent());
+		faq.getCategory().setNo(form.getCategoryNo());
+		faq.setOrderNo(form.getOrderNo());
+		
+		faqDao.updateFaqByNo(faq);
+	}
+	
+	public void deleteFaq(int faqNo) {
+		Faq faq = faqDao.getFaqByNo(faqNo);
+		faq.setDeleted("Y");
+		
+		faqDao.updateFaqByNo(faq);
+	}
+	
 	public FaqList search(Map<String, Object> param) {
 		
 		int totalRows = faqDao.getTotalRows(param);
@@ -55,6 +73,10 @@ public class FaqService {
 		result.setFaqList(faqList);
 		
 		return result;
+	}
+	
+	public Faq getFaqByNo(int faqNo) {
+		return faqDao.getFaqByNo(faqNo);
 	}
 	
 	public List<SupportCategory> getCategoriesByType(String categoryType) {
