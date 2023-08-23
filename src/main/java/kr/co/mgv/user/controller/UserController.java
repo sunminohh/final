@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.rmi.server.RemoteServer;
 import java.time.LocalDate;
 import java.util.Date;
@@ -67,7 +68,9 @@ public class UserController {
         LocalDate birth = user.getBirth();
         String email = user.getEmail();
         String zipcode = user.getZipcode();
+        log.info(zipcode);
         String address = user.getAddress();
+        log.info(address);
         Date updateDate = user.getUpdateDate();
         long daysDifference = userService.daysDifference(user.getUpdateDate());
 
@@ -85,10 +88,23 @@ public class UserController {
 
     // todo 회원정보 수정
     @PostMapping("/update")
-    public String updateUser(@AuthenticationPrincipal User user, UserUpdateForm form) {
+    public ResponseEntity<String> updateUser(@AuthenticationPrincipal User user, UserUpdateForm form, HttpSession session) {
+        // todo 이메일 수정 할 때
 
-        userService.updateUser(user.getId(), form.getEmail(), form.getZipcode(), form.getAddress());
-        return "redirect:/user/info/form";
+
+        // todo 이메일 수정 안할 때
+        if (!user.getEmail().equals(form.getEmail())) {
+            userService.updateUser(user.getId(), form.getEmail(), form.getZipcode(), form.getAddress());
+            session.invalidate();
+            log.info("사용자 아이디 -> {}", user.getId());
+            log.info("사용자 이메일 -> {}", form.getEmail());
+            log.info("사용자 우편번호 -> {}", form.getZipcode());
+            log.info("사용자 주소 -> {}", form.getAddress());
+            return ResponseEntity.ok("사용가능한 이메일 주소입니다.");
+        } else {
+            return ResponseEntity.badRequest().body("중복된 이메일 주소입니다.");
+        }
+
     }
 
     // 비밀번호 변경

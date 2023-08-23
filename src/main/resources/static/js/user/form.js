@@ -23,25 +23,47 @@ $(() => {
     $("#action-form").submit(function (e) {
         e.preventDefault();
 
+        const form = $(this);
+
         const emailValue = $email.val();
 
-        if (!emailValue) {
-            errorAlert(emailValue, "E-mail을 입력해주세요.");
-            emailErrMsg.text("필수 입력 값입니다.");
+        let check = checkInput();
+        if (!check) {
             return false;
         }
+        console.log("pass");
 
-        if (!emailReg.test(emailValue)) {
-            errorAlert(emailValue, "E-mail 형식이 아닙니다.");
-            emailErrMsg.text("name@examble.com");
-            return false;
-        }
-        Swal.fire({
-            icon: 'success',
-            text: "정보 수정이 완료되었습니다.",
-        }).then(function () {
-            $(this)[0].submit();
+        $.ajax({
+            url: "/user/info/update",
+            type: "POST",
+            data: form.serialize(),
+            success: function () {
+                successAlert(emailValue, "회원정보 수정이 완료되었습니다.", function() {
+                    location.reload();
+                    location.href = "/logout";
+
+                });
+            },
+            error: function (e) {
+                errorAlert(emailValue, e.responseText);
+            }
         });
+
+        function checkInput() {
+
+            if (!emailValue) {
+                errorAlert(emailValue, "E-mail을 입력해주세요.");
+                emailErrMsg.text("필수 입력 값입니다.").css('color', 'red');
+                return false;
+            }
+
+            if (!emailReg.test(emailValue)) {
+                errorAlert(emailValue, "E-mail 형식이 아닙니다.");
+                emailErrMsg.text("name@examble.com").css('color', 'red');
+                return false;
+            }
+            return true;
+        }
     });
 
     $(".update-form input[name='email']").keyup(() => {
@@ -70,13 +92,18 @@ $(() => {
         }
     }
 
-    function successAlert(el, text) {
+    function successAlert(el, text, callback) {
         Swal.fire({
             icon: 'success',
-            text: text
+            text: text,
+            confirmButtonText: '확인',
+            allowOutsideClick: false,
+        }).then((result) => {
+            if (result.isconfirmed) {
+                if (typeof callback === 'function') {
+                    callback();
+                }
+            }
         });
-        if (el instanceof HTMLElement) {
-            el.focus();
-        }
     }
 })

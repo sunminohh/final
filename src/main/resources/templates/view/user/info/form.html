@@ -56,7 +56,7 @@
     </div>
 
     <form id="action-form" method="post" th:action="@{/user/info/update}">
-        <input type="hidden" name="userId" th:value="${userId}">
+        <input type="hidden" name="id" th:value="${userId}">
 
         <input type="hidden" name="zipcode" th:value="${zipcode}">
         <input type="hidden" name="address" th:value="${address}">
@@ -92,7 +92,7 @@
                         <label for="email">이메일</label> <em class="font-orange">*</em>
                     </th>
                     <td>
-                        <input type="text" id="email" name="email" class="btnAuthEmail input-text w500px" th:value="${userEmail}" autocomplete="off">
+                        <input type="text" name="email" class="btnAuthEmail input-text w500px" th:value="${userEmail}" autocomplete="off">
                         <span id="email-error-text" calss="alert"></span>
                     </td>
                 </tr>
@@ -106,10 +106,10 @@
                 <tr>
                     <th scope="row">주소</th>
                     <td>
-                        <span></span>
+                        <span th:text="${zipcode}"></span>
 
                         <button id="btnZipcode" class="button small gray-line ml10">우편번호 검색</button>
-                        <p class="reset mt10"></p>
+                        <p class="mt10" th:text="${address}"></p>
                     </td>
                 </tr>
 
