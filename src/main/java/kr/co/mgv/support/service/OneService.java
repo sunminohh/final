@@ -104,7 +104,7 @@ public class OneService {
 		
 		param.put("begin", begin);
 		param.put("end", end);
-		List<One> oneList = oneDao.getOnesByUserId(param);
+		List<One> oneList = oneDao.getOnes(param);
 		OneList result = new OneList();
 		
 		result.setPagination(pagination);
