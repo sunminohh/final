@@ -2,12 +2,7 @@
         table-layout: fixed; /* 테이블의 너비를 고정 */
     }
 
-    .title-content {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 45%; /* 원하는 최대 길이 설정 */
-    }
+
 
     .combined-cell {
         display: flex;
@@ -18,3 +13,4 @@
         margin-right: 5px; /* 적절한 여백 설정 */
         color: darkgray;
     }
+    
