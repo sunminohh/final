@@ -21,10 +21,8 @@
         </ul>
     </div>
     <div class="board-list-util">
-    <p class="result-count">
-            <strong><span id="totalTitle">전체</span> <span class="font-green" id="totalCnt" th:text="${result.pagination.totalRows}"></span>건</strong>
-    </p>
-	<form  method="post" action="notice/detail" id="actionForm">    
+    <p class="result-count"><strong><span id="totalTitle">전체</span> <span class="font-green" id="totalCnt" th:text="${result.pagination.totalRows}"></span>건</strong></p>
+	<form method="post" action="notice/detail" id="actionForm">    
 	     <div class="ml07 bs3  d-flex justify-content-end">
 	         	<select id="location" title="지역선택" name="locationNo"
 		                                class="form-select form-select-sm  ml06 form-control-sm mb-3"
@@ -43,7 +41,9 @@
 		            <input type="search" name="keyword" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" th:value="${param.keyword}"  autocomplete="off">
 		            <button type="button" id="searchBtn" class="btn-search-input">검색</button>
 		        </div>
-		</div>
+		 </div>
+	</form>
+	</div>
     <div class="table-wrap" style="min-height: 512px;">
         <table class="board-list">
             <caption>번호, 극장, 구분, 제목, 등록일이 들어간 공지사항 전체 리스트</caption>

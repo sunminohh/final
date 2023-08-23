@@ -2,6 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="kr.co.mgv.support.dao.FaqDao">
 
+	<insert id="insertFaq" parameterType="kr.co.mgv.support.vo.Faq">
+		INSERT INTO
+			MGV_SUPPORT_FAQ
+		(FAQ_TITLE, FAQ_CONTENT, USER_ID, CATEGORY_NO)
+		VALUES
+			(#{title}, #{content}, #{user.id}, #{category.no})
+	</insert>
+
 	<select id="getTotalRows" parameterType="map" resultType="int">
 		select count(*)
 		from MGV_SUPPORT_FAQ A, MGV_SUPPORT_CATEGORIES B
@@ -40,4 +48,26 @@
 		LIMIT 10 OFFSET #{begin}
 	</select>
 	
+	<select id="getCategories" parameterType="string" resultType="kr.co.mgv.support.vo.SupportCategory">
+		SELECT 
+			CATEGORY_NO		as no,
+			CATEGORY_NAME	as name, 
+			CATEGORY_TYPE	as type
+		FROM 
+			MGV_SUPPORT_CATEGORIES
+		where 
+			CATEGORY_TYPE = #{value}
+			and CATEGORY_no != 1
+	</select>
+	
 </mapper>
+
+
+
+
+
+
+
+
+
+

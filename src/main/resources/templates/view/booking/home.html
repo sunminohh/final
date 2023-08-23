@@ -19,94 +19,76 @@
 <div layout:fragment="content">
     <script>
         $(()=>{
+            //초기 변수 설정
             dayjs.locale('ko-kr')
-            const today= dayjs().add(-1,'day')
-            let startDay=today;
-            let selectedMovies =new Set;
-            let selectedDay = today.format('YYYY-MM-DD')
-            for (let i =0; i<16; i++){
-                let day=today.add(i,'day')
-                let html=`<button class="${day.day() === 6 ? 'sat' : day.day() === 0 ? 'holi' : ''}" type="button" date-data="${day.format('YYYY-MM-DD')}" month="6" tabindex="-1">
+            const today= dayjs()
+            const movieChoices=$("#choiceMovieList")
+            let startDay=today.add(-1,'day');
+            let selectedMovies =new Map;
+            let selectedDate=today.format('YYYY-MM-DD')
+
+            function apiByDate(date){
+
+            }
+            function dateSelect(date){
+                $("#date-"+selectedDate).removeClass('on')
+                 selectedDate=date
+                $("#date-"+selectedDate).addClass('on')
+            }
+            function createDateHtml(date){
+                const day=dayjs(date)
+                const on =  date==selectedDate ? 'on' :''
+                return `<button id="date-${date}" class="${day.day() === 6 ? 'sat' : day.day() === 0 ? 'holi' : ''} ${on}" type="button" date-data="${date}" month="6" tabindex="-1">
                                                 <span class="ir"></span>
                                                 <em style="pointer-events:none;">${day.date()} <span style="pointer-events:none;" class="ir">일</span>
                                                 </em>
                                                 <span class="day-kr" style="pointer-events:none;display:inline-block">${day.format('dd')}</span>
                                                 <span class="day-en" style="pointer-events:none;display:none">Wed</span>
                                             </button>`
-                $("#formDeList").children().append(html);
             }
+
+            for (let i =0; i<16; i++){
+                let day=startDay.add(i,'day')
+                $("#formDeList").children().append(createDateHtml(day.format('YYYY-MM-DD')));
+            }
+
             $(".btn-next").click(function(event){
                 const fday= $("#formDeList").children().children().filter(':first-child')
                 fday.remove()
                 const day=startDay.add(16,'day')
                 startDay=startDay.add(1,'day')
-                let html=`<button class="${day.day() == 6 ? 'sat' : day.day() == 0 ? 'holi' : ''}" type="button" date-data="${day.format('YYYY-MM-DD')}" month="6" tabindex="-1">
-                                                <span class="ir"></span>
-                                                <em style="pointer-events:none;">${day.date()} <span style="pointer-events:none;" class="ir">일</span>
-                                                </em>
-                                                <span class="day-kr" style="pointer-events:none;display:inline-block">${day.format('dd')}</span>
-                                                <span class="day-en" style="pointer-events:none;display:none">Wed</span>
-                                            </button>`
-                $("#formDeList").children().append(html)
+
+                $("#formDeList").children().append(createDateHtml(day.format('YYYY-MM-DD')));
             })
             $(".btn-pre").click(function(event){
                 const lday= $("#formDeList").children().children().filter(':last-child')
                 lday.remove()
                 startDay=startDay.add(-1,'day')
                 const day=startDay
-                let html=`<button class="${day.day() == 6 ? 'sat' : day.day() == 0 ? 'holi' : ''}" type="button" date-data="${day.format('YYYY-MM-DD')}" month="6" tabindex="-1">
-                                                <span class="ir"></span>
-                                                <em style="pointer-events:none;">${day.date()} <span style="pointer-events:none;" class="ir">일</span>
-                                                </em>
-                                                <span class="day-kr" style="pointer-events:none;display:inline-block">${day.format('dd')}</span>
-                                                <span class="day-en" style="pointer-events:none;display:none">Wed</span>
-                                            </button>`
-                $("#formDeList").children().prepend(html)
+                $("#formDeList").children().prepend(createDateHtml(day.format('YYYY-MM-DD')));
             })
             $('#formDeList div').on('click','button',function(e){
-                selectedDay = $(this).attr('date-data')
-
-                fetch('api/movie/movies').then(res => res.json()).then(json=>{
-                    const mli = $("#mCSB_1_container ul li")
-                    $.each(json, function(index, movie){
-                        let html=
-                            `<button type="button" class="btn" movie-nm="${movie.title}" movie-no="${movie.no}" img-path="${movie.posterUrl.split(" ")[0]}" movie-popup-at="N" movie-popup-no="0" form-at="Y">
-                            <span class="movie-grade small age-${movie.contentRating}" >"${movie.contentRating}"</span>
-                            <i class="iconset ico-heart-small">보고싶어 설정안함</i>
-                            <span class="txt">${movie.title}</span>
-                        </button>`
-                        mli.append(html);
-                    })
-                })
-
-                fetch('')
+                dateSelect($(this).attr('date-data'))
             })
-            $('#mCSB_1_container ul li').on('click','button',function(e) {
+            $('#mCSB_1_container123 ul li').on('click','button',function(e) {
                 const moviesBox = $(".view-area")
                 mNo=$(this).attr('movie-no')
                 let len = selectedMovies.size
                 if (selectedMovies.has(mNo)) {
-                    let img = $("#choiceMovieList div div div img[movie-no="+mNo+"]")
-                    selectedMovies.delete(mNo)
-                    img.parent().parent().parent().remove()
-                    $("#choiceMovieList").append("<div class='bg'></div>")
-                    $(this).removeClass('on')
-                    if(selectedMovies.size==0){
-                        $("#choiceMovieList").css('display', 'none')
-                        $("#choiceMovieNone").css('display', 'block')
-                    }
-                }else if(len<3) {
 
+                    deleteSelectedMovie(mNo)
+
+                }else if(len<3) {
                         $(this).addClass('on')
                     let box = $("#choiceMovieList").children().eq(len)
-
-                    selectedMovies.add($(this).attr('movie-no'))
+                    const boxId="box-"+mNo
+                    selectedMovies.set(mNo,boxId)
 
                     $("#choiceMovieNone").css('display', 'none')
-                    let html = `<div class="wrap">
+                    let html = `<div class="wrap" id="${boxId}">
                     <div class="img">
                     <img src="${$(this).attr('img-path')}"
-                    alt="달짝지근해: 7510" movie-no="${$(this).attr('movie-no')}" ></div>
+                    movie-no="${$(this).attr('movie-no')}" ></div>
                     <button type="button" class="del">삭제</button></div>`
                     box.append(html)
                     $("#choiceMovieList").css('display', 'block')
@@ -118,8 +100,38 @@
 
             })
 
-        })
+            $('#choiceMovieList').on("click",'button',function() {
+                console.log($(this))
+                let mNo=$(this).prev().children().attr('movie-no')
+                deleteSelectedMovie(mNo)
+            })
 
+            // 선택영화목록에서 선택영화를 지우는 함수
+            function deleteSelectedMovie(mNo){
+                $("#mCSB_1_container123").find('button[movie-no='+mNo+']').removeClass('on')
+                const boxDiv = $("#"+selectedMovies.get(mNo)).parent()
+                boxDiv.remove()
+                selectedMovies.delete(mNo)
+                $("#choiceMovieList").append("<div class='bg'></div>")
+                if(selectedMovies.size==0){
+                    $("#choiceMovieList").css('display', 'none')
+                    $("#choiceMovieNone").css('display', 'block')
+                }
+            }
+
+            $("#location-list").on('click','li',function(){
+                $(this).siblings().children('div').removeClass('on')
+                $(this).children('div').addClass('on')
+            })
+            $('.theater-list').on('click','button',function(){
+                if ($(this).hasClass('on')){
+                    $(this).removeClass('on')
+                    return
+                }
+                $('#location-list').find('button').removeClass('on')
+                $(this).addClass('on')
+            })
+        })
 
     </script>
     <div class="container" style="padding-bottom:240px;">
@@ -212,9 +224,14 @@
                                         <div class="list">
                                             <div class="scroll m-scroll mCustomScrollbar _mCS_1" id="movieList">
                                                 <div id="mCSB_1" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" style="max-height: none;" tabindex="0">
-                                                    <div id="mCSB_1_container" class="mCSB_container" style="position:relative; top:0; left:0;" dir="ltr">
+                                                    <div id="mCSB_1_container123" class="mCSB_container" style="position:relative; top:0; left:0;" dir="ltr">
                                                         <ul>
-                                                            <li>
+                                                            <li th:each="movie, i : ${movies}">
+                                                                <button th:type="button" class="btn" th:movie-nm="${movie.title}" th:movie-no="${movie.no}" th:img-path="${movie.getMainPoster()}" movie-popup-at="N" movie-popup-no="0" form-at="Y">
+                                                                <span th:class="|movie-grade small age-${movie.contentRating}|" th:text="${movie.contentRating}" ></span>
+                                                                <i class="iconset ico-heart-small">보고싶어 설정안함</i>
+                                                                <span class="txt" th:text="${movie.title}"></span>
+                                                                </button>
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -418,10 +435,10 @@
                                     <div class="all-list">
                                         <button type="button" class="btn-tab on">전체</button>
                                         <div class="list">
-                                            <div class="scroll" id="brchList">
+                                            <div class="scroll" id="location-list">
                                                 <ul>
                                                     <li sec:authorize="isAuthenticated()">
-                                                        <button type="button" class="btn has-issue" id="10">
+                                                        <button type="button" class="btn has-issue" id="112">
                                                             <span class="txt" th:text="선호극장"></span>
                                                         </button>
                                                         <div class="depth">
@@ -506,497 +523,24 @@
                                                             </div>
                                                         </div>
                                                     </li>
-                                                    <li>
+                                                    <li th:each="location, i : ${locations}">
                                                         <button type="button" class="btn has-issue" id="10">
-                                                            <span class="txt">서울(20)</span>
+                                                            <span class="txt" th:text="|${location.name}(${location.theaters.size()})|"></span>
                                                         </button>
                                                         <div class="depth">
                                                             <div class="detail-list m-scroll area-cd10 mCustomScrollbar _mCS_4 mCS_no_scrollbar">
                                                                 <div id="mCSB_4" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" style="max-height: none;" tabindex="0">
                                                                     <div id="mCSB_4_container" class="mCSB_container mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
                                                                         <ul>
-                                                                            <li>
-                                                                                <button type="button" brch-no="1372" brch-nm="강남" brch-eng-nm="Gangnam" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">강남</button>
+                                                                            <li th:class="theater-list" th:each="theater, j : ${location.theaters}">
+                                                                                <button type="button" th:brch-no="${theater.no}" th:brch-nm="${theater.name}"  form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0" th:text="${theater.name}"></button>
                                                                             </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="0023" brch-nm="강남대로(씨티)" brch-eng-nm="Gangnam-daero (City)" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">강남대로(씨티)</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="1341" brch-nm="강동" brch-eng-nm="Gangdong" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">강동</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="1431" brch-nm="군자" brch-eng-nm="Gunja" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="1669">군자</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="0041" brch-nm="더 부티크 목동현대백화점" brch-eng-nm="The Boutique Mokdong-Hyundai Department store" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="2221">더 부티크 목동현대백화점</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="1003" brch-nm="동대문" brch-eng-nm="Dongdaemoon" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="962">동대문</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="1572" brch-nm="마곡" brch-eng-nm="Magok" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="936">마곡</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="1581" brch-nm="목동" brch-eng-nm="Mokdong" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="968">
-                                                                                    <span class="jq-tooltip" title="리뉴얼오픈">목동</span>
-                                                                                    <i class="iconset ico-theater-new" title="리뉴얼오픈">리뉴얼오픈</i>
-                                                                                </button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="1311" brch-nm="상봉" brch-eng-nm="Sangbong" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="980">상봉</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="1211" brch-nm="상암월드컵경기장" brch-eng-nm="Sangam World Cup Stadium" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="1001">상암월드컵경기장</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="1331" brch-nm="성수" brch-eng-nm="SEOUNGSU" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="1006">성수</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="1371" brch-nm="센트럴" brch-eng-nm="Central" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="1002">센트럴</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="1381" brch-nm="송파파크하비오" brch-eng-nm="Songpa Park Habio" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">송파파크하비오</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="1202" brch-nm="신촌" brch-eng-nm="Sinchon" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">신촌</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="1561" brch-nm="이수" brch-eng-nm="Isu" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">이수</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="1321" brch-nm="창동" brch-eng-nm="Changdong" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">창동</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="1351" brch-nm="코엑스" brch-eng-nm="COEX" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="954">코엑스</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="1212" brch-nm="홍대" brch-eng-nm="Hongdae" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">홍대</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="1571" brch-nm="화곡" brch-eng-nm="Hwagok" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="999">화곡</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="1562" brch-nm="ARTNINE" brch-eng-nm="ARTNINE" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">ARTNINE</button>
-                                                                            </li>
+
                                                                         </ul>
                                                                     </div>
                                                                     <div id="mCSB_4_scrollbar_vertical" class="mCSB_scrollTools mCSB_4_scrollbar mCS-light mCSB_scrollTools_vertical">
                                                                         <div class="mCSB_draggerContainer">
                                                                             <div id="mCSB_4_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; display: none; top: 0px;">
-                                                                                <div class="mCSB_dragger_bar" style="line-height: 30px;"></div>
-                                                                            </div>
-                                                                            <div class="mCSB_draggerRail"></div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li >
-                                                        <button type="button" class="btn has-issue" id="30">
-                                                            <span class="txt">경기(31)</span>
-                                                        </button>
-                                                        <div class="depth">
-                                                            <div class="detail-list m-scroll area-cd30 mCustomScrollbar _mCS_5 mCS_no_scrollbar">
-                                                                <div id="mCSB_5" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" style="max-height: none;" tabindex="0">
-                                                                    <div id="mCSB_5_container" class="mCSB_container mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
-                                                                        <ul>
-                                                                            <li>
-                                                                                <button type="button" brch-no="4121" brch-nm="고양스타필드" brch-eng-nm="Goyang-Starfield" form-at="Y" area-cd="30" area-cd-nm="경기" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="976">고양스타필드</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="0029" brch-nm="광명AK플라자" brch-eng-nm="Gwangmyeong-AKplaza" form-at="Y" area-cd="30" area-cd-nm="경기" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="2012">광명AK플라자</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="0053" brch-nm="광명소하" brch-eng-nm="Gwangmyeong Soha" form-at="Y" area-cd="30" area-cd-nm="경기" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="2324">광명소하</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="0035" brch-nm="금정AK플라자" brch-eng-nm="Geumjeong-AKplaza" form-at="Y" area-cd="30" area-cd-nm="경기" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="2096">금정AK플라자</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="4152" brch-nm="김포한강신도시" brch-eng-nm="Gimpo Han River New City" form-at="Y" area-cd="30" area-cd-nm="경기" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">김포한강신도시</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="0039" brch-nm="남양주" brch-eng-nm="Namyangju" form-at="Y" area-cd="30" area-cd-nm="경기" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">남양주</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="0019" brch-nm="남양주현대아울렛 스페이스원" brch-eng-nm="Namyangju-Hyundai Outlet Space1" form-at="Y" area-cd="30" area-cd-nm="경기" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="1813">남양주현대아울렛 스페이스원</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="4451" brch-nm="동탄" brch-eng-nm="Dongtan" form-at="Y" area-cd="30" area-cd-nm="경기" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="923">동탄</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="4652" brch-nm="미사강변" brch-eng-nm=" Misa Riverside" form-at="Y" area-cd="30" area-cd-nm="경기" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">미사강변</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="4104" brch-nm="백석벨라시타" brch-eng-nm="Baekseok Bellacitta" form-at="Y" area-cd="30" area-cd-nm="경기" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="942">백석벨라시타</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="4722" brch-nm="별내" brch-eng-nm="Byeolnae" form-at="Y" area-cd="30" area-cd-nm="경기" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">별내</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="4221" brch-nm="부천스타필드시티" brch-eng-nm="Bucheon Starfield City" form-at="Y" area-cd="30" area-cd-nm="경기" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="991">부천스타필드시티</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="4631" brch-nm="분당" brch-eng-nm="Bundang" form-at="Y" area-cd="30" area-cd-nm="경기" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="958">분당</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="0030" brch-nm="수원" brch-eng-nm="Suwon" form-at="Y" area-cd="30" area-cd-nm="경기" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">수원</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="0052" brch-nm="수원AK플라자(수원역)" brch-eng-nm="Suwon AKplaza" form-at="N" area-cd="30" area-cd-nm="경기" spclb-yn="N" brch-bokd-unable-at="Y" brch-popup-at="N" brch-popup-no="0">
-                                                                                    <span class="jq-tooltip" title="오픈예정">수원AK플라자(수원역)</span>
-                                                                                    <i class="iconset ico-theater-open" title="오픈예정">오픈예정</i>
-                                                                                </button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="0042" brch-nm="수원남문" brch-eng-nm="Suwon Nammun" form-at="Y" area-cd="30" area-cd-nm="경기" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">수원남문</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="0036" brch-nm="수원호매실" brch-eng-nm="SuwonHomaesil" form-at="Y" area-cd="30" area-cd-nm="경기" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">수원호매실</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="4291" brch-nm="시흥배곧" brch-eng-nm="Siheung Baegod" form-at="Y" area-cd="30" area-cd-nm="경기" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">시흥배곧</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="4253" brch-nm="안산중앙" brch-eng-nm="Ansan Jungang" form-at="Y" area-cd="30" area-cd-nm="경기" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">안산중앙</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="0020" brch-nm="안성스타필드" brch-eng-nm="Megabox Starfield Anseong Branch" form-at="Y" area-cd="30" area-cd-nm="경기" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="1809">안성스타필드</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="4821" brch-nm="양주" brch-eng-nm="Yangju" form-at="Y" area-cd="30" area-cd-nm="경기" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">양주</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="4431" brch-nm="영통" brch-eng-nm="Yeongtong" form-at="Y" area-cd="30" area-cd-nm="경기" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="944">영통</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="0012" brch-nm="용인기흥" brch-eng-nm="Yongin Giheung" form-at="Y" area-cd="30" area-cd-nm="경기" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">용인기흥</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="4462" brch-nm="용인테크노밸리" brch-eng-nm="Yongin Technoveli" form-at="Y" area-cd="30" area-cd-nm="경기" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">용인테크노밸리</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="4804" brch-nm="의정부민락" brch-eng-nm="Uijeongbuminlag" form-at="Y" area-cd="30" area-cd-nm="경기" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">의정부민락</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="4111" brch-nm="일산" brch-eng-nm="Ilsan" form-at="Y" area-cd="30" area-cd-nm="경기" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">일산</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="4112" brch-nm="킨텍스" brch-eng-nm="KINTEX" form-at="Y" area-cd="30" area-cd-nm="경기" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">킨텍스</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="4132" brch-nm="파주금촌" brch-eng-nm="Paju Geumchon" form-at="Y" area-cd="30" area-cd-nm="경기" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">파주금촌</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="4115" brch-nm="파주운정" brch-eng-nm="Paju Unjeong" form-at="Y" area-cd="30" area-cd-nm="경기" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">파주운정</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="4131" brch-nm="파주출판도시" brch-eng-nm="Paju Publishing City" form-at="Y" area-cd="30" area-cd-nm="경기" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="960">파주출판도시</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="4651" brch-nm="하남스타필드" brch-eng-nm="Hanam Starfield" form-at="Y" area-cd="30" area-cd-nm="경기" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="982">하남스타필드</button>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-                                                                    <div id="mCSB_5_scrollbar_vertical" class="mCSB_scrollTools mCSB_5_scrollbar mCS-light mCSB_scrollTools_vertical">
-                                                                        <div class="mCSB_draggerContainer">
-                                                                            <div id="mCSB_5_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; display: none; top: 0px;">
-                                                                                <div class="mCSB_dragger_bar" style="line-height: 30px;"></div>
-                                                                            </div>
-                                                                            <div class="mCSB_draggerRail"></div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <button type="button" class="btn" id="35">
-                                                            <span calss="txt">인천(5)</span>
-                                                        </button>
-                                                        <div class="depth">
-                                                            <div class="detail-list m-scroll area-cd35 mCustomScrollbar _mCS_6 mCS_no_scrollbar">
-                                                                <div id="mCSB_6" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" style="max-height: none;" tabindex="0">
-                                                                    <div id="mCSB_6_container" class="mCSB_container mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
-                                                                        <ul>
-                                                                            <li>
-                                                                                <button type="button" brch-no="4041" brch-nm="검단" brch-eng-nm="Geomdan" form-at="Y" area-cd="35" area-cd-nm="인천" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">검단</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="4062" brch-nm="송도" brch-eng-nm="Song-do" form-at="Y" area-cd="35" area-cd-nm="인천" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="927">송도</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="4001" brch-nm="영종" brch-eng-nm="Yeongjong" form-at="Y" area-cd="35" area-cd-nm="인천" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">영종</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="4051" brch-nm="인천논현" brch-eng-nm="Incheon Nonhyeon" form-at="Y" area-cd="35" area-cd-nm="인천" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">인천논현</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="0027" brch-nm="청라지젤" brch-eng-nm="Cheongna Giselle" form-at="Y" area-cd="35" area-cd-nm="인천" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="1961">청라지젤</button>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-                                                                    <div id="mCSB_6_scrollbar_vertical" class="mCSB_scrollTools mCSB_6_scrollbar mCS-light mCSB_scrollTools_vertical">
-                                                                        <div class="mCSB_draggerContainer">
-                                                                            <div id="mCSB_6_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; display: none; top: 0px;">
-                                                                                <div class="mCSB_dragger_bar" style="line-height: 30px;"></div>
-                                                                            </div>
-                                                                            <div class="mCSB_draggerRail"></div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <button type="button" class="btn" id="45">
-                                                            <span calss="txt">대전/충청/세종(15)</span>
-                                                        </button>
-                                                        <div class="depth">
-                                                            <div class="detail-list m-scroll area-cd45 mCustomScrollbar _mCS_7 mCS_no_scrollbar">
-                                                                <div id="mCSB_7" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" style="max-height: none;" tabindex="0">
-                                                                    <div id="mCSB_7_container" class="mCSB_container mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
-                                                                        <ul>
-                                                                            <li>
-                                                                                <button type="button" brch-no="3141" brch-nm="공주" brch-eng-nm="Gongju" form-at="Y" area-cd="45" area-cd-nm="대전/충청/세종" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">공주</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="0018" brch-nm="논산" brch-eng-nm="nonsan" form-at="Y" area-cd="45" area-cd-nm="대전/충청/세종" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">논산</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="3021" brch-nm="대전" brch-eng-nm="Daejeon" form-at="Y" area-cd="45" area-cd-nm="대전/충청/세종" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="975">대전</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="0028" brch-nm="대전신세계 아트앤사이언스" brch-eng-nm="Daejeon-Shinsegae Art &amp; Science" form-at="Y" area-cd="45" area-cd-nm="대전/충청/세종" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="2000">대전신세계 아트앤사이언스</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="0009" brch-nm="대전유성" brch-eng-nm="Daejeon-Yuseong" form-at="Y" area-cd="45" area-cd-nm="대전/충청/세종" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="1831">대전유성</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="3011" brch-nm="대전중앙로" brch-eng-nm="Daejeon Jungang-ro" form-at="Y" area-cd="45" area-cd-nm="대전/충청/세종" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="971">대전중앙로</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="0017" brch-nm="대전현대아울렛" brch-eng-nm="Daejeon-Hyundai Outlet" form-at="Y" area-cd="45" area-cd-nm="대전/충청/세종" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="1763">대전현대아울렛</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="3391" brch-nm="세종(조치원)" brch-eng-nm="Sejong" form-at="Y" area-cd="45" area-cd-nm="대전/충청/세종" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">세종(조치원)</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="3392" brch-nm="세종나성" brch-eng-nm="SejongNaseong" form-at="Y" area-cd="45" area-cd-nm="대전/충청/세종" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">세종나성</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="0008" brch-nm="세종청사" brch-eng-nm="SejongChungsa" form-at="N" area-cd="45" area-cd-nm="대전/충청/세종" spclb-yn="N" brch-bokd-unable-at="Y" brch-popup-at="Y" brch-popup-no="1801">세종청사</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="3631" brch-nm="오창" brch-eng-nm="Ochang" form-at="Y" area-cd="45" area-cd-nm="대전/충청/세종" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">오창</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="3651" brch-nm="진천" brch-eng-nm="Jincheon" form-at="Y" area-cd="45" area-cd-nm="대전/충청/세종" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">진천</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="3301" brch-nm="천안" brch-eng-nm="Cheonan" form-at="Y" area-cd="45" area-cd-nm="대전/충청/세종" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="977">천안</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="0049" brch-nm="청주사창" brch-eng-nm="Cheongju Sachang" form-at="Y" area-cd="45" area-cd-nm="대전/충청/세종" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">청주사창</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="3501" brch-nm="홍성내포" brch-eng-nm="Hongseong Naepo" form-at="Y" area-cd="45" area-cd-nm="대전/충청/세종" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">홍성내포</button>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-                                                                    <div id="mCSB_7_scrollbar_vertical" class="mCSB_scrollTools mCSB_7_scrollbar mCS-light mCSB_scrollTools_vertical">
-                                                                        <div class="mCSB_draggerContainer">
-                                                                            <div id="mCSB_7_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; display: none; top: 0px;">
-                                                                                <div class="mCSB_dragger_bar" style="line-height: 30px;"></div>
-                                                                            </div>
-                                                                            <div class="mCSB_draggerRail"></div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <button type="button" class="btn" id="55">
-                                                            <span calss="txt">부산/대구/경상(25)</span>
-                                                        </button>
-                                                        <div class="depth">
-                                                            <div class="detail-list m-scroll area-cd55 mCustomScrollbar _mCS_8 mCS_no_scrollbar">
-                                                                <div id="mCSB_8" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" style="max-height: none;" tabindex="0">
-                                                                    <div id="mCSB_8_container" class="mCSB_container mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
-                                                                        <ul>
-                                                                            <li>
-                                                                                <button type="button" brch-no="0040" brch-nm="경북도청" brch-eng-nm="Gyeongbuk Provincial Office" form-at="Y" area-cd="55" area-cd-nm="부산/대구/경상" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">경북도청</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="7122" brch-nm="경산하양" brch-eng-nm="Gyeongsan Hayang" form-at="Y" area-cd="55" area-cd-nm="부산/대구/경상" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">경산하양</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="0043" brch-nm="경주" brch-eng-nm="Gyeongju" form-at="Y" area-cd="55" area-cd-nm="부산/대구/경상" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">경주</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="7303" brch-nm="구미강동" brch-eng-nm="Gumi Gangdong" form-at="Y" area-cd="55" area-cd-nm="부산/대구/경상" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">구미강동</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="7401" brch-nm="김천" brch-eng-nm="Gimcheon" form-at="Y" area-cd="55" area-cd-nm="부산/대구/경상" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">김천</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="7901" brch-nm="남포항" brch-eng-nm="Nampohang" form-at="Y" area-cd="55" area-cd-nm="부산/대구/경상" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="1985">남포항</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="7011" brch-nm="대구신세계(동대구)" brch-eng-nm="Daegu-Shinsegae(Dongdaegu)" form-at="Y" area-cd="55" area-cd-nm="부산/대구/경상" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="967">대구신세계(동대구)</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="0022" brch-nm="대구이시아" brch-eng-nm="Daegu-Esia" form-at="Y" area-cd="55" area-cd-nm="부산/대구/경상" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">대구이시아</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="6161" brch-nm="덕천" brch-eng-nm="Deokcheon" form-at="Y" area-cd="55" area-cd-nm="부산/대구/경상" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">덕천</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="6312" brch-nm="마산" brch-eng-nm="Masan" form-at="Y" area-cd="55" area-cd-nm="부산/대구/경상" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="986">마산</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="7451" brch-nm="문경" brch-eng-nm="Mungyeong" form-at="Y" area-cd="55" area-cd-nm="부산/대구/경상" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="985">문경</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="6001" brch-nm="부산극장" brch-eng-nm="Busan Theater" form-at="Y" area-cd="55" area-cd-nm="부산/대구/경상" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">부산극장</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="6906" brch-nm="부산대" brch-eng-nm="Busan ​​National University" form-at="Y" area-cd="55" area-cd-nm="부산/대구/경상" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="941">부산대</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="0025" brch-nm="북대구(칠곡)" brch-eng-nm="Northern Daegu (Chilgok)" form-at="Y" area-cd="55" area-cd-nm="부산/대구/경상" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">북대구(칠곡)</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="0032" brch-nm="사상" brch-eng-nm="Sasang" form-at="Y" area-cd="55" area-cd-nm="부산/대구/경상" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="2049">사상</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="6642" brch-nm="삼천포" brch-eng-nm="Samcheonpo" form-at="Y" area-cd="55" area-cd-nm="부산/대구/경상" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">삼천포</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="6261" brch-nm="양산" brch-eng-nm="Yangsan" form-at="Y" area-cd="55" area-cd-nm="부산/대구/경상" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="932">양산</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="6262" brch-nm="양산증산" brch-eng-nm="Yangsan Jeungsan" form-at="Y" area-cd="55" area-cd-nm="부산/대구/경상" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="957">양산증산</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="6811" brch-nm="울산" brch-eng-nm="Ulsan" form-at="Y" area-cd="55" area-cd-nm="부산/대구/경상" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="956">울산</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="6191" brch-nm="정관" brch-eng-nm="Jeong-gwan" form-at="Y" area-cd="55" area-cd-nm="부산/대구/경상" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">정관</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="0045" brch-nm="진주(중안)" brch-eng-nm="Jinju Jungan" form-at="Y" area-cd="55" area-cd-nm="부산/대구/경상" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">진주(중안)</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="0048" brch-nm="창원" brch-eng-nm="Changwon" form-at="Y" area-cd="55" area-cd-nm="부산/대구/경상" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="2348">창원</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="0014" brch-nm="창원내서" brch-eng-nm="Megabox Changwon Naeseo Branch" form-at="Y" area-cd="55" area-cd-nm="부산/대구/경상" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">창원내서</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="0038" brch-nm="포항" brch-eng-nm="Pohang" form-at="Y" area-cd="55" area-cd-nm="부산/대구/경상" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="2212">포항</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="0046" brch-nm="해운대(장산)" brch-eng-nm="Haeundae(Jangsan)" form-at="Y" area-cd="55" area-cd-nm="부산/대구/경상" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="2248">해운대(장산)</button>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-                                                                    <div id="mCSB_8_scrollbar_vertical" class="mCSB_scrollTools mCSB_8_scrollbar mCS-light mCSB_scrollTools_vertical">
-                                                                        <div class="mCSB_draggerContainer">
-                                                                            <div id="mCSB_8_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; display: none; top: 0px;">
-                                                                                <div class="mCSB_dragger_bar" style="line-height: 30px;"></div>
-                                                                            </div>
-                                                                            <div class="mCSB_draggerRail"></div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <button type="button" class="btn" id="65">
-                                                            <span calss="txt">광주/전라(10)</span>
-                                                        </button>
-                                                        <div class="depth">
-                                                            <div class="detail-list m-scroll area-cd65 mCustomScrollbar _mCS_9 mCS_no_scrollbar">
-                                                                <div id="mCSB_9" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" style="max-height: none;" tabindex="0">
-                                                                    <div id="mCSB_9_container" class="mCSB_container mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
-                                                                        <ul>
-                                                                            <li>
-                                                                                <button type="button" brch-no="5021" brch-nm="광주상무" brch-eng-nm="Gwangju Sangmu" form-at="Y" area-cd="65" area-cd-nm="광주/전라" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="970">광주상무</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="5061" brch-nm="광주하남" brch-eng-nm="Gwangju Hanam" form-at="Y" area-cd="65" area-cd-nm="광주/전라" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">광주하남</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="5302" brch-nm="목포하당(포르모)" brch-eng-nm=" Mokpo Hadang (Formo)" form-at="Y" area-cd="65" area-cd-nm="광주/전라" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">목포하당(포르모)</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="5401" brch-nm="순천" brch-eng-nm="Suncheon" form-at="Y" area-cd="65" area-cd-nm="광주/전라" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">순천</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="5552" brch-nm="여수웅천" brch-eng-nm="Yeosu Woongcheon" form-at="Y" area-cd="65" area-cd-nm="광주/전라" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">여수웅천</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="0010" brch-nm="전대(광주)" brch-eng-nm="Jeondae(Gwangju)" form-at="Y" area-cd="65" area-cd-nm="광주/전라" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">전대(광주)</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="0050" brch-nm="전주객사" brch-eng-nm="Jeonju Gaeksa" form-at="Y" area-cd="65" area-cd-nm="광주/전라" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">전주객사</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="5612" brch-nm="전주송천" brch-eng-nm="Jeonju Songcheon" form-at="Y" area-cd="65" area-cd-nm="광주/전라" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">전주송천</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="0021" brch-nm="전주혁신" brch-eng-nm="Jeonju Hyeoksin" form-at="Y" area-cd="65" area-cd-nm="광주/전라" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">전주혁신</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="5064" brch-nm="첨단" brch-eng-nm="Cheomdan" form-at="Y" area-cd="65" area-cd-nm="광주/전라" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">첨단</button>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-                                                                    <div id="mCSB_9_scrollbar_vertical" class="mCSB_scrollTools mCSB_9_scrollbar mCS-light mCSB_scrollTools_vertical">
-                                                                        <div class="mCSB_draggerContainer">
-                                                                            <div id="mCSB_9_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; display: none; top: 0px;">
-                                                                                <div class="mCSB_dragger_bar" style="line-height: 30px;"></div>
-                                                                            </div>
-                                                                            <div class="mCSB_draggerRail"></div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <button type="button" class="btn" id="70">
-                                                            <span calss="txt">강원(5)</span>
-                                                        </button>
-                                                        <div class="depth">
-                                                            <div class="detail-list m-scroll area-cd70 mCustomScrollbar _mCS_10 mCS_no_scrollbar">
-                                                                <div id="mCSB_10" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" style="max-height: none;" tabindex="0">
-                                                                    <div id="mCSB_10_container" class="mCSB_container mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
-                                                                        <ul>
-                                                                            <li>
-                                                                                <button type="button" brch-no="2001" brch-nm="남춘천" brch-eng-nm="Namchuncheon" form-at="Y" area-cd="70" area-cd-nm="강원" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">남춘천</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="2171" brch-nm="속초" brch-eng-nm="Sokcho" form-at="Y" area-cd="70" area-cd-nm="강원" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">속초</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="2201" brch-nm="원주" brch-eng-nm="Wonju" form-at="Y" area-cd="70" area-cd-nm="강원" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">원주</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="2202" brch-nm="원주센트럴" brch-eng-nm="Wonju Central" form-at="Y" area-cd="70" area-cd-nm="강원" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0">원주센트럴</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button type="button" brch-no="0037" brch-nm="춘천석사" brch-eng-nm="Chuncheon seoksa" form-at="Y" area-cd="70" area-cd-nm="강원" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="Y" brch-popup-no="2072">춘천석사</button>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-                                                                    <div id="mCSB_10_scrollbar_vertical" class="mCSB_scrollTools mCSB_10_scrollbar mCS-light mCSB_scrollTools_vertical">
-                                                                        <div class="mCSB_draggerContainer">
-                                                                            <div id="mCSB_10_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; display: none; top: 0px;">
                                                                                 <div class="mCSB_dragger_bar" style="line-height: 30px;"></div>
                                                                             </div>
                                                                             <div class="mCSB_draggerRail"></div>

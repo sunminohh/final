@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/admin}"
+	>
+<head th:fragment="extra-head-content">
+	<link th:href=@{/css/support/faq.css} rel="stylesheet">
+	<script type="text/javascript" th:src="@{/js/admin/support/adminfaq.js}"></script>
+	<script type="text/javascript" th:src="@{/js/summernote/sn.js}"></script>
+	<script type="text/javascript" th:src="@{/js/summernote/summernote-lite.js}"></script>
+	<script type="text/javascript" th:src="@{/js/summernote/lang/summernote-ko-KR.js}"></script>
+	<link th:href="@{/css/summernote/summernote-lite.css}" rel="stylesheet">
+</head>
+<title>관리자페이지</title>
+</head>
+<div id="contents" layout:fragment="content">
+    <h2 class="tit">자주 묻는 질문</h2>
+
+    <form id="insertform" name="regFrm" method="post" th:action="@{/admin/support/faq/add}" th:object=${addFaqForm} enctype="multipart/form-data">
+        <div class="table-wrap mt10">
+            <table class="board-form va-m">
+                <colgroup> 
+                    <col style="width:150px;">
+                    <col>
+                    <col style="width:150px;">
+                    <col>
+                </colgroup>
+                <tbody>
+                <tr>
+                    <th scope="row"><label for="cat">카테고리</label> <em class="font-orange">*</em></th>
+                    <td colspan="3">
+             			 <div class="d-flex justify-content-start" style="margin-bottom: -15px; margin-left: -7px;">
+	                        <select id="faqCat" title="카테고리 선택" name="categoryNo"
+	                                class="form-select form-select-sm  ml07 form-control-sm mb-3"
+	                                style="width: 150px; float:left">
+	                            <option value="" selected disabled>카테고리 선택</option>
+	                        </select>
+                    	</div>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <th scope="row"><label for="qnaCustInqTitle">제목</label> <em class="font-orange">*</em></th>
+                    <td colspan="3"><input type="text" name="title" class="input-text"></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="textarea">내용</label> <em class="font-orange">*</em></th>
+                    <td colspan="3">
+                        <div class="textarea">
+							<textarea id="summernote" name="content" rows="5" cols="30" title="내용입력"></textarea>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="btn-group pt40" style="display: block;">
+            <button id="btn-submit" type="submit" class="button purple large">등록</button>
+        </div>
+    </form>
+</div>

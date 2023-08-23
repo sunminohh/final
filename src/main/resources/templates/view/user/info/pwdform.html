@@ -6,7 +6,7 @@
 </head>
 <div id="contents" layout:fragment="content" class="update-form">
     <h2 class="tit">비밀번호 변경</h2>
-    <form id="action-form" method="post" th:action="@{/user/info/modifyPwd}">
+    <form id="action-form" method="post" th:action="@{/user/info/update/password}">
 
         <ul class="dot-list mb10">
             <li>현재 비밀번호를 입력한 후 새로 사용할 비밀번호를 입력하세요.</li>
@@ -23,14 +23,14 @@
                 <tr>
                     <th scope="row"><label for="pwdnow">현재 비밀번호</label></th>
                     <td>
-                        <input type="password" id="pwdnow" name="pwdnow" class="input-text w150px">
+                        <input type="password" id="pwdnow" name="checkPassword" class="input-text w150px">
                         <span id="pwd-error-text" class="alert"></span>
                     </td>
                 </tr>
                 <tr>
                     <th scope="row"><label for="pwdnew">새 비밀번호</label></th>
                     <td>
-                        <input type="password" id="pwdnew" name="pwdnew" class="input-text w150px">
+                        <input type="password" id="pwdnew" name="newPassword" class="input-text w150px">
                         <span id="pwdtooltip" class="ml10 font-size-14">※ 영문, 숫자, 특수문자 중 2가지 이상 조합하여 8자리 이상으로 입력 해 주세요.</span>
                         <span id="pwdnew-error-text" class="alert"></span>
                     </td>
