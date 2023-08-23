@@ -115,16 +115,12 @@ $(document).ready(function() {
 		    					</a>
 		    				</div>
 		    				<div class="awn">
-		    					<p class="cont">
-		    						<span style="font-size:10.0pt">
-		    							<span style="line-height:107%">
-		    								<span>
-		    									${faq.content}
-											</span>
-										</span>
-		    						</span>
-		    					</p>
-		    				</div>
+	                            <div class="cont">
+	                                <span style="font-size:10.0pt; line-height:107%">
+	                                     ${faq.content}
+	                                </span>
+	                            </div>
+	                        </div>
 						</li>`
 						
 						$ul.append(content);
