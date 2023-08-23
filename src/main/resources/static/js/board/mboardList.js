@@ -36,6 +36,17 @@
 		document.querySelector("#form-board-search").submit();
 	}
 	
+	function changeCom() {
+    let complete = document.querySelector("select[name=complete]").value;
+    
+    // Set the value in the hidden input field
+    document.querySelector("input[name=complete]").value = complete;
+    
+    document.querySelector("input[name=page]").value = 1;
+    document.querySelector("#form-board-search").submit();
+	}
+
+	
 	// 극장리스트
 	function changeLoc() {
 		let el = document.querySelector("select[name=theaterNo]");

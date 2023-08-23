@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.co.mgv.board.form.AddPboardForm;
+import kr.co.mgv.board.list.PartyBoardList;
 import kr.co.mgv.board.service.MovieBoardService;
 import kr.co.mgv.board.service.PartyBoardService;
 import kr.co.mgv.board.service.TheaterBoardService;
@@ -26,10 +27,12 @@ import kr.co.mgv.board.vo.PartyBoardSchedule;
 import kr.co.mgv.movie.vo.Movie;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/board/party")
 @RequiredArgsConstructor
+@Slf4j
 public class PartyController {
 
 		private final PartyBoardService partyBoardService;
@@ -44,26 +47,39 @@ public class PartyController {
 				@RequestParam(name = "keyword", required = false, defaultValue = "") String keyword,
 				@RequestParam(name = "theaterNo", required = false) Integer theaterNo,
 				@RequestParam(name = "locationNo", required = false) Integer locationNo,
+				@RequestParam(name = "complete", required = false, defaultValue = "E") String complete,
 				Model model) {
 	    	
 	    	Map<String, Object> param = new HashMap<String, Object>();
 			param.put("sort", sort);
 			param.put("rows", rows);
 			param.put("page", page);
+			param.put("complete", complete);
+			
 			if (theaterNo != null) {
 				param.put("theaterNo", theaterNo);
 			}
 			if (locationNo != null) {
 				param.put("locationNo", locationNo);
+				List<BoardTheater> theaters = theaterBoardService.getTheatersByLocationNo(locationNo);
+				model.addAttribute("theaters", theaters);
 			}
+
 			if(StringUtils.hasText(opt) && StringUtils.hasText(keyword)) {
 				param.put("opt", opt);
 				param.put("keyword", keyword);
 			}
 	    	
-			// service로 극장게시물 목록 조회하기 
+			// service로 극장게시물 목록, 극장, 지역목록, 페이지네이션 조회하기 
+			PartyBoardList result = partyBoardService.getPBoards(param);
+			
+			// 신고
 			
 			// model에 조회한 극장게시물 담기
+			model.addAttribute("result", result);
+			
+			log.info(complete);
+			log.info(sort);
 			
 	        return "/view/board/party/list";
 	    }

@@ -58,40 +58,143 @@
 	</insert>
 	
 	
+	
+	
 	<!-- 목록 -->
-	<select id="getPartyBoards" resultType="kr.co.mgv.board.vo.PartyBoard">
-		select
-			A.party_no				as no,
-			A.party_headcount		as headCount,
-			A.user_id				as "user.id",
-			A.PARTY_CREATE_DATE		as createDate,
-			A.PARTY_update_DATE		as updateDate,
-			A.party_gender			as gender,
-			A.board_name			as name,
-			A.board_comment_count	as commentCount,
-			A.board_read_count		as readCount,
-			A.PARTY_COMPLETE		as complete,
-			B.schedule_id			as "schedule.id",
-			B.schedule_date			as "schedule.date",
-			B.SCHEDULE_START_TIME	as "schedule.start",
-			B.SCHEDULE_END_TIME		as "schedule.end",
-			B.REMAINING_SEATS		as "schedule.remainingSeats",
-			B.SCREEN_SEATS			as "schedule.seats",
-			B.movie_no				as "schedule.movie.no",
-			D.movie_title			as "schedule.movie.title",
-			C.theater_no			as "schedule.theater.no",
-			E.theater_name			as "schedule.theater.name",
-			B.screen_id				as "schedule.screen.id",
-			C.screen_name			as "schedule.screen.name"
-		from 
-			PARTY_BOARD A, MGV_SCHEDULE B, MGV_THEATER_SCREEN C, MGV_MOVIE D, MGV_THEATERS E
-		where 
-			A.schedule_id = B.schedule_id
-			and B.screen_id = C.screen_id
-			and C.theater_no = E.theater_no
-		    and B.movie_no = D.movie_no
-		    and A.PARTY_DELETED = 'N'
-		    and A.BOARD_REPORT = 'N'
-		    and A.
+	<select id="getPartyBoards" resultType="kr.co.mgv.board.vo.PartyBoard" parameterType="map">
+		select *
+    	from (
+	    		select
+				A.party_no				as no,
+				A.party_headcount		as headCount,
+				A.user_id				as "user.id",
+				A.PARTY_CREATE_DATE		as createDate,
+				A.PARTY_update_DATE		as updateDate,
+				A.party_gender			as gender,
+				A.board_name			as name,
+				A.board_comment_count	as commentCount,
+				A.board_read_count		as readCount,
+				A.PARTY_COMPLETE		as complete,
+				B.schedule_id			as "schedule.id",
+				B.schedule_date			as "schedule.date",
+				B.SCHEDULE_START_TIME	as "schedule.start",
+				B.SCHEDULE_END_TIME		as "schedule.end",
+				B.REMAINING_SEATS		as "schedule.remainingSeats",
+				B.SCREEN_SEATS			as "schedule.seats",
+				B.movie_no				as "schedule.movie.no",
+				D.movie_title			as "schedule.movie.title",
+				C.theater_no			as "schedule.theater.no",
+				E.theater_name			as "schedule.theater.name",
+				B.screen_id				as "schedule.screen.id",
+				C.screen_name			as "schedule.screen.name",
+				row_number() over (
+	            <choose>
+	                <!-- sort 파라미터가 있을 경우 -->
+	                <otherwise>
+	                    <choose>
+	                        <when test="sort == 'new'">
+	                            order by A.PARTY_create_date desc
+	                        </when>
+	                        <when test="sort == 'old'">
+	                            order by A.PARTY_create_date asc
+	                        </when>
+	                        <when test="sort == 'view'">
+	                            order by A.board_read_count desc, PARTY_create_date desc
+	                        </when>
+	                        <when test="sort == 'comment'">
+	                            order by A.Board_comment_count desc, PARTY_create_date desc
+	                        </when>
+	                        <!-- 기본 정렬 -->
+	                        <otherwise>
+	                            order by A.PARTY_create_date desc
+	                        </otherwise>
+	                    </choose>
+	                </otherwise>
+	            </choose>
+	        ) as ROWNUMBER
+			from 
+				PARTY_BOARD A, MGV_SCHEDULE B, MGV_THEATER_SCREEN C, MGV_MOVIE D, MGV_THEATERS E
+			where 
+				A.schedule_id = B.schedule_id
+				and B.screen_id = C.screen_id
+				and C.theater_no = E.theater_no
+			    and B.movie_no = D.movie_no
+			    and A.PARTY_DELETED = 'N'
+			    and A.BOARD_REPORT = 'N'
+	    	<choose>
+    			<when test="opt == 'title'">
+    				and A.board_name like CONCAT('%', #{keyword}, '%')
+    			</when>
+    			<when test="opt == 'content'">
+    				and A.board_content like CONCAT('%', #{keyword}, '%')
+    			</when>
+    			<when test="opt == 'all'">
+    				and (A.board_name like CONCAT('%', #{keyword}, '%') or A.board_content like CONCAT('%', #{keyword}, '%'))
+    			</when>
+    			<when test="opt == 'writer'">
+    				and A.user_id like CONCAT('%', #{keyword}, '%')
+    			</when>
+    			<when test="opt == 'movieTitle'">
+	                and D.movie_title like CONCAT('%', #{keyword}, '%')
+	            </when>
+    		</choose>
+    		 <choose>
+	 			<when test="complete == 'N'.toString()">
+	                and A.PARTY_COMPLETE = 'N'
+	            </when>
+	            <when test="complete == 'Y'.toString()">
+	                and A.PARTY_COMPLETE = 'Y'
+	            </when>
+				<when test="complete == 'E'.toString()">
+				    and (A.PARTY_COMPLETE = 'N' or A.PARTY_COMPLETE = 'Y')
+				</when>
+	  		</choose>
+    		<if test="theaterNo != null">
+				and E.theater_No = #{theaterNo}
+			</if>
+    	) A
+    	having A.ROWNUMBER between #{begin} and #{end}
 	</select>
+	
+	<select id="getTotalRows" resultType="int" parameterType="map">
+		SELECT COUNT(*)
+    	FROM PARTY_BOARD A, MGV_SCHEDULE B, MGV_THEATER_SCREEN C, MGV_MOVIE D, MGV_THEATERS E
+    	WHERE A.schedule_id = B.schedule_id
+				and B.screen_id = C.screen_id
+				and C.theater_no = E.theater_no
+			    and B.movie_no = D.movie_no
+			    and A.PARTY_DELETED = 'N'
+			    and A.BOARD_REPORT = 'N'
+  	    <choose>
+  			<when test="opt == 'movieTitle'">
+  				and D.movie_title like  CONCAT('%', #{keyword}, '%')
+  			</when>
+  			<when test="opt == 'title'">
+  				and A.board_name like  CONCAT('%', #{keyword}, '%')
+  			</when>
+  			<when test="opt == 'content'">
+  				and A.board_content like  CONCAT('%', #{keyword}, '%')
+  			</when>
+  			<when test="opt == 'all'">
+  				and (A.board_name like  CONCAT('%', #{keyword}, '%') or A.board_content like  CONCAT('%', #{keyword}, '%'))
+  			</when>
+  			<when test="opt == 'writer'">
+  				and A.member_id like  CONCAT('%', #{keyword}, '%')
+  			</when>
+  		</choose>
+  		<choose>
+ 			<when test="complete == 'N'.toString()">
+                and A.PARTY_COMPLETE = 'N'
+            </when>
+            <when test="complete == 'Y'.toString()">
+                and A.PARTY_COMPLETE = 'Y'
+            </when>
+			<when test="complete == 'E'.toString()">
+			    and (A.PARTY_COMPLETE = 'N' or A.PARTY_COMPLETE = 'Y')
+			</when>
+  		</choose>
+   		<if test="theaterNo != null">
+			and E.theater_No = #{theaterNo}
+		</if>
+    </select>
 </mapper>
