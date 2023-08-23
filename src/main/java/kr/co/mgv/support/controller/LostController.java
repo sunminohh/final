@@ -111,12 +111,17 @@ public class LostController {
 			@RequestParam(name = "theaterNo", required = false, defaultValue = "0") int theaterNo,
 			@RequestParam(name = "page", required = false, defaultValue = "1") int page,
 			@RequestParam(name = "answered", required = false) String answered,
-			@RequestParam(name ="keyword", required = false) String keyword) {
+			@RequestParam(name ="keyword", required = false) String keyword,
+			@RequestParam(name ="guestName", required = false) String guestName,
+			@RequestParam(name ="guestEmail", required = false) String guestEmail){
 		
 		Map<String, Object> param = new HashMap<>();
 		
-		param.put("userId", user.getId());
 		param.put("page", page);
+		
+		if (user != null && StringUtils.hasText(user.getId())) {
+			param.put("userId", user.getId());
+		}
 		
 		if (locationNo != 0) {
 			param.put("locationNo", locationNo);
@@ -132,6 +137,14 @@ public class LostController {
 		
 		if (StringUtils.hasText(keyword)) {
 			param.put("keyword", keyword);
+		}
+		
+		if (StringUtils.hasText(guestName)) {
+			param.put("guestName", guestName);
+		}
+	
+		if (StringUtils.hasText(keyword)) {
+			param.put("guestEmail", guestEmail);
 		}
 		
 		LostList lostList = lostService.search(param);

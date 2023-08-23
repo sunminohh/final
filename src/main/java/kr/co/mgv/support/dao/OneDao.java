@@ -18,7 +18,7 @@ public interface OneDao {
 	void insertOne(One one);
 	
 	// 유저 문의내역 조회
-	List<One> getOnesByUserId(Map<String, Object> param);
+	List<One> getOnes(Map<String, Object> param);
 	int getTotalRows(Map<String, Object> param);
 	One getOneByNo(int oneNo);
 	
