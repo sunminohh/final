@@ -18,7 +18,7 @@ import java.time.LocalDate;
 import java.util.Date;
 
 @Controller
-@Secured("ROLE_USER")
+@Secured({"ROLE_USER", "ROLE_ADMIN"})
 @RequestMapping("/user/info")
 @RequiredArgsConstructor
 @Slf4j
