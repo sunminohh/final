@@ -27,12 +27,6 @@ $(() => {
                 $('[name=address]').val(d.address + extraAddr);
             }
         }).open();
-        // });
     });
-
-    $("#btnCancel").click(function () {
-        history.back();
-        return false;
-    })
 
 });
