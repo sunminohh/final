@@ -4,6 +4,7 @@
 <head th:fragment="extra-head-content">
 	<title>게시판</title>
     <link th:href="@{/css/board/detail.css}" rel="stylesheet" />
+    <script type="text/javascript" th:src="@{/js/board/partyBoardDetail.js}"></script>    
 </head>
 
    <div layout:fragment="content" class="container my-3 pt-5">
@@ -34,28 +35,33 @@
 
                <div class="d-flex justify-content-end" style="position: relative; bottom:10px;">
                   <p  style="font-size : 12px; "><img alt="댓글이미지" th:src="@{/images/board/comment.png}" width="15px" height="15px;" > <strong id="ajax-comment-count" th:utext="${board.commentCount}">3</strong></p>
-                  <div id="reload-box">
-                  <form class="d-flex justify-content-end pe-4 me-3" 
-                       th:action="@{/board/party/changeRequest}"   
-                       method="post"
-                       sec:authorize="isAuthenticated()"
-                       style="position: absolute; bottom: 5px;"
-                       id="request-btn-form"
-                      >
-                     <input type="hidden" name="no" th:value="${board.no}" />
-                     <input type="hidden" name="id" th:value="${#authentication.principal.id}" />
-                  </form>
-                  
-                  </div>
                </div>
             </div>
          </div>
          
-         <div class="txc-textbox pt-0" style=" padding: 20px;">
+         <div class="txc-textbox pt-0 " style=" padding: 20px;">
             <p th:utext="${board.content}">파이널 화이팅~~</p>
          </div>
          
-         <div class="text-end mt-1" id="board-function">
+         <div class="reload-box d-flex justify-content-center pt-5">
+	         <form class=" pe-4 me-3" 
+	              th:if="${#authentication.principal.id != board.user.id}"
+	              th:action="@{/board/party/changeRequest}"   
+	              method="post"
+	              sec:authorize="isAuthenticated()"
+	              id="request-btn-form"
+	             >
+	            <input type="hidden" name="request">
+	            <input type="hidden" name="no" th:value="${board.no}" />
+	            <input type="hidden" name="id" th:value="${#authentication.principal.id}" />
+	        	<button class="btn btn-outline-success btn-sm " type="button" id="request-button" data-button-type="plus">파티신청</button>
+	           	<!-- 
+	            <button class="btn btn-success btn-sm" type="button" id="request-button"  data-button-type="minus">신청취소</button>
+	           	 -->
+	         </form>
+         </div>
+         
+         <div class="text-end mt-1 pt-5" id="board-function">
             <a class="pe-1" 
                th:href="@{/board/party/modify(no=${param.no})}"
                sec:authorize="isAuthenticated()"
@@ -73,21 +79,21 @@
    
 
 
-         <div class="comment-like pt-5 d-flex justify-content-between">
-            <div class="d-flex justify-content-start">
-               <p class="me-3" style="font-size : 12px;"><img class=" me-1" alt="댓글이미지" th:src="@{/images/board/comment.png}" width="15px" height="15px">댓글 <strong id="ajax-comment-count-2" th:utext="${board.commentCount}">3</strong></p>
-      		</div>
-         <div class="d-flex justify-content-end ">
-               <button class="btn btn-outline-white btn-sm mb-2" id="link-btn" style="border: none; font-size: 12px" 
-                     data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="URL이 클립보드에 복사되었습니다."
-                     >공유</button>
-               <button class="btn btn-outline-white btn-sm mb-2"  style="border: none; font-size: 12px" id="btn-report" 
-                       data-bs-toggle="modal" data-bs-target="#reportModal"
-                       sec:authorize="isAuthenticated()"
-                       th:if="${#authentication.principal.id != board.user.id}"
-                       >신고</button>
-         </div>
-         </div>
+    <div class="comment-like pt-5 d-flex justify-content-between">
+       	<div class="d-flex justify-content-start">
+          <p class="me-3" style="font-size : 12px;"><img class=" me-1" alt="댓글이미지" th:src="@{/images/board/comment.png}" width="15px" height="15px">댓글 <strong id="ajax-comment-count-2" th:utext="${board.commentCount}">3</strong></p>
+ 		</div>
+	    <div class="d-flex justify-content-end ">
+	          <button class="btn btn-outline-white btn-sm mb-2" id="link-btn" style="border: none; font-size: 12px" 
+	                data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="URL이 클립보드에 복사되었습니다."
+	                >공유</button>
+	          <button class="btn btn-outline-white btn-sm mb-2"  style="border: none; font-size: 12px" id="btn-report" 
+	                  data-bs-toggle="modal" data-bs-target="#reportModal"
+	                  sec:authorize="isAuthenticated()"
+	                  th:if="${#authentication.principal.id != board.user.id}"
+	                  >신고</button>
+	    </div>
+    </div>
             <hr class="mt-0 pt-0"/>
 
       <!-- 댓글 등록창 -->   
