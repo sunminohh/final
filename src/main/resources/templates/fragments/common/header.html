@@ -4,9 +4,15 @@
 <head th:fragment="config">
     <script>
         $(() => {
-            $(".btn-my-anonymous").on("click", function(e) {
+            $(".btn-my-anonymous").on("click", function (e) {
                 e.preventDefault();
                 $(".btn-login").trigger("click");
+            });
+            $("#vip").click(function () {
+                Swal.fire({
+                    icon: 'warning',
+                    text: '서비스 준비 중 입니다.'
+                })
             });
         });
     </script>
@@ -20,23 +26,23 @@
     <!-- 2019-04-15 마크업 수정 : 고객요청  -->
     <div class="util-area">
         <div class="left-link">
-            <a th:href="@{/board/theater/list}" title="게시판">게시판</a>
-            <a th:href="@{/benefit}" title="멤버십">멤버십</a>
-            <a th:href="@{/support}" title="고객센터">고객센터</a>
+            <a href="#" id="vip">VIP ROUNGE</a>
+            <a th:href="@{/benefit}">멤버십</a>
+            <a th:href="@{/support}">고객센터</a>
         </div>
 
         <div class="right-link">
             <!-- 로그인전 -->
             <div class="before" sec:authorize="isAnonymous()"> <!--모든 사용자-->
-                <a href="javascript:void(0)" class="btn-login" title="로그인">로그인</a>
-                <a th:href="@{/user/auth/form}" title="회원가입">회원가입</a>
+                <a href="javascript:void(0)" class="btn-login">로그인</a>
+                <a th:href="@{/user/auth/form}">회원가입</a>
             </div>
 
             <!-- 로그인후 -->
             <div class="after" sec:authorize="isAuthenticated()"> <!--인증된 사용자-->
-                <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/home}" title="관리자">관리자</a>
-                <a th:href="@{/logout}" title="로그아웃">로그아웃</a>
-                <a href="" class="notice" title="알림">알림</a>
+                <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/home}">관리자</a>
+                <a th:href="@{/logout}">로그아웃</a>
+                <a href="" class="notice">알림</a>
 
                 <!-- layer-header-notice -->
                 <div class="layer-header-notice">
@@ -92,12 +98,12 @@
     <!--// 2019-04-15 마크업 수정 : 고객요청  -->
 
     <div class="link-area">
-        <a href="" class="header-open-layer btn-layer-sitemap" title="사이트맵">사이트맵</a>
-        <a href="" class="header-open-layer btn-layer-search" title="검색">검색</a>
-        <a href="" class="link-ticket" title="상영시간표">상영시간표</a>
-<!--        <a th:href="@{/user/info/home}" class="btn-layer-mymgv" title="나의 MGV">나의 MGV</a>-->
-        <a  sec:authorize="isAuthenticated()" th:href="@{/user/info}" class="btn-layer-mymgv" title="나의 MGV">나의 MGV</a>
-        <a  sec:authorize="isAnonymous()" href="#" class="btn-layer-mymgv btn-my-anonymous" title="나의 MGV">나의 MGV</a>
+<!--        <a href="" class="header-open-layer btn-layer-sitemap" title="사이트맵">사이트맵</a>-->
+<!--        <a href="" class="header-open-layer btn-layer-search" title="검색">검색</a>-->
+<!--        <a href="" class="link-ticket" title="상영시간표">상영시간표</a>-->
+        <!--        <a th:href="@{/user/info/home}" class="btn-layer-mymgv" title="나의 MGV">나의 MGV</a>-->
+        <a sec:authorize="isAuthenticated()" th:href="@{/user/info}" class="btn-layer-mymgv" title="나의 MGV">나의 MGV</a>
+        <a sec:authorize="isAnonymous()" href="#" class="btn-layer-mymgv btn-my-anonymous" title="나의 MGV">나의 MGV</a>
     </div>
 
     <!-- gnb -->
@@ -108,47 +114,42 @@
 
     <nav id="gnb">
         <ul class="gnb-depth1">
-            <li><a th:href="@{/movie}" class="gnb-txt-movie" title="영화">영화</a>
-                <div class="gnb-depth2">
+            <li><a th:href="@{/movie}" class="gnb-txt-movie">영화</a>
+                <!--<div class="gnb-depth2">
                     <ul>
                         <li><a th:href="@{/movie}" title="전체영화">전체영화</a></li>
                         <li><a th:href="@{/movie/post}" title="무비포스트">무비포스트</a></li>
                     </ul>
-                </div>
+                </div>-->
             </li>
-            <li><a th:href="@{/booking}" class="gnb-txt-reserve" title="예매">예매</a>
-                <div class="gnb-depth2">
+            <li><a th:href="@{/booking}" class="gnb-txt-reserve">예매</a>
+                <!--<div class="gnb-depth2">
                     <ul>
                         <li><a th:href="@{/booking}" title="빠른예매">빠른예매</a></li>
                         <li><a th:href="@{/booking}" title="상영시간표">상영시간표</a></li>
                     </ul>
-                </div>
+                </div>-->
             </li>
-            <li><a th:href="@{/theater}" class="gnb-txt-theater" title="극장">극장</a>
+            <li><a th:href="@{/theater}" class="gnb-txt-theater">극장</a></li>
+            <li><a th:href="@{/board/theater/list}" class="gnb-txt-board">게시판</a>
                 <div class="gnb-depth2">
                     <ul>
-                        <li><a th:href="@{/theater}" title="전체극장">전체극장</a></li>
-                        <li><a href="#" title="특별관">특별관</a></li>
+                        <li><a th:href="@{/board/movie/list}">영화</a></li>
+                        <li><a th:href="@{/board/theater/list}">극장</a></li>
+                        <li><a th:href="@{/board/store/list}">스토어</a></li>
+                        <li><a th:href="@{/board/party/list}">파티</a></li>
                     </ul>
                 </div>
             </li>
-            <li><a th:href="@{/event}" class="gnb-txt-event" title="이벤트">이벤트</a>
-                <div class="gnb-depth2">
+            <li><a th:href="@{/store}" class="gnb-txt-store" title="스토어">스토어</a></li>
+            <li><a th:href="@{/event}" class="gnb-txt-event">이벤트</a>
+                <!--<div class="gnb-depth2">
                     <ul>
                         <li><a th:href="@{/event}" title="진행중 이벤트">진행중 이벤트</a></li>
                         <li><a th:href="@{/event/end}" title="지난 이벤트">지난 이벤트</a></li>
                         <li><a th:href="@{/event/winner/list}" title="당첨자발표">당첨자발표</a></li>
                     </ul>
-                </div>
-            </li>
-            <li><a th:href="@{/store}" class="gnb-txt-store" title="스토어">스토어</a></li>
-            <li><a th:href="@{/benefit}" class="gnb-txt-benefit" title="혜택">혜택</a>
-                <div class="gnb-depth2">
-                    <ul>
-                        <li><a th:href="@{/benefit}" title="메가박스 멤버십">메가박스 멤버십</a></li>
-                        <li><a th:href="@{/benefit/discount}" title="제휴/할인">제휴/할인</a></li>
-                    </ul>
-                </div>
+                </div>-->
             </li>
         </ul>
     </nav>
@@ -175,10 +176,8 @@
                 <p class="tit-depth">예매</p>
 
                 <ul class="list-depth">
-                    <li><a href="" title="빠른예매">빠른예매</a></li>
+                    <li><a th:href="@{/booking}" title="빠른예매">빠른예매</a></li>
                     <li><a href="" title="상영시간표">상영시간표</a></li>
-                    <li><a href="" title="더 부티크 프라빗 예매">더 부티크 프라이빗 예매</a></li>
-                    <!-- <li><a href="/booking?megaboxLanguage=en" title="English Ticketing">English Ticketing</a></li> -->
                 </ul>
             </div>
 
@@ -196,8 +195,8 @@
 
                 <ul class="list-depth">
                     <li><a href="" title="진행중 이벤트">진행중 이벤트</a></li>
-                    <li><a href="" title="지난 이벤트">지난 이벤트</a></li>
-                    <li><a href="" title="당첨자발표">당첨자발표</a></li>
+                    <!--                    <li><a href="" title="지난 이벤트">지난 이벤트</a></li>-->
+                    <!--                    <li><a href="" title="당첨자발표">당첨자발표</a></li>-->
                 </ul>
             </div>
 
@@ -215,24 +214,27 @@
                 <p class="tit-depth">나의 메가박스</p>
                 <ul class="list-depth mymage">
                     <li>
-                        <a href="" title="나의 메가박스 홈">나의 메가박스 홈</a></li>
+                        <a href="" title="나의 메가박스 홈">나의 메가박스 홈</a>
+                    </li>
                     <li>
-                        <a href="" title="예매/구매내역">예매/구매내역</a></li>
-                    <li><a href="" title="영화관람권">영화관람권</a></li>
-                    <li><a href="" title="스토어교환권">스토어교환권</a></li>
+                        <a href="" title="예매/구매내역">예매/구매내역</a>
+                    </li>
                     <li>
-                        <a href="" title="할인/제휴쿠폰">할인/제휴쿠폰</a></li>
+                        <a href="" title="영화관람권">영화관람권</a>
+                    </li>
+                    <li>
+                        <a href="" title="스토어교환권">스토어교환권</a>
+                    </li>
 
                     <li>
-                        <a href="" title="멤버십포인트">멤버십포인트</a></li>
+                        <a href="" title="나의 무비스토리">나의 무비스토리</a>
+                    </li>
                     <li>
-                        <a href="" title="나의 무비스토리">나의 무비스토리</a></li>
+                        <a href="" title="나의 문의내역">나의 문의내역</a>
+                    </li>
                     <li>
-                        <a href="" title="나의 이벤트 응모내역">나의 이벤트 응모내역</a></li>
-                    <li><a href="" title="나의 문의내역">나의 문의내역</a></li>
-                    <li><a href="" title="자주쓰는 할인카드">자주쓰는 할인카드</a></li>
-                    <li>
-                        <a href="" title="회원정보">회원정보</a></li>
+                        <a href="" title="회원정보">회원정보</a>
+                    </li>
                 </ul>
             </div>
 

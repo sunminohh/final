@@ -13433,6 +13433,11 @@ body.body-iframe .modal-layer {
     background-image: url(https://img.megabox.co.kr/static/pc/images/common/gnb/gnb-txt-benefit.png)
 }
 
+#gnb>ul>li>a.gnb-txt-board {
+    width: 44px;
+    background: url(/images/home/board.png) no-repeat !important;
+}
+
 #gnb .gnb-depth2 {
     display: none;
     position: absolute;
@@ -13525,6 +13530,10 @@ body.body-iframe .modal-layer {
 
 #header.no-bg #gnb>ul>li>a.gnb-txt-benefit {
     background-image: url(https://img.megabox.co.kr/static/pc/images/common/gnb/gnb-txt-benefit-white.png)
+}
+
+#header.no-bg #gnb>ul>li>a.gnb-txt-board {
+    background-image: url(/images/home/board-white.png)
 }
 
 #header.no-bg #gnb>ul>li:nth-child(1) .gnb-depth2 ul {
