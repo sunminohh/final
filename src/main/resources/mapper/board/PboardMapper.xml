@@ -57,6 +57,49 @@
 		VALUES(#{headCount}, #{user.id}, #{gender}, #{schedule.id}, #{content}, #{name});
 	</insert>
 	
+	<update id="updatePBoardByNo" parameterType="kr.co.mgv.board.vo.PartyBoard">
+		update PARTY_BOARD
+			<set>
+				<if test="name != null">
+					board_name = #{name},
+				</if>
+				<if test="content != null">
+					board_content = #{content},
+				</if>
+				<if test="updateDate != null">
+					party_update_date = CURRENT_TIMESTAMP,
+				</if>
+				<if test="readCount != null">
+					board_read_count = #{readCount},
+				</if>
+				<if test="commentCount != null">
+					board_comment_count = #{commentCount},
+				</if>
+				<if test="deleted != null">
+					party_deleted = #{deleted},
+				</if>
+				<if test="report != null">
+					board_report = #{report},
+				</if>
+				<if test="reportCount != null">
+					board_report_count = #{reportCount},
+				</if>
+				<if test="headCount != null">
+					party_headcount = #{headCount},
+				</if>
+				<if test="complete != null">
+					party_complete = #{complete},
+				</if>
+				<if test="gender != null">
+					party_gender = #{gender},
+				</if>
+				<if test="schedule != null">
+					schedule_id = #{schedule.id},
+				</if>
+			</set>
+			where party_no = #{no}
+	</update>
+	
 	
 	
 	
@@ -197,4 +240,46 @@
 			and E.theater_No = #{theaterNo}
 		</if>
     </select>
+    
+    <!-- 상세페이지 관련 -->
+    <select id="getPBoardByNo" parameterType="int" resultType="kr.co.mgv.board.vo.PartyBoard">
+    	select
+				A.party_no				as no,
+				A.party_headcount		as headCount,
+				A.user_id				as "user.id",
+				A.PARTY_CREATE_DATE		as createDate,
+				A.PARTY_update_DATE		as updateDate,
+				A.party_gender			as gender,
+				A.board_name			as name,
+				A.board_content			as content,
+				A.board_comment_count	as commentCount,
+				A.board_read_count		as readCount,
+				A.PARTY_COMPLETE		as complete,
+				B.schedule_id			as "schedule.id",
+				B.schedule_date			as "schedule.date",
+				B.SCHEDULE_START_TIME	as "schedule.start",
+				B.SCHEDULE_END_TIME		as "schedule.end",
+				B.REMAINING_SEATS		as "schedule.remainingSeats",
+				B.SCREEN_SEATS			as "schedule.seats",
+				B.movie_no				as "schedule.movie.no",
+				D.movie_title			as "schedule.movie.title",
+				C.theater_no			as "schedule.theater.no",
+				E.theater_name			as "schedule.theater.name",
+				B.screen_id				as "schedule.screen.id",
+				C.screen_name			as "schedule.screen.name",
+				F.location_no			as "schedule.location.no",
+				F.location_name			as "schedule.location.name"
+			from 
+				PARTY_BOARD A, MGV_SCHEDULE B, MGV_THEATER_SCREEN C, MGV_MOVIE D, MGV_THEATERS E, MGV_LOCATION F
+			where 
+				A.schedule_id = B.schedule_id
+				and B.screen_id = C.screen_id
+				and C.theater_no = E.theater_no
+			    and B.movie_no = D.movie_no
+			    and E.location_no = F.location_no
+			    and A.PARTY_DELETED = 'N'
+			    and A.BOARD_REPORT = 'N'
+			    and A.party_no = ${value}
+    </select>
+    
 </mapper>

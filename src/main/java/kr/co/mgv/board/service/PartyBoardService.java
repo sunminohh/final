@@ -85,4 +85,15 @@ public class PartyBoardService {
 		
 		return result;
 	}
+	
+	// 상세 페이지 관련
+	public PartyBoard getPBoardByNo (int no) {
+		return partyBoardDao.getPBoardByNo(no);
+	}
+	
+	public void increaseReadCount(int no) {
+		PartyBoard board = partyBoardDao.getPBoardByNo(no);
+		board.setReadCount(board.getReadCount() + 1);
+		partyBoardDao.updatePBoardByNo(board);
+	}
 }

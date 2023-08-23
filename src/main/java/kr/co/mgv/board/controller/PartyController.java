@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.mgv.board.form.AddPboardForm;
 import kr.co.mgv.board.list.PartyBoardList;
@@ -23,7 +24,12 @@ import kr.co.mgv.board.service.PartyBoardService;
 import kr.co.mgv.board.service.TheaterBoardService;
 import kr.co.mgv.board.vo.BoardLocation;
 import kr.co.mgv.board.vo.BoardTheater;
+import kr.co.mgv.board.vo.PartyBoard;
 import kr.co.mgv.board.vo.PartyBoardSchedule;
+import kr.co.mgv.board.vo.ReportReason;
+import kr.co.mgv.board.vo.TBoardComment;
+import kr.co.mgv.board.vo.TBoardLike;
+import kr.co.mgv.board.vo.TheaterBoard;
 import kr.co.mgv.movie.vo.Movie;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
@@ -82,14 +88,8 @@ public class PartyController {
 			log.info(sort);
 			
 	        return "/view/board/party/list";
-	    }
+		}
 
-	    @GetMapping("/detail")
-	    public String theaterDetail() {
-	        return "/view/board/party/detail";
-	    }
-
-	    
 	    // 게시물 등록 폼 관련
 		@GetMapping("/theaterByLocationNo")
 		@ResponseBody
@@ -149,5 +149,67 @@ public class PartyController {
 	    	return "redirect:/board/party/list";
 	    }
 	    
+	    // 상세화면 관련
+		@GetMapping("/read")
+		public String read(@RequestParam("no") int no,
+						   @RequestParam("page") int page,
+						   @RequestParam(name = "rows", required = false, defaultValue = "10") Integer rows,
+						   @RequestParam("sort") String sort,
+						   @RequestParam("complete") String complete,
+						   @RequestParam(name = "theaterNo", required = false) Integer theaterNo,
+						   @RequestParam("opt") String opt,
+						   @RequestParam("keyword") String keyword,
+						   RedirectAttributes redirectAttributes) {
+			
+			// 조회수 증가
+			partyBoardService.increaseReadCount(no);
+			
+			redirectAttributes.addAttribute("no", no);
+	        redirectAttributes.addAttribute("page", page);
+	        redirectAttributes.addAttribute("sort", sort);
+	        redirectAttributes.addAttribute("complete", complete);
+	        if(rows != null) {
+	        	redirectAttributes.addAttribute("rows", rows);		
+	        }
+	        redirectAttributes.addAttribute("theaterNo", theaterNo);
+	        redirectAttributes.addAttribute("opt", opt);
+	        redirectAttributes.addAttribute("keyword", keyword);
+			
+			return "redirect:/board/party/detail";
+		}
+	    
+		
+		@GetMapping("/detail")
+		public String theaterDetail(@RequestParam("no") int no,
+									Model model,
+									@AuthenticationPrincipal User user) {
+			// 신청버튼
+//			if(user != null) {
+//				TBoardLike like = new TBoardLike();
+//				like.setUser(user);
+//				TheaterBoard board = TheaterBoard.builder()
+//										.no(no)
+//										.build();
+//				like.setBoard(board);
+//				
+//				TBoardLike savedLike = theaterBoardService.getLike(like);
+//				model.addAttribute("like", savedLike);
+//			}
+			
+			// 게시물 번호로 게시물 조회
+			PartyBoard partyBoard = partyBoardService.getPBoardByNo(no);
+			model.addAttribute("board", partyBoard);
+			// 모댓글 목록
+
+			// 자손댓글 목록
+
+			// 신고 이유
+			List<ReportReason> reportReasons = movieBoardService.getReportReason();
+			model.addAttribute("reasons", reportReasons);
+			
+			log.info(partyBoard.getContent());
+			return "/view/board/party/detail";
+		}
+
 	    
 }

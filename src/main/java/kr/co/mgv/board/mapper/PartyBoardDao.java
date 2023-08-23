@@ -17,8 +17,12 @@ public interface PartyBoardDao {
 	
 	// CRUD
 	void insertPboard(PartyBoard board);
+	void updatePBoardByNo(PartyBoard board);
 	
 	// 목록 관련
 	int getTotalRows(Map<String, Object> param);
 	List<PartyBoard> getPartyBoards(Map<String, Object> param);
+	
+	// 상세페이지 관련
+	PartyBoard getPBoardByNo(int no);
 }

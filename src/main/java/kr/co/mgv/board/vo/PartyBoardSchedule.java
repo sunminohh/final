@@ -20,10 +20,11 @@ public class PartyBoardSchedule {
 	private int seates;
 	private BoardMovie movie;
 	private BoardTheater theater;
+	private BoardLocation location;
 	private Screen screen;
 	@Builder
 	public PartyBoardSchedule(int id, String date, String start, String end, int remainingSeats, int seates,
-			BoardMovie movie, BoardTheater theater, Screen screen) {
+			BoardMovie movie, BoardTheater theater, Screen screen, BoardLocation location) {
 		super();
 		this.id = id;
 		this.date = date;
@@ -34,5 +35,6 @@ public class PartyBoardSchedule {
 		this.movie = movie;
 		this.theater = theater;
 		this.screen = screen;
+		this.location = location;
 	}
 }
