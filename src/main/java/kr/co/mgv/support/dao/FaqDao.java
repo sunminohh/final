@@ -20,4 +20,10 @@ public interface FaqDao {
 	
 	// faq 등록
 	void insertFaq(Faq faq);
+	
+	// faq 업데이트
+	void updateFaqByNo(Faq faq);
+	
+	// faq 디테일 조회
+	Faq getFaqByNo(int faqNo);
 }

@@ -93,7 +93,7 @@ $(document).ready(function() {
 							<div class="qut">
 		    					<a href="#">
 		    						<p class="tit">
-		    							<span class="font-green">[${faq.category.name}]</span>
+		    							<strong class="badge text-bg-primary">${categoryNo == 1 && faq.orderNo != 99 ? faq.orderNo: ''}</strong> <span class="font-green">[${faq.category.name}]</span>
 		    						</p>
 		    						<p class="txt">
 		    							<span class="font-green">
