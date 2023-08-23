@@ -125,8 +125,6 @@ $(document).ready(function() {
 						
 						$ul.append(content);
 				})
-				$('.faq-list .qut:first').addClass('on');
-	    		$('.faq-list .awn:first').show();
 
 				$pagination.html(renderPagination(pagination));
 
@@ -134,24 +132,6 @@ $(document).ready(function() {
 		});
 		
 	}
-	
 
 
-	// 아코디언 열고닫기
-    // 첫 번째 아코디언 열기
-    $('.faq-list .qut:first').addClass('on');
-    $('.faq-list .awn:first').show();
-
-    // 아코디언 헤더(.qut)를 클릭했을 때
-    $('.faq-list ').on('click', '.qut', function() {
-        if (!$(this).hasClass('on')) {
-            // 모든 아코디언 닫기
-            $('.faq-list .qut').removeClass('on');
-            $('.faq-list .awn').slideUp();
-
-            // 현재 아코디언 열기
-            $(this).addClass('on');
-            $(this).next('.awn').slideDown();
-        }
-    });
 });
