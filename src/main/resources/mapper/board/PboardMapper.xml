@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.mgv.board.mapper.PartyBoardDao">
+	<!-- 등록폼 관련  -->
 	<select id="getSceduleByDateAndTNoAndMNo" parameterType="map" resultType="kr.co.mgv.board.vo.PartyBoardSchedule">
 		select 
 			A.schedule_id			as id,
@@ -48,4 +49,11 @@
 		    and A.movie_no = C.movie_no
 		    and A.schedule_id = #{scheduleId}
 	</select>
+	
+	<!-- CRUD -->
+	<insert id="insertPboard" parameterType="kr.co.mgv.board.vo.PartyBoard">
+		INSERT INTO PARTY_BOARD
+		(PARTY_HEADCOUNT, USER_ID,  PARTY_GENDER, SCHEDULE_ID, BOARD_CONTENT, BOARD_NAME)
+		VALUES(#{headCount}, #{user.id}, #{gender}, #{schedule.id}, #{content}, #{name});
+	</insert>
 </mapper>

@@ -13,11 +13,11 @@ public class AddPboardForm {
 	private String name;
 	private String content;
 	private int headCount;
-	private int gender;
+	private String gender;
 	private int scheduleId;
 	
 	@Builder
-	public AddPboardForm(String name, String content, int headCount, int gender, int scheduleId) {
+	public AddPboardForm(String name, String content, int headCount, String gender, int scheduleId) {
 		super();
 		this.name = name;
 		this.content = content;
