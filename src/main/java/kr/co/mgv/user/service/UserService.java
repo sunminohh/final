@@ -26,12 +26,24 @@ public class UserService {
     }
 
     // todo 회원 정보 수정
-    public void updateUser(User user) {
+    public void updateUser(String id, String email, String zipcode, String address) {
         // todo 로직
+        User user = userDao.getUserById(id);
+
+        user.setEmail(email);
+        user.setZipcode(zipcode);
+        user.setAddress(address);
 
         userDao.updateUser(user);
     }
 
     // todo 회원탈퇴
 
+    // 수정일자 계산
+    public long daysDifference(Date updateDate) {
+        Date currentDate = new Date();
+        long timeDifference = currentDate.getTime() - updateDate.getTime();
+        long daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+        return daysDifference;
+    }
 }

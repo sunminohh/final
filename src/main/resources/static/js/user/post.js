@@ -23,8 +23,8 @@ $(() => {
                 target.prev().html(d.zonecode);
                 target.next().html(d.address + extraAddr);
 
-                $('[name=zipcd]').val(d.zonecode);
-                $('[name=mbAddr]').val(d.address + extraAddr);
+                $('[name=zipcode]').val(d.zonecode);
+                $('[name=address]').val(d.address + extraAddr);
             }
         }).open();
         // });

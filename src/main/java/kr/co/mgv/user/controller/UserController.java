@@ -69,6 +69,7 @@ public class UserController {
         String zipcode = user.getZipcode();
         String address = user.getAddress();
         Date updateDate = user.getUpdateDate();
+        long daysDifference = userService.daysDifference(user.getUpdateDate());
 
         model.addAttribute("userId", id);
         model.addAttribute("userName", name);
@@ -77,6 +78,7 @@ public class UserController {
         model.addAttribute("zipcode", zipcode);
         model.addAttribute("address", address);
         model.addAttribute("updateDate", updateDate);
+        model.addAttribute("daysDiff", daysDifference);
 
         return "view/user/info/form";
     }
@@ -84,9 +86,9 @@ public class UserController {
     // todo 회원정보 수정
     @PostMapping("/update")
     public String updateUser(@AuthenticationPrincipal User user, UserUpdateForm form) {
-//        userService.updateUser();
 
-        return "redirect:/user/info";
+        userService.updateUser(user.getId(), form.getEmail(), form.getZipcode(), form.getAddress());
+        return "redirect:/user/info/form";
     }
 
     // 비밀번호 변경
