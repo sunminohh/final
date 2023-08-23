@@ -23,7 +23,6 @@ import kr.co.mgv.board.service.TheaterBoardService;
 import kr.co.mgv.board.vo.BoardLocation;
 import kr.co.mgv.board.vo.BoardTheater;
 import kr.co.mgv.board.vo.PartyBoardSchedule;
-import kr.co.mgv.board.vo.SBoardComment;
 import kr.co.mgv.movie.vo.Movie;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
@@ -127,7 +126,9 @@ public class PartyController {
 	    
 	    // 게시물 등록 관련
 	    @PostMapping("/add")
-	    public String addPartyBoard(@AuthenticationPrincipal User user, AddPboardForm form) {
+	    public String addPartyBoard(AddPboardForm form, @AuthenticationPrincipal User user) {
+	    	
+	    	partyBoardService.insertPBoard(form, user);
 	    	
 	    	return "redirect:/board/party/list";
 	    }

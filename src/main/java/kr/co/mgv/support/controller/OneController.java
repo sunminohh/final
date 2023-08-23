@@ -57,12 +57,17 @@ public class OneController {
 			@RequestParam(name = "page", required = false, defaultValue = "1") int page,
 			@RequestParam(name = "answered", required = false) String answered,
 			@RequestParam(name ="keyword", required = false) String keyword,
+			@RequestParam(name ="guestName", required = false) String guestName,
+			@RequestParam(name ="guestEmail", required = false) String guestEmail,
 			Model model) {
 		
 		Map<String, Object> param = new HashMap<>();
 		
-		param.put("userId", user.getId());
 		param.put("page", page);
+		
+		if (user != null && StringUtils.hasText(user.getId())) {
+			param.put("userId", user.getId());
+		}
 		
 		if (StringUtils.hasText(answered)) {
 			param.put("answered", answered);
@@ -70,6 +75,14 @@ public class OneController {
 	
 		if (StringUtils.hasText(keyword)) {
 			param.put("keyword", keyword);
+		}
+		
+		if (StringUtils.hasText(guestName)) {
+			param.put("guestName", guestName);
+		}
+	
+		if (StringUtils.hasText(keyword)) {
+			param.put("guestEmail", guestEmail);
 		}
 		
 		OneList oneList = oneService.search(param);
