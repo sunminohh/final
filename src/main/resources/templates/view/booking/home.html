@@ -525,7 +525,7 @@
                                                     </li>
                                                     <li th:each="location, i : ${locations}">
                                                         <button type="button" class="btn has-issue" id="10">
-                                                            <span class="txt" th:text="|${location.name}(${location.theaters.size()})|"></span>
+                                                            <span class="txt" th:text="|${location.name}(${map.get(location.name)})|"></span>
                                                         </button>
                                                         <div class="depth">
                                                             <div class="detail-list m-scroll area-cd10 mCustomScrollbar _mCS_4 mCS_no_scrollbar">
@@ -533,7 +533,7 @@
                                                                     <div id="mCSB_4_container" class="mCSB_container mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
                                                                         <ul>
                                                                             <li th:class="theater-list" th:each="theater, j : ${location.theaters}">
-                                                                                <button type="button" th:brch-no="${theater.no}" th:brch-nm="${theater.name}"  form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0" th:text="${theater.name}"></button>
+                                                                                <button type="button" th:class="${map.get(theater.name)}" th:brch-no="${theater.no}" th:brch-nm="${theater.name}"  form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0" th:text="${theater.name}"></button>
                                                                             </li>
 
                                                                         </ul>

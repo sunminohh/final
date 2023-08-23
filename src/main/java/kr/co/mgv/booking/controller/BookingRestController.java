@@ -13,9 +13,9 @@ import java.util.Map;
 @RequestMapping("/api/booking")
 @AllArgsConstructor
 public class BookingRestController {
-    ScheduleService scheduleService;
     @RequestMapping("/{date}")
-    public Map<String, String> scheduleApi(@PathVariable String date){
+    public Map<String, Object> scheduleApi(@PathVariable String date){
+
     return null;
     }
 }
