@@ -8,7 +8,9 @@
 		<a th:href="@{/support/notice}" class="list-group-item list-group-item-action">공지사항</a>
 		<a th:href="@{/support/one}" class="list-group-item list-group-item-action">1:1 문의</a>
 		<a th:href="@{/support/lost}" class="list-group-item list-group-item-action">분실물 문의</a>
+		<tr sec:authorize="isAnonymous()">
 		<a th:href="@{/support/guest/form}" class="list-group-item list-group-item-action">비회원 문의내역</a>
+		</tr>
 		<a th:href="@{/support/terms}" class="list-group-item list-group-item-action">이용약관</a>
 		<a th:href="@{/support/privacy}" class="list-group-item list-group-item-action">개인정보처리방침</a>
 		<a class="list-group-item list-group-item-action disabled" style="color:gray;"><br/>

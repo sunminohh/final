@@ -1,5 +1,15 @@
 
 $(document).ready(function() {
+	
+	// 폼에서 카테고리 조회
+	let $selectCategory = $("#faqCat").empty();
+	$selectCategory.append(`<option value="" selected disabled>카테고리 선택</option>`)
+	$.getJSON("/admin/support/faq/getCategory?type=faq", function(categories) {
+		categories.forEach(function(cat) {
+			let option = `<option value="${cat.no}"> ${cat.name}</option>`;
+				$selectCategory.append(option);
+		})
+	})
 
 	const params = new URLSearchParams(location.search);
 	const defaultKeyword = params.get('keyword');
@@ -105,16 +115,12 @@ $(document).ready(function() {
 		    					</a>
 		    				</div>
 		    				<div class="awn">
-		    					<p class="cont">
-		    						<span style="font-size:10.0pt">
-		    							<span style="line-height:107%">
-		    								<span>
-		    									${faq.content}
-											</span>
-										</span>
-		    						</span>
-		    					</p>
-		    				</div>
+	                            <div class="cont">
+	                                <span style="font-size:10.0pt; line-height:107%">
+	                                     ${faq.content}
+	                                </span>
+	                            </div>
+	                        </div>
 						</li>`
 						
 						$ul.append(content);

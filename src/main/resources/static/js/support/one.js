@@ -203,6 +203,8 @@ $(function() {
 		let answered = $("select[name=answered]").val()
 		// 키워드 조회
 		let keyword = $("input[name=keyword]").val();
+		let guestName = $("input[name=guestName]").val();
+		let guestEmail = $("input[name=guestEmail]").val();
 
 		// 요청데이터 생성
 		const $tbody = $(".oneList ").empty();
@@ -222,7 +224,7 @@ $(function() {
             
 		const requestUrl = tabType === 'tab-one' ? '/support/one/list' : '/support/lost/mylist';
 
-		$.getJSON(requestUrl, {answered:answered, page:page,  keyword:keyword}, function(result) {
+		$.getJSON(requestUrl, {answered:answered, page:page,  keyword:keyword, guestName:guestName, guestEmail:guestEmail}, function(result) {
 			
 			// 총 건수 업데이트
 			$('#totalCnt').text(result.pagination.totalRows);

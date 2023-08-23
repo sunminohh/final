@@ -18,13 +18,6 @@ public class HomeCotroller {
     }
     
 
-
-
-    @GetMapping("/guest/form")
-    public String guestForm() {
-        return "/view/support/guest/form";
-    }
-
     @GetMapping("/terms")
     public String terms() {
         return "/view/support/terms/list";
