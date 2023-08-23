@@ -127,7 +127,9 @@ public class PartyController {
 	    
 	    // 게시물 등록 관련
 	    @PostMapping("/add")
-	    public String addPartyBoard(@AuthenticationPrincipal User user, AddPboardForm form) {
+	    public String addPartyBoard(AddPboardForm form, @AuthenticationPrincipal User user) {
+	    	
+	    	partyBoardService.insertPBoard(form, user);
 	    	
 	    	return "redirect:/board/party/list";
 	    }
