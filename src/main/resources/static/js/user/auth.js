@@ -6,7 +6,7 @@ $(() => {
 
     let authCheck = false;
     let timer;
-    let timeLeft = 180; // 타이머 3분 180
+    let timeLeft = 180;
 
     $authNumber.keyup(() => authCheck = false);
 
@@ -16,7 +16,6 @@ $(() => {
 
     $("#btnCancel").click(function () {
         history.back();
-        return false;
     })
 
     // 타이머 시작
@@ -24,7 +23,7 @@ $(() => {
         timer = setInterval(() => {
             if (timeLeft > 0) {
                 timeLeft--;
-                $("#btnAuthMail").prop("disabled", true);
+                $("#btnResendAuthMail").prop('disabled', true);
                 $("#mail-number").show();
                 updateTimerDisplay();
             } else {
@@ -34,6 +33,7 @@ $(() => {
                     icon: 'error',
                     text: '인증 시간이 초과되었습니다. 다시 인증해주세요.',
                 }).then(() => {
+                    $("#mail-number").hide();
                     $("#btnResendAuthMail").prop('disabled', false);
                 });
             }
@@ -45,7 +45,7 @@ $(() => {
         clearInterval(timer);
         $timerDisplay.text("0:00"); // 타이머 종료 표시 업데이트
         $confirmButton.prop("disabled", true); // 인증하기 버튼 비활성화
-        $authNumber.prop("readonly", true); // 인증번호 입력 필드 읽기 전
+        $authNumber.prop("readonly", true);
     }
 
     // 타이머 표시 업데이트
@@ -89,7 +89,7 @@ $(() => {
             }
         } catch (error) {
             // Ajax 요청 실패한 경우
-            handleErrorMessage("서버와 통신 중 오류가 발생했습니다.", response);
+            handleErrorMessage("서버와 통신 중 오류가 발생했습니다.", error);
         }
     }
 
