@@ -26,6 +26,7 @@ import kr.co.mgv.board.vo.BoardLocation;
 import kr.co.mgv.board.vo.BoardTheater;
 import kr.co.mgv.board.vo.PartyBoard;
 import kr.co.mgv.board.vo.PartyBoardSchedule;
+import kr.co.mgv.board.vo.PartyJoin;
 import kr.co.mgv.board.vo.ReportReason;
 import kr.co.mgv.board.vo.TBoardComment;
 import kr.co.mgv.board.vo.TBoardLike;
@@ -184,17 +185,10 @@ public class PartyController {
 									Model model,
 									@AuthenticationPrincipal User user) {
 			// 신청버튼
-//			if(user != null) {
-//				TBoardLike like = new TBoardLike();
-//				like.setUser(user);
-//				TheaterBoard board = TheaterBoard.builder()
-//										.no(no)
-//										.build();
-//				like.setBoard(board);
-//				
-//				TBoardLike savedLike = theaterBoardService.getLike(like);
-//				model.addAttribute("like", savedLike);
-//			}
+			if(user != null) {
+				PartyJoin savedjoin = partyBoardService.getJoinByPnoAndId(no, user);
+				model.addAttribute("join", savedjoin);
+			}
 			
 			// 게시물 번호로 게시물 조회
 			PartyBoard partyBoard = partyBoardService.getPBoardByNo(no);
@@ -209,6 +203,31 @@ public class PartyController {
 			
 			log.info(partyBoard.getContent());
 			return "/view/board/party/detail";
+		}
+		
+		// 신청 버튼 관련
+		@PostMapping("/changeRequest")
+		@ResponseBody
+		public ResponseEntity<Void> changeRequest(@RequestParam("no") int no,
+												  @RequestParam("request") String request,
+												  @AuthenticationPrincipal User user){
+			PartyJoin savedJoin = partyBoardService.getJoinByPnoAndId(no, user);
+			PartyBoard savedBoard = partyBoardService.getPBoardByNo(no);
+			int requestCount = savedBoard.getRequestCount();
+			
+			if(savedJoin != null && "Y".equals(savedJoin.getRequest())) {
+				partyBoardService.updateJoin(no, user, request);
+				savedBoard.setRequestCount(requestCount - 1);
+			} else if (savedJoin != null && "N".equals(savedJoin.getRequest())) {
+				partyBoardService.updateJoin(no, user, request);
+				savedBoard.setRequestCount(requestCount + 1);
+			} else if (savedJoin == null) {
+				partyBoardService.insertPartyJoin(no, user);
+				savedBoard.setRequestCount(requestCount + 1);
+			}
+			partyBoardService.updateRequestCount(savedBoard);
+			
+			return ResponseEntity.ok().build();
 		}
 
 	    

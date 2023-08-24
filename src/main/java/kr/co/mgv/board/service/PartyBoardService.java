@@ -13,6 +13,7 @@ import kr.co.mgv.board.mapper.TheaterBoardDao;
 import kr.co.mgv.board.vo.BoardLocation;
 import kr.co.mgv.board.vo.PartyBoard;
 import kr.co.mgv.board.vo.PartyBoardSchedule;
+import kr.co.mgv.board.vo.PartyJoin;
 import kr.co.mgv.schedule.vo.Schedule;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
@@ -94,6 +95,33 @@ public class PartyBoardService {
 	public void increaseReadCount(int no) {
 		PartyBoard board = partyBoardDao.getPBoardByNo(no);
 		board.setReadCount(board.getReadCount() + 1);
+		partyBoardDao.updatePBoardByNo(board);
+	}
+	
+	// 신청관련
+	public void insertPartyJoin (int no, User user) {
+		PartyBoard board = PartyBoard.builder().no(no).build();
+		PartyJoin join = PartyJoin.builder().board(board).user(user).build();
+		partyBoardDao.insertPartyJoin(join);
+	}
+	
+	public PartyJoin getJoinByPnoAndId(int no, User user) {
+		PartyBoard board = PartyBoard.builder().no(no).build();
+		PartyJoin join = PartyJoin.builder().board(board).user(user).build();
+		return partyBoardDao.getJoinByPnoAndId(join);
+	}
+	
+	public List<PartyJoin> getJoinByPno (int no){
+		return partyBoardDao.getJoinByPno(no);
+	}
+	
+	public void updateJoin (int no, User user, String request) {
+		PartyBoard board = PartyBoard.builder().no(no).build();
+		PartyJoin join = PartyJoin.builder().board(board).user(user).request(request).build();
+		partyBoardDao.updateJoin(join);
+	}
+	
+	public void updateRequestCount (PartyBoard board) {
 		partyBoardDao.updatePBoardByNo(board);
 	}
 }

@@ -1,13 +1,21 @@
 $(() => {
-    const $email = $("#userEmail");
+    const $pwd = $(".disable-form input[name='checkPassword']");
+    const $email = $(".disable-form input[name='email']");
     const $authNumber = $("#userAuth"); // 인증번호 입력
-    const $timerDisplay  = $("#schEmailtimer"); // 타이머 표시
-    const $confirmButton = $("#btnConfirm"); // 인증하기
+    const $timerDisplay  = $("#schEmailtimer");
+    const $confirmButton = $("#btnConfirm"); // 탈퇴
+    const authErrMsg = $("#auth-error-text");
+    const emailReg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-    let authCheck = false;
     let timer;
-    let timeLeft = 180; // 타이머 3분 180
+    let timeLeft = 180;
 
+    let pwdCheck = false;
+    let emailCheck = false;
+    let authCheck = false;
+
+    $pwd.keyup(() => pwdCheck = false);
+    $email.keyup(() => emailCheck = false);
     $authNumber.keyup(() => authCheck = false);
 
     $("#btnSendAuthMail").click(() => sendNumber());
@@ -16,10 +24,8 @@ $(() => {
 
     $("#btnCancel").click(function () {
         history.back();
-        return false;
     })
 
-    // 타이머 시작
     function startTimer() {
         timer = setInterval(() => {
             if (timeLeft > 0) {
@@ -59,17 +65,99 @@ $(() => {
     $("#action-form").submit(function (e) {
         e.preventDefault();
 
-        if (!authCheck) {
-            errorAlert($authNumber, "이메일 인증 후 이용이 가능합니다.");
+        const pwdValue = $pwd.val();
+        const emailValue = $email.val();
+        const authValue = $authNumber.val();
+        const emailReg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+
+        const check = checkInput();
+        if (!check) {
+            console.log(check);
             return false;
         }
+        console.log("pass");
 
-        $(this)[0].submit();
+        $.ajax({
+            url: "/user/info/disabled",
+            type: "POST",
+            data: form.serialize(),
+            success: function (res) {
+                successAlert($pwd, "탈퇴처리 되었습니다.");
+                $pwd.val("");
+                $email.val("");
+                $authNumber.val("");
+
+                location.href = "/logout";
+            },
+            error: function (e) {
+                errorAlert($pwd, e.reponseText);
+            }
+        })
+
+        function checkInput() {
+            if (!pwdCheck) {
+                errorAlert($pwd, "비밀번호를 입력하세요.");
+                return false;
+            }
+
+            if (!emailCheck) {
+                errorAlert($email, "이메일을 입력하세요.");
+                return false;
+            }
+
+            if (!authCheck) {
+                errorAlert($authNumber, "이메일 인증 후 이용이 가능합니다.");
+                return false;
+            }
+            return true;
+        }
     })
+
+    $("input[name='checkPassword']").keyup(() => {
+        const pwdValue = $pwd.val();
+        if (!$pwd.val()) {
+            pwdCheck = false;
+        } else {
+            pwdErrMsg.text("");
+        }
+    })
+
+    $("input[name='email']").keyup(() => {
+        const emailValue = $email.val();
+        if (!emailValue) {
+            emailCheck = false;
+        }
+        if (!emailReg.test(emailValue)) {
+            emailCheck = false;
+        } else {
+
+            authErrMsg.text("");
+        }
+    })
+
+    // todo 멘토님 질문
+    function checkEmailInput() {
+        $.ajax({
+            url: "/user/info/checkEmail",
+            type: "POST",
+            data: form.serialize(),
+            success: function (res) {
+
+            },
+            error: function (e) {
+                errorAlert($email, e.responseText);
+            }
+        })
+    }
 
     // 인증번호 발송
     async function sendNumber() {
         console.log("사용자 이메일 -> ", $email.val());
+        if (!$email.val()) {
+            errorAlert($email, "이메일을 입력하세요.");
+        }
+
         try {
             const response = await $.ajax({
                 type: "POST",
@@ -91,10 +179,11 @@ $(() => {
             // Ajax 요청 실패한 경우
             handleErrorMessage("서버와 통신 중 오류가 발생했습니다.", response);
         }
+
+
     }
 
     async function resendNumber() {
-        // Clear any existing timer and reset timeLeft
         clearInterval(timer);
         timeLeft = 180;
 

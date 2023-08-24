@@ -96,6 +96,9 @@
 				<if test="schedule != null">
 					schedule_id = #{schedule.id},
 				</if>
+				<if test="requestCount != null">
+					REQUEST_COUNT = #{requestCount},
+				</if>
 			</set>
 			where party_no = #{no}
 	</update>
@@ -255,6 +258,7 @@
 				A.board_comment_count	as commentCount,
 				A.board_read_count		as readCount,
 				A.PARTY_COMPLETE		as complete,
+				A.REQUEST_COUNT			as requestCount,
 				B.schedule_id			as "schedule.id",
 				B.schedule_date			as "schedule.date",
 				B.SCHEDULE_START_TIME	as "schedule.start",
@@ -282,4 +286,49 @@
 			    and A.party_no = ${value}
     </select>
     
+    <!-- 신청버튼 관련 -->
+    <insert id="insertPartyJoin" parameterType="kr.co.mgv.board.vo.PartyJoin">
+    	INSERT INTO PARTY_JOIN
+		(PARTY_NO, USER_ID)
+		VALUES(#{board.no}, #{user.id});
+    </insert>
+    
+    <select id="getJoinByPnoAndId" parameterType="kr.co.mgv.board.vo.PartyJoin" resultType="kr.co.mgv.board.vo.PartyJoin">
+	    SELECT 
+	    	join_NO				as no, 
+	    	PARTY_NO			as "board.no", 
+	    	USER_ID				as "user.id", 
+	    	JOIN_REQUEST		as request, 
+	    	JOIN_CREATE_DATE	as createDate, 
+	    	JOIN_UPDATE_DATE	as updateDate
+		FROM 
+			PARTY_JOIN
+		WHERE 
+			party_no  = #{board.no}
+			and user_id = #{user.id}	
+    </select>
+    
+    <select id="getJoinByPno" parameterType="kr.co.mgv.board.vo.PartyJoin" resultType="int">
+	    SELECT 
+	    	join_NO				as no, 
+	    	PARTY_NO			as "board.no", 
+	    	USER_ID				as "user.id", 
+	    	JOIN_REQUEST		as request, 
+	    	JOIN_CREATE_DATE	as createDate, 
+	    	JOIN_UPDATE_DATE	as updateDate
+		FROM 
+			PARTY_JOIN
+		WHERE 
+			party_no  = #{board.no}
+			and join_request = 'Y'	
+    </select>
+    
+    <update id="updateJoin" parameterType="kr.co.mgv.board.vo.PartyJoin">
+	    UPDATE PARTY_JOIN
+			SET JOIN_REQUEST = #{request},
+			JOIN_UPDATE_DATE = CURRENT_TIMESTAMP
+		WHERE 
+			user_id = #{user.id}
+			and party_no = #{board.no}
+    </update>
 </mapper>

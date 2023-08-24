@@ -23,6 +23,7 @@ public class PartyBoard {
 	private int commentCount;
 	private int likeCount;
 	private int headCount;
+	private int requestCount;
 	private User user;
 	private String deleted;
 	private String complete;
@@ -33,7 +34,7 @@ public class PartyBoard {
 	
 	@Builder
 	public PartyBoard(int no, String name, String content, String report, int reportCount, int readCount,
-			int commentCount, int likeCount, int headCount, User user, String deleted, String complete, Date createDate,
+			int commentCount, int likeCount, int headCount, int requestCount, User user, String deleted, String complete, Date createDate,
 			Date updateDate, String gender, PartyBoardSchedule schedule) {
 		super();
 		this.no = no;
@@ -45,6 +46,7 @@ public class PartyBoard {
 		this.commentCount = commentCount;
 		this.likeCount = likeCount;
 		this.headCount = headCount;
+		this.requestCount = requestCount;
 		this.user = user;
 		this.deleted = deleted;
 		this.complete = complete;

@@ -36,6 +36,12 @@
 								</span> 
 								<span class="hide-menu">리스트</span>
 							</a>
+							<a class="sidebar-link" th:href="@{/admin/theater/schedule/register}" aria-expanded="false"> 
+								<span>
+									<i class="ti ti-article"></i>
+								</span> 
+								<span class="hide-menu">상영시간표등록</span>
+							</a>
 						</li>
 					</ul>
 				</li>
@@ -72,7 +78,7 @@
 					<ul class="dropdown-menu sidebarnav">
 						<li class="sidebar-item"><a class="sidebar-link" th:href="@{/admin/support/faq}" aria-expanded="false">
 								자주 묻는 질문</a></li>
-						<li class="sidebar-item"><a class="sidebar-link" href="#">
+						<li class="sidebar-item"><a class="sidebar-link" th:href="@{/admin/support/notice}" aria-expanded="false">
 								공지사항</a></li>
 						<li class="sidebar-item"><a class="sidebar-link" href="#">
 								1:1 문의</a></li>

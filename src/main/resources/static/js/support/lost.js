@@ -9,7 +9,7 @@ $(function() {
 	
 	// 폼에서 지역조회
 	let $selectLocation = $("#location").empty();
-	$selectLocation.append(`<option value="" selected disabled>지역선택</option>`)
+	$selectLocation.append(`<option value="" selected>지역선택</option>`)
 	
 	$.getJSON("/support/lost/getLocation", function(locations) {
 		locations.forEach(function(loc) {
