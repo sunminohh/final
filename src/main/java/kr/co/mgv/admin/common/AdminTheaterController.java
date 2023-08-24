@@ -30,9 +30,14 @@ public class AdminTheaterController {
         return "/view/admin/theater/list";
     }
     
-    @GetMapping("/register")
+    @GetMapping("/schedule/register")
     public String form() {
         return "/view/admin/theater/schedule/form";
+    }
+    
+    @GetMapping("/schedule/delete")
+    public String deleteForm() {
+    	return "/view/admin/theater/schedule/deleteForm";
     }
     
     @GetMapping("/detail")

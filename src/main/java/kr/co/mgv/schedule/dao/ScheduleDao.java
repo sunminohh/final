@@ -20,4 +20,5 @@ public interface ScheduleDao {
 	List<Map<String, Object>> getSchedulesByScreenAndDate(Map<String, Object> map);
 	void insertSchedule(ScheduleRegistFormDto dto);
 	Schedule getSchedule(ScheduleRegistFormDto dto);
+	void deleteSchedule(int id);
 }

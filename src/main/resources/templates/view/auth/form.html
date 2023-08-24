@@ -7,13 +7,14 @@
     <script th:src="@{/js/calender.js}"></script>
 </head>
 <div layout:fragment="content" id="contents" class="join-form">
-    <h2 class="tit">회원가입</h2>
 
     <form id="action-form" method="post" th:action="@{/user/auth/join}">
 
         <div class="member-wrap">
             <!-- col-wrap -->
             <div class="col-wrap">
+            <h2 class="tit">회원가입</h2>
+                <span>아이디, 이름, 비밀번호, 비밀번호 확인, 생년월일, 이메일 주소를 가진 회원가입 정보입력</span>
                 <!-- col -->
                 <div class="col">
 
@@ -100,7 +101,7 @@
                     </div>
 
                     <div class="btn-member-bottom">
-                        <button type="submit" class="button purple large disabled">회원가입<!--회원가입--></button>
+                        <button id="btnJoin" type="submit" class="button purple large" disabled>회원가입<!--회원가입--></button>
 
                     </div>
                 </div>

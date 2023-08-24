@@ -54,5 +54,10 @@ public class ScheduleController {
 		return scheduleService.registSchedule(dto);
 	}
 	
+	@PostMapping("admin/delete")
+	@ResponseBody
+	public void deleteSchedule(@RequestBody String[] idList) {
+		scheduleService.deleteSchedule(idList);
+	}
 	
 }
