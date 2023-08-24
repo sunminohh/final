@@ -10,117 +10,116 @@
 <div id="contents" layout:fragment="content" class="update-form">
     <h2 class="tit">개인정보 수정</h2>
 
-    <form id="action-form" method="post" th:action="@{/user/info/form}">
-        <ul class="dot-list mb10">
-            <li>회원님의 정보를 정확히 입력해주세요.</li>
-        </ul>
+    <ul class="dot-list mb10">
+        <li>회원님의 정보를 정확히 입력해주세요.</li>
+    </ul>
 
-        <div class="table-wrap">
+    <div class="table-wrap">
+        <table class="board-form">
+            <caption>프로필사진, 아이디 항목을 가진 표</caption>
+            <colgroup>
+                <col style="width:180px;">
+                <col>
+            </colgroup>
+            <tbody>
+            <tr>
+                <th scope="row">프로필 사진</th>
+                <td>
+                    <div class="profile-photo">
+                        <form name="fileForm">
+                            <input type="file" id="userImgFile" name="file" style="display: none;">
+                        </form>
+                        <div class="profile-img">
+                            <img th:src="@{/images/user/myprofile.png}" alt="기본 이미지">
+                        </div>
+                        <button type="button" class="button small gray-line" id="btnAddProfileImg">이미지 등록</button>
+                        <a th:href="@{/user/info/disabled}" class="button small member-out">회원탈퇴</a>
+                    </div>
+                    <p style="font-size:0.8em; color:#999; margin-top:10px; padding:0; text-align:left; position:absolute; top:22px; left:194px;">
+                        ※ 개인정보가 포함된 이미지 등록은 자제하여 주시기 바랍니다.</p>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">아이디</th>
+                <td><span th:text="${user.id}"></span></td>
+            </tr>
+            <tr>
+                <th scope="row">수정일자</th>
+                <td><span th:text="|회원정보 마지막 변경: ${minDate} 일전에 함 (${#dates.format(user.updateDate, 'yyyy-MM-dd HH:mm:ss')})|"></span></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="tit-util mt40 mb10">
+        <h3 class="tit">기본정보</h3>
+
+        <div class="right">
+            <p class="reset"><em class="font-orange">*</em> 필수</p>
+        </div>
+    </div>
+
+    <form id="action-form" method="post" th:action="@{/user/info/update}">
+        <input type="hidden" name="id" value="${loginId}">
+
+        <input type="hidden" name="zipcode" th:value="${user.zipcode}">
+        <input type="hidden" name="address" th:value="${user.address}">
+        <input type="hidden" name="mbProfilFileNo" value="">
+        <input type="hidden" id="userBirth" th:value="${user.birth}">
+
+        <div class="table-wrap mb40">
             <table class="board-form">
-                <caption>프로필사진, 아이디 항목을 가진 표</caption>
+                <caption>이름, 생년월일, 휴대폰, 이메일, 비밀번호, 주소 항목을 가진 기본정보 표</caption>
                 <colgroup>
                     <col style="width:180px;">
                     <col>
                 </colgroup>
                 <tbody>
                 <tr>
-                    <th scope="row">프로필 사진</th>
+                    <th scope="row">
+                        이름 <em class="font-orange">*</em>
+                    </th>
                     <td>
-                        <div class="profile-photo">
-                            <form name="fileForm">
-                                <input type="file" id="userImgFile" name="file" style="display: none;">
-                            </form>
-                            <div class="profile-img">
-                                <img th:src="@{/images/user/myprofile.png}" alt="기본 이미지">
-                            </div>
-                            <button type="button" class="button small gray-line" id="btnAddProfileImg">이미지 등록</button>
-                            <a href="#" class="button small member-out" title="회원탈퇴" onclick="alert('서비스 준비중입니다.')">회원탈퇴</a>
-                        </div>
-                        <p style="font-size:0.8em; color:#999; margin-top:10px; padding:0; text-align:left; position:absolute; top:22px; left:194px;">
-                            ※ 개인정보가 포함된 이미지 등록은 자제하여 주시기 바랍니다.</p>
+                        <span class="mbNmClass" th:text="${user.name}"></span>
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row">아이디</th>
-                    <td><span th:text="${userId}"></span></td>
+                    <th scope="row">
+                        생년월일 <em class="font-orange">*</em>
+                    </th>
+                    <td>
+                        <span th:text="${#temporals.format(user.birth, 'yyyy-MM-dd')}"></span>
+                    </td>
                 </tr>
+                <tr>
+                    <th scope="row">
+                        <label for="email">이메일</label> <em class="font-orange">*</em>
+                    </th>
+                    <td>
+                        <input type="text" name="email" class="btnAuthEmail input-text w500px" th:value="${user.email}" autocomplete="off">
+                        <span id="email-error-text" calss="alert"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">비밀번호 <em class="font-orange">*</em></th>
+                    <td>
+                        <a th:href="@{/user/info/update/password}" class="button small gray-line" title="비밀번호 변경">비밀번호 변경</a>
+                        <span th:text="|마지막 비밀번호 변경: ${pwdMinDate} 일전에 함 (${#dates.format(user.pwdUpdateDate, 'yyyy-MM-dd HH:mm:ss')})|"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">주소</th>
+                    <td>
+                        <span th:text="${user.zipcode}"></span>
+
+                        <button id="btnZipcode" class="button small gray-line ml10">우편번호 검색</button>
+                        <p class="reset mt10" th:text="${user.address}"></p>
+                    </td>
+                </tr>
+
                 </tbody>
             </table>
         </div>
-
-        <div class="tit-util mt40 mb10">
-            <h3 class="tit">기본정보</h3>
-
-            <div class="right">
-                <p class="reset"><em class="font-orange">*</em> 필수</p>
-            </div>
-        </div>
-
-        <form name="mbInfoForm">
-            <input type="hidden" name="mbNo" value="">
-
-            <!-- todo zipcode, address 테이블 질문 -->
-            <input type="hidden" name="zipcode" value="">
-            <input type="hidden" name="mbAddr" value="">
-            <input type="hidden" name="mbProfilFileNo" value="">
-            <input type="hidden" id="userBirth" value="">
-
-            <div class="table-wrap mb40">
-                <table class="board-form">
-                    <caption>이름, 생년월일, 휴대폰, 이메일, 비밀번호, 주소 항목을 가진 기본정보 표</caption>
-                    <colgroup>
-                        <col style="width:180px;">
-                        <col>
-                    </colgroup>
-                    <tbody>
-                    <tr>
-                        <th scope="row">
-                            이름 <em class="font-orange">*</em>
-                        </th>
-                        <td>
-                            <span class="mbNmClass" th:text="${userName}"></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">
-                            생년월일 <em class="font-orange">*</em>
-                        </th>
-                        <td>
-                            <span th:text="${#temporals.format(userBirth, 'yyyy-MM-dd')}"></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">
-                            <label for="email">이메일</label> <em class="font-orange">*</em>
-                        </th>
-                        <td>
-                            <input type="text" id="email" class="btnAuthEmail input-text w500px" th:value="${userEmail}">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">비밀번호 <em class="font-orange">*</em></th>
-                        <td>
-                            <a th:href="@{/user/info/update/password}" class="button small gray-line" title="비밀번호 변경">비밀번호 변경</a>
-
-                            마지막 비밀번호 변경: (2023-06-13 22:33:43)
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">주소</th>
-                        <td>
-                            <span id="" th:if="${zipcode}" th:text="${zipcode}"></span>
-                            <span th:unless="${zipcode}">&nbsp;</span>
-
-                            <a href="#" id="btnZipcode" class="button small gray-line ml10">우편번호 검색</a>
-                            <p class="reset mt10" th:if="${address}" th:text="${address}"></p>
-                            <p class="reset mt10" th:unless="${address}">&nbsp;</p>
-                        </td>
-                    </tr>
-
-                    </tbody>
-                </table>
-            </div>
-        </form>
 
         <h3 class="tit">간편로그인 계정연동</h3>
 
@@ -169,7 +168,7 @@
 
         <div class="btn-group mt40" style="display: block;">
             <button class="button large" id="btnCancel">취소</button>
-            <button class="button purple large" id="btnUpdate">등록</button>
+            <button class="button purple large" type="submit">등록</button>
         </div>
     </form>
 </div>
