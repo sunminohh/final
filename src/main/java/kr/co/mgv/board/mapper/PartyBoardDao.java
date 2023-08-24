@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import kr.co.mgv.board.vo.PartyBoard;
 import kr.co.mgv.board.vo.PartyBoardSchedule;
+import kr.co.mgv.board.vo.PartyJoin;
 
 @Mapper
 public interface PartyBoardDao {
@@ -25,4 +26,10 @@ public interface PartyBoardDao {
 	
 	// 상세페이지 관련
 	PartyBoard getPBoardByNo(int no);
+	
+	// 파티 신청 관련
+	void insertPartyJoin(PartyJoin join);
+	PartyJoin getJoinByPnoAndId(PartyJoin join);
+	List<PartyJoin> getJoinByPno(int no);
+	void updateJoin (PartyJoin join);
 }
