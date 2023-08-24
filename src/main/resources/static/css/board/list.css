@@ -1,0 +1,15 @@
+    .table {
+        table-layout: fixed; /* 테이블의 너비를 고정 */
+    }
+
+
+    .combined-cell {
+        display: flex;
+        align-items: center;
+    }
+
+    .comment-count {
+        margin-right: 5px; /* 적절한 여백 설정 */
+        color: darkgray;
+    }
+    

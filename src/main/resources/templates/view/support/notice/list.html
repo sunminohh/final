@@ -12,7 +12,7 @@
             <li class="tab-link" th:classappend="${param.catNo == null || #strings.equals(param.catNo, '21') ? 'current' : ''}">
                 <button type="button" class="btn rounded-0" data-tab="tab-1" data-category-no="21" title="전체공지 보기">전체</button>
             </li>
-            <li class="tab-link"  th:classappend="${#strings.equals(param.catNo, '22') ? 'current' : ''}">
+            <li class="tab-link" th:classappend="${#strings.equals(param.catNo, '22') ? 'current' : ''}">
                 <button type="button" class="btn rounded-0" data-tab="tab-2" data-category-no="22" title="메가박스 공지 보기">메가박스 공지</button>
             </li>
             <li class="tab-link" th:classappend="${#strings.equals(param.catNo, '23') ? 'current' : ''}">
