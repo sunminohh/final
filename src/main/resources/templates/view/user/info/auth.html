@@ -18,13 +18,13 @@
                         <col>
                     </colgroup>
                     <tbody>
-                    <input id="ibxSchPwdLoginId" type="hidden" th:value="${userId}">
-                    <input id="ibxSchPwdMbNm" type="hidden" th:value="${userName}">
+                    <input id="ibxSchPwdLoginId" type="hidden" th:value="${user.id}">
+                    <input id="ibxSchPwdMbNm" type="hidden" th:value="${user.name}">
                     <tr>
                         <th scope="row"><label>E-mail</label></th>
                         <td>
-                            <input type="hidden" id="userId" th:value="${userId}">
-                            <input type="text" id="userEmail" th:value="${userEmail}" class="input-text w230px" disabled>
+                            <input type="hidden" id="userId" th:value="${user.id}">
+                            <input type="text" id="userEmail" th:value="${user.email}" class="input-text w230px" disabled>
                             <button id="btnSendAuthMail" type="button" class="button gray w75px ml08">인증요청</button>
                             <button id="btnResendAuthMail" type="button" class="button gray w75px ml08" style="display: none" disabled>재전송</button>
                         </td>

@@ -44,13 +44,8 @@ public class UserController {
     // 이메일 인증
     @GetMapping("/auth")
     public String emailAuthForm(@AuthenticationPrincipal User user, Model model) {
-        String userId = user.getId();
-        String userName = user.getName();
-        String userEmail = user.getEmail();
 
-        model.addAttribute("userId", userId);
-        model.addAttribute("userName", userName);
-        model.addAttribute("userEmail", userEmail);
+        model.addAttribute("user", user);
 
         return "view/user/info/auth";
     }
@@ -63,43 +58,28 @@ public class UserController {
     // 회원정보 수정
     @GetMapping("/form")
     public String myMGV(@AuthenticationPrincipal User user, Model model) {
-        String id = user.getId();
-        String name = user.getName();
-        LocalDate birth = user.getBirth();
-        String email = user.getEmail();
-        String zipcode = user.getZipcode();
-        log.info(zipcode);
-        String address = user.getAddress();
-        log.info(address);
-        Date updateDate = user.getUpdateDate();
-        long daysDifference = userService.daysDifference(user.getUpdateDate());
+        user = userService.getUserById(user.getId());
+        long minDate = userService.getMindate(user.getUpdateDate());
+        long pwdMinDate = userService.getMindate(user.getPwdUpdateDate());
 
-        model.addAttribute("userId", id);
-        model.addAttribute("userName", name);
-        model.addAttribute("userBirth", birth);
-        model.addAttribute("userEmail", email);
-        model.addAttribute("zipcode", zipcode);
-        model.addAttribute("address", address);
-        model.addAttribute("updateDate", updateDate);
-        model.addAttribute("daysDiff", daysDifference);
+        model.addAttribute("user", user);
+        model.addAttribute("minDate", minDate);
+        model.addAttribute("pwdMinDate", pwdMinDate);
 
         return "view/user/info/form";
     }
 
     // todo 회원정보 수정
     @PostMapping("/update")
-    public ResponseEntity<String> updateUser(@AuthenticationPrincipal User user, UserUpdateForm form, HttpSession session) {
+    public ResponseEntity<String> updateUser(@AuthenticationPrincipal User user, UserUpdateForm form) {
         // todo 이메일 수정 할 때
+        User checkEmail = userService.getUserByEmail(form.getEmail()); //
 
 
         // todo 이메일 수정 안할 때
         if (!user.getEmail().equals(form.getEmail())) {
             userService.updateUser(user.getId(), form.getEmail(), form.getZipcode(), form.getAddress());
-            session.invalidate();
-            log.info("사용자 아이디 -> {}", user.getId());
-            log.info("사용자 이메일 -> {}", form.getEmail());
-            log.info("사용자 우편번호 -> {}", form.getZipcode());
-            log.info("사용자 주소 -> {}", form.getAddress());
+//            session.invalidate();
             return ResponseEntity.ok("사용가능한 이메일 주소입니다.");
         } else {
             return ResponseEntity.badRequest().body("중복된 이메일 주소입니다.");

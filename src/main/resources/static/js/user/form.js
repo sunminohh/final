@@ -38,11 +38,15 @@ $(() => {
             type: "POST",
             data: form.serialize(),
             success: function () {
-                successAlert(emailValue, "회원정보 수정이 완료되었습니다.", function() {
-                    location.reload();
-                    location.href = "/logout";
-
-                });
+                Swal.fire({
+                    icon: 'success',
+                    text: "회원정보 수정이 완료되었습니다. 다시 로그인해주세요.",
+                    confirmButtonText: '확인',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.href = "/logout";
+                    }
+                })
             },
             error: function (e) {
                 errorAlert(emailValue, e.responseText);
@@ -82,28 +86,11 @@ $(() => {
         }
     });
 
-    function errorAlert(el, text) {
+    function errorAlert($el, text) {
         Swal.fire({
             icon: 'error',
             text: text
         });
-        if (el instanceof HTMLElement) {
-            el.focus();
-        }
     }
 
-    function successAlert(el, text, callback) {
-        Swal.fire({
-            icon: 'success',
-            text: text,
-            confirmButtonText: '확인',
-            allowOutsideClick: false,
-        }).then((result) => {
-            if (result.isconfirmed) {
-                if (typeof callback === 'function') {
-                    callback();
-                }
-            }
-        });
-    }
 })

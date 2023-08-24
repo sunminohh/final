@@ -41,7 +41,11 @@
             </tr>
             <tr>
                 <th scope="row">아이디</th>
-                <td><span th:text="${userId}"></span></td>
+                <td><span th:text="${user.id}"></span></td>
+            </tr>
+            <tr>
+                <th scope="row">수정일자</th>
+                <td><span th:text="|회원정보 마지막 변경: ${minDate} 일전에 함 (${#dates.format(user.updateDate, 'yyyy-MM-dd HH:mm:ss')})|"></span></td>
             </tr>
             </tbody>
         </table>
@@ -56,12 +60,12 @@
     </div>
 
     <form id="action-form" method="post" th:action="@{/user/info/update}">
-        <input type="hidden" name="id" th:value="${userId}">
+        <input type="hidden" name="id" value="${loginId}">
 
-        <input type="hidden" name="zipcode" th:value="${zipcode}">
-        <input type="hidden" name="address" th:value="${address}">
+        <input type="hidden" name="zipcode" th:value="${user.zipcode}">
+        <input type="hidden" name="address" th:value="${user.address}">
         <input type="hidden" name="mbProfilFileNo" value="">
-        <input type="hidden" id="userBirth" th:value="${userBirth}">
+        <input type="hidden" id="userBirth" th:value="${user.birth}">
 
         <div class="table-wrap mb40">
             <table class="board-form">
@@ -76,7 +80,7 @@
                         이름 <em class="font-orange">*</em>
                     </th>
                     <td>
-                        <span class="mbNmClass" th:text="${userName}"></span>
+                        <span class="mbNmClass" th:text="${user.name}"></span>
                     </td>
                 </tr>
                 <tr>
@@ -84,7 +88,7 @@
                         생년월일 <em class="font-orange">*</em>
                     </th>
                     <td>
-                        <span th:text="${#temporals.format(userBirth, 'yyyy-MM-dd')}"></span>
+                        <span th:text="${#temporals.format(user.birth, 'yyyy-MM-dd')}"></span>
                     </td>
                 </tr>
                 <tr>
@@ -92,7 +96,7 @@
                         <label for="email">이메일</label> <em class="font-orange">*</em>
                     </th>
                     <td>
-                        <input type="text" name="email" class="btnAuthEmail input-text w500px" th:value="${userEmail}" autocomplete="off">
+                        <input type="text" name="email" class="btnAuthEmail input-text w500px" th:value="${user.email}" autocomplete="off">
                         <span id="email-error-text" calss="alert"></span>
                     </td>
                 </tr>
@@ -100,16 +104,16 @@
                     <th scope="row">비밀번호 <em class="font-orange">*</em></th>
                     <td>
                         <a th:href="@{/user/info/update/password}" class="button small gray-line" title="비밀번호 변경">비밀번호 변경</a>
-                        <span th:text="|마지막 비밀번호 변경: ${daysDiff} 일전에 함 (${#dates.format(updateDate, 'yyyy-MM-dd HH:mm:ss')})|"></span>
+                        <span th:text="|마지막 비밀번호 변경: ${pwdMinDate} 일전에 함 (${#dates.format(user.pwdUpdateDate, 'yyyy-MM-dd HH:mm:ss')})|"></span>
                     </td>
                 </tr>
                 <tr>
                     <th scope="row">주소</th>
                     <td>
-                        <span th:text="${zipcode}"></span>
+                        <span th:text="${user.zipcode}"></span>
 
                         <button id="btnZipcode" class="button small gray-line ml10">우편번호 검색</button>
-                        <p class="mt10" th:text="${address}"></p>
+                        <p class="reset mt10" th:text="${user.address}"></p>
                     </td>
                 </tr>
 

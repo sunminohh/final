@@ -15,6 +15,10 @@ public class UserService {
 
     private final UserDao userDao;
 
+    public User getUserById(String id) {
+        return userDao.getUserById(id);
+    }
+
     public User getUserByEmail(String email) {
         return userDao.getUserByEmail(email);
     }
@@ -24,7 +28,7 @@ public class UserService {
         User user = userDao.getUserById(id);
 
         user.setPassword(newPassword);
-        user.setUpdateDate(new Date());
+        user.setPwdUpdateDate(new Date());
 
         userDao.updatePassword(user);
     }
@@ -37,6 +41,7 @@ public class UserService {
         user.setEmail(email);
         user.setZipcode(zipcode);
         user.setAddress(address);
+        user.setUpdateDate(new Date());
 
         userDao.updateUser(user);
     }
@@ -44,9 +49,16 @@ public class UserService {
     // todo 회원탈퇴
 
     // 수정일자 계산
-    public long daysDifference(Date updateDate) {
+    public long getMindate(Date updateDate) {
         Date currentDate = new Date();
         long timeDifference = currentDate.getTime() - updateDate.getTime();
+        long daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+        return daysDifference;
+    }
+
+    public long getPwdMindate(Date pwdUpdateDate) {
+        Date currentDate = new Date();
+        long timeDifference = currentDate.getTime() - pwdUpdateDate.getTime();
         long daysDifference = timeDifference / (1000 * 60 * 60 * 24);
         return daysDifference;
     }
