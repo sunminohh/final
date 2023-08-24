@@ -60,4 +60,39 @@
 		and mt.THEATER_NO = mts.THEATER_NO 
 		and mts.SCREEN_ID  = ms.SCREEN_ID
 	</select>
+    <select id="getSchedulesByDate" parameterType="String" resultType="DailyScheduleDto">
+        select
+            A.movie_no as movieNo,
+            B.theater_no as theaterNo
+        from (select MOVIE_NO,  SCREEN_ID
+              from MGV_SCHEDULE
+              where schedule_date = #{value}) A,
+             MGV_THEATER_SCREEN B
+        where A.SCREEN_ID = B.SCREEN_ID
+    </select>
+    
+    <select id="getSchedulesByDateMovieTheater" parameterType="map" resultType="ScheduleDto">
+        select
+            C.MOVIE_NO as movieNo,
+            C.SCREEN_ID as screenId,
+            c.SCREEN_NAME as screenName,
+            c.theater_no as theaterNo,
+            D.theater_name as theaterName,
+            c.SCHEDULE_START_TIME as startTime,
+            c.SCHEDULE_END_TIME as endTime,
+            c.SCHEDULE_TURN as turn,
+            c.REMAINING_SEATS as remainingSeats,
+            c.SCREEN_SEATS as screenSeats
+        from(select A.*, B.theater_no,B.SCREEN_NAME
+             from (select MOVIE_NO,  SCREEN_ID,  SCHEDULE_START_TIME,SCHEDULE_END_TIME, SCHEDULE_TURN,REMAINING_SEATS,SCREEN_SEATS
+                   from MGV_SCHEDULE
+                   where schedule_date =#{date}
+                     and SCHEDULE_START_TIME > #{time}) A,
+                  MGV_THEATER_SCREEN B
+             where A.SCREEN_ID = B.SCREEN_ID
+               and theater_no =#{theaterNo}
+               and Movie_no =#{movieNo}) C, MGV_THEATERS D
+        where C.THEATER_NO=D.THEATER_NO
+        order by turn asc
+    </select>
 </mapper>

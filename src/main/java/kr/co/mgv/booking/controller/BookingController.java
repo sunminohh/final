@@ -27,13 +27,7 @@ public class BookingController {
     public String home(Model model) {
         model.addAttribute("movies", movieService.getAllMovies());
         model.addAttribute("locations", theaterService.getTheaters());
-        Map<String,Object> map=new HashMap<>();
-        map.put("서울",1);
-        map.put("경기",2);
-        map.put("인천",3);
-        map.put("오펜하이머","disabled");
-        map.put("서울극장","disabled");
-        model.addAttribute("map",map);
+
         return "/view/booking/home";
     }
 
