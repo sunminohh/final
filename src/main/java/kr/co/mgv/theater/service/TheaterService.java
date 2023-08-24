@@ -8,6 +8,7 @@ import kr.co.mgv.favoritetheater.dao.FavoriteTheaterDao;
 import kr.co.mgv.favoritetheater.vo.FavoriteTheater;
 import kr.co.mgv.theater.dao.TheaterDao;
 import kr.co.mgv.theater.vo.Location;
+import kr.co.mgv.theater.vo.Screen;
 import kr.co.mgv.theater.vo.Theater;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -53,5 +54,15 @@ public class TheaterService {
 			favoriteDao.insertFavoriteTheaters(favoriteTheater);
 		}
 		
+	}
+
+	public List<Theater> getTheaterlist(int locationNo) {
+		List<Theater> list= theaterDao.getTheatersByLocationNo(locationNo);
+		return list;
+	}
+
+	public List<Screen> getScreenlist(int theaterNo) {
+		List<Screen> screens = theaterDao.getScreensByTheaterNo(theaterNo);
+		return screens;
 	}
 }

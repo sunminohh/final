@@ -42,6 +42,12 @@ public class Theater {
 		this.parkingInfo = parkingInfo;
 	}
 	
-	
+	public String getInfos() {
+		if(this.info==null) {
+			return null;
+		}
+		return this.info.replace("\n","<br>");
+		
+	}
 
 }

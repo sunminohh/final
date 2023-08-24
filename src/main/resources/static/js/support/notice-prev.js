@@ -112,7 +112,6 @@ $(function() {
 				   		<tr><th colspan='5' style="text-align:center;">조회된 내역이 없습니다.</th></tr>
 				   `);
 			} else {
-				 
 				 const tbodyHtml = noticeList.map(function(notice, index) {
 					return `
 				<tr>

@@ -1,7 +1,7 @@
 
 $(document).ready(function() {
 	
-	// 폼에서 카테고리 조회
+	// 인서트폼에서 카테고리 조회
 	let $selectCategory = $("#faqCat").empty();
 	$selectCategory.append(`<option value="" selected disabled>카테고리 선택</option>`)
 	$.getJSON("/admin/support/faq/getCategory?type=faq", function(categories) {
@@ -18,6 +18,7 @@ $(document).ready(function() {
 		getFaqList();
 	}
 
+    // 탭컬러 바꾸기
     $('li.tab-link').click(function() {
 
 	      $('li.tab-link').removeClass('current');
@@ -26,7 +27,6 @@ $(document).ready(function() {
 	      $(this).addClass('current');
 	      $(this).find('button.btn').addClass('current');
     });
-    // 탭메뉴 끝
 
 	// 검색버튼 클릭했을 때
 	$("#btn-search").click(function() {
@@ -45,13 +45,7 @@ $(document).ready(function() {
 		getFaqList();
 	});
 
-	/* 폼 없을때 사용
-	$("input[name='keyword']").on('keyup', function(e) {
-		if (e.keyCode === 13) {
-			getFaqList();
-		}
-	});
-	*/
+	
 
 	// 페이저번호클릭했 떄
 	$('.pagination').on('click', '.page-number-link', function(event) {
@@ -84,7 +78,7 @@ $(document).ready(function() {
 		let categoryNo = $("input[name=catNo]").val();
 		let page = $("input[name=page]").val();
 		
-		let $ul = $(".faq-list ul").empty()
+		let $tbody = $(".faqList").empty()
 		let $pagination = $(".pagination").empty();
 		
 		$.getJSON("/admin/support/faq/list", {keyword:keyword, catNo:categoryNo, page:page}, function(result) {
@@ -95,63 +89,40 @@ $(document).ready(function() {
 			let pagination = result.pagination;
 			
 			if (faqList.length === 0) {
-				$ul.append('<li class="no-results">조회된 내역이 없습니다.</li>');
+				$tbody.append(`<tr><th colspan='5' style="text-align:center;">조회된 내역이 없습니다.</th></tr>`)
 			} else {
-				faqList.forEach(function(faq, index) {
-					let content = `
-						<li>
-							<div class="qut">
-		    					<a href="#">
-		    						<p class="tit">
-		    							<span class="font-green">[${faq.category.name}]</span>
-		    						</p>
-		    						<p class="txt">
-		    							<span class="font-green">
-		    							</span>
-		    							<span>
-		    								${faq.title}
-		    							</span>
-		    						</p>
-		    					</a>
-		    				</div>
-		    				<div class="awn">
-	                            <div class="cont">
-	                                <span style="font-size:10.0pt; line-height:107%">
-	                                     ${faq.content}
-	                                </span>
-	                            </div>
-	                        </div>
-						</li>`
-						
-						$ul.append(content);
-				})
-				$('.faq-list .qut:first').addClass('on');
-	    		$('.faq-list .awn:first').show();
+				const tbodyhtml = faqList.map(function(faq, index) {
+					return `
+				<tr>
+		            <td>${faq.no}</td>
+		            <td>${faq.category.name}</td>
+		            <td style="text-align:left;">
+						<a class="text-black text-decoration-none"
+							 href="/admin/support/faq/detail?no=${faq.no}"
+							 data-no="${faq.no}">
+			            	 ${faq.title}
+		            	</a>
+		            </td>
+		            <td>${faq.orderNo}</td>
+		            <td>${faq.updateDate}</td>
+	            </tr>
+					`
+				}).join("\n");
+				
+				$tbody.html(tbodyhtml);
 
 				$pagination.html(renderPagination(pagination));
-
 			}
 		});
-		
 	}
 	
-
-
-	// 아코디언 열고닫기
-    // 첫 번째 아코디언 열기
-    $('.faq-list .qut:first').addClass('on');
-    $('.faq-list .awn:first').show();
-
-    // 아코디언 헤더(.qut)를 클릭했을 때
-    $('.faq-list ').on('click', '.qut', function() {
-        if (!$(this).hasClass('on')) {
-            // 모든 아코디언 닫기
-            $('.faq-list .qut').removeClass('on');
-            $('.faq-list .awn').slideUp();
-
-            // 현재 아코디언 열기
-            $(this).addClass('on');
-            $(this).next('.awn').slideDown();
-        }
-    });
+	 $("#table-faq tbody").on("click", "a", function(event) {
+		event.preventDefault();
+		
+		let faqNo = $(this).attr("data-no");
+		$("#actionForm input[name=no]").val(faqNo);
+		$("#actionForm").attr("action", '/admin/support/faq/detail?no=' + faqNo);
+		
+		document.querySelector("#actionForm").submit();
+	})
 });
