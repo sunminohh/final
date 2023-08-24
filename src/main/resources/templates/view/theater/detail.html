@@ -3,10 +3,6 @@
 	layout:decorate="~{layout/default}">
 <head th:fragment="extra-head-content">
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=683b3934429366d7f2da0e2094630435&libraries=services,clusterer,drawing"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.9/dayjs.min.js" integrity="sha512-q4Xn+ZU2K+dqJPL8a3TiyGsDa31IkR/rLt/w+fy8jLrx8TdXj0dLM1Aq4aPXnOOKxHEya/bD9DePDB2DHm4jJQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.9/locale/ko.min.js" integrity="sha512-a79K1GDGHa5wUJ5+4hFwbeGzoXXdy05/UWM+PC/zIvO+jz0P3wy9Ovj2Ld7rX6Oq2TPsJeYyE7xokFlnKCizGA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.9/plugin/isSameOrAfter.min.js" integrity="sha512-8gn84sM7ampZwKjmwm8+y8/FpiPbFVgJGqR5Aio1Lx2T08tEvmJQ5ffLWQFnjDkD/c4kzxebsVtJFswTIvvT+g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.9/plugin/calendar.min.js" integrity="sha512-iGrW6JrYT5DGfpMKEQwVVmB4ZT4zVcw62Y/Ax6U3tSAei9FkgZVz0zDPwmaSQemQEXtYn4FHBVIDxXGuTXiCsw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script type="text/javascript" th:src="@{/js/theater/ui.js}"></script>
 	<script type="text/javascript" th:src="@{/js/theater/schedule.js}"></script>
 	<style type="text/css">
@@ -160,8 +156,8 @@
 			</div>
 			<div class="tab-cont-wrap">
 				<div id="tab01" class="tab-cont on">
-					<div class="theater-info-text mt40">
-						<p class="big" th:text="${theater.info}">
+					<div class="theater-info-text mt40" >
+						<p class="big" th:utext="${theater.infos}">
 							강남의 중심! 강남 소비문화의 중심지인 지하철 2호선 , 신분당선 - 강남역과 연결 <br>로맨틱
 							멀티플렉스! 젊은 도시 강남이 한 눈에 보이는 최상의 View를 제공
 						</p>

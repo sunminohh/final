@@ -9,5 +9,8 @@ public interface UserDao {
     User getUserByEmail(String email);
 
     void updatePassword(User user);
+    void updateUser(User user);
+
+    void disabledUser(User user);
 
 }

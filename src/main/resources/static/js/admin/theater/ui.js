@@ -1,34 +1,66 @@
 $(() => {
-    const $locationButton = $(".btn-group .btn")
-    const $theaters = $(".collapse");
+    const $locationButton = $("#locationbtn .btn")
+    const $theaters = $("#div-theaters .collapse");
     const $board = $("#board");
+    const $btnSchedule = $("#btn-schedule");
+    const $btnUpdate = $("#btn-update");
+    const $btnRegSchedule = $("#btn-reg-sche");
+    const $btnDelSchedule = $("#btn-del-sche");
+    const API_URLS = {
+		SCHEDULE: "/admin/theater/schedule/list",
+		REGISTSCHEDULE: "/admin/theater/schedule/register",
+		DELETESCHEDULE: "/admin/theater/schedule/delete",
+		THEATER: "/admin/theater/detail",
+		REGIST_THEATER: "/admin/theater/regist",
+		THEATER_LIST: "/theater/theaterList"
+	}
     getTheaterList();
     
     $locationButton.on("click",toggleButton);
-    $theaters.on("click", "button", toggleButton);
+    $theaters.on("click", "button", toggleTheaterButton);
     $theaters.on("click", "button", refrashBoard);
-    $theaters.on("hide.bs.collapse", deactivateButton)
+    $btnSchedule.on("click",handlerBtnSchedule);
+    $btnRegSchedule.on("click",handlerBtnRegSchedule);
+    $btnDelSchedule.on("click",handlerBtnDelSchedule);
+    $btnUpdate.on("click",handlerBtnUpdate);
     
     function toggleButton(){
-		$(this).addClass("active");
 		$(this).siblings().removeClass("active");
+		$(this).addClass("active");
 	}
 	
-	function deactivateButton(){
-		$(this).find(".active").removeClass("active");
+	function toggleTheaterButton(){
+		$theaters.find("button").removeClass("active");
+		$(this).addClass("active");
 	}
+	
 	
 	function refrashBoard(){
 		let theaterNo = $theaters.find(".active").attr("data-theater-no");
 		$board.find("#disabled").addClass("d-none");
 		$board.find("#abled").removeClass("d-none");
-		/*$.getJSON("/theater/admin/detail",{"theaterNo":theaterNo}, function(data){
-			
-		})*/
+		$.getJSON(API_URLS.THEATER,{"theaterNo":theaterNo}, function(data){
+			console.log(data)
+			let $abled = $board.find("#abled");
+			$abled.find("[name=location]").text(data.location.name)
+			$abled.find("[name=theater-name]").text(data.name)
+			$abled.find("[name=address]").text(data.address)
+			$abled.find("[name=tel]").text(data.tel)
+			$abled.find("[name=facility]").text(data.facilities[0].name)
+			$abled.find("[name=floor]").empty();
+			data.floorInfos.forEach(function(floorInfo){
+				let content = `<tr><td>${floorInfo.floor}:${floorInfo.info}</td></tr>`
+				$abled.find("[name=floor]").append(content)
+			})
+			$abled.find("[name=parkinginfo]").text(data.parkingInfo.info)
+			$abled.find("[name=parkingconfirm]").text(data.parkingInfo.confirm)
+			$abled.find("[name=parkingcash]").text(data.parkingInfo.cash)
+			$abled.find("[name=info]").text(data.info)
+		})
 	}
 	
 	function getTheaterList(){
-		$.getJSON("/theater/theaterList", function(locations) {
+		$.getJSON(API_URLS.THEATER_LIST, function(locations) {
 			locations.forEach(function(location) {
 				let contents = '';
 				let $theatersArea = $("#theaters-"+location.no+" .col-12"); 
@@ -49,4 +81,29 @@ $(() => {
 			})
 		})
 	}
+	
+	function handlerBtnSchedule(){
+		let theaterNo = $theaters.find(".active").attr("data-theater-no");
+		if(theaterNo){
+			window.location.href=API_URLS.SCHEDULE+"?theaterNo="+theaterNo;
+		}else{
+			Swal.fire({
+				icon:"error",
+				text:"지역과 극장을 선택해주세요.",
+			})
+		}
+	}
+	
+	function handlerBtnRegSchedule(){
+		window.location.href=API_URLS.REGISTSCHEDULE;
+	}
+	
+	function handlerBtnDelSchedule(){
+		window.location.href=API_URLS.DELETESCHEDULE;
+	}
+	
+	function handlerBtnUpdate(){
+		window.location.href=API_URLS.REGIST_THEATER;
+	}
+	
 });

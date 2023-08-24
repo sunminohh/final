@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/admin}">
@@ -6,11 +5,11 @@
 	<link th:href="@{/css/support/faq.css}" rel="stylesheet">
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" th:src="@{/js/admin/support/adminfaq.js}"></script>
+	<script type="text/javascript" th:src="@{/js/support/common.js}"></script>
 </head>
 <title>관리자페이지</title>
 </head>
-<body>
-	<div layout:fragment="content" id="contents">
+	<div layout:fragment="content" id="contents" style="margin-top: -40px;">
 	    <div class="d-flex justify-content-between">
 		    <h2 class="tit">자주 묻는 질문</h2>
 	        <a href="/admin/support/faq/form" class="button purple" title="자주 묻는 질문 등록">등록</a>
@@ -46,6 +45,7 @@
 	        </ul>
 	    </div>
 	
+		<p class="reset mb10"><strong><span id="totalTitle">전체</span> <span class="font-green" id="totalCnt" th:text="${result.pagination.totalRows}"></span>건</strong></p>
 	  <div class="table-wrap">
         <table class="board-list" id="table-faq">
             <colgroup>
@@ -64,13 +64,14 @@
                 <th scope="col" style="text-align:center;">등록일</th>
             </tr>
             </thead>
-            <tbody class="">
+            <tbody class="faqList">
 	            <tr th:each="faq: ${result.faqList}">
 		            <td th:text="${faq.no}"></td>
 		            <td th:text="${faq.category.name}"></td>
 		            <td style="text-align:left;">
 						<a class="text-black text-decoration-none"
 							 th:href="@{/admin/support/faq/detail(no=${faq.no})}"
+							 th:attr="data-no=${faq.no}"
 			            	 th:text="${faq.title}">
 		            	</a>
 		            </td>
@@ -81,24 +82,47 @@
         </table>
     </div>
 	
-	    <!-- pagination -->
-	    <div class="row mb-3">
-	      	<div class="col-12">
-			    <nav>
-					<ul class="pagination justify-content-center">
-					    <li class="page-item" th:each="num : ${result.pagination.pageNumbers}">
-	                        <a th:href="@{list(page=${num})}" 
-	                           th:text="${num}"
-	                           th:classappend="${result.pagination.page == (num) ? 'active' : '' }"
-	                           class="page-link page-number-link"
-	                           th:attr="data-page=${num}">1</a>
-	                    </li>
-					</ul>
-				</nav>
-			</div>
+	<!-- pagination -->
+    <div class="row mb-3">
+      	<div class="col-12">
+		    <nav>
+				<ul class="pagination justify-content-center">
+				    <li class="page-item" th:if="${result.pagination.currentBlock > 1}">
+				        <a title="첫번째 페이지 보기"
+				           th:href="@{list(page=1)}"
+				           class="page-link page-number-link control first"
+				           data-page="1"></a>
+				    </li>
+				    <li class="page-item" th:if="${result.pagination.currentBlock > 1}">
+				        <a title="이전 10페이지 보기"
+				           th:href="@{list(page=${(result.pagination.currentBlock -1)* 10})}"
+				           class="page-link page-number-link control prev"
+				           th:attr="data-page=${(result.pagination.currentBlock -1)* 10}"></a>
+				    </li>
+				    <li class="page-item" th:each="num : ${result.pagination.pageNumbers}">
+                        <a th:href="@{list(page=${num})}" 
+                           th:text="${num}"
+                           th:classappend="${result.pagination.page == (num) ? 'active' : '' }"
+                           class="page-link page-number-link"
+                           th:attr="data-page=${num}">1</a>
+                    </li>
+                    <li class="page-item" th:if="${result.pagination.currentBlock < result.pagination.totalBlocks}">
+				        <a title="이후 10페이지 보기"
+				           th:href="@{list(page=${result.pagination.currentBlock * 10 + 1})}"
+				           class="page-link page-number-link control next"
+				           th:attr="data-page=${result.pagination.currentBlock * 10 + 1}"></a>
+				    </li>
+                 	<li class="page-item">
+				        <a title="마지막 페이지 보기"
+				           th:href="@{list(page=${result.pagination.totalPages})}"
+				           class="page-link page-number-link control last"
+				           th:attr="data-page=${result.pagination.totalPages}"></a>
+				    </li>
+				</ul>
+			</nav>
 		</div>
-	    <!--// pagination -->
+	</div>
+    <!--// pagination -->
 	
 	</div>
-</body>
 </html>

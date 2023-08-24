@@ -64,6 +64,17 @@
 			<if test="keyword != null">
 				and A.ONE_TITLE like  CONCAT('%', #{keyword}, '%')	
 			</if>
+			<choose>
+				<when test="categoryNo == 24">
+					and A.category_no in (11, 12, 13, 14, 15,16, 17, 18, 19, 20)
+				</when>
+				<when test="categoryNo == 25">
+					and A.category_no in (11, 12, 13, 14, 15,16)
+				</when>
+				<when test="categoryNo == 26">
+					and A.category_no in (17, 18, 19, 20)
+				</when>
+			</choose>
 	</select>
 	
 	<select id="getOnes" parameterType="map" resultType="kr.co.mgv.support.vo.One">
@@ -106,6 +117,17 @@
 			<if test="keyword != null">
 				and A.ONE_TITLE like  CONCAT('%', #{keyword}, '%')	
 			</if>
+			<choose>
+				<when test="categoryNo == 24">
+					and A.category_no in (11, 12, 13, 14, 15,16, 17, 18, 19, 20)
+				</when>
+				<when test="categoryNo == 25">
+					and A.category_no in (11, 12, 13, 14, 15,16)
+				</when>
+				<when test="categoryNo == 26">
+					and A.category_no in (17, 18, 19, 20)
+				</when>
+			</choose>
 		order by
 			A.ONE_NO DESC
 		LIMIT 10 OFFSET #{begin}

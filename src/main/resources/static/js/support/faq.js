@@ -142,6 +142,10 @@ $(document).ready(function() {
             // 현재 아코디언 열기
             $(this).addClass('on');
             $(this).next('.awn').slideDown();
+            
+             // 스크롤 위치 조정
+        const scrollTo = $(this).offset().top - 100; // 조절할 수 있는 값입니다.
+        $('html, body').animate({ scrollTop: scrollTo }, 500); // 500ms 동안 스크롤 이동
         }
     });
 });

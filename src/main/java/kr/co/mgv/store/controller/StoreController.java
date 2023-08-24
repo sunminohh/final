@@ -22,7 +22,6 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class StoreController {
 
-	@Autowired
     private final CategoryService categoryService;
     private final ProductService productService;
     private final PackageService packageService;
@@ -70,6 +69,10 @@ public class StoreController {
         return "view/store/list";
     }
 
+    @GetMapping("/cart")
+    public String cart() {
+        return "view/store/cart";
+    }
 }
 
 

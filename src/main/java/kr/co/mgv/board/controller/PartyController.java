@@ -11,13 +11,13 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.mgv.board.form.AddPboardForm;
+import kr.co.mgv.board.list.JoinList;
 import kr.co.mgv.board.list.PartyBoardList;
 import kr.co.mgv.board.service.MovieBoardService;
 import kr.co.mgv.board.service.PartyBoardService;
@@ -26,10 +26,8 @@ import kr.co.mgv.board.vo.BoardLocation;
 import kr.co.mgv.board.vo.BoardTheater;
 import kr.co.mgv.board.vo.PartyBoard;
 import kr.co.mgv.board.vo.PartyBoardSchedule;
+import kr.co.mgv.board.vo.PartyJoin;
 import kr.co.mgv.board.vo.ReportReason;
-import kr.co.mgv.board.vo.TBoardComment;
-import kr.co.mgv.board.vo.TBoardLike;
-import kr.co.mgv.board.vo.TheaterBoard;
 import kr.co.mgv.movie.vo.Movie;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
@@ -184,17 +182,10 @@ public class PartyController {
 									Model model,
 									@AuthenticationPrincipal User user) {
 			// 신청버튼
-//			if(user != null) {
-//				TBoardLike like = new TBoardLike();
-//				like.setUser(user);
-//				TheaterBoard board = TheaterBoard.builder()
-//										.no(no)
-//										.build();
-//				like.setBoard(board);
-//				
-//				TBoardLike savedLike = theaterBoardService.getLike(like);
-//				model.addAttribute("like", savedLike);
-//			}
+			if(user != null) {
+				PartyJoin savedjoin = partyBoardService.getJoinByPnoAndId(no, user);
+				model.addAttribute("join", savedjoin);
+			}
 			
 			// 게시물 번호로 게시물 조회
 			PartyBoard partyBoard = partyBoardService.getPBoardByNo(no);
@@ -207,9 +198,133 @@ public class PartyController {
 			List<ReportReason> reportReasons = movieBoardService.getReportReason();
 			model.addAttribute("reasons", reportReasons);
 			
+			// 수락된 신청자 목록
+			List<PartyJoin> acceptedJoins = partyBoardService.getJoinByPnoAndAccept(no, "Y");
+			model.addAttribute("accepts", acceptedJoins);
+			
+			// 수락 안된 신청자 목록
+			List<PartyJoin> notAcceptedJoins = partyBoardService.getJoinByPnoAndAccept(no, "N");
+			model.addAttribute("notAccepts", notAcceptedJoins);
+			
 			log.info(partyBoard.getContent());
 			return "/view/board/party/detail";
 		}
+		
+		// 신청 버튼 관련
+		@PostMapping("/changeRequest")
+		@ResponseBody
+		public ResponseEntity<Void> changeRequest(@RequestParam("no") int no,
+												  @RequestParam("request") String request,
+												  @AuthenticationPrincipal User user){
+			PartyJoin savedJoin = partyBoardService.getJoinByPnoAndId(no, user);
+			PartyBoard savedBoard = partyBoardService.getPBoardByNo(no);
+			int requestCount = savedBoard.getRequestCount();
+			
+			if(savedJoin != null && "Y".equals(savedJoin.getRequest())) {
+				partyBoardService.updateJoin(no, user, request);
+				savedBoard.setRequestCount(requestCount - 1);
+			} else if (savedJoin != null && "N".equals(savedJoin.getRequest())) {
+				partyBoardService.updateJoin(no, user, request);
+				savedBoard.setRequestCount(requestCount + 1);
+			} else if (savedJoin == null) {
+				partyBoardService.insertPartyJoin(no, user);
+				savedBoard.setRequestCount(requestCount + 1);
+			}
+			partyBoardService.updateRequestCount(savedBoard);
+			
+			return ResponseEntity.ok().build();
+		}
+		
+		@PostMapping("/join")
+		@ResponseBody
+		public ResponseEntity<JoinList> acceptJoin(@RequestParam("boardNo") int no,
+				  								   @RequestParam("partyId") String id){
+			// 신청자의 accept를 Y로 바꾼다.
+			String accept = "Y";
+			partyBoardService.acceptJoin(no, id, accept);
+			
+			// 해당 게시글의 acceptCount를 1증가시킨다.
+			PartyBoard savedboard = partyBoardService.getPBoardByNo(no);
+			int acceptCount = savedboard.getAcceptCount() + 1;
+			partyBoardService.updateAcceptCount(no, acceptCount);
+			
+			// 업데이트된 신청자목록을 조회
+			// 수락된 신청자 목록
+			List<PartyJoin> acceptedJoins = partyBoardService.getJoinByPnoAndAccept(no, "Y");
+			// 수락 안된 신청자 목록
+			List<PartyJoin> notAcceptedJoins = partyBoardService.getJoinByPnoAndAccept(no, "N");
+			
+			int newAcceptCount = partyBoardService.getAcceptCount(no) ;
+			
+			JoinList list = JoinList.builder().acceptedJoins(acceptedJoins).notAcceptedJoins(notAcceptedJoins).acceptCount(newAcceptCount).build();
+			
+			return ResponseEntity.ok().body(list);
+		}
+	
+		@PostMapping("/resetJoin")
+		@ResponseBody
+		public ResponseEntity<JoinList> resetJoin(@RequestParam("boardNo") int no,
+												  @RequestParam("partyId") String id){
+			// 신청자의 accept를 N로 바꾼다.
+			String accept = "N";
+			partyBoardService.acceptJoin(no, id, accept);
+			
+			// 해당 게시글의 acceptCount를 1 감소시킨다.
+			PartyBoard savedboard = partyBoardService.getPBoardByNo(no);
+			int acceptCount = savedboard.getAcceptCount() - 1;
+			partyBoardService.updateAcceptCount(no, acceptCount);
+			
+			// 업데이트된 신청자목록을 조회
+			// 수락된 신청자 목록
+			List<PartyJoin> acceptedJoins = partyBoardService.getJoinByPnoAndAccept(no, "Y");
+			// 수락 안된 신청자 목록
+			List<PartyJoin> notAcceptedJoins = partyBoardService.getJoinByPnoAndAccept(no, "N");
+			
+			int newAcceptCount = partyBoardService.getAcceptCount(no);
+			
+			JoinList list = JoinList.builder().acceptedJoins(acceptedJoins).notAcceptedJoins(notAcceptedJoins).acceptCount(newAcceptCount).build();
+			return ResponseEntity.ok().body(list);
+		}
 
-	    
+		@PostMapping("/partyComplete")
+		@ResponseBody
+		public ResponseEntity<Void> partyComplete(@RequestParam("no") int no){
+			
+			partyBoardService.partyComplete(no);
+			
+			return ResponseEntity.ok().build();
+		}
+		
+		// 게시물 수정
+		@GetMapping("/modify")
+	    public String modifyForm (@RequestParam("no") int no, Model model) {
+			List<BoardLocation> locations = theaterBoardService.getLocations();
+	    	model.addAttribute("locations", locations);
+	    	
+	    	List<Movie> movies = movieBoardService.getMovieTitle();
+	    	model.addAttribute("movies", movies);
+			
+	    	PartyBoard board = partyBoardService.getPBoardByNo(no);
+	    	model.addAttribute("board", board);
+	    	
+			return  "/view/board/party/modifyForm";
+		}
+		
+		@PostMapping("/modify")
+		public String modifyPBoard (@RequestParam("no") int no, AddPboardForm form) {
+			
+			partyBoardService.updatePBoard(no, form);
+			
+			return "redirect:/board/party/detail?no=" + no;
+		}
+		
+		// 게시물 삭제
+		@GetMapping("/delete")
+		public String deletePBoard (@RequestParam("no") int no) {
+			
+			String deleted = "Y";
+			partyBoardService.deletePBoard(no, deleted);
+			
+			return "redirect:/board/party/list";
+		}
 }

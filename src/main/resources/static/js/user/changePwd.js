@@ -20,7 +20,6 @@ $(() => {
 
     $("#btnCancel").click(function () {
         history.back();
-        return false;
     })
 
     // 비밀번호 변경 이벤트
@@ -45,7 +44,7 @@ $(() => {
             url: "/user/info/update/password",
             type: "POST",
             data: form.serialize(),
-            success: function (res) {
+            success: function () {
                 successAlert($pwd, "비밀번호가 변경되었습니다.", function () {
                     $pwd.val("");
                     $pwdnew.val("");
@@ -53,6 +52,7 @@ $(() => {
 
                     // 만약 다른 페이지로 이동 필요할 시
                     location.href = "/user/info/form";
+
                 });
 
             },
@@ -97,7 +97,7 @@ $(() => {
     // 입력 이벤트
     $("input[name='checkPassword']").keyup(() => {
         const pwdValue = $pwd.val();
-        if (!$pwd.val()) {
+        if (pwdValue) {
             pwdCheck = false;
         } else {
             pwdErrMsg.text("");

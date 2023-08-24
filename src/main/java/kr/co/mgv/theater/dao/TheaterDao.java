@@ -5,13 +5,17 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import kr.co.mgv.theater.vo.Location;
+import kr.co.mgv.theater.vo.Screen;
 import kr.co.mgv.theater.vo.Theater;
 
 @Mapper
 public interface TheaterDao {
 
 	List<Location> getTheaters();
+	List<Theater> getTheatersByLocationNo(int locationNo);
 	Theater getTheaterDetailByNo(int theaterNo);
 	void updateTheater(Theater theater);
 	void insertTheater(Theater theater);
+	List<Screen> getScreensByTheaterNo(int theaterNo);
+	Screen getScreenById(int screenId);
 }
