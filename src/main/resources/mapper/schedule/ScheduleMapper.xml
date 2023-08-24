@@ -60,4 +60,34 @@
 		and mt.THEATER_NO = mts.THEATER_NO 
 		and mts.SCREEN_ID  = ms.SCREEN_ID
 	</select>
+	
+	<select id="getSchedulesByScreenAndDate" parameterType="map" resultType="map">
+	select
+		A.schedule_id		as id, 
+		A.schedule_turn	as turn,
+		A.schedule_start_time	as start,
+		A.schedule_end_time	as end,
+		B.movie_title	as	title
+	from MGV_SCHEDULE A, MGV_MOVIE B
+	where screen_id = #{screenId}
+	and SCHEDULE_DATE = #{date}
+	and A.movie_no = B.movie_no
+	</select>
+	
+	<select id="getSchedule" parameterType="kr.co.mgv.schedule.dto.ScheduleRegistFormDto" resultType="schedule">
+	select 
+		schedule_id as id
+	from MGV_SCHEDULE
+	where screen_id = #{screenId}
+	and schedule_date = #{date}
+	and <![CDATA[ schedule_start_time <= #{startTime} AND schedule_end_time >= #{startTime} ]]> 
+	and <![CDATA[ schedule_start_time <= #{endTime} AND schedule_end_time >= #{endTime} ]]> 
+	</select>
+	
+	<insert id="insertSchedule" parameterType="kr.co.mgv.schedule.dto.ScheduleRegistFormDto">
+	insert into MGV_SCHEDULE 
+		(schedule_date, schedule_turn, schedule_start_time, schedule_end_time, screen_info, remaining_seats, screen_seats, movie_no, screen_id)
+	values
+		(#{date},#{turn},#{startTime},#{endTime},#{screenInfo},#{seats},#{seats},#{movieNo},#{screenId})
+	</insert>
 </mapper>
