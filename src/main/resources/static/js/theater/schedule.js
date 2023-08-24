@@ -2,6 +2,7 @@ $(() => {
 	
 	let today = dayjs();
 	refreshSchedule(today);
+	refreshDate();
 	
 	function refreshSchedule(date) {
 		let theaterNo = $("p.name").attr("data-theater-no");

@@ -165,7 +165,7 @@ $(function() {
 				let htmlContent = `	<div class="selected-movie-info-box pe-2 pt-2 border" style="border-radius: 7px; border-color:rgb(254, 243, 220); background-color: rgb(254, 243, 220); height: 36px;">
 					           			<p class="ms-2" style="color:rgb(64, 44, 27); font-size: 13px;">${schedule.movie.title} MGV${schedule.theater.name} ${schedule.date} ${schedule.start} ${schedule.screen.name}</p>
 					           		</div>`
-				$("#info-here").html(htmlContent);
+				$("#info-here").empty().append(htmlContent);
 				
 				 $("#modal-select-movie").modal("hide");
 	        },
@@ -228,7 +228,7 @@ $(function() {
 	        });
 	    }
 	});
-
+	
 	
 })
 	

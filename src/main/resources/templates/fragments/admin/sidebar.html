@@ -20,26 +20,54 @@
 				<li class="nav-small-cap"><i
 					class="ti ti-dots nav-small-cap-icon fs-4"></i> <span
 					class="hide-menu">MANAGEMENT</span></li>
-					
-				<li class="sidebar-item dropdown">
-				
-				<a class="sidebar-link dropdown-toggle" data-bs-toggle="dropdown"
+
+				<li class="sidebar-item dropdown"><a
+					class="sidebar-link dropdown-toggle" data-bs-toggle="dropdown"
 					data-bs-auto-close="true" aria-expanded="false"> <span>
 							<i class="ti ti-article"></i>
 					</span> <span class="hide-menu">극장관리</span>
-				</a>
+					</a>
 					<ul class="dropdown-menu sidebarnav">
 						<li class="sidebar-item">
 							<a class="sidebar-link" th:href="@{/admin/theater/list}" aria-expanded="false"> 
 								<span>
-									<i class="ti ti-article"></i>
+										<i class="ti ti-article"></i>
 								</span> 
-								<span class="hide-menu">리스트</span>
+								<span class="hide-menu">극장리스트</span>
+							</a> 
+							
+						</li>
+					</ul>
+				</li>
+				<li class="sidebar-item dropdown">
+					<a
+						class="sidebar-link dropdown-toggle" data-bs-toggle="dropdown"
+						data-bs-auto-close="true" aria-expanded="false"> 
+						<span>
+								<i class="ti ti-article"></i>
+						</span> 
+						<span class="hide-menu">상영시간표관리</span>
+					</a>
+					<ul class="dropdown-menu sidebarnav">
+						<li class="sidebar-item">
+							<a class="sidebar-link"
+								th:href="@{/admin/theater/schedule/register}"
+								aria-expanded="false"> 
+								<span> <i class="ti ti-article"></i>
+								</span> <span class="hide-menu">상영시간표등록</span>
+							</a>
+						</li>
+						<li class="sidebar-item">
+							<a class="sidebar-link"
+								th:href="@{/admin/theater/schedule/delete}"
+								aria-expanded="false"> 
+								<span> <i class="ti ti-article"></i>
+								</span> <span class="hide-menu">상영시간표삭제</span>
 							</a>
 						</li>
 					</ul>
 				</li>
-					<li class="sidebar-item">
+				<li class="sidebar-item">
 						<a class="sidebar-link" th:href="@{/admin/product/product-list}" aria-expanded="false">
 							<span>
 								<i class="bi bi-android2"></i>
@@ -72,9 +100,9 @@
 					<ul class="dropdown-menu sidebarnav">
 						<li class="sidebar-item"><a class="sidebar-link" th:href="@{/admin/support/faq}" aria-expanded="false">
 								자주 묻는 질문</a></li>
-						<li class="sidebar-item"><a class="sidebar-link" href="#">
+						<li class="sidebar-item"><a class="sidebar-link" th:href="@{/admin/support/notice}" aria-expanded="false">
 								공지사항</a></li>
-						<li class="sidebar-item"><a class="sidebar-link" href="#">
+						<li class="sidebar-item"><a class="sidebar-link" th:href="@{/admin/support/one}" aria-expanded="false">
 								1:1 문의</a></li>
 						<li class="sidebar-item"><a class="sidebar-link" href="#">
 								분실물 문의</a></li>

@@ -25,6 +25,10 @@ public class Product {
 	private Date createDate;
 	private Date updateDate;
 	private int discount;
-	private int catNo;
+	private Category category;
 	private String imagePath;
+
+	public Product(int no) {
+		this.no = no;
+	}
 }

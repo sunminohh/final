@@ -13,6 +13,7 @@ import kr.co.mgv.board.mapper.TheaterBoardDao;
 import kr.co.mgv.board.vo.BoardLocation;
 import kr.co.mgv.board.vo.PartyBoard;
 import kr.co.mgv.board.vo.PartyBoardSchedule;
+import kr.co.mgv.board.vo.PartyJoin;
 import kr.co.mgv.schedule.vo.Schedule;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
@@ -49,6 +50,20 @@ public class PartyBoardService {
 						   .schedule(schedule)
 						   .build();
 		partyBoardDao.insertPboard(board);
+	}
+	
+	public void updatePBoard (int no, AddPboardForm form) {
+		
+		PartyBoardSchedule schedule = PartyBoardSchedule.builder()
+				  .id(form.getScheduleId()).build();
+		PartyBoard board = partyBoardDao.getPBoardByNo(no);
+		board.setName(form.getName());
+		board.setContent(form.getContent());
+		board.setHeadCount(form.getHeadCount());
+		board.setGender(form.getGender());
+		board.setSchedule(schedule);
+		
+		partyBoardDao.updatePBoardByNo(board);
 	}
 	
 	// 목록 관련
@@ -94,6 +109,64 @@ public class PartyBoardService {
 	public void increaseReadCount(int no) {
 		PartyBoard board = partyBoardDao.getPBoardByNo(no);
 		board.setReadCount(board.getReadCount() + 1);
+		partyBoardDao.updatePBoardByNo(board);
+	}
+	
+	// 신청관련
+	public void insertPartyJoin (int no, User user) {
+		PartyBoard board = PartyBoard.builder().no(no).build();
+		PartyJoin join = PartyJoin.builder().board(board).user(user).build();
+		partyBoardDao.insertPartyJoin(join);
+	}
+	
+	public PartyJoin getJoinByPnoAndId(int no, User user) {
+		PartyBoard board = PartyBoard.builder().no(no).build();
+		PartyJoin join = PartyJoin.builder().board(board).user(user).build();
+		return partyBoardDao.getJoinByPnoAndId(join);
+	}
+	
+	public List<PartyJoin> getJoinByPnoAndAccept (int no, String accept){
+		PartyBoard board = PartyBoard.builder().no(no).build();
+		PartyJoin join = PartyJoin.builder().board(board).accept(accept).build();
+		return partyBoardDao.getJoinByPnoAndAccept(join);
+	}
+	
+	public void updateJoin (int no, User user, String request) {
+		PartyBoard board = PartyBoard.builder().no(no).build();
+		PartyJoin join = PartyJoin.builder().board(board).user(user).request(request).build();
+		partyBoardDao.updateJoin(join);
+	}
+	
+	public void updateRequestCount (PartyBoard board) {
+		partyBoardDao.updatePBoardByNo(board);
+	}
+	
+	public void acceptJoin (int no, String id, String accept) {
+		PartyBoard board = PartyBoard.builder().no(no).build();
+		User user = User.builder().id(id).build();
+		PartyJoin join = PartyJoin.builder().board(board).user(user).accept(accept).build();
+		partyBoardDao.updateJoin(join);
+	}
+
+	public void resetJoin (int no, String id) {
+		PartyBoard board = PartyBoard.builder().no(no).build();
+		User user = User.builder().id(id).build();
+		PartyJoin join = PartyJoin.builder().board(board).user(user).accept("N").build();
+	}
+	
+	public void updateAcceptCount (int no, int AcceptCount) {
+		PartyBoard board = partyBoardDao.getPBoardByNo(no);
+		board.setAcceptCount(AcceptCount);
+		partyBoardDao.updatePBoardByNo(board);
+	}
+	
+	public int getAcceptCount (int no) {
+		return partyBoardDao.getAcceptCount(no);
+	}
+	
+	public void partyComplete (int no) {
+		PartyBoard board = partyBoardDao.getPBoardByNo(no);
+		board.setComplete("Y");
 		partyBoardDao.updatePBoardByNo(board);
 	}
 }

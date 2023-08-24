@@ -1,0 +1,135 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/admin}">
+<head th:fragment="extra-head-content">
+	<link th:href="@{/css/support/notice.css}" rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" th:src="@{/js/admin/support/adminnotice.js}"></script>
+	<script type="text/javascript" th:src="@{/js/support/common.js}"></script>
+</head>
+<title>관리자페이지</title>
+</head>
+	<div layout:fragment="content" id="contents">
+	    <div class="d-flex justify-content-between">
+		    <h2 class="tit">공지사항</h2>
+	        <a href="/admin/support/notice/form" class="button purple" title="공지사항 등록">등록</a>
+   		</div>
+	
+	    <div class="tab-block-notice mb30">
+	        <ul>
+	            <li class="tab-link" th:classappend="${param.catNo == null || #strings.equals(param.catNo, '21') ? 'current' : ''}">
+	                <button type="button" class="btn rounded-0" data-tab="tab-1" data-category-no="21" title="전체공지 보기">전체</button>
+	            </li>
+	            <li class="tab-link" th:classappend="${#strings.equals(param.catNo, '22') ? 'current' : ''}">
+	                <button type="button" class="btn rounded-0" data-tab="tab-2" data-category-no="22" title="MGV 공지 보기">MGV 공지</button>
+	            </li>
+	            <li class="tab-link" th:classappend="${#strings.equals(param.catNo, '23') ? 'current' : ''}">
+	                <button type="button" class="btn rounded-0" data-tab="tab-3" data-category-no="23" title="지점 공지 보기">지점 공지</button>
+	            </li>
+	        </ul>
+	    </div>
+    <div class="board-list-util">
+    <p class="result-count"><strong><span id="totalTitle">전체</span> <span class="font-green" id="totalCnt" th:text="${result.pagination.totalRows}"></span>건</strong></p>
+	<form method="post" action="admin/notice/detail" id="actionForm" >    
+	     <div class="ml07 bs3  d-flex justify-content-end">
+	         	<select id="location" title="지역선택" name="locationNo"
+		                                class="form-select form-select-sm  ml06 form-control-sm mb-3"
+		                                style="width: 100px; ">
+		                            <option value="" selected>지역선택</option>
+	         	</select>
+	          	<select id="theater" title="극장선택" name="theaterNo" 
+		                        		class="form-select form-select-sm ml06 form-control-sm mb-3"
+		                                style="width: 100px; ">
+		      						<option value="" selected disabled>극장선택</option>
+		     	</select>
+	       
+		        <div class="board-search">
+			        <input type="hidden" name="catNo" th:value="${param.catNo == null ? '21' : param.catNo}" />
+			        <input type="hidden" name="page" th:value="${param.page == null ? '1' : param.page}" />
+		            <input type="search" name="keyword" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" th:value="${param.keyword}" autocomplete="off">
+		            <button type="button" id="searchBtn" class="btn-search-input">검색</button>
+		        </div>
+		 </div>
+	</form>
+	</div>
+    <div class="table-wrap" style="min-height: 512px;">
+        <table class="board-list" id="table-notice">
+            <caption>번호, 극장, 구분, 제목, 등록일이 들어간 공지사항 전체 리스트</caption>
+            <colgroup>
+                <col style="width:72px;">
+                <col style="width:133px;">
+                <col style="width:95px;">
+                <col>
+                <col style="width:116px;">
+            </colgroup>
+            <thead>
+            <tr style="text-align: center;">
+                <th scope="col">번호</th>
+                <th scope="col">극장</th>
+                <th scope="col">구분</th>
+                <th scope="col">제목</th>
+                <th scope="col">등록일</th>
+            </tr>
+            </thead>
+            <tbody class="noticeList">
+	            <tr th:each="notice: ${result.noticeList}">
+	                <td th:text="${notice.no}"></td>
+	                <td th:text="${notice.theater == null || notice.theater.name == null ? 'MGV' : notice.theater.name}"></td>
+	                <td th:text="${notice.type == '공지' ? '공지' : '이벤트'}"></td>
+	                <td style="text-align:left;">
+	                	<a class="text-black text-decoration-none"
+	                		th:href="@{/admin/support/notice/detail(no=${notice.no})}"
+	                		th:attr="data-no=${notice.no}"
+	                		th:text=${notice.title}>
+	                	 </a>
+	                </td>
+	                <td th:text="${#dates.format(notice.updateDate, 'yyyy.MM.dd')}"></td>
+	            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- pagination -->
+    <div class="row mb-3">
+      	<div class="col-12">
+		    <nav>
+				<ul class="pagination justify-content-center">
+				    <li class="page-item" th:if="${result.pagination.currentBlock > 1}">
+				        <a title="첫번째 페이지 보기"
+				           th:href="@{list(page=1)}"
+				           class="page-link page-number-link control first"
+				           data-page="1"></a>
+				    </li>
+				    <li class="page-item" th:if="${result.pagination.currentBlock > 1}">
+				        <a title="이전 10페이지 보기"
+				           th:href="@{list(page=${(result.pagination.currentBlock -1)* 10})}"
+				           class="page-link page-number-link control prev"
+				           th:attr="data-page=${(result.pagination.currentBlock -1)* 10}"></a>
+				    </li>
+				    <li class="page-item" th:each="num : ${result.pagination.pageNumbers}">
+                        <a th:href="@{list(page=${num})}" 
+                           th:text="${num}"
+                           th:classappend="${result.pagination.page == (num) ? 'active' : '' }"
+                           class="page-link page-number-link"
+                           th:attr="data-page=${num}">1</a>
+                    </li>
+                    <li class="page-item" th:if="${result.pagination.currentBlock < result.pagination.totalBlocks}">
+				        <a title="이후 10페이지 보기"
+				           th:href="@{list(page=${result.pagination.currentBlock * 10 + 1})}"
+				           class="page-link page-number-link control next"
+				           th:attr="data-page=${result.pagination.currentBlock * 10 + 1}"></a>
+				    </li>
+                 	<li class="page-item">
+				        <a title="마지막 페이지 보기"
+				           th:href="@{list(page=${result.pagination.totalPages})}"
+				           class="page-link page-number-link control last"
+				           th:attr="data-page=${result.pagination.totalPages}"></a>
+				    </li>
+				    
+				</ul>
+			</nav>
+		</div>
+	</div>
+    <!--// pagination -->
+	
+	</div>
+</html>
