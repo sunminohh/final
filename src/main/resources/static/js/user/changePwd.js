@@ -150,13 +150,6 @@ $(() => {
         }
     })
 
-    function handleAjaxError() {
-        Swal.fire({
-            icon: 'error',
-            text: "현재 비밀번호가 일치하지 않습니다.",
-        });
-    }
-
     // 경고창
     function errorAlert($el, text) {
         Swal.fire({
