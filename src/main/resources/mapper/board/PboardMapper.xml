@@ -96,6 +96,12 @@
 				<if test="schedule != null">
 					schedule_id = #{schedule.id},
 				</if>
+				<if test="requestCount != null">
+					REQUEST_COUNT = #{requestCount},
+				</if>
+				<if test="acceptCount != null">
+					ACCEPT_COUNT = #{acceptCount},
+				</if>
 			</set>
 			where party_no = #{no}
 	</update>
@@ -255,6 +261,8 @@
 				A.board_comment_count	as commentCount,
 				A.board_read_count		as readCount,
 				A.PARTY_COMPLETE		as complete,
+				A.REQUEST_COUNT			as requestCount,
+				A.ACCEPT_COUNT			as acceptCount,
 				B.schedule_id			as "schedule.id",
 				B.schedule_date			as "schedule.date",
 				B.SCHEDULE_START_TIME	as "schedule.start",
@@ -281,5 +289,71 @@
 			    and A.BOARD_REPORT = 'N'
 			    and A.party_no = ${value}
     </select>
+    
+    <!-- 신청버튼 관련 -->
+    <insert id="insertPartyJoin" parameterType="kr.co.mgv.board.vo.PartyJoin">
+    	INSERT INTO PARTY_JOIN
+		(PARTY_NO, USER_ID)
+		VALUES(#{board.no}, #{user.id});
+    </insert>
+    
+    <select id="getJoinByPnoAndId" parameterType="kr.co.mgv.board.vo.PartyJoin" resultType="kr.co.mgv.board.vo.PartyJoin">
+	    SELECT 
+	    	join_NO				as no, 
+	    	PARTY_NO			as "board.no", 
+	    	USER_ID				as "user.id", 
+	    	JOIN_REQUEST		as request, 
+	    	JOIN_CREATE_DATE	as createDate, 
+	    	JOIN_UPDATE_DATE	as updateDate,
+	    	JOIN_ACCEPT			as accept
+		FROM 
+			PARTY_JOIN
+		WHERE 
+			party_no  = #{board.no}
+			and user_id = #{user.id}	
+    </select>
+    
+    <select id="getJoinByPnoAndAccept" parameterType="kr.co.mgv.board.vo.PartyJoin" resultType="kr.co.mgv.board.vo.PartyJoin">
+	    SELECT 
+	    	join_NO				as no, 
+	    	PARTY_NO			as "board.no", 
+	    	USER_ID				as "user.id", 
+	    	JOIN_REQUEST		as request, 
+	    	JOIN_CREATE_DATE	as createDate, 
+	    	JOIN_UPDATE_DATE	as updateDate,
+	    	JOIN_ACCEPT			as accept
+		FROM 
+			PARTY_JOIN
+		WHERE 
+			party_no  = #{board.no}
+			and join_accept = #{accept}
+			and join_request = 'Y'	
+    </select>
+    
+	<update id="updateJoin" parameterType="kr.co.mgv.board.vo.PartyJoin">
+	    UPDATE PARTY_JOIN
+	    <set>
+	        JOIN_UPDATE_DATE = CURRENT_TIMESTAMP,
+	        <if test="request != null">
+	            JOIN_REQUEST = #{request},
+	        </if>
+	        <if test="accept != null">
+	            join_accept = #{accept},
+	        </if>
+	    </set>
+	    WHERE 
+	        user_id = #{user.id}
+	        and party_no = #{board.no}
+	</update>
+	
+	<select id="getAcceptCount" parameterType="int" resultType="int">
+    		select
+				ACCEPT_COUNT  as acceptCount
+			from 
+				PARTY_BOARD 
+			where 
+				party_no = ${value}
+    </select>
+
     
 </mapper>

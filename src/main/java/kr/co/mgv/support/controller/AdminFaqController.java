@@ -33,11 +33,15 @@ public class AdminFaqController {
 	
 	private final FaqService faqService;
 	
-	@GetMapping
-	public String faq(Model model) {
+	@RequestMapping
+	public String faq(@RequestParam(name = "catNo", required = false, defaultValue = "1") int catNo,
+			@RequestParam(name = "page", required = false, defaultValue = "1") int page,
+			@RequestParam(name = "keyword", required = false) String keyword,
+			Model model) {
+		
 		Map<String, Object> param = new HashMap<>();
-		param.put("catNo", 1);
-		param.put("page", 1);
+		param.put("catNo", catNo);
+		param.put("page", page);
 		FaqList faqList = faqService.search(param);
 		
 		model.addAttribute("result", faqList);
@@ -47,13 +51,14 @@ public class AdminFaqController {
 	
 	@GetMapping("/list")
 	@ResponseBody
-	public FaqList getFaq(@RequestParam(name = "catNo") int catNo,
+	public FaqList getFaq(@RequestParam(name = "catNo", required = false, defaultValue = "1") int catNo,
 			@RequestParam(name = "page", required = false, defaultValue = "1") int page,
 			@RequestParam(name = "keyword", required = false) String keyword) {
 		
 		Map<String, Object> param = new HashMap<>();
 		param.put("catNo", catNo);
 		param.put("page", page);
+		
 		if (StringUtils.hasText(keyword)) {
 			param.put("keyword", keyword);
 		}
@@ -76,19 +81,18 @@ public class AdminFaqController {
 		return "/view/admin/support/faq/form";
 	}
 	
-	@GetMapping("/modifyform")
-	public String faqmodifyForm(@RequestParam("no") int faqNo, Model model) {
-		model.addAttribute("faq", faqService.getFaqByNo(faqNo));
-		
-		model.addAttribute("categories", faqService.getCategoriesByType("faq"));
-		
-		return "/view/admin/support/faq/modifyform";
-	}
-	
 	@PostMapping("/add")
 	public String insertFaq(@AuthenticationPrincipal User user, AddFaqForm form) {
 		faqService.insertFaq(form, user);
 		return "redirect:/admin/support/faq";
+	}
+	
+	@GetMapping("/modifyform")
+	public String faqmodifyForm(@RequestParam("no") int faqNo, Model model) {
+		model.addAttribute("faq", faqService.getFaqByNo(faqNo));
+		model.addAttribute("categories", faqService.getCategoriesByType("faq"));
+		
+		return "/view/admin/support/faq/modifyform";
 	}
 	
 	@PostMapping("/modify")

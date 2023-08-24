@@ -8,7 +8,7 @@
 	<script type="text/javascript" th:src="@{/js/support/common.js}"></script>
 	<script type="text/javascript" th:src="@{/js/admin/support/adminfaq.js}"></script>
 </head>
-<div id="contents" layout:fragment="content">
+<div id="contents" layout:fragment="content" style="margin-top: -40px;">
     <h2 class="tit">자주 묻는 질문</h2>
 
         <div class="table-wrap mt30">
@@ -43,26 +43,18 @@
           	 class="button large"
           	 th:href="@{/admin/support/faq/modifyform(no=${param.no})}">수정
 		  </a>
-          <a 
-          	 class="button large"
-          	 th:href="@{/admin/support/faq/}">목록
-		  </a>
-		  <!--  
-      	  <button class="button large listBtn" title="목록" onclick="document.querySelector('#form').submit();">목록
-      	  </button>
-      	   -->
+		  <a th:href="@{/admin/support/faq(catNo=${param.catNo}, page=${param.page}, keyword=${param.keyword})}"
+           class="button large listBtn" title="목록">목록</a>
           <a id = "delete-btn"
           	 class="button large"
           	 th:href="@{/admin/support/faq/delete(no=${param.no})}">삭제
 		  </a>
         </div>
-</div>
+        
+        <form id="form" method="post" action="/admin/support/faq">
+			<input type="hidden" name="catNo" th:value="${param.catNo}" />
+			<input type="hidden" name="page" th:value="${param.page}" />
+			<input type="hidden" name="keyword" th:value="${param.keyword}" />
+		</form>
+	</div>
 </html>
-
-
-
-
-
-
-
-

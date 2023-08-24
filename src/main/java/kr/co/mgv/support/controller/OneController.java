@@ -130,8 +130,6 @@ public class OneController {
 		return mav;
 	}
 	
-	
-	
 	@RequestMapping("/mylost/detail")
 	public String getMyLostByNo(@RequestParam("no") int lostNo, Model model) {
 		Lost lost = lostService.getLostByNo(lostNo);

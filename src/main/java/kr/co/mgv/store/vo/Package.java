@@ -18,5 +18,9 @@ public class Package {
     private int price;
     private String image;
     private String composition;
-    private int catNo;
+    private Category category;
+
+    public Package(int no) {
+        this.no = no;
+    }
 }

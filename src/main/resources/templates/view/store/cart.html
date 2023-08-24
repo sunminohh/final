@@ -1,0 +1,268 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default}">
+<head th:fragment="extra-head-content">
+    <title>장바구니</title>
+    <style></style>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div id="contents">
+            <div class="inner-wrap">
+                <!-- store-payment -->
+                <div class="store-payment">
+                    <h2 class="tit">장바구니</h2>
+                    <h3 class="tit">장바구니 목록</h3>
+                    <div class="table-wrap">
+                        <table class="board-list">
+                            <caption>주문상품정보 목록 표</caption>
+                            <colgroup>
+                                <col style="width:120px;">
+                                <col>
+                                <col style="width:150px;">
+                                <col style="width:80px;">
+                                <col style="width:200px;">
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th scope="colgroup" colspan="2">주문상품</th>
+                                <th scope="col">사용가능처</th>
+                                <th scope="col">구매수량</th>
+                                <th scope="col">총 상품금액</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="a-c">
+                                    <div class="goods-info">
+                                        <p class="img"><a href="javascript:fn_storeDetail();" title="러브콤보"><img src="https://img.megabox.co.kr/SharedImg/store/2022/03/07/qB1IVqlOLCV7hOOEAJp4J9iG3J5oVWjv_280.png" alt="" onerror="noImg(this);"></a></p>
+                                    </div>
+                                </td>
+                                <th scope="row">
+                                    <div class="goods-info">
+                                        <p class="name"><a href="javascript:fn_storeDetail();" title="러브콤보">러브콤보</a></p>
+                                        <p class="bundle">팝콘(L) 1 + 탄산음료(R) 2</p>
+                                    </div>
+                                    <div class="mt10">
+                                        <span id="acptBrchView" class="font-gblue"></span><em id="acptBrchChoiValView"></em>
+                                    </div>
+                                </th>
+                                <td>
+                                    <a href="#" class="a-link" name="brchList" title="사용가능극장 확인">사용가능극장 확인</a>
+                                </td>
+                                <td><em id="purcQtyView">1</em></td>
+                                <td>
+                                    <div class="goods-info">
+                                        <em id="prdtSumAmtView" class="price">10,000</em>원
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="giftDiv" style="display:none">
+                        <h3 class="tit mt40">선물 메세지</h3>
+                        <div class="table-wrap">
+                            <table class="board-form">
+                                <caption>선물 메세지 입력 표</caption>
+                                <colgroup>
+                                    <col style="width:145px;">
+                                    <col>
+                                    <col style="width:145px;">
+                                    <col>
+                                </colgroup>
+                                <tbody>
+                                <tr>
+                                    <th scope="row"><label for="get_user">받는 분</label></th>
+                                    <td>
+                                        <input type="text" id="get_user" class="input-text" maxlength="20" alt="받는분">
+                                    </td>
+                                    <th scope="rowgroup" rowspan="2"><label for="present_message">선물메세지<br>(<span id="textareaCnt" class="text-count">0</span>자/<em class="font-gblue">70자</em>)</label></th>
+                                    <td rowspan="2">
+                                        <textarea rows="5" cols="30" id="present_message" title="선물메세지 입력" placeholder="전달하고자 하는 메세지를 남겨보세요(최대 70자)" class="input-textarea" style="height:76px;"></textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><label for="phone">수량/휴대폰번호</label></th>
+                                    <td>
+                                        <ul class="inputui01">
+                                            <li class="li01">
+                                                <select id="get_cnt" class="w100p small" alt="수량"><option value="">선택</option><option value="1">1</option></select>
+                                            </li>
+                                            <li class="li02"><input type="tel" id="phone" placeholder="'-'없이 입력해 주세요" class="input-text numType" maxlength="11" alt="휴대폰번호"></li>
+                                            <li><a href="javascript:void(0)" id="btnAddGiftAcptPsn" class="button purple small btn-modal-open">추가</a></li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="useraddlist" id="giftAcptPsnList"></div>
+                    </div>
+                    <!-- 결제수단 포인트 시작 -->
+                    <!-- 결제수단 포인트 끝 -->
+                    <!-- 포인트 영역 -->
+                    <!-- 포인트 영역 끝 -->
+                    <h3 class="tit mt40">최종결제</h3>
+                    <!-- payment-final -->
+                    <div class="payment-final">
+                        <div class="calc">
+                            <div class="cell all">
+                                <p class="txt">총 상품금액</p>
+                                <p class="price">
+                                    <em id="totPrdtAmtView">10,000</em>
+                                    <span>원</span>
+                                </p>
+                            </div>
+                            <i class="iconset ico-circle-minus">빼기</i>
+                            <div class="cell sale">
+                                <p class="txt">할인금액</p>
+                                <p class="price">
+                                    <em id="totDcAmtView">0</em>
+                                    <span>원</span>
+                                </p>
+                            </div>
+                            <i class="iconset ico-circle-equal">등호</i>
+                            <div class="cell real">
+                                <p class="txt">최종 결제금액</p>
+                                <p class="price">
+                                    <em id="lstPayAmtView">10,000</em>
+                                    <span>원</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="choice">
+                            <div class="inbox">
+                                <p class="txt">결제수단 선택</p>
+                                <div class="cell">
+                                    <input type="radio" id="radio_choice01" name="radio_choice" value="credit">
+                                    <label for="radio_choice01">신용/체크카드</label>
+                                </div>
+                                <div class="cell">
+                                    <input type="radio" id="radio_choice03" name="radio_choice" value="kakaopay">
+                                    <label for="radio_choice03">카카오페이</label>
+                                </div>
+                                <div class="cell">
+                                    <input type="radio" id="radio_choice04" name="radio_choice" value="payco">
+                                    <label for="radio_choice04">페이코</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="choice ty2 sel-payment-card">
+                            <div class="inbox">
+                                <p class="txt">카드사 선택</p>
+                                <div class="cell">
+                                    <select id="card_select" title="카드사 선택" class="x-small selpicker">
+                                        <option value="00" selected="">카드선택</option><!-- 전체카드   -->
+                                        <option value="01">비씨카드</option><!-- 비씨카드   -->
+                                        <option value="07">국민카드</option><!-- 국민카드   -->
+                                        <option value="02">신한카드</option><!-- 신한카드   -->
+                                        <option value="03">삼성카드</option><!-- 삼성카드   -->
+                                        <option value="05">롯데카드</option><!-- 롯데카드   -->
+                                        <option value="12">농협카드</option><!-- 농협카드   -->
+                                        <option value="27">하나카드</option><!-- 하나카드   -->
+                                        <option value="04">현대카드</option><!-- 현대카드   -->
+                                        <option value="13">씨티카드</option><!-- 씨티카드   -->
+                                        <option value="22">제주카드</option><!-- 제주카드   -->
+                                        <option value="14">우리카드</option><!-- 우리카드   -->
+                                        <option value="11">수협카드</option><!-- 수협카드   -->
+                                        <option value="24">전북카드</option><!-- 전북카드   -->
+                                        <option value="23">광주카드</option><!-- 광주카드   -->
+                                        <option value="17">신협카드</option><!-- 신협카드   -->
+                                        <option value="90">카카오뱅크</option><!-- 카카오뱅크 -->
+                                        <option value="91">케이뱅크</option><!-- 케이뱅크   -->
+
+                                        <option value="B0">우체국카드</option><!-- 우체국 카드   -->
+                                        <option value="B1">토스  카드</option><!-- 토스  카드  -->
+                                        <option value="B2">SC제일은행 비씨카드</option><!-- SC제일은행 비씨카드   -->
+                                        <option value="S0">SC제일은행 삼성카드</option><!-- SC제일은행 삼성카드   -->
+                                        <option value="B3">IBK기업은행 카드</option><!-- IBK기업은행 카드  -->
+                                    </select>
+                                </div>
+                                <div class="cell pl0">
+                                    <input type="radio" name="rdo_card_select" id="app_card" value="01">
+                                    <label for="app_card" id="lab_app_card">앱카드</label>
+                                </div>
+                                <div class="cell">
+                                    <input type="radio" name="rdo_card_select" id="general_card" value="00">
+                                    <label for="general_card" id="lab_general_card">일반결제</label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 결제수단 별 알림문구 -->
+                        <div class="select-mobile-info" style="display:none;padding-top:20px;width:640px;margin:auto;">
+                            <ul class="dash-list">
+                                <li>결제하신 금액은 익월 휴대폰 요금에 합산되어 청구되며, 휴대폰 결제한도는 통산사별 월 누적 이용 제한에 따라 적용됩니다.</li>
+                                <li>매월 말일 23시30분 ~ 익월 00시 10분까지(40분간)는 시스템 점검시간으로 이용이 어려울 수 있습니다.</li>
+                                <li>휴대폰 결제와 관련된 추가 안내는 FAQ를 참조해주세요.</li>
+                            </ul>
+                        </div>
+                        <div class="select-toss-info" style="display:none;padding-top:20px;width:640px;margin:auto;">
+                            <ul class="dash-list">
+                                <li>토스에 등록된 계좌와 신용/체크카드로 쉽고 편리하게 결제하세요.</li>
+                                <li>토스페이 결제 시 토스에서 제공하는 카드사 별 무이자, 청구할인, 결제 이벤트만 제공됩니다.</li>
+                            </ul>
+                        </div>
+                        <div class="select-kakao-info" style="display:none;padding-top:20px;width:640px;margin:auto;">
+                            <ul class="dash-list">
+                                <li>즉시할인 신용카드 적용이 불가합니다.</li>
+                            </ul>
+                        </div>
+                        <div class="select-payco-info" style="display:none;padding-top:20px;width:640px;margin:auto;">
+                            <ul class="dash-list">
+                                <li>즉시할인 신용카드 적용이 불가합니다.</li>
+                                <li>페이코 포인트 결제 시 결제금액의 1% 추가적립 됩니다.</li>
+                            </ul>
+                        </div>
+                        <div class="select-chai-info" style="display:none;padding-top:20px;width:640px;margin:auto;">
+                            <ul class="dash-list">
+                                <li>CHAI는 은행 계좌만 등록하면 차이 비밀번호로 안전하게 결제할 수 있는 간편결제 서비스입니다.<br>(은행 점검시간인 23:30 ~ 00:30에는 이용이 어려울 수 있습니다.)</li>
+                                <li>결제 취소 또는 부분 취소 시 차이머니로 환불됩니다.</li>
+                                <li>결제 이용 한도는 1회 200만원입니다.</li>
+                                <li>이벤트를 통해 혜택을 적용 받은 주문의 경우, 즉시 할인 기준 금액에 따라 부분환불이 불가능할 수도 있습니다.</li>
+                            </ul>
+                        </div>
+                        <div class="select-settlebank-info" style="display:none;padding-top:20px;width:640px;margin:auto;">
+                            <ul class="dash-list">
+                                <li>내통장결제는 본인명의의 계좌를 최초 1회 등록 후 비밀번호 입력만으로 간편하게 이용할 수 있는 현금결제 서비스 입니다.</li>
+                                <li>은행 점검시간의 경우 내통장결제서비스 이용이 불가합니다.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--// payment-final -->
+                    <dl class="term-list" id="terms" style="padding-top:35px;">
+                        <dt>
+                    <span class="bg-chk small">
+                        <input type="checkbox" id="agree"><label for="agree">결제대행 서비스 약관 필수 동의</label>
+                    </span>
+                        </dt>
+                        <dd class="tit">
+                            전자금융거래 이용약관<!-- 전자금융거래 이용약관 -->
+                            <a href="javascript:void(0);" onclick="detailClick('one')">내용보기</a>
+                        </dd>
+                        <dd class="tit">
+                            개인정보 수집 및 이용 안내<!-- 개인정보 수집 및 이용 안내 -->
+                            <a href="javascript:void(0);" onclick="detailClick('two')">내용보기</a>
+                        </dd>
+                        <dd class="tit">
+                            개인정보 제공 및 위탁 안내<!-- 개인정보 제공 및 위탁 안내 -->
+                            <a href="javascript:void(0);" onclick="detailClick('three')">내용보기</a>
+                        </dd>
+                    </dl>
+                    <!-- 20220802 페이즈 약관동의 추가 -->
+                    <!-- 20220802 페이즈 약관동의 추가 end -->
+                    <div class="btn-group pt40">
+                        <a href="" class="button large w170px" id="btn_store_back" title="취소">취소</a>
+                        <a href="#" class="button purple large w170px btn-modal-open" id="btn_store_pay_adapter" title="결제">결제</a>
+                        <a href="#" class="button purple large w170px btn-modal-open" id="btn_store_pay" title="결제" style="display: none;" w-data="600" h-data="400">결제</a>
+                        <!--
+                        <a href="javascript:execStorePayment();" class="button purple large w170px">결제테스트</a>
+                        <a href="javascript:execStoreCancelPayment();" class="button purple large w170px">결제취소테스트</a>
+                        <a href="javascript:searchMempPoint();" class="button purple large w170px">멤버십테스트</a>
+                         -->
+                    </div>
+                </div>
+                <!--// store-payment -->
+            </div>
+        </div>
+    </div>
+</body>
+</html>
