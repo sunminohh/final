@@ -320,6 +320,7 @@ $(() => {
                 successAlert($auth, "인증되었습니다.");
                 $("#userAuth").prop("readonly", true);
                 $("#btnConfirm").prop("disabled", true);
+                $("#btnJoin").prop("disabled", false);
             }
         } catch (error) {
             console.error("Error checkNumber", error);
