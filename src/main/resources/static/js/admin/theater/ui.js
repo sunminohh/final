@@ -5,9 +5,11 @@ $(() => {
     const $btnSchedule = $("#btn-schedule");
     const $btnUpdate = $("#btn-update");
     const $btnRegSchedule = $("#btn-reg-sche");
+    const $btnDelSchedule = $("#btn-del-sche");
     const API_URLS = {
 		SCHEDULE: "/admin/theater/schedule/list",
-		REGISTSCHEDULE: "/admin/theater/register",
+		REGISTSCHEDULE: "/admin/theater/schedule/register",
+		DELETESCHEDULE: "/admin/theater/schedule/delete",
 		THEATER: "/admin/theater/detail",
 		THEATER_LIST: "/theater/theaterList"
 	}
@@ -18,6 +20,7 @@ $(() => {
     $theaters.on("click", "button", refrashBoard);
     $btnSchedule.on("click",handlerBtnSchedule);
     $btnRegSchedule.on("click",handlerBtnRegSchedule);
+    $btnDelSchedule.on("click",handlerBtnDelSchedule);
     /*$btnUpdate.on("click",handlerBtnUpdate);*/
     
     function toggleButton(){
@@ -80,11 +83,22 @@ $(() => {
 	
 	function handlerBtnSchedule(){
 		let theaterNo = $theaters.find(".active").attr("data-theater-no");
-		window.location.href=API_URLS.SCHEDULE+"?theaterNo="+theaterNo;
+		if(theaterNo){
+			window.location.href=API_URLS.SCHEDULE+"?theaterNo="+theaterNo;
+		}else{
+			Swal.fire({
+				icon:"error",
+				text:"지역과 극장을 선택해주세요.",
+			})
+		}
 	}
 	
 	function handlerBtnRegSchedule(){
 		window.location.href=API_URLS.REGISTSCHEDULE;
+	}
+	
+	function handlerBtnDelSchedule(){
+		window.location.href=API_URLS.DELETESCHEDULE;
 	}
 	
 });

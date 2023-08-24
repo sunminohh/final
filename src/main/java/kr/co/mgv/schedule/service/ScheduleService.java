@@ -55,6 +55,14 @@ public class ScheduleService {
 		}
 		return "success";
 	}
+
+	public void deleteSchedule(String[] idList) {
+		int scheduleId =0;
+		for(String id : idList) {
+			scheduleId = Integer.parseInt(id);
+			scheduleDao.deleteSchedule(scheduleId);
+		}
+	}
 	
 	
 	

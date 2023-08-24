@@ -84,7 +84,7 @@ $(() => {
 			data.forEach(function(schedule){
 				$turn.find("option[value="+schedule.turn+"]").prop("disabled",true).addClass("disabled");
 				let content= `
-								<tr>
+								<tr data-id="${schedule.id}">
 									<td class="text-center">${schedule.turn}</td>
 									<td class="text-center">${schedule.start}</td>
 									<td class="text-center">${schedule.end}</td>
@@ -135,7 +135,6 @@ $(() => {
 		$.ajax({
             url: "/schedule/admin/regist",
             type: "POST",
-            data: schedule,
             data: JSON.stringify(schedule), // JSON 형태로 변환하여 보냄
 		    contentType: "application/json", // JSON 데이터임을 명시
 		    success: function(response) {

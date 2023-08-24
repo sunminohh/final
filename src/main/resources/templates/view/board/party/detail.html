@@ -41,6 +41,7 @@
          
          <div class="txc-textbox pt-0 " style=" padding: 20px;">
             <p th:utext="${board.content}">파이널 화이팅~~</p>
+            <p th:utext="${board.requestCount}">파이널 화이팅~~</p>
          </div>
          
          <div class="reload-box d-flex justify-content-center pt-5">
@@ -51,13 +52,11 @@
 	              sec:authorize="isAuthenticated()"
 	              id="request-btn-form"
 	             >
-	            <input type="hidden" name="request">
+	            <input type="hidden" name="request" >
 	            <input type="hidden" name="no" th:value="${board.no}" />
 	            <input type="hidden" name="id" th:value="${#authentication.principal.id}" />
-	        	<button class="btn btn-outline-success btn-sm " type="button" id="request-button" data-button-type="plus">파티신청</button>
-	           	<!-- 
-	            <button class="btn btn-success btn-sm" type="button" id="request-button"  data-button-type="minus">신청취소</button>
-	           	 -->
+	        	<button th:if="${join == null || (join != null && #strings.equals(join.request, 'N'))}" class="btn btn-outline-success btn-sm " type="button" id="request-button" data-button-type="plus">파티신청</button>
+	            <button th:if="${join != null && #strings.equals(join.request, 'Y')}" class="btn btn-success btn-sm" type="button" id="request-button"  data-button-type="minus">신청취소</button>
 	         </form>
          </div>
          
