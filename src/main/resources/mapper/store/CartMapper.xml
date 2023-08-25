@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.mgv.store.mapper.CartMapper">
+    <insert id="insertCart" parameterType="Cart">
+        INSERT INTO
+            MGV_CART
+        (
+         PRODUCT_NO,
+         USER_ID,
+         PRODUCT_AMOUNT,
+         TOTAL_PRICE,
+         PACKAGE_NO
+        )
+        VALUES
+            (#{product.no}, #{user.id}, #{amount},#{totalPrice}, #{pkg.no})
+
+    </insert>
+</mapper>

@@ -10,10 +10,16 @@ import kr.co.mgv.support.vo.Notice;
 
 @Mapper
 public interface NoticeDao {
+	
+	// 공지사항 등록
+	void insertNotice(Notice notice);
 
 	// 공지사항 리스트 조회
 	List<Notice> getNotice(Map<String, Object> param);
 	int getTotalRows(Map<String, Object> param);
+	
+	// 공지사항 업데이트
+	void updateNoticeByNo(Notice notice);
 	
 	// 공지사항 디테일 조회
 	Notice getNoticeByNo(int noticeNo);
