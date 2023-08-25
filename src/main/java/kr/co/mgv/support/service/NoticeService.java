@@ -10,6 +10,7 @@ import kr.co.mgv.support.dao.NoticeDao;
 import kr.co.mgv.support.dao.SupportDao;
 import kr.co.mgv.support.dto.NoticeList;
 import kr.co.mgv.support.form.AddNoticeForm;
+import kr.co.mgv.support.form.ModifyNoticeForm;
 import kr.co.mgv.support.vo.Notice;
 import kr.co.mgv.support.vo.SupportCategory;
 import kr.co.mgv.support.vo.SupportPagination;
@@ -58,6 +59,38 @@ public class NoticeService {
 	    noticeDao.insertNotice(notice);
 	}
 	
+	public void modifyNotice(ModifyNoticeForm form, int noticeNo) {
+		Notice notice = noticeDao.getNoticeByNo(noticeNo);
+		
+		Location location = null;
+		if (form.getLocationNo() != null) {
+				location = Location.builder()
+					.no(form.getLocationNo())
+					.build();
+	    }
+		
+		Theater theater = null;
+	    if (form.getTheaterNo() != null) {
+	    	  	theater = Theater.builder()
+						.no(form.getTheaterNo())
+						.build();
+	    }
+
+	    SupportCategory category = SupportCategory.builder()
+							.no(form.getCategoryNo())
+							.build();
+	    
+	    notice.setNo(noticeNo);
+	    notice.setTitle(form.getTitle());
+	    notice.setContent(form.getContent());
+	    notice.setType(form.getNoticeType());
+	    notice.setLocation(location);
+	    notice.setTheater(theater);
+	    notice.setCategory(category);
+	    
+		noticeDao.updateNoticeByNo(notice);
+	}
+	
 	public void deleteNotice(int noticeNo) {
 		Notice notice = noticeDao.getNoticeByNo(noticeNo);
 		notice.setDeleted("Y");
@@ -98,7 +131,7 @@ public class NoticeService {
 		return noticeDao.getNextNotice(noticeNo);
 	}
 	
-	public List<Location> getloLocations() {
+	public List<Location> getLocations() {
 		return supportDao.getLocations();
 	}
 	

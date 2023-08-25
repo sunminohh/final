@@ -48,6 +48,21 @@ $(function() {
 		
 	});
 	
+	// 수정폼극장조회
+	$("#modifyloc").change(function() {
+		
+		let locationNo = $(this).val();
+		let $selectTheater = $("#modifythr").empty();
+		
+		$.getJSON("/support/lost/getTheaterByLocationNo?locationNo="+ locationNo, function(theaters){
+			theaters.forEach(function(thr) {
+				let option = `<option value="${thr.no}"> ${thr.name}</option>`;
+				$selectTheater.append(option);
+			})
+		})
+		
+	});
+	
 	// 검색버튼 클릭했을 때
 	$("#searchBtn").click(function() {
 		$("input[name=page]").val(1);

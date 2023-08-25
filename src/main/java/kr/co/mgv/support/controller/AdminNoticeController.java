@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.co.mgv.support.dto.NoticeList;
 import kr.co.mgv.support.form.AddNoticeForm;
+import kr.co.mgv.support.form.ModifyNoticeForm;
 import kr.co.mgv.support.service.NoticeService;
 import kr.co.mgv.support.vo.Notice;
 import kr.co.mgv.user.vo.User;
@@ -109,6 +110,22 @@ private final NoticeService noticeService;
     public String insertNotice(@AuthenticationPrincipal User user, AddNoticeForm form) {
     	noticeService.insertNotice(form, user);
     	return "redirect:/admin/support/notice";
+    }
+    
+    @GetMapping("/modifyform")
+    public String modifyForm(@RequestParam("no") int noticeNo, Model model) {
+    	Notice notice = noticeService.getNoticeByNo(noticeNo);
+    	model.addAttribute("notice", notice);
+    	model.addAttribute("locations", noticeService.getLocations());
+    	model.addAttribute("theaters", noticeService.getTheatesrByLocationNo(notice.getLocation().getNo()));
+    	
+    	return "/view/admin/support/notice/modifyform";
+    }
+    
+    @PostMapping("/modify")
+    public String modifyNotice(@RequestParam("no") int noticeNo, ModifyNoticeForm form) {
+    	noticeService.modifyNotice(form, noticeNo);
+    	return "redirect:/admin/support/notice/detail?no=" + noticeNo;
     }
     
     @GetMapping("/delete")
