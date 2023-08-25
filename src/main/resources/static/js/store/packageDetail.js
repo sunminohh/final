@@ -82,7 +82,6 @@ $(function() {
                     console.log("정보가 성공적으로 서버에 전달되었습니다.");
 
                     // 페이지 리다이렉션
-                    window.location.href = "http://localhost/store/";
                 },
                 error: function error() {
                     Swal.fire({
