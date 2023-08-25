@@ -7,9 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @ToString
-public class AddNoticeForm {
+public class ModifyNoticeForm {
 
-	
 	private Integer locationNo;
 	private Integer theaterNo;
 	private Integer categoryNo;

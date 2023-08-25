@@ -15,7 +15,7 @@
 <div id="contents" layout:fragment="content">
     <h2 class="tit">공지사항</h2>
 
-    <form id="insertform" method="post" th:action="@{/admin/support/notice/add}" name="regFrm"  enctype="multipart/form-data">
+    <form id="modifyform" method="post" name="regFrm" th:action="@{/admin/support/notice/modify(no=${notice.no})}" enctype="multipart/form-data">
         <div class="table-wrap mt10">
             <table class="board-form va-m">
                 <colgroup> 
@@ -29,28 +29,29 @@
                     <th scope="row">지점 선택<em class="font-orange">*</em></th>
                     <td colspan="3" >
                     	<div class="d-flex justify-content-start" style="margin-bottom: -15px;">
-                    	
                     		<!-- 라디오버튼 -->
 							<div class="me-2 pt-2">
-		                        <input type="radio" name="categoryNo" value="22" checked>
+		                        <input type="radio" name="categoryNo" value="22" th:checked="${notice.category.no == 22}">
 								<label for="aq1">MGV 공지</label>
 							</div>
 							<div class="me-3 pt-2">
-								<input type="radio" name="categoryNo" value="23" class="ml20">
+								<input type="radio" name="categoryNo" value="23" class="ml20"  th:checked="${notice.category.no == 23}">
 								<label for="aq2">지점 공지</label>
 							</div>
 	
 							<!-- 지역, 극장선택 셀렉트박스 -->
-	                        <select id="location" title="지역선택" name="locationNo"
+	                        <select id="modifyloc" title="지역선택" name="locationNo"
 	                                class="form-select form-select-sm  ml07 form-control-sm mb-3"
 	                                style="width: 100px; float:left">
 	                            <option value="" selected disabled>지역선택</option>
+	                            <option th:each="loc: ${locations}" th:value="${loc.no}" th:text="${loc.name}" th:selected="${loc.no == notice.location.no}"></option>
 	                        </select>
 	
-	                        <select id="theater" title="극장선택" name="theaterNo" 
+	                        <select id="modifythr" title="극장선택" name="theaterNo" 
 	                        		class="form-select form-select-sm ml07 form-control-sm mb-3"
 	                                style="width: 100px; float:left; position: relative; left:5px;">
 	      						<option value="" selected disabled>극장선택</option>
+	      						<option th:each="thr: ${theaters}" th:value="${thr.no}" th:text="${thr.name}" th:selected="${thr.no == notice.theater.no}"></option>
 	                        </select>
                     	</div>
                     </td>
@@ -64,8 +65,8 @@
                                 class="form-select form-select-sm  ml07 form-control-sm mb-3"
                                 style="width: 130px; float:left;">
                             	<option value="" selected disabled>유형 선택</option>
-                            	<option value="공지" > 공지</option>
-                            	<option value="이벤트" >이벤트</option>
+                            	<option value="공지" th:selected="${notice.type == '공지'}" > 공지</option>
+                            	<option value="이벤트" th:selected="${notice.type == '이벤트'}">이벤트</option>
                        		</select>
 						</div>
                     </td>
@@ -73,13 +74,13 @@
                 
                 <tr>
                     <th scope="row"><label for="qnaCustInqTitle">제목</label> <em class="font-orange">*</em></th>
-                    <td colspan="3"><input type="text" name="title" class="input-text"></td>
+                    <td colspan="3"><input type="text" name="title" class="input-text" th:value="${notice.title}"></td>
                 </tr>
                 <tr>
                     <th scope="row"><label for="textarea">내용</label> <em class="font-orange">*</em></th>
                     <td colspan="3">
                         <div class="textarea">
-							<textarea id="summernote" name="content" rows="5" cols="30" title="내용입력"></textarea>
+							<textarea id="summernote" name="content" rows="5" cols="30" title="내용입력" th:utext="${notice.content}"></textarea>
                         </div>
                     </td>
                 </tr>
@@ -88,7 +89,7 @@
         </div>
 
         <div class="btn-group pt40" style="display: block;">
-            <button id="btn-submit" type="submit" class="button purple large">등록</button>
+            <button id="btn-submit" type="submit" class="button purple large">수정</button>
         </div>
     </form>
 </div>

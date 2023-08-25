@@ -11,12 +11,12 @@
     <div class="table-wrap">
         <div class="board-view">
            <div class="tit-area">
-			    <p class="tit" th:text="${notice.theater.name == null ? '[MGV] ' + notice.title : '[지점] ' + '['+ notice.theater.name + '] ' + notice.title}">
+			    <p class="tit" th:text="${notice.theater == null || notice.theater.name == null ? '[MGV] ' + notice.title : '[지점] ' + '['+ notice.theater.name + '] ' + notice.title}">
 			    </p>
 			</div>
 
             <div class="info">
-             	<p th:if="${notice.theater.name != null}">
+             	<p th:if="${notice.theater != null && notice.theater.name != null}">
 				    <span class="tit">영화관</span>
 				    <span class="txt" th:text="${notice.theater.name}"></span>
 				</p>
@@ -31,7 +31,7 @@
             </div>
 
             <div class="cont">
-            	<p th:text=${notice.content}>
+            	<p th:utext=${notice.content}>
             	
             	</p>
             </div>

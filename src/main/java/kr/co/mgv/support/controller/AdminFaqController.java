@@ -81,19 +81,18 @@ public class AdminFaqController {
 		return "/view/admin/support/faq/form";
 	}
 	
-	@GetMapping("/modifyform")
-	public String faqmodifyForm(@RequestParam("no") int faqNo, Model model) {
-		model.addAttribute("faq", faqService.getFaqByNo(faqNo));
-		
-		model.addAttribute("categories", faqService.getCategoriesByType("faq"));
-		
-		return "/view/admin/support/faq/modifyform";
-	}
-	
 	@PostMapping("/add")
 	public String insertFaq(@AuthenticationPrincipal User user, AddFaqForm form) {
 		faqService.insertFaq(form, user);
 		return "redirect:/admin/support/faq";
+	}
+	
+	@GetMapping("/modifyform")
+	public String faqmodifyForm(@RequestParam("no") int faqNo, Model model) {
+		model.addAttribute("faq", faqService.getFaqByNo(faqNo));
+		model.addAttribute("categories", faqService.getCategoriesByType("faq"));
+		
+		return "/view/admin/support/faq/modifyform";
 	}
 	
 	@PostMapping("/modify")
