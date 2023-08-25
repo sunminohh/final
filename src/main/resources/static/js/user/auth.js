@@ -6,7 +6,7 @@ $(() => {
 
     let authCheck = false;
     let timer;
-    let timeLeft = 5; // 타이머 3분 180
+    let timeLeft = 180; // 타이머 3분 180
 
     $authNumber.keyup(() => authCheck = false);
 
@@ -105,7 +105,7 @@ $(() => {
     async function resendNumber() {
         // Clear any existing timer and reset timeLeft
         clearInterval(timer);
-        timeLeft = 5;
+        timeLeft = 180;
 
         await sendNumber();
     }

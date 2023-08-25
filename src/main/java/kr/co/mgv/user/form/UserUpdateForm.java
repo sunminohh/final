@@ -21,6 +21,5 @@ public class UserUpdateForm {
 
     private String zipcode;
     private String address;
-    private String disabled;
-    private List<String> roleName;
+    private String reason;
 }

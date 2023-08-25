@@ -3,6 +3,8 @@ package kr.co.mgv.user.dao;
 import kr.co.mgv.user.vo.User;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.Map;
+
 @Mapper
 public interface UserDao {
     User getUserById(String id);

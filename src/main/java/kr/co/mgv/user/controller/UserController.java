@@ -120,9 +120,8 @@ public class UserController {
     @PostMapping("/disabled")
     public ResponseEntity<String> disableUser(@AuthenticationPrincipal User user, UserUpdateForm form) {
         if (passwordEncoder.matches(form.getCheckPassword(), user.getPassword())) {
-            // todo service 작성
             log.info("비밀번호 일치");
-            userService.disableUser(user.getId(), user.getRoleName(), user.getDisabled());
+            userService.disableUser(user.getId(), form.getReason());
 
             return ResponseEntity.ok("회원 탈퇴가 완료되었습니다.");
         } else {
