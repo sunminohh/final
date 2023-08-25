@@ -14,6 +14,9 @@ import kr.co.mgv.theater.vo.Theater;
 @Mapper
 public interface OneDao {
 	
+	// 일대일문의글 답변 등록
+	
+	
 	// 일대일문의글 등록
 	void insertOne(One one);
 	
