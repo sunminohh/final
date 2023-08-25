@@ -84,8 +84,31 @@
       transition: bottom 0.3s;
     }
 
-
+	#join-form {
+        max-height: 220px;
+        overflow-y: auto;
+        width:200px; 
+        height: 200px;
+        border-radius: 5px;
+        background-color:rgb(255, 244, 244);
+    }
 	
+	#join-form p {
+		color: rgb(138, 138, 138);
+	}
+	
+	#resetJoin-form {
+        max-height: 220px;
+        overflow-y: auto;
+        width:200px; 
+        height: 200px;
+        border-radius: 5px;
+        background-color: rgb(255, 244, 244);
+    }
+	
+	#resetJoin-form #accepted-id {
+		color: rgb(22, 165, 211);
+	}
 	
 	
 	

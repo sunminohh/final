@@ -116,7 +116,7 @@ $(function() {
 					return `
 				<tr>
 	                <td>${notice.no}</td>
-	                <td>${notice.theater.name == null ? 'MGV' : notice.theater.name}</td>
+	                <td>${notice.theater == null || notice.theater.name == null ? 'MGV' : notice.theater.name}</td>
 	                <td>${notice.type == '공지' ? '공지' : '이벤트'}</td>
 	                <td style="text-align:left;">
 				            	<a class="text-black text-decoration-none

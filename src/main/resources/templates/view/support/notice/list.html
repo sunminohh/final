@@ -65,7 +65,7 @@
             <tbody class="noticeList">
 	            <tr th:each="notice: ${result.noticeList}">
 	                <td th:text="${notice.no}"></td>
-	                <td th:text="${notice.theater.name == null ? 'MGV' : notice.theater.name}"></td>
+	                <td th:text="${notice.theater == null || notice.theater.name == null ? 'MGV' : notice.theater.name}"></td>
 	                <td th:text="${notice.type == '공지' ? '공지' : '이벤트'}"></td>
 	                <td style="text-align:left;">
 	                	<a class="text-black text-decoration-none

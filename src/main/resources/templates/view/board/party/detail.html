@@ -58,6 +58,14 @@
 	        	<button th:if="${join == null || (join != null && #strings.equals(join.request, 'N'))}" class="btn btn-outline-success btn-sm " type="button" id="request-button" data-button-type="plus">파티신청</button>
 	            <button th:if="${join != null && #strings.equals(join.request, 'Y')}" class="btn btn-success btn-sm" type="button" id="request-button"  data-button-type="minus">신청취소</button>
 	         </form>
+       		 <button type="button"
+       		 		 class="btn btn-sm btn-secondary"
+       		 		 id="party-join-btn"
+       		 		 th:if="${#authentication.principal.id == board.user.id}"
+       		 		 sec:authorize="isAuthenticated()"
+       		 		 >
+       		 		 신청자확인
+       		 </button>
          </div>
          
          <div class="text-end mt-1 pt-5" id="board-function">
@@ -138,6 +146,7 @@
    <!-- 댓글 표시 부분 -->
    
       
+   <!-- 신고 모달 -->
    <div class="modal fade" id="reportModal"  aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
           <div class="modal-content">
@@ -148,35 +157,88 @@
                
                <div class="modal-body">
                    <div class="row mb-3">
-                  <div class="col-12">
-                     <p style="font-size : 18px;"><strong>이 게시물을 신고하는 이유</strong></p>
-                     <p style="font-size : 15px;">지식재산권 침해를 신고하는 경우를 제외하고 회원님의 신고는익명으로 처리됩니다. 누군가 위급한 상황에 있다고 생각된다면 즉시 현지 응급 서비스 기관에 연락하시기 바랍니다.</p>
-                     
-                        <form class="border bg-light p-3" method="post" th:action="@{/board/movie/report(boardNo=${param.no})}" id="report-form">
-                           <input type="hidden" name="boardNo" value="${param.no}">
-                           <div class="form-group mb-2" style="width: 33%; padding:5px;">
-                              <label class="form-label">신고이유</label>
-                                  <select class="form-select" name="reasonNo" id="report-select" onchange="toggleContentField()">
-                                      <option value="" id="reason" selected disabled>신고이유</option>
-                                      <option th:each="reason : ${reasons}" 
-                                              th:text="${reason.name}" 
-                                              th:value="${reason.no}" >신고 이유</option>
-                                  </select>
-                           </div>
-                           <div class="form-group mb-2">
-                              <label class="form-label">상세내용</label>
-                              <textarea rows="5" class="form-control" name="reasonContent" disabled></textarea>
-                           </div>
-                           <div class="text-end">
-                              <button type="reset" class="btn btn-secondary btn-sm" >취소</button>
-                              <button type="submit" id="report-submit-btn" class="btn btn-primary btn-sm" >신고</button>
-                           </div>
-                        </form>
-                  </div>
-               </div>
+	                  <div class="col-12">
+	                     <p style="font-size : 18px;"><strong>이 게시물을 신고하는 이유</strong></p>
+	                     <p style="font-size : 15px;">지식재산권 침해를 신고하는 경우를 제외하고 회원님의 신고는익명으로 처리됩니다. 누군가 위급한 상황에 있다고 생각된다면 즉시 현지 응급 서비스 기관에 연락하시기 바랍니다.</p>
+	                     
+	                        <form class="border bg-light p-3" method="post" th:action="@{/board/movie/report(boardNo=${param.no})}" id="report-form">
+	                           <input type="hidden" name="boardNo" value="${param.no}">
+	                           <div class="form-group mb-2" style="width: 33%; padding:5px;">
+	                              <label class="form-label">신고이유</label>
+	                                  <select class="form-select" name="reasonNo" id="report-select" onchange="toggleContentField()">
+	                                      <option value="" id="reason" selected disabled>신고이유</option>
+	                                      <option th:each="reason : ${reasons}" 
+	                                              th:text="${reason.name}" 
+	                                              th:value="${reason.no}" >신고 이유</option>
+	                                  </select>
+	                           </div>
+	                           <div class="form-group mb-2">
+	                              <label class="form-label">상세내용</label>
+	                              <textarea rows="5" class="form-control" name="reasonContent" disabled></textarea>
+	                           </div>
+	                           <div class="text-end">
+	                              <button type="reset" class="btn btn-secondary btn-sm" >취소</button>
+	                              <button type="submit" id="report-submit-btn" class="btn btn-primary btn-sm" >신고</button>
+	                           </div>
+	                        </form>
+	                   </div>
+               		</div>
                </div>
           </div>
-        </div>
+      </div>
    </div>
+   
+   <!-- 신청자 확인 모달 -->
+   <div class="modal fade" id="join-modal"  aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+          <div class="modal-content">
+               <div class="modal-header" style="background-color: #A06E8D;">
+                 <h1 class="modal-title fs-5 fw-semibold" id="exampleModalLabel" style="color: white;">신청자 확인</h1>
+                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+               </div>
+               <div class="modal-body">
+                   <div class="row mb-3">
+	                  <div class="col-12 d-flex justify-content-center">
+	                  		<div>
+	                            <p class="text-center me-3 fs-6 fw-semibold" >신청자 목록</p>
+		                        <form class="border bg-light p-3 me-3" method="post" th:action="@{/board/movie/join(boardNo=${param.no})}" id="join-form" >
+		                           <div class="form-group mb-2">
+		                            	<div class="d-flex justify-content-between" id="join-box"  th:each="notAccept:${notAccepts}"
+		                            		 th:if="${not #lists.isEmpty(notAccepts)}">
+		                            		<p class="me-1" th:text="${notAccept.user.id}">신청자 아이디</p>
+		                            		<button type="button" class="btn btn-sm btn-outline-dark" id="join-btn" style="height: 23px; font-size: 10px">수락</button>
+		                            		<input type="hidden" name="partyId" th:value="${notAccept.user.id}">
+				                            <input type="hidden" name="boardNo" th:value="${param.no}">
+		                            	</div>
+		                            	<div class="text-center" th:if="${#lists.isEmpty(notAccepts)}" >
+		                            		<p>신청자가 없습니다.</p>
+		                            	</div>  
+		                           </div>
+		                        </form>
+	                  		</div>
+	                  		<div>
+		                        <p class="text-center fs-6 fw-semibold" >수락된 신청자 목록</p>
+		                        <form class="border bg-light p-3" method="post" th:action="@{/board/movie/resetJoin(boardNo=${param.no})}" id="resetJoin-form" >
+		                        	<div class="form-group mb-2" >
+		                              	<div class="d-flex justify-content-between" id="resetJoin-box"  th:each="accept:${accepts}"
+		                              		 th:if="${not #lists.isEmpty(accepts)}">
+		                            		<p id="accepted-id" th:text="${accept.user.id}">신청자 아이디</p>
+		                            		<button type="button" class="btn btn-sm btn-outline-secondary" id="reset-join-btn" style="height: 23px; font-size: 10px">취소</button>
+			                           		<input type="hidden" name="partyId" th:value="${accept.user.id}">
+					                        <input type="hidden" name="boardNo" th:value="${param.no}">
+		                            	</div>
+		                            	<div class="text-center" th:if="${#lists.isEmpty(accepts)}">
+		                            		<p>수락된 신청자가 없습니다.</p>
+		                            	</div>   
+		                           </div>
+		                        </form>
+	                  		</div>
+	                   </div>
+               		</div>
+               </div>
+          </div>
+      </div>
+   </div>
+   
 </div>         
 </html>

@@ -15,7 +15,7 @@
 <div id="contents" layout:fragment="content">
     <h2 class="tit">공지사항</h2>
 
-    <form id="insertform" name="regFrm"  enctype="multipart/form-data">
+    <form id="insertform" method="post" th:action="@{/admin/support/notice/add}" name="regFrm"  enctype="multipart/form-data">
         <div class="table-wrap mt10">
             <table class="board-form va-m">
                 <colgroup> 
@@ -32,11 +32,11 @@
                     	
                     		<!-- 라디오버튼 -->
 							<div class="me-2 pt-2">
-		                        <input type="radio" name="inquiryType" id="onesupport" checked>
+		                        <input type="radio" name="categoryNo" value="22" checked>
 								<label for="aq1">MGV 공지</label>
 							</div>
 							<div class="me-3 pt-2">
-								<input type="radio" name="inquiryType" id="onetheater" class="ml20">
+								<input type="radio" name="categoryNo" value="23" class="ml20">
 								<label for="aq2">지점 공지</label>
 							</div>
 	
@@ -60,10 +60,12 @@
                     <th scope="row"><label for="ask-type">유형 선택</label> <em class="font-orange">*</em></th>
                     <td colspan="3">
                         <div class="d-flex justify-content-start" style="margin-bottom: -15px; margin-left: -8px;">
-                           	<select id="oneCat" title="문의유형 선택" name="categoryNo"
+                           	<select title="공지유형 선택" name="noticeType"
                                 class="form-select form-select-sm  ml07 form-control-sm mb-3"
                                 style="width: 130px; float:left;">
                             	<option value="" selected disabled>유형 선택</option>
+                            	<option value="공지" > 공지</option>
+                            	<option value="이벤트" >이벤트</option>
                        		</select>
 						</div>
                     </td>
