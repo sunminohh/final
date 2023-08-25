@@ -38,7 +38,7 @@ $(function () {
 		$(".join-box").on('click', '#join-btn', function() {
 		    const id = $(this).siblings('input[name=partyId]').val(); // 수정: find -> siblings
 		    const no = $(this).siblings('input[name=boardNo]').val(); // 불필요한 부분 삭제
-		    const acceptCount  = $('input[name=acceptCount]').attr('th:value');
+		    const acceptCount  = $('input[name=acceptCount]').attr('value');
 			const headCount = $('input[name=headCount]').val();
 		    
 		    if (acceptCount === headCount){
@@ -65,7 +65,7 @@ $(function () {
 				            const notAcceptedJoins = JoinList.notAcceptedJoins;
 				            const newAcceptCount = JoinList.acceptCount;
 							
-							$("input[name=acceptCount]").attr("th:value", newAcceptCount);
+							$("input[name=acceptCount]").attr("value", newAcceptCount);
 				            let notAcceptHtmlContent = "";
 				            let acceptHtmlContent = "";
 		
@@ -135,7 +135,7 @@ $(function () {
 		            const newAcceptCount = JoinList.acceptCount;
 							
 							
-					$("input[name=acceptCount]").attr("th:value", newAcceptCount);
+					$("input[name=acceptCount]").attr("value", newAcceptCount);
 		
 		            let notAcceptHtmlContent = "";
 		            let acceptHtmlContent = "";
