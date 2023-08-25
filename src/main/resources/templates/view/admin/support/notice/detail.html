@@ -1,0 +1,70 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/admin}">
+<head th:fragment="extra-head-content">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" th:src="@{/js/support/common.js}"></script>
+	<script type="text/javascript" th:src="@{/js/admin/support/adminnotice.js}"></script>
+</head>
+<div id="contents" layout:fragment="content">
+    <h2 class="tit">공지사항</h2>
+
+     <div class="table-wrap">
+        <div class="board-view">
+           <div class="tit-area">
+			    <p class="tit" th:text="${notice.theater.name == null ? '[MGV] ' + notice.title : '[지점] ' + '['+ notice.theater.name + '] ' + notice.title}">
+			    </p>
+			</div>
+
+            <div class="info">
+             	<p th:if="${notice.theater.name != null}">
+				    <span class="tit">영화관</span>
+				    <span class="txt" th:text="${notice.theater.name}"></span>
+				</p>
+				<p>
+				    <span class="tit">구분</span>
+				    <span class="txt" th:text="${notice.type}"></span>
+				</p>
+                <p>
+                    <span class="tit">등록일</span>
+                    <span class="txt" th:text="${#dates.format(notice.updateDate, 'yyyy.MM.dd')}"></span>
+                </p>
+            </div>
+
+            <div class="cont">
+            	<p th:text=${notice.content}>
+            	
+            	</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="prev-next">
+        <div class="line prev" th:if="${preNotice != null}">
+            <p class="tit">이전</p>
+            <a th:href="@{/admin/support/notice/detail(no=${preNotice.no},catNo=${param.catNo}, locationNo=${param.locationNo}, theaterNo=${param.theaterNo}, page=${param.page}, keyword=${param.keyword})}"
+               th:text=${preNotice.title}
+               class="link moveBtn" data-no="" title="이전글"></a>
+        </div>
+
+        <div class="line next" th:if="${nextNotice != null}">
+            <p class="tit">다음</p>
+            <a th:href="@{/admin/support/notice/detail(no=${nextNotice.no},catNo=${param.catNo}, locationNo=${param.locationNo}, theaterNo=${param.theaterNo}, page=${param.page}, keyword=${param.keyword})}"
+               th:text=${nextNotice.title}
+               class="link moveBtn" data-no="" title="다음글">다음글</a>
+        </div>
+    </div>
+
+    <div class="btn-group pt40" style="display: block;">
+        <button class="button large listBtn" title="목록" onclick="document.querySelector('#form').submit();">목록</button>
+    </div>
+    
+    <form id="form" method="post" action="/admin/support/notice">
+    	<input type="hidden" name="catNo" th:value="${param.catNo}"/>
+    	<input type="hidden" name="page" th:value="${param.page}"/>
+    	<input type="hidden" name="locationNo" th:value="${param.locationNo}"/>
+    	<input type="hidden" name="theaterNo" th:value="${param.theaterNo}"/>
+    	<input type="hidden" name="keyword" th:value="${param.keyword}"/>
+    </form>
+</div>
+</html>

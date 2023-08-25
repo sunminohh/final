@@ -1,22 +1,23 @@
 package kr.co.mgv.user.form;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
+import org.apache.ibatis.type.Alias;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
-@NoArgsConstructor
-@Getter
-@Setter
+@Data
 public class UserUpdateForm {
 
-    private String id;
-    private String name;
-    private String password;
-    private LocalDate birth;
+    private String checkPassword;
+    private String newPassword;
+
+    @NotBlank(message = "이메일은 필수 입력 값입니다.")
+    @Email(message = "이메일 형식에 올바르지 않습니다.")
     private String email;
+
     private String zipcode;
-    private String bgAddress;
-    private String dtAddress;
+    private String address;
 }

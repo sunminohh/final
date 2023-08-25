@@ -1,63 +1,116 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="kr.co.mgv.schedule.dao.ScheduleDao">
-	
+
 	<resultMap id="ScheduleResultMap" type="ScheduleDto">
-        <id property="id" column="schedule_id"/>
-        <result property="turn" column="schedule_turn"/>
-        <result property="start" column="schedule_start_time"/>
-        <result property="end" column="schedule_end_time"/>
-        <result property="remainingSeats" column="remaining_seats"/>
-    </resultMap>
-    
-    <resultMap id="ScreenResultMap" type="ScreenWithScheduleDto">
-        <id property="screenId" column="screen_id"/>
-        <result property="screenName" column="screen_name"/>
-        <result property="seats" column="screen_seats"/>
-        <result property="screenInfo" column="screen_info"/>
-        <collection property="scheduleList" resultMap="ScheduleResultMap"/>
-    </resultMap>
-    
-    <resultMap id="MovieResultMap" type="MovieWithScreenDto">
-        <id property="movieNo" column="movie_no"/>
-        <result property="movieTitle" column="movie_title"/>
-        <result property="runtime" column="movie_runtime"/>
-        <result property="contentRating" column="MOVIE_CONTENT_RATING"/>
-        <collection property="screenList" resultMap="ScreenResultMap"/>
-    </resultMap>
+		<id property="id" column="schedule_id" />
+		<result property="turn" column="schedule_turn" />
+		<result property="start" column="schedule_start_time" />
+		<result property="end" column="schedule_end_time" />
+		<result property="remainingSeats" column="remaining_seats" />
+	</resultMap>
 
-    <resultMap id="DateResultMap" type="DateWithMovieDto">
-        <id property="date" column="SCHEDULE_DATE"/>
-        <result property="theaterNo" column="theater_no"/>
-        <collection property="movieList" resultMap="MovieResultMap"/>
-    </resultMap>
+	<resultMap id="ScreenResultMap" type="ScreenWithScheduleDto">
+		<id property="screenId" column="screen_id" />
+		<result property="screenName" column="screen_name" />
+		<result property="seats" column="screen_seats" />
+		<result property="screenInfo" column="screen_info" />
+		<collection property="scheduleList"
+			resultMap="ScheduleResultMap" />
+	</resultMap>
 
-    
+	<resultMap id="MovieResultMap" type="MovieWithScreenDto">
+		<id property="movieNo" column="movie_no" />
+		<result property="movieTitle" column="movie_title" />
+		<result property="runtime" column="movie_runtime" />
+		<result property="contentRating" column="MOVIE_CONTENT_RATING" />
+		<collection property="screenList"
+			resultMap="ScreenResultMap" />
+	</resultMap>
 
-	<select id="getScheduleWithDate" parameterType="TheaterAndDateDto" resultMap="DateResultMap">
-	select *
-		from MGV_THEATERS mt, MGV_THEATER_SCREEN mts , MGV_MOVIE mm, MGV_SCHEDULE ms
+	<resultMap id="DateResultMap" type="DateWithMovieDto">
+		<id property="date" column="SCHEDULE_DATE" />
+		<result property="theaterNo" column="theater_no" />
+		<collection property="movieList" resultMap="MovieResultMap" />
+	</resultMap>
+
+
+
+	<select id="getScheduleWithDate"
+		parameterType="TheaterAndDateDto" resultMap="DateResultMap">
+		select *
+		from MGV_THEATERS mt, MGV_THEATER_SCREEN mts , MGV_MOVIE mm,
+		MGV_SCHEDULE ms
 		WHERE mt.THEATER_NO = #{theaterNo}
-		and mt.THEATER_NO = mts.THEATER_NO 
-		and mts.SCREEN_ID  = ms.SCREEN_ID
+		and mt.THEATER_NO =
+		mts.THEATER_NO
+		and mts.SCREEN_ID = ms.SCREEN_ID
 		and ms.MOVIE_NO = mm.MOVIE_NO
-		and ms.SCHEDULE_DATE = #{date}
+		and
+		ms.SCHEDULE_DATE = #{date}
 		and ms.SCHEDULE_START_TIME >= #{time}
-		ORDER BY mm.MOVIE_NO, ms.SCHEDULE_START_TIME, ms.SCHEDULE_TURN
+		ORDER
+		BY mm.MOVIE_NO, ms.SCHEDULE_START_TIME, ms.SCHEDULE_TURN
 	</select>
-	
-	<resultMap id="CheckScheduleResultMap" type="CheckScheduleDto">
-        <id property="theaterNo" column="theater_no"/>
-        <collection property="dateList" ofType="String"  javaType="list">
-        	<result column="schedule_date"/>
-        </collection>
-    </resultMap>
-    
-	<select id="checkSceduleByTheaterno" parameterType="int" resultMap="CheckScheduleResultMap">
+
+	<resultMap id="CheckScheduleResultMap"
+		type="CheckScheduleDto">
+		<id property="theaterNo" column="theater_no" />
+		<collection property="dateList" ofType="String"
+			javaType="list">
+			<result column="schedule_date" />
+		</collection>
+	</resultMap>
+
+	<select id="checkSceduleByTheaterno" parameterType="int"
+		resultMap="CheckScheduleResultMap">
 		select DISTINCT mt.theater_no, ms.schedule_date
-		from MGV_THEATERS mt, MGV_THEATER_SCREEN mts , MGV_SCHEDULE ms
-		WHERE mt.THEATER_NO = #{theaterNo}
-		and mt.THEATER_NO = mts.THEATER_NO 
-		and mts.SCREEN_ID  = ms.SCREEN_ID
+		from
+		MGV_THEATERS mt, MGV_THEATER_SCREEN mts , MGV_SCHEDULE ms
+		WHERE
+		mt.THEATER_NO = #{theaterNo}
+		and mt.THEATER_NO = mts.THEATER_NO
+		and mts.SCREEN_ID = ms.SCREEN_ID
 	</select>
+
+	<select id="getSchedulesByScreenAndDate" parameterType="map"
+		resultType="map">
+		select
+		A.schedule_id as id,
+		A.schedule_turn as turn,
+		A.schedule_start_time as start,
+		A.schedule_end_time as end,
+		B.movie_title as title
+		from MGV_SCHEDULE A, MGV_MOVIE B
+		where screen_id = #{screenId}
+		and SCHEDULE_DATE = #{date}
+		and A.movie_no = B.movie_no
+	</select>
+
+	<select id="getSchedule"
+		parameterType="kr.co.mgv.schedule.dto.ScheduleRegistFormDto"
+		resultType="schedule">
+		select
+		schedule_id as id
+		from MGV_SCHEDULE
+		where screen_id = #{screenId}
+		and schedule_date = #{date}
+		and <![CDATA[ schedule_start_time <= #{startTime} AND schedule_end_time >= #{startTime} ]]>
+		and <![CDATA[ schedule_start_time <= #{endTime} AND schedule_end_time >= #{endTime} ]]>
+	</select>
+
+	<insert id="insertSchedule"
+		parameterType="kr.co.mgv.schedule.dto.ScheduleRegistFormDto">
+		insert into MGV_SCHEDULE
+		(schedule_date, schedule_turn, schedule_start_time, schedule_end_time, screen_info,
+		remaining_seats, screen_seats, movie_no, screen_id)
+		values
+		(#{date},#{turn},#{startTime},#{endTime},#{screenInfo},#{seats},#{seats},#{movieNo},#{screenId})
+	</insert>
+
+	<delete id="deleteSchedule" parameterType="int">
+		delete from
+		MGV_SCHEDULE
+		where SCHEDULE_ID=#{value};
+	</delete>
 </mapper>

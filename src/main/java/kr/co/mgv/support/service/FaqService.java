@@ -7,8 +7,12 @@ import org.springframework.stereotype.Service;
 
 import kr.co.mgv.support.dao.FaqDao;
 import kr.co.mgv.support.dto.FaqList;
+import kr.co.mgv.support.form.AddFaqForm;
+import kr.co.mgv.support.form.ModifyFaqForm;
 import kr.co.mgv.support.vo.Faq;
+import kr.co.mgv.support.vo.SupportCategory;
 import kr.co.mgv.support.vo.SupportPagination;
+import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -16,6 +20,39 @@ import lombok.RequiredArgsConstructor;
 public class FaqService {
 
 	private final FaqDao faqDao;
+	
+	public void insertFaq(AddFaqForm form, User user) {
+		
+		SupportCategory category = SupportCategory.builder()
+								.no(form.getCategoryNo())
+								.build();
+		
+		Faq faq = Faq.builder()
+					.user(user)
+					.category(category)
+					.title(form.getTitle())
+					.content(form.getContent())
+					.build();
+		
+		faqDao.insertFaq(faq);
+	}
+	
+	public void modifyFaq(ModifyFaqForm form, int faqNo) {
+		Faq faq = faqDao.getFaqByNo(faqNo);
+		faq.setTitle(form.getTitle());
+		faq.setContent(form.getContent());
+		faq.getCategory().setNo(form.getCategoryNo());
+		faq.setOrderNo(form.getOrderNo());
+		
+		faqDao.updateFaqByNo(faq);
+	}
+	
+	public void deleteFaq(int faqNo) {
+		Faq faq = faqDao.getFaqByNo(faqNo);
+		faq.setDeleted("Y");
+		
+		faqDao.updateFaqByNo(faq);
+	}
 	
 	public FaqList search(Map<String, Object> param) {
 		
@@ -36,6 +73,15 @@ public class FaqService {
 		result.setFaqList(faqList);
 		
 		return result;
+	}
+	
+	public Faq getFaqByNo(int faqNo) {
+		return faqDao.getFaqByNo(faqNo);
+	}
+	
+	public List<SupportCategory> getCategoriesByType(String categoryType) {
+		
+		return faqDao.getCategories(categoryType);
 	}
 }
 

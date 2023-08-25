@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import kr.co.mgv.support.vo.One;
+import kr.co.mgv.support.vo.OneFile;
 import kr.co.mgv.support.vo.SupportCategory;
 import kr.co.mgv.theater.vo.Location;
 import kr.co.mgv.theater.vo.Theater;
@@ -17,7 +18,7 @@ public interface OneDao {
 	void insertOne(One one);
 	
 	// 유저 문의내역 조회
-	List<One> getOnesByUserId(Map<String, Object> param);
+	List<One> getOnes(Map<String, Object> param);
 	int getTotalRows(Map<String, Object> param);
 	One getOneByNo(int oneNo);
 	
@@ -30,4 +31,11 @@ public interface OneDao {
 	
 	// 일대일 문의글 업데이트
 	void updateOneByNo(One one);
+	
+	// 첨부파일 정보 저장
+	void insertOneFile(OneFile onefile);
+	// 일대일문의글 번호로 첨부파일 조회
+	List<OneFile> getOneFileByOneNo(int oneNo);
+	// 파일번호로 파일조회
+	OneFile getOneFileByFileNo(int fileNo);
 }

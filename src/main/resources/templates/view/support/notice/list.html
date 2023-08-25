@@ -4,7 +4,6 @@
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" th:src="@{/js/support/notice.js}"></script>
 </head>
-</head>
 <div id="contents" layout:fragment="content">
     <h2 class="tit">공지사항</h2>
     <div class="tab-block-notice mb30">
@@ -12,8 +11,8 @@
             <li class="tab-link" th:classappend="${param.catNo == null || #strings.equals(param.catNo, '21') ? 'current' : ''}">
                 <button type="button" class="btn rounded-0" data-tab="tab-1" data-category-no="21" title="전체공지 보기">전체</button>
             </li>
-            <li class="tab-link"  th:classappend="${#strings.equals(param.catNo, '22') ? 'current' : ''}">
-                <button type="button" class="btn rounded-0" data-tab="tab-2" data-category-no="22" title="메가박스 공지 보기">메가박스 공지</button>
+            <li class="tab-link" th:classappend="${#strings.equals(param.catNo, '22') ? 'current' : ''}">
+                <button type="button" class="btn rounded-0" data-tab="tab-2" data-category-no="22" title="MGV 공지 보기">MGV 공지</button>
             </li>
             <li class="tab-link" th:classappend="${#strings.equals(param.catNo, '23') ? 'current' : ''}">
                 <button type="button" class="btn rounded-0" data-tab="tab-3" data-category-no="23" title="지점 공지 보기">지점 공지</button>
@@ -21,15 +20,13 @@
         </ul>
     </div>
     <div class="board-list-util">
-    <p class="result-count">
-            <strong><span id="totalTitle">전체</span> <span class="font-green" id="totalCnt" th:text="${result.pagination.totalRows}"></span>건</strong>
-    </p>
-	<form  method="post" action="notice/detail" id="actionForm">    
+    <p class="result-count"><strong><span id="totalTitle">전체</span> <span class="font-green" id="totalCnt" th:text="${result.pagination.totalRows}"></span>건</strong></p>
+	<form method="post" action="notice/detail" id="actionForm">    
 	     <div class="ml07 bs3  d-flex justify-content-end">
 	         	<select id="location" title="지역선택" name="locationNo"
 		                                class="form-select form-select-sm  ml06 form-control-sm mb-3"
 		                                style="width: 100px; ">
-		                            <option value="" selected disabled>지역선택</option>
+		                            <option value="" selected>지역선택</option>
 	         	</select>
 	          	<select id="theater" title="극장선택" name="theaterNo" 
 		                        		class="form-select form-select-sm ml06 form-control-sm mb-3"
@@ -39,13 +36,15 @@
 	       
 		        <div class="board-search">
 			        <input type="hidden" name="catNo" th:value="${param.catNo == null ? '21' : param.catNo}" />
-			        <input type="hidden" name="page" th:value="${param.page}" />
+			        <input type="hidden" name="page" th:value="${param.page == null ? '1' : param.page}" />
 		            <input type="search" name="keyword" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" th:value="${param.keyword}"  autocomplete="off">
 		            <button type="button" id="searchBtn" class="btn-search-input">검색</button>
 		        </div>
-		</div>
+		 </div>
+	</form>
+	</div>
     <div class="table-wrap" style="min-height: 512px;">
-        <table class="board-list">
+        <table class="board-list" id="table-notice">
             <caption>번호, 극장, 구분, 제목, 등록일이 들어간 공지사항 전체 리스트</caption>
             <colgroup>
                 <col style="width:72px;">
@@ -63,13 +62,13 @@
                 <th scope="col">등록일</th>
             </tr>
             </thead>
-            <tbody class="noticeList" id="">
+            <tbody class="noticeList">
 	            <tr th:each="notice: ${result.noticeList}">
 	                <td th:text="${notice.no}"></td>
 	                <td th:text="${notice.theater == null ? 'MGV' : notice.theater.name}"></td>
 	                <td th:text="${notice.type == '공지' ? '공지' : '이벤트'}"></td>
 	                <td style="text-align:left;">
-	                	<a class="text-black text-decoration-none link-detail"
+	                	<a class="text-black text-decoration-none"
 	                		th:href="@{/support/notice/detail(no=${notice.no})}"
 	                		th:attr="data-no=${notice.no}"
 	                		th:text=${notice.title}>
@@ -122,8 +121,6 @@
 		</div>
 	</div>
     <!--// pagination -->
-    
-    </div>
-</div>
 
+</div>
 </html>

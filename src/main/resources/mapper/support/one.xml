@@ -4,23 +4,60 @@
 
 	<insert id="insertOne" parameterType="kr.co.mgv.support.vo.One">
 		insert into MGV_SUPPORT_ONE
-		(one_title, one_content, one_filename, 
+		(one_title, one_content,
 		user_id, user_name, user_email, 
 		location_no, theater_no, category_no, 
 		one_guest_name, one_guest_email, one_guest_password)
 		VALUES
-		(#{title}, #{content}, #{fileName}, 
+		(#{title}, #{content}, 
 	    #{user.id}, #{user.name}, #{user.email}, 
 	    #{location.no}, #{theater.no}, #{category.no}, 
-	    #{guestName}, #{guestEmail}, #{guestPassword});
+	    #{guestName}, #{guestEmail}, #{guestPassword})
+	    <selectKey resultType="int" keyProperty="no" order="AFTER">
+	    	select last_insert_id()
+	    </selectKey>
 	</insert>
+	
+	<insert id="insertOneFile" parameterType="kr.co.mgv.support.vo.OneFile">
+		INSERT INTO MGV_ONE_FILE
+		(ONE_NO, ORIGINAL_NAME, SAVE_NAME)
+		VALUES(#{one.no}, #{originalName}, #{saveName})
+	</insert>
+	
+	<select id="getOneFileByOneNo" parameterType="int" resultType="kr.co.mgv.support.vo.OneFile">
+		SELECT 
+			FILE_NO			as no,
+			ORIGINAL_NAME	as originalName, 
+			SAVE_NAME		as saveName
+		FROM 
+			MGV_ONE_FILE
+		where ONE_NO = #{value}
+	</select>
+	
+	<select id="getOneFileByFileNo" parameterType="int" resultType="kr.co.mgv.support.vo.OneFile">
+		SELECT
+			FILE_NO			as no, 
+			ORIGINAL_NAME	as originalName, 
+			SAVE_NAME		as saveName
+		FROM 
+			MGV_ONE_FILE
+		where FILE_NO = #{value}
+	</select>
 	
 	<select id="getTotalRows" parameterType="map" resultType="int">
 		select count(*)
 		FROM MGV_SUPPORT_ONE A
 		where 
-			A.USER_ID = #{userId}
-			and A.ONE_DELETED = 'N'
+			A.ONE_DELETED = 'N'
+			<if test="userId != null">
+				and A.USER_ID = #{userId}
+			</if>
+			<if test="guestName != null">
+				and A.ONE_GUEST_NAME = #{guestName}
+			</if>
+			<if test="guestEmail != null">
+				and A.ONE_GUEST_EMAIL = #{guestEmail}
+			</if>
 			<if test="answered != null">
 				and A.ONE_ANSWERED = #{answered}
 			</if>
@@ -29,14 +66,13 @@
 			</if>
 	</select>
 	
-	<select id="getOnesByUserId" parameterType="map" resultType="kr.co.mgv.support.vo.One">
+	<select id="getOnes" parameterType="map" resultType="kr.co.mgv.support.vo.One">
 		SELECT 
 			A.ONE_NO				as no,
 			A.ONE_TITLE				as title,
 			A.ONE_CONTENT			as content, 
 			A.ONE_ANSWERED			as answered, 
 			A.ONE_DELETED			as deleted, 
-			A.ONE_FILENAME			as fileName, 
 			A.ONE_UPDATE_DATE		as updateDate, 
 			A.ONE_CREATE_DATE		as createDate, 
 			A.USER_ID 				as "user.id",
@@ -45,15 +81,25 @@
 			A.THEATER_NO			as "theater.no",
 			C.THEATER_NAME			as "theater.name",
 			A.CATEGORY_NO			as "category.no", 
-			D.CATEGORY_NAME			as "category.name" 
+			D.CATEGORY_NAME			as "category.name",
+			A.ONE_GUEST_NAME		as "guestName",
+			A.ONE_GUEST_EMAIL		as "guestEmail"
 		FROM 
 			MGV_SUPPORT_ONE A 
 			left outer join MGV_LOCATION B on A.LOCATION_NO = B.LOCATION_NO 
 			left outer join MGV_THEATERS C on A.THEATER_NO = C.THEATER_NO 
 			inner join MGV_SUPPORT_CATEGORIES D on A.CATEGORY_NO = D.CATEGORY_NO 
 		WHERE 
-			A.USER_ID = #{userId}
-			and A.ONE_DELETED = 'N'
+			A.ONE_DELETED = 'N'
+			<if test="userId != null">
+				and A.USER_ID = #{userId}
+			</if>
+			<if test="guestName != null">
+				and A.ONE_GUEST_NAME = #{guestName}
+			</if>
+			<if test="guestEmail != null">
+				and A.ONE_GUEST_EMAIL = #{guestEmail}
+			</if>
 			<if test="answered != null">
 				and A.ONE_ANSWERED = #{answered}
 			</if>
@@ -72,7 +118,6 @@
 			A.ONE_CONTENT			as content, 
 			A.ONE_ANSWERED			as answered, 
 			A.ONE_DELETED			as deleted, 
-			A.ONE_FILENAME			as fileName, 
 			A.ONE_UPDATE_DATE		as updateDate, 
 			A.ONE_CREATE_DATE		as createDate, 
 			A.USER_ID 				as "user.id",
@@ -113,9 +158,6 @@
 			</if>
 			<if test="createDate != null">
 				ONE_CREATE_DATE = #{createDate},
-			</if>
-			<if test="fileName != null">
-				ONE_FILENAME = #{fileName},
 			</if>
 		</set>
 		WHERE 

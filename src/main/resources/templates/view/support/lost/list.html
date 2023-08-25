@@ -20,12 +20,12 @@
     <div class="board-list-util">
         <p class="result-count"><strong>전체 <span class="font-gblue" id="totalCnt" th:text="${result.pagination.totalRows}"></span>건</strong></p>
         
-        <form  method="post" action="lost/detail" id="actionForm">    
+        <form method="post" action="lost/detail" id="actionForm">    
         <div class="ml07 bs3  d-flex justify-content-end" style="margin-bottom: -15px;">
          	<select id="location" title="지역선택" name="locationNo"
 	                                class="form-select form-select-sm  ml06 form-control-sm mb-3"
 	                                style="width: 100px; ">
-	                            <option value="" selected disabled>지역선택</option>
+	                            <option value="" selected>지역선택</option>
          	</select>
           	<select id="theater" title="극장선택" name="theaterNo" 
 	                        		class="form-select form-select-sm ml06 form-control-sm mb-3"
@@ -35,7 +35,7 @@
         	<select id="answer" title="접수상태 선택" name="answered" 
 	                        		class="form-select form-select-sm ml06 form-control-sm mb-3"
 	                                style="width: 120px;">
-	      						<option value="" selected disabled>접수상태 선택</option>
+	      						<option value="" selected>접수상태 선택</option>
 	      						<option value="N" th:selected="${#strings.equals(param.answered, 'N')}">미답변</option>
 	      						<option value="Y" th:selected="${#strings.equals(param.answered, 'Y')}">답변완료</option>
 	        </select>
@@ -78,11 +78,6 @@
 			            	 th:text="${lost.title}">
 		            	</a>
 		            </td>
-		            <!-- 
-		            <th scope="row">
-		            	<a href="" class="btn-layer-open moveBtn">분실물 문의</a>
-		            </th>
-		             -->
 		            <td th:text="${lost.answered == 'Y' ? '답변완료' : '미답변'}"></td>
 		            <td th:text="${#dates.format(lost.updateDate, 'yyyy.MM.dd')}"></td>
 	            </tr>

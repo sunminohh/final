@@ -8,5 +8,9 @@ public interface UserDao {
     User getUserById(String id);
     User getUserByEmail(String email);
 
-//    void updateUserById(User user);
+    void updatePassword(User user);
+    void updateUser(User user);
+
+    void disabledUser(User user);
+
 }

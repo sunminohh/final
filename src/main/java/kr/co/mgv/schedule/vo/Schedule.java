@@ -18,7 +18,7 @@ public class Schedule {
 
 	private Movie movie;
 	private Screen screen;
-	private int id;
+	private String id;
 	private Date date;
 	private int turn;
 	private Date start;
@@ -26,5 +26,5 @@ public class Schedule {
 	private String info;
 	private int remainingSeats;
 	private int seats;
-	
+
 }

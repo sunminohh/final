@@ -2,6 +2,64 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="kr.co.mgv.support.dao.FaqDao">
 
+	<insert id="insertFaq" parameterType="kr.co.mgv.support.vo.Faq">
+		INSERT INTO
+			MGV_SUPPORT_FAQ
+		(FAQ_TITLE, FAQ_CONTENT, USER_ID, CATEGORY_NO)
+		VALUES
+			(#{title}, #{content}, #{user.id}, #{category.no})
+	</insert>
+	
+	<update id="updateFaqByNo" parameterType="kr.co.mgv.support.vo.Faq">
+		UPDATE 
+			MGV_SUPPORT_FAQ
+		<set>
+			<if test="title != null">
+				FAQ_TITLE = #{title},
+			</if>
+			<if test="content != null">
+				FAQ_CONTENT = #{content},
+			</if>
+			<if test="deleted != null">
+				FAQ_DELETED = #{deleted},
+			</if>
+			<if test="updateDate != null">
+				FAQ_UPDATE_DATE = #{updateDate},
+			</if>
+			<if test="createDate != null">
+				FAQ_CREATE_DATE = #{createDate},
+			</if>
+			<if test="category != null">
+				CATEGORY_NO = #{category.no},
+			</if>
+			<if test="orderNo != null">
+				FAQ_ORDER_NO = #{orderNo}
+			</if>
+		</set>
+		WHERE 
+			FAQ_NO= #{no}
+	</update>
+	
+	<select id="getFaqByNo"	parameterType="int" resultType="kr.co.mgv.support.vo.Faq">
+		SELECT
+		 	A.FAQ_NO			as no,
+			A.FAQ_TITLE			as title,
+			A.FAQ_CONTENT		as content,
+			A.FAQ_DELETED		as deleted,
+		 	A.FAQ_UPDATE_DATE	as updateDate, 
+		 	A.FAQ_CREATE_DATE	as createDate, 
+			A.CATEGORY_NO		as "category.no",
+			B.CATEGORY_NAME 	as "category.name",
+		 	A.USER_ID			as "user.id",
+			A.FAQ_ORDER_NO		as "orderNo"
+		FROM 
+			MGV_SUPPORT_FAQ A, MGV_SUPPORT_CATEGORIES B
+		where
+			A.CATEGORY_NO = B.CATEGORY_NO
+			and A.FAQ_DELETED = 'N'
+			and A.FAQ_NO = #{value}
+	</select>
+
 	<select id="getTotalRows" parameterType="map" resultType="int">
 		select count(*)
 		from MGV_SUPPORT_FAQ A, MGV_SUPPORT_CATEGORIES B
@@ -22,8 +80,11 @@
 			A.FAQ_TITLE			as title,
 			A.FAQ_CONTENT		as content,
 			A.FAQ_DELETED		as deleted,
+			A.FAQ_UPDATE_DATE	as updateDate, 
+		 	A.FAQ_CREATE_DATE	as createDate, 
 			A.CATEGORY_NO		as "category.no",
-			B.CATEGORY_NAME 	as "category.name"
+			B.CATEGORY_NAME 	as "category.name",
+			A.FAQ_ORDER_NO		as "orderNo"
 		from 
 			MGV_SUPPORT_FAQ A, MGV_SUPPORT_CATEGORIES B
 		where 
@@ -36,8 +97,30 @@
 				and A.CATEGORY_NO = #{catNo}
 			</if>
 		order by
-			A.FAQ_NO DESC
+			A.FAQ_ORDER_NO ASC, A.FAQ_NO DESC
 		LIMIT 10 OFFSET #{begin}
 	</select>
 	
+	<select id="getCategories" parameterType="string" resultType="kr.co.mgv.support.vo.SupportCategory">
+		SELECT 
+			CATEGORY_NO		as no,
+			CATEGORY_NAME	as name, 
+			CATEGORY_TYPE	as type
+		FROM 
+			MGV_SUPPORT_CATEGORIES
+		where 
+			CATEGORY_TYPE = #{value}
+			and CATEGORY_no != 1
+	</select>
+	
 </mapper>
+
+
+
+
+
+
+
+
+
+

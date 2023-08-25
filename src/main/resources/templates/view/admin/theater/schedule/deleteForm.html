@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html layout:decorate="~{ layout/admin }">
+<head th:fragment="extra-head-content">
+<script type="text/javascript"
+	th:src="@{/js/admin/theater/schedule/form.js}"></script>
+<script type="text/javascript"
+	th:src="@{/js/admin/theater/schedule/deleteForm.js}"></script>
+<title>관리자페이지</title>
+<style type="text/css">
+tr.on{
+	background-color: #f5d3d3;
+}
+</style>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="container-fluid">
+			<div style="width: 100%">
+				<!--  Row 1 -->
+				<div class="row mb-3">
+					<div class="col-12">
+						<div class="card">
+							<div class="card-header">
+								<h5 class="card-title fw-semibold mb-4">상영시간표 삭제</h5>
+							</div>
+							<div class="card-body">
+								<div class="row mb-3">
+									<div class="col-12">
+										<form class="border bg-light p-3" method="post">
+											<div class="d-flex" name="schedule-1">
+												<div class="form-group mb-3 col-3 p-3" id="location">
+													<label class="form-label">지역</label> <select
+														class="form-select">
+														<option value="" selected disabled>지역선택</option>
+														<option value="1">서울</option>
+														<option value="2">경기</option>
+														<option value="3">인천</option>
+														<option value="4">대전/충청/세종</option>
+														<option value="5">부산/대구/경상</option>
+														<option value="6">광주/전라/제주</option>
+														<option value="7">강원</option>
+													</select>
+												</div>
+												<div class="form-group mb-3 col-3 p-3" id="theater">
+													<label class="form-label">극장</label> <select
+														class="form-select">
+														<option value="" selected disabled>극장선택</option>
+													</select>
+												</div>
+												<div class="form-group mb-3 col-2 p-3" id="screen">
+													<label class="form-label">상영관</label> <select
+														class="form-select">
+														<option value="" selected disabled>상영관선택</option>
+													</select>
+												</div>
+												<div class="form-group mb-3 col-4 p-3" id="date">
+													<label class="form-label">상영일자</label> <select
+														class="form-select">
+														<option value="" selected disabled>상영일자선택</option>
+													</select>
+												</div>
+												
+											</div>
+											
+											<div class="d-flex">
+												<div class="card bg-light col-11">
+													<div class="card-body">
+														<div class="table" id="table-schedule">
+															<table>
+																<thead>
+																	<tr>
+																		<th colspan="4" class="text-center text-danger">삭제할 스케쥴을 선택해주세요.</th>
+																	
+																	</tr>
+																	<tr>
+																		<th class="text-center col-2">회차</th>
+																		<th class="text-center col-2">시작시간</th>
+																		<th class="text-center col-2">종료시간</th>
+																		<th class="text-center col-5">타이틀</th>
+																	</tr>
+																</thead>
+																<tbody>
+																	<tr data-id="0">
+																		<td colspan="4" class="text-center">상영시간표를 조회하세요.</td>
+																	</tr>
+
+																</tbody>
+															</table>
+														</div>
+													</div>
+												</div>
+												<div class="col-1">
+													<div class="text-end">
+														<button type="button" class="btn btn-primary btn-sm" id="btnRead">조회</button>
+													</div>
+												</div>
+											</div>
+																						
+											<div class="text-end">
+												<a class="btn btn-secondary btn-sm" th:href="@{/admin/theater/list}" style="text-decoration: none">취소</a>
+												<button type="button" class="btn btn-danger btn-sm" id="btnDel">삭제</button>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

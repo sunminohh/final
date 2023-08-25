@@ -1,5 +1,334 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.mgv.board.mapper.PartyBoardDao">
- 
+	<!-- 등록폼 관련  -->
+	<select id="getSceduleByDateAndTNoAndMNo" parameterType="map" resultType="kr.co.mgv.board.vo.PartyBoardSchedule">
+		select 
+			A.schedule_id			as id,
+			A.schedule_date			as date,
+			A.SCHEDULE_START_TIME	as start,
+			A.SCHEDULE_END_TIME		as end,
+			A.REMAINING_SEATS		as remainingSeats,
+			A.SCREEN_SEATS			as seats,
+			A.movie_no				as "movie.no",
+			C.movie_title			as "movie.title",
+			B.theater_no			as "theater.no",
+			D.theater_name			as "theater.name",
+			A.screen_id				as "screen.id",
+			B.screen_name			as "screen.name"
+		from 
+			MGV_SCHEDULE A, MGV_THEATER_SCREEN B, MGV_MOVIE C, MGV_THEATERS D
+		where 
+			A.screen_id = B.screen_id
+			and B.theater_no = D.theater_no
+		    and A.movie_no = C.movie_no
+		    and A.movie_no = #{movieNo}
+		    and A.schedule_date = #{date}
+		    and B.theater_no = #{theaterNo}
+		    AND TIMESTAMPDIFF(HOUR, NOW(), CONCAT(A.schedule_date, ' ', STR_TO_DATE(A.SCHEDULE_START_TIME, '%H:%i'))) >= 1
+	</select>
+	<select id="getSceduleById" parameterType="int" resultType="kr.co.mgv.board.vo.PartyBoardSchedule">
+		select 
+			A.schedule_id			as id,
+			A.schedule_date			as date,
+			A.SCHEDULE_START_TIME	as start,
+			A.SCHEDULE_END_TIME		as end,
+			A.REMAINING_SEATS		as remainingSeats,
+			A.SCREEN_SEATS			as seats,
+			A.movie_no				as "movie.no",
+			C.movie_title			as "movie.title",
+			B.theater_no			as "theater.no",
+			D.theater_name			as "theater.name",
+			A.screen_id				as "screen.id",
+			B.screen_name			as "screen.name"
+		from 
+			MGV_SCHEDULE A, MGV_THEATER_SCREEN B, MGV_MOVIE C, MGV_THEATERS D
+		where 
+			A.screen_id = B.screen_id
+			and B.theater_no = D.theater_no
+		    and A.movie_no = C.movie_no
+		    and A.schedule_id = #{scheduleId}
+	</select>
+	
+	<!-- CRUD -->
+	<insert id="insertPboard" parameterType="kr.co.mgv.board.vo.PartyBoard">
+		INSERT INTO PARTY_BOARD
+		(PARTY_HEADCOUNT, USER_ID,  PARTY_GENDER, SCHEDULE_ID, BOARD_CONTENT, BOARD_NAME)
+		VALUES(#{headCount}, #{user.id}, #{gender}, #{schedule.id}, #{content}, #{name});
+	</insert>
+	
+	<update id="updatePBoardByNo" parameterType="kr.co.mgv.board.vo.PartyBoard">
+		update PARTY_BOARD
+			<set>
+				<if test="name != null">
+					board_name = #{name},
+				</if>
+				<if test="content != null">
+					board_content = #{content},
+				</if>
+				<if test="updateDate != null">
+					party_update_date = CURRENT_TIMESTAMP,
+				</if>
+				<if test="readCount != null">
+					board_read_count = #{readCount},
+				</if>
+				<if test="commentCount != null">
+					board_comment_count = #{commentCount},
+				</if>
+				<if test="deleted != null">
+					party_deleted = #{deleted},
+				</if>
+				<if test="report != null">
+					board_report = #{report},
+				</if>
+				<if test="reportCount != null">
+					board_report_count = #{reportCount},
+				</if>
+				<if test="headCount != null">
+					party_headcount = #{headCount},
+				</if>
+				<if test="complete != null">
+					party_complete = #{complete},
+				</if>
+				<if test="gender != null">
+					party_gender = #{gender},
+				</if>
+				<if test="schedule != null">
+					schedule_id = #{schedule.id},
+				</if>
+				<if test="requestCount != null">
+					REQUEST_COUNT = #{requestCount},
+				</if>
+			</set>
+			where party_no = #{no}
+	</update>
+	
+	
+	
+	
+	<!-- 목록 -->
+	<select id="getPartyBoards" resultType="kr.co.mgv.board.vo.PartyBoard" parameterType="map">
+		select *
+    	from (
+	    		select
+				A.party_no				as no,
+				A.party_headcount		as headCount,
+				A.user_id				as "user.id",
+				A.PARTY_CREATE_DATE		as createDate,
+				A.PARTY_update_DATE		as updateDate,
+				A.party_gender			as gender,
+				A.board_name			as name,
+				A.board_comment_count	as commentCount,
+				A.board_read_count		as readCount,
+				A.PARTY_COMPLETE		as complete,
+				B.schedule_id			as "schedule.id",
+				B.schedule_date			as "schedule.date",
+				B.SCHEDULE_START_TIME	as "schedule.start",
+				B.SCHEDULE_END_TIME		as "schedule.end",
+				B.REMAINING_SEATS		as "schedule.remainingSeats",
+				B.SCREEN_SEATS			as "schedule.seats",
+				B.movie_no				as "schedule.movie.no",
+				D.movie_title			as "schedule.movie.title",
+				C.theater_no			as "schedule.theater.no",
+				E.theater_name			as "schedule.theater.name",
+				B.screen_id				as "schedule.screen.id",
+				C.screen_name			as "schedule.screen.name",
+				row_number() over (
+	            <choose>
+	                <!-- sort 파라미터가 있을 경우 -->
+	                <otherwise>
+	                    <choose>
+	                        <when test="sort == 'new'">
+	                            order by A.PARTY_create_date desc
+	                        </when>
+	                        <when test="sort == 'old'">
+	                            order by A.PARTY_create_date asc
+	                        </when>
+	                        <when test="sort == 'view'">
+	                            order by A.board_read_count desc, PARTY_create_date desc
+	                        </when>
+	                        <when test="sort == 'comment'">
+	                            order by A.Board_comment_count desc, PARTY_create_date desc
+	                        </when>
+	                        <!-- 기본 정렬 -->
+	                        <otherwise>
+	                            order by A.PARTY_create_date desc
+	                        </otherwise>
+	                    </choose>
+	                </otherwise>
+	            </choose>
+	        ) as ROWNUMBER
+			from 
+				PARTY_BOARD A, MGV_SCHEDULE B, MGV_THEATER_SCREEN C, MGV_MOVIE D, MGV_THEATERS E
+			where 
+				A.schedule_id = B.schedule_id
+				and B.screen_id = C.screen_id
+				and C.theater_no = E.theater_no
+			    and B.movie_no = D.movie_no
+			    and A.PARTY_DELETED = 'N'
+			    and A.BOARD_REPORT = 'N'
+	    	<choose>
+    			<when test="opt == 'title'">
+    				and A.board_name like CONCAT('%', #{keyword}, '%')
+    			</when>
+    			<when test="opt == 'content'">
+    				and A.board_content like CONCAT('%', #{keyword}, '%')
+    			</when>
+    			<when test="opt == 'all'">
+    				and (A.board_name like CONCAT('%', #{keyword}, '%') or A.board_content like CONCAT('%', #{keyword}, '%'))
+    			</when>
+    			<when test="opt == 'writer'">
+    				and A.user_id like CONCAT('%', #{keyword}, '%')
+    			</when>
+    			<when test="opt == 'movieTitle'">
+	                and D.movie_title like CONCAT('%', #{keyword}, '%')
+	            </when>
+    		</choose>
+    		 <choose>
+	 			<when test="complete == 'N'.toString()">
+	                and A.PARTY_COMPLETE = 'N'
+	            </when>
+	            <when test="complete == 'Y'.toString()">
+	                and A.PARTY_COMPLETE = 'Y'
+	            </when>
+				<when test="complete == 'E'.toString()">
+				    and (A.PARTY_COMPLETE = 'N' or A.PARTY_COMPLETE = 'Y')
+				</when>
+	  		</choose>
+    		<if test="theaterNo != null">
+				and E.theater_No = #{theaterNo}
+			</if>
+    	) A
+    	having A.ROWNUMBER between #{begin} and #{end}
+	</select>
+	
+	<select id="getTotalRows" resultType="int" parameterType="map">
+		SELECT COUNT(*)
+    	FROM PARTY_BOARD A, MGV_SCHEDULE B, MGV_THEATER_SCREEN C, MGV_MOVIE D, MGV_THEATERS E
+    	WHERE A.schedule_id = B.schedule_id
+				and B.screen_id = C.screen_id
+				and C.theater_no = E.theater_no
+			    and B.movie_no = D.movie_no
+			    and A.PARTY_DELETED = 'N'
+			    and A.BOARD_REPORT = 'N'
+  	    <choose>
+  			<when test="opt == 'movieTitle'">
+  				and D.movie_title like  CONCAT('%', #{keyword}, '%')
+  			</when>
+  			<when test="opt == 'title'">
+  				and A.board_name like  CONCAT('%', #{keyword}, '%')
+  			</when>
+  			<when test="opt == 'content'">
+  				and A.board_content like  CONCAT('%', #{keyword}, '%')
+  			</when>
+  			<when test="opt == 'all'">
+  				and (A.board_name like  CONCAT('%', #{keyword}, '%') or A.board_content like  CONCAT('%', #{keyword}, '%'))
+  			</when>
+  			<when test="opt == 'writer'">
+  				and A.member_id like  CONCAT('%', #{keyword}, '%')
+  			</when>
+  		</choose>
+  		<choose>
+ 			<when test="complete == 'N'.toString()">
+                and A.PARTY_COMPLETE = 'N'
+            </when>
+            <when test="complete == 'Y'.toString()">
+                and A.PARTY_COMPLETE = 'Y'
+            </when>
+			<when test="complete == 'E'.toString()">
+			    and (A.PARTY_COMPLETE = 'N' or A.PARTY_COMPLETE = 'Y')
+			</when>
+  		</choose>
+   		<if test="theaterNo != null">
+			and E.theater_No = #{theaterNo}
+		</if>
+    </select>
+    
+    <!-- 상세페이지 관련 -->
+    <select id="getPBoardByNo" parameterType="int" resultType="kr.co.mgv.board.vo.PartyBoard">
+    	select
+				A.party_no				as no,
+				A.party_headcount		as headCount,
+				A.user_id				as "user.id",
+				A.PARTY_CREATE_DATE		as createDate,
+				A.PARTY_update_DATE		as updateDate,
+				A.party_gender			as gender,
+				A.board_name			as name,
+				A.board_content			as content,
+				A.board_comment_count	as commentCount,
+				A.board_read_count		as readCount,
+				A.PARTY_COMPLETE		as complete,
+				A.REQUEST_COUNT			as requestCount,
+				B.schedule_id			as "schedule.id",
+				B.schedule_date			as "schedule.date",
+				B.SCHEDULE_START_TIME	as "schedule.start",
+				B.SCHEDULE_END_TIME		as "schedule.end",
+				B.REMAINING_SEATS		as "schedule.remainingSeats",
+				B.SCREEN_SEATS			as "schedule.seats",
+				B.movie_no				as "schedule.movie.no",
+				D.movie_title			as "schedule.movie.title",
+				C.theater_no			as "schedule.theater.no",
+				E.theater_name			as "schedule.theater.name",
+				B.screen_id				as "schedule.screen.id",
+				C.screen_name			as "schedule.screen.name",
+				F.location_no			as "schedule.location.no",
+				F.location_name			as "schedule.location.name"
+			from 
+				PARTY_BOARD A, MGV_SCHEDULE B, MGV_THEATER_SCREEN C, MGV_MOVIE D, MGV_THEATERS E, MGV_LOCATION F
+			where 
+				A.schedule_id = B.schedule_id
+				and B.screen_id = C.screen_id
+				and C.theater_no = E.theater_no
+			    and B.movie_no = D.movie_no
+			    and E.location_no = F.location_no
+			    and A.PARTY_DELETED = 'N'
+			    and A.BOARD_REPORT = 'N'
+			    and A.party_no = ${value}
+    </select>
+    
+    <!-- 신청버튼 관련 -->
+    <insert id="insertPartyJoin" parameterType="kr.co.mgv.board.vo.PartyJoin">
+    	INSERT INTO PARTY_JOIN
+		(PARTY_NO, USER_ID)
+		VALUES(#{board.no}, #{user.id});
+    </insert>
+    
+    <select id="getJoinByPnoAndId" parameterType="kr.co.mgv.board.vo.PartyJoin" resultType="kr.co.mgv.board.vo.PartyJoin">
+	    SELECT 
+	    	join_NO				as no, 
+	    	PARTY_NO			as "board.no", 
+	    	USER_ID				as "user.id", 
+	    	JOIN_REQUEST		as request, 
+	    	JOIN_CREATE_DATE	as createDate, 
+	    	JOIN_UPDATE_DATE	as updateDate
+		FROM 
+			PARTY_JOIN
+		WHERE 
+			party_no  = #{board.no}
+			and user_id = #{user.id}	
+    </select>
+    
+    <select id="getJoinByPno" parameterType="kr.co.mgv.board.vo.PartyJoin" resultType="int">
+	    SELECT 
+	    	join_NO				as no, 
+	    	PARTY_NO			as "board.no", 
+	    	USER_ID				as "user.id", 
+	    	JOIN_REQUEST		as request, 
+	    	JOIN_CREATE_DATE	as createDate, 
+	    	JOIN_UPDATE_DATE	as updateDate
+		FROM 
+			PARTY_JOIN
+		WHERE 
+			party_no  = #{board.no}
+			and join_request = 'Y'	
+    </select>
+    
+    <update id="updateJoin" parameterType="kr.co.mgv.board.vo.PartyJoin">
+	    UPDATE PARTY_JOIN
+			SET JOIN_REQUEST = #{request},
+			JOIN_UPDATE_DATE = CURRENT_TIMESTAMP
+		WHERE 
+			user_id = #{user.id}
+			and party_no = #{board.no}
+    </update>
 </mapper>

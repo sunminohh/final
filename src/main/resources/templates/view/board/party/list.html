@@ -5,22 +5,8 @@
 
 <head th:fragment="extra-head-content">
     <title>게시판</title>
-    <style>
-        .page-item.active .page-link {
-            z-index: 1;
-            color: #ccc;
-            font-weight: bold;
-            background-color: #333;
-            border-color: #444;
-
-        }
-
-        .page-link:focus, .page-link:hover {
-            color: #ccc;
-            background-color: #222;
-            border-color: #444;
-        }
-    </style>
+    <link th:href="@{/css/board/list.css}" rel="stylesheet" />
+    <script type="text/javascript" th:src="@{/js/board/mboardList.js}"></script>
 </head>
 <div layout:fragment="content" class="container my-3">
 
@@ -30,47 +16,54 @@
             <div>
                 <div class="d-flex justify-content-start float-start">
                     <div class="mt-2 ">
-                        <p class="result-count"><strong>전체 <span id="total-rows" class="font-gblue">5</span>건</strong>
+                        <p class="result-count"><strong>전체 <span id="total-rows" class="font-gblue" th:text="${result.pagination.totalRows}">5</span>건</strong>
                         </p>
                     </div>
 
                     <div class="float-start ps-2">
-                        <form id="form-search" method="get" action="@{list}" 
+                        <form id="form-board-search" method="get" th:action="@{list}" 
                               class="row row-cols-lg-auto g-3 align-items-center justify-content-end ">
-							<input type="hidden" name="sort" value="${param.sort }" />
-							<input type="hidden" name="rows" value="${param.rows }" />
+							<input type="hidden" name="sort" th:value="${param.sort }" />
+							<input type="hidden" name="rows" th:value="${param.rows }" />
 							<input type="hidden" name="page" value="${param.page }" />
-							<input type="hidden" name="theaterNo" value="${param.theaterNo }" />
-							<input type="hidden" name="locationNo" value="${param.locationNo }" />
+							<input type="hidden" name="theaterNo" th:value="${param.theaterNo }" />
+							<input type="hidden" name="locationNo" th:value="${param.locationNo }" />
+							<input type="hidden" name="complete" th:value="${param.complete }" />
                             <div class="col-12 ">
-                                <select class="form-select form-select-sm  form-control-sm" name="opt">
-                                    <option value=""> 검색옵션</option>
-                                    <option th:value="movieTitle"
-                                            th:classappend="${#strings.equals(param.opt, 'movieTitle') ? 'selected' : '' }">
+                                <select class="form-select form-select-sm form-control-sm" name="opt" th:value="${param.opt}">
+                                    <option value="" disabled> 검색옵션</option>
+                                    <option class="opt-select"
+                                    		th:value="movieTitle"
+                                            th:selected="${#strings.equals(param.opt, 'movieTitle')}">
                                          영화제목
                                     </option>
-                                    <option th:value="title"
-                                            th:classappend="${#strings.equals(param.opt, 'title') ? 'selected' : '' }">
+                                    <option class="opt-select"
+                                    		th:value="title"
+                                            th:selected="${#strings.equals(param.opt, 'title')}">
                                         제목
                                     </option>
-                                    <option th:value="content"
-                                            th:classappend="${#strings.equals(param.opt, 'content') ? 'selected' : '' }"> 내용
+                                    <option class="opt-select"
+                                    		th:value="content"
+                                            th:selected="${#strings.equals(param.opt, 'content')}"> 
+                                            내용
                                     </option>
-                                    <option th:value="all"
-                                            th:classappend="${#strings.equals(param.opt, 'all') ? 'selected' : '' }">
+                                    <option class="opt-select"
+                                    		th:value="all"
+                                            th:selected="${#strings.equals(param.opt, 'all')}">
                                         제목/내용
                                     </option>
-                                    <option th:value="writer"
-                                            th:classappend="${#strings.equals(param.opt, 'writer') ? 'selected' : '' }">
+                                    <option class="opt-select"
+                                    		th:value="writer"
+                                            th:selected="${#strings.equals(param.opt, 'writer')}">
                                         작성자
                                     </option>
                                 </select>
                             </div>
                             <div class="col-12">
-                                <input type="text" class="form-control form-control-sm" name="keyword" th:value="${param.keyword}"/>
+                                <input type="text" class="form-control form-control-sm" name="keyword" th:value="${param.keyword}" style="width: 140px;"/>
                             </div>
                             <div class="col-12">
-                                <button type="button" class="btn btn-outline-dark btn-sm" onclick="searchTBoard()">검색</button>
+                                <button type="button" class="btn btn-outline-dark btn-sm" onclick="searchBoard()">검색</button>
                             </div>
                         </form>
                     </div>
@@ -78,81 +71,116 @@
                 <div>
                     <div class="d-flex justify-content-end mb-3 float-end ps-3 ">
                         <select class="form-select me-1 form-select-sm" style="width: 100px" name="sort" onchange="changeSort()">
-                            <option th:value="new"
-                                    th:classappend="${#strings.equals(param.sort, 'new') ? 'selected' : '' }"> 최신순
+                            <option class="sort-select" th:value="new" th:selected="${#strings.equals(param.sort, 'new')}">최신순</option>
+							<option class="sort-select" th:value="old" th:selected="${#strings.equals(param.sort, 'old')}">오래된순</option>
+							<option class="sort-select" th:value="view" th:selected="${#strings.equals(param.sort, 'view')}">조회수순</option>
+							<option class="sort-select" th:value="comment" th:selected="${#strings.equals(param.sort, 'comment')}">댓글순</option>
+
+                        </select>
+                        <select class="form-select me-2 form-select-sm pe-6" style="width: 100px" name="rows" onchange="changeRows()" th:value="${param.rows}">
+                            <option class="rows-select"
+                            		th:value="10"
+                                    th:selected="${#strings.equals(param.rows, '10')}"> 10개씩
                             </option>
-                            <option th:value="old"
-                                    th:classappend="${#strings.equals(param.sort, 'old') ? 'selected' : '' }"> 오래된순
+                            <option class="rows-select"
+                            		th:value="20"
+                                    th:selected="${#strings.equals(param.rows, '20')}"> 20개씩
                             </option>
-                            <option th:value="view"
-                                    th:classappend="${#strings.equals(param.sort, 'view') ? 'selected' : '' }"> 조회수순
-                            </option>
-                            <option th:value="comment"
-                                    th:classappend="${#strings.equals(param.sort, 'comment') ? 'selected' : '' }"> 댓글순
+                            <option class="rows-select"
+                            		th:value="50"
+                                    th:selected="${#strings.equals(param.rows, '50')}"> 50개씩
                             </option>
                         </select>
-                        <select class="form-select me-2 form-select-sm pe-6" style="width: 100px" name="rows" onchange="changeRows()">
-                            <option th:value="10"
-                                    th:classappend="${#strings.equals(param.rows, '10') ? 'selected' : '' }"> 10개씩
-                            </option>
-                            <option th:value="20"
-                                    th:classappend="${#strings.equals(param.rows, '20') ? 'selected' : '' }"> 20개씩
-                            </option>
-                            <option th:value="50"
-                                    th:classappend="${#strings.equals(param.rows, '50') ? 'selected' : '' }"> 50개씩
-                            </option>
-                        </select>
+
                     </div>
                     <div class="d-flex justify-content-end float-end ">
-
+						<select id="completeOrNot" title="마감여부 선택"
+                        		class="form-select form-select-sm  form-control-sm mb-3 me-2"
+                        		style="width: 100px; " name="complete"
+                        		th:onchange="changeCom()">
+                        	 <option value="" disabled> 마감여부</option>
+	                         <option value="E" th:selected="${#strings.equals(param.complete, 'E')}">전체</option>
+	                         <option value="N" th:selected="${#strings.equals(param.complete, 'N')}">신청중</option>
+	                         <option value="Y" th:selected="${#strings.equals(param.complete, 'Y')}">신청마감</option>
+            			</select>
                         <select id="location" title="지역 선택"
-                                class="form-select form-select-sm  ml07 form-control-sm mb-3"
-                                style="width: 150px; float:left; " name="locationNo"
-                                onchange="changeLoc()">
+                                class="form-select form-select-sm form-control-sm mb-3"
+                                style="width: 130px; float:left; " name="locationNo"
+                                th:onchange="changeLoc()" >
                             <option value="" selected disabled>지역선택</option>
-                            <option th:value="locatioNo">지역 이름</option>
+
+                            <option th:each="location : ${result.locations}" 
+                            		th:text="${location.name}" 
+                            	    th:value="${location.no}"
+                            	    th:selected="${#strings.equals(location.no, param.locationNo)}">지역 이름</option>
+
                         </select>
 
-                        <select id="theater" title="극장 선택" class="form-select form-select-sm ml07 form-control-sm mb-3"
-                                style="width: 150px; float:left; position: relative; left:5px;" 
-                                name="theaterNo" onchange="changeTBoard()">
-      						<option value="" selected disabled>극장선택</option>
+                        <select id="theater" title="극장 선택" class="form-select form-select-sm form-control-sm mb-3"
+                                style="width: 130px; float:left; position: relative; left:5px;" 
+                                name="theaterNo" th:onchange="changeTboard()">
+      						<option value="" disabled selected th:text="극장선택"></option>
+							<option th:each="theater:${theaters}" th:if="${param.locationNo != 0}" th:value="${theater.no}" th:text="${theater.name}"></option>
                         </select>
                     </div>
                 </div>
 
             </div>
-            <hr class="mt-5 mb-0">
+            <hr class="mt-5 mb-0 pb-0" >
 
-            <table class="table table-sm" id="table-Tboard">
-                <colgroup>
-                    <col width="5%">
-                    <col width="70%">
-                    <col width="10%">
-                    <col width="5%">
-                    <col width="10%">
-                </colgroup>
-                <thead>
-                <tr>
-                    <th>No</th>
-                    <th class="text-center">제목</th>
-                    <th>글쓴이</th>
-                    <th>조회수</th>
-                    <th>작성시간</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>1</td>
-                    <td><a class="text-black text-decoration-none"
-                           th:href="@{/board/party/detail(no=1)}">게시글제목</a><span>(게시글 댓글수)</span></td>
-                    <td class="fw-light">작성자아이디</td>
-                    <td class="fw-light">조회수</td>
-                    <td class="fw-light">작성일</td>
-                </tr>
-
-                </tbody>
-            </table>
+			<table class="table table-sm" id="table-Pboard">
+			    <colgroup>
+			        <col width="5%">
+			        <col width="50%">
+			        <col width="15%">
+			        <col width="10%">
+			        <col width="5%">
+			        <col width="15%">
+			    </colgroup>
+			    <thead>
+			        <tr>
+			            <th>No</th>
+			            <th class="text-center">제목</th>
+			            <th>파티정보</th>
+			            <th>글쓴이</th>
+			            <th>조회수</th>
+			            <th>작성시간</th>
+			        </tr>
+			    </thead>
+			    <tbody>
+			    	<tr th:if="${#lists.isEmpty(result.parytBoards)}">
+						<td colspan="5">게시글이 존재하지 않습니다.</td>
+					</tr>	
+			        
+			        <tr th:if="${not #lists.isEmpty(result.parytBoards)}"
+                		th:each="board : ${result.parytBoards}">
+			            <td th:text="${board.no}">1</td>
+			            <td>
+			                <div class="combined-cell">
+			                    <div class="comment-count" th:text="${'('+#numbers.formatInteger(board.commentCount, 1, 'COMMA')+')'}">(3,000)</div>
+			                    <a class="text-black text-decoration-none" th:href="@{/board/party/read(no=${board.no},page=${result.pagination.page}, rows=${param.rows}, complete=${param.complete}, sort=${param.sort}, theaterNo=${param.theaterNo}, opt=${param.opt}, keyword=${param.keyword})}" >
+			                        <div class="title-content"  th:text="${board.name.length() > 33 ? board.name.substring(0, 33) + '...' : board.name}">게시글제목입니다. 짱 길게 만들어야지.게시글제목입니다. 짱 길게 만들어야지.게시글제목입니다. 짱 길게 만들어야지.게시글제목입니다. 짱 길게 만들어야지.게시글제목입니다. 짱 길게 만들어야지.</div>
+			                    </a>
+			                </div>
+			            </td>
+						<td class="fw-light">
+						    <div class="selected-movie-info-box pe-2 pt-2 border" 
+						    	 style="border-radius: 7px; border-color:rgb(212, 212, 212); background-color: rgb(212, 212, 212); width:147px; height: 23px;"
+						    	 th:if="${#strings.equals(board.complete, 'Y')}">
+						        <p class="ms-2" style="color:rgb(64, 44, 27); font-size: 10px; margin-top: -3px;"  th:text="${board.schedule.date + ' ' + board.schedule.start + ' ' + (board.gender == 'N' ? '남/여' : (board.gender == 'W' ? '여' : '남')) + ' ' + board.headCount + '명'}">2023-08-23 18:00 남/여 2</p>
+						    </div>
+						    <div class="selected-movie-info-box pe-2 pt-2 border" 
+						    	 style="border-radius: 7px; border-color:rgb(254, 243, 220); background-color:rgb(254, 243, 220); width:147px; height: 23px;"
+						    	 th:if="${#strings.equals(board.complete, 'N')}">
+						        <p class="ms-2" style="color:rgb(64, 44, 27); font-size: 10px; margin-top: -3px;"  th:text="${board.schedule.date + ' ' + board.schedule.start + ' ' + (board.gender == 'N' ? '남/여' : (board.gender == 'W' ? '여' : '남')) + ' ' + board.headCount + '명'}">2023-08-23 18:00 남/여 2</p>
+						    </div>
+						</td>
+	                    <td class="fw-light" th:text="${board.user.id}">작성자아이디</td>
+	                    <td class="fw-light" th:text="${#numbers.formatInteger(board.readCount, 1, 'COMMA')}">조회수</td>	
+	                    <td class="fw-light" th:value="${board.createDate}" id="board-create-date" th:text="${#dates.format(board.createDate, 'yyyy-MM-dd HH:mm')}">작성일</td>
+			        </tr>
+			    </tbody>
+			</table>
 
             <div class="text-end">
                 <a th:href=@{/board/party/add} class="btn btn-dark btn-sm" style="text-decoration: none; color: white; ">새 게시글
@@ -160,23 +188,41 @@
             </div>
 
 
-            <nav>
-                <ul class="pagination justify-content-center">
-                    <li class="page-item">
-                        <a href="list.jsp?page=이전페이지" class="page-link"
-                           style="background-color: #000; color: white;">이전</a>
+             <nav th:if="${result.pagination.totalRows > 0}">
+				<ul class="pagination justify-content-center">
+				    <li class="page-item" th:if="${result.pagination.currentBlock > 1}">
+				        <a title="첫번째 페이지 보기"
+				           th:href="@{list(page=1, sort=${param.sort}, rows=${param.rows}, theaterNo=${param.theaterNo}, locationNo=${param.locationNo}, opt=${param.opt}, keyword=${param.keyword})}"
+				           class="page-link page-number-link control first"
+				           ></a>
+				    </li>
+				    <li class="page-item" th:if="${result.pagination.currentBlock > 1}">
+				        <a title="이전 5페이지 보기"
+				           th:href="@{list(page=${(result.pagination.currentBlock - 1) * 5} , sort=${param.sort}, rows=${param.rows}, theaterNo=${param.theaterNo}, locationNo=${param.locationNo}, opt=${param.opt}, keyword=${param.keyword})}"
+				           class="page-link page-number-link control prev"
+				           ></a>
+				    </li>
+				    <li class="page-item" th:each="num : ${result.pagination.pageNumbers}">
+                        <a th:href="@{list(page=${num}, sort=${param.sort}, rows=${param.rows}, theaterNo=${param.theaterNo}, locationNo=${param.locationNo}, opt=${param.opt}, keyword=${param.keyword})}" 
+                           th:text="${num}"
+                           th:classappend="${result.pagination.page == (num) ? 'active' : '' }"
+                           class="page-link page-number-link"
+                           >1</a>
                     </li>
-
-                    <li class="page-item">
-                        <a href="list.jsp?page=<%=num %>" class="page-link"
-                           style="background-color: white; color: #000;">1</a>
-                    </li>
-
-                    <li class="page-item">
-                        <a href="list.jsp?page=다음페이지" class="page-link"
-                           style="background-color: #000; color: white;">다음</a>
-                    </li>
-                </ul>
+                    <li class="page-item" th:if="${result.pagination.currentBlock < result.pagination.totalBlocks}">
+				        <a title="이후 5페이지 보기"
+				           th:href="@{list(page=${result.pagination.currentBlock * 5 + 1}, sort=${param.sort}, rows=${param.rows}, theaterNo=${param.theaterNo}, locationNo=${param.locationNo}, opt=${param.opt}, keyword=${param.keyword})}"
+				           class="page-link page-number-link control next"
+				          ></a>
+				    </li>
+                 	<li class="page-item" th:if="${result.pagination.currentBlock < result.pagination.totalBlocks}">
+				        <a title="마지막 페이지 보기"
+				           th:href="@{list(page=${result.pagination.totalPages}, sort=${param.sort}, rows=${param.rows}, theaterNo=${param.theaterNo}, locationNo=${param.locationNo}, opt=${param.opt}, keyword=${param.keyword})}"
+				           class="page-link page-number-link control last"
+				           ></a>
+				    </li>
+				    
+				</ul>
             </nav>
         </div>
     </div>

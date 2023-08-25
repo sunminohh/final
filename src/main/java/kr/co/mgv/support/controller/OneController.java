@@ -14,13 +14,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.mgv.support.dto.OneList;
 import kr.co.mgv.support.form.AddOneForm;
 import kr.co.mgv.support.service.LostService;
 import kr.co.mgv.support.service.OneService;
+import kr.co.mgv.support.view.SupportFileDownloadView;
 import kr.co.mgv.support.vo.Lost;
+import kr.co.mgv.support.vo.LostFile;
 import kr.co.mgv.support.vo.One;
+import kr.co.mgv.support.vo.OneFile;
 import kr.co.mgv.support.vo.SupportCategory;
 import kr.co.mgv.theater.vo.Location;
 import kr.co.mgv.theater.vo.Theater;
@@ -32,6 +36,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class OneController {
 
+	private final SupportFileDownloadView supportFileDownloadView;
 	private final OneService oneService;
 	private final LostService lostService;
 	
@@ -52,12 +57,17 @@ public class OneController {
 			@RequestParam(name = "page", required = false, defaultValue = "1") int page,
 			@RequestParam(name = "answered", required = false) String answered,
 			@RequestParam(name ="keyword", required = false) String keyword,
+			@RequestParam(name ="guestName", required = false) String guestName,
+			@RequestParam(name ="guestEmail", required = false) String guestEmail,
 			Model model) {
 		
 		Map<String, Object> param = new HashMap<>();
 		
-		param.put("userId", user.getId());
 		param.put("page", page);
+		
+		if (user != null && StringUtils.hasText(user.getId())) {
+			param.put("userId", user.getId());
+		}
 		
 		if (StringUtils.hasText(answered)) {
 			param.put("answered", answered);
@@ -65,6 +75,14 @@ public class OneController {
 	
 		if (StringUtils.hasText(keyword)) {
 			param.put("keyword", keyword);
+		}
+		
+		if (StringUtils.hasText(guestName)) {
+			param.put("guestName", guestName);
+		}
+	
+		if (StringUtils.hasText(keyword)) {
+			param.put("guestEmail", guestEmail);
 		}
 		
 		OneList oneList = oneService.search(param);
@@ -77,7 +95,6 @@ public class OneController {
 	@PostMapping("/add")
 	public String insertOne(@AuthenticationPrincipal User user, AddOneForm form) {
 		oneService.insertOne(form, user);
-		
 		return "redirect:/support/one";
 	}
 	
@@ -91,15 +108,36 @@ public class OneController {
 	@RequestMapping("/myinquery/detail")
 	public String getOneByNo(@RequestParam("no") int oneNo, Model model) {
 		One one = oneService.getOneByNo(oneNo);
+		List<OneFile> oneFiles = oneService.getOneFileByOneNo(oneNo);
 		model.addAttribute("one", one);
+		model.addAttribute("oneFiles", oneFiles);
 		
 		return "/view/support/one/detail";
 	}
 	
+	@RequestMapping("/myinquery/download")
+	public ModelAndView download(@RequestParam("no") int fileNo) {
+		
+		OneFile oneFile = oneService.getOneFileByFileNo(fileNo);
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setView(supportFileDownloadView);
+		
+		mav.addObject("directory", "static/images/support/one");
+		mav.addObject("saveName", oneFile.getSaveName());
+		mav.addObject("originalName", oneFile.getOriginalName());
+		
+		return mav;
+	}
+	
+	
+	
 	@RequestMapping("/mylost/detail")
 	public String getMyLostByNo(@RequestParam("no") int lostNo, Model model) {
 		Lost lost = lostService.getLostByNo(lostNo);
+		List<LostFile> lostFiles = lostService.getLostFilesByLostNo(lostNo);
 		model.addAttribute("lost", lost);
+		model.addAttribute("lostFiles", lostFiles);
 		
 		return "/view/support/one/lostdetail";
 	}
@@ -117,6 +155,7 @@ public class OneController {
 		lostService.deleteLost(lostNo);
 		return "redirect:/support/one/myinquery?tab=tab-lost";
 	}
+	
 	
 	
 	@GetMapping("/getLocation")

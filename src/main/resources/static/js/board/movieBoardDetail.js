@@ -35,23 +35,6 @@ $(function() {
           });
       });
 
-/*
-   신청버튼 관련 코드
-*/   
-      let joinButtonClicked = false;
-      $("#join-button").click(function(event) {
-         event.preventDefault();
-         if (!joinButtonClicked) {
-            $(this).removeClass("btn-outline-secondary").addClass("btn-secondary")
-                  .text("취소하기");
-            joinButtonClicked = true;
-         } else {
-            $(this).removeClass("btn-secondary").addClass("btn-outline-secondary")
-                  .text("신청하기");
-            joinButtonClicked = false;
-         }
-      });
-
 
 
 

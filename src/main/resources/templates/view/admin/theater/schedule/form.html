@@ -1,94 +1,155 @@
 <!DOCTYPE html>
 <html layout:decorate="~{ layout/admin }">
 <head th:fragment="extra-head-content">
+<script type="text/javascript"
+	th:src="@{/js/admin/theater/schedule/form.js}"></script>
 <title>관리자페이지</title>
+<style type="text/css">
+ input[type="number"]{
+	border: var(--bs-border-width) solid #DFE5EF;
+    border-radius: 7px;
+    padding: 5px 5px 5px 5px;
+    background-color: transparent;
+}
+option.disabled{
+	background-color: lightgrey;
+} 
+</style>
 </head>
 <body>
-	<div layout:fragment="content" >
-		<div class="container-fluid" >
-			<!--  Row 1 -->
-			<div class="row mb-3">
-				<div class="col-12">
-					<div class="card" style="height: 1000px;">
-						<div class="card-header">
-							<h5 class="card-title fw-semibold mb-4">상영시간표 등록</h5>
-						</div>
-						<div class="card-body">
-							<div class="row mb-3">
-								<div class="col-12">
-									<form class="border bg-light p-3" method="post"	>
-										<div class="d-flex">
-											<div class="form-group mb-3 col-3 p-3" >
-												<label class="form-label">지역</label> 
-												<select class="form-select">
-				                                    <option value="1">March 2023</option>
-				                                    <option value="2">April 2023</option>
-				                                    <option value="3">May 2023</option>
-				                                    <option value="4">June 2023</option>
-				                                </select>
+	<div layout:fragment="content">
+		<div class="container-fluid">
+			<div style="width: 100%">
+				<!--  Row 1 -->
+				<div class="row mb-3">
+					<div class="col-12">
+						<div class="card">
+							<div class="card-header">
+								<h5 class="card-title fw-semibold mb-4">상영시간표 등록</h5>
+							</div>
+							<div class="card-body">
+								<div class="row mb-3">
+									<div class="col-12">
+										<form class="border bg-light p-3" method="post">
+											<div class="d-flex" name="schedule-1">
+												<div class="form-group mb-3 col-3 p-3" id="location">
+													<label class="form-label">지역</label> <select
+														class="form-select">
+														<option value="" selected disabled>지역선택</option>
+														<option value="1">서울</option>
+														<option value="2">경기</option>
+														<option value="3">인천</option>
+														<option value="4">대전/충청/세종</option>
+														<option value="5">부산/대구/경상</option>
+														<option value="6">광주/전라/제주</option>
+														<option value="7">강원</option>
+													</select>
+												</div>
+												<div class="form-group mb-3 col-3 p-3" id="theater">
+													<label class="form-label">극장</label> <select
+														class="form-select">
+														<option value="" selected disabled>극장선택</option>
+													</select>
+												</div>
+												<div class="form-group mb-3 col-2 p-3" id="screen">
+													<label class="form-label">상영관</label> <select
+														class="form-select">
+														<option value="" selected disabled>상영관선택</option>
+													</select>
+												</div>
+												<div class="form-group mb-3 col-4 p-3" id="date">
+													<label class="form-label">상영일자</label> <select
+														class="form-select">
+														<option value="" selected disabled>상영일자선택</option>
+													</select>
+												</div>
+												
 											</div>
-											<div class="form-group mb-3 col-3 p-3" >
-												<label class="form-label">극장</label> 
-												<select class="form-select">
-				                                    <option value="1">March 2023</option>
-				                                    <option value="2">April 2023</option>
-				                                    <option value="3">May 2023</option>
-				                                    <option value="4">June 2023</option>
-				                                </select>
+											
+											<div class="d-flex">
+												<div class="card bg-light col-11">
+													<div class="card-body">
+														<div class="table" id="table-schedule">
+															<table>
+																<thead>
+																	<tr>
+																		<th class="text-center col-2">회차</th>
+																		<th class="text-center col-2">시작시간</th>
+																		<th class="text-center col-2">종료시간</th>
+																		<th class="text-center col-5">타이틀</th>
+																	</tr>
+																</thead>
+																<tbody>
+																	<tr>
+																		<td colspan="4" class="text-center">상영시간표를 조회하세요.</td>
+																	</tr>
+
+																</tbody>
+															</table>
+														</div>
+													</div>
+												</div>
+												<div class="col-1">
+													<div class="text-end">
+														<button type="button" class="btn btn-primary btn-sm" id="btnRead">조회</button>
+													</div>
+												</div>
 											</div>
-											<div class="form-group mb-3 col-3 p-3" >
-												<label class="form-label">상영관</label> 
-												<select class="form-select">
-				                                    <option value="1">March 2023</option>
-				                                    <option value="2">April 2023</option>
-				                                    <option value="3">May 2023</option>
-				                                    <option value="4">June 2023</option>
-				                                </select>
+											<div class="d-flex">
+												<div class="form-group col-9 mb-3 p-3" id="movie">
+													<label class="form-label">영화</label> <select
+														class="form-select">
+														<option value="" selected disabled>영화선택</option>
+
+													</select>
+												</div>
+												<div class="form-group col-2 mb-3 p-3 align-self-end">
+													<button type="button" class="btn btn-primary btn-sm"
+														id="btnMov">영화선택</button>
+												</div>
 											</div>
-										</div>
-										<div class="d-flex">
-											<div class="form-group mb-3 col-3 p-3" >
-												<label class="form-label">시작시간</label> 
-												<select class="form-select">
-				                                    <option value="1">March 2023</option>
-				                                    <option value="2">April 2023</option>
-				                                    <option value="3">May 2023</option>
-				                                    <option value="4">June 2023</option>
-				                                </select>
+											<div class="d-flex">
+												<div class="form-group mb-3 col-3 p-3">
+													<label class="form-label">시작시간</label></br>
+													<input type="number" style="width: 40px" id="timeInput" min="0" max="25" step="1" value="">
+													<strong>:</strong>
+													<input type="number" style="width: 40px" id="minuteInput" min="0" max="59" step="5" value="">
+													<button type="button" class="btn btn-primary btn-sm"
+														id="btnTime">시간선택</button>
+												</div>
+												<div class="form-group mb-3 col-3 p-3">
+													<label class="form-label">종료시간</label></br>
+													<input class="form-select" type="text" id="endTime" readonly>
+												</div>
+												<div class="form-group mb-3 col-3 p-3" id="turn">
+													<label class="form-label">회차</label> <select
+														class="form-select">
+														<option value="" selected disabled>회차선택</option>
+														<option value="1">1 회차</option>
+														<option value="2">2 회차</option>
+														<option value="3">3 회차</option>
+														<option value="4">4 회차</option>
+														<option value="5">5 회차</option>
+														<option value="6">6 회차</option>
+														<option value="7">7 회차</option>
+														<option value="8">8 회차</option>
+													</select>
+												</div>
+												<div class="form-group mb-3 col-3 p-3" id="screenInfo">
+													<label class="form-label">상영정보</label> <select
+														class="form-select">
+														<option value="" selected disabled>정보선택</option>
+														<option value="2D">2D 영화</option>
+													</select>
+												</div>
 											</div>
-											<div class="form-group mb-3 col-3 p-3" >
-												<label class="form-label">상영일자</label> 
-												<select class="form-select">
-				                                    <option value="1">March 2023</option>
-				                                    <option value="2">April 2023</option>
-				                                    <option value="3">May 2023</option>
-				                                    <option value="4">June 2023</option>
-				                                </select>
+											
+											<div class="text-end">
+												<a class="btn btn-secondary btn-sm">취소</a>
+												<button type="button" class="btn btn-primary btn-sm" id="btnReg">등록</button>
 											</div>
-											<div class="form-group mb-3 col-3 p-3" >
-												<label class="form-label">회차</label> 
-												<select class="form-select">
-				                                    <option value="1">March 2023</option>
-				                                    <option value="2">April 2023</option>
-				                                    <option value="3">May 2023</option>
-				                                    <option value="4">June 2023</option>
-				                                </select>
-											</div>
-										</div>
-										<div class="form-group mb-3">
-											<label class="form-label">영화</label> 
-											<select class="form-select">
-			                                    <option value="1">March 2023</option>
-			                                    <option value="2">April 2023</option>
-			                                    <option value="3">May 2023</option>
-			                                    <option value="4">June 2023</option>
-			                                </select>
-										</div>
-										<div class="text-end">
-											<a class="btn btn-secondary btn-sm">취소</a>
-											<button type="submit" class="btn btn-primary btn-sm">등록</button>
-										</div>
-									</form>
+										</form>
+									</div>
 								</div>
 							</div>
 						</div>

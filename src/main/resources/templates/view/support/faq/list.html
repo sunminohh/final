@@ -48,7 +48,7 @@
     				<div class="qut" th:if="${not #lists.isEmpty(result.faqList)}">
     					<a href="#">
     						<p class="tit">
-    							<span class="font-green" th:text="'[' + ${faq.category.name}+ ']'"></span>
+    							<strong th:text="${faq.orderNo != 99 ? faq.orderNo + '.' : ''} "></strong> <span class="font-green" th:text="'[' + ${faq.category.name}+ ']'"></span>
     						</p>
     						<p class="txt">
     							<span class="font-green"></span>
@@ -57,13 +57,11 @@
     					</a>
     				</div>
     				<div class="awn">
-    					<p class="cont">
-    						<span style="font-size:10.0pt">
-    							<span style="line-height:107%" th:text="${faq.content}">
-								</span>
-    						</span>
-    					</p>
-    				</div>
+                        <div class="cont">
+                            <span style="font-size:10.0pt; line-height:107%" th:utext="${faq.content}">
+                            </span>
+                        </div>
+                    </div>
     			</li>
     		</ul>
 		</div>

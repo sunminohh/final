@@ -18,6 +18,8 @@
 	<result column="THEATER_TEL" property="tel" />
 	<result column="THEATER_DISABLED" property="disabled" />
 	<result column="THEATER_INFO" property="info" />
+	<result column="LOCATION_NO" property="location.no" />
+    <result column="LOCATION_NAME" property="location.name" />
 
 	<collection property="parkingInfo" ofType="Parkinginfo">
 		<id column="PARKING_ID" property="id" />
@@ -53,15 +55,19 @@
 			A.THEATER_TEL,
 			A.THEATER_DISABLED,
 			A.THEATER_INFO,
+			A.location_no,
+			B.location_name,
 			C.PARKING_INFO,
 			C.PARKING_CONFIRM,
 			C.PARKING_CASH
 		from
-			MGV_THEATERS A, MGV_THEATER_PARKING_INFO C  
+			MGV_THEATERS A, MGV_LOCATION B, MGV_THEATER_PARKING_INFO C  
 		where
 			A.THEATER_NO = #{value}
 			AND A.THEATER_NO = C.THEATER_NO
+			and A.location_no = B.location_no
 	</select>
+	
 	<select id="getTheaterFacilitiesByNo" parameterType="int" resultType="Facility">
 		select
 			E.FACILITY_TYPE as type,
@@ -79,5 +85,30 @@
 		where theater_no = #{value}
 	</select>
 	
+	<select id="getTheatersByLocationNo" parameterType="int" resultType="theater">
+	select
+	 theater_no		as no,
+	 theater_name	as name
+	from	MGV_THEATERS
+	where	location_no = #{value}
+	</select>
 
+	<select id="getScreensByTheaterNo" parameterType="int" resultType="Screen">
+	select 
+		screen_id	as id,
+		screen_name	as name
+	from MGV_THEATER_SCREEN
+	where theater_no = #{value}
+	</select>
+
+	<select id="getScreenById" parameterType="int" resultType="Screen">
+	select 
+		screen_id	as id,
+		screen_name	as name,
+		screen_seats as seats
+	from MGV_THEATER_SCREEN
+	where screen_id = #{value}
+	</select>
+	
+	
 </mapper>

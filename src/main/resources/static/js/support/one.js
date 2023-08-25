@@ -93,6 +93,7 @@ $(function() {
 		// 입력 필드에 반영
 		$(this).val(numericValue);
 	});
+	
 	// 폼 알림창
 	$("#btn-submit").on("click", function(event) {
 		let checkbox = $('#chk').prop('checked');
@@ -202,6 +203,8 @@ $(function() {
 		let answered = $("select[name=answered]").val()
 		// 키워드 조회
 		let keyword = $("input[name=keyword]").val();
+		let guestName = $("input[name=guestName]").val();
+		let guestEmail = $("input[name=guestEmail]").val();
 
 		// 요청데이터 생성
 		const $tbody = $(".oneList ").empty();
@@ -221,9 +224,7 @@ $(function() {
             
 		const requestUrl = tabType === 'tab-one' ? '/support/one/list' : '/support/lost/mylist';
 
-		$.getJSON(requestUrl, {answered:answered, page:page,  keyword:keyword}, function(result) {
-			
-			
+		$.getJSON(requestUrl, {answered:answered, page:page,  keyword:keyword, guestName:guestName, guestEmail:guestEmail}, function(result) {
 			
 			// 총 건수 업데이트
 			$('#totalCnt').text(result.pagination.totalRows);
@@ -235,7 +236,6 @@ $(function() {
 				$tbody.append(`<tr><th colspan='6' style="text-align:center;">조회된 내역이 없습니다.</th></tr>`);
 				$pagination.empty();
 			} else {
-
 				const tbodyHtml = list.map(function(board, index) {
 					return `
 				<tr>
@@ -294,7 +294,6 @@ $(function() {
 	        }
 	    });
 	});
-	
 	
 });
 
