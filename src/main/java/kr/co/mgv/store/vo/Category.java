@@ -14,6 +14,6 @@ import lombok.ToString;
 @Alias("Category")
 public class Category {
 
-	private int catNo;
-	private String catName;
+	private int no;
+	private String name;
 }

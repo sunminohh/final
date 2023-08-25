@@ -38,15 +38,17 @@
 
     <select id="getPackagesByCatNo" parameterType="int" resultType="Package">
         select
-            PACKAGE_NO          as no,
-            PACKAGE_NAME        as name,
-            PACKAGE_PRICE       as price,
-            PACKAGE_IMAGE       as image,
-            PACKAGE_COMPOSITION as composition,
-            CAT_NO              as catNo
+            A.PACKAGE_NO          as no,
+            A.PACKAGE_NAME        as name,
+            A.PACKAGE_PRICE       as price,
+            A.PACKAGE_IMAGE       as image,
+            A.PACKAGE_COMPOSITION as composition,
+            B.CAT_NO              as "category.no"
         from
-            MGV_PACKAGE
+            MGV_PACKAGE A, MGV_PRODUCT_CATEGORY B
         where
-            CAT_NO = #{value}
+            A.CAT_NO = #{value}
+        and
+            A.CAT_NO = B.CAT_NO
     </select>
 </mapper>
