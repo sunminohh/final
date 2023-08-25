@@ -3,11 +3,11 @@
 <mapper namespace="kr.co.mgv.store.mapper.CategoryMapper">
 	<select id="getAllCategories" resultType="kr.co.mgv.store.vo.Category">
 		select
-			cat_no		as catNo,
-			cat_name	as catName
+			CAT_NO		as no,
+			CAT_NAME	as name
 		from
 			MGV_PRODUCT_CATEGORY
 		order by
-			cat_no
+			CAT_NO
 	</select>
 </mapper>
