@@ -54,24 +54,33 @@
 	            <input type="hidden" name="request" >
 	            <input type="hidden" name="no" th:value="${board.no}" />
 	            <input type="hidden" name="id" th:value="${#authentication.principal.id}" />
-	        	<button th:if="${join == null || (join != null && #strings.equals(join.request, 'N'))}" class="btn btn-outline-success btn-sm " type="button" id="request-button" data-button-type="plus">파티신청</button>
-	            <button th:if="${join != null && #strings.equals(join.request, 'Y')}" class="btn btn-success btn-sm" type="button" id="request-button"  data-button-type="minus">신청취소</button>
+	        	<button th:if="${join == null || (join != null && #strings.equals(join.request, 'N') && #strings.equals(board.complete, 'N'))}" class="btn btn-outline-success btn-sm " type="button" id="request-button" data-button-type="plus">파티신청</button>
+	            <button th:if="${join != null && #strings.equals(join.request, 'Y') && #strings.equals(board.complete, 'N')}" class="btn btn-success btn-sm" type="button" id="request-button"  data-button-type="minus">신청취소</button>
 	         </form>
        		 <button type="button"
-       		 		 class="btn btn-sm btn-secondary"
+       		 		 class="btn btn-sm btn-light me-1"
        		 		 id="party-join-btn"
        		 		 th:if="${#authentication.principal.id == board.user.id}"
        		 		 sec:authorize="isAuthenticated()"
        		 		 >
-       		 		 신청자확인
+       		 		 신청확인
+       		 </button>
+       		 <button type="button"
+       		 		 class="btn btn-sm btn-outline-secondary"
+       		 		 id="party-complete-btn"
+       		 		 th:if="${(#authentication.principal.id == board.user.id)&& #strings.equals(board.complete, 'N')}"
+       		 		 sec:authorize="isAuthenticated()"
+       		 		 >
+       		 		 파티마감
        		 </button>
          </div>
          
          <div class="text-end mt-1 pt-5" id="board-function">
             <a class="pe-1" 
+               id="modify-btn"
                th:href="@{/board/party/modify(no=${param.no})}"
                sec:authorize="isAuthenticated()"
-               th:if="${#authentication.principal.id == board.user.id}">수정</a>
+               th:if="${(#authentication.principal.id == board.user.id)&&#strings.equals(board.complete, 'N')}">수정</a>
             <a class="pe-1" 
                id = "delete-btn"
                th:href="@{/board/party/delete(no=${param.no})}" 
@@ -208,7 +217,9 @@
 			                            	<div class="d-flex justify-content-between" id="join-box"  th:each="notAccept:${notAccepts}"
 			                            		 th:if="${not #lists.isEmpty(notAccepts)}">
 		                            			<p class="me-1" th:text="${notAccept.user.id}">신청자 아이디</p>
-		                            			<button type="button" class="btn btn-sm btn-outline-dark" id="join-btn" style="height: 23px; font-size: 10px">수락</button>
+		                            			<button type="button" class="btn btn-sm btn-outline-dark" 
+		                            					id="join-btn" style="height: 23px; font-size: 10px"
+		                            					th:if="${#strings.equals(board.complete, 'N')}">수락</button>
 		                            			<input type="hidden" name="partyId" th:value="${notAccept.user.id}">
 					                           	<input type="hidden" name="boardNo" th:value="${param.no}">
 			                            	</div>
@@ -225,7 +236,9 @@
 			                              	<div class="d-flex justify-content-between" id="resetJoin-box"  th:each="accept:${accepts}"
 			                              		 th:if="${not #lists.isEmpty(accepts)}">
 			                            		<p id="accepted-id" th:text="${accept.user.id}">신청자 아이디</p>
-			                            		<button type="button" class="btn btn-sm btn-outline-secondary" id="reset-join-btn" style="height: 23px; font-size: 10px">취소</button>
+			                            		<button type="button" class="btn btn-sm btn-outline-secondary" 
+			                            				id="reset-join-btn" style="height: 23px; font-size: 10px"
+			                            				th:if="${#strings.equals(board.complete, 'N')}">취소</button>
 				                           		<input type="hidden" name="partyId" th:value="${accept.user.id}">
 						                        <input type="hidden" name="boardNo" th:value="${param.no}">
 			                            	</div>

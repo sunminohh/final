@@ -11,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,9 +28,6 @@ import kr.co.mgv.board.vo.PartyBoard;
 import kr.co.mgv.board.vo.PartyBoardSchedule;
 import kr.co.mgv.board.vo.PartyJoin;
 import kr.co.mgv.board.vo.ReportReason;
-import kr.co.mgv.board.vo.TBoardComment;
-import kr.co.mgv.board.vo.TBoardLike;
-import kr.co.mgv.board.vo.TheaterBoard;
 import kr.co.mgv.movie.vo.Movie;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
@@ -290,5 +286,13 @@ public class PartyController {
 			return ResponseEntity.ok().body(list);
 		}
 
+		@PostMapping("/partyComplete")
+		@ResponseBody
+		public ResponseEntity<Void> partyComplete(@RequestParam("no") int no){
+			
+			partyBoardService.partyComplete(no);
+			
+			return ResponseEntity.ok().build();
+		}
 	    
 }

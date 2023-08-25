@@ -149,4 +149,10 @@ public class PartyBoardService {
 	public int getAcceptCount (int no) {
 		return partyBoardDao.getAcceptCount(no);
 	}
+	
+	public void partyComplete (int no) {
+		PartyBoard board = partyBoardDao.getPBoardByNo(no);
+		board.setComplete("Y");
+		partyBoardDao.updatePBoardByNo(board);
+	}
 }

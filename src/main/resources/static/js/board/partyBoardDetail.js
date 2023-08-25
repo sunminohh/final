@@ -183,4 +183,40 @@ $(function () {
 		        }
 		    });
 	  })
+	  
+	  $("#party-complete-btn").on('click', function() {
+		  const no = $('input[name=no]').val(); 
+		  Swal.fire({
+	           icon: 'warning',
+	           title: '정말 마감하시겠습니까? ',
+	           text: '마감후 신청자를 받을 수 없습니다.',
+	           showCancelButton: true,
+	           confirmButtonText: '네',
+	           cancelButtonText: '아니오',
+	       }).then((result) => {
+	           if (result.isConfirmed) {
+				  $.ajax({
+				        url: '/board/party/partyComplete',
+				        method: "POST",
+				        data: {
+				            no: no // 수정: 변수 boardNo 사용
+				        },
+				        success: function() {
+							 Swal.fire({
+					            icon: 'info',
+					            text: '마감되었습니다.' 
+					            
+					        	});
+					        	$(".reject-box #reset-join-btn").remove();
+					        	$(".join-box #join-btn").remove();
+					        	$("#party-complete-btn").remove();
+					        	$("#modify-btn").remove();
+							}
+			 		    })
+	           } else if (result.dismiss === Swal.DismissReason.cancel) {
+	               
+	           }
+	       });
+	  })
+	  
 })
