@@ -26,7 +26,7 @@
 					data-bs-auto-close="true" aria-expanded="false"> <span>
 							<i class="ti ti-article"></i>
 					</span> <span class="hide-menu">극장관리</span>
-				</a>
+					</a>
 					<ul class="dropdown-menu sidebarnav">
 						<li class="sidebar-item">
 							<a class="sidebar-link" th:href="@{/admin/theater/list}" aria-expanded="false"> 
@@ -39,23 +39,29 @@
 						</li>
 					</ul>
 				</li>
-				<li class="sidebar-item dropdown"><a
-					class="sidebar-link dropdown-toggle" data-bs-toggle="dropdown"
-					data-bs-auto-close="true" aria-expanded="false"> <span>
-							<i class="ti ti-article"></i>
-					</span> <span class="hide-menu">상영시간표관리</span>
-				</a>
+				<li class="sidebar-item dropdown">
+					<a
+						class="sidebar-link dropdown-toggle" data-bs-toggle="dropdown"
+						data-bs-auto-close="true" aria-expanded="false"> 
+						<span>
+								<i class="ti ti-article"></i>
+						</span> 
+						<span class="hide-menu">상영시간표관리</span>
+					</a>
 					<ul class="dropdown-menu sidebarnav">
 						<li class="sidebar-item">
-							
 							<a class="sidebar-link"
 								th:href="@{/admin/theater/schedule/register}"
-								aria-expanded="false"> <span> <i class="ti ti-article"></i>
+								aria-expanded="false"> 
+								<span> <i class="ti ti-article"></i>
 								</span> <span class="hide-menu">상영시간표등록</span>
 							</a>
+						</li>
+						<li class="sidebar-item">
 							<a class="sidebar-link"
 								th:href="@{/admin/theater/schedule/delete}"
-								aria-expanded="false"> <span> <i class="ti ti-article"></i>
+								aria-expanded="false"> 
+								<span> <i class="ti ti-article"></i>
 								</span> <span class="hide-menu">상영시간표삭제</span>
 							</a>
 						</li>
