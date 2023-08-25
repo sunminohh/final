@@ -294,5 +294,27 @@ public class PartyController {
 			
 			return ResponseEntity.ok().build();
 		}
-	    
+		
+		// 게시물 수정
+		@GetMapping("/modify")
+	    public String modifyForm (@RequestParam("no") int no, Model model) {
+			List<BoardLocation> locations = theaterBoardService.getLocations();
+	    	model.addAttribute("locations", locations);
+	    	
+	    	List<Movie> movies = movieBoardService.getMovieTitle();
+	    	model.addAttribute("movies", movies);
+			
+	    	PartyBoard board = partyBoardService.getPBoardByNo(no);
+	    	model.addAttribute("board", board);
+	    	
+			return  "/view/board/party/modifyForm";
+		}
+		
+		@PostMapping("/modify")
+		public String modifyPBoard (@RequestParam("no") int no, AddPboardForm form) {
+			
+			partyBoardService.updatePBoard(no, form);
+			
+			return "redirect:/board/party/detail?no=" + no;
+		}
 }
