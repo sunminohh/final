@@ -29,4 +29,8 @@ $(function () {
           });
       
       });
+      
+      $("#party-join-btn").on('click', function() {
+		  $("#join-modal").modal('show');
+	  })
 })

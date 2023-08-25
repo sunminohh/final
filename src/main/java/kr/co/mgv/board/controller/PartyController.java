@@ -201,6 +201,14 @@ public class PartyController {
 			List<ReportReason> reportReasons = movieBoardService.getReportReason();
 			model.addAttribute("reasons", reportReasons);
 			
+			// 수락된 신청자 목록
+			List<PartyJoin> acceptedJoins = partyBoardService.getJoinByPnoAndAccept(no, "Y");
+			model.addAttribute("accepts", acceptedJoins);
+			
+			// 수락 안된 신청자 목록
+			List<PartyJoin> notAcceptedJoins = partyBoardService.getJoinByPnoAndAccept(no, "N");
+			model.addAttribute("notAccepts", notAcceptedJoins);
+			
 			log.info(partyBoard.getContent());
 			return "/view/board/party/detail";
 		}

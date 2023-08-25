@@ -19,9 +19,10 @@ public class PartyJoin {
 	private String request;
 	private Date createDate;
 	private Date updateDate;
+	private String accept;
 
 	@Builder
-	public PartyJoin(int no, PartyBoard board, User user, String request, Date createDate, Date updateDate) {
+	public PartyJoin(int no, PartyBoard board, User user, String request, Date createDate, Date updateDate, String accept) {
 		super();
 		this.no = no;
 		this.board = board;
@@ -29,5 +30,6 @@ public class PartyJoin {
 		this.request = request;
 		this.createDate = createDate;
 		this.updateDate = updateDate;
+		this.accept = accept;
 	}
 }

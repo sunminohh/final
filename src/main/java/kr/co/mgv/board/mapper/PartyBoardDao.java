@@ -30,6 +30,6 @@ public interface PartyBoardDao {
 	// 파티 신청 관련
 	void insertPartyJoin(PartyJoin join);
 	PartyJoin getJoinByPnoAndId(PartyJoin join);
-	List<PartyJoin> getJoinByPno(int no);
+	List<PartyJoin> getJoinByPnoAndAccept(PartyJoin join);
 	void updateJoin (PartyJoin join);
 }

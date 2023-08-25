@@ -111,8 +111,10 @@ public class PartyBoardService {
 		return partyBoardDao.getJoinByPnoAndId(join);
 	}
 	
-	public List<PartyJoin> getJoinByPno (int no){
-		return partyBoardDao.getJoinByPno(no);
+	public List<PartyJoin> getJoinByPnoAndAccept (int no, String accept){
+		PartyBoard board = PartyBoard.builder().no(no).build();
+		PartyJoin join = PartyJoin.builder().board(board).accept(accept).build();
+		return partyBoardDao.getJoinByPnoAndAccept(join);
 	}
 	
 	public void updateJoin (int no, User user, String request) {
