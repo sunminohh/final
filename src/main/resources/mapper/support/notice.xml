@@ -10,6 +10,39 @@
 			(#{title}, #{content}, #{user.id}, 
 			#{location.no}, #{theater.no}, #{category.no}, #{type})
 	</insert>
+	
+	<update id="updateNoticeByNo" parameterType="kr.co.mgv.support.vo.Notice">
+		UPDATE 
+			MGV_SUPPORT_NOTICE
+		<set>
+			<if test="title != null">
+				notice_title = #{title},
+			</if>
+			<if test="content != null">
+				NOTICE_CONTENT = #{content},
+			</if>
+			<if test="deleted != null">
+				NOTICE_DELETED = #{deleted},
+			</if>
+			<if test="updateDate != null">
+				NOTICE_UPDATE_DATE = #{updateDate},
+			</if>
+			<if test="location != null">
+				location_no = #{location.no},
+			</if>
+			<if test="theater != null">
+				theater_no = #{theater.no},
+			</if>
+			<if test="category != null">
+				CATEGORY_NO = #{category.no},
+			</if>
+			<if test="type != null">
+				notice_type = #{type}
+			</if>
+		</set> 
+		WHERE 
+			NOTICE_NO= #{no}
+	</update>
 
 	<select id="getTotalRows" parameterType="map" resultType="int">
 		select count(*)

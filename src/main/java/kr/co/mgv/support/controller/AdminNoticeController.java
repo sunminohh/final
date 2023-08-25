@@ -111,6 +111,12 @@ private final NoticeService noticeService;
     	return "redirect:/admin/support/notice";
     }
     
+    @GetMapping("/delete")
+    public String deleteNotice(@RequestParam("no") int noticeNo, Model model) {
+    	noticeService.deleteNotice(noticeNo);
+    	return "redirect:/admin/support/notice";
+    }
+    
 }
 
 

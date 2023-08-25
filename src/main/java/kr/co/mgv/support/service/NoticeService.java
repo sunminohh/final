@@ -58,6 +58,13 @@ public class NoticeService {
 	    noticeDao.insertNotice(notice);
 	}
 	
+	public void deleteNotice(int noticeNo) {
+		Notice notice = noticeDao.getNoticeByNo(noticeNo);
+		notice.setDeleted("Y");
+		
+		noticeDao.updateNoticeByNo(notice);
+	}
+	
 	public NoticeList search(Map<String, Object> param) {
 		
 		int totalRows = noticeDao.getTotalRows(param);

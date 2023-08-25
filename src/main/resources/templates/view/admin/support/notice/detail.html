@@ -56,7 +56,10 @@
     </div>
 
     <div class="btn-group pt40" style="display: block;">
+       	<a id = "modify-btn" class="button large">수정</a>
         <button class="button large listBtn" title="목록" onclick="document.querySelector('#form').submit();">목록</button>
+       	<a id = "delete-btn" class="button large" 
+       		th:href="@{/admin/support/notice/delete(no=${param.no})}">삭제</a>
     </div>
     
     <form id="form" method="post" action="/admin/support/notice">
