@@ -26,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AdminNoticeController {
 
-private final NoticeService noticeService;
+	private final NoticeService noticeService;
 	
     @RequestMapping
     public String notice(@RequestParam(name = "catNo", required = false, defaultValue = "21") int catNo,

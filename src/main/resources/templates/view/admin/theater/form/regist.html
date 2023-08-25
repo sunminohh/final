@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html layout:decorate="~{ layout/admin }">
+<head th:fragment="extra-head-content">
+<script type="text/javascript"
+	th:src="@{/js/admin/theater/form.js}"></script>
+<title>관리자페이지</title>
+<style type="text/css">
+option.disabled{
+	background-color: lightgrey;
+} 
+</style>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="container-fluid">
+			<div style="width: 100%">
+				<!--  Row 1 -->
+				<div class="row mb-3">
+					<div class="col-12">
+						<div class="card">
+							<div class="card-header">
+								<h5 class="card-title fw-semibold mb-4">극장 등록</h5>
+							</div>
+							<div class="card-body">
+								<div class="row mb-3">
+									<div class="col-12">
+										<form class="border bg-light p-3" method="post">
+											<table class="board-form va-m">
+												<colgroup>
+													<col style="width: 150px;">
+													<col>
+													<col style="width: 150px;">
+													<col>
+												</colgroup>
+												<tbody class="form-group" id="abled">
+													<tr>
+														<th>지역</th>
+														<td >
+															<select
+																class="form-select" name="location" required="required" >
+																<option value="" selected disabled>지역선택</option>
+																<option value="1">서울</option>
+																<option value="2">경기</option>
+																<option value="3">인천</option>
+																<option value="4">대전/충청/세종</option>
+																<option value="5">부산/대구/경상</option>
+																<option value="6">광주/전라/제주</option>
+																<option value="7">강원</option>
+															</select>
+														</td>
+														<th>극장이름</th>
+														<td >
+															<input class="form-control" type="text" name="theater-name" required="required">
+														</td>
+													</tr>
+													<tr>
+														<th>주소</th>
+														<td colspan="3" >
+															<input class="form-control" type="text" name="address" required="required">
+														</td>
+													</tr>
+													<tr>
+														<th>전화번호</th>
+														<td>
+															<input class="form-control" type="tel" name="tel" required="required">
+														</td>
+														<th>시설안내</th>
+														<td colspan="3">
+															<select class="form-select"  name="facility" >
+																<option selected disabled>선택하세요</option>
+															</select>
+														</td>
+													</tr>
+													<tr>
+														<th>층별안내</th>
+														<td colspan="3" name="floor">
+															<div class="d-flex py-1">
+																<input type="text" class="form-control" style="width: 20%"
+																	placeholder="층수" aria-label="floor" name="floor" required="required"> 
+																<input type="text"
+																	class="form-control" placeholder="안내사항"
+																	aria-label="floorinfo" name="floorinfo" required="required">
+																
+																<button type="button" class="ms-1 btn btn-info text-nowrap" id="btnAddFloorInput">추가</button>
+															</div>
+															<div id="floorBox">
+																
+															</div>
+														</td>
+													</tr>
+													<tr>
+														<th>주차안내</th>
+														<td colspan="3"><textarea rows="5"
+																style="width: 100%;" name="parkinginfo" required="required"></textarea></td>
+													</tr>
+													<tr>
+														<th>주차확인</th>
+														<td colspan="3"><textarea rows="5"
+																style="width: 100%;" name="parkingconfirm" required="required"></textarea></td>
+													</tr>
+													<tr>
+														<th>주차요금</th>
+														<td colspan="3"><textarea rows="5"
+																style="width: 100%;" name="parkingcash" required="required"></textarea></td>
+													</tr>
+													<tr>
+														<th>소개,설명</th>
+														<td colspan="3"><textarea rows="5"
+																style="width: 100%;" name="parkinginfo" required="required"></textarea></td>
+													</tr>
+												</tbody>
+											</table>
+											<div class="text-end p-2 ">
+												<button type="button" class="btn btn-secondary btn-sm" id="btnCancel">취소</button>
+												<button type="submit" class="btn btn-primary btn-sm" id="btnReg">등록</button>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
