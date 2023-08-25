@@ -21,7 +21,7 @@
                     <input id="ibxSchPwdLoginId" type="hidden" th:value="${user.id}">
                     <input id="ibxSchPwdMbNm" type="hidden" th:value="${user.name}">
                     <tr>
-                        <th scope="row"><label>E-mail</label></th>
+                        <th scope="row"><label>E-mail</label> <em class="font-orange">*</em></th>
                         <td>
                             <input type="hidden" id="userId" th:value="${user.id}">
                             <input type="text" id="userEmail" th:value="${user.email}" class="input-text w230px" readonly>
@@ -30,7 +30,7 @@
                         </td>
                     </tr>
                     <tr id="mail-number" style="display: none;">
-                        <th scope="row"><label for="userAuth">인증번호</label></th>
+                        <th scope="row"><label for="userAuth">인증번호</label> <em class="font-orange">*</em></th>
                         <td>
                             <div class="chk-num">
                                 <div class="line">

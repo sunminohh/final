@@ -126,6 +126,7 @@ public class AuthenticationController {
     @ResponseBody
     public ResponseEntity<String> getSessionAuthCode(@RequestParam("code") String userCode, HttpSession session) {
         String savedCode = (String) session.getAttribute("emailConfirmCode");
+        log.info("check session code -> {}", savedCode);
         if (savedCode == null) {
             log.error("세션 인증코드 null");
             return ResponseEntity.badRequest().body("SESSION_CODE_NULL");
