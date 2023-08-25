@@ -89,7 +89,8 @@ $(() => {
     function errorAlert($el, text) {
         Swal.fire({
             icon: 'error',
-            text: text
+            text: text,
+            didClose: $el.focus()
         });
     }
 

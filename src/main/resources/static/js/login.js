@@ -64,11 +64,10 @@ $(() => {
             Swal.fire({
                 icon: 'error',
                 text: text,
+                didClose: () => {
+                    $el.focus();
+                }
             });
-
-            if (el instanceof HTMLElement) {
-                el.focus();
-            }
         }
     });
 

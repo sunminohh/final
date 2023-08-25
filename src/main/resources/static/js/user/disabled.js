@@ -1,10 +1,12 @@
 $(() => {
     const $pwd = $(".disable-form input[name='checkPassword']");
     const $email = $(".disable-form input[name='email']");
-    const $authNumber = $("#userAuth"); // 인증번호 입력
+    const $inputAuth = $("#userAuth"); // 인증번호 입력
     const $timerDisplay = $("#schEmailtimer");
-    const authErrMsg = $("#auth-error-text");
+    const $confirmBtn = $("#btnConfirm");
     const pwdErrMsg = $("#pwd-error-text");
+    const emailErrMsg = $("#email-error-text");
+    const authErrMsg = $("#auth-error-text");
     const emailReg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     let pwdCheck = false;
@@ -12,11 +14,11 @@ $(() => {
     let authCheck = false;
 
     let timer;
-    let timeLeft = 5;
+    let timeLeft = 180;
 
     $pwd.keyup(() => pwdCheck = false);
     $email.keyup(() => emailCheck = false);
-    $authNumber.keyup(() => authCheck = false);
+    $inputAuth.keyup(() => authCheck = false);
 
     $("#btnSendAuthMail").click(() => sendNumber()); // 인증요청
     $("#btnResendAuthMail").click(() => resendNumber()); // 재전송
@@ -25,6 +27,14 @@ $(() => {
     $("#btnCancel").click(function () {
         history.back();
     })
+
+    // enter 방지
+    $("#action-form").on("keydown", function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            return false;
+        }
+    });
 
     function startTimer() {
         timer = setInterval(() => {
@@ -42,6 +52,7 @@ $(() => {
                 }).then(() => {
                     $("#auth-number").hide();
                     $("#btnResendAuthMail").prop('disabled', false);
+                    $inputAuth.val("");
                     return false;
                 });
             }
@@ -53,8 +64,8 @@ $(() => {
     function stopTimer() {
         clearInterval(timer);
         $timerDisplay.text("0:00"); // 타이머 종료 표시 업데이트
-        $confirmButton.prop("disabled", true); // 인증하기 버튼 비활성화
-        $authNumber.prop("readonly", true); // 인증번호 입력 필드 읽기 전
+        $("#btnConfirm").prop("disabled", true); // 인증하기 버튼 비활성화
+        $inputAuth.prop("readonly", true); // 인증번호 입력 필드 읽기 전
     }
 
     // 타이머 표시 업데이트
@@ -69,22 +80,20 @@ $(() => {
     $("#action-form").submit(function (e) {
         e.preventDefault();
 
-        const pwdValue = $pwd.val();
-        const emailValue = $email.val();
-        const authValue = $authNumber.val();
-        const emailReg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        const formData = $("#action-form").serialize();
 
-        const check = checkInput();
-        if (!check) {
+        const pwdValue = $pwd.val();
+
+        if (!pwdValue) {
+            errorAlert($pwd, "비밀번호를 입력해주세요.");
+            pwdErrMsg.text("")
             return false;
         }
-        console.log("pass");
-
         // 비밀번호 체크 및 탈퇴처리
         $.ajax({
             url: "/user/info/disabled",
             type: "POST",
-            data: form.serialize(),
+            data: formData,
             success: function () {
                 Swal.fire({
                     icon: 'success',
@@ -95,27 +104,29 @@ $(() => {
                         location.href = "/logout";
                     }
                 })
+                return true;
             },
             error: function (e) {
-                errorAlert($pwd, e.reponseText);
-                authErrMsg.text("다시 입력해주세요.").css('color', 'red');
-            }
-        })
-
-        /*function checkInput() {
-            if (!authCheck) {
-                errorAlert($authNumber, "인증확인 후 이용할 수 있습니다.");
-                authErrMsg.text("인증해주세요.");
+                errorAlert($pwd, "비밀번호가 일치하지 않습니다.");
+                pwdErrMsg.text("다시 입력해주세요.").css('color', 'red');
                 return false;
             }
-
-            return true;
-        }*/
-        $(this)[0].submit();
+        })
     })
 
     $("input[name='checkPassword']").keyup(() => {
+        const blank = $pwd.val().trim();
         const pwdValue = $pwd.val();
+        if (blank) {
+            pwdCheck = false;
+        } else {
+            pwdErrMsg.text("");
+        }
+        if (!blank) {
+            pwdCheck = false;
+        } else {
+            pwdErrMsg.text("");
+        }
         if (!pwdValue) {
             pwdCheck = false;
         } else {
@@ -124,12 +135,16 @@ $(() => {
     })
 
     $("input[name='email']").keyup(() => {
+        const blank = $email.val().trim();
         const emailValue = $email.val();
-        if (!emailValue) {
-            $("#btnSendAuthMail").prop('disabled', true);
+        if (blank) {
             emailCheck = false;
         } else {
-            $("#btnSendAuthMail").prop('disabled', false);
+            emailErrMsg.text("");
+        }
+        if (!emailValue) {
+            emailCheck = false;
+        } else {
             authErrMsg.text("");
         }
         if (!emailReg.test(emailValue)) {
@@ -144,8 +159,10 @@ $(() => {
     // 인증번호 발송
     async function sendNumber() {
         console.log("사용자 이메일 -> ", $email.val());
+        const checkEmail = $email.val();
+
         const formData = $("#action-form").serialize();
-        $.ajax({
+        const inputEmail = await $.ajax({
             url: "/user/info/checkEmail",
             type: "post",
             data: formData,
@@ -156,37 +173,38 @@ $(() => {
             error: function (e) {
                 errorAlert($email, e.responseText);
                 $("input[name='email']").prop('disabled', false);
+                emailErrMsg.text("다시 입력해주세요.");
                 return false;
             }
         });
-        try {
-            const response = await $.ajax({
-                type: "POST",
-                url: "/user/auth/mail",
-                data: {"email": $email.val()}
-            });
-            if (response === "success") {
-                sessionStorage.setItem("emailConfirmCode", response);
-                $("#btnResendAuthMail").show();
-                $("#btnSendAuthMail").hide();
-                Swal.fire({
-                    icon: 'success',
-                    text: "해당 이메일로 인증번호가 전송되었습니다.",
-                    confirmButtonText: '확인',
-                }).then(() => {
-                    startTimer(); // 타이머 시작
+        if (inputEmail === checkEmail) {
+            try {
+                const response = await $.ajax({
+                    type: "POST",
+                    url: "/user/auth/mail",
+                    data: {"email": inputEmail}
                 });
-            } else {
-                errorAlert($email, "인증번호 요청 실패: " + response);
+                if (response === "success") {
+                    successAlert($inputAuth, "인증번호 발송 완료. 확인 후 인증해주세요.");
+                    sessionStorage.setItem("emailConfirmCode", response);
+                    $("#btnResendAuthMail").show();
+                    $("#btnSendAuthMail").hide();
+                    startTimer();
+
+                } else {
+                    errorAlert($email, "인증번호 요청 실패: " + response);
+                }
+            } catch (e) {
+                console.error(e);
+                errorAlert($email, e.responseText);
+                return false;
             }
-        } catch (error) {
-            // Ajax 요청 실패한 경우
-            handleErrorMessage("서버와 통신 중 오류가 발생했습니다.", response);
         }
     }
 
     // 재전송
     async function resendNumber() {
+        $("#btnResendAuthMail").prop('disabled', true);
         console.log("재전송 -> ", $email.val());
         const inputEmail = $email.val();
         clearInterval(timer);
@@ -199,72 +217,77 @@ $(() => {
                 data: {"email": inputEmail}
             });
             if (response === "success") {
+                successAlert($inputAuth, "인증번호 발송 완료. 확인 후 인증해주세요.");
                 sessionStorage.setItem("emailConfirmCode", response);
+
                 $("#btnResendAuthMail").show();
                 $("#btnSendAuthMail").hide();
-                Swal.fire({
-                    icon: 'success',
-                    text: "해당 이메일로 인증번호가 전송되었습니다.",
-                    confirmButtonText: '확인',
-                }).then(() => {
-                    startTimer(); // 타이머 시작
-                    console.log("사용자 입력 인증코드 -> ", inputEmail);
-                });
+
+                startTimer();
             } else {
                 errorAlert($email, "인증번호 요청 실패: " + response);
             }
         } catch (error) {
-            // Ajax 요청 실패한 경우
-            handleErrorMessage("서버와 통신 중 오류가 발생했습니다.", response);
+            console.error("Error checking authentication number: ", error.responseText);
+            errorAlert($authNumber, error.responseText);
+            $authNumber.val("");
         }
     }
 
     // 인증번호 입력 시 이벤트
     $("#userAuth").keyup(() => {
-        const number = $authNumber.val().trim();
-        if (number.length === 8) {
+        const number = $inputAuth.val().trim();
+        if (!$inputAuth) {
             $("#btnConfirm").prop("disabled", false);
-            return true;
+            return false;
         } else {
             $("#btnConfirm").prop("disabled", true);
-            return false;
+            authErrMsg.text("");
         }
+        if (number.length !== 8) {
+            $("#btnConfirm").prop("disabled", true);
+            return false;
+        } else {
+            $("#btnConfirm").prop("disabled", false);
+            authErrMsg.text("");
+        }
+
     })
 
     // 인증번호 체크
-    // todo 멘토님 검증
     async function checkNumber() {
-        const inputAuthNumber = $("#userAuth").val();
+        const inputAuthNumber = $inputAuth.val();
         try {
             // 서버에서 인증번호를 확인하는 요청
-            const checkResponse = await $.ajax({
+            await $.ajax({
                 type: "POST",
                 url: "/user/auth/check",
                 data: {"code": inputAuthNumber},
-                dataType: "text"
+                dataType: "text",
+                success: function () {
+                    console.log("pass")
+                    authCheck = true;
+                    successAlert($inputAuth, "인증되었습니다.");
+                    stopTimer();
+                    successCheck();
+                },
+                error: function (error) {
+                    console.error(error);
+                    Swal.fire({
+                        icon: 'error',
+                        text: error.responseText
+                    })
+                }
             });
-            console.log("pass")
-            // 서버 성공메시지에 따른 처리
-            if (checkResponse === "SESSION_CODE_NULL") {
-                errorAlert($authNumber, "세션에서 인증코드를 찾을 수 없습니다.");
-                return false;
-            } else if (checkResponse === "USER_CODE_NULL") {
-                authCheck = false;
-                errorAlert($authNumber, "인증번호를 입력하세요.");
-            } else if (checkResponse === "인증실패") {
-                authCheck = false;
-                errorAlert($authNumber, "인증번호가 일치하지 않습니다. 다시 확인해주세요.");
-            } else {
-                authCheck = true;
-                successAlert($authNumber, "인증되었습니다.");
-                stopTimer();
-                successCheck();
-            }
         } catch (error) {
-            errorAlert($authNumber, "이메일 인증 중 오류가 발생하였습니다. 잠시 후 이용해주세요.");
-            console.log("사용자 입력 값 -> ", inputAuthNumber)
-            console.log("인증결과 -> ", checkResponse);
-            location.reload();
+            console.error("Error checking authentication number: ", error);
+            errorAlert($inputAuth, error.responseText);
+            $("#auth-number").prop('disabled', false);
+            $("#btnResendAuthMail").prop('disabled', false);
+            authErrMsg.text("다시 입력해주세요.");
+            $inputAuth.val("");
+            return false;
+
         }
     }
 
@@ -281,14 +304,19 @@ $(() => {
         Swal.fire({
             icon: 'error',
             text: text,
+            didClose: () => {
+                $el.focus();
+            }
         });
-        $($el).focus();
     }
 
     function successAlert($el, text) {
         Swal.fire({
             icon: 'success',
-            text: text
+            text: text,
+            didClose: () => {
+                $el.focus();
+            }
         });
     }
 

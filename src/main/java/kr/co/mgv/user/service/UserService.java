@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -47,6 +48,17 @@ public class UserService {
     }
 
     // todo 회원탈퇴
+    public void disableUser(String id, List<String> name, String roleName) {
+        User user = userDao.getUserById(id);
+
+        user.setDisabled("Y");
+
+        List<String> roles = user.getRoleName();
+        roles.remove(roleName);
+        user.setRoleName(roles);
+
+        userDao.disabledUser(user);
+    }
 
     // 수정일자 계산
     public long getMindate(Date updateDate) {

@@ -1,12 +1,12 @@
 $(() => {
     const $email = $("#userEmail");
     const $authNumber = $("#userAuth"); // 인증번호 입력
-    const $timerDisplay  = $("#schEmailtimer"); // 타이머 표시
+    const $timerDisplay = $("#schEmailtimer"); // 타이머 표시
     const $confirmButton = $("#btnConfirm"); // 인증하기
 
     let authCheck = false;
     let timer;
-    let timeLeft = 180;
+    let timeLeft = 5; // 타이머 3분 180
 
     $authNumber.keyup(() => authCheck = false);
 
@@ -35,8 +35,11 @@ $(() => {
                 }).then(() => {
                     $("#mail-number").hide();
                     $("#btnResendAuthMail").prop('disabled', false);
+                    $authNumber.val("");
+                    return false;
                 });
             }
+            return true;
         }, 1000); // 1초마다 타이머 업데이트
     }
 
@@ -70,33 +73,39 @@ $(() => {
     // 인증번호 발송
     async function sendNumber() {
         console.log("사용자 이메일 -> ", $email.val());
+        const inputEmail = $email.val();
         try {
             const response = await $.ajax({
                 type: "POST",
                 url: "/user/auth/mail",
-                data: {"email": $email.val()}
+                data: {"email": inputEmail}
             });
             if (response === "success") {
                 sessionStorage.setItem("emailConfirmCode", response);
-                successAlert($email, "해당 이메일로 인증번호가 전송되었습니다. \n 확인부탁드립니다.");
+                successAlert($authNumber, "해당 이메일로 인증번호가 전송되었습니다. \n 확인부탁드립니다.");
 
                 $("#btnResendAuthMail").show();
                 $("#btnSendAuthMail").hide();
                 startTimer(); // 타이머 시작
 
             } else {
-                errorAlert($email, "인증번호 요청 실패: " + response);
+                console.error(response);
+                Swal.fire({
+                    icon: 'error',
+                    text: response
+                })
             }
         } catch (error) {
             // Ajax 요청 실패한 경우
-            handleErrorMessage("서버와 통신 중 오류가 발생했습니다.", error);
+            console.error("server", error);
+            errorAlert($email, error.responseText);
         }
     }
 
     async function resendNumber() {
         // Clear any existing timer and reset timeLeft
         clearInterval(timer);
-        timeLeft = 180;
+        timeLeft = 5;
 
         await sendNumber();
     }
@@ -115,37 +124,34 @@ $(() => {
 
     // 인증번호 체크
     async function checkNumber() {
-        const userAuthNumber = $("#userAuth").val();
-
+        const inputAuthNumber = $("#userAuth").val();
         try {
             // 서버에서 인증번호를 확인하는 요청
-            const checkResponse = await $.ajax({
+            await $.ajax({
                 type: "POST",
                 url: "/user/auth/check",
-                data: {"code": userAuthNumber}, // 사용자가 입력한 인증번호를 보냄
-                dataType: "text"
+                data: {"code": inputAuthNumber},
+                dataType: "text",
+                success: function () {
+                    console.log("pass")
+                    authCheck = true;
+                    Swal.fire({
+                        icon: 'success',
+                        text: "인증 완료",
+                    })
+                    stopTimer();
+                    successCheck();
+                },
+                error: function (e) {
+                    console.error(e);
+                    errorAlert($authNumber, e.responseText);
+                }
             });
-            // 서버 성공메시지에 따른
-            if (checkResponse === "SESSION_CODE_NULL") {
-                errorAlert($authNumber, "세션에서 인증코드를 찾을 수 없습니다.");
-                return false;
-            } else if (checkResponse === "USER_CODE_NULL") {
-                errorAlert($authNumber, "인증번호를 입력하세요.");
-                authCheck = false;
-            } else if (checkResponse === "인증실패") {
-                authCheck = false;
-                errorAlert($authNumber, "인증번호가 일치하지 않습니다. 다시 확인해주세요.");
-            } else {
-                authCheck = true;
-                successAlert($authNumber, "인증되었습니다.");
-                stopTimer();
-                successCheck();
-            }
         } catch (error) {
-            authCheck = false;
-            errorAlert($authNumber, "이메일 인증 중 오류가 발생하였습니다. 잠시 후 이용해주세요.");
+            console.error("Error checking authentication number: ", error);
+            errorAlert($authNumber, error.responseText);
+            $authNumber.val("");
         }
-
     }
 
     function successCheck() {
@@ -160,16 +166,20 @@ $(() => {
         Swal.fire({
             icon: 'error',
             text: text,
+            didClose: () => {
+                $el.focus();
+            }
         });
-        $($el).focus();
     }
 
     function successAlert($el, text) {
         Swal.fire({
             icon: 'success',
             text: text,
+            didClose: () => {
+                $el.focus();
+            }
         });
-        $($el).focus();
     }
 
 })

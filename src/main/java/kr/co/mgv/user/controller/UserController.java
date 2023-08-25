@@ -121,13 +121,14 @@ public class UserController {
     public ResponseEntity<String> disableUser(@AuthenticationPrincipal User user, UserUpdateForm form) {
         if (passwordEncoder.matches(form.getCheckPassword(), user.getPassword())) {
             // todo service 작성
-
+            log.info("비밀번호 일치");
+            userService.disableUser(user.getId(), user.getRoleName(), user.getDisabled());
 
             return ResponseEntity.ok("회원 탈퇴가 완료되었습니다.");
         } else {
+            log.error("비밀번호 불일치");
             return ResponseEntity.badRequest().body("현재 비밀번호가 일치하지 않습니다.");
         }
-
     }
 
     @GetMapping("/booking")

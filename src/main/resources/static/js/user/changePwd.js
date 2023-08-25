@@ -155,8 +155,9 @@ $(() => {
         Swal.fire({
             icon: 'error',
             text: text,
+            didClose: $el.focus()
         });
-        $($el).focus();
+
     }
 
     function successAlert($el, text, callback) {
