@@ -6,7 +6,7 @@ $(() => {
 
     let authCheck = false;
     let timer;
-    let timeLeft = 180; // 타이머 3분 180
+    let timeLeft = 180;
 
     $authNumber.keyup(() => authCheck = false);
 

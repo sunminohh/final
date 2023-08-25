@@ -9,7 +9,11 @@ import lombok.Setter;
 @ToString
 public class AddNoticeForm {
 
+	
+	private Integer locationNo;
+	private Integer theaterNo;
 	private Integer categoryNo;
+	private String noticeType;
 	private String title;
 	private String content;
 	

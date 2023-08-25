@@ -94,9 +94,9 @@
 				    </li>
 				    <li class="page-item" th:if="${result.pagination.currentBlock > 1}">
 				        <a title="이전 10페이지 보기"
-				           th:href="@{list(page=${(pagination.currentBlock -1)* 10})}"
+				           th:href="@{list(page=${(result.pagination.currentBlock -1)* 10})}"
 				           class="page-link page-number-link control prev"
-				           th:attr="data-page=${(pagination.currentBlock -1)* 10}"></a>
+				           th:attr="data-page=${(result.pagination.currentBlock -1)* 10}"></a>
 				    </li>
 				    <li class="page-item" th:each="num : ${result.pagination.pageNumbers}">
                         <a th:href="@{list(page=${num})}" 

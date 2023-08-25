@@ -1,6 +1,6 @@
 $(() => {
-    const $locationButton = $(".btn-group .btn")
-    const $theaters = $(".collapse");
+    const $locationButton = $("#locationbtn .btn")
+    const $theaters = $("#div-theaters .collapse");
     const $board = $("#board");
     const $btnSchedule = $("#btn-schedule");
     const $btnUpdate = $("#btn-update");
@@ -11,6 +11,7 @@ $(() => {
 		REGISTSCHEDULE: "/admin/theater/schedule/register",
 		DELETESCHEDULE: "/admin/theater/schedule/delete",
 		THEATER: "/admin/theater/detail",
+		REGIST_THEATER: "/admin/theater/regist",
 		THEATER_LIST: "/theater/theaterList"
 	}
     getTheaterList();
@@ -21,7 +22,7 @@ $(() => {
     $btnSchedule.on("click",handlerBtnSchedule);
     $btnRegSchedule.on("click",handlerBtnRegSchedule);
     $btnDelSchedule.on("click",handlerBtnDelSchedule);
-    /*$btnUpdate.on("click",handlerBtnUpdate);*/
+    $btnUpdate.on("click",handlerBtnUpdate);
     
     function toggleButton(){
 		$(this).siblings().removeClass("active");
@@ -99,6 +100,10 @@ $(() => {
 	
 	function handlerBtnDelSchedule(){
 		window.location.href=API_URLS.DELETESCHEDULE;
+	}
+	
+	function handlerBtnUpdate(){
+		window.location.href=API_URLS.REGIST_THEATER;
 	}
 	
 });

@@ -2,7 +2,6 @@ package kr.co.mgv.board.vo;
 
 import java.util.Date;
 
-import kr.co.mgv.schedule.vo.Schedule;
 import kr.co.mgv.user.vo.User;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,6 +23,7 @@ public class PartyBoard {
 	private int likeCount;
 	private int headCount;
 	private int requestCount;
+	private int acceptCount;
 	private User user;
 	private String deleted;
 	private String complete;
@@ -34,7 +34,7 @@ public class PartyBoard {
 	
 	@Builder
 	public PartyBoard(int no, String name, String content, String report, int reportCount, int readCount,
-			int commentCount, int likeCount, int headCount, int requestCount, User user, String deleted, String complete, Date createDate,
+			int commentCount, int likeCount, int headCount, int requestCount, int acceptCount, User user, String deleted, String complete, Date createDate,
 			Date updateDate, String gender, PartyBoardSchedule schedule) {
 		super();
 		this.no = no;
@@ -47,6 +47,7 @@ public class PartyBoard {
 		this.likeCount = likeCount;
 		this.headCount = headCount;
 		this.requestCount = requestCount;
+		this.acceptCount = acceptCount;
 		this.user = user;
 		this.deleted = deleted;
 		this.complete = complete;

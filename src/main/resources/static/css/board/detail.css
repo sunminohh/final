@@ -84,8 +84,31 @@
       transition: bottom 0.3s;
     }
 
-
+	#ready-to-join {
+        max-height: 200px;
+        overflow-y: auto;
+        width:200px; 
+        height: 200px;
+        border-radius: 5px;
+        background-color:rgb(255, 244, 244);
+    }
 	
+	#ready-to-join p {
+		color: rgb(138, 138, 138);
+	}
+	
+	#ready-to-reject {
+        max-height: 200px;
+        overflow-y: auto;
+        width:200px; 
+        height: 200px;
+        border-radius: 5px;
+        background-color: rgb(255, 244, 244);
+    }
+	
+	#ready-to-reject #accepted-id {
+		color: rgb(22, 165, 211);
+	}
 	
 	
 	

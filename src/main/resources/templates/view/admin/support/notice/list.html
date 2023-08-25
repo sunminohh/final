@@ -29,7 +29,7 @@
 	        </ul>
 	    </div>
     <div class="board-list-util">
-    <p class="result-count"><strong><span id="totalTitle">전체</span> <span class="font-green" id="totalCnt" ></span>건</strong></p>
+    <p class="result-count"><strong><span id="totalTitle">전체</span> <span class="font-green" id="totalCnt" th:text="${result.pagination.totalRows}"></span>건</strong></p>
 	<form method="post" action="admin/notice/detail" id="actionForm" >    
 	     <div class="ml07 bs3  d-flex justify-content-end">
 	         	<select id="location" title="지역선택" name="locationNo"
@@ -74,7 +74,7 @@
             <tbody class="noticeList">
 	            <tr th:each="notice: ${result.noticeList}">
 	                <td th:text="${notice.no}"></td>
-	                <td th:text="${notice.theater == null ? 'MGV' : notice.theater.name}"></td>
+	                <td th:text="${notice.theater == null || notice.theater.name == null ? 'MGV' : notice.theater.name}"></td>
 	                <td th:text="${notice.type == '공지' ? '공지' : '이벤트'}"></td>
 	                <td style="text-align:left;">
 	                	<a class="text-black text-decoration-none"
@@ -101,9 +101,9 @@
 				    </li>
 				    <li class="page-item" th:if="${result.pagination.currentBlock > 1}">
 				        <a title="이전 10페이지 보기"
-				           th:href="@{list(page=${(pagination.currentBlock -1)* 10})}"
+				           th:href="@{list(page=${(result.pagination.currentBlock -1)* 10})}"
 				           class="page-link page-number-link control prev"
-				           th:attr="data-page=${(pagination.currentBlock -1)* 10}"></a>
+				           th:attr="data-page=${(result.pagination.currentBlock -1)* 10}"></a>
 				    </li>
 				    <li class="page-item" th:each="num : ${result.pagination.pageNumbers}">
                         <a th:href="@{list(page=${num})}" 

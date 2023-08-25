@@ -2,6 +2,7 @@
 <head th:fragment="extra-head-content">
     <title>스토어</title>
     <style></style>
+    <script th:src="@{/js/store/home.js}"></script>
 </head>
 <body>
 <div layout:fragment="content">
@@ -24,8 +25,8 @@
                         <li class="on" id="storeTab">
                             <a th:href="@{/store}" title="새로운 상품 탭으로 이동">전체 상품</a>
                         </li>
-                        <li th:id="storeTab + ${category.getCatNo()}" class="" th:each="category : ${categories}">
-                            <a th:href="@{/store/list(catNo=${category.catNo})}" th:text="${category.catName}"></a>
+                        <li th:id="storeTab_ + ${category.getNo()}" class="" th:each="category : ${categories}">
+                            <a th:href="@{/store/list(catNo=${category.getNo()})}" th:text="${category.getName()}"></a>
                         </li>
                     </ul>
                 </div>
@@ -74,7 +75,7 @@
                         </div>
                     </div>
                     <div class="store-list">
-                        <ul class="list" th:each="product, iterStat : ${products}" th:if="${product.getCatNo() == 2}">
+                        <ul class="list" th:each="product, iterStat : ${products}" th:if="${product.category.no == 2}">
                             <li class="" th:if="${iterStat.index <= 7}">
                                 <a th:href="@{/store/detail/product(productNo=${product.getNo()})}" title="">
                                     <div class="soldout">SOLD OUT</div>
@@ -110,7 +111,7 @@
                         </div>
                     </div>
                     <div class="store-list">
-                        <ul class="list"  th:each="product, iterStat : ${products}" th:if="${product.getCatNo() == 3}">
+                        <ul class="list"  th:each="product, iterStat : ${products}" th:if="${product.category.no == 3}">
                             <li class="">
                                 <a th:href="@{/store/detail/product(productNo=${product.getNo()})}" th:title="${product.getDescription()}">
                                     <div class="soldout">SOLD OUT</div>
@@ -146,7 +147,7 @@
                         </div>
                     </div>
                     <div class="store-list">
-                        <ul class="list"  th:each="product, iterStat : ${products}" th:if="${product.getCatNo() == 4}">
+                        <ul class="list"  th:each="product, iterStat : ${products}" th:if="${product.category.no == 4}">
                             <li class="">
                                 <a th:href="@{/store/detail/product(productNo=${product.getNo()})}" th:title="${product.getDescription()}">
                                     <div class="soldout">SOLD OUT</div>
@@ -182,7 +183,7 @@
                         </div>
                     </div>
                     <div class="store-list">
-                        <ul class="list" th:each="product, iterStat : ${products}" th:if="${product.getCatNo() == 5}">
+                        <ul class="list" th:each="product, iterStat : ${products}" th:if="${product.category.no == 5}">
                             <li class="">
                                 <a th:href="@{/store/detail/product(productNo=${product.getNo()})}" th:title="${product.getDescription()}">
                                     <div class="soldout">SOLD OUT</div>

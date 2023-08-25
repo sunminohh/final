@@ -52,6 +52,20 @@ public class PartyBoardService {
 		partyBoardDao.insertPboard(board);
 	}
 	
+	public void updatePBoard (int no, AddPboardForm form) {
+		
+		PartyBoardSchedule schedule = PartyBoardSchedule.builder()
+				  .id(form.getScheduleId()).build();
+		PartyBoard board = partyBoardDao.getPBoardByNo(no);
+		board.setName(form.getName());
+		board.setContent(form.getContent());
+		board.setHeadCount(form.getHeadCount());
+		board.setGender(form.getGender());
+		board.setSchedule(schedule);
+		
+		partyBoardDao.updatePBoardByNo(board);
+	}
+	
 	// 목록 관련
 	public PartyBoardList getPBoards(Map<String, Object> param) {
 		// pagination
@@ -111,8 +125,10 @@ public class PartyBoardService {
 		return partyBoardDao.getJoinByPnoAndId(join);
 	}
 	
-	public List<PartyJoin> getJoinByPno (int no){
-		return partyBoardDao.getJoinByPno(no);
+	public List<PartyJoin> getJoinByPnoAndAccept (int no, String accept){
+		PartyBoard board = PartyBoard.builder().no(no).build();
+		PartyJoin join = PartyJoin.builder().board(board).accept(accept).build();
+		return partyBoardDao.getJoinByPnoAndAccept(join);
 	}
 	
 	public void updateJoin (int no, User user, String request) {
@@ -122,6 +138,35 @@ public class PartyBoardService {
 	}
 	
 	public void updateRequestCount (PartyBoard board) {
+		partyBoardDao.updatePBoardByNo(board);
+	}
+	
+	public void acceptJoin (int no, String id, String accept) {
+		PartyBoard board = PartyBoard.builder().no(no).build();
+		User user = User.builder().id(id).build();
+		PartyJoin join = PartyJoin.builder().board(board).user(user).accept(accept).build();
+		partyBoardDao.updateJoin(join);
+	}
+
+	public void resetJoin (int no, String id) {
+		PartyBoard board = PartyBoard.builder().no(no).build();
+		User user = User.builder().id(id).build();
+		PartyJoin join = PartyJoin.builder().board(board).user(user).accept("N").build();
+	}
+	
+	public void updateAcceptCount (int no, int AcceptCount) {
+		PartyBoard board = partyBoardDao.getPBoardByNo(no);
+		board.setAcceptCount(AcceptCount);
+		partyBoardDao.updatePBoardByNo(board);
+	}
+	
+	public int getAcceptCount (int no) {
+		return partyBoardDao.getAcceptCount(no);
+	}
+	
+	public void partyComplete (int no) {
+		PartyBoard board = partyBoardDao.getPBoardByNo(no);
+		board.setComplete("Y");
 		partyBoardDao.updatePBoardByNo(board);
 	}
 }
