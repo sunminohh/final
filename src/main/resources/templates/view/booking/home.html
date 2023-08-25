@@ -30,12 +30,16 @@
             const today= dayjs()
             const movieChoices=$("#choiceMovieList")
             let startDay=today.add(-1,'day');
-            const selectedMovies =new Map
+            const selectedMovies =new Set
             let selectedTheaters = new Set
             let selectedDate=today.format('YYYY-MM-DD')
             apiByDate(selectedDate)
 
-            const theaterBox = $("#selectedTheaterList")
+            const selectedTheaterList = $("#selectedTheaterList")
+            const selectedMovieList = $("#selectedMovieList")
+
+
+
 
             function apiByDate(date){
                 fetch('api/booking/'+date).then(res => res.json()).then(item=>{
@@ -80,33 +84,13 @@
                                             </button>`
             }
 
-            function createScheduleHtml() {
-                const html = `<li>
-                    <button type="button" class="btn" schedule-id="2308240029024" start="1110" play-de="20230824" end=""
-                            turn="1" movie-no="23029301" theater-no="0029" screen-no="03"
-                            play-schdl-no="2308240029024" netfnl-adopt-at="N" rest-seat-cnt="105"
-                            ctts-ty-div-cd="MVCT01" theab-popup-at="Y" theab-popup-no="2015">
-                        <div class="legend"><i class="iconset ico-sun" title="">조조</i></div>
-                        <span class="time"><strong title="상영 시작">11:10</strong><em title="상영 종료">~13:29</em></span><span
-                        class="title"><strong title="밀수">밀수</strong><em>2D</em></span>
-                        <div class="info"><span class="theater" title="극장">광명AK플라자<br>컴포트 3관</span><span
-                            class="seat"><strong class="now" title="잔여 좌석">105</strong><span>/</span><em class="all"
-                                                                                                         title="전체 좌석">115</em></span>
-                        </div>
-                    </button>
-                </li>`
 
-            }
-
-            //날짜 부분
-
+        //날짜 부분
                 //날짜 생성
             for (let i =0; i<16; i++){
                 let day=startDay.add(i,'day')
                 $("#formDeList").children().append(createDateHtml(day.format('YYYY-MM-DD')));
             }
-
-
                 // 다음날짜버튼
             $(".btn-next").click(function(event){
                 const fday= $("#formDeList").children().children().filter(':first-child')
@@ -130,59 +114,99 @@
                 dateSelect($(this).attr('date-data'))
             })
 
-            // 영화 부분
-                //영화버튼 선택시 이벤트
-            $('#mCSB_1_container123 ul li').on('click',function(e) {
+
+
+
+
+        // 영화 부분
+            //영화버튼 선택시 이벤트
+                //영화 선택자
+            //영화 리스트
+            const movieList=$('#mCSB_1_container123 ul li')
+            movieList.on('click',function(e) {
                 let mBtn= $(this).children()
-                const moviesBox = $(".view-area")
                 mNo=mBtn.attr('movie-no')
                 let len = selectedMovies.size
                 if (selectedMovies.has(mNo)) {
-
-                    deleteSelectedMovie(mNo)
-
+                    deleteSelectBox(mNo)
                 }else if(len<3) {
-                    mBtn.addClass('on')
-                    let box = $("#choiceMovieList").children().eq(len)
-                    const boxId="box-"+mNo
-                    selectedMovies.set(mNo,boxId)
-
-                    $("#choiceMovieNone").css('display', 'none')
-                    let html = `<div class="wrap" id="${boxId}">
-                    <div class="img">
-                    <img src="${mBtn.attr('img-path')}"
-                    movie-no="${mBtn.attr('movie-no')}" ></div>
-                    <button type="button" class="del">삭제</button></div>`
-                    box.append(html)
-                    $("#choiceMovieList").css('display', 'block')
-                    fetch('/api/booking')
+                    selectedMovies.add(mNo)
+                    createSelectBox(mNo)
                 }else
-
                 {
                     alert('영화 3개까지선택가능')
                 }
-
             })
 
             //선택영화목록창에서 x버튼눌렀을시 선택영화제거
-            $('#choiceMovieList').on("click",'button',function() {
-                console.log($(this))
-                let mNo=$(this).prev().children().attr('movie-no')
-                deleteSelectedMovie(mNo)
+            $('.choice-list').on("click",'button[class=del]',function() {
+                deleteSelectBox($(this).attr('box-id'))
             })
 
             // 선택영화목록에서 선택영화를 지우는 함수
-            function deleteSelectedMovie(mNo){
-                $("#mCSB_1_container123").find('button[movie-no='+mNo+']').removeClass('on')
-                const boxDiv = $("#"+selectedMovies.get(mNo)).parent()
-                boxDiv.remove()
-                selectedMovies.delete(mNo)
-                $("#choiceMovieList").append("<div class='bg'></div>")
+            function deleteSelectBox(id){
+                if(selectedMovies.has(id)){
+                    selectedMovies.delete(id)
+                    $('#mBtn-'+id).toggleClass('on')
+                }else {
+                    selectedTheaters.delete(id)
+                    $('#tBtn-'+id).toggleClass('on')
+                }
+
+                let box=$("#selected-box-"+id)
+                box.parent().append("<div class='bg'></div>")
+                box.remove()
+                checkIsEmptyChoice()
+            }
+            function createSelectBox(id){
+                if(selectedMovies.has(id)){
+                    const len=selectedMovies.size-1
+                    const box = selectedMovieList.children().eq(len)
+                    const mBtn = $("#mBtn-"+id)
+                    const html = `<div class="wrap">
+                    <div class="img">
+                    <img src="${mBtn.attr('img-path')}"
+                    movie-no="${id}" ></div>
+                    <button type="button" box-id="${id}" class="del">삭제</button></div>`
+                    box.append(html)
+                    box.attr('id',"selected-box-"+id)
+                    mBtn.toggleClass('on')
+                }else {
+                    const len=selectedTheaters.size-1
+                    const box = selectedTheaterList.children().eq(len)
+
+                    const tBtn = $("#tBtn-"+id)
+                    const html = `<div class="wrap" id="selected">
+                        <p class="txt">${id}
+                            <button type="button" class="del" onClick="fn_deleteBrchChoice('1572', '10')" box-id="${id}"
+                                    brch-no="1572" area-cd="10" spclb-yn="N" theab-kind-cd="10">삭제
+                            </button>
+                        </p>
+                    </div>`
+                    box.append(html)
+                    box.attr('id',"selected-box-"+id)
+                    tBtn.toggleClass('on')
+                }
+                checkIsEmptyChoice()
+            }
+            function checkIsEmptyChoice(){
                 if(selectedMovies.size==0){
-                    $("#choiceMovieList").css('display', 'none')
-                    $("#choiceMovieNone").css('display', 'block')
+                    selectedMovieList.hide()
+                    selectedMovieList.prev().show()
+                }else {
+                    selectedMovieList.prev().hide()
+                    selectedMovieList.show()
+                }
+                if(selectedTheaters.size==0){
+                    selectedTheaterList.hide()
+                    selectedTheaterList.prev().show()
+                }else {
+                    selectedTheaterList.prev().hide()
+                    selectedTheaterList.show()
                 }
             }
+
+        // 지역 부분
             //지역리스트 선택시 이벤트
             $("#location-list").on('click',"[data=locbtn]",function(){
                 $(this).parent().siblings().children().removeClass('on')
@@ -190,44 +214,66 @@
                 $(this).next().toggleClass('on')
             })
 
-            // 영화관 선택시 이벤트
+        // 극장 부분
+            // 극장 선택시 이벤트
             $('.theater-list').on('click','button',function(){
                 let len=selectedTheaters.size
-
                 let tName = $(this).attr('theater-name')
                 if(selectedTheaters.has(tName)){
-                    selectedTheaters.delete(tName)
-                    let box=theaterBox.find("div[id="+tName+"]")
-                    box.remove()
-                    theaterBox.append("<div class='bg'></div>")
+                    deleteSelectBox(tName)
                 }else if(len<3){
                     selectedTheaters.add(tName)
-                    let box=theaterBox.children().eq(len)
-                    box.attr('id',tName)
-                    box.append(createSelectedTheaterBox(tName))
+                    createSelectBox(tName)
                 }else{
                     alert('영화3개까지선택가능')
                     return
                 }
-                $(this).toggleClass('on')
                 if(selectedTheaters.size>0){
-                    theaterBox.show()
-                    theaterBox.prev().hide()
+                    bookingScheudlesApi();
+                    $("#playScheduleNonList").hide()
+                    $("#playScheduleList").show()
                 } else{
-                    theaterBox.hide()
-                    theaterBox.prev().show()
+                    $("#playScheduleNonList").show()
+                    $("#playScheduleList").hide()
+                    $("#mCSB_3_container").children().empty()
                 }
-                console.log(selectedTheaters.toString())
             })
-            function createSelectedTheaterBox(tName){
-                return `<div class="wrap">
-                        <p class="txt">${tName}
-                            <button type="button" class="del" onClick="fn_deleteBrchChoice('1572', '10')"
-                                    brch-no="1572" area-cd="10" spclb-yn="N" theab-kind-cd="10">삭제
-                            </button>
-                        </p>
-                    </div>`
+
+            function bookingScheudlesApi(){
+                let url= "http://localhost/api/booking/selectedSchedule?"
+                const urll = new URL(url)
+                const searchParams = new URLSearchParams(urll)
+                const tNames= [...selectedTheaters]
+                const mNos= Array.from(selectedMovies.keys())
+                searchParams.append("tNames",tNames)
+
+
+                 searchParams.append("mNos",mNos)
+
+                const container = $("#mCSB_3_container").children()
+                container.empty()
+
+                fetch(url+searchParams.toString()).then(res=>res.json()).then(data=> {
+                $.each(data,(index,s) => {
+                    const scheduleHtml=`<li>
+                    <button type="button" class="btn" schedule-id="${s.id}" start="${s.startTime}" play-de="${selectedDate}" end=""
+                            turn="1" movie-no="${s.movieNo}" theater-no="0029" screen-no="03"
+                            play-schdl-no="2308240029024" netfnl-adopt-at="N" rest-seat-cnt="105"
+                            ctts-ty-div-cd="MVCT01" theab-popup-at="Y" theab-popup-no="2015">
+                        <div class="legend"><i class="iconset ico-sun" title="">조조</i></div>
+                        <span class="time"><strong title="상영 시작">${s.startTime}</strong><em title="상영 종료">~${s.endTime}</em></span><span
+                        class="title"><strong title="${s.movieTitle}">${s.movieTitle}</strong><em>2D</em></span>
+                        <div class="info"><span class="theater" title="${s.theaterName}">${s.theaterName}<br>${s.screenName}</span><span
+                            class="seat"><strong class="now" title="잔여 좌석">${s.remainingSeats}</strong><span>/</span><em class="all"
+                                                                                                         title="전체 좌석">${s.screenSeats}</em></span>
+                        </div>
+                    </button>
+                </li>`
+                    container.append(scheduleHtml)
+                })
+                })
             }
+
         })
 
     </script>
@@ -324,7 +370,7 @@
                                                     <div id="mCSB_1_container123" class="mCSB_container" style="position:relative; top:0; left:0;" dir="ltr">
                                                         <ul>
                                                             <li th:each="movie, i : ${movies}">
-                                                                <button th:type="button" class="btn" th:movie-nm="${movie.title}" th:movie-no="${movie.no}" th:img-path="${movie.getMainPoster()}" movie-popup-at="N" movie-popup-no="0" form-at="Y">
+                                                                <button th:type="button" th:id="|mBtn-${movie.no}|" class="btn" th:movie-nm="${movie.title}" th:movie-no="${movie.no}" th:img-path="${movie.getMainPoster()}" movie-popup-at="N" movie-popup-no="0" form-at="Y">
                                                                 <span th:class="|movie-grade small age-${movie.contentRating}|" th:text="${movie.contentRating}" ></span>
                                                                 <i class="iconset ico-heart-small">보고싶어 설정안함</i>
                                                                 <span class="txt" th:text="${movie.title}"></span>
@@ -511,7 +557,7 @@
                                         <span>목록에서 영화를 선택하세요.</span>
                                     </div>
                                     <!-- 영화를 한개라도 선택했을 때 -->
-                                    <div class="choice-list" id="choiceMovieList" style="display: none;">
+                                    <div class="choice-list" id="selectedMovieList" style="display: none;">
                                         <!-- 비어있는 영역 -->
                                         <div class="bg"></div>
                                         <div class="bg"></div>
@@ -630,7 +676,7 @@
                                                                     <div id="mCSB_4_container" class="mCSB_container mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
                                                                         <ul>
                                                                             <li th:class="theater-list" th:each="theater, j : ${location.theaters}">
-                                                                                <button type="button" class="" th:theater-no="${theater.no}" th:theater-name="${theater.name}" th:location-name="${location.name}" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0" th:text="${theater.name}"></button>
+                                                                                <button type="button"  th:id="|tBtn-${theater.name}|" class="" th:theater-no="${theater.no}" th:theater-name="${theater.name}" th:location-name="${location.name}" form-at="Y" area-cd="10" area-cd-nm="서울" spclb-yn="N" brch-bokd-unable-at="N" brch-popup-at="N" brch-popup-no="0" th:text="${theater.name}"></button>
                                                                             </li>
 
                                                                         </ul>
@@ -1122,7 +1168,7 @@
                                 <div class="movie-schedule-area">
                                     <!-- 영화, 영화관 선택 안했을때 -->
                                     <!---->
-                                    <div class="no-result" id="playScheduleNonList" style="display:none;">
+                                    <div class="no-result" id="playScheduleNonList" style="display:block;">
                                         <i class="iconset ico-movie-time"></i>
                                         <p class="txt"> 영화와 극장을 선택하시면 <br> 상영시간표를 비교하여 볼 수 있습니다. </p>
                                     </div>

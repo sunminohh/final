@@ -32,7 +32,7 @@ public class BookingService {
             return map;
         }
 
-        public List<BookingScheduleDto> getBookingSchedules(Map<String, String> params){
+        public List<BookingScheduleDto> getBookingSchedules(Map<String, String[]> params){
             return scheduleDao.getBookingSchedules(params);
         }
 

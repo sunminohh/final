@@ -72,7 +72,6 @@
 		and mt.THEATER_NO = mts.THEATER_NO
 		and mts.SCREEN_ID = ms.SCREEN_ID
 	</select>
-<<<<<<< HEAD
     <select id="getSchedulesByDate" parameterType="String" resultType="DailyScheduleDto">
         select
             A.movie_no as movieNo,
@@ -84,32 +83,44 @@
         where A.SCREEN_ID = B.SCREEN_ID
     </select>
     
-    <select id="getSchedulesByDateMovieTheater" parameterType="map" resultType="ScheduleDto">
+    <select id="getBookingSchedules" parameterType="map" resultType="BookingScheduleDto">
         select
+            C.SCHEDULE_ID as id,
             C.MOVIE_NO as movieNo,
             C.SCREEN_ID as screenId,
-            c.SCREEN_NAME as screenName,
-            c.theater_no as theaterNo,
-            D.theater_name as theaterName,
-            c.SCHEDULE_START_TIME as startTime,
-            c.SCHEDULE_END_TIME as endTime,
-            c.SCHEDULE_TURN as turn,
-            c.REMAINING_SEATS as remainingSeats,
-            c.SCREEN_SEATS as screenSeats
-        from(select A.*, B.theater_no,B.SCREEN_NAME
-             from (select MOVIE_NO,  SCREEN_ID,  SCHEDULE_START_TIME,SCHEDULE_END_TIME, SCHEDULE_TURN,REMAINING_SEATS,SCREEN_SEATS
+            C.SCREEN_NAME as screenName,
+            C.THEATER_NO as theaterNo,
+            D.THEATER_NAME as theaterName,
+            C.SCHEDULE_START_TIME as startTime,
+            C.SCHEDULE_END_TIME as endTime,
+            C.SCHEDULE_TURN as turn,
+            C.REMAINING_SEATS as remainingSeats,
+            C.SCREEN_SEATS as screenSeats,
+        	M.MOVIE_TITLE as movieTitle
+        from(select A.*, B.THEATER_NO,B.SCREEN_NAME
+             from (select SCHEDULE_ID,MOVIE_NO,  SCREEN_ID,SCHEDULE_START_TIME,SCHEDULE_END_TIME,SCHEDULE_TURN,REMAINING_SEATS,SCREEN_SEATS
                    from MGV_SCHEDULE
-                   where schedule_date =#{date}
-                     and SCHEDULE_START_TIME > #{time}) A,
+                   where SCHEDULE_DATE ='2023-08-25'
+						<choose>
+							<when test="mNos.length > 0">
+								and MOVIE_NO in
+								<foreach collection="mNos" item="mNo" open="(" close=")" separator=",">
+									#{mNo}
+								</foreach>
+							</when>
+						</choose>
+                     and SCHEDULE_START_TIME > '00:00') A,
                   MGV_THEATER_SCREEN B
-             where A.SCREEN_ID = B.SCREEN_ID
-               and theater_no =#{theaterNo}
-               and Movie_no =#{movieNo}) C, MGV_THEATERS D
-        where C.THEATER_NO=D.THEATER_NO
-        order by turn asc
-    </select>
-=======
+            	where A.SCREEN_ID = B.SCREEN_ID) C, MGV_THEATERS D,MGV_MOVIE M
+        where D.THEATER_NAME in
+		<foreach collection="tNames" item="tName" index="index" open="(" close=")" separator=",">
+			#{tName}
+		</foreach>
 
+            and C.THEATER_NO=D.THEATER_NO
+    		and C.MOVIE_NO=M.MOVIE_NO
+        order by SCHEDULE_START_TIME
+    </select>
 	<select id="getSchedulesByScreenAndDate" parameterType="map"
 		resultType="map">
 		select
@@ -150,5 +161,4 @@
 		MGV_SCHEDULE
 		where SCHEDULE_ID=#{value};
 	</delete>
->>>>>>> develop
 </mapper>
