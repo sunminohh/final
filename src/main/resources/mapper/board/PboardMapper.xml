@@ -300,7 +300,8 @@
 	    	USER_ID				as "user.id", 
 	    	JOIN_REQUEST		as request, 
 	    	JOIN_CREATE_DATE	as createDate, 
-	    	JOIN_UPDATE_DATE	as updateDate
+	    	JOIN_UPDATE_DATE	as updateDate,
+	    	JOIN_ACCEPT			as accept
 		FROM 
 			PARTY_JOIN
 		WHERE 
@@ -308,20 +309,23 @@
 			and user_id = #{user.id}	
     </select>
     
-    <select id="getJoinByPno" parameterType="kr.co.mgv.board.vo.PartyJoin" resultType="int">
+    <select id="getJoinByPnoAndAccept" parameterType="kr.co.mgv.board.vo.PartyJoin" resultType="kr.co.mgv.board.vo.PartyJoin">
 	    SELECT 
 	    	join_NO				as no, 
 	    	PARTY_NO			as "board.no", 
 	    	USER_ID				as "user.id", 
 	    	JOIN_REQUEST		as request, 
 	    	JOIN_CREATE_DATE	as createDate, 
-	    	JOIN_UPDATE_DATE	as updateDate
+	    	JOIN_UPDATE_DATE	as updateDate,
+	    	JOIN_ACCEPT			as accept
 		FROM 
 			PARTY_JOIN
 		WHERE 
 			party_no  = #{board.no}
+			and join_accept = #{accept}
 			and join_request = 'Y'	
     </select>
+    
     
     <update id="updateJoin" parameterType="kr.co.mgv.board.vo.PartyJoin">
 	    UPDATE PARTY_JOIN
