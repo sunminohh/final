@@ -32,4 +32,5 @@ public interface PartyBoardDao {
 	PartyJoin getJoinByPnoAndId(PartyJoin join);
 	List<PartyJoin> getJoinByPnoAndAccept(PartyJoin join);
 	void updateJoin (PartyJoin join);
+	int getAcceptCount (int no);
 }

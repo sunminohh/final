@@ -41,7 +41,6 @@
          
          <div class="txc-textbox pt-0 " style=" padding: 20px;">
             <p th:utext="${board.content}">파이널 화이팅~~</p>
-            <p th:utext="${board.requestCount}">파이널 화이팅~~</p>
          </div>
          
          <div class="reload-box d-flex justify-content-center pt-5">
@@ -198,40 +197,43 @@
                </div>
                <div class="modal-body">
                    <div class="row mb-3">
+                   	  <p class="ms-3">※이 파티의 신청자는 <strong th:text="${board.headCount}"></strong>명만 선택하실 수 있습니다.</p>
 	                  <div class="col-12 d-flex justify-content-center">
-	                  		<div>
+	                  		<input type="hidden" name="headCount" th:value="${board.headCount}">
+	                  		<input type="hidden" name="acceptCount">
+	                  		<div class="join-box pe-1">
 	                            <p class="text-center me-3 fs-6 fw-semibold" >신청자 목록</p>
-		                        <form class="border bg-light p-3 me-3" method="post" th:action="@{/board/movie/join(boardNo=${param.no})}" id="join-form" >
-		                           <div class="form-group mb-2">
-		                            	<div class="d-flex justify-content-between" id="join-box"  th:each="notAccept:${notAccepts}"
-		                            		 th:if="${not #lists.isEmpty(notAccepts)}">
-		                            		<p class="me-1" th:text="${notAccept.user.id}">신청자 아이디</p>
-		                            		<button type="button" class="btn btn-sm btn-outline-dark" id="join-btn" style="height: 23px; font-size: 10px">수락</button>
-		                            		<input type="hidden" name="partyId" th:value="${notAccept.user.id}">
-				                            <input type="hidden" name="boardNo" th:value="${param.no}">
-		                            	</div>
-		                            	<div class="text-center" th:if="${#lists.isEmpty(notAccepts)}" >
-		                            		<p>신청자가 없습니다.</p>
-		                            	</div>  
+		                           <div class="form-group mb-2 border" id="ready-to-join">
+			                        	<form class="p-3 me-3" method="post" th:action="@{/board/movie/join(boardNo=${param.no})}" id="join-form" >
+			                            	<div class="d-flex justify-content-between" id="join-box"  th:each="notAccept:${notAccepts}"
+			                            		 th:if="${not #lists.isEmpty(notAccepts)}">
+		                            			<p class="me-1" th:text="${notAccept.user.id}">신청자 아이디</p>
+		                            			<button type="button" class="btn btn-sm btn-outline-dark" id="join-btn" style="height: 23px; font-size: 10px">수락</button>
+		                            			<input type="hidden" name="partyId" th:value="${notAccept.user.id}">
+					                           	<input type="hidden" name="boardNo" th:value="${param.no}">
+			                            	</div>
+			                            	<div class="text-center" th:if="${#lists.isEmpty(notAccepts)}" >
+			                            		<p>신청자가 없습니다.</p>
+			                            	</div>  
+			                        	</form>
 		                           </div>
-		                        </form>
 	                  		</div>
-	                  		<div>
+	                  		<div class="reject-box">
 		                        <p class="text-center fs-6 fw-semibold" >수락된 신청자 목록</p>
-		                        <form class="border bg-light p-3" method="post" th:action="@{/board/movie/resetJoin(boardNo=${param.no})}" id="resetJoin-form" >
-		                        	<div class="form-group mb-2" >
-		                              	<div class="d-flex justify-content-between" id="resetJoin-box"  th:each="accept:${accepts}"
-		                              		 th:if="${not #lists.isEmpty(accepts)}">
-		                            		<p id="accepted-id" th:text="${accept.user.id}">신청자 아이디</p>
-		                            		<button type="button" class="btn btn-sm btn-outline-secondary" id="reset-join-btn" style="height: 23px; font-size: 10px">취소</button>
-			                           		<input type="hidden" name="partyId" th:value="${accept.user.id}">
-					                        <input type="hidden" name="boardNo" th:value="${param.no}">
-		                            	</div>
-		                            	<div class="text-center" th:if="${#lists.isEmpty(accepts)}">
-		                            		<p>수락된 신청자가 없습니다.</p>
-		                            	</div>   
+		                        	<div class="form-group mb-2 border" id="ready-to-reject">
+				                        <form class="p-3" method="post" th:action="@{/board/movie/resetJoin(boardNo=${param.no})}" id="resetJoin-form" >
+			                              	<div class="d-flex justify-content-between" id="resetJoin-box"  th:each="accept:${accepts}"
+			                              		 th:if="${not #lists.isEmpty(accepts)}">
+			                            		<p id="accepted-id" th:text="${accept.user.id}">신청자 아이디</p>
+			                            		<button type="button" class="btn btn-sm btn-outline-secondary" id="reset-join-btn" style="height: 23px; font-size: 10px">취소</button>
+				                           		<input type="hidden" name="partyId" th:value="${accept.user.id}">
+						                        <input type="hidden" name="boardNo" th:value="${param.no}">
+			                            	</div>
+			                            	<div class="text-center" th:if="${#lists.isEmpty(accepts)}">
+			                            		<p>수락된 신청자가 없습니다.</p>
+			                            	</div>   
+				                        </form>
 		                           </div>
-		                        </form>
 	                  		</div>
 	                   </div>
                		</div>

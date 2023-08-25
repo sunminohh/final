@@ -126,4 +126,27 @@ public class PartyBoardService {
 	public void updateRequestCount (PartyBoard board) {
 		partyBoardDao.updatePBoardByNo(board);
 	}
+	
+	public void acceptJoin (int no, String id, String accept) {
+		PartyBoard board = PartyBoard.builder().no(no).build();
+		User user = User.builder().id(id).build();
+		PartyJoin join = PartyJoin.builder().board(board).user(user).accept(accept).build();
+		partyBoardDao.updateJoin(join);
+	}
+
+	public void resetJoin (int no, String id) {
+		PartyBoard board = PartyBoard.builder().no(no).build();
+		User user = User.builder().id(id).build();
+		PartyJoin join = PartyJoin.builder().board(board).user(user).accept("N").build();
+	}
+	
+	public void updateAcceptCount (int no, int AcceptCount) {
+		PartyBoard board = partyBoardDao.getPBoardByNo(no);
+		board.setAcceptCount(AcceptCount);
+		partyBoardDao.updatePBoardByNo(board);
+	}
+	
+	public int getAcceptCount (int no) {
+		return partyBoardDao.getAcceptCount(no);
+	}
 }

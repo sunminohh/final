@@ -99,6 +99,9 @@
 				<if test="requestCount != null">
 					REQUEST_COUNT = #{requestCount},
 				</if>
+				<if test="acceptCount != null">
+					ACCEPT_COUNT = #{acceptCount},
+				</if>
 			</set>
 			where party_no = #{no}
 	</update>
@@ -259,6 +262,7 @@
 				A.board_read_count		as readCount,
 				A.PARTY_COMPLETE		as complete,
 				A.REQUEST_COUNT			as requestCount,
+				A.ACCEPT_COUNT			as acceptCount,
 				B.schedule_id			as "schedule.id",
 				B.schedule_date			as "schedule.date",
 				B.SCHEDULE_START_TIME	as "schedule.start",
@@ -326,13 +330,30 @@
 			and join_request = 'Y'	
     </select>
     
-    
-    <update id="updateJoin" parameterType="kr.co.mgv.board.vo.PartyJoin">
+	<update id="updateJoin" parameterType="kr.co.mgv.board.vo.PartyJoin">
 	    UPDATE PARTY_JOIN
-			SET JOIN_REQUEST = #{request},
-			JOIN_UPDATE_DATE = CURRENT_TIMESTAMP
-		WHERE 
-			user_id = #{user.id}
-			and party_no = #{board.no}
-    </update>
+	    <set>
+	        JOIN_UPDATE_DATE = CURRENT_TIMESTAMP,
+	        <if test="request != null">
+	            JOIN_REQUEST = #{request},
+	        </if>
+	        <if test="accept != null">
+	            join_accept = #{accept},
+	        </if>
+	    </set>
+	    WHERE 
+	        user_id = #{user.id}
+	        and party_no = #{board.no}
+	</update>
+	
+	<select id="getAcceptCount" parameterType="int" resultType="int">
+    		select
+				ACCEPT_COUNT  as acceptCount
+			from 
+				PARTY_BOARD 
+			where 
+				party_no = ${value}
+    </select>
+
+    
 </mapper>

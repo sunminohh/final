@@ -84,8 +84,8 @@
       transition: bottom 0.3s;
     }
 
-	#join-form {
-        max-height: 220px;
+	#ready-to-join {
+        max-height: 200px;
         overflow-y: auto;
         width:200px; 
         height: 200px;
@@ -93,12 +93,12 @@
         background-color:rgb(255, 244, 244);
     }
 	
-	#join-form p {
+	#ready-to-join p {
 		color: rgb(138, 138, 138);
 	}
 	
-	#resetJoin-form {
-        max-height: 220px;
+	#ready-to-reject {
+        max-height: 200px;
         overflow-y: auto;
         width:200px; 
         height: 200px;
@@ -106,7 +106,7 @@
         background-color: rgb(255, 244, 244);
     }
 	
-	#resetJoin-form #accepted-id {
+	#ready-to-reject #accepted-id {
 		color: rgb(22, 165, 211);
 	}
 	
