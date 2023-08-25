@@ -40,6 +40,11 @@ public class AdminTheaterController {
     	return "/view/admin/theater/schedule/deleteForm";
     }
     
+    @GetMapping("/regist")
+    public String registForm() {
+    	return "/view/admin/theater/form/regist";
+    }
+    
     @GetMapping("/detail")
     @ResponseBody
     public Theater getTheaterDetail(@RequestParam int theaterNo) {
