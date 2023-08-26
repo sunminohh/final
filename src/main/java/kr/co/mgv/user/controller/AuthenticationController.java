@@ -89,10 +89,16 @@ public class AuthenticationController {
             Authentication auth = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(user.getId(), user.getPassword())
             );
+            User userPrincipal = (User) auth.getPrincipal(); //
+
+            if ("Y".equals(userPrincipal.getDisabled())) {
+                // "disabled" 상태인 사용자는 로그인 차단
+                log.warn("User [{}] failed login: Account is disabled.", userPrincipal.getUsername());
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("WITHDRAWN");
+            }
 
             SecurityContextHolder.getContext().setAuthentication(auth);
             session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
-            User userPrincipal = (User) auth.getPrincipal(); //
             log.info("User [{}] logged in.", userPrincipal.getUsername());
             return ResponseEntity.ok(userPrincipal); //
         } catch (BadCredentialsException e) {

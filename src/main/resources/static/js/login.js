@@ -1,5 +1,7 @@
 // Login 관련 코드
 $(() => {
+    const $username = $("input[name='username']");
+    const $password = $("input[name='password']");
 
     // 로그인 모달 탭
     $("#loginType>.btn-type").on("click", function (e) {
@@ -16,7 +18,13 @@ $(() => {
     });
 
     // 로그인 모달 표출
-    $(".btn-login").on("click", () => $(".login-modal").addClass("is-open"));
+    $(".btn-login").on("click", () => {
+        $username.val("");
+        $password.val("");
+
+        $username.focus();
+        $(".login-modal").addClass("is-open")
+    });
 
     // 로그인 엔터 Keypress
     $(".login-modal input").on("keypress", (e) => {
@@ -33,44 +41,52 @@ $(() => {
         const password = $modal.find("input[name='password']").val();
 
         if (!username) {
-            errorAlert(username, "아이디를 입력하세요.");
+            errorAlert($username, "아이디를 입력하세요.");
             return false;
         }
 
         if (!password) {
-            errorAlert(password, "비밀번호를 입력하세요.");
+            errorAlert($password, "비밀번호를 입력하세요.");
             return false;
         }
 
         $.ajax({
             url: "/user/auth/login",
             type: "POST",
-            contentType:"application/json; charset=utf-8",
+            contentType: "application/json; charset=utf-8",
             data: JSON.stringify({id: username, password}),
             success: function (res) {
                 location.href = '/';
             },
             error: function (error) {
                 console.error(error);
-                Swal.fire({
-                    icon: 'error',
-                    text: '아이디 혹은 비밀번호가 일치하지 않습니다.',
-                    footer: '<a href="#">비밀번호를 잊어버렸나요?</a>'
-                })
-            }
-        })
-
-        function errorAlert(el, text) {
-            Swal.fire({
-                icon: 'error',
-                text: text,
-                didClose: () => {
-                    $el.focus();
+                if (error.responseText === "WITHDRAWN") {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: "탈퇴 회원 이용 제한",
+                        text: "관리자에게 문의하세요."
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        text: '아이디 혹은 비밀번호가 일치하지 않습니다.',
+                        footer: '<a href="#">비밀번호를 잊어버렸나요?</a>'
+                    });
                 }
-            });
-        }
+            }
+        });
+
     });
 
+    function errorAlert($el, text) {
+        Swal.fire({
+            icon: 'error',
+            text: text,
+            didClose: () => {
+                $el.focus();
+            }
+        });
+    }
 });
 
 // Login UI
