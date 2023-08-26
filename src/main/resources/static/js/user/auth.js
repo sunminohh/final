@@ -98,7 +98,10 @@ $(() => {
         } catch (error) {
             // Ajax 요청 실패한 경우
             console.error("server", error);
-            errorAlert($email, error.responseText);
+            Swal.fire({
+                icon: 'error',
+                text: error.responseText
+            })
         }
     }
 

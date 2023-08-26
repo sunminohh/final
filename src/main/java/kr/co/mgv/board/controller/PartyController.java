@@ -317,4 +317,14 @@ public class PartyController {
 			
 			return "redirect:/board/party/detail?no=" + no;
 		}
+		
+		// 게시물 삭제
+		@GetMapping("/delete")
+		public String deletePBoard (@RequestParam("no") int no) {
+			
+			String deleted = "Y";
+			partyBoardService.deletePBoard(no, deleted);
+			
+			return "redirect:/board/party/list";
+		}
 }

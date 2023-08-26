@@ -1,11 +1,5 @@
 $(function() {
 	
-	const params = new URLSearchParams(location.search);
-	const defaultKeyword = params.get('keyword');
-	if (defaultKeyword) {
-		$("input[name=keyword]").val(defaultKeyword);
-		getNoticeList();
-	}
 	
 	// 탭컬러 바꾸기
 	$('li.tab-link').click(function() {
@@ -70,6 +64,12 @@ $(function() {
 		getNoticeList();
 	});
 	
+	const params = new URLSearchParams(location.search);
+	const defaultKeyword = params.get('keyword');
+	if (defaultKeyword) {
+		$("input[name=keyword]").val(defaultKeyword);
+		getNoticeList();
+	}
 	// 폼 전송 이벤트
 	$("#actionForm").on('submit', function(e) {
 		e.preventDefault();
