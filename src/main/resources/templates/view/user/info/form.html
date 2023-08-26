@@ -60,7 +60,7 @@
     </div>
 
     <form id="action-form" method="post" th:action="@{/user/info/update}">
-        <input type="hidden" name="id" value="${loginId}">
+        <input type="hidden" name="id" th:value="${user.id}">
 
         <input type="hidden" name="zipcode" th:value="${user.zipcode}">
         <input type="hidden" name="address" th:value="${user.address}">

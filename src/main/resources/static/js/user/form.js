@@ -27,8 +27,15 @@ $(() => {
 
         const emailValue = $email.val();
 
-        let check = checkInput();
-        if (!check) {
+        if (!emailValue) {
+            errorAlert($email, "E-mail을 입력해주세요.");
+            emailErrMsg.text("필수 입력 값입니다.").css('color', 'red');
+            return false;
+        }
+
+        if (!emailReg.test(emailValue)) {
+            errorAlert($email, "E-mail 형식이 아닙니다.");
+            emailErrMsg.text("name@examble.com").css('color', 'black');
             return false;
         }
         console.log("pass");
@@ -46,28 +53,14 @@ $(() => {
                     if (result.isConfirmed) {
                         location.href = "/logout";
                     }
+                    return true;
                 })
             },
             error: function (e) {
-                errorAlert(emailValue, e.responseText);
+                errorAlert($email, e.responseText);
+                return false;
             }
         });
-
-        function checkInput() {
-
-            if (!emailValue) {
-                errorAlert(emailValue, "E-mail을 입력해주세요.");
-                emailErrMsg.text("필수 입력 값입니다.").css('color', 'red');
-                return false;
-            }
-
-            if (!emailReg.test(emailValue)) {
-                errorAlert(emailValue, "E-mail 형식이 아닙니다.");
-                emailErrMsg.text("name@examble.com").css('color', 'red');
-                return false;
-            }
-            return true;
-        }
     });
 
     $(".update-form input[name='email']").keyup(() => {
@@ -90,7 +83,9 @@ $(() => {
         Swal.fire({
             icon: 'error',
             text: text,
-            didClose: $el.focus()
+            didClose: () => {
+                $el.focus();
+            }
         });
     }
 

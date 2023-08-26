@@ -64,21 +64,25 @@ public class UserController {
         return "view/user/info/form";
     }
 
-    // todo 회원정보 수정
+    // 회원정보 수정
     @PostMapping("/update")
     public ResponseEntity<String> updateUser(@AuthenticationPrincipal User user, UserUpdateForm form) {
-        // todo 이메일 수정 할 때
-        User checkEmail = userService.getUserByEmail(form.getEmail()); //
-
-
-        // todo 이메일 수정 안할 때
-        if (!user.getEmail().equals(form.getEmail())) {
+        // 만약 이메일을 수정하지 않는 경우
+        if (form.getEmail().equals(user.getEmail())) {
             userService.updateUser(user.getId(), form.getEmail(), form.getZipcode(), form.getAddress());
-//            session.invalidate();
-            return ResponseEntity.ok("사용가능한 이메일 주소입니다.");
+            return ResponseEntity.ok("이메일 수정 안함");
+        }
+
+        // 이메일을 수정하는 경우
+        User checkEmail = userService.getUserByEmail(form.getEmail());
+
+        if (checkEmail == null || checkEmail.getId().equals(user.getId())) {
+            userService.updateUser(user.getId(), form.getEmail(), form.getZipcode(), form.getAddress());
+            return ResponseEntity.ok("가능");
         } else {
             return ResponseEntity.badRequest().body("중복된 이메일 주소입니다.");
         }
+
     }
 
     // 비밀번호 변경
