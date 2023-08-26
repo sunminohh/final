@@ -153,6 +153,7 @@
 
    <!-- 댓글 표시 부분 -->
    
+   
       
    <!-- 신고 모달 -->
    <div class="modal fade" id="reportModal"  aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -169,7 +170,7 @@
 	                     <p style="font-size : 18px;"><strong>이 게시물을 신고하는 이유</strong></p>
 	                     <p style="font-size : 15px;">지식재산권 침해를 신고하는 경우를 제외하고 회원님의 신고는익명으로 처리됩니다. 누군가 위급한 상황에 있다고 생각된다면 즉시 현지 응급 서비스 기관에 연락하시기 바랍니다.</p>
 	                     
-	                        <form class="border bg-light p-3" method="post" th:action="@{/board/movie/report(boardNo=${param.no})}" id="report-form">
+	                        <form class="border bg-light p-3" method="post" th:action="@{/board/party/report(boardNo=${param.no})}" id="report-form">
 	                           <input type="hidden" name="boardNo" value="${param.no}">
 	                           <div class="form-group mb-2" style="width: 33%; padding:5px;">
 	                              <label class="form-label">신고이유</label>
