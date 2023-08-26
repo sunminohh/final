@@ -29,10 +29,11 @@
 			            <div class="col-sm-11">
 				            <div id="input-group" class="form-group mb-2">		      
 		  						<input type="text" class="form-control" name="name" th:value="${board.name}"/>
-							    <input type="hidden" name="movieNo" >
-							    <input type="hidden" name="theaterNo">
-							    <input type="hidden" name="date" >
-							    <input type="hidden" name="scheduleId">
+							    <input type="hidden" name="movieNo" th:value="${board.schedule.movie.no}">
+							    <input type="hidden" name="theaterNo" th:value="${board.schedule.theater.no}">
+							    <input type="hidden" name="date" th:value="${board.schedule.date}">
+							    <input type="hidden" name="scheduleId" th:value="${board.schedule.id}">
+							    <input type="hidden" name="no" th:value="${param.no}">
 		  					</div>
 			            </div> 
 			           </div>
