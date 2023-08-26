@@ -66,6 +66,13 @@ public class PartyBoardService {
 		partyBoardDao.updatePBoardByNo(board);
 	}
 	
+	public void deletePBoard (int no, String deleted) {
+	
+		PartyBoard board = partyBoardDao.getPBoardByNo(no);
+		board.setDeleted(deleted);
+		partyBoardDao.updatePBoardByNo(board);
+	}
+	
 	// 목록 관련
 	public PartyBoardList getPBoards(Map<String, Object> param) {
 		// pagination

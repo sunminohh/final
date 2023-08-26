@@ -9,7 +9,7 @@
 </head>
 <title>관리자페이지</title>
 </head>
-	<div layout:fragment="content" id="contents">
+	<div layout:fragment="content" id="contents" style="margin-top: -40px;">
 	    <div class="d-flex justify-content-between">
 		    <h2 class="tit">공지사항</h2>
 	        <a href="/admin/support/notice/form" class="button purple" title="공지사항 등록">등록</a>
@@ -29,7 +29,7 @@
 	        </ul>
 	    </div>
     <div class="board-list-util">
-    <p class="result-count"><strong><span id="totalTitle">전체</span> <span class="font-green" id="totalCnt" th:text="${result.pagination.totalRows}"></span>건</strong></p>
+    <p class="result-count"><strong>전체 <span class="font-gblue" id="totalCnt" th:text="${result.pagination.totalRows}"></span>건</strong></p>
 	<form method="post" action="admin/notice/detail" id="actionForm" >    
 	     <div class="ml07 bs3  d-flex justify-content-end">
 	         	<select id="location" title="지역선택" name="locationNo"
