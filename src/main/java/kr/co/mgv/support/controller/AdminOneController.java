@@ -30,7 +30,7 @@ public class AdminOneController {
 
 	private final OneService oneService;
 	
-	@RequestMapping String one(@RequestParam(name = "categoryNo", required = false, defaultValue = "24") int categoryNo,
+	@GetMapping String one(@RequestParam(name = "categoryNo", required = false, defaultValue = "24") int categoryNo,
 			@RequestParam(name = "page", required = false, defaultValue = "1") int page,
 			@RequestParam(name = "answered", required = false) String answered,
 			@RequestParam(name ="keyword", required = false) String keyword,
@@ -78,7 +78,7 @@ public class AdminOneController {
 		return oneList;
 	}
 	
-	@RequestMapping("/detail")
+	@GetMapping("/detail")
 	public String getOneByNo(@RequestParam("no") int oneNo, Model model) {
 		One one = oneService.getOneByNo(oneNo);
 		List<OneFile> oneFiles = oneService.getOneFileByOneNo(oneNo);
