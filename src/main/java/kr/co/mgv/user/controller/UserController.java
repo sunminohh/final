@@ -25,13 +25,7 @@ public class UserController {
 
     @RequestMapping({"/",""})
     public String home(@AuthenticationPrincipal User user, Model model) {
-        String userId = user.getId();
-        String userName = user.getName();
-        String userEmail = user.getEmail();
-
-        model.addAttribute("userId", userId);
-        model.addAttribute("userName", userName);
-        model.addAttribute("userEmail", userEmail);
+        model.addAttribute("user", user);
 
         return "view/user/home";
     }
@@ -54,8 +48,8 @@ public class UserController {
     @GetMapping("/form")
     public String myMGV(@AuthenticationPrincipal User user, Model model) {
         user = userService.getUserById(user.getId());
-        long minDate = userService.getMindate(user.getUpdateDate());
-        long pwdMinDate = userService.getMindate(user.getPwdUpdateDate());
+        long minDate = userService.getMinDate(user.getUpdateDate());
+        long pwdMinDate = userService.getMinDate(user.getPwdUpdateDate());
 
         model.addAttribute("user", user);
         model.addAttribute("minDate", minDate);
@@ -124,12 +118,10 @@ public class UserController {
     @PostMapping("/disabled")
     public ResponseEntity<String> disableUser(@AuthenticationPrincipal User user, UserUpdateForm form) {
         if (passwordEncoder.matches(form.getCheckPassword(), user.getPassword())) {
-            log.info("비밀번호 일치");
             userService.disableUser(user.getId(), form.getReason());
 
             return ResponseEntity.ok("회원 탈퇴가 완료되었습니다.");
         } else {
-            log.error("비밀번호 불일치");
             return ResponseEntity.badRequest().body("현재 비밀번호가 일치하지 않습니다.");
         }
     }

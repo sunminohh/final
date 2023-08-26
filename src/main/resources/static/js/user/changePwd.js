@@ -35,10 +35,9 @@ $(() => {
 
         const check = checkInput();
         if (!check) {
-            console.log(check);
             return false;
         }
-        console.log("pass");
+        // console.log("pass");
 
         $.ajax({
             url: "/user/info/update/password",
@@ -52,9 +51,7 @@ $(() => {
 
                     // 만약 다른 페이지로 이동 필요할 시
                     location.href = "/user/info/form";
-
                 });
-
             },
             error: function (e) {
                 errorAlert($pwd, e.responseText);
@@ -155,7 +152,9 @@ $(() => {
         Swal.fire({
             icon: 'error',
             text: text,
-            didClose: $el.focus()
+            didClose: () => {
+                $el.focus();
+            }
         });
 
     }

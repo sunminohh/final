@@ -72,7 +72,6 @@ $(() => {
 
     // 인증번호 발송
     async function sendNumber() {
-        console.log("사용자 이메일 -> ", $email.val());
         const inputEmail = $email.val();
         try {
             const response = await $.ajax({
@@ -136,7 +135,6 @@ $(() => {
                 data: {"code": inputAuthNumber},
                 dataType: "text",
                 success: function () {
-                    console.log("pass")
                     authCheck = true;
                     Swal.fire({
                         icon: 'success',
@@ -151,7 +149,6 @@ $(() => {
                 }
             });
         } catch (error) {
-            console.error("Error checking authentication number: ", error);
             errorAlert($authNumber, error.responseText);
             $authNumber.val("");
         }

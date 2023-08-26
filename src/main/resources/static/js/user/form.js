@@ -38,7 +38,6 @@ $(() => {
             emailErrMsg.text("name@examble.com").css('color', 'black');
             return false;
         }
-        console.log("pass");
 
         $.ajax({
             url: "/user/info/update",

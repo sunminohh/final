@@ -25,7 +25,7 @@
 
         </div> -->
         <div class="mbimg"><img th:src="@{/images/user/welcome.png}" alt="WELCOME"></div>
-        <div class="mb_name">안녕하세요!<p><span th:text="${userName}"></span>님</p></div>
+        <div class="mb_name">안녕하세요!<p><span th:text="${user.name}"></span>님</p></div>
         <div class="link">
           <a th:href="@{/user/info/auth}">개인정보수정</a>
         </div>
@@ -175,6 +175,7 @@
       <div class="my-reserve-history">
         <ul>
           <li class="no-result">
+            <!--todo if문 -->
             <div class="no-history-reservation">
               예매 내역이 없습니다.
             </div>
@@ -201,7 +202,12 @@
             <col style="width:120px;">
             <col style="width:80px;">
           </colgroup>
-          <tbody><tr><td colspan="6" class="a-c">구매내역이 없습니다.</td></tr></tbody>
+          <tbody>
+          <tr>
+            <!--todo if 문-->
+            <td colspan="6" class="a-c">구매내역이 없습니다.</td>
+          </tr>
+          </tbody>
         </table>
       </div>
     </div>
@@ -217,6 +223,7 @@
 
         <div class="brd-list">
           <ul>
+            <!--todo if 문-->
             <li class="no-result">
               참여한 이벤트가 없습니다.
             </li>
