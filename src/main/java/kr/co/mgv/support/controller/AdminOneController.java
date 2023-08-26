@@ -1,12 +1,14 @@
 package kr.co.mgv.support.controller;
 
 import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,15 +26,38 @@ public class AdminOneController {
 
 	private final OneService oneService;
 	
-	@RequestMapping
-	public String list(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
-			@RequestParam(name = "categoryNo", required = false, defaultValue = "24") int categoryNo,
+	@RequestMapping String one(@RequestParam(name = "categoryNo", required = false, defaultValue = "24") int categoryNo,
+			@RequestParam(name = "page", required = false, defaultValue = "1") int page,
 			@RequestParam(name = "answered", required = false) String answered,
 			@RequestParam(name ="keyword", required = false) String keyword,
 			Model model) {
 		
 		Map<String, Object> param = new HashMap<>();
+		param.put("categoryNo", categoryNo);
+		param.put("page", page);
 		
+		if (StringUtils.hasText(answered)) {
+			param.put("answered", answered);
+		}
+	
+		if (StringUtils.hasText(keyword)) {
+			param.put("keyword", keyword);
+		}
+		
+		OneList oneList = oneService.search(param);	
+		model.addAttribute("result", oneList);
+		
+		return "/view/admin/support/one/list";
+	}
+	
+	@GetMapping("/list")
+	@ResponseBody
+	public OneList list(@RequestParam(name = "categoryNo", required = false, defaultValue = "24") int categoryNo,
+			@RequestParam(name = "page", required = false, defaultValue = "1") int page,
+			@RequestParam(name = "answered", required = false) String answered,
+			@RequestParam(name ="keyword", required = false) String keyword) {
+		
+		Map<String, Object> param = new HashMap<>();
 		param.put("categoryNo", categoryNo);
 		param.put("page", page);
 		
@@ -45,11 +70,8 @@ public class AdminOneController {
 		}
 		
 		OneList oneList = oneService.search(param);
-		OneList pagination = oneService.search(param);
-		model.addAttribute("result", oneList);
-		model.addAttribute("result", pagination);
 		
-		return "/view/admin/support/one/list";
+		return oneList;
 	}
 	
 	@RequestMapping("/detail")

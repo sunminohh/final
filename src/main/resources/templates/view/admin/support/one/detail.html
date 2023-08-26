@@ -12,32 +12,34 @@
        <div class="table-wrap mt30">
             <div class="board-view">
             <div class="tit-area">
-                <p class="tit" ></p>
+                <p class="tit" th:text="${one.title}"></p>
             </div>
 
             <div class="info">
                 <p>
                     <span class="tit">문의지점</span>
-                    <span class="txt" ></span>
+                    <span class="txt" th:text="${one.theater == null ? '서울 - 센터' : one.location.name +' - '+one.theater.name}"></span>
                 </p>
                 <p>
                     <span class="tit">문의유형</span>
-                    <span class="txt" ></span>
+                    <span class="txt" th:text="${one.category.name}"></span>
                 </p>
                 <p>
 				   <span class="tit">답변상태</span>
-				   <span class="txt" ></span>
+				   <span class="txt" th:text="${one.answered == 'Y' ? '답변완료' : '미답변'}"></span>
 				</p>
                 <p>    
-                    <span class="txt" ></span>
+                    <span class="txt" th:text="${#dates.format(one.createDate, 'yyyy.MM.dd')}"></span>
                 </p>
             </div>
             
-            <div class="txt mb-2" >
+            <div class="txt mb-2" th:if="${!#lists.isEmpty(oneFiles)}">
             	<p style="margin-bottom:5px;"> 
                     <span class="txt"><strong>첨부파일</strong></span>
                 </p>
-                <a 
+                <a th:each="oneFile : ${oneFiles}" 
+                	th:href="@{/support/one/myinquery/download(no=${oneFile.no})}" 
+                	th:text="${oneFile.originalName}"
                 	class="me-3 text-primary"></a>
             </div>
 
@@ -47,14 +49,20 @@
             </div>
         </div>
         </div>
-
     
 
     <div class="btn-group pt40" style="display: block;">
-        <button class="button large listBtn" title="목록" >목록</button>
+        <button type="button" class="button large" onclick="document.querySelector('#form').submit();">목록</button>
        	<a id = "delete-btn" class="button large" 
        		>삭제</a>
     </div>
+    
+        <form id="form" method="post" action="/admin/support/one">
+			<input type="hidden" name="categoryNo" th:value="${param.categoryNo}"/>
+	    	<input type="hidden" name="answered" th:value="${param.answered}"/>
+	    	<input type="hidden" name="page" th:value="${param.page}"/>
+	    	<input type="hidden" name="keyword" th:value="${param.keyword}"/>
+        </form>
     
  
 </div>
