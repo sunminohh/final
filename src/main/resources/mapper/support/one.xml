@@ -4,12 +4,12 @@
 
 	<select id="getOneCommentByOne" parameterType="int" resultType="kr.co.mgv.support.vo.OneComment">
 		SELECT 
-			COMMENT_NO as no, 
-			COMMENT_CONTENT as content, 
-			COMMENT_DELETED as deleted, 
-			COMMENT_CREATE_DATE as createDate, 
-			ONE_NO as "one.no", 
-			USER_ID as "user.id"
+			COMMENT_NO 				as no, 
+			COMMENT_CONTENT 		as content, 
+			COMMENT_DELETED 		as deleted, 
+			COMMENT_CREATE_DATE 	as createDate, 
+			ONE_NO 					as "one.no", 
+			USER_ID 				as "user.id"
 		FROM 
 			MGV_ONE_COMMENT
 		where one_no = #{value}
