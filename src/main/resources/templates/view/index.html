@@ -855,8 +855,8 @@
                 </div>
 
                 <div class="cell"><a href="/booking/timetable" title="상영시간표 보기"><i class="iconset ico-schedule-main"></i> 상영시간표</a></div>
-                <div class="cell"><a href="/movie" title="박스오피스 보기"><i class="iconset ico-boxoffice-main"></i> 박스오피스</a></div>
-                <div class="cell"><a href="/booking" title="빠른예매 보기"><i class="iconset ico-quick-reserve-main"></i> 빠른예매</a></div>
+                <div class="cell"><a th:href="@{/movie}" title="박스오피스 보기"><i class="iconset ico-boxoffice-main"></i> 박스오피스</a></div>
+                <div class="cell"><a th:href="@{/booking}" title="빠른예매 보기"><i class="iconset ico-quick-reserve-main"></i> 빠른예매</a></div>
             </div>
             <!-- 2019-02-22 추가 : 마우스 아이콘 영역 추가 -->
             <div class="moving-mouse">
@@ -868,108 +868,15 @@
     </div>
     <!--// section main-movie : 영화 -->
 
-    <!-- section main-benefit : 혜택 -->
+    <!-- section main-benefit : 게시판 -->
     <div id="main_section02" class="section main-benefit">
         <!-- wrap -->
         <div class="wrap">
             <!-- 혜택 시작 -->
             <div class="tit-util">
-                <h2 class="tit">혜택</h2>
-                <a href="/event" class="btn-more-cross purple" title="혜택 더보기">더보기</a>
+                <h2 class="tit">게시판</h2>
+                <a href="/board/movie/list" class="btn-more-cross purple">더보기</a>
             </div>
-            <!--
-                왼쪽 글씨 이미지 사이즈 300 * 230, 오른쪽 이미지 635 * 325
-             -->
-            <div class="slider main-condition">
-                <div class="slider-view" style="width: 1100px;">
-                    <div class="cell" style="display: block; position: absolute; float: none;">
-                        <div class="position">
-                            <div class="txt" style="top: 0px; opacity: 1;"><a href="https://www.megabox.co.kr/event/detail?eventNo=13610" target="_self" title=""><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2023/07/03/ifMbMnmAVWk9dKlmF8uBK0d8nPjsp2AY.png" alt="" ></a></div>
-                            <div class="bg" style="left: 300px; opacity: 1;"><a href="https://www.megabox.co.kr/event/detail?eventNo=13610" target="_self" title=""><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2023/07/03/a8jVeHS3TugzmdNOUavMKtzroRIHPEpZ.png" alt="" ></a></div>
-                        </div>
-                    </div>
-                    <div class="cell" style="display: none; position: absolute; float: none;">
-                        <div class="position">
-                            <div class="txt" style="top: 100px; opacity: 0;"><a href="https://megabox.co.kr/event/detail?eventNo=13555" target="_self" title=""><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2023/06/26/thhvkw0kCU9b19NtREnRiAtymMZUQKoF.jpg" alt="" ></a></div>
-                            <div class="bg" style="left: 450px; opacity: 0;"><a href="https://megabox.co.kr/event/detail?eventNo=13555" target="_self" title=""><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2023/06/26/joDpFZlFlmtZDttpbkwnlaPA0KoAIeOW.png" alt="" ></a></div>
-                        </div>
-                    </div>
-                    <div class="cell" style="display: none; position: absolute; float: none;">
-                        <div class="position">
-                            <div class="txt" style="top: 100px; opacity: 0;"><a href="https://www.megabox.co.kr/event/detail?eventNo=13512" target="_self" title=""><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2023/06/19/EV6ZQPX9AIFtgTp8l6B4IviPCAwhs5h7.png" alt="" ></a></div>
-                            <div class="bg" style="left: 450px; opacity: 0;"><a href="https://www.megabox.co.kr/event/detail?eventNo=13512" target="_self" title=""><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2023/06/19/BjAEsvTA1mqNrkXCQWG0u2wGyko4KGGp.png" alt="" ></a></div>
-                        </div>
-                    </div>
-                    <div class="cell" style="display: none; position: absolute; float: none;">
-                        <div class="position">
-                            <div class="txt" style="top: 100px; opacity: 0;"><a href="https://www.megabox.co.kr/event/detail?eventNo=13466" target="_self" title=""><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2023/06/12/vh4azADv9B2urriW5rSavjse8Jo3uoHv.png" alt="" ></a></div>
-                            <div class="bg" style="left: 450px; opacity: 0;"><a href="https://www.megabox.co.kr/event/detail?eventNo=13466" target="_self" title=""><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2023/06/12/TjeVIyYUH0XwHQbTQhI0YV2zBt2FgnR6.png" alt="" ></a></div>
-                        </div>
-                    </div>
-                    <div class="cell" style="display: none; position: absolute; float: none;">
-                        <div class="position">
-                            <div class="txt" style="top: 100px; opacity: 0;"><a href="https://www.megabox.co.kr/event/detail?eventNo=13065" target="_blank" title=""><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2023/04/21/nbTi5113TboCqAonKJr3hPH7PvoHGSY5.png" alt="" ></a></div>
-                            <div class="bg" style="left: 450px; opacity: 0;"><a href="https://www.megabox.co.kr/event/detail?eventNo=13065" target="_blank" title=""><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2023/04/21/WQR4hbsL46cGNhDd2EwOtkuwaCuWix9D.png" alt="" ></a></div>
-                        </div>
-                    </div>
-                    <div class="cell" style="display: none; position: absolute; float: none;">
-                        <div class="position">
-                            <div class="txt" style="top: 100px; opacity: 0;"><a href="https://www.megabox.co.kr/event/detail?eventNo=11263" target="_self" title="할인쿠폰 받기"><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2023/05/12/gIavMQNYTTsLMX7SztbtbpMZ5u4XU7AA.jpg" alt="" ></a></div>
-                            <div class="bg" style="left: 450px; opacity: 0;"><a href="https://www.megabox.co.kr/event/detail?eventNo=11263" target="_self" title="할인쿠폰 받기"><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2023/05/12/GClai6ZZoFTFrD0Wa0xbN0PniIizcfew.png" alt="" ></a></div>
-                        </div>
-                    </div>
-                    <div class="cell" style="display: none; position: absolute; float: none;">
-                        <div class="position">
-                            <div class="txt" style="top: 100px; opacity: 0;"><a href="https://www.megabox.co.kr/event/detail?eventNo=13381" target="_self" title="보험료 확인하기"><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2023/05/30/qO3Vrswg0PBAn5Nl7l0FdClgatIBHkKj.jpg" alt="" ></a></div>
-                            <div class="bg" style="left: 450px; opacity: 0;"><a href="https://www.megabox.co.kr/event/detail?eventNo=13381" target="_self" title="보험료 확인하기"><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2023/05/30/0ayIfnfLog0FIuF9oRDZWi9e1HvC3S3K.jpg" alt="" ></a></div>
-                        </div>
-                    </div>
-                    <div class="cell" style="display: none; position: absolute; float: none;">
-                        <div class="position">
-                            <div class="txt" style="top: 100px; opacity: 0;"><a href="https://thessencard.co.kr/event/megabox" target="_blank" title="이벤트 확인하기"><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2023/03/14/epS6oiqHOSFccJicF3hl5x6xZeIgjP22.png" alt="" ></a></div>
-                            <div class="bg" style="left: 450px; opacity: 0;"><a href="https://thessencard.co.kr/event/megabox" target="_blank" title="이벤트 확인하기"><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2023/03/14/h8fwVvz9E5ktcOWtHjWSR0mMN2XnpxO0.png" alt="" ></a></div>
-                        </div>
-                    </div>
-                    <div class="cell" style="display: none; position: absolute; float: none;">
-                        <div class="position">
-                            <div class="txt" style="top: 100px; opacity: 0;"><a href="https://www.megabox.co.kr/event/detail?eventNo=9187" target="_self" title=""><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2021/02/01/f7RPSplY1eWEFFhKNBDJK4JIXKv9NBZK.jpg" alt="" ></a></div>
-                            <div class="bg" style="left: 450px; opacity: 0;"><a href="https://www.megabox.co.kr/event/detail?eventNo=9187" target="_self" title=""><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2021/02/01/fZ8glF2ggujTRrF5vtRuE1iE2UjjV1oF.jpg" alt="" ></a></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="slider-control">
-
-                    <div class="page"><span class="on" style="width:11.11111111111111%"></span><span class="" style="width:11.11111111111111%"></span><span class="" style="width:11.11111111111111%"></span><span class="" style="width:11.11111111111111%"></span><span class="" style="width:11.11111111111111%"></span><span class="" style="width:11.11111111111111%"></span><span class="" style="width:11.11111111111111%"></span><span class="" style="width:11.11111111111111%"></span><span class="" style="width:11.11111111111111%"></span></div>
-
-                    <div class="util">
-                        <button type="button" class="btn-prev" style="opacity: 0.5;" disabled="true">이전 이벤트 보기</button>
-                        <button type="button" class="btn-next" style="opacity: 1;">다음 이벤트 보기</button>
-
-                        <button type="button" class="btn-pause on">일시정지</button>
-                        <button type="button" class="btn-play">자동재생</button>
-                    </div>
-
-                    <div class="page-count">1 / 9</div>
-
-                </div>
-            </div>
-
-
-            <div class="brn-ad" style="height:204px;">
-                <div class="banner">
-                    <div class="size">
-                        <a href="#" data-no="8865" data-netfunnel="N" class="eventBtn" title="">
-                            <img src="https://img.megabox.co.kr/SharedImg/event/2023/05/02/liflSYt4BQt4RYxrBuLVXG3Tk3Wq2CdA.jpg" alt="[현대카드X메가박스] 상시 6,000M포인트 사용" >
-                        </a>
-                    </div>
-                    <div class="size small">
-                        <a href="#" data-no="11739" data-netfunnel="N" class="eventBtn" title="">
-                            <img src="https://img.megabox.co.kr/SharedImg/event/2023/03/13/LDawTHZzGM12RkSyomSBDebl8YVCSuzf.jpg" alt="[광주은헹] 메가박스카드 앵콜이벤트" >
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <!-- 혜택 종료 -->
 
             <div class="menu-link">
                 <div class="cell vip"><a href="/benefit/viplounge" title="VIP LOUNGE 페이지로 이동">VIP LOUNGE</a></div>
@@ -978,9 +885,6 @@
                 <div class="cell event"><a href="/event" title="이벤트 페이지로 이동">이벤트</a></div>
                 <div class="cell store"><a href="/store" title="스토어 페이지로 이동">스토어</a></div>
             </div>
-
-            <!-- grand-open -->
-            <!--// grand-open -->
         </div>
         <!--// wrap -->
     </div>
@@ -1047,46 +951,40 @@
         <div class="info-link">
             <div class="table">
                 <div class="cell">
-                    <a href="/support" title="고객센터 페이지로 이동">
+                    <a href="/support">
                         <i class="iconset ico-main-customer"></i>
                         <span>고객센터</span>
                     </a>
                 </div>
 
                 <div class="cell">
-                    <a href="/support/faq" title="자주 묻는 질문 페이지로 이동">
+                    <a href="/support/faq">
                         <i class="iconset ico-main-faq"></i>
                         <span>자주 묻는 질문</span>
                     </a>
                 </div>
 
                 <div class="cell">
-                    <a href="/support/inquiry" title="1:1 문의 페이지로 이동">
+                    <a href="/support/notice">
+                        <i class="iconset ico-main-notice"></i>
+                        <span>공지사항</span>
+                    </a>
+                </div>
+
+                <div class="cell">
+                    <a href="/support/inquiry">
                         <i class="iconset ico-main-qna"></i>
                         <span>1:1 문의</span>
                     </a>
                 </div>
 
                 <div class="cell">
-                    <a href="/support/rent" title="단체/대관문의 페이지로 이동">
-                        <i class="iconset ico-main-group"></i>
-                        <span>단체/대관문의</span>
-                    </a>
-                </div>
-
-                <div class="cell">
-                    <a href="/support/lost" title="분실물 문의/접수 페이지로 이동">
+                    <a href="/support/lost">
                         <i class="iconset ico-main-lost"></i>
                         <span>분실물 문의/접수</span>
                     </a>
                 </div>
 
-                <div class="cell">
-                    <a href="/booking/privatebooking" title="더 부티크 프라이빗 대관예매 페이지로 이동">
-                        <i class="iconset ico-main-boutique"></i>
-                        <span>더 부티크 프라이빗<br>대관예매</span>
-                    </a>
-                </div>
             </div>
         </div>
         <!--// info-link -->
