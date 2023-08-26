@@ -3,6 +3,8 @@ package kr.co.mgv.support.service;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.stream.events.Comment;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,6 +14,7 @@ import kr.co.mgv.support.dao.OneDao;
 import kr.co.mgv.support.dto.OneList;
 import kr.co.mgv.support.form.AddOneForm;
 import kr.co.mgv.support.vo.One;
+import kr.co.mgv.support.vo.OneComment;
 import kr.co.mgv.support.vo.OneFile;
 import kr.co.mgv.support.vo.SupportCategory;
 import kr.co.mgv.support.vo.SupportPagination;
@@ -23,11 +26,25 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class OneService {
 	
 	private final OneDao oneDao;
 	private final FileUtils fileUtils;
+	
+	public OneComment getOneCommentByOne(int oneNo) {
+		return oneDao.getOneCommentByOne(oneNo);
+	}
+	
+	public void updateOneComment(int oneNo) {
+		One one = oneDao.getOneByNo(oneNo);
+		one.setAnswered("Y");
+		
+		oneDao.updateOneByNo(one);
+	}
+	
+	public void insertComment(OneComment comment) {
+		oneDao.insertComment(comment);
+	}
 	
 	public void insertOne(AddOneForm form, User user) {
 		

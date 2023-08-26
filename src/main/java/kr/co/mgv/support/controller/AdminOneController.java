@@ -5,10 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,7 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import kr.co.mgv.support.dto.OneList;
 import kr.co.mgv.support.service.OneService;
 import kr.co.mgv.support.vo.One;
+import kr.co.mgv.support.vo.OneComment;
 import kr.co.mgv.support.vo.OneFile;
+import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -78,10 +82,29 @@ public class AdminOneController {
 	public String getOneByNo(@RequestParam("no") int oneNo, Model model) {
 		One one = oneService.getOneByNo(oneNo);
 		List<OneFile> oneFiles = oneService.getOneFileByOneNo(oneNo);
+		OneComment oneComment = oneService.getOneCommentByOne(oneNo);
 		model.addAttribute("one", one);
 		model.addAttribute("oneFiles", oneFiles);
+		model.addAttribute("oneComment", oneComment);
 		
 		return "/view/admin/support/one/detail";
 	}
+	
+	@PostMapping("/addComment") 
+	public String addComment(@AuthenticationPrincipal User user,
+			@RequestParam("no") int oneNo,
+			@RequestParam("content") String content) {
+		
+		One one = One.builder().no(oneNo).build();
+		OneComment comment = OneComment.builder().
+							user(user).
+							one(one).
+							content(content).build();
+		
+		oneService.insertComment(comment);
+		oneService.updateOneComment(oneNo);
+		return "redirect:/admin/support/one/detail?no=" + oneNo;
+	}
+	
 	
 }
