@@ -32,11 +32,12 @@ public class User implements UserDetails {
     private Date updateDate;
     private Date pwdUpdateDate;
     private String disabled;
+    private String reason;
     private List<String> roleName;
 
     @Builder
     public User(String id, String email, String password, String name, LocalDate birth, Date createDate,
-               String zipcode, String address, Date updateDate, Date pwdUpdateDate, String disabled, List<String> roleName) {
+               String zipcode, String address, Date updateDate, Date pwdUpdateDate, String disabled, String reason, List<String> roleName) {
         super();
         this.id = id;
         this.email = email;
@@ -49,6 +50,7 @@ public class User implements UserDetails {
         this.updateDate = updateDate;
         this.pwdUpdateDate = pwdUpdateDate;
         this.disabled = disabled;
+        this.reason = reason;
         this.roleName = roleName;
     }
 

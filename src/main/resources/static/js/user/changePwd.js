@@ -97,7 +97,7 @@ $(() => {
     // 입력 이벤트
     $("input[name='checkPassword']").keyup(() => {
         const pwdValue = $pwd.val();
-        if (pwdValue) {
+        if (!pwdValue) {
             pwdCheck = false;
         } else {
             pwdErrMsg.text("");
@@ -150,20 +150,14 @@ $(() => {
         }
     })
 
-    function handleAjaxError() {
-        Swal.fire({
-            icon: 'error',
-            text: "현재 비밀번호가 일치하지 않습니다.",
-        });
-    }
-
     // 경고창
     function errorAlert($el, text) {
         Swal.fire({
             icon: 'error',
             text: text,
+            didClose: $el.focus()
         });
-        $($el).focus();
+
     }
 
     function successAlert($el, text, callback) {

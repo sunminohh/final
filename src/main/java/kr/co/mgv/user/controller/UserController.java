@@ -13,11 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
-import java.rmi.server.RemoteServer;
-import java.time.LocalDate;
-import java.util.Date;
-
 @Controller
 @Secured({"ROLE_USER", "ROLE_ADMIN"})
 @RequestMapping("/user/info")
@@ -84,7 +79,6 @@ public class UserController {
         } else {
             return ResponseEntity.badRequest().body("중복된 이메일 주소입니다.");
         }
-
     }
 
     // 비밀번호 변경
@@ -97,21 +91,17 @@ public class UserController {
     public ResponseEntity<String> updatePwd(@AuthenticationPrincipal User user, UserUpdateForm form) {
         if (passwordEncoder.matches(form.getCheckPassword(), user.getPassword())) {
             userService.updatePassword(user.getId(), passwordEncoder.encode(form.getNewPassword()));
-            log.info("입력값 -> {}", form.getCheckPassword());
-            log.info("새비밀번호 -> {}", form.getNewPassword());
             return ResponseEntity.ok("비밀번호가 변경되었습니다.");
         } else {
             return ResponseEntity.badRequest().body("현재 비밀번호가 일치하지 않습니다.");
         }
     }
 
+    // 회원 탈퇴
     @GetMapping("/disabled")
     public String disableForm(@AuthenticationPrincipal User user, Model model) {
-        String id = user.getId();
-        String name = user.getName();
 
-        model.addAttribute("userId", id);
-        model.addAttribute("userName", name);
+        model.addAttribute("user", user);
 
         return "view/user/info/disabled";
     }
@@ -120,7 +110,7 @@ public class UserController {
     @PostMapping("/checkEmail")
     public ResponseEntity<String> checkEmail(@AuthenticationPrincipal User user, UserUpdateForm form) {
         if (form.getEmail().equals(user.getEmail())) {
-            return ResponseEntity.ok("등록된 이메일과 일치합니다.");
+            return ResponseEntity.ok(user.getEmail());
         } else {
             return ResponseEntity.badRequest().body("등록된 이메일 주소와 일치하지 않습니다.");
         }
@@ -128,12 +118,14 @@ public class UserController {
 
     // todo 회원 탈퇴
     @PostMapping("/disabled")
-    public ResponseEntity<String> disabled(@AuthenticationPrincipal User user, UserUpdateForm form) {
+    public ResponseEntity<String> disableUser(@AuthenticationPrincipal User user, UserUpdateForm form) {
         if (passwordEncoder.matches(form.getCheckPassword(), user.getPassword())) {
-            // todo service 작성
+            log.info("비밀번호 일치");
+            userService.disableUser(user.getId(), form.getReason());
 
-            return ResponseEntity.ok("탈퇴처리 되었습니다.");
+            return ResponseEntity.ok("회원 탈퇴가 완료되었습니다.");
         } else {
+            log.error("비밀번호 불일치");
             return ResponseEntity.badRequest().body("현재 비밀번호가 일치하지 않습니다.");
         }
     }
@@ -158,6 +150,5 @@ public class UserController {
 
         return "view/user/inquiry/list";
     }
-
 
 }

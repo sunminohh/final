@@ -17,4 +17,13 @@
         where
             user_id = #{value}
     </select>
+
+    <update id="updateUserRole" parameterType="map">
+        update MGV_USER_ROLES
+        set
+            role_name = 'WITHDROWN'
+        where
+            user_id = #{userId}
+
+    </update>
 </mapper>

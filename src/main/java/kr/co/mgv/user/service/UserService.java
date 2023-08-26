@@ -1,12 +1,15 @@
 package kr.co.mgv.user.service;
 
 import kr.co.mgv.user.dao.UserDao;
+import kr.co.mgv.user.dao.UserRoleDao;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -14,6 +17,7 @@ import java.util.Date;
 public class UserService {
 
     private final UserDao userDao;
+    private final UserRoleDao userRoleDao;
 
     public User getUserById(String id) {
         return userDao.getUserById(id);
@@ -47,6 +51,22 @@ public class UserService {
     }
 
     // todo 회원탈퇴
+    public void disableUser(String id, String reason) {
+        User user = userDao.getUserById(id);
+
+        // todo 사용자 정보 수정
+        user.setDisabled("Y");
+        user.setReason(reason);
+        user.setUpdateDate(new Date());
+
+        userDao.disabledUser(user);
+
+        // todo 보유권한 변경
+        Map<String, Object> param = new HashMap<>();
+        param.put("userId", user.getId());
+        userRoleDao.updateUserRole(param);
+
+    }
 
     // 수정일자 계산
     public long getMindate(Date updateDate) {
@@ -62,4 +82,6 @@ public class UserService {
         long daysDifference = timeDifference / (1000 * 60 * 60 * 24);
         return daysDifference;
     }
+
+
 }
