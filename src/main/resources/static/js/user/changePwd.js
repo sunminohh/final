@@ -97,7 +97,7 @@ $(() => {
     // 입력 이벤트
     $("input[name='checkPassword']").keyup(() => {
         const pwdValue = $pwd.val();
-        if (pwdValue) {
+        if (!pwdValue) {
             pwdCheck = false;
         } else {
             pwdErrMsg.text("");
