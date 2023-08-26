@@ -264,7 +264,7 @@ $(function() {
 	    const date = $("input[name=date]").attr('th:value');
 	    const movieNo = $("input[name=movieNo]").val();
 	    const theaterNo = document.querySelector("select[name=theaterNo]").value
-	    $("input[name=theaterNo]").attr('value', theaterNo);
+	    $("input[name=theaterNo]").attr('th:value', theaterNo);
 	
 	    $.ajax({
 	        url: '/board/party/scheduleBydateAndMNoAndTno',

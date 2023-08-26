@@ -199,7 +199,7 @@ $(function () {
 				        url: '/board/party/partyComplete',
 				        method: "POST",
 				        data: {
-				            no: no // 수정: 변수 boardNo 사용
+				            no: no
 				        },
 				        success: function() {
 							 Swal.fire({
@@ -219,4 +219,92 @@ $(function () {
 	       });
 	  })
 	  
+	  // 삭제 버튼
+   	$("#delete-btn").on("click", function(event) {
+      event.preventDefault();
+      let no = $('[name="no"]').val();
+      
+       Swal.fire({
+           icon: 'warning',
+           title: '정말 삭제하시겠습니까?',
+           showCancelButton: true,
+           confirmButtonText: '네',
+           cancelButtonText: '아니오',
+	       }).then((result) => {
+	           if (result.isConfirmed) {
+	                 window.location.href = 'delete?no=' + no;      
+	           } else if (result.dismiss === Swal.DismissReason.cancel) {
+	               
+	           }
+	       });
+	   });
+	
+	   $("#link-btn").on("click", function() {
+	       // 현재 페이지의 URL을 클립보드에 복사
+	       navigator.clipboard.writeText(window.location.href)
+	           .then(() => {
+	               // 복사 성공 시 팝오버를 표시합니다.
+	               $("#link-btn").popover('show');
+	               
+	               // 2초 후에 팝오버를 숨깁니다.
+	               setTimeout(function() {
+	                   $("#link-btn").popover('hide');
+	               }, 2000);
+	           })
+	           .catch((error) => {
+	               console.error("URL 복사 중 오류가 발생했습니다.", error);
+	               // 복사 실패 시에 수행할 작업을 여기에 추가할 수 있습니다.
+	           });
+	   });
+	   
+	   // 페이지 로딩 시에 팝오버 초기화
+	   $(function () {
+	       $('[data-bs-toggle="popover"]').popover();
+	   });
+	   
+	   
+	     $("#report-submit-btn").on("click", function(event) {
+      event.preventDefault();
+      let content = document.querySelector("textarea[name=reasonContent]").value;
+      let reasonNo = document.querySelector("select[name=reasonNo]").value;
+      if(reasonNo === '24' && content === ''){
+         Swal.fire({
+               icon: 'error',
+               text: `'기타'선택시 추가 정보 입력이 필요합니다.`,
+           });
+      }  else if(reasonNo === '') {
+         Swal.fire({
+               icon: 'error',
+               text: `신고이유를 선택해주세요.`,
+           });
+      } else {
+           Swal.fire({
+           icon: 'warning',
+           title: '정말 신고하시겠습니까?',
+           showCancelButton: true,
+           confirmButtonText: '네',
+           cancelButtonText: '아니오',
+	       }).then((result) => {
+	           if (result.isConfirmed) {
+					$("#report-form").submit();
+	           } else if (result.dismiss === Swal.DismissReason.cancel) {
+	               
+	           }
+	       });
+      }
+   })
 })
+
+    function toggleContentField() {
+        // 신고 모달 - '기타' 선택시에만 상세내용 활성화
+        let el = document.querySelector("textarea[name=reasonContent]");
+        let reasonNo = document.querySelector("select[name=reasonNo]").value;
+        
+        if (reasonNo === '24') { 
+            el.disabled = false;
+        } else {
+            el.disabled = true;
+        }
+        
+        console.log(reasonNo);
+    }
