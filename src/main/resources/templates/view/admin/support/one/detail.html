@@ -80,10 +80,11 @@
     <div class="btn-group pt40" style="display: block;">
         <button type="button" class="button large" onclick="document.querySelector('#form').submit();">목록</button>
        	<a id = "delete-btn" class="button large" 
+       		
        		>삭제</a>
     </div>
     
-    <form id="form" method="post" action="/admin/support/one">
+    <form id="form" method="get" action="/admin/support/one">
 		<input type="hidden" name="categoryNo" th:value="${param.categoryNo}"/>
     	<input type="hidden" name="answered" th:value="${param.answered}"/>
     	<input type="hidden" name="page" th:value="${param.page}"/>
