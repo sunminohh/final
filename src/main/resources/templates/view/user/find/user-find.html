@@ -1,0 +1,70 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default}">
+<head th:fragment="extra-head-content">
+    <script th:src="@{/js/calender.js}"></script>
+</head>
+<div layout:fragment="content" id="contents" class="user-form">
+
+    <form id="action-form" method="post" th:action="@{/user/auth/id-find}">
+        <div class="member-wrap">
+            <!-- col-wrap -->
+            <div class="col-wrap">
+                <!-- col -->
+                <div class="col">
+
+                    <p class="tit-member">아이디/비밀번호 찾기<!--아이디/비밀번호 찾기--></p>
+
+                    <div class="tab-list">
+                        <ul>
+                            <li class="on"><a href="javaScript:void(0);" title="아이디찾기 선택">아이디 찾기<!--아이디찾기--></a></li>
+                            <li><a th:href="@{/user/auth/pwd-form}" title="비밀번호 찾기 선택">비밀번호 찾기<!--비밀번호 찾기--></a></li>
+                        </ul>
+                    </div>
+
+                    <h2 class="tit mt40">간편찾기<!--간편찾기--></h2>
+
+                    <div class="table-wrap">
+                        <table class="board-form">
+                            <caption>이름, 생년월일, 이메일 항목을 가진 아이디 찾기 입력 표</caption>
+                            <colgroup>
+                                <col style="width:130px;">
+                                <col>
+                            </colgroup>
+                            <tbody>
+                            <tr>
+                                <th scope="row"><label for="ibxSchIdMbNm">이름 <em class="font-orange">*</em></label></th>
+                                <td>
+                                    <input id="ibxSchIdMbNm" name="name" maxlength="20" type="text" placeholder="이름" class="input-text w230px" autocomplete="off">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><label for="userbirth">생년월일 <em class="font-orange">*</em></label></th>
+                                <td id="userbirth">
+                                    <input id="datepicker" width="276" name="birth" type="text" placeholder="날짜 선택" class="input-text w260px" readonly>
+                                    <span id="birth-error-text" class="alert"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><label>E-mail <em class="font-orange">*</em></label></th>
+                                <td>
+                                    <input type="hidden" id="">
+                                    <input type="text" id="userEmail" name="email" class="input-text w230px" autocomplete="off">
+                                    <span id="email-error-text" class="alert"></span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="btn-member-bottom v1">
+                        <button id="btnSchId" type="button" class="button purple large" disabled="disabled">아이디 찾기<!--아이디 찾기--></button>
+                    </div>
+
+                </div>
+                <!--// col -->
+            </div>
+            <!--// col-wrap -->
+        </div>
+    </form>
+</div>
+</html>
