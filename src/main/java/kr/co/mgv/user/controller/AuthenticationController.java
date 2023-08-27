@@ -1,5 +1,6 @@
 package kr.co.mgv.user.controller;
 
+import kr.co.mgv.user.form.UserFindForm;
 import kr.co.mgv.user.form.UserJoinForm;
 import kr.co.mgv.user.service.AuthenticationService;
 import kr.co.mgv.user.service.EmailServiceImpl;
@@ -145,5 +146,43 @@ public class AuthenticationController {
             log.error("Error checking authentication code", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("인증번호 확인 중 오류가 발생했습니다.");
         }
+    }
+
+    // todo find
+    @GetMapping("/user-find")
+    public String findForm() {
+
+        return "view/user/find/user-find";
+    }
+
+    @PostMapping("/user-find")
+    public String userfind() {
+
+        return "redirect:/view/user/find/user-modal";
+    }
+
+    @GetMapping("/pwd-form")
+    public String pwdfindForm() {
+
+        return "view/user/find/pwdform";
+    }
+
+    @PostMapping("/pwd-form")
+    public String pwdfind(UserFindForm form, Model model) {
+
+
+        return "redirect:/user/auth/pass-find";
+    }
+
+    @GetMapping("pass-find")
+    public String changePwdForm(UserFindForm form, Model model) {
+
+        return "view/user/find/pass-find";
+    }
+
+    @PostMapping("/pass-find")
+    public String sucPwd() {
+
+        return "redirect:/";
     }
 }
