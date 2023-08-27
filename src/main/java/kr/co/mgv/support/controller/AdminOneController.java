@@ -113,6 +113,10 @@ public class AdminOneController {
 	}
 	
 	
+	
+	
+	
+	
 	@GetMapping("/delete")
 	public String delete(@RequestParam("no") int oneNO, Model model) {
 		oneService.deleteOne(oneNO);

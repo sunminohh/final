@@ -15,6 +15,15 @@
 		where one_no = #{value}
 			  and comment_deleted = 'N'
 	</select>
+	
+	<update id="deleteComment" parameterType="kr.co.mgv.support.vo.OneComment">
+		UPDATE 
+			MGV_ONE_COMMENT
+		SET 
+			COMMENT_DELETED= #{deleted} 
+		WHERE 
+			COMMENT_NO= #{no}
+	</update>
 
 	<insert id="insertComment" parameterType="kr.co.mgv.support.vo.OneComment">
 	insert into MGV_ONE_COMMENT

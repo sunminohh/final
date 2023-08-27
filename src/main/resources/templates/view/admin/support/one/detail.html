@@ -73,6 +73,15 @@
 	            
 	            <div id="reviewBox" class="cont review" th:each="comment : ${oneComment}" th:if="${oneComment != null}">
 					<p th:text="${comment.content}"></p>
+					
+					 <div class="col-sm-1 d-flex justify-content-end pt-0 float-end" sec:authorize="isAuthenticated()">
+                          <input type="hidden" name="userId" th:value="${#authentication.principal.id}">
+                          <a 
+                             class="btn btn-link btn-sm text-danger text-decoration-none"
+                             sec:authorize="isAuthenticated()"
+                             id="delete-reComment-btn"
+                               >삭제</a>
+                       </div>            
 	            </div>
         	</div>
         </div>

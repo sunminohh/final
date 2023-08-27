@@ -15,10 +15,12 @@ import kr.co.mgv.theater.vo.Theater;
 @Mapper
 public interface OneDao {
 	
-	// 일대일 답변 조회
+	// 답변 조회
 	List<OneComment> getOneCommentByOne(int oneNo);
-	// 일대일문의글 답변 등록
+	// 답변 등록
 	void insertComment(OneComment oneComment);
+	// 답변 삭제
+	void deleteComment(OneComment oneComment);
 	
 	// 일대일문의글 등록
 	void insertOne(One one);
