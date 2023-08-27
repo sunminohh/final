@@ -1,7 +1,7 @@
 $(function() {
     
-    $("#regBox").on('click','#btn-comment' ,function() {
-         
+    $("#regBox").on('click','#btn-comment' ,function(e) {
+         e.preventDefault();
          let inputcontent = $("#commentArea").val();
       
           if(inputcontent === "") { // 댓글 내용이 비어있을 때
@@ -15,14 +15,16 @@ $(function() {
                  url: '/admin/support/one/addComment',
                  method: "POST",
                  data: $("#form-comment").serialize(),
-                 success: function(inputComments) {
-                     // 성공 시 새로운 댓글 목록을 업데이트                  
-                     inputComments.forEach(function(comment) {
-                         const content = `
-                           <p>${comment.content}</p>
-                         `;
-                         $("#reviewBox").empty().append(content);
-                     });
+                 success: function(comments) {
+                     // 성공 시 새로운 댓글 목록을 업데이트
+                     const html = comments.map(({content}, i) =>
+                         `<div class="cont review">
+                            <p>${content}</p>
+                         </div>`
+                     ).join("\n");
+                     $(".review").remove();
+                     $(".board-view").append(html);
+                     $("#commentArea").val("");
                  }
              });
           }   
