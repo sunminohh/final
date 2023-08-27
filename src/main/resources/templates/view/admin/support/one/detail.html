@@ -6,6 +6,7 @@
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" th:src="@{/js/support/common.js}"></script>
 	<script type="text/javascript" th:src="@{/js/admin/support/adminOne.js}"></script>
+	<script type="text/javascript" th:src="@{/js/admin/support/OneComment.js}"></script>
 </head>
 <div id="contents" layout:fragment="content" style="margin-top: -40px;">
     <h2 class="tit">1:1 문의</h2>
@@ -57,10 +58,10 @@
 			               <input type="hidden" name="no" th:value="${one.no}"/>
 			                <div class="row">
 			                  <div id="content-box">
-			                     <textarea rows="2" class="comment_inbox_text" name="content" style="border: none; overflow: hidden; overflow-wrap: break-word; " 
+			                     <textarea rows="2" class="comment_inbox_text" id="commentArea" name="content" style="border: none; overflow: hidden; overflow-wrap: break-word; " 
 			                     placeholder="답변을 남겨보세요"></textarea>
 			                  </div>
-			                  <div class="register-box">
+			                  <div class="register-box" id="regBox">
 			                     <!-- 등록 버튼 -->
 			                     <button class="button purple float-end" id="btn-comment" style="border: none" type="submit">등록</button>
 			                  </div>
@@ -70,26 +71,16 @@
 			        </div>
 			    </div>	
 	            
-	            <div class="cont review" th:if="${oneComment != null}">
-					<p th:text="${oneComment.content}"></p>
+	            <div id="reviewBox" class="cont review" th:each="comment : ${oneComment}" th:if="${oneComment != null}">
+					<p th:text="${comment.content}"></p>
 	            </div>
         	</div>
         </div>
-    
 
     <div class="btn-group pt40" style="display: block;">
-        <button type="button" class="button large" onclick="document.querySelector('#form').submit();">목록</button>
-       	<a id = "delete-btn" class="button large" 
-       		
-       		>삭제</a>
+		<a th:href="@{/admin/support/one(categoryNo=${param.categoryNo}, answered=${param.answered}, page=${param.page})}" class="button large listBtn" title="목록">목록</a>
+       	<a id = "delete-btn" class="button large">삭제</a>
     </div>
     
-    <form id="form" method="get" action="/admin/support/one">
-		<input type="hidden" name="categoryNo" th:value="${param.categoryNo}"/>
-    	<input type="hidden" name="answered" th:value="${param.answered}"/>
-    	<input type="hidden" name="page" th:value="${param.page}"/>
-    	<input type="hidden" name="keyword" th:value="${param.keyword}"/>
-    </form>
- 
 </div>
 </html>

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -82,7 +83,8 @@ public class AdminOneController {
 	public String getOneByNo(@RequestParam("no") int oneNo, Model model) {
 		One one = oneService.getOneByNo(oneNo);
 		List<OneFile> oneFiles = oneService.getOneFileByOneNo(oneNo);
-		OneComment oneComment = oneService.getOneCommentByOne(oneNo);
+		List<OneComment> oneComment = oneService.getOneCommentByOne(oneNo);
+		
 		model.addAttribute("one", one);
 		model.addAttribute("oneFiles", oneFiles);
 		model.addAttribute("oneComment", oneComment);
@@ -90,8 +92,9 @@ public class AdminOneController {
 		return "view/admin/support/one/detail";
 	}
 	
-	@PostMapping("/addComment") 
-	public String addComment(@AuthenticationPrincipal User user,
+	@PostMapping("/addComment")
+	@ResponseBody
+	public ResponseEntity<List<OneComment>> addComment(@AuthenticationPrincipal User user,
 			@RequestParam("no") int oneNo,
 			@RequestParam("content") String content) {
 		
@@ -103,7 +106,10 @@ public class AdminOneController {
 		
 		oneService.insertComment(comment);
 		oneService.updateOneComment(oneNo);
-		return "redirect:/admin/support/one/detail?no=" + oneNo;
+		
+		List<OneComment> inputComments = oneService.getOneCommentByOne(oneNo);
+		
+		return ResponseEntity.ok().body(inputComments);
 	}
 	
 	

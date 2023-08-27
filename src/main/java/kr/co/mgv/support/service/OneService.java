@@ -31,7 +31,7 @@ public class OneService {
 	private final OneDao oneDao;
 	private final FileUtils fileUtils;
 	
-	public OneComment getOneCommentByOne(int oneNo) {
+	public List<OneComment> getOneCommentByOne(int oneNo) {
 		return oneDao.getOneCommentByOne(oneNo);
 	}
 	
