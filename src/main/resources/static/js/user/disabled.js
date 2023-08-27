@@ -82,7 +82,7 @@ $(() => {
         timerDisplay.text(formattedTime);
     }
 
-    // todo 탈퇴 버튼 클릭
+    // 탈퇴 버튼 클릭
     $("#action-form").submit(function (e) {
         e.preventDefault();
 
@@ -91,7 +91,7 @@ $(() => {
         const pwdValue = $pwd.val();
         const etcRadio = $("#userout07").prop('checked');
         const etcText = $etcText.val();
-        const korReg = /^[가-힣]+$/;
+        const korReg = /^[가-힣\s]+$/;
 
         if (!pwdValue) {
             errorAlert($pwd, "비밀번호를 입력해주세요.");
@@ -309,10 +309,7 @@ $(() => {
             });
         } catch (error) {
             errorAlert($inputAuth, error.responseText);
-            $("#auth-number").prop('disabled', false);
-            btnResendEmail.prop('disabled', false);
-            authErrMsg.text("다시 입력해주세요.");
-            $inputAuth.val("");
+            authError();
             return false;
 
         }
@@ -324,6 +321,13 @@ $(() => {
         btnConfirm.prop("disabled", true);
     }
 
+    function authError() {
+        $("#auth-number").prop('disabled', false);
+        btnResendEmail.prop('disabled', false);
+        btnConfirm.prop('disabled', true);
+        authErrMsg.text("다시 입력해주세요.");
+        $inputAuth.val("");
+    }
 
     function errorAlert($el, text) {
         Swal.fire({

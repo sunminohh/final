@@ -4,15 +4,19 @@ $(() => {
     const $timerDisplay = $("#schEmailtimer"); // 타이머 표시
     const $confirmButton = $("#btnConfirm"); // 인증하기
 
+    const btnConfirm = $("#btnConfirm");
+    const btnSendEmail = $("#btnSendAuthMail");
+    const btnResendEmail = $("#btnResendAuthMail");
+
     let authCheck = false;
     let timer;
     let timeLeft = 180;
 
     $authNumber.keyup(() => authCheck = false);
 
-    $("#btnSendAuthMail").click(() => sendNumber());
-    $("#btnResendAuthMail").click(() => resendNumber());
-    $("#btnConfirm").click(() => checkNumber());
+    btnSendEmail.click(() => sendNumber());
+    btnResendEmail.click(() => resendNumber());
+    btnConfirm.click(() => checkNumber());
 
     $("#btnCancel").click(function () {
         history.back();
@@ -23,7 +27,7 @@ $(() => {
         timer = setInterval(() => {
             if (timeLeft > 0) {
                 timeLeft--;
-                $("#btnResendAuthMail").prop('disabled', true);
+                btnResendEmail.prop('disabled', true);
                 $("#mail-number").show();
                 updateTimerDisplay();
             } else {
@@ -34,7 +38,7 @@ $(() => {
                     text: '인증 시간이 초과되었습니다. 다시 인증해주세요.',
                 }).then(() => {
                     $("#mail-number").hide();
-                    $("#btnResendAuthMail").prop('disabled', false);
+                    btnResendEmail.prop('disabled', false);
                     $authNumber.val("");
                     return false;
                 });
@@ -73,6 +77,7 @@ $(() => {
     // 인증번호 발송
     async function sendNumber() {
         const inputEmail = $email.val();
+
         try {
             const response = await $.ajax({
                 type: "POST",
@@ -83,8 +88,8 @@ $(() => {
                 sessionStorage.setItem("emailConfirmCode", response);
                 successAlert($authNumber, "해당 이메일로 인증번호가 전송되었습니다. \n 확인부탁드립니다.");
 
-                $("#btnResendAuthMail").show();
-                $("#btnSendAuthMail").hide();
+                btnResendEmail.show();
+                btnSendEmail.hide();
                 startTimer(); // 타이머 시작
 
             } else {
@@ -116,10 +121,10 @@ $(() => {
     $("#userAuth").keyup(() => {
         const number = $authNumber.val().trim();
         if (number.length === 8) {
-            $("#btnConfirm").prop("disabled", false);
+            btnConfirm.prop("disabled", false);
             return true;
         } else {
-            $("#btnConfirm").prop("disabled", true);
+            btnConfirm.prop("disabled", true);
             return false;
         }
     })
@@ -150,6 +155,7 @@ $(() => {
             });
         } catch (error) {
             errorAlert($authNumber, error.responseText);
+            btnConfirm.prop('disabled', true);
             $authNumber.val("");
         }
     }
@@ -158,8 +164,8 @@ $(() => {
         $("#mail-number").hide();
         $("#btnSuccess").prop("disabled", false);
         $("#userAuth").prop("readonly", true);
-        $("#btnConfirm").prop("disabled", true);
-        $("#btnResendAuthMail").prop("disabled", true);
+        btnConfirm.prop("disabled", true);
+        btnResendEmail.prop("disabled", true);
     }
 
     function errorAlert($el, text) {
