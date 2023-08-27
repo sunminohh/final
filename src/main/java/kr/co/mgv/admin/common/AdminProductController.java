@@ -42,7 +42,7 @@ public class AdminProductController {
 	public String form(Model model) {
 		List<Category> categories = categoryService.getCategories();
 		model.addAttribute("categories", categories);
-		return "/view/admin/product/addProduct";
+		return "view/admin/product/addProduct";
 	}
 	@Value("${upload.directory}")
 	private String uploadDirectory;
@@ -56,7 +56,7 @@ public class AdminProductController {
 				imageFile.transferTo(new File(filePath));
 				product.setImagePath(filePath);
 			} catch (IOException e) {
-				return "/view/admin/product/addProduct";
+				return "view/admin/product/addProduct";
 			}
 		}
 

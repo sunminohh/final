@@ -107,8 +107,8 @@ $(function() {
 		
 		let oneNo = $(this).attr("data-no");
 		$("#actionForm input[name=no]").val(oneNo);
-		$("#actionForm").attr("action", '/admin/support/one/detail?no=' + oneNo);
-		
+		$("#actionForm").attr("action", '/admin/support/one/detail');
+
 		document.querySelector("#actionForm").submit();
 	})
     

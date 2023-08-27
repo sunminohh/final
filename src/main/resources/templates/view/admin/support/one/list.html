@@ -29,7 +29,7 @@
 	    </div>
     <div class="board-list-util">
    	<p class="result-count"><strong>전체 <span class="font-gblue" id="totalCnt" th:text="${result.pagination.totalRows}"></span>건</strong></p>
-	<form id="actionForm" method="post" action="/admin/support/one" >    
+	<form id="actionForm" method="get" action="/admin/support/one" >
 	     <div class="ml07 bs3  d-flex justify-content-end">
 		     	<select id="answer" title="접수상태 선택" name="answered" 
 	                        		class="form-select form-select-sm ml06 form-control-sm mb-3"
@@ -40,9 +40,11 @@
 	       		</select>
 	       
 		        <div class="board-search">
-			        <input type="hidden" name="categoryNo" th:value="${param.categoryNo == null ? '24' : param.categoryNo}" />
+					<input type="hidden" name="no"/>
+					<input type="hidden" name="categoryNo" th:value="${param.categoryNo == null ? '24' : param.categoryNo}" />
 			        <input type="hidden" name="page" th:value="${param.page == null ? '1' : param.page}"/>
 		            <input type="search" name="keyword" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" th:value="${param.keyword}" autocomplete="off">
+
 		            <button type="button" id="searchBtn" class="btn-search-input">검색</button>
 		        </div>
 		 </div>

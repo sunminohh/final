@@ -13,7 +13,7 @@ public class GuestController {
 
 	@GetMapping("/form")
     public String guestForm() {
-        return "/view/support/guest/form";
+        return "view/support/guest/form";
     }
 	
 }

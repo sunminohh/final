@@ -28,7 +28,7 @@ public class BookingController {
         model.addAttribute("movies", movieService.getAllMovies());
         model.addAttribute("locations", theaterService.getTheaters());
 
-        return "/view/booking/home";
+        return "view/booking/home";
     }
 
 }

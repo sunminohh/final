@@ -42,13 +42,13 @@ public class OneController {
 	
 	@GetMapping()
     public String one() {
-        return "/view/support/one/form";
+        return "view/support/one/form";
     }
 	
 	@RequestMapping("/myinquery")
 	public String myinquery() {
 
-		return "/view/support/one/list";
+		return "view/support/one/list";
 	}
 	
 	@RequestMapping("/list")
@@ -112,7 +112,7 @@ public class OneController {
 		model.addAttribute("one", one);
 		model.addAttribute("oneFiles", oneFiles);
 		
-		return "/view/support/one/detail";
+		return "view/support/one/detail";
 	}
 	
 	@RequestMapping("/myinquery/download")
@@ -137,7 +137,7 @@ public class OneController {
 		model.addAttribute("lost", lost);
 		model.addAttribute("lostFiles", lostFiles);
 		
-		return "/view/support/one/lostdetail";
+		return "view/support/one/lostdetail";
 	}
 	
 	@GetMapping("/delete")
