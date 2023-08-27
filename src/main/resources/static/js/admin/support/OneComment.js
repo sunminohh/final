@@ -1,16 +1,16 @@
 $(function() {
     
-    $("#regBox").on('click','#btn-comment' ,function(e) {
+    $("#form-comment").submit(function(e) {
          e.preventDefault();
          let inputcontent = $("#commentArea").val();
       
           if(inputcontent === "") { // 댓글 내용이 비어있을 때
               Swal.fire({
                   icon: 'error',
-                  text: '댓글 내용을 작성해주세요.',
+                  text: '답변 내용을 작성해주세요.',
               });
           } else { // 댓글 내용이 비어있지 않을 때
-              // AJAX 요청을 보내고 새로운 댓글 목록을 받아옴
+             // AJAX 요청을 보내고 새로운 댓글 목록을 받아옴
              $.ajax({
                  url: '/admin/support/one/addComment',
                  method: "POST",
@@ -29,5 +29,4 @@ $(function() {
              });
           }   
       });
-      
 })

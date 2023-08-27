@@ -58,12 +58,12 @@
 			               <input type="hidden" name="no" th:value="${one.no}"/>
 			                <div class="row">
 			                  <div id="content-box">
-			                     <textarea rows="2" class="comment_inbox_text" id="commentArea" name="content" style="border: none; overflow: hidden; overflow-wrap: break-word; " 
+			                     <textarea id="commentArea" rows="2" class="comment_inbox_text" name="content" style="border: none; overflow: hidden; overflow-wrap: break-word; " 
 			                     placeholder="답변을 남겨보세요"></textarea>
 			                  </div>
-			                  <div class="register-box" id="regBox">
+			                  <div id="regBox" class="register-box">
 			                     <!-- 등록 버튼 -->
-			                     <button class="button purple float-end" id="btn-comment" style="border: none" type="submit">등록</button>
+			                     <button id="btn-comment" class="button purple float-end" style="border: none" type="submit">등록</button>
 			                  </div>
 			               </div>
 			            </form>      
@@ -79,7 +79,9 @@
 
     <div class="btn-group pt40" style="display: block;">
 		<a th:href="@{/admin/support/one(categoryNo=${param.categoryNo}, answered=${param.answered}, page=${param.page})}" class="button large listBtn" title="목록">목록</a>
-       	<a id = "delete-btn" class="button large">삭제</a>
+       	<a id = "delete-btn" 
+       		class="button large"
+       		th:href="@{/admin/support/one/delete(no=${param.no})}">삭제</a>
     </div>
     
 </div>

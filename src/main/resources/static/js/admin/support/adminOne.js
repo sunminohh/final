@@ -111,6 +111,27 @@ $(function() {
         document.querySelector("#actionForm").submit();
     })
     
+    // 삭제 버튼 띄우기
+    $("#delete-btn").on("click", function(event) {
+	    event.preventDefault();
+		let no = $('[name=no]').val();
+		
+	    Swal.fire({
+	        icon: 'warning',
+	        title: '정말 삭제하시겠습니까?',
+	        showCancelButton: true,
+	        confirmButtonText: '네',
+	        cancelButtonText: '아니오',
+	    }).then((result) => {
+	        if (result.isConfirmed) {
+	              window.location.href = '/admin/support/one/delete?no=' + no;      
+	              
+	        } else if (result.dismiss === Swal.DismissReason.cancel) {
+	            
+	        }
+	    });
+	});
+    
     
 });
 
