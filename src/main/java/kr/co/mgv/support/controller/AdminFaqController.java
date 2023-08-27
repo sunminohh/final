@@ -46,7 +46,7 @@ public class AdminFaqController {
 		
 		model.addAttribute("result", faqList);
 		
-		return "/view/admin/support/faq/list";
+		return "view/admin/support/faq/list";
 	}
 	
 	@GetMapping("/list")
@@ -73,12 +73,12 @@ public class AdminFaqController {
 		Faq faq = faqService.getFaqByNo(faqNo);
 		model.addAttribute("faq", faq);
 		
-		return "/view/admin/support/faq/detail";
+		return "view/admin/support/faq/detail";
 	}
 	
 	@GetMapping("/form")
 	public String faqForm() {
-		return "/view/admin/support/faq/form";
+		return "view/admin/support/faq/form";
 	}
 	
 	@PostMapping("/add")
@@ -92,7 +92,7 @@ public class AdminFaqController {
 		model.addAttribute("faq", faqService.getFaqByNo(faqNo));
 		model.addAttribute("categories", faqService.getCategoriesByType("faq"));
 		
-		return "/view/admin/support/faq/modifyform";
+		return "view/admin/support/faq/modifyform";
 	}
 	
 	@PostMapping("/modify")

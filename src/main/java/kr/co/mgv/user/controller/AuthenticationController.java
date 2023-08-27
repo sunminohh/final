@@ -41,7 +41,7 @@ public class AuthenticationController {
         UserJoinForm form = new UserJoinForm();
         model.addAttribute("userJoinForm", form);
 
-        return "/view/auth/form";
+        return "view/auth/form";
     }
 
     @PostMapping("/join")
@@ -66,7 +66,7 @@ public class AuthenticationController {
 
     @GetMapping("/registered")
     public String registered() {
-        return "/view/auth/registered";
+        return "view/auth/registered";
     }
 
     @ResponseBody

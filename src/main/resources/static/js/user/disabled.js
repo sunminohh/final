@@ -190,7 +190,6 @@ $(() => {
 
     // 인증번호 발송
     async function sendNumber() {
-        console.log("사용자 이메일 -> ", $email.val());
         const checkEmail = $email.val();
 
         const formData = $("#action-form").serialize();
@@ -237,7 +236,6 @@ $(() => {
     // 재전송
     async function resendNumber() {
         btnResendEmail.prop('disabled', true);
-        console.log("재전송 -> ", $email.val());
         const inputEmail = $email.val();
         clearInterval(timer);
         timeLeft = 180;
@@ -260,7 +258,6 @@ $(() => {
                 errorAlert($email, "인증번호 요청 실패: " + response);
             }
         } catch (error) {
-            console.error("Error checking authentication number: ", error.responseText);
             errorAlert($authNumber, error.responseText);
             $authNumber.val("");
         }
@@ -297,7 +294,6 @@ $(() => {
                 data: {"code": inputAuthNumber},
                 dataType: "text",
                 success: function () {
-                    console.log("pass")
                     authCheck = true;
                     successAlert($inputAuth, "인증되었습니다.");
                     stopTimer();
@@ -312,7 +308,6 @@ $(() => {
                 }
             });
         } catch (error) {
-            console.error("Error checking authentication number: ", error);
             errorAlert($inputAuth, error.responseText);
             $("#auth-number").prop('disabled', false);
             btnResendEmail.prop('disabled', false);

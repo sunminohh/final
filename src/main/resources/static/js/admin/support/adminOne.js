@@ -103,14 +103,14 @@ $(function() {
     }
     
     $("#table-one tbody").on("click", "a", function(event) {
-		event.preventDefault();
-		
-		let oneNo = $(this).attr("data-no");
-		$("#actionForm input[name=no]").val(oneNo);
-		$("#actionForm").attr("action", '/admin/support/one/detail?no=' + oneNo);
-		
-		document.querySelector("#actionForm").submit();
-	})
+        event.preventDefault();
+        
+        let oneNo = $(this).attr("data-no");
+        $("#actionForm input[name=no]").val(oneNo);
+        $("#actionForm").attr("action", '/admin/support/one/detail');
+
+        document.querySelector("#actionForm").submit();
+    })
     
     
 });

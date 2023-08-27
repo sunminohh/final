@@ -37,7 +37,7 @@ public class UserService {
         userDao.updatePassword(user);
     }
 
-    // todo 회원 정보 수정
+    // 회원 정보 수정
     public void updateUser(String id, String email, String zipcode, String address) {
         // todo 로직
         User user = userDao.getUserById(id);
@@ -69,14 +69,14 @@ public class UserService {
     }
 
     // 수정일자 계산
-    public long getMindate(Date updateDate) {
+    public long getMinDate(Date updateDate) {
         Date currentDate = new Date();
         long timeDifference = currentDate.getTime() - updateDate.getTime();
         long daysDifference = timeDifference / (1000 * 60 * 60 * 24);
         return daysDifference;
     }
 
-    public long getPwdMindate(Date pwdUpdateDate) {
+    public long getPwdMinDate(Date pwdUpdateDate) {
         Date currentDate = new Date();
         long timeDifference = currentDate.getTime() - pwdUpdateDate.getTime();
         long daysDifference = timeDifference / (1000 * 60 * 60 * 24);

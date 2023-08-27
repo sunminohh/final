@@ -89,7 +89,7 @@ public class MovieBoardController {
 	    // model에 조회한 극장게시물 담기
 	    model.addAttribute("result", result);
 
-	    return "/view/board/movie/list";
+	    return "view/board/movie/list";
 	}
 
     // 상세페이지 관련
@@ -143,7 +143,7 @@ public class MovieBoardController {
     	model.addAttribute("reasons", reportReasons);
 
     	
-        return "/view/board/movie/detail";
+        return "view/board/movie/detail";
     }
     
     @PostMapping("/changelike")
@@ -186,7 +186,7 @@ public class MovieBoardController {
 //    	for(Movie movie : movieList) {
 //    	log.info("영화 제목 -> {}", movie.getTitle());
 //    	}
-        return "/view/board/movie/form";
+        return "view/board/movie/form";
     }
     
     @PostMapping("/add")
@@ -207,7 +207,7 @@ public class MovieBoardController {
     	MovieBoard savedBoard = movieBoardService.getMovieBoardByNo(no);
     	model.addAttribute("board", savedBoard);
     	
-        return "/view/board/movie/modifyForm";
+        return "view/board/movie/modifyForm";
     }
     
     @PostMapping("/modify")

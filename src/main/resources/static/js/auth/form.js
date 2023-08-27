@@ -276,7 +276,6 @@ $(() => {
                 sessionStorage.setItem("emailConfirmCode", response);
 
                 successAlert($email, "해당 이메일로 인증번호가 전송되었습니다. \n 확인부탁드립니다.");
-                console.info("응답결과 -> ", response);
                 $("#userEmail").prop("readonly", true);
                 $("#btnAuthMail").prop("disabled", true);
                 $("#mail-number").show();
@@ -308,14 +307,11 @@ $(() => {
                 return false;
             } else if (checkResponse === "USER_CODE_NULL") {
                 errorAlert($auth, "인증번호를 입력하세요.");
-                console.log("응답 메시지 -> ", checkResponse);
                 return false;
             } else if (checkResponse === "인증실패") {
-                console.log("응답 메시지 -> ", checkResponse);
                 authCheck = false;
                 errorAlert($auth, "인증번호가 일치하지 않습니다. 다시 확인해주세요.");
             } else {
-                console.log("응답 메시지 -> ", checkResponse);
                 authCheck = true;
                 successAlert($auth, "인증되었습니다.");
                 $("#userAuth").prop("readonly", true);
