@@ -10782,6 +10782,13 @@ body.no-scroll .tab-list.fixed {
     background-image: url(https://img.megabox.co.kr/static/pc/images/common/ico/ico-main-qna.png)
 }
 
+/* todo notice 사진 안나옴 */
+.ico-main-notice {
+    width: 43px;
+    height: 43px;
+    background: url(/images/support/ico-notice.png)
+}
+
 .ico-main-group {
     width: 50px;
     height: 38px;
