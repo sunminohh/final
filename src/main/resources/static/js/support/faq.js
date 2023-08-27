@@ -106,7 +106,7 @@ $(document).ready(function() {
 		    				</div>
 		    				<div class="awn">
 	                            <div class="cont">
-	                                <span style="font-size:10.0pt; line-height:107%">
+	                                <span style="font-size:10.0pt;">
 	                                     ${faq.content}
 	                                </span>
 	                            </div>
