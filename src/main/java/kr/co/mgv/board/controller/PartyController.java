@@ -1,5 +1,6 @@
 package kr.co.mgv.board.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,11 +27,11 @@ import kr.co.mgv.board.service.PartyBoardService;
 import kr.co.mgv.board.service.TheaterBoardService;
 import kr.co.mgv.board.vo.BoardLocation;
 import kr.co.mgv.board.vo.BoardTheater;
+import kr.co.mgv.board.vo.PBoardReport;
 import kr.co.mgv.board.vo.PartyBoard;
 import kr.co.mgv.board.vo.PartyBoardSchedule;
 import kr.co.mgv.board.vo.PartyJoin;
 import kr.co.mgv.board.vo.ReportReason;
-import kr.co.mgv.board.vo.StoreBoard;
 import kr.co.mgv.movie.vo.Movie;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
@@ -55,6 +56,7 @@ public class PartyController {
 				@RequestParam(name = "theaterNo", required = false) Integer theaterNo,
 				@RequestParam(name = "locationNo", required = false) Integer locationNo,
 				@RequestParam(name = "complete", required = false, defaultValue = "E") String complete,
+				@AuthenticationPrincipal User user,
 				Model model) {
 	    	
 	    	Map<String, Object> param = new HashMap<String, Object>();
@@ -81,6 +83,20 @@ public class PartyController {
 			PartyBoardList result = partyBoardService.getPBoards(param);
 			
 			// 신고
+			if (user != null) {
+				List<PBoardReport> reportList = partyBoardService.getPBoardReportById(user.getId());
+				List<PartyBoard> partyBoardsToShow = new ArrayList<>();
+				
+				for(PartyBoard board : result.getParytBoards()) {
+					boolean isReported = reportList.stream()
+										.anyMatch(report -> report.getBoard().getNo() == board.getNo());
+					if(!isReported) {
+						partyBoardsToShow.add(board);
+					}
+				}
+				result.setParytBoards(partyBoardsToShow);
+				model.addAttribute("reports", partyBoardsToShow);
+			}
 			
 			// model에 조회한 극장게시물 담기
 			model.addAttribute("result", result);

@@ -363,7 +363,7 @@
 		VALUES(#{reasonContent}, #{reason.no}, #{board.no}, #{user.id});
     </insert>
     
-   	<select id="getSboardReportById" parameterType="String" resultType="kr.co.mgv.board.vo.PBoardReport">
+   	<select id="getPboardReportById" parameterType="String" resultType="kr.co.mgv.board.vo.PBoardReport">
 		SELECT 
 			report_NO as no, 
 			REPORT_REASON as reasonContent, 

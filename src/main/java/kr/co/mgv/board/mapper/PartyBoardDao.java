@@ -37,4 +37,5 @@ public interface PartyBoardDao {
 	
 	// 신고관련
 	void insertPboardReport(PBoardReport report);
+	List<PBoardReport> getPboardReportById(String id);
 }

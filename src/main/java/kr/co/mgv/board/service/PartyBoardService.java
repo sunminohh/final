@@ -212,4 +212,8 @@ public class PartyBoardService {
 		board.setReportCount(reportCount);
 		partyBoardDao.updatePBoardByNo(board);
 	}
+	
+	public List<PBoardReport> getPBoardReportById (String id) {
+		return partyBoardDao.getPboardReportById(id);
+	}
 }
