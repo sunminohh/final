@@ -15,4 +15,33 @@
             (#{product.no}, #{user.id}, #{amount},#{totalPrice}, #{pkg.no})
 
     </insert>
+
+    <select id="getCartItemsByUserId" parameterType="String" resultType="Cart">
+        SELECT
+            A.CART_NO                   as no,
+            B.PRODUCT_NO                as "product.no",
+            B.PRODUCT_NAME              as "product.name",
+            B.PRODUCT_DESCRIPTION       as "product.description",
+            C.USER_ID                   as "user.id",
+            C.USER_NAME                 as "user.name",
+            A.PRODUCT_AMOUNT            as amount,
+            A.TOTAL_PRICE               as totalPrice,
+            A.CART_INSERT_DATE          as insertDate,
+            A.CART_PAYMENT_STATUS       as paymentStatus,
+            B.PRODUCT_IMAGE             as "product.imagePath",
+            D.PACKAGE_NO                as "pkg.no",
+            D.PACKAGE_NAME              as "pkg.name",
+            D.PACKAGE_COMPOSITION       as "pkg.composition",
+            D.PACKAGE_IMAGE             as "pkg.imagePath"
+        FROM
+            MGV_USER C
+        JOIN
+            MGV_CART A ON A.USER_ID = C.USER_ID
+        LEFT JOIN
+            MGV_PRODUCT B ON A.PRODUCT_NO = B.PRODUCT_NO
+        LEFT JOIN
+            MGV_PACKAGE D ON A.PACKAGE_NO = D.PACKAGE_NO
+        WHERE
+            C.USER_ID = #{value}
+    </select>
 </mapper>

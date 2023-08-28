@@ -263,36 +263,36 @@ $(function () {
 	   });
 	   
 	   
-	     $("#report-submit-btn").on("click", function(event) {
-      event.preventDefault();
-      let content = document.querySelector("textarea[name=reasonContent]").value;
-      let reasonNo = document.querySelector("select[name=reasonNo]").value;
-      if(reasonNo === '24' && content === ''){
-         Swal.fire({
-               icon: 'error',
-               text: `'기타'선택시 추가 정보 입력이 필요합니다.`,
-           });
-      }  else if(reasonNo === '') {
-         Swal.fire({
-               icon: 'error',
-               text: `신고이유를 선택해주세요.`,
-           });
-      } else {
-           Swal.fire({
-           icon: 'warning',
-           title: '정말 신고하시겠습니까?',
-           showCancelButton: true,
-           confirmButtonText: '네',
-           cancelButtonText: '아니오',
-	       }).then((result) => {
-	           if (result.isConfirmed) {
-					$("#report-form").submit();
-	           } else if (result.dismiss === Swal.DismissReason.cancel) {
-	               
-	           }
-	       });
-      }
-   })
+	  $("#report-submit-btn").on("click", function(event) {
+	      event.preventDefault();
+	      let content = document.querySelector("textarea[name=reasonContent]").value;
+	      let reasonNo = document.querySelector("select[name=reasonNo]").value;
+	      if(reasonNo === '24' && content === ''){
+	         Swal.fire({
+	               icon: 'error',
+	               text: `'기타'선택시 추가 정보 입력이 필요합니다.`,
+	           });
+	      }  else if(reasonNo === '') {
+	         Swal.fire({
+	               icon: 'error',
+	               text: `신고이유를 선택해주세요.`,
+	           });
+	      } else {
+	           Swal.fire({
+	           icon: 'warning',
+	           title: '정말 신고하시겠습니까?',
+	           showCancelButton: true,
+	           confirmButtonText: '네',
+	           cancelButtonText: '아니오',
+		       }).then((result) => {
+		           if (result.isConfirmed) {
+						$("#report-form").submit();
+		           } else if (result.dismiss === Swal.DismissReason.cancel) {
+		               
+		           }
+		       });
+	      }
+   	  })
 })
 
     function toggleContentField() {

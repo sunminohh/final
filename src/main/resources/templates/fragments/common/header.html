@@ -2,20 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:fragment="config">
-    <script>
-        $(() => {
-            $(".btn-my-anonymous").on("click", function (e) {
-                e.preventDefault();
-                $(".btn-login").trigger("click");
-            });
-            $("#vip").click(function () {
-                Swal.fire({
-                    icon: 'warning',
-                    text: '서비스 준비 중 입니다.'
-                })
-            });
-        });
-    </script>
+    <script th:src="@{/js/common/header.js}"></script>
 </head>
 <body>
 <header id="header"
