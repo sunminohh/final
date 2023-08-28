@@ -294,7 +294,7 @@ $(function () {
 	      }
    	  })
    	  
-   	  	    // 답글 작성 버튼을 클릭하면
+   	  // 답글 작성 버튼을 클릭하면
 	    $("#all-comment-box").on("click", "[data-comment-no]", function (event) {
 	        event.preventDefault();
 

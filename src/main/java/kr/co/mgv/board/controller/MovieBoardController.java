@@ -22,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import kr.co.mgv.board.form.AddMboardForm;
 import kr.co.mgv.board.form.MBoardForm;
 import kr.co.mgv.board.form.ReportForm;
+import kr.co.mgv.board.list.MBoardCommentList;
 import kr.co.mgv.board.list.MovieBoardList;
 import kr.co.mgv.board.service.MovieBoardService;
 import kr.co.mgv.board.vo.MBoardComment;
@@ -232,7 +233,7 @@ public class MovieBoardController {
     // 댓글 관련
     @PostMapping("/addComment")
     @ResponseBody
-    public ResponseEntity<MBoardComment> addComment(@RequestParam("no") int no, 
+    public ResponseEntity<MBoardCommentList> addComment(@RequestParam("no") int no, 
                              @RequestParam("id") String id, 
                              @RequestParam(name="parentNo", required = false) Integer parentNo, 
                              @RequestParam(name="greatNo", required = false) Integer greatNo, 
@@ -273,17 +274,21 @@ public class MovieBoardController {
     	movieBoardService.MBoardCommentInsert(comment);
     	MovieBoard board = movieBoardService.getMovieBoardByNo(no);
     	int commentCount = board.getCommentCount()+1;
-    	
     	movieBoardService.updateBoardComment(no, commentCount);
 
-    	MBoardComment inputComment = movieBoardService.getGreatComment(no, id);
-    	
-        return ResponseEntity.ok().body(inputComment);
+    	List<MBoardComment> parents = movieBoardService.getComments(no);
+    	List<MBoardComment> childs = movieBoardService.getChildComments(no);
+    	MBoardCommentList list = MBoardCommentList
+								 .builder()
+								 .parentComments(parents)
+								 .childComments(childs)
+								 .build();    	
+        return ResponseEntity.ok().body(list);
     }
 
     @PostMapping("/addReComment")
     @ResponseBody
-    public ResponseEntity<MBoardComment> addReComment(@RequestParam("no") int no, 
+    public  ResponseEntity<MBoardCommentList> addReComment(@RequestParam("no") int no, 
     		@RequestParam("id") String id, 
     		@RequestParam(name="parentNo", required = false) Integer parentNo, 
     		@RequestParam(name="greatNo", required = false) Integer greatNo, 
@@ -324,12 +329,16 @@ public class MovieBoardController {
     	movieBoardService.MBoardCommentInsert(comment);
     	MovieBoard board = movieBoardService.getMovieBoardByNo(no);
     	int commentCount = board.getCommentCount()+1;
-    	
     	movieBoardService.updateBoardComment(no, commentCount);
     	
-    	MBoardComment inputComment = movieBoardService.getChildComment(no, id);
-    	
-    	return ResponseEntity.ok().body(inputComment);
+    	List<MBoardComment> parents = movieBoardService.getComments(no);
+    	List<MBoardComment> childs = movieBoardService.getChildComments(no);
+    	MBoardCommentList list = MBoardCommentList
+								 .builder()
+								 .parentComments(parents)
+								 .childComments(childs)
+								 .build();    	
+        return ResponseEntity.ok().body(list);
     }
     
 
