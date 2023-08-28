@@ -5,6 +5,8 @@ import kr.co.mgv.store.vo.Cart;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CartService {
@@ -13,5 +15,13 @@ public class CartService {
 
     public void insertCart(Cart cart) {
         cartMapper.insertCart(cart);
+    }
+
+    public List<Cart> getCartItemsByUserId(String userId) {
+        return cartMapper.getCartItemsByUserId(userId);
+    }
+
+    public Cart updateCart(Cart cart) {
+        return cartMapper.updateCart(cart);
     }
 }

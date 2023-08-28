@@ -15,7 +15,7 @@
             PACKAGE_NO          as no,
             PACKAGE_NAME        as name,
             PACKAGE_PRICE       as price,
-            PACKAGE_IMAGE       as image,
+            PACKAGE_IMAGE       as imagePath,
             PACKAGE_COMPOSITION as composition
         from
             MGV_PACKAGE
@@ -28,7 +28,7 @@
             PACKAGE_NO          as no,
             PACKAGE_NAME        as name,
             PACKAGE_PRICE       as price,
-            PACKAGE_IMAGE       as image,
+            PACKAGE_IMAGE       as imagePath,
             PACKAGE_COMPOSITION as composition
         from
             MGV_PACKAGE
@@ -41,7 +41,7 @@
             A.PACKAGE_NO          as no,
             A.PACKAGE_NAME        as name,
             A.PACKAGE_PRICE       as price,
-            A.PACKAGE_IMAGE       as image,
+            A.PACKAGE_IMAGE       as imagePath,
             A.PACKAGE_COMPOSITION as composition,
             B.CAT_NO              as "category.no"
         from
