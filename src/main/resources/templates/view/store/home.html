@@ -58,7 +58,7 @@
                                         </div>
                                         <div class="price">
                                             <p class="sale">
-                                                <em th:text="${package.getPrice()}"></em>
+                                                <em class="price-detail" th:text="${package.getPrice()}"></em>
                                                 <span>원</span>
                                             </p>
                                         </div>
@@ -91,7 +91,7 @@
                                         </div>
                                         <div class="price">
                                             <p class="sale">
-                                                <em th:text="${product.getPrice()}"></em>
+                                                <em class="price-detail" th:text="${product.getPrice()}"></em>
                                                 <span>원</span>
                                             </p>
                                             <p class="ea">
@@ -199,8 +199,11 @@
                                             <p class="description" th:text="${product.getDescription()}"></p>
                                         </div>
                                         <div class="price">
+                                            <p class="original" th:text="${product.getPrice()}">
+
+                                            </p>
                                             <p class="sale">
-                                                <em id="price-detail" th:text="${product.getPrice()}"></em>
+                                                <em class="price-detail" th:text="${product.getDiscountedPrice()}"></em>
                                                 <span>원</span>
                                             </p>
                                             <p class="ea">
