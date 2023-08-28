@@ -21,17 +21,20 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import kr.co.mgv.board.form.AddPboardForm;
 import kr.co.mgv.board.form.ReportForm;
 import kr.co.mgv.board.list.JoinList;
+import kr.co.mgv.board.list.PBoardCommentList;
 import kr.co.mgv.board.list.PartyBoardList;
 import kr.co.mgv.board.service.MovieBoardService;
 import kr.co.mgv.board.service.PartyBoardService;
 import kr.co.mgv.board.service.TheaterBoardService;
 import kr.co.mgv.board.vo.BoardLocation;
 import kr.co.mgv.board.vo.BoardTheater;
+import kr.co.mgv.board.vo.PBoardComment;
 import kr.co.mgv.board.vo.PBoardReport;
 import kr.co.mgv.board.vo.PartyBoard;
 import kr.co.mgv.board.vo.PartyBoardSchedule;
 import kr.co.mgv.board.vo.PartyJoin;
 import kr.co.mgv.board.vo.ReportReason;
+import kr.co.mgv.board.vo.SBoardComment;
 import kr.co.mgv.movie.vo.Movie;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
@@ -210,9 +213,12 @@ public class PartyController {
 			PartyBoard partyBoard = partyBoardService.getPBoardByNo(no);
 			model.addAttribute("board", partyBoard);
 			// 모댓글 목록
-
+			List<PBoardComment> comments = partyBoardService.getGreatComments(no);
+			model.addAttribute("comments", comments);
 			// 자손댓글 목록
-
+			List<PBoardComment> childComments = partyBoardService.getchildComments(no);
+			model.addAttribute("childComments", childComments);
+			
 			// 신고 이유
 			List<ReportReason> reportReasons = movieBoardService.getReportReason();
 			model.addAttribute("reasons", reportReasons);
@@ -361,5 +367,90 @@ public class PartyController {
 			    partyBoardService.updateReport(form.getBoardNo(), report);
 			}
 			return "redirect:/board/party/list";
+		}
+		
+		// 댓글관련
+		@PostMapping("/addComment")
+		@ResponseBody
+		public ResponseEntity<PBoardCommentList> addComment(@RequestParam("no") int no, 
+												            @RequestParam("id") String id, 
+												            @RequestParam(name="parentNo", required = false) Integer parentNo, 
+												            @RequestParam(name="greatNo", required = false) Integer greatNo, 
+												            @RequestParam("content") String content){
+			
+			PBoardComment comment = new PBoardComment();
+			comment.setContent(content);
+			
+			PartyBoard pBoard = partyBoardService.getPBoardByNo(no);
+			comment.setBoard(pBoard);
+			
+			if (parentNo != null) {
+				PBoardComment parentComment = PBoardComment.builder().no(parentNo).build();
+				comment.setParent(parentComment);
+				}
+			if (greatNo != null) {
+			PBoardComment greatComment = PBoardComment.builder().no(greatNo).build();
+			comment.setGreat(greatComment);
+			}
+			User user = User.builder().id(id).build();
+			comment.setUser(user);
+			
+			partyBoardService.insertComment(comment);
+			PartyBoard board = partyBoardService.getPBoardByNo(no);
+			int commentCount = board.getCommentCount() + 1;
+			partyBoardService.updateBoardComment(no, commentCount);
+			
+			List<PBoardComment> parents = partyBoardService.getGreatComments(no);
+			List<PBoardComment> childs = partyBoardService.getchildComments(no);
+			
+			PBoardCommentList list = PBoardCommentList
+									 .builder()
+									 .parentComments(parents)
+									 .childComments(childs)
+									 .build();
+			
+			return ResponseEntity.ok().body(list);
+		}
+
+		@PostMapping("/addReComment")
+		@ResponseBody
+		public ResponseEntity<PBoardCommentList> addReComment(@RequestParam("no") int no, 
+				@RequestParam("id") String id, 
+				@RequestParam(name="parentNo", required = false) Integer parentNo, 
+				@RequestParam(name="greatNo", required = false) Integer greatNo, 
+				@RequestParam("content") String content){
+			
+			PBoardComment comment = new PBoardComment();
+			comment.setContent(content);
+			
+			PartyBoard pBoard = partyBoardService.getPBoardByNo(no);
+			comment.setBoard(pBoard);
+			
+			if (parentNo != null) {
+				PBoardComment parentComment = PBoardComment.builder().no(parentNo).build();
+				comment.setParent(parentComment);
+			}
+			if (greatNo != null) {
+				PBoardComment greatComment = PBoardComment.builder().no(greatNo).build();
+				comment.setGreat(greatComment);
+			}
+			User user = User.builder().id(id).build();
+			comment.setUser(user);
+			
+			partyBoardService.insertComment(comment);
+			PartyBoard board = partyBoardService.getPBoardByNo(no);
+			int commentCount = board.getCommentCount() + 1;
+			partyBoardService.updateBoardComment(no, commentCount);
+			
+			List<PBoardComment> parents = partyBoardService.getGreatComments(no);
+			List<PBoardComment> childs = partyBoardService.getchildComments(no);
+			
+			PBoardCommentList list = PBoardCommentList
+					.builder()
+					.parentComments(parents)
+					.childComments(childs)
+					.build();
+			
+			return ResponseEntity.ok().body(list);
 		}
 }

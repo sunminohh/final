@@ -12,6 +12,7 @@ import kr.co.mgv.board.list.PartyBoardList;
 import kr.co.mgv.board.mapper.PartyBoardDao;
 import kr.co.mgv.board.mapper.TheaterBoardDao;
 import kr.co.mgv.board.vo.BoardLocation;
+import kr.co.mgv.board.vo.PBoardComment;
 import kr.co.mgv.board.vo.PBoardReport;
 import kr.co.mgv.board.vo.PartyBoard;
 import kr.co.mgv.board.vo.PartyBoardSchedule;
@@ -215,5 +216,24 @@ public class PartyBoardService {
 	
 	public List<PBoardReport> getPBoardReportById (String id) {
 		return partyBoardDao.getPboardReportById(id);
+	}
+	
+	// 댓글 관련
+	public void insertComment(PBoardComment comment) {
+		partyBoardDao.insertPBoardComment(comment);
+	}
+	
+	public List<PBoardComment> getGreatComments(int no){
+		return partyBoardDao.getPBoardComments(no);
+	}
+	
+	public List<PBoardComment> getchildComments(int no){
+		return partyBoardDao.getPBoardChildComments(no);
+	}
+	
+	public void updateBoardComment(int no, int commentCount) {
+		PartyBoard board = partyBoardDao.getPBoardByNo(no);
+		board.setCommentCount(commentCount);
+		partyBoardDao.updatePBoardByNo(board);
 	}
 }
