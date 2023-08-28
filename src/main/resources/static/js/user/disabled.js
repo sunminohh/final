@@ -35,7 +35,7 @@ $(() => {
     })
 
     // enter 방지
-    $("#action-form").on("keydown", function(event) {
+    $("#action-form").on("keydown", function (event) {
         if (event.key === "Enter") {
             event.preventDefault();
             return false;
@@ -116,10 +116,10 @@ $(() => {
             $etcText.val("");
             return false;
         }
-        
+
         // 비밀번호 체크 및 탈퇴처리
         $.ajax({
-            url: "/user/info/disabled",
+            url: "/mypage/disabled",
             type: "POST",
             data: formData,
             success: function () {
@@ -141,7 +141,6 @@ $(() => {
                         });
                     }
                 });
-                return true;
             },
             error: function (e) {
                 errorAlert($pwd, "비밀번호가 일치하지 않습니다.");
@@ -194,7 +193,7 @@ $(() => {
 
         const formData = $("#action-form").serialize();
         const inputEmail = await $.ajax({
-            url: "/user/info/checkEmail",
+            url: "/mypage/checkEmail",
             type: "post",
             data: formData,
             success: function () {

@@ -40,7 +40,7 @@ $(() => {
         // console.log("pass");
 
         $.ajax({
-            url: "/user/info/update/password",
+            url: "/mypage/update/password",
             type: "POST",
             data: form.serialize(),
             success: function () {
@@ -50,7 +50,7 @@ $(() => {
                     $repwdnew.val("");
 
                     // 만약 다른 페이지로 이동 필요할 시
-                    location.href = "/user/info/form";
+                    location.href = "/mypage/form";
                 });
             },
             error: function (e) {

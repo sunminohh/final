@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @Secured({"ROLE_USER", "ROLE_ADMIN"})
-@RequestMapping("/user/info")
+@RequestMapping("/mypage")
 @RequiredArgsConstructor
 @Slf4j
 public class UserController {
@@ -41,7 +41,7 @@ public class UserController {
 
     @PostMapping("/auth")
     public String success() {
-        return "redirect:/user/info/form";
+        return "redirect:/mypage/form";
     }
 
     // 회원정보 수정
@@ -126,14 +126,9 @@ public class UserController {
         }
     }
 
-    @GetMapping("/booking")
-    public String booking() {
-        return "view/user/booking/list";
-    }
-
     @GetMapping("/ticket")
     public String ticekt() {
-        return "view/user/ticket/list";
+        return "view/user/info/list";
     }
 
     @GetMapping("/moviestory")
