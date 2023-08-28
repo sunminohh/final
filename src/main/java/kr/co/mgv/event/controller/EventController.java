@@ -14,34 +14,34 @@ public class EventController {
 
     @GetMapping({"/", ""})
     public String home() {
-        return "/view/event/home";
+        return "view/event/home";
     }
 
     @GetMapping("/list")
     public String list(@RequestParam(defaultValue = "1") String cateNo) {
         log.info("[Event] - list: {}", cateNo);
-        return "/view/event/list";
+        return "view/event/list";
     }
 
     @GetMapping("/end")
     public String endList() {
-        return "/view/event/end-list";
+        return "view/event/end-list";
     }
 
     @GetMapping("/winner/list")
     public String winnerList() {
-        return "/view/event/winner-list";
+        return "view/event/winner-list";
     }
 
     @GetMapping("/winner/detail")
     public String winnerList(@RequestParam String eventNo) {
-        return "/view/event/winner-detail";
+        return "view/event/winner-detail";
     }
 
     @GetMapping("/detail/{eventNo}")
     public String detail(@PathVariable String eventNo) {
         log.info("[Event] - Detail: {}", eventNo);
-        return "/view/event/detail";
+        return "view/event/detail";
     }
 
 }

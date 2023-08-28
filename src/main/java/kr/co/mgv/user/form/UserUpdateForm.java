@@ -7,6 +7,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 public class UserUpdateForm {
@@ -20,4 +21,5 @@ public class UserUpdateForm {
 
     private String zipcode;
     private String address;
+    private String reason;
 }

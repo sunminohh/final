@@ -13,11 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
-import java.rmi.server.RemoteServer;
-import java.time.LocalDate;
-import java.util.Date;
-
 @Controller
 @Secured({"ROLE_USER", "ROLE_ADMIN"})
 @RequestMapping("/user/info")
@@ -30,13 +25,7 @@ public class UserController {
 
     @RequestMapping({"/",""})
     public String home(@AuthenticationPrincipal User user, Model model) {
-        String userId = user.getId();
-        String userName = user.getName();
-        String userEmail = user.getEmail();
-
-        model.addAttribute("userId", userId);
-        model.addAttribute("userName", userName);
-        model.addAttribute("userEmail", userEmail);
+        model.addAttribute("user", user);
 
         return "view/user/home";
     }
@@ -59,8 +48,8 @@ public class UserController {
     @GetMapping("/form")
     public String myMGV(@AuthenticationPrincipal User user, Model model) {
         user = userService.getUserById(user.getId());
-        long minDate = userService.getMindate(user.getUpdateDate());
-        long pwdMinDate = userService.getMindate(user.getPwdUpdateDate());
+        long minDate = userService.getMinDate(user.getUpdateDate());
+        long pwdMinDate = userService.getMinDate(user.getPwdUpdateDate());
 
         model.addAttribute("user", user);
         model.addAttribute("minDate", minDate);
@@ -69,18 +58,21 @@ public class UserController {
         return "view/user/info/form";
     }
 
-    // todo 회원정보 수정
+    // 회원정보 수정
     @PostMapping("/update")
     public ResponseEntity<String> updateUser(@AuthenticationPrincipal User user, UserUpdateForm form) {
-        // todo 이메일 수정 할 때
-        User checkEmail = userService.getUserByEmail(form.getEmail()); //
-
-
-        // todo 이메일 수정 안할 때
-        if (!user.getEmail().equals(form.getEmail())) {
+        // 만약 이메일을 수정하지 않는 경우
+        if (form.getEmail().equals(user.getEmail())) {
             userService.updateUser(user.getId(), form.getEmail(), form.getZipcode(), form.getAddress());
-//            session.invalidate();
-            return ResponseEntity.ok("사용가능한 이메일 주소입니다.");
+            return ResponseEntity.ok("이메일 수정 안함");
+        }
+
+        // 이메일을 수정하는 경우
+        User checkEmail = userService.getUserByEmail(form.getEmail());
+
+        if (checkEmail == null || checkEmail.getId().equals(user.getId())) {
+            userService.updateUser(user.getId(), form.getEmail(), form.getZipcode(), form.getAddress());
+            return ResponseEntity.ok("가능");
         } else {
             return ResponseEntity.badRequest().body("중복된 이메일 주소입니다.");
         }
@@ -97,21 +89,17 @@ public class UserController {
     public ResponseEntity<String> updatePwd(@AuthenticationPrincipal User user, UserUpdateForm form) {
         if (passwordEncoder.matches(form.getCheckPassword(), user.getPassword())) {
             userService.updatePassword(user.getId(), passwordEncoder.encode(form.getNewPassword()));
-            log.info("입력값 -> {}", form.getCheckPassword());
-            log.info("새비밀번호 -> {}", form.getNewPassword());
             return ResponseEntity.ok("비밀번호가 변경되었습니다.");
         } else {
             return ResponseEntity.badRequest().body("현재 비밀번호가 일치하지 않습니다.");
         }
     }
 
+    // 회원 탈퇴
     @GetMapping("/disabled")
     public String disableForm(@AuthenticationPrincipal User user, Model model) {
-        String id = user.getId();
-        String name = user.getName();
 
-        model.addAttribute("userId", id);
-        model.addAttribute("userName", name);
+        model.addAttribute("user", user);
 
         return "view/user/info/disabled";
     }
@@ -120,7 +108,7 @@ public class UserController {
     @PostMapping("/checkEmail")
     public ResponseEntity<String> checkEmail(@AuthenticationPrincipal User user, UserUpdateForm form) {
         if (form.getEmail().equals(user.getEmail())) {
-            return ResponseEntity.ok("등록된 이메일과 일치합니다.");
+            return ResponseEntity.ok(user.getEmail());
         } else {
             return ResponseEntity.badRequest().body("등록된 이메일 주소와 일치하지 않습니다.");
         }
@@ -128,11 +116,11 @@ public class UserController {
 
     // todo 회원 탈퇴
     @PostMapping("/disabled")
-    public ResponseEntity<String> disabled(@AuthenticationPrincipal User user, UserUpdateForm form) {
+    public ResponseEntity<String> disableUser(@AuthenticationPrincipal User user, UserUpdateForm form) {
         if (passwordEncoder.matches(form.getCheckPassword(), user.getPassword())) {
-            // todo service 작성
+            userService.disableUser(user.getId(), form.getReason());
 
-            return ResponseEntity.ok("탈퇴처리 되었습니다.");
+            return ResponseEntity.ok("회원 탈퇴가 완료되었습니다.");
         } else {
             return ResponseEntity.badRequest().body("현재 비밀번호가 일치하지 않습니다.");
         }
@@ -158,6 +146,5 @@ public class UserController {
 
         return "view/user/inquiry/list";
     }
-
 
 }

@@ -3,9 +3,6 @@
       layout:decorate="~{layout/user}">
 
 <head th:fragment="extra-head-content">
-    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    <script th:src="@{/js/user/auth.js}"></script>
-    <script th:src="@{/js/user/timer.js}"></script>
     <script th:src="@{/js/user/disabled.js}"></script>
     <style>
         .button {
@@ -54,44 +51,44 @@
                     <ul class="reason">
 
                         <li>
-                            <input type="radio" name="useroutcheck" id="userout01" value="서비스 장애가 잦아서">
+                            <input type="radio" name="reason" id="userout01" value="서비스 장애가 잦아서" checked>
                             <label for="userout01">서비스 장애가 잦아서</label>
                         </li>
 
                         <li>
-                            <input type="radio" name="useroutcheck" id="userout02" value="이벤트 및 무료서비스 혜택이 적어서">
+                            <input type="radio" name="reason" id="userout02" value="이벤트 및 무료서비스 혜택이 적어서">
                             <label for="userout02">이벤트 및 무료서비스 혜택이 적어서</label>
                         </li>
 
                         <li>
-                            <input type="radio" name="useroutcheck" id="userout03" value="불만 및 불편사항에 대한 고객응대가 나빠서">
+                            <input type="radio" name="reason" id="userout03" value="불만 및 불편사항에 대한 고객응대가 나빠서">
                             <label for="userout03">불만 및 불편사항에 대한 고객응대가 나빠서</label>
                         </li>
 
                         <li>
-                            <input type="radio" name="useroutcheck" id="userout04" value="영화관람시 시설 및 가격등의 불만 때문에">
+                            <input type="radio" name="reason" id="userout04" value="영화관람시 시설 및 가격등의 불만 때문에">
                             <label for="userout04">영화관람시 시설 및 가격등의 불만 때문에</label>
                         </li>
 
                         <li>
-                            <input type="radio" name="useroutcheck" id="userout05" value="이용빈도가 낮고 개인정보 유출이 우려되어">
+                            <input type="radio" name="reason" id="userout05" value="이용빈도가 낮고 개인정보 유출이 우려되어">
                             <label for="userout05">이용빈도가 낮고 개인정보 유출이 우려되어</label>
                         </li>
 
                         <li>
-                            <input type="radio" name="useroutcheck" id="userout06" value="탈퇴 후 재가입을 위해">
+                            <input type="radio" name="reason" id="userout06" value="탈퇴 후 재가입을 위해">
                             <label for="userout06">탈퇴 후 재가입을 위해</label>
                         </li>
 
                         <li>
-                            <input type="radio" name="useroutcheck" id="userout07" value="기타">
+                            <input type="radio" name="reason" id="userout07" value="기타">
                             <label for="userout07">기타</label>
 
-                            <input type="text" class="input-text w600px ml10" title="기타 입력" id="etcText">
+                            <input type="text" class="input-text w600px ml10" title="기타 입력" id="etcText" autocomplete="off">
                         </li>
 
                         <li>
-                            <input type="radio" name="useroutcheck" id="userout08" value="휴면계정 만료">
+                            <input type="radio" name="reason" id="userout08" value="휴면계정 만료">
                             <label for="userout08">휴면계정 만료</label>
                         </li>
 
@@ -99,8 +96,7 @@
                 </li>
                 <li>
                     <p class="txt">5. 회원님의 비밀번호를 입력하시고 [탈퇴] 버튼을 클릭해주세요.</p>
-
-                            <caption>비밀번호 입력 항목을 가진 회원 탈퇴시 비밀번호 확인 표</caption>
+                    <span><em class="font-orange">*</em> 는 필수 항목 입니다. 탈퇴 완료 시 <strong style="color: #db0f02">로그아웃</strong> 됩니다.</span>
                     <div class="table-wrap">
                         <table class="board-form">
                             <colgroup>
@@ -110,29 +106,31 @@
                             <tbody>
                             <tr>
                                 <th scope="row">
-                                    <label for="pwd_chk">비밀번호</label>
+                                    <label for="pwd_chk">비밀번호 <em class="font-orange">*</em></label>
                                 </th>
                                 <td>
                                     <input type="password" class="input-text w160px" name="checkPassword">
+                                    <span id="pwd-error-text" class="alert"></span>
                                 </td>
                             </tr>
-                            <input id="ibxSchPwdLoginId" type="hidden" th:value="${userId}">
-                            <input id="ibxSchPwdMbNm" type="hidden" th:value="${userName}">
+                            <input id="ibxSchPwdLoginId" type="hidden" th:value="${user.id}">
+                            <input id="ibxSchPwdMbNm" type="hidden" th:value="${user.name}">
                             <tr>
-                                <th scope="row"><label>E-mail</label></th>
+                                <th scope="row"><label>E-mail <em class="font-orange">*</em></label></th>
                                 <td>
-                                    <input type="hidden" id="userId" th:value="${userId}">
+                                    <input type="hidden" id="userId" th:value="${user.id}">
                                     <input type="text" id="userEmail" name="email" class="input-text w230px" autocomplete="off">
-                                    <button id="btnSendAuthMail" type="button" class="button gray w75px ml08">인증요청</button>
-                                    <button id="btnResendAuthMail" type="button" class="button gray w75px ml08" style="display: none" disabled>재전송</button>
+                                    <button id="btnSendAuthMail" type="button" class="button gray w75px ml08" disabled>인증요청</button>
+                                    <button id="btnResendAuthMail" type="button" class="button gray w75px ml08" style="display: none;">재전송</button>
+                                    <span id="email-error-text" class="alert"></span>
                                 </td>
                             </tr>
-                            <tr id="mail-number" disabled>
-                                <th scope="row"><label for="userAuth">인증번호</label></th>
-                                <td >
+                            <tr id="auth-number" style="display: none;">
+                                <th scope="row"><label for="userAuth">인증번호 <em class="font-orange">*</em></label></th>
+                                <td>
                                     <div class="chk-num">
                                         <div class="line">
-                                            <input maxlength="8" type="text" id="userAuth" class="input-text w180px" autocomplete="off" disabled>
+                                            <input maxlength="8" type="text" id="userAuth" class="input-text w180px" autocomplete="off">
 
                                             <div class="time-limit" id="schEmailtimer">
                                                 3:00
@@ -153,7 +151,7 @@
 
         <div class="btn-group" style="display: block;">
             <button class="button large" id="btnCancel">취소</button>
-            <button class="button purple large" type="submit" disabled>탈퇴</button>
+            <button id="btnDisable" class="button purple large" type="submit" disabled>탈퇴</button>
         </div>
     </form>
 </div>

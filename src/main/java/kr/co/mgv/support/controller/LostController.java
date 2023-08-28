@@ -67,7 +67,7 @@ public class LostController {
 		LostList lostList = lostService.search(param);
 		model.addAttribute("result", lostList);
 		
-        return "/view/support/lost/list";
+        return "view/support/lost/list";
     }
 	
 	
@@ -155,7 +155,7 @@ public class LostController {
 	 
 	@GetMapping("/form")
     public String lostForm() {
-        return "/view/support/lost/form";
+        return "view/support/lost/form";
     }
 	
 	@PostMapping("/add")
@@ -180,7 +180,7 @@ public class LostController {
 		model.addAttribute("lost", lost);
 		model.addAttribute("lostFiles", lostFiles);
 		
-		return "/view/support/lost/detail";
+		return "view/support/lost/detail";
 	}
 	
 	@RequestMapping("/download")

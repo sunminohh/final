@@ -51,7 +51,7 @@ public class NoticeController {
     	NoticeList noticeList = noticeService.search(param);
     	model.addAttribute("result", noticeList);
     	
-        return "/view/support/notice/list";
+        return "view/support/notice/list";
     }
     
     @GetMapping("/list")
@@ -95,7 +95,7 @@ public class NoticeController {
     	model.addAttribute("preNotice", preNotice);
     	model.addAttribute("nextNotice", nextNotice);
     	
-        return "/view/support/notice/detail";
+        return "view/support/notice/detail";
     }
 }
 

@@ -1,39 +1,36 @@
 $(function() {
- 	/// 탭컬러 바꾸기
+	
+	// 탭컬러 바꾸기
 	$('li.tab-link').click(function() {
 
-		$('li.tab-link').removeClass('current');
-		$('button.btn').removeClass('current');
-
-		$(this).addClass('current');
-		$(this).find('button.btn').addClass('current');
-  
-		let categoryNo = $(this).find('button').attr("data-category-no");
-		$("input[name=categoryNo]").val(categoryNo);
+	      $('li.tab-link').removeClass('current');
+	      $('button.btn').removeClass('current');
+	
+	      $(this).addClass('current');
+	      $(this).find('button.btn').addClass('current');
+    });
+	
+	// 검색버튼 클릭했을 때
+	$("#searchBtn").click(function() {
 		$("input[name=page]").val(1);
 		
-		document.querySelector("#actionForm").submit();
-    });
-    
-	// 엔터쳐서 검색하기 
+		getOneList();
+	});
+	
 	const params = new URLSearchParams(location.search);
 	const defaultKeyword = params.get('keyword');
 	if (defaultKeyword) {
 		$("input[name=keyword]").val(defaultKeyword);
+		getOneList();
 	}
-    // 검색버튼 클릭했을 때
-	$("#searchBtn").click(function() {
-		$("input[name=page]").val(1);
-		document.querySelector("#actionForm").submit();
-	});
 	
 	// 폼 전송 이벤트
 	$("#actionForm").on('submit', function(e) {
 		e.preventDefault();
-		document.querySelector("#actionForm").submit();
+		getOneList();
 	});
 	
-	// 페이지번호 클릭했을떄
+	// 페이저번호클릭했 떄
 	$('.pagination').on('click', '.page-number-link', function(event) {
 		event.preventDefault();
 		let page = $(this).attr("data-page");
@@ -46,18 +43,95 @@ $(function() {
 		
 		$("input[name=page]").val(page);
 		
-		document.querySelector("#actionForm").submit();
-		
+		getOneList();
 	})	
 	  
+	// 탭을 클릭했을 때
+    $("li.tab-link").click(function() {
+	    let categoryNo = $(this).find('button').attr("data-category-no");
+		$("input[name=categoryNo]").val(categoryNo);
+		$("input[name=page]").val(1);
+		
+		getOneList();
+    });
+    
+    function getOneList() {
+		
+		let categoryNo = $("input[name=categoryNo]").val();
+		let answered = $("select[name=answered]").val();
+		let page = $("input[name=page]").val();
+		let keyword = $("input[name=keyword]").val();
+		
+		let $tbody = $(".oneList").empty()
+		let $pagination = $(".pagination").empty();
+		
+		$.getJSON("/admin/support/one/list", {categoryNo:categoryNo, answered:answered, page:page, keyword:keyword}, function(result) {
+			
+			// 총 건수 업데이트
+       		$('#totalCnt').text(result.pagination.totalRows);
+       		
+       		let oneList = result.oneList;
+       		let pagination = result.pagination;
+       		
+       		if (oneList.length === 0) {
+				   $tbody.append(`<tr><th colspan='6' style="text-align:center;">조회된 내역이 없습니다.</th></tr>`);
+				   $pagination.empty();
+			} else {
+				 const tbodyHtml = oneList.map(function(one, index) {
+					return `
+				<tr>
+		            <td>${one.no}</td>
+		            <td>${one.theater == null ? '센터' : one.theater.name}</td>
+		            <td>${one.category.name}</td>
+		            <td style="text-align:left;">
+		            	<a class="text-black text-decoration-none"
+		            		href="/admin/support/one/detail?no=${one.no}"
+				            data-no="${one.no}">
+						    ${one.title}
+						</a>
+		            </td>
+		            <td>${one.answered == 'Y' ? '답변완료' : '미답변'}</td>
+		            <td>${one.createDate}</td>
+	            </tr>
+				`	 
+				}).join("\n");
+				
+				$tbody.html(tbodyHtml);
+				$pagination.html(renderPagination(pagination));
+			 };
+		})
+    }
+    
+    $("#table-one tbody").on("click", "a", function(event) {
+        event.preventDefault();
+        
+        let oneNo = $(this).attr("data-no");
+        $("#actionForm input[name=no]").val(oneNo);
 
-})
-
-
-
-
-
-
-
-
+        document.querySelector("#actionForm").submit();
+    })
+    
+    // 삭제 버튼 띄우기
+    $("#delete-btn").on("click", function(event) {
+	    event.preventDefault();
+		let no = $('[name=no]').val();
+		
+	    Swal.fire({
+	        icon: 'warning',
+	        title: '정말 삭제하시겠습니까?',
+	        showCancelButton: true,
+	        confirmButtonText: '네',
+	        cancelButtonText: '아니오',
+	    }).then((result) => {
+	        if (result.isConfirmed) {
+	              window.location.href = '/admin/support/one/delete?no=' + no;      
+	              
+	        } else if (result.dismiss === Swal.DismissReason.cancel) {
+	            
+	        }
+	    });
+	});
+    
+    
+});
 

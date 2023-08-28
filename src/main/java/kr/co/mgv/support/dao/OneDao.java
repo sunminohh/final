@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import kr.co.mgv.support.vo.One;
+import kr.co.mgv.support.vo.OneComment;
 import kr.co.mgv.support.vo.OneFile;
 import kr.co.mgv.support.vo.SupportCategory;
 import kr.co.mgv.theater.vo.Location;
@@ -14,8 +15,12 @@ import kr.co.mgv.theater.vo.Theater;
 @Mapper
 public interface OneDao {
 	
-	// 일대일문의글 답변 등록
-	
+	// 답변 조회
+	List<OneComment> getOneCommentByOne(int oneNo);
+	// 답변 등록
+	void insertComment(OneComment oneComment);
+	// 답변 삭제
+	void deleteComment(OneComment oneComment);
 	
 	// 일대일문의글 등록
 	void insertOne(One one);

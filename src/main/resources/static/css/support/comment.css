@@ -1,0 +1,15 @@
+	
+	/* 답변 등록폼 */
+	.CommentWriter
+	.comment_inbox_text {
+	display : block;
+	width: 100%;
+	min-height: 17px;
+	padding-right: 1px;
+	border: 0;
+	font-size: 14px;
+	resize: none;
+	box-sizing: border-box;
+	background: transparent;
+	outline: 0;
+	}

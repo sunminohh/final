@@ -54,7 +54,7 @@ public class AdminNoticeController {
     	NoticeList noticeList = noticeService.search(param);
     	model.addAttribute("result", noticeList);
     	
-        return "/view/admin/support/notice/list";
+        return "view/admin/support/notice/list";
     }
     
     @GetMapping("/list")
@@ -98,12 +98,12 @@ public class AdminNoticeController {
     	model.addAttribute("preNotice", preNotice);
     	model.addAttribute("nextNotice", nextNotice);
     	
-        return "/view/admin/support/notice/detail";
+        return "view/admin/support/notice/detail";
     }
     
     @GetMapping("/form")
     public String noticeForm() {
-    	return "/view/admin/support/notice/form";
+    	return "view/admin/support/notice/form";
     }
     
     @PostMapping("/add")
@@ -119,7 +119,7 @@ public class AdminNoticeController {
     	model.addAttribute("locations", noticeService.getLocations());
     	model.addAttribute("theaters", noticeService.getTheatesrByLocationNo(notice.getLocation().getNo()));
     	
-    	return "/view/admin/support/notice/modifyform";
+    	return "view/admin/support/notice/modifyform";
     }
     
     @PostMapping("/modify")

@@ -52,6 +52,27 @@ public class PartyBoardService {
 		partyBoardDao.insertPboard(board);
 	}
 	
+	public void updatePBoard (int no, AddPboardForm form) {
+		
+		PartyBoardSchedule schedule = PartyBoardSchedule.builder()
+				  .id(form.getScheduleId()).build();
+		PartyBoard board = partyBoardDao.getPBoardByNo(no);
+		board.setName(form.getName());
+		board.setContent(form.getContent());
+		board.setHeadCount(form.getHeadCount());
+		board.setGender(form.getGender());
+		board.setSchedule(schedule);
+		
+		partyBoardDao.updatePBoardByNo(board);
+	}
+	
+	public void deletePBoard (int no, String deleted) {
+	
+		PartyBoard board = partyBoardDao.getPBoardByNo(no);
+		board.setDeleted(deleted);
+		partyBoardDao.updatePBoardByNo(board);
+	}
+	
 	// 목록 관련
 	public PartyBoardList getPBoards(Map<String, Object> param) {
 		// pagination

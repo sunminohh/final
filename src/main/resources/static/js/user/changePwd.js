@@ -35,10 +35,9 @@ $(() => {
 
         const check = checkInput();
         if (!check) {
-            console.log(check);
             return false;
         }
-        console.log("pass");
+        // console.log("pass");
 
         $.ajax({
             url: "/user/info/update/password",
@@ -52,9 +51,7 @@ $(() => {
 
                     // 만약 다른 페이지로 이동 필요할 시
                     location.href = "/user/info/form";
-
                 });
-
             },
             error: function (e) {
                 errorAlert($pwd, e.responseText);
@@ -97,7 +94,7 @@ $(() => {
     // 입력 이벤트
     $("input[name='checkPassword']").keyup(() => {
         const pwdValue = $pwd.val();
-        if (pwdValue) {
+        if (!pwdValue) {
             pwdCheck = false;
         } else {
             pwdErrMsg.text("");
@@ -150,20 +147,16 @@ $(() => {
         }
     })
 
-    function handleAjaxError() {
-        Swal.fire({
-            icon: 'error',
-            text: "현재 비밀번호가 일치하지 않습니다.",
-        });
-    }
-
     // 경고창
     function errorAlert($el, text) {
         Swal.fire({
             icon: 'error',
             text: text,
+            didClose: () => {
+                $el.focus();
+            }
         });
-        $($el).focus();
+
     }
 
     function successAlert($el, text, callback) {

@@ -85,7 +85,7 @@ public class PartyController {
 			log.info(complete);
 			log.info(sort);
 			
-	        return "/view/board/party/list";
+	        return "view/board/party/list";
 		}
 
 	    // 게시물 등록 폼 관련
@@ -104,7 +104,7 @@ public class PartyController {
 	    	List<Movie> movies = movieBoardService.getMovieTitle();
 	    	model.addAttribute("movies", movies);
 	    	
-	        return "/view/board/party/form";
+	        return "view/board/party/form";
 	    }
 	    
 	    
@@ -207,7 +207,7 @@ public class PartyController {
 			model.addAttribute("notAccepts", notAcceptedJoins);
 			
 			log.info(partyBoard.getContent());
-			return "/view/board/party/detail";
+			return "view/board/party/detail";
 		}
 		
 		// 신청 버튼 관련
@@ -294,5 +294,37 @@ public class PartyController {
 			
 			return ResponseEntity.ok().build();
 		}
-	    
+		
+		// 게시물 수정
+		@GetMapping("/modify")
+	    public String modifyForm (@RequestParam("no") int no, Model model) {
+			List<BoardLocation> locations = theaterBoardService.getLocations();
+	    	model.addAttribute("locations", locations);
+	    	
+	    	List<Movie> movies = movieBoardService.getMovieTitle();
+	    	model.addAttribute("movies", movies);
+			
+	    	PartyBoard board = partyBoardService.getPBoardByNo(no);
+	    	model.addAttribute("board", board);
+	    	
+			return  "/view/board/party/modifyForm";
+		}
+		
+		@PostMapping("/modify")
+		public String modifyPBoard (@RequestParam("no") int no, AddPboardForm form) {
+			
+			partyBoardService.updatePBoard(no, form);
+			
+			return "redirect:/board/party/detail?no=" + no;
+		}
+		
+		// 게시물 삭제
+		@GetMapping("/delete")
+		public String deletePBoard (@RequestParam("no") int no) {
+			
+			String deleted = "Y";
+			partyBoardService.deletePBoard(no, deleted);
+			
+			return "redirect:/board/party/list";
+		}
 }

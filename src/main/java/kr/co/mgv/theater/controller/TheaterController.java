@@ -28,14 +28,14 @@ public class TheaterController {
 	
     @GetMapping({"/", "", "/list"})
     public String home() {
-        return "/view/theater/home";
+        return "view/theater/home";
     }
 
     @GetMapping("/detail")
     public String detail(@RequestParam(defaultValue = "1") int brchNo, Model model) {
     	Theater theater = theaterService.getTheaterDetail(brchNo);
     	model.addAttribute("theater", theater);
-        return "/view/theater/detail";
+        return "view/theater/detail";
     }
     
     @GetMapping("/theaterList")
