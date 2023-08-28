@@ -28523,7 +28523,7 @@ body.body-iframe .modal-layer2 {
     position: relative;
     float: left;
     width: 245px;
-    margin: 0 0 0 40px;
+    margin: 0 0 40px 40px;
     border-radius: 10px
 }
 
