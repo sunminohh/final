@@ -112,10 +112,15 @@ public class AdminOneController {
 		return ResponseEntity.ok().body(inputComments);
 	}
 	
-	
-	
-	
-	
+	@PostMapping("/deleteComment")
+	@ResponseBody
+	public ResponseEntity<Integer> deleteComment(@AuthenticationPrincipal User user,
+			@RequestParam("commentNo") int commentNo) {
+		
+		oneService.deleteComment(commentNo);
+		
+		return ResponseEntity.ok(commentNo);
+	}
 	
 	@GetMapping("/delete")
 	public String delete(@RequestParam("no") int oneNO, Model model) {
