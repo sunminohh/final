@@ -24,7 +24,7 @@ public class Product {
 	private String description;
 	private Date createDate;
 	private Date updateDate;
-	private int discount;
+	private int discountedPrice;
 	private Category category;
 	private String imagePath;
 

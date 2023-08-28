@@ -8,28 +8,28 @@
          PRODUCT_NAME,
          PRODUCT_PRICE,
          PRODUCT_STOCK,
-         PRODUCT_DISCOUNT,
+         PRODUCT_DISCOUNTED_PRICE,
          PRODUCT_DESCRIPTION,
          CAT_NO,
          PRODUCT_IMAGE
          )
         VALUES
-            (#{name}, #{price}, #{stock}, #{discount}, #{description}, #{category.no}, #{imagePath})
+            (#{name}, #{price}, #{stock}, #{discountedPrice}, #{description}, #{category.no}, #{imagePath})
     </insert>
 
     <select id="getProducts" resultType="Product">
         select
-            A.PRODUCT_NO              as no,
-            A.PRODUCT_NAME            as name,
-            A.PRODUCT_PRICE           as price,
-            A.PRODUCT_STOCK           as stock,
-            A.PRODUCT_SOLD_OUT        as soldOut,
-            A.PRODUCT_DESCRIPTION     as description,
-            A.PRODUCT_CREATE_DATE     as createDate,
-            A.PRODUCT_UPDATE_DATE     as updateDate,
-            B.CAT_NO                  as "category.no",
-            A.PRODUCT_DISCOUNT        as discount,
-            A.PRODUCT_IMAGE           as imagePath
+            A.PRODUCT_NO                    as no,
+            A.PRODUCT_NAME                  as name,
+            A.PRODUCT_PRICE                 as price,
+            A.PRODUCT_STOCK                 as stock,
+            A.PRODUCT_SOLD_OUT              as soldOut,
+            A.PRODUCT_DESCRIPTION           as description,
+            A.PRODUCT_CREATE_DATE           as createDate,
+            A.PRODUCT_UPDATE_DATE           as updateDate,
+            B.CAT_NO                        as "category.no",
+            A.PRODUCT_DISCOUNTED_PRICE      as discountedPrice,
+            A.PRODUCT_IMAGE                 as imagePath
         from
             MGV_PRODUCT A, MGV_PRODUCT_CATEGORY B
         where
@@ -40,17 +40,17 @@
 
     <select id="getProductByNo" parameterType="int" resultType="Product">
         select
-            A.PRODUCT_NO              as no,
-            A.PRODUCT_NAME            as name,
-            A.PRODUCT_PRICE           as price,
-            A.PRODUCT_STOCK           as stock,
-            A.PRODUCT_SOLD_OUT        as soldOut,
-            A.PRODUCT_DESCRIPTION     as description,
-            A.PRODUCT_CREATE_DATE     as createDate,
-            A.PRODUCT_UPDATE_DATE     as updateDate,
-            B.CAT_NO                  as "category.no",
-            A.PRODUCT_DISCOUNT        as discount,
-            A.PRODUCT_IMAGE           as imagePath
+            A.PRODUCT_NO                    as no,
+            A.PRODUCT_NAME                  as name,
+            A.PRODUCT_PRICE                 as price,
+            A.PRODUCT_STOCK                 as stock,
+            A.PRODUCT_SOLD_OUT              as soldOut,
+            A.PRODUCT_DESCRIPTION           as description,
+            A.PRODUCT_CREATE_DATE           as createDate,
+            A.PRODUCT_UPDATE_DATE           as updateDate,
+            B.CAT_NO                        as "category.no",
+            A.PRODUCT_DISCOUNTED_PRICE      as discountedPrice,
+            A.PRODUCT_IMAGE                 as imagePath
         from
             MGV_PRODUCT A, MGV_PRODUCT_CATEGORY B
         where
@@ -61,17 +61,17 @@
 
     <select id="getProductByCatNo" parameterType="int" resultType="Product">
         select
-            A.PRODUCT_NO              as no,
-            A.PRODUCT_NAME            as name,
-            A.PRODUCT_PRICE           as price,
-            A.PRODUCT_STOCK           as stock,
-            A.PRODUCT_SOLD_OUT        as soldOut,
-            A.PRODUCT_DESCRIPTION     as description,
-            A.PRODUCT_CREATE_DATE     as createDate,
-            A.PRODUCT_UPDATE_DATE     as updateDate,
-            B.CAT_NO                  as "category.no",
-            A.PRODUCT_DISCOUNT        as discount,
-            A.PRODUCT_IMAGE           as imagePath
+            A.PRODUCT_NO                    as no,
+            A.PRODUCT_NAME                  as name,
+            A.PRODUCT_PRICE                 as price,
+            A.PRODUCT_STOCK                 as stock,
+            A.PRODUCT_SOLD_OUT              as soldOut,
+            A.PRODUCT_DESCRIPTION           as description,
+            A.PRODUCT_CREATE_DATE           as createDate,
+            A.PRODUCT_UPDATE_DATE           as updateDate,
+            B.CAT_NO                        as "category.no",
+            A.PRODUCT_DISCOUNTED_PRICE      as discountedPrice,
+            A.PRODUCT_IMAGE                 as imagePath
         from
             MGV_PRODUCT A, MGV_PRODUCT_CATEGORY B
         where
