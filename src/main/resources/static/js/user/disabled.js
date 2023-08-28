@@ -99,12 +99,12 @@ $(() => {
             return false;
         }
 
-        if (etcRadio == true && !etcText) {
+        if (etcRadio && !etcText) {
             errorAlert($etcText, "기타 항목은 입력하셔야 합니다.");
             return false;
         }
 
-        if (!korReg.test(etcText)) {
+        if (etcRadio && !korReg.test(etcText)) {
             Swal.fire({
                 icon: 'error',
                 title: "기타",
