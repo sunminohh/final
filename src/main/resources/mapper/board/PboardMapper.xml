@@ -261,6 +261,8 @@
 				A.board_comment_count	as commentCount,
 				A.board_read_count		as readCount,
 				A.PARTY_COMPLETE		as complete,
+				A.board_report			as report,
+				A.board_report_count	as reportCount,
 				A.REQUEST_COUNT			as requestCount,
 				A.ACCEPT_COUNT			as acceptCount,
 				B.schedule_id			as "schedule.id",
@@ -354,6 +356,21 @@
 			where 
 				party_no = ${value}
     </select>
-
     
+    <insert id="insertPboardReport" parameterType="kr.co.mgv.board.vo.PBoardReport">
+    	INSERT PBOARD_REPORT
+		(REPORT_REASON, REASON_NO, PARTY_NO, USER_ID)
+		VALUES(#{reasonContent}, #{reason.no}, #{board.no}, #{user.id});
+    </insert>
+    
+   	<select id="getSboardReportById" parameterType="String" resultType="kr.co.mgv.board.vo.PBoardReport">
+		SELECT 
+			report_NO as no, 
+			REPORT_REASON as reasonContent, 
+			REASON_NO as "reason.no", 
+			PARTY_NO as "board.no", 
+			USER_ID as "user.id"
+		FROM PBOARD_REPORT
+		where user_id = #{value};
+	</select>
 </mapper>

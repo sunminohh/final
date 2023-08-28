@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import kr.co.mgv.board.vo.PBoardReport;
 import kr.co.mgv.board.vo.PartyBoard;
 import kr.co.mgv.board.vo.PartyBoardSchedule;
 import kr.co.mgv.board.vo.PartyJoin;
@@ -33,4 +34,7 @@ public interface PartyBoardDao {
 	List<PartyJoin> getJoinByPnoAndAccept(PartyJoin join);
 	void updateJoin (PartyJoin join);
 	int getAcceptCount (int no);
+	
+	// 신고관련
+	void insertPboardReport(PBoardReport report);
 }
