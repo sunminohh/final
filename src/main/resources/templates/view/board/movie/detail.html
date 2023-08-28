@@ -167,7 +167,7 @@
                   </div>
                      <div class="col-sm-1 d-flex justify-content-end pt-0" sec:authorize="isAuthenticated()">
                         
-                        <a th:href="@{/board/party/deleteGreatComment}"
+                        <a th:href="@{/board/movie/deleteGreatComment}"
                            class="btn btn-link btn-sm text-danger text-decoration-none"
                            sec:authorize="isAuthenticated()"
                              th:if="${#authentication.principal.id == comment.user.id}"
@@ -210,7 +210,7 @@
                         </div>
                            <div class="col-sm-1 d-flex justify-content-end pt-0" sec:authorize="isAuthenticated()">
                               <input type="hidden" name="userId" th:value="${#authentication.principal.id}">
-                              <a th:href="@{/board/party/deleteReComment}" 
+                              <a th:href="@{/board/movie/deleteReComment}" 
                                  class="btn btn-link btn-sm text-danger text-decoration-none"
                                  sec:authorize="isAuthenticated()"
                                  id="delete-reComment-btn"
