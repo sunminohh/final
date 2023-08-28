@@ -381,7 +381,7 @@ $(function () {
                   const parents = commentList.parentComments;
                   const childs = commentList.childComments;
                   // 성공 시 새로운 댓글 목록을 업데이트                  
-                  let content;
+                  let content = `<div class="comment-box">`;
 				  let childContent;
                     parents.forEach(function(comment) {
 	                  // 주어진 날짜 문자열
@@ -445,7 +445,7 @@ $(function () {
 						 
 						 if (childs !== null && comment.no == child.great.no){
 						 content += `
-						  <div class="re-comment-box-loop">
+						  <div class="re-comment-box-loop" id="re-comment-box-${comment.no}">
 							  <div class=" row child-comment-box">
 							 	<div class="p-1 offset-1 col-11 pt-2" id="comment-box" >
 			                        <div class="d-flex justify-content-between" id="child-comment-here">
@@ -491,6 +491,7 @@ $(function () {
 						 `
 						 }
 					 })
+					 content += `</div>`
 					});                
                        $("#all-comment-box").html(content);
                    			
@@ -540,7 +541,7 @@ $(function () {
                   const parents = commentList.parentComments;
                   const childs = commentList.childComments;
                   // 성공 시 새로운 댓글 목록을 업데이트                  
-                  let content;
+                  let content = `<div class="comment-box">`;
                     parents.forEach(function(comment) {
 	                  // 주어진 날짜 문자열
 	                  const originalDateString = comment.createDate;
@@ -602,7 +603,7 @@ $(function () {
 						 
 						 if (childs !== null && comment.no == child.great.no){
 						 content += `
-						  <div class="re-comment-box-loop">
+						  <div class="re-comment-box-loop" id="re-comment-box-${comment.no}">
 							  <div class=" row child-comment-box">
 							 	<div class="p-1 offset-1 col-11 pt-2" id="comment-box" >
 			                        <div class="d-flex justify-content-between" id="child-comment-here">
@@ -648,6 +649,7 @@ $(function () {
 						 `
 						 }
 					 })
+ 					 content += `</div>`
 					});                
                        $("#all-comment-box").html(content);
                    			
@@ -669,6 +671,44 @@ $(function () {
           }   
       });
       
+      // 댓글 삭제
+      $("#all-comment-box").on('click', '#delete-comment-btn', function(event) {
+		    event.preventDefault();
+		    let $that = $(this);
+		    let thisCommentNo = $that.closest(".great-box").find('input[name=greatCommentNo]').val();
+			console.log(thisCommentNo);
+		    let requestData = {
+		        no: $("input[name=no]").val(),
+		        greatCommentNo: $that.closest('.great-box').find("input[name=greatCommentNo]").val()
+		    };
+		
+		
+		    Swal.fire({
+		        icon: 'warning',
+		        title: '정말 삭제하시겠습니까?',
+		        showCancelButton: true,
+		        confirmButtonText: '네',
+		        cancelButtonText: '아니오',
+		    }).then((result) => {
+		        if (result.isConfirmed) {
+		            $.ajax({
+		                url: '/board/party/deleteGreatComment', // 변경된 엔드포인트
+		                method: 'POST',
+		                contentType: 'application/json',
+		                data: JSON.stringify(requestData),
+		                success: function(commentCount) {
+		                    // 삭제 후의 댓글 수를 받아와서 업데이트
+		                    $('#ajax-comment-count').text(commentCount);
+		                    $("#ajax-comment-count-2").text(commentCount);
+		                    $that.closest('.great-box').remove();
+		                    $("[id^="+'re-comment-box-'+thisCommentNo+"]").remove();
+		                }
+		            });
+		        } else if (result.dismiss === Swal.DismissReason.cancel) {
+		            // 취소 버튼 클릭 시
+		        }
+		    });
+		});
       
       
       // 퀵메뉴 (위로)

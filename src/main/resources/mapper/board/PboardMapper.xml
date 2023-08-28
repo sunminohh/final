@@ -423,4 +423,19 @@
 		order by A.comment_create_date;
 	</select>
 	
+	<select id="getTotalChildCount" parameterType="int" resultType="int">
+		select count(*)
+		from PARTY_BOARD_COMMENT
+		where great_comment_no = #{value}
+	</select>
+	
+	<delete id="deleteComment" parameterType="int">
+		DELETE FROM PARTY_BOARD_COMMENT
+		WHERE COMMENT_NO= #{value};
+	</delete>
+	
+	<delete id="deleteChildComments" parameterType="int">
+		DELETE FROM PARTY_BOARD_COMMENT
+		WHERE GREAT_COMMENT_NO= #{value};
+	</delete>	
 </mapper>

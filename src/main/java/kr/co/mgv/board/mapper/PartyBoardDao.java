@@ -44,5 +44,8 @@ public interface PartyBoardDao {
 	void insertPBoardComment(PBoardComment comment);
 	List<PBoardComment> getPBoardComments(int no);
 	List<PBoardComment> getPBoardChildComments(int no);
+	int getTotalChildCount(int boardNo);
+	void deleteComment(int commentNo);
+	void deleteChildComments(int greatNo);
 	
 }

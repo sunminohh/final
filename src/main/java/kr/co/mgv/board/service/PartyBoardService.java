@@ -161,11 +161,6 @@ public class PartyBoardService {
 		partyBoardDao.updateJoin(join);
 	}
 
-	public void resetJoin (int no, String id) {
-		PartyBoard board = PartyBoard.builder().no(no).build();
-		User user = User.builder().id(id).build();
-		PartyJoin join = PartyJoin.builder().board(board).user(user).accept("N").build();
-	}
 	
 	public void updateAcceptCount (int no, int AcceptCount) {
 		PartyBoard board = partyBoardDao.getPBoardByNo(no);
@@ -235,5 +230,17 @@ public class PartyBoardService {
 		PartyBoard board = partyBoardDao.getPBoardByNo(no);
 		board.setCommentCount(commentCount);
 		partyBoardDao.updatePBoardByNo(board);
+	}
+	
+	public int getTotalChildCount(int boardNo) {
+		return partyBoardDao.getTotalChildCount(boardNo);
+	}
+	
+	public void deleteComment(int commentNo) {
+		partyBoardDao.deleteComment(commentNo);
+	}
+	
+	public void deleteChildComments (int greatNo) {
+		partyBoardDao.deleteChildComments(greatNo);
 	}
 }
