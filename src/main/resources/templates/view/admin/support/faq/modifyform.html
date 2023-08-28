@@ -14,7 +14,7 @@
 </head>
 <title>관리자페이지</title>
 </head>
-<div id="contents" layout:fragment="content">
+<div id="contents" layout:fragment="content" style="margin-top: -40px;">
     <h2 class="tit">자주 묻는 질문</h2>
 
     <form id="modifyform" name="regFrm" method="post" th:action="@{/admin/support/faq/modify(no=${faq.no})}" enctype="multipart/form-data">
@@ -52,7 +52,7 @@
 	                                class="form-select form-select-sm  ml07 form-control-sm mb-3"
 	                                style="width: 150px; float:left">
 	                            <option value="" selected disabled>카테고리 선택</option>
-	                            <option  th:each="cat: ${categories}" th:value="${cat.no}" th:text="${cat.name}" th:selected="${cat.no == faq.category.no}"></option>
+	                            <option th:each="cat: ${categories}" th:value="${cat.no}" th:text="${cat.name}" th:selected="${cat.no == faq.category.no}"></option>
 	                        </select>
                     	</div>
                     </td>

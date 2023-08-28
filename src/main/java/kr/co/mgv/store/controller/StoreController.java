@@ -34,7 +34,7 @@ public class StoreController {
     	model.addAttribute("categories", categories);
         model.addAttribute("products", products);
         model.addAttribute("packages", packages);
-        return "/view/store/home";
+        return "view/store/home";
     }
 
     @GetMapping("/detail/product")

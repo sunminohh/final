@@ -35,7 +35,7 @@ public class FaqController {
 		
 		model.addAttribute("result", faqList);
 		
-		return "/view/support/faq/list";
+		return "view/support/faq/list";
 	}
 	
 	@GetMapping("/list")

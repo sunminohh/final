@@ -97,7 +97,7 @@ public class StoreBoardController {
 		// model에 조회한 리스트 담기
 		model.addAttribute("result", result);
 		
-        return "/view/board/store/list";
+        return "view/board/store/list";
     }
 
     @GetMapping("/productByCatNo")
@@ -160,7 +160,7 @@ public class StoreBoardController {
 		List<ReportReason> reportReasons = movieBoardService.getReportReason();
 		model.addAttribute("reasons", reportReasons);
     	
-    	return "/view/board/store/detail";
+    	return "view/board/store/detail";
     }
 
     // 좋아요 관련
@@ -325,7 +325,7 @@ public class StoreBoardController {
     	List<BoardCategory> categories = storeBoardService.getCategories();
     	model.addAttribute("categories", categories);
     	
-        return "/view/board/store/form";
+        return "view/board/store/form";
     }
     
     @PostMapping("/add")
@@ -343,7 +343,7 @@ public class StoreBoardController {
     	StoreBoard savedBoard = storeBoardService.getStoreBoardByNo(no);
     	model.addAttribute("board", savedBoard);
     	
-    	return "/view/board/store/modifyForm";
+    	return "view/board/store/modifyForm";
     }
     
     @PostMapping("/modify")

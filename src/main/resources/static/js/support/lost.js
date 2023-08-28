@@ -8,6 +8,8 @@ $(function() {
 	}
 	
 	// 폼에서 지역조회
+	$("#theater").prop("disabled", true);
+	
 	let $selectLocation = $("#location").empty();
 	$selectLocation.append(`<option value="" selected>지역선택</option>`)
 	

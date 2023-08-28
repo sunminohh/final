@@ -14,17 +14,17 @@ public class HomeCotroller {
 
     @RequestMapping({"/", ""})
     public String home() {
-        return "/view/support/home";
+        return "view/support/home";
     }
     
 
     @GetMapping("/terms")
     public String terms() {
-        return "/view/support/terms/list";
+        return "view/support/terms/list";
     }
 
     @GetMapping("/privacy")
     public String privacy() {
-        return "/view/support/privacy-policy/list";
+        return "view/support/privacy-policy/list";
     }
 }

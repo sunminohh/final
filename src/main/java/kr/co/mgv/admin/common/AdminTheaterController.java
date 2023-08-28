@@ -27,17 +27,22 @@ public class AdminTheaterController {
 	
     @GetMapping("/list")
     public String list() {
-        return "/view/admin/theater/list";
+        return "view/admin/theater/list";
     }
     
     @GetMapping("/schedule/register")
     public String form() {
-        return "/view/admin/theater/schedule/form";
+        return "view/admin/theater/schedule/form";
     }
     
     @GetMapping("/schedule/delete")
     public String deleteForm() {
-    	return "/view/admin/theater/schedule/deleteForm";
+    	return "view/admin/theater/schedule/deleteForm";
+    }
+    
+    @GetMapping("/regist")
+    public String registForm() {
+    	return "view/admin/theater/form/regist";
     }
     
     @GetMapping("/detail")
@@ -50,7 +55,7 @@ public class AdminTheaterController {
     @GetMapping("/schedule/list")
     public String scheduleList(Model model,@RequestParam int theaterNo) {
     	model.addAttribute("theaterNo", theaterNo);
-    	return "/view/admin/theater/schedule/list";
+    	return "view/admin/theater/schedule/list";
     }
     
     @GetMapping("/theaterList")

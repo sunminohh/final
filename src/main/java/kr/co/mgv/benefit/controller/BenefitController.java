@@ -12,12 +12,12 @@ public class BenefitController {
 
     @GetMapping({"", "/"})
     public String membershipHome() {
-        return "/view/benefit/membership";
+        return "view/benefit/membership";
     }
 
     @GetMapping("/discount")
     public String discountHome() {
-        return "/view/benefit/discount";
+        return "view/benefit/discount";
     }
 
 }

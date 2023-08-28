@@ -96,7 +96,7 @@ public class TheaterBoardController {
 		model.addAttribute("result", result);
 		
 		
-        return "/view/board/theater/list";
+        return "view/board/theater/list";
     }
 
     
@@ -163,7 +163,7 @@ public class TheaterBoardController {
 		List<ReportReason> reportReasons = movieBoardService.getReportReason();
 		model.addAttribute("reasons", reportReasons);
 		
-		return "/view/board/theater/detail";
+		return "view/board/theater/detail";
 	}
 
 	@PostMapping("/changelike")
@@ -205,7 +205,7 @@ public class TheaterBoardController {
     	List<BoardLocation> locations = theaterBoardService.getLocations();
     	model.addAttribute("locations", locations);
     	
-        return "/view/board/theater/form";
+        return "view/board/theater/form";
     }
     
     
@@ -230,7 +230,7 @@ public class TheaterBoardController {
 	TheaterBoard savedBoard = theaterBoardService.getTheaterBoardByNo(no);
 	model.addAttribute("board", savedBoard);
 	
-	return "/view/board/theater/modifyForm";
+	return "view/board/theater/modifyForm";
 	}
     
     @PostMapping("/modify")

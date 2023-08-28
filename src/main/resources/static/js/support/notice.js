@@ -112,13 +112,15 @@ $(function() {
 				   `);
 			} else {
 				 const tbodyHtml = noticeList.map(function(notice, index) {
+					 
 					return `
 				<tr>
 	                <td>${notice.no}</td>
-	                <td>${notice.theater.name == null ? 'MGV' : notice.theater.name}</td>
+	                <td>${notice.theater == null || notice.theater.name == null ? 'MGV' : notice.theater.name}</td>
 	                <td>${notice.type == '공지' ? '공지' : '이벤트'}</td>
 	                <td style="text-align:left;">
-				            	<a class="text-black text-decoration-none"
+				            	<a class="text-black text-decoration-none
+	                	d-inline-block text-truncate" style="max-width: 400px;"
 				            		href="/support/notice/detail?no=${notice.no}"
 				            		data-no="${notice.no}">
 				            		${notice.title}

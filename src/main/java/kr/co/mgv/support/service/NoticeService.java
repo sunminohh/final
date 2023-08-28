@@ -1,6 +1,7 @@
 package kr.co.mgv.support.service;
 
 import java.util.List;
+
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
@@ -8,10 +9,14 @@ import org.springframework.stereotype.Service;
 import kr.co.mgv.support.dao.NoticeDao;
 import kr.co.mgv.support.dao.SupportDao;
 import kr.co.mgv.support.dto.NoticeList;
+import kr.co.mgv.support.form.AddNoticeForm;
+import kr.co.mgv.support.form.ModifyNoticeForm;
 import kr.co.mgv.support.vo.Notice;
+import kr.co.mgv.support.vo.SupportCategory;
 import kr.co.mgv.support.vo.SupportPagination;
 import kr.co.mgv.theater.vo.Location;
 import kr.co.mgv.theater.vo.Theater;
+import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -20,6 +25,78 @@ public class NoticeService {
 
 	private final NoticeDao noticeDao;
 	private final SupportDao supportDao;
+	
+	public void insertNotice(AddNoticeForm form, User user) {
+		
+		Location location = null;
+		if (form.getLocationNo() != null) {
+				location = Location.builder()
+					.no(form.getLocationNo())
+					.build();
+	    }
+		
+		Theater theater = null;
+	    if (form.getTheaterNo() != null) {
+	    	  	theater = Theater.builder()
+						.no(form.getTheaterNo())
+						.build();
+	    }
+
+	    SupportCategory category = SupportCategory.builder()
+							.no(form.getCategoryNo())
+							.build();
+	    
+	    Notice notice = Notice.builder()
+	    					.user(user)
+	    					.location(location)
+	    					.theater(theater)
+	    					.category(category)
+	    					.type(form.getNoticeType())
+	    					.title(form.getTitle())
+	    					.content(form.getContent())
+	    					.build();
+	    
+	    noticeDao.insertNotice(notice);
+	}
+	
+	public void modifyNotice(ModifyNoticeForm form, int noticeNo) {
+		Notice notice = noticeDao.getNoticeByNo(noticeNo);
+		
+		Location location = null;
+		if (form.getLocationNo() != null) {
+				location = Location.builder()
+					.no(form.getLocationNo())
+					.build();
+	    }
+		
+		Theater theater = null;
+	    if (form.getTheaterNo() != null) {
+	    	  	theater = Theater.builder()
+						.no(form.getTheaterNo())
+						.build();
+	    }
+
+	    SupportCategory category = SupportCategory.builder()
+							.no(form.getCategoryNo())
+							.build();
+	    
+	    notice.setNo(noticeNo);
+	    notice.setTitle(form.getTitle());
+	    notice.setContent(form.getContent());
+	    notice.setType(form.getNoticeType());
+	    notice.setLocation(location);
+	    notice.setTheater(theater);
+	    notice.setCategory(category);
+	    
+		noticeDao.updateNoticeByNo(notice);
+	}
+	
+	public void deleteNotice(int noticeNo) {
+		Notice notice = noticeDao.getNoticeByNo(noticeNo);
+		notice.setDeleted("Y");
+		
+		noticeDao.updateNoticeByNo(notice);
+	}
 	
 	public NoticeList search(Map<String, Object> param) {
 		
@@ -54,7 +131,7 @@ public class NoticeService {
 		return noticeDao.getNextNotice(noticeNo);
 	}
 	
-	public List<Location> getloLocations() {
+	public List<Location> getLocations() {
 		return supportDao.getLocations();
 	}
 	

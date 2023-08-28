@@ -2,20 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:fragment="config">
-    <script>
-        $(() => {
-            $(".btn-my-anonymous").on("click", function (e) {
-                e.preventDefault();
-                $(".btn-login").trigger("click");
-            });
-            $("#vip").click(function () {
-                Swal.fire({
-                    icon: 'warning',
-                    text: '서비스 준비 중 입니다.'
-                })
-            });
-        });
-    </script>
+    <script th:src="@{/js/common/header.js}"></script>
 </head>
 <body>
 <header id="header"
@@ -101,16 +88,12 @@
 <!--        <a href="" class="header-open-layer btn-layer-sitemap" title="사이트맵">사이트맵</a>-->
 <!--        <a href="" class="header-open-layer btn-layer-search" title="검색">검색</a>-->
 <!--        <a href="" class="link-ticket" title="상영시간표">상영시간표</a>-->
-        <!--        <a th:href="@{/user/info/home}" class="btn-layer-mymgv" title="나의 MGV">나의 MGV</a>-->
         <a sec:authorize="isAuthenticated()" th:href="@{/user/info}" class="btn-layer-mymgv" title="나의 MGV">나의 MGV</a>
         <a sec:authorize="isAnonymous()" href="#" class="btn-layer-mymgv btn-my-anonymous" title="나의 MGV">나의 MGV</a>
+        <!-- todo 탈퇴 로그인 -->
     </div>
 
     <!-- gnb -->
-    <!--
-        2019-04-15 마크업 수정 : 고객요청
-        1뎁스 a 태그에 각각 다른 class 추가
-    -->
 
     <nav id="gnb">
         <ul class="gnb-depth1">
@@ -131,7 +114,7 @@
                 </div>-->
             </li>
             <li><a th:href="@{/theater}" class="gnb-txt-theater">극장</a></li>
-            <li><a th:href="@{/board/theater/list}" class="gnb-txt-board">게시판</a>
+            <li><a th:href="@{/board/movie/list}" class="gnb-txt-board">게시판</a>
                 <div class="gnb-depth2">
                     <ul>
                         <li><a th:href="@{/board/movie/list}">영화</a></li>
@@ -274,8 +257,6 @@
     <!--// 레이어 : 검색 -->
 
     <!-- 레이어 : 마이페이지 -->
-
-
     <div id="layer_mymega2" class="header-layer layer-mymege2">
         <a href="" class="ir" title="나의 메가박스 레이어 입니다.">나의 MGV 레이어 입니다.</a>
 

@@ -45,7 +45,9 @@
             </tr>
             <tr>
                 <th scope="row">수정일자</th>
-                <td><span th:text="|회원정보 마지막 변경: ${minDate} 일전에 함 (${#dates.format(user.updateDate, 'yyyy-MM-dd HH:mm:ss')})|"></span></td>
+                <td>
+                    <span th:text="|회원정보 마지막 변경: ${minDate} 일전에 함 (${#dates.format(user.updateDate, 'yyyy-MM-dd HH:mm:ss')})|"></span>
+                </td>
             </tr>
             </tbody>
         </table>
@@ -60,7 +62,7 @@
     </div>
 
     <form id="action-form" method="post" th:action="@{/user/info/update}">
-        <input type="hidden" name="id" value="${loginId}">
+        <input type="hidden" name="id" th:value="${user.id}">
 
         <input type="hidden" name="zipcode" th:value="${user.zipcode}">
         <input type="hidden" name="address" th:value="${user.address}">

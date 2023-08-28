@@ -2,6 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="kr.co.mgv.support.dao.OneDao">
 
+	<select id="getOneCommentByOne" parameterType="int" resultType="kr.co.mgv.support.vo.OneComment">
+		SELECT 
+			COMMENT_NO 				as no, 
+			COMMENT_CONTENT 		as content, 
+			COMMENT_DELETED 		as deleted, 
+			COMMENT_CREATE_DATE 	as createDate, 
+			ONE_NO 					as "one.no", 
+			USER_ID 				as "user.id"
+		FROM 
+			MGV_ONE_COMMENT
+		where one_no = #{value}
+			  and comment_deleted = 'N'
+	</select>
+	
+	<update id="deleteComment" parameterType="kr.co.mgv.support.vo.OneComment">
+		UPDATE 
+			MGV_ONE_COMMENT
+		SET 
+			COMMENT_DELETED= #{deleted} 
+		WHERE 
+			COMMENT_NO= #{no}
+	</update>
+
+	<insert id="insertComment" parameterType="kr.co.mgv.support.vo.OneComment">
+	insert into MGV_ONE_COMMENT
+	(comment_content, one_no, user_id)
+	values
+		(#{content}, #{one.no}, #{user.id});
+	</insert>
+
 	<insert id="insertOne" parameterType="kr.co.mgv.support.vo.One">
 		insert into MGV_SUPPORT_ONE
 		(one_title, one_content,
@@ -64,6 +94,17 @@
 			<if test="keyword != null">
 				and A.ONE_TITLE like  CONCAT('%', #{keyword}, '%')	
 			</if>
+			<choose>
+				<when test="categoryNo == 24">
+					and A.category_no in (11, 12, 13, 14, 15,16, 17, 18, 19, 20)
+				</when>
+				<when test="categoryNo == 25">
+					and A.category_no in (11, 12, 13, 14, 15,16)
+				</when>
+				<when test="categoryNo == 26">
+					and A.category_no in (17, 18, 19, 20)
+				</when>
+			</choose>
 	</select>
 	
 	<select id="getOnes" parameterType="map" resultType="kr.co.mgv.support.vo.One">
@@ -106,6 +147,17 @@
 			<if test="keyword != null">
 				and A.ONE_TITLE like  CONCAT('%', #{keyword}, '%')	
 			</if>
+			<choose>
+				<when test="categoryNo == 24">
+					and A.category_no in (11, 12, 13, 14, 15,16, 17, 18, 19, 20)
+				</when>
+				<when test="categoryNo == 25">
+					and A.category_no in (11, 12, 13, 14, 15,16)
+				</when>
+				<when test="categoryNo == 26">
+					and A.category_no in (17, 18, 19, 20)
+				</when>
+			</choose>
 		order by
 			A.ONE_NO DESC
 		LIMIT 10 OFFSET #{begin}

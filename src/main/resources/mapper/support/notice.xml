@@ -2,6 +2,48 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="kr.co.mgv.support.dao.NoticeDao">
 
+	<insert id="insertNotice" parameterType="kr.co.mgv.support.vo.Notice">
+		insert into MGV_SUPPORT_NOTICE
+			(notice_title, notice_content, user_id, 
+			location_no, theater_no, category_no, notice_type)
+		values
+			(#{title}, #{content}, #{user.id}, 
+			#{location.no}, #{theater.no}, #{category.no}, #{type})
+	</insert>
+	
+	<update id="updateNoticeByNo" parameterType="kr.co.mgv.support.vo.Notice">
+		UPDATE 
+			MGV_SUPPORT_NOTICE
+		<set>
+			<if test="title != null">
+				notice_title = #{title},
+			</if>
+			<if test="content != null">
+				NOTICE_CONTENT = #{content},
+			</if>
+			<if test="deleted != null">
+				NOTICE_DELETED = #{deleted},
+			</if>
+			<if test="updateDate != null">
+				NOTICE_UPDATE_DATE = #{updateDate},
+			</if>
+			<if test="location != null">
+				location_no = #{location.no},
+			</if>
+			<if test="theater != null">
+				theater_no = #{theater.no},
+			</if>
+			<if test="category != null">
+				CATEGORY_NO = #{category.no},
+			</if>
+			<if test="type != null">
+				notice_type = #{type}
+			</if>
+		</set> 
+		WHERE 
+			NOTICE_NO= #{no}
+	</update>
+
 	<select id="getTotalRows" parameterType="map" resultType="int">
 		select count(*)
 		FROM 

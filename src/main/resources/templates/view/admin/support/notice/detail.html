@@ -6,18 +6,18 @@
 	<script type="text/javascript" th:src="@{/js/support/common.js}"></script>
 	<script type="text/javascript" th:src="@{/js/admin/support/adminnotice.js}"></script>
 </head>
-<div id="contents" layout:fragment="content">
+<div id="contents" layout:fragment="content" style="margin-top: -40px;">
     <h2 class="tit">공지사항</h2>
 
      <div class="table-wrap">
         <div class="board-view">
            <div class="tit-area">
-			    <p class="tit" th:text="${notice.theater.name == null ? '[MGV] ' + notice.title : '[지점] ' + '['+ notice.theater.name + '] ' + notice.title}">
+			    <p class="tit" th:text="${notice.theater == null || notice.theater.name == null ? '[MGV] ' + notice.title : '[지점] ' + '['+ notice.theater.name + '] ' + notice.title}">
 			    </p>
 			</div>
 
             <div class="info">
-             	<p th:if="${notice.theater.name != null}">
+             	<p th:if="${notice.theater != null && notice.theater.name != null}">
 				    <span class="tit">영화관</span>
 				    <span class="txt" th:text="${notice.theater.name}"></span>
 				</p>
@@ -32,7 +32,7 @@
             </div>
 
             <div class="cont">
-            	<p th:text=${notice.content}>
+            	<p th:utext=${notice.content}>
             	
             	</p>
             </div>
@@ -56,7 +56,11 @@
     </div>
 
     <div class="btn-group pt40" style="display: block;">
+       	<a id = "modify-btn" class="button large" 
+       		th:href="@{/admin/support/notice/modifyform(no=${param.no})}">수정</a>
         <button class="button large listBtn" title="목록" onclick="document.querySelector('#form').submit();">목록</button>
+       	<a id = "delete-btn" class="button large" 
+       		th:href="@{/admin/support/notice/delete(no=${param.no})}">삭제</a>
     </div>
     
     <form id="form" method="post" action="/admin/support/notice">

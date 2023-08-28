@@ -9,7 +9,7 @@
 </head>
 <title>관리자페이지</title>
 </head>
-	<div layout:fragment="content" id="contents">
+	<div layout:fragment="content" id="contents" style="margin-top: -40px;">
 	    <div class="d-flex justify-content-between">
 		    <h2 class="tit">자주 묻는 질문</h2>
 	        <a href="/admin/support/faq/form" class="button purple" title="자주 묻는 질문 등록">등록</a>
@@ -45,6 +45,7 @@
 	        </ul>
 	    </div>
 	
+		<p class="reset mb10"><strong><span id="totalTitle">전체</span> <span class="font-green" id="totalCnt" th:text="${result.pagination.totalRows}"></span>건</strong></p>
 	  <div class="table-wrap">
         <table class="board-list" id="table-faq">
             <colgroup>
@@ -94,9 +95,9 @@
 				    </li>
 				    <li class="page-item" th:if="${result.pagination.currentBlock > 1}">
 				        <a title="이전 10페이지 보기"
-				           th:href="@{list(page=${(pagination.currentBlock -1)* 10})}"
+				           th:href="@{list(page=${(result.pagination.currentBlock -1)* 10})}"
 				           class="page-link page-number-link control prev"
-				           th:attr="data-page=${(pagination.currentBlock -1)* 10}"></a>
+				           th:attr="data-page=${(result.pagination.currentBlock -1)* 10}"></a>
 				    </li>
 				    <li class="page-item" th:each="num : ${result.pagination.pageNumbers}">
                         <a th:href="@{list(page=${num})}" 

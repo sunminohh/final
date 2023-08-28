@@ -34,7 +34,7 @@ public class MovieController {
         if(user!=null) {
             model.addAttribute("likedMovies", movieService.getAllLikedMovieNos(user.getId()));
         }
-        return "/view/movie/list";
+        return "view/movie/list";
     }
 
     @GetMapping("/detail")
@@ -43,12 +43,12 @@ public class MovieController {
         if(user!=null){
             model.addAttribute("isLiked",movieService.isMovieLikedByUser(new MovieLike(user.getId(),movieNo)));
         }else model.addAttribute("isLiked",false);
-        return "/view/movie/detail";
+        return "view/movie/detail";
     }
 
     @GetMapping("/post")
     public String moviePost() {
-        return "/view/movie/post";
+        return "view/movie/post";
     }
 
     @GetMapping("/test")
