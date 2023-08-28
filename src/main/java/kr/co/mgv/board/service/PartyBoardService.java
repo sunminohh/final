@@ -7,13 +7,18 @@ import org.springframework.stereotype.Service;
 
 import kr.co.mgv.board.BoardPagination;
 import kr.co.mgv.board.form.AddPboardForm;
+import kr.co.mgv.board.form.ReportForm;
 import kr.co.mgv.board.list.PartyBoardList;
 import kr.co.mgv.board.mapper.PartyBoardDao;
 import kr.co.mgv.board.mapper.TheaterBoardDao;
 import kr.co.mgv.board.vo.BoardLocation;
+import kr.co.mgv.board.vo.PBoardReport;
 import kr.co.mgv.board.vo.PartyBoard;
 import kr.co.mgv.board.vo.PartyBoardSchedule;
 import kr.co.mgv.board.vo.PartyJoin;
+import kr.co.mgv.board.vo.ReportReason;
+import kr.co.mgv.board.vo.SboardReport;
+import kr.co.mgv.board.vo.StoreBoard;
 import kr.co.mgv.schedule.vo.Schedule;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
@@ -175,5 +180,40 @@ public class PartyBoardService {
 		PartyBoard board = partyBoardDao.getPBoardByNo(no);
 		board.setComplete("Y");
 		partyBoardDao.updatePBoardByNo(board);
+	}
+	
+	// 신고관련
+	public void insertReport (ReportForm form, User user) {
+		
+		try {
+			PartyBoard board = partyBoardDao.getPBoardByNo(form.getBoardNo());
+			ReportReason reason = ReportReason.builder().no(form.getReasonNo()).build();
+			
+			PBoardReport report = PBoardReport
+								  .builder()
+								  .user(user)
+								  .reasonContent(form.getReasonContent())
+								  .board(board)
+								  .reason(reason).build();
+			partyBoardDao.insertPboardReport(report);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void updateReport (int no, String report) {
+		PartyBoard board = partyBoardDao.getPBoardByNo(no);
+		board.setReport(report);
+		partyBoardDao.updatePBoardByNo(board);
+	}
+
+	public void updateReportCount (int no, int reportCount) {
+		PartyBoard board = partyBoardDao.getPBoardByNo(no);
+		board.setReportCount(reportCount);
+		partyBoardDao.updatePBoardByNo(board);
+	}
+	
+	public List<PBoardReport> getPBoardReportById (String id) {
+		return partyBoardDao.getPboardReportById(id);
 	}
 }

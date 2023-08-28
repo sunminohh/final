@@ -1,5 +1,6 @@
 package kr.co.mgv.board.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +8,7 @@ import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.mgv.board.form.AddPboardForm;
+import kr.co.mgv.board.form.ReportForm;
 import kr.co.mgv.board.list.JoinList;
 import kr.co.mgv.board.list.PartyBoardList;
 import kr.co.mgv.board.service.MovieBoardService;
@@ -24,6 +27,7 @@ import kr.co.mgv.board.service.PartyBoardService;
 import kr.co.mgv.board.service.TheaterBoardService;
 import kr.co.mgv.board.vo.BoardLocation;
 import kr.co.mgv.board.vo.BoardTheater;
+import kr.co.mgv.board.vo.PBoardReport;
 import kr.co.mgv.board.vo.PartyBoard;
 import kr.co.mgv.board.vo.PartyBoardSchedule;
 import kr.co.mgv.board.vo.PartyJoin;
@@ -52,6 +56,7 @@ public class PartyController {
 				@RequestParam(name = "theaterNo", required = false) Integer theaterNo,
 				@RequestParam(name = "locationNo", required = false) Integer locationNo,
 				@RequestParam(name = "complete", required = false, defaultValue = "E") String complete,
+				@AuthenticationPrincipal User user,
 				Model model) {
 	    	
 	    	Map<String, Object> param = new HashMap<String, Object>();
@@ -78,6 +83,20 @@ public class PartyController {
 			PartyBoardList result = partyBoardService.getPBoards(param);
 			
 			// 신고
+			if (user != null) {
+				List<PBoardReport> reportList = partyBoardService.getPBoardReportById(user.getId());
+				List<PartyBoard> partyBoardsToShow = new ArrayList<>();
+				
+				for(PartyBoard board : result.getParytBoards()) {
+					boolean isReported = reportList.stream()
+										.anyMatch(report -> report.getBoard().getNo() == board.getNo());
+					if(!isReported) {
+						partyBoardsToShow.add(board);
+					}
+				}
+				result.setParytBoards(partyBoardsToShow);
+				model.addAttribute("reports", partyBoardsToShow);
+			}
 			
 			// model에 조회한 극장게시물 담기
 			model.addAttribute("result", result);
@@ -325,6 +344,22 @@ public class PartyController {
 			String deleted = "Y";
 			partyBoardService.deletePBoard(no, deleted);
 			
+			return "redirect:/board/party/list";
+		}
+
+		// 신고 관련
+		@PostMapping("/report")
+		public String reportBoard(ReportForm form, @AuthenticationPrincipal User user) {
+			partyBoardService.insertReport(form, user);
+			
+			PartyBoard board = partyBoardService.getPBoardByNo(form.getBoardNo());
+			int reportCount = board.getReportCount()+1;
+			partyBoardService.updateReportCount(form.getBoardNo(), reportCount);
+			
+			if (reportCount == 5) {
+				String report = "Y";
+			    partyBoardService.updateReport(form.getBoardNo(), report);
+			}
 			return "redirect:/board/party/list";
 		}
 }
