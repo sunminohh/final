@@ -114,7 +114,7 @@ $(function() {
     // 삭제 버튼 띄우기
     $("#delete-btn").on("click", function(event) {
 	    event.preventDefault();
-		let no = $('[name=no]').val();
+		let no = $('input[name=no]').val();
 		
 	    Swal.fire({
 	        icon: 'warning',

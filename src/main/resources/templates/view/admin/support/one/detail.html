@@ -88,7 +88,7 @@
         </div>
 
     <div class="btn-group pt40" style="display: block;">
-		<a th:href="@{/admin/support/one(categoryNo=${param.categoryNo}, answered=${param.answered}, page=${param.page})}" class="button large listBtn" title="목록">목록</a>
+		<a th:href="@{/admin/support/one(categoryNo=${param.categoryNo}, answered=${param.answered}, page=${param.page}, keyword=${param.keyword})}" class="button large listBtn" title="목록">목록</a>
        	<a id = "delete-btn" 
        		class="button large"
        		th:href="@{/admin/support/one/delete(no=${param.no})}">삭제</a>

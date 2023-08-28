@@ -31,7 +31,8 @@ public class AdminOneController {
 
 	private final OneService oneService;
 	
-	@GetMapping String one(@RequestParam(name = "categoryNo", required = false, defaultValue = "24") int categoryNo,
+	@GetMapping 
+	public String one(@RequestParam(name = "categoryNo", required = false, defaultValue = "24") int categoryNo,
 			@RequestParam(name = "page", required = false, defaultValue = "1") int page,
 			@RequestParam(name = "answered", required = false) String answered,
 			@RequestParam(name ="keyword", required = false) String keyword,
