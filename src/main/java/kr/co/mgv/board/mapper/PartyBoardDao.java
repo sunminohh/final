@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import kr.co.mgv.board.vo.PBoardComment;
 import kr.co.mgv.board.vo.PBoardReport;
 import kr.co.mgv.board.vo.PartyBoard;
 import kr.co.mgv.board.vo.PartyBoardSchedule;
@@ -38,4 +39,13 @@ public interface PartyBoardDao {
 	// 신고관련
 	void insertPboardReport(PBoardReport report);
 	List<PBoardReport> getPboardReportById(String id);
+	
+	// 댓글관련
+	void insertPBoardComment(PBoardComment comment);
+	List<PBoardComment> getPBoardComments(int no);
+	List<PBoardComment> getPBoardChildComments(int no);
+	int getTotalChildCount(int boardNo);
+	void deleteComment(int commentNo);
+	void deleteChildComments(int greatNo);
+	
 }

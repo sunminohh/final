@@ -22,11 +22,11 @@ public class BookingRestController {
     return bookingService.isElementClassActive(date);
     }
     @GetMapping("/selectedSchedule")
-    public List<BookingScheduleDto> bookingScheduleApi(@RequestParam(value="tNames", required = false) String[] tNames,@RequestParam(value="mNos", required = false) String[] mNos){
+    public List<BookingScheduleDto> bookingScheduleApi(@RequestParam(value="tNames", required = false) String[] tNames,@RequestParam(value="mNos", required = false) String[] mNos,@RequestParam(value="date", required = false) String date){
         Map<String,String[]> map = new HashMap<>();
                 map.put("tNames",tNames);
                 map.put("mNos",mNos);
-
+                map.put("date",new String[]{date});
         return  bookingService.getBookingSchedules(map);
     }
 

@@ -100,7 +100,7 @@
         from(select A.*, B.THEATER_NO,B.SCREEN_NAME
              from (select SCHEDULE_ID,MOVIE_NO,  SCREEN_ID,SCHEDULE_START_TIME,SCHEDULE_END_TIME,SCHEDULE_TURN,REMAINING_SEATS,SCREEN_SEATS
                    from MGV_SCHEDULE
-                   where SCHEDULE_DATE ='2023-08-25'
+                   where SCHEDULE_DATE ="${date[0]}"
 						<choose>
 							<when test="mNos.length > 0">
 								and MOVIE_NO in
@@ -109,7 +109,7 @@
 								</foreach>
 							</when>
 						</choose>
-                     and SCHEDULE_START_TIME > '00:00') A,
+                     and SCHEDULE_START_TIME >= '00:00') A,
                   MGV_THEATER_SCREEN B
             	where A.SCREEN_ID = B.SCREEN_ID) C, MGV_THEATERS D,MGV_MOVIE M
         where D.THEATER_NAME in

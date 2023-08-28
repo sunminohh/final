@@ -16,7 +16,9 @@ import kr.co.mgv.theater.vo.Theater;
 public interface OneDao {
 	
 	// 답변 조회
-	List<OneComment> getOneCommentByOne(int oneNo);
+	List<OneComment> getOneCommentsByOne(int oneNo);
+	// 답변 하나 조회
+	OneComment getOneCommentByNo(int commentNo);
 	// 답변 등록
 	void insertComment(OneComment oneComment);
 	// 답변 삭제

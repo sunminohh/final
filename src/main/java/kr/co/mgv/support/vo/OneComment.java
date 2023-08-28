@@ -15,18 +15,18 @@ public class OneComment {
 
 	private int no;
 	private String content;
-	private String deletd;
+	private String deleted;
 	private Date updateDate;
 	private Date createDate;
 	private One one;
 	private User user;
 	
 	@Builder
-	public OneComment(int no, String content, String deletd, Date updateDate, Date createDate, One one, User user) {
+	public OneComment(int no, String content, String deleted, Date updateDate, Date createDate, One one, User user) {
 		super();
 		this.no = no;
 		this.content = content;
-		this.deletd = deletd;
+		this.deleted = deleted;
 		this.updateDate = updateDate;
 		this.createDate = createDate;
 		this.one = one;
