@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.mgv.board.form.AddPboardForm;
+import kr.co.mgv.board.form.ReportForm;
 import kr.co.mgv.board.list.JoinList;
 import kr.co.mgv.board.list.PartyBoardList;
 import kr.co.mgv.board.service.MovieBoardService;
@@ -28,6 +30,7 @@ import kr.co.mgv.board.vo.PartyBoard;
 import kr.co.mgv.board.vo.PartyBoardSchedule;
 import kr.co.mgv.board.vo.PartyJoin;
 import kr.co.mgv.board.vo.ReportReason;
+import kr.co.mgv.board.vo.StoreBoard;
 import kr.co.mgv.movie.vo.Movie;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
@@ -325,6 +328,22 @@ public class PartyController {
 			String deleted = "Y";
 			partyBoardService.deletePBoard(no, deleted);
 			
+			return "redirect:/board/party/list";
+		}
+
+		// 신고 관련
+		@PostMapping("/report")
+		public String reportBoard(ReportForm form, @AuthenticationPrincipal User user) {
+			partyBoardService.insertReport(form, user);
+			
+			PartyBoard board = partyBoardService.getPBoardByNo(form.getBoardNo());
+			int reportCount = board.getReportCount()+1;
+			partyBoardService.updateReportCount(form.getBoardNo(), reportCount);
+			
+			if (reportCount == 5) {
+				String report = "Y";
+			    partyBoardService.updateReport(form.getBoardNo(), report);
+			}
 			return "redirect:/board/party/list";
 		}
 }
