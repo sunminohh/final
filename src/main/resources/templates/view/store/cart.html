@@ -73,7 +73,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <h3 class="tit mt40">최종결제</h3>
+                    <h3 class="tit mt40">총 결제금액</h3>
                     <!-- payment-final -->
                     <div class="payment-final">
                         <div class="calc">
@@ -101,63 +101,6 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="choice">
-                            <div class="inbox">
-                                <p class="txt">결제수단 선택</p>
-                                <div class="cell">
-                                    <input type="radio" id="radio_choice01" name="radio_choice" value="credit">
-                                    <label for="radio_choice01">신용/체크카드</label>
-                                </div>
-                                <div class="cell">
-                                    <input type="radio" id="radio_choice03" name="radio_choice" value="kakaopay">
-                                    <label for="radio_choice03">카카오페이</label>
-                                </div>
-                                <div class="cell">
-                                    <input type="radio" id="radio_choice04" name="radio_choice" value="payco">
-                                    <label for="radio_choice04">페이코</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="choice ty2 sel-payment-card">
-                            <div class="inbox">
-                                <p class="txt">카드사 선택</p>
-                                <div class="cell">
-                                    <select id="card_select" title="카드사 선택" class="x-small selpicker">
-                                        <option value="00" selected="">카드선택</option><!-- 전체카드   -->
-                                        <option value="01">비씨카드</option><!-- 비씨카드   -->
-                                        <option value="07">국민카드</option><!-- 국민카드   -->
-                                        <option value="02">신한카드</option><!-- 신한카드   -->
-                                        <option value="03">삼성카드</option><!-- 삼성카드   -->
-                                        <option value="05">롯데카드</option><!-- 롯데카드   -->
-                                        <option value="12">농협카드</option><!-- 농협카드   -->
-                                        <option value="27">하나카드</option><!-- 하나카드   -->
-                                        <option value="04">현대카드</option><!-- 현대카드   -->
-                                        <option value="13">씨티카드</option><!-- 씨티카드   -->
-                                        <option value="22">제주카드</option><!-- 제주카드   -->
-                                        <option value="14">우리카드</option><!-- 우리카드   -->
-                                        <option value="11">수협카드</option><!-- 수협카드   -->
-                                        <option value="24">전북카드</option><!-- 전북카드   -->
-                                        <option value="23">광주카드</option><!-- 광주카드   -->
-                                        <option value="17">신협카드</option><!-- 신협카드   -->
-                                        <option value="90">카카오뱅크</option><!-- 카카오뱅크 -->
-                                        <option value="91">케이뱅크</option><!-- 케이뱅크   -->
-                                        <option value="B0">우체국카드</option><!-- 우체국 카드   -->
-                                        <option value="B1">토스  카드</option><!-- 토스  카드  -->
-                                        <option value="B2">SC제일은행 비씨카드</option><!-- SC제일은행 비씨카드   -->
-                                        <option value="S0">SC제일은행 삼성카드</option><!-- SC제일은행 삼성카드   -->
-                                        <option value="B3">IBK기업은행 카드</option><!-- IBK기업은행 카드  -->
-                                    </select>
-                                </div>
-                                <div class="cell pl0">
-                                    <input type="radio" name="rdo_card_select" id="app_card" value="01">
-                                    <label for="app_card" id="lab_app_card">앱카드</label>
-                                </div>
-                                <div class="cell">
-                                    <input type="radio" name="rdo_card_select" id="general_card" value="00">
-                                    <label for="general_card" id="lab_general_card">일반결제</label>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <!--// payment-final -->
                     <dl class="term-list" id="terms" style="padding-top:35px;">
@@ -181,7 +124,7 @@
                     </dl>
                     <!-- 20220802 페이즈 약관동의 추가 -->
                     <!-- 20220802 페이즈 약관동의 추가 end -->
-                    <div class="btn-group pt40">
+                    <div class="btn-group pt40" style="display: block;">
                         <a href="" class="button large w170px" id="btn_store_back" title="취소">취소</a>
                         <a href="#" class="button purple large w170px btn-modal-open" id="btn_store_pay_adapter" title="결제">결제</a>
                         <a href="#" class="button purple large w170px btn-modal-open" id="btn_store_pay" title="결제" style="display: none;" w-data="600" h-data="400">결제</a>
