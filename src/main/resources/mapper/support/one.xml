@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="kr.co.mgv.support.dao.OneDao">
 
-	<select id="getOneCommentByOne" parameterType="int" resultType="kr.co.mgv.support.vo.OneComment">
+	<select id="getOneCommentsByOne" parameterType="int" resultType="kr.co.mgv.support.vo.OneComment">
 		SELECT 
 			COMMENT_NO 				as no, 
 			COMMENT_CONTENT 		as content, 
@@ -13,6 +13,20 @@
 		FROM 
 			MGV_ONE_COMMENT
 		where one_no = #{value}
+			  and comment_deleted = 'N'
+	</select>
+	
+	<select id="getOneCommentByNo" parameterType="int" resultType="kr.co.mgv.support.vo.OneComment">
+		SELECT 
+			COMMENT_NO 				as no, 
+			COMMENT_CONTENT 		as content, 
+			COMMENT_DELETED 		as deleted, 
+			COMMENT_CREATE_DATE 	as createDate, 
+			ONE_NO 					as "one.no", 
+			USER_ID 				as "user.id"
+		FROM 
+			MGV_ONE_COMMENT
+		where COMMENT_NO = #{value}
 			  and comment_deleted = 'N'
 	</select>
 	

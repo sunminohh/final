@@ -32,7 +32,7 @@ public class OneService {
 	private final FileUtils fileUtils;
 	
 	public List<OneComment> getOneCommentByOne(int oneNo) {
-		return oneDao.getOneCommentByOne(oneNo);
+		return oneDao.getOneCommentsByOne(oneNo);
 	}
 	
 	public void updateOneComment(int oneNo) {
@@ -44,6 +44,13 @@ public class OneService {
 	
 	public void insertComment(OneComment comment) {
 		oneDao.insertComment(comment);
+	}
+	
+	public void deleteComment(int commentNo) {
+		OneComment oneComment = oneDao.getOneCommentByNo(commentNo);
+		oneComment.setDeleted("Y");
+		
+		oneDao.deleteComment(oneComment);
 	}
 	
 	public void insertOne(AddOneForm form, User user) {
