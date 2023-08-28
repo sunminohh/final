@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.mgv.common.file.FileUtils;
@@ -65,14 +66,16 @@ public class LostService {
 		List<MultipartFile> multipartFiles = form.getFiles();
 		for (MultipartFile multipartFile : multipartFiles) {
 			String originalFilename = multipartFile.getOriginalFilename();
-			String saveFilename = fileUtils.saveFile("static/images/support/lost", multipartFile);
-			
-			LostFile lostFile = new LostFile();
-			lostFile.setLost(lost);
-			lostFile.setOriginalName(originalFilename);
-			lostFile.setSaveName(saveFilename);
-			
-			lostDao.insertLostFile(lostFile);
+			if (StringUtils.hasText(originalFilename)) {
+				String saveFilename = fileUtils.saveFile("static/images/support/lost", multipartFile);
+				
+				LostFile lostFile = new LostFile();
+				lostFile.setLost(lost);
+				lostFile.setOriginalName(originalFilename);
+				lostFile.setSaveName(saveFilename);
+				
+				lostDao.insertLostFile(lostFile);
+			}
 		}
 	}
 	
