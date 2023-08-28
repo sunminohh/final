@@ -501,8 +501,8 @@ $(function () {
                      $('#ajax-comment-count').text(commentCountUpdate);
                      $('#ajax-comment-count-2').text(commentCountUpdate);
                      
-                          let newCommentElement = $("#all-comment-box").children().last();
-					  window.scrollTo(0, newCommentElement.offset().top - 100); // 댓글 요소로 바로 이동 (100은 여유 공간 조절)
+                     let newCommentElement = $("#all-comment-box").children().last();
+					 window.scrollTo(0, newCommentElement.offset().top - 100); // 댓글 요소로 바로 이동 (100은 여유 공간 조절)
 
                  }
                  
@@ -663,7 +663,8 @@ $(function () {
                      $('#ajax-comment-count').text(commentCountUpdate);
                      $('#ajax-comment-count-2').text(commentCountUpdate);
                      
-                 
+                 	 let newCommentElement = $("#all-comment-box").children().last();
+					 window.scrollTo(0, newCommentElement.offset().top - 100); // 댓글 요소로 바로 이동 (100은 여유 공간 조절)
                  }
                  
              });
@@ -709,6 +710,46 @@ $(function () {
 		        }
 		    });
 		});
+      
+      // 대댓글 삭제
+      $("#all-comment-box").on('click', '#delete-reComment-btn', function(event) {
+          event.preventDefault();
+          let $that = $(this);
+      
+             // 현재 클릭된 .child-comment-box 내부에서 name이 "commentNo"인 hidden input 요소 선택
+             let commentNoInput = $that.closest(".child-comment-box").find("input[type='hidden'][name='commentNo']");
+             let commentNo = commentNoInput.val();
+             
+             let requestData = {
+                 no: $("input[name=no]").val(),
+                 commentNo: commentNo
+             };
+      
+          Swal.fire({
+              icon: 'warning',
+              title: '정말 삭제하시겠습니까?',
+              showCancelButton: true,
+              confirmButtonText: '네',
+              cancelButtonText: '아니오',
+          }).then((result) => {
+              if (result.isConfirmed) {
+                  $.ajax({
+                      url: '/board/party/deleteReComment', // 변경된 엔드포인트
+                      method: 'POST',
+                      contentType: 'application/json',
+                      data: JSON.stringify(requestData),
+                      success: function(commentCount) {
+                          // 삭제 후의 댓글 수를 받아와서 업데이트
+                          $('#ajax-comment-count').text(commentCount);
+                          $("#ajax-comment-count-2").text(commentCount);
+                          $that.closest(".child-comment-box").find("#comment-box").remove();
+                      }
+                  });
+              } else if (result.dismiss === Swal.DismissReason.cancel) {
+                  // 취소 버튼 클릭 시
+              }
+          });
+      });
       
       
       // 퀵메뉴 (위로)
