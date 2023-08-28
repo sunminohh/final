@@ -23,4 +23,8 @@ public class Cart {
     private int totalPrice;
     private Date insertDate;
     private String paymentStatus;
+
+    public void addAmount(int amount) {
+        this.amount += amount;
+    }
 }

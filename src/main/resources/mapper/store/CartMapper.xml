@@ -15,4 +15,60 @@
             (#{product.no}, #{user.id}, #{amount},#{totalPrice}, #{pkg.no})
 
     </insert>
+
+    <select id="getCartItemsByUserId" parameterType="String" resultType="Cart">
+        SELECT
+            A.CART_NO                   as no,
+            B.PRODUCT_NO                as "product.no",
+            B.PRODUCT_NAME              as "product.name",
+            B.PRODUCT_DESCRIPTION       as "product.description",
+            C.USER_ID                   as "user.id",
+            C.USER_NAME                 as "user.name",
+            A.PRODUCT_AMOUNT            as amount,
+            A.TOTAL_PRICE               as totalPrice,
+            A.CART_INSERT_DATE          as insertDate,
+            A.CART_PAYMENT_STATUS       as paymentStatus,
+            B.PRODUCT_IMAGE             as "product.imagePath",
+            D.PACKAGE_NO                as "pkg.no",
+            D.PACKAGE_NAME              as "pkg.name",
+            D.PACKAGE_COMPOSITION       as "pkg.composition",
+            D.PACKAGE_IMAGE             as "pkg.imagePath"
+        FROM
+            MGV_USER C
+        JOIN
+            MGV_CART A ON A.USER_ID = C.USER_ID
+        LEFT JOIN
+            MGV_PRODUCT B ON A.PRODUCT_NO = B.PRODUCT_NO
+        LEFT JOIN
+            MGV_PACKAGE D ON A.PACKAGE_NO = D.PACKAGE_NO
+        WHERE
+            C.USER_ID = #{value}
+    </select>
+
+    <update id="updateCart" parameterType="Cart">
+        update MGV_CART
+            <set>
+                <if test="no != null">
+                    CART_NO = #{no},
+                </if>
+                <if test="product != null">
+                    PRODUCT_NAME = #{product.name},
+                    PRODUCT_DESCRIPTION = #{product.description},
+                </if>
+                <if test="pkg != null">
+                    PACKAGE_NO = #{pkg.no},
+                    PACKAGE_NAME = #{pkg.name},
+                    PACKAGE_COMPOSITION = #{pkg.composition},
+                </if>
+                <if test="amount != null">
+                    AMOUNT = #{amount},
+                </if>
+                <if test="totalPrice != null">
+                    TOTAL_PRICE = #{totalPrice},
+                </if>
+                <if test="insertDate != null">
+                    CART_INSERT_DATE = CURRENT_TIMESTAMP,
+                </if>
+            </set>
+    </update>
 </mapper>
