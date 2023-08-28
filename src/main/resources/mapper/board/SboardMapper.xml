@@ -285,7 +285,7 @@
 		where great_comment_no = #{value}
 	</select>
 	
-	<select id="getChildComment" resultType="kr.co.mgv.board.vo.SBoardComment" parameterType="kr.co.mgv.board.vo.TBoardComment">
+	<select id="getChildComment" resultType="kr.co.mgv.board.vo.SBoardComment" parameterType="kr.co.mgv.board.vo.SBoardComment">
 		SELECT 
 			A.COMMENT_NO				as no, 
 			A.COMMENT_CREATE_dATE		as createDate, 

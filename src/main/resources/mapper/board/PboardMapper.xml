@@ -373,4 +373,69 @@
 		FROM PBOARD_REPORT
 		where user_id = #{value};
 	</select>
+	
+	<!-- 댓글관련 -->
+	<insert id="insertPBoardComment" parameterType="kr.co.mgv.board.vo.PBoardComment">
+		INSERT INTO PARTY_BOARD_COMMENT
+		(COMMENT_CONTENT, USER_ID, PARTY_NO, PARENT_COMMENT_NO, GREAT_COMMENT_NO)
+		VALUES(#{content}, #{user.id}, #{board.no}, #{parent.no}, #{great.no});
+	</insert>
+	
+		<select id="getPBoardComments" resultType="kr.co.mgv.board.vo.PBoardComment" parameterType="int">
+		SELECT 
+			COMMENT_NO				as no, 
+			COMMENT_CREATE_dATE		as createDate, 
+			COMMENT_UPDATE_DATE		as updateDate, 
+			COMMENT_CONTENT			as content, 
+			USER_ID					as "user.id", 
+			COMMENT_DELETED			as deleted, 
+			PARTY_NO				as "board.no"
+		FROM 
+			PARTY_BOARD_COMMENT 
+		WHERE 
+			comment_deleted = 'N'
+			and PARTY_NO = #{value}
+			and great_comment_no is null
+		order by comment_create_date;
+	</select>
+	
+	<select id="getPBoardChildComments" resultType="kr.co.mgv.board.vo.PBoardComment" parameterType="int">
+		SELECT 
+			A.COMMENT_NO				as no, 
+			A.COMMENT_CREATE_dATE		as createDate, 
+			A.COMMENT_UPDATE_DATE		as updateDate, 
+			A.COMMENT_CONTENT			as content, 
+			A.USER_ID					as "user.id", 
+			A.COMMENT_DELETED			as deleted, 
+			A.PARTY_NO					as "board.no", 
+			A.PARENT_COMMENT_NO			as "parent.no", 
+			A.GREAT_COMMENT_NO			as "great.no",
+			P.USER_ID					as "parent.user.id",
+			G.USER_ID					as "great.user.id"
+		FROM 
+			PARTY_BOARD_COMMENT A, PARTY_BOARD_COMMENT P, PARTY_BOARD_COMMENT G
+		WHERE 
+			A.parent_comment_no = P.comment_no
+			and A.great_comment_no = G.comment_no
+			and A.comment_deleted = 'N'
+			and A.PARTY_NO = #{value}
+			and A.great_comment_no is NOT null
+		order by A.comment_create_date;
+	</select>
+	
+	<select id="getTotalChildCount" parameterType="int" resultType="int">
+		select count(*)
+		from PARTY_BOARD_COMMENT
+		where great_comment_no = #{value}
+	</select>
+	
+	<delete id="deleteComment" parameterType="int">
+		DELETE FROM PARTY_BOARD_COMMENT
+		WHERE COMMENT_NO= #{value};
+	</delete>
+	
+	<delete id="deleteChildComments" parameterType="int">
+		DELETE FROM PARTY_BOARD_COMMENT
+		WHERE GREAT_COMMENT_NO= #{value};
+	</delete>	
 </mapper>
