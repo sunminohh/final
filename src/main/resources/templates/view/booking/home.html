@@ -387,7 +387,6 @@
             function clearSeatChoices(){
                 const seats=$("#seatsDiv .on").removeClass('on')
                 seats.removeClass('choice')
-                console.log(seats)
                 selectedSeat=undefined
                 seatChoices.clear()
             }
@@ -398,6 +397,8 @@
                 seats.each(function(i,e){
                     $(this).replaceWith(createDisabledSeat())
                 })
+                clearSeatChoices()
+                console.log(...seatChoices)
             })
         })
 
