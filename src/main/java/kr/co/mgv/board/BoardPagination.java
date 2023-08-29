@@ -30,6 +30,8 @@ public class BoardPagination {
 		super();
 		this.page = page;
 		this.totalRows = totalRows;
+		
+		init();
 	}
 
 	
