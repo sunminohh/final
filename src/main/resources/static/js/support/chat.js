@@ -1,51 +1,73 @@
-$(function() {
-  const messagesContainer = document.getElementById('messages');
-  const userInput = document.getElementById('userInput');
-
-  function sendMessage() {
-    const message = userInput.value.trim();
-    if (message !== '') {
-      // 유저 메시지 표시
-      displayUserMessage(message);
-
-      // 채팅 메시지를 서버로 보내는 부분은 여기에 추가하세요.
-      // 서버로 메시지를 보내는 코드 또는 WebSocket을 사용하여 실시간으로 전달할 수 있습니다.
-
-      userInput.value = '';
+const Chat = (function(){
+    const myName = "blue";
+ 
+    // init 함수
+    function init() {
+        // enter 키 이벤트
+        $(document).on('keydown', 'div.input-div textarea', function(e){
+            if(e.keyCode == 13 && !e.shiftKey) {
+                e.preventDefault();
+                const message = $(this).val();
+ 
+                // 메시지 전송
+                sendMessage(message);
+                // 입력창 clear
+                clearTextarea();
+            }
+        });
     }
-  }
-
-  
-  
-  function displayUserMessage(message) {
-    $("#messages").append(`<div class="message user-message">${message}</div>`)
-    
-    if ($("#messages").height() > 242.5) {
-		$(window).scrollTop($("#messages").height() - 242.5)
-	};
-  }
-
-  function displayBotMessage(message) {
-    const messageElement = document.createElement('div');
-    messageElement.className = 'message bot-message';
-    
-    // "안녕하세요. MGV입니다."와 "무엇을 도와드릴까요?" 사이에 줄바꿈 추가
-    messageElement.innerHTML = message + '<br>무엇을 도와드릴까요?';
-    
-    messagesContainer.appendChild(messageElement);
-  }
-
-  // 전송 버튼 클릭 이벤트에 sendMessage 함수를 연결합니다.
-  document.querySelector('#sendButton').addEventListener('click', sendMessage); // 버튼을 id로 선택합니다.
-
-  // Enter 키를 눌러도 메시지를 전송할 수 있도록 이벤트를 추가합니다.
-  userInput.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
-      sendMessage();
+ 
+    // 메세지 태그 생성
+    function createMessageTag(LR_className, senderName, message) {
+        // 형식 가져오기
+        let chatLi = $('div.chat.format ul li').clone();
+ 
+        // 값 채우기
+        chatLi.addClass(LR_className);
+        chatLi.find('.sender span').text(senderName);
+        chatLi.find('.message span').text(message);
+ 
+        return chatLi;
     }
-  });
-
-  // 상담톡이 열리면 초기 메시지를 표시합니다.
-  displayBotMessage('안녕하세요. MGV입니다.');
-  
+ 
+    // 메세지 태그 append
+    function appendMessageTag(LR_className, senderName, message) {
+        const chatLi = createMessageTag(LR_className, senderName, message);
+ 
+        $('div.chat:not(.format) ul').append(chatLi);
+ 
+        // 스크롤바 아래 고정
+        $('div.chat').scrollTop($('div.chat').prop('scrollHeight'));
+    }
+ 
+    // 메세지 전송
+    function sendMessage(message) {
+        // 서버에 전송하는 코드로 후에 대체
+        const data = {
+            "senderName"    : "User",
+            "message"        : message
+        };
+ 
+        // 통신하는 기능이 없으므로 여기서 receive
+        resive(data);
+    }
+ 
+    // 메세지 입력박스 내용 지우기
+    function clearTextarea() {
+        $('div.input-div textarea').val('');
+    }
+ 
+    // 메세지 수신
+    function resive(data) {
+        const LR = (data.senderName != myName)? "left" : "right";
+        appendMessageTag("right", data.senderName, data.message);
+    }
+ 
+    return {
+        'init': init
+    };
+})();
+ 
+$(function(){
+    Chat.init();
 });
