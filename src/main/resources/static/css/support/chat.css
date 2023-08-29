@@ -1,0 +1,64 @@
+body {
+  margin: 10; /* Body의 기본 margin을 없앱니다. */
+}
+
+.chat-container {
+  border: none;
+  width: 350px;
+  max-height: 400px;
+  top: 0;
+  left: 0;
+  padding: 10px;
+}
+
+
+.messages {
+  margin-bottom: 10px;
+}
+
+.message {
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin-bottom: 5px;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+}
+
+#userInput {
+  flex: 1;
+  padding: 5px;
+}
+
+button {
+  margin-left: 5px;
+}
+
+.bot-message {
+  background-color: #c6d9f0;
+}
+
+.chat-toggle-button {
+  padding: 5px 10px;
+  background-color: #fff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+/*
+	.comment_inbox_text {
+	display : block;
+	width: 100%;
+	min-height: 17px;
+	padding-right: 1px;
+	border: 0;
+	resize: none;
+	box-sizing: border-box;
+	background: transparent;
+	outline: 0;
+	}
+	*/

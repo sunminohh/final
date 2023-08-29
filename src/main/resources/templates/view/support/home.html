@@ -3,7 +3,9 @@
    layout:decorate="~{layout/support}">
 <head th:fragment="extra-head-content">
 	<link th:href=@{/css/support/faq.css} rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" th:src="@{/js/support/faq.js}"></script>
+	<script type="text/javascript" th:src="@{/js/support/chat.js}"></script>
 </head>
 <div layout:fragment="content"  id="contents">
     <h2 class="tit">고객센터 홈</h2>
@@ -58,7 +60,7 @@
 			</a>
 		</div>
 		<div class="col-4 text-left">
-			<a href="home.jsp" class="text-black text-decoration-none" style="font-size:18px; line-height:3"><br/>
+			<a th:href="@{/support/chat}" id="btn-open-chat" class="text-black text-decoration-none" style="font-size:18px; line-height:3"><br/>
 				<img th:src="@{/images/support/support.png}" width="60" height="60"><br/>
 				상담톡<br/>
 			</a>
@@ -229,3 +231,11 @@
 			</div>
 		</div>
 	</div>
+<th:block layout:fragment="script">
+ <script type="text/javascript">
+	$("#btn-open-chat").click(function(event) {
+		event.preventDefault();
+		window.open("/support/chat", "chat-window", "width=380,height=450,status=no,toolbar=no,left=200,top=200");
+	});
+</script>
+</th:block>

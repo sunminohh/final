@@ -1,0 +1,58 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" >
+<head th:fragment="extra-head-content">
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/5.3.0/css/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/megabox-common.css}">
+    <script th:src="@{/webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/webjars/jquery/3.6.4/jquery.min.js}"></script>
+    <script th:src="@{/js/lib/axios.min.js}"></script>
+    <script th:src="@{/js/ui.js}"></script>
+    <script th:src="@{/js/common.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/4.0.19/css/froala_editor.min.css"/>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/4.0.19/js/froala_editor.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script	src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.9/dayjs.min.js"></script>
+	<script	src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.9/locale/ko.min.js"></script>
+	<script	src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.9/plugin/isSameOrAfter.min.js"></script>
+	<script	src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.9/plugin/calendar.min.js"></script>
+	<link th:href=@{/css/support/chat.css} rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" th:src="@{/js/support/chat.js}"></script>
+</head>
+<title>상담톡</title>
+</head>
+<body>
+
+<div>
+	<div class="chat-container" id="chatContainer">
+	<h4 class="mb-2" style="text-align:center;">실시간 채팅상담</h4>
+		<div class="messages" id="messages">
+		    <!-- 메시지가 표시될 영역 -->
+		</div>
+		<div class="input-container fixed-bottom" >
+		    <input type="text" id="userInput" placeholder="메시지를 입력하세요...">
+		    <button id="sendButton" class="button purple">전송</button> <!-- 버튼에 id를 추가하였습니다. -->
+		</div>
+	</div>
+</div>
+		<!--  
+		 <div class="col-12 CommentWriter" style="margin-top:200px;">
+	        <div class="col-12 comment-inbox border p-2 rounded" >
+                <div class="row">
+                  <div id="content-box">
+                     <textarea id="commentArea" rows="2" class="comment_inbox_text" name="content" style="border: none; overflow: hidden; overflow-wrap: break-word; " 
+                     placeholder="메시지를 입력하세요..."></textarea>
+                  </div>
+                  <div id="regBox" class="register-box">
+                     <button id="btn-comment" class="button purple float-end" style="border: none" type="submit">전송</button>
+                  </div>
+               </div>
+	        </div>
+	     </div>
+		-->
+
+</html>
