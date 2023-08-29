@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.xml.stream.events.Comment;
 
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.mgv.common.file.FileUtils;
@@ -101,14 +102,16 @@ public class OneService {
 		List<MultipartFile> multipartFiles = form.getFiles();
 		for (MultipartFile multipartFile : multipartFiles) {
 			String originalFilename = multipartFile.getOriginalFilename();
-			String saveFilename = fileUtils.saveFile("static/images/support/one", multipartFile);
-			
-			OneFile oneFile = new OneFile();
-			oneFile.setOne(one);
-			oneFile.setOriginalName(originalFilename);
-			oneFile.setSaveName(saveFilename);
-			
-			oneDao.insertOneFile(oneFile);
+			if (StringUtils.hasText(originalFilename)) {
+				String saveFilename = fileUtils.saveFile("static/images/support/one", multipartFile);
+				
+				OneFile oneFile = new OneFile();
+				oneFile.setOne(one);
+				oneFile.setOriginalName(originalFilename);
+				oneFile.setSaveName(saveFilename);
+				
+				oneDao.insertOneFile(oneFile);
+			}
 		}
 	}
 	

@@ -40,7 +40,7 @@ $(() => {
         }
 
         $.ajax({
-            url: "/user/info/update",
+            url: "/mypage/update",
             type: "POST",
             data: form.serialize(),
             success: function () {
