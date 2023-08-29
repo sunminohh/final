@@ -22,8 +22,8 @@ public class MyBoardService {
 		int totalRows = myBoardDao.getListTotalRows(param);
 		int page = (int) param.get("page");
 		BoardPagination pagination = new BoardPagination(page, totalRows);
-		int begin = pagination.getBegin();
-		int end = pagination.getEnd()-1;
+		int begin = pagination.getBegin()-1;
+		int end = pagination.getEnd();
 		param.put("begin", begin);
 		param.put("end", end);
 		
