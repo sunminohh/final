@@ -93,6 +93,12 @@ public class AdminOneController {
 		return "view/admin/support/one/detail";
 	}
 	
+	@GetMapping("/delete")
+	public String delete(@RequestParam("no") int oneNO, Model model) {
+		oneService.deleteOne(oneNO);
+		return "redirect:/admin/support/one";
+	}
+	
 	@PostMapping("/addComment")
 	@ResponseBody
 	public ResponseEntity<List<OneComment>> addComment(@AuthenticationPrincipal User user,
@@ -123,11 +129,6 @@ public class AdminOneController {
 		return ResponseEntity.ok(commentNo);
 	}
 	
-	@GetMapping("/delete")
-	public String delete(@RequestParam("no") int oneNO, Model model) {
-		oneService.deleteOne(oneNO);
-		return "redirect:/admin/support/one";
-	}
 	
 	
 }
