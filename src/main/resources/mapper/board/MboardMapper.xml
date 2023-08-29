@@ -21,7 +21,7 @@
   				and (A.board_name like  CONCAT('%', #{keyword}, '%') or A.board_content like  CONCAT('%', #{keyword}, '%'))
   			</when>
   			<when test="opt == 'writer'">
-  				and A.member_id like  CONCAT('%', #{keyword}, '%')
+  				and A.user_id like  CONCAT('%', #{keyword}, '%')
   			</when>
   		</choose>
     </select>
@@ -36,7 +36,7 @@
 	            A.board_update_date     as updateDate,
 	            A.board_read_cnt        as readCount,
 	            A.board_comment_cnt     as commentCount,
-	            A.member_id             as "user.id",
+	            A.user_id               as "user.id",
 	            A.board_content         as content,
 	            row_number() over (
 	            <choose>
@@ -85,7 +85,7 @@
     				and (board_name like CONCAT('%', #{keyword}, '%') or board_content like CONCAT('%', #{keyword}, '%'))
     			</when>
 	            <when test="opt == 'writer'">
-	                and member_id like  CONCAT('%', #{keyword}, '%')
+	                and user_id like  CONCAT('%', #{keyword}, '%')
 	            </when>
 	        </choose>
 	    ) A
@@ -103,7 +103,7 @@
             A.board_read_cnt        as readCount,
             A.report_count			as reportCount,
             A.board_comment_cnt     as commentCount,
-            A.member_id             as "user.id",
+            A.user_id               as "user.id",
             A.movie_no				as "movie.no",
             B.movie_title			as "movie.title",
             A.BORAD_FILENAME		as fileName,
@@ -329,7 +329,7 @@
 	<insert id="insertMBoard" parameterType="kr.co.mgv.board.vo.MovieBoard">
 		INSERT INTO 
 			MGV_MOVIE_BOARD
-		(BOARD_NAME, BOARD_CONTENT, MEMBER_ID, MOVIE_NO, BORAD_FILENAME)
+		(BOARD_NAME, BOARD_CONTENT, user_id, MOVIE_NO, BORAD_FILENAME)
 		VALUES
 		(#{name}, #{content}, #{user.id}, #{movie.no}, #{fileName});
 		
