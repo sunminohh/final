@@ -15,6 +15,17 @@ $(document).ready(function() {
         // 클릭한 카테고리의 id를 로컬 스토리지에 저장
         localStorage.setItem("selectedCategoryId", $(this).attr("id"));
     });
+
+    function addCommasToPrice() {
+        let priceElements = document.querySelectorAll('.price-detail', '.original');
+        priceElements.forEach(function(element) {
+            let priceValue = element.textContent;
+            let formattedPrice = parseFloat(priceValue).toLocaleString('en-US');
+            element.textContent = formattedPrice;
+        });
+    }
+
+    window.onload = addCommasToPrice;
 });
 
 
