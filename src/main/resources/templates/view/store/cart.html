@@ -2,9 +2,11 @@
 <head th:fragment="extra-head-content">
     <title>장바구니</title>
     <style></style>
+    <script th:src="@{/js/store/cart.js}"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
 </head>
 <body>
-    <div layout:fragment="content">
+<div layout:fragment="content">
         <div id="contents">
             <div class="inner-wrap">
                 <!-- store-payment -->
@@ -12,62 +14,61 @@
                     <h2 class="tit">장바구니</h2>
                     <h3 class="tit">장바구니 목록</h3>
                     <div class="table-wrap">
+                        <!-- 삭제 form -->
+                        <form action="/cart/delete" method="post" class="delete-form">
+                            <input type="hidden" name="cartNo" class="delete-cartNo">
+                        </form>
                         <table class="board-list">
                             <caption>주문상품정보 목록 표</caption>
                             <colgroup>
                                 <col style="width:120px;">
                                 <col>
                                 <col style="width:150px;">
+                                <col style="width:120px;">
                                 <col style="width:80px;">
-                                <col style="width:200px;">
                             </colgroup>
                             <thead>
                             <tr>
                                 <th scope="colgroup" colspan="2">상품정보</th>
-                                <th></th>
                                 <th scope="col">구매수량</th>
-                                <th scope="col">총 상품금액</th>
+                                <th scope="col">상품금액</th>
+                                <th scope="col">삭제</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="cart : ${carts}" th:if="${cart.getProduct()}">
-                                <td class="a-c">
+                            <tr th:each="cart : ${carts}">
+                                <td class="a-c" th:if="${cart.getProduct()}">
                                     <div class="goods-info" th:if="${cart.getProduct.getImagePath()}">
                                         <p class="img"><a th:href="@{/store/detail/product(productNo=${cart.getProduct().getNo()})}"><img th:src="${cart.getProduct().getImagePath()}" onerror="noImg(this);"></a></p>
                                     </div>
                                 </td>
-                                <th scope="row">
+                                <td class="a-c" th:if="${cart.getPkg()}">
+                                    <div class="goods-info" th:if="${cart.getPkg().getImagePath()}">
+                                        <p class="img"><a th:href="@{/store/detail/package(packageNo=${cart.getPkg().getNo()})}"><img th:src="${cart.getPkg().getImagePath()}" onerror="noImg(this);"></a></p>
+                                    </div>
+                                </td>
+                                <th scope="row" th:if="${cart.getProduct()}">
                                     <div class="goods-info">
                                         <p class="name"><a th:href="@{/store/detail/product(productNo=${cart.getProduct().getNo()})}" th:text="${cart.getProduct().getName()}"></a></p>
                                         <p class="bundle" th:text="${cart.getProduct().getDescription()}"></p>
                                     </div>
                                 </th>
-                                <td></td>
-                                <td><em id="purcQtyView" th:text="${cart.getAmount()}"></em></td>
-                                <td>
-                                    <div class="goods-info">
-                                        <em id="prdtSumAmtView" class="price" th:text="${cart.getTotalPrice()}"></em>원
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr th:each="cart : ${carts}" th:if="${cart.getPkg()}">
-                                <td class="a-c">
-                                    <div class="goods-info">
-                                        <p class="img"><a th:href="@{/store/detail/package(packageNo=${cart.getPkg().getNo()})}"><img th:src="${cart.getPkg().getImagePath()}" onerror="noImg(this);"></a></p>
-                                    </div>
-                                </td>
-                                <th scope="row">
+                                <th scope="row" th:if="${cart.getPkg()}">
                                     <div class="goods-info">
                                         <p class="name"><a th:href="@{/store/detail/package(packageNo=${cart.getPkg().getNo()})}" th:text="${cart.getPkg().getName()}"></a></p>
                                         <p class="bundle" th:text="${cart.getPkg().getComposition()}"></p>
                                     </div>
                                 </th>
-                                <td></td>
-                                <td><em id="purcQtyViews" th:text="${cart.getAmount()}"></em></td>
+                                <td><em id="purcQtyView" th:text="${cart.getAmount()}"></em></td>
                                 <td>
                                     <div class="goods-info">
-                                        <em id="prdtSumAmtViews" class="price" th:text="${cart.getTotalPrice()}"></em>원
+                                        <em id="prdtSumAmtView" class="price priceTimesAmount" th:text="${cart.getTotalPrice()}"></em>원
                                     </div>
+                                </td>
+                                <td>
+                                    <a href="#" class="btn delete-btn" th:data-cart-no="${cart.getNo()}" style="color: black;">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
                                 </td>
                             </tr>
                             </tbody>
@@ -80,7 +81,7 @@
                             <div class="cell all">
                                 <p class="txt">총 상품금액</p>
                                 <p class="price">
-                                    <em id="totPrdtAmtView">10,000</em>
+                                    <em id="totPrdtAmtView">0</em>
                                     <span>원</span>
                                 </p>
                             </div>
@@ -96,7 +97,7 @@
                             <div class="cell real">
                                 <p class="txt">최종 결제금액</p>
                                 <p class="price">
-                                    <em id="lstPayAmtView">10,000</em>
+                                    <em id="lstPayAmtView">0</em>
                                     <span>원</span>
                                 </p>
                             </div>

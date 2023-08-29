@@ -43,6 +43,8 @@
             MGV_PACKAGE D ON A.PACKAGE_NO = D.PACKAGE_NO
         WHERE
             C.USER_ID = #{value}
+        AND
+            A.CART_PAYMENT_STATUS = 'N'
     </select>
 
     <update id="updateCartItem" parameterType="Cart">
@@ -55,4 +57,12 @@
         WHERE
             CART_NO = #{no}
     </update>
+
+    <delete id="deleteCart" parameterType="int">
+        DELETE FROM
+            MGV_CART
+        WHERE
+            CART_NO = #{value}
+
+    </delete>
 </mapper>
