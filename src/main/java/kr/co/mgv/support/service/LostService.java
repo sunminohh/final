@@ -13,6 +13,7 @@ import kr.co.mgv.support.dao.LostDao;
 import kr.co.mgv.support.dto.LostList;
 import kr.co.mgv.support.form.AddLostForm;
 import kr.co.mgv.support.vo.Lost;
+import kr.co.mgv.support.vo.LostComment;
 import kr.co.mgv.support.vo.LostFile;
 import kr.co.mgv.support.vo.SupportPagination;
 import kr.co.mgv.theater.vo.Location;
@@ -23,11 +24,32 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class LostService {
 
 	private final LostDao lostDao;
 	private final FileUtils fileUtils;
+	
+	public List<LostComment> getLostCommentsByLost(int lostNo) {
+		return lostDao.getLostCommentsByLost(lostNo);
+	}
+	
+	public void updateLostComment(int lostNo) {
+		Lost lost = lostDao.getLostByNo(lostNo);
+		lost.setAnswered("Y");
+		
+		lostDao.updateLostByNo(lost);
+	}
+	
+	public void insertComment(LostComment comment) {
+		lostDao.insertComment(comment);
+	}
+	
+	public void deleteComment(int commentNo) {
+		LostComment lostComment = lostDao.getLostCommentByNo(commentNo);
+		lostComment.setDeleted("Y");
+		
+		lostDao.deleteComment(lostComment);
+	}
 	
 	public void insertLost(AddLostForm form, User user) {
 		
