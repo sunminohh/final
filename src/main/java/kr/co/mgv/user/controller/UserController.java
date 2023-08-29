@@ -1,6 +1,7 @@
 package kr.co.mgv.user.controller;
 
 import kr.co.mgv.user.form.UserUpdateForm;
+import kr.co.mgv.user.service.MypageService;
 import kr.co.mgv.user.service.UserService;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+    private final MypageService mypageService;
     private final PasswordEncoder passwordEncoder;
 
     @RequestMapping({"/",""})
@@ -127,7 +130,9 @@ public class UserController {
     }
 
     @GetMapping("/booking")
-    public String bookinghome() {
+    public String bookinghome(@AuthenticationPrincipal User user, Model model) {
+
+
         return "view/user/booking/list";
     }
 

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.mgv.user.dao.MypageDao">
+    <!-- 결제내역 전체조회-->
+    <select id="getAllPaymentByUserId" parameterType="string" resultType="Payment">
+        SELECT
+            A.PAYMENT_PURCHASE_DATE AS PARCHASE,
+            C.PRODUCT_NAME AS PNAME,
+            A.PAYMENT_PRICE AS PRICE,
+            A.PAYMENT_STATUS AS STATUS
+        FROM MGV_PAYMENT A
+                 JOIN MGV_USER B ON A.USER_ID = B.USER_ID
+                 JOIN MGV_PRODUCT C ON A.PRODUCT_NO = C.PRODUCT_NO
+        WHERE B.USER_ID = #{id}
+        ORDER BY A.PAYMENT_PURCHASE_DATE DESC;
+
+    </select>
+
+    <!-- 구매 조회 -->
+    <select id="getParchaseByUserId" resultType="Payment">
+        SELECT
+        A.PAYMENT_PURCHASE_DATE AS PARCHASE,
+        C.PRODUCT_NAME AS PNAME,
+        A.PAYMENT_PRICE AS PRICE,
+        A.PAYMENT_STATUS AS STATUS
+        FROM MGV_PAYMENT A
+        JOIN MGV_USER B ON A.USER_ID = B.USER_ID
+        JOIN MGV_PRODUCT C ON A.PRODUCT_NO = C.PRODUCT_NO
+        WHERE B.USER_ID = 'hong'
+        AND A.PAYMENT_STATUS = 'B'
+        ORDER BY A.PAYMENT_PURCHASE_DATE DESC;
+
+    </select>
+
+    <!-- 구매 취소 조회 -->
+    <select id="getCancelByUserId" resultType="Payment">
+        SELECT
+        A.PAYMENT_PURCHASE_DATE AS PARCHASE,
+        C.PRODUCT_NAME AS PNAME,
+        A.PAYMENT_PRICE AS PRICE,
+        A.PAYMENT_STATUS AS STATUS
+        FROM MGV_PAYMENT A
+        JOIN MGV_USER B ON A.USER_ID = B.USER_ID
+        JOIN MGV_PRODUCT C ON A.PRODUCT_NO = C.PRODUCT_NO
+        WHERE B.USER_ID = 'hong'
+        AND A.PAYMENT_STATUS = 'C'
+        ORDER BY A.PAYMENT_PURCHASE_DATE DESC;
+    </select>
+</mapper>
