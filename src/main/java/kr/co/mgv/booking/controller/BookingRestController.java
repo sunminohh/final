@@ -3,9 +3,13 @@ package kr.co.mgv.booking.controller;
 import kr.co.mgv.booking.service.BookingService;
 import kr.co.mgv.schedule.dto.BookingScheduleDto;
 import kr.co.mgv.schedule.service.ScheduleService;
+import kr.co.mgv.user.vo.User;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -30,4 +34,18 @@ public class BookingRestController {
         return  bookingService.getBookingSchedules(map);
     }
 
+
+    @GetMapping("/step0")
+    public Map<String, Object> xxx(@AuthenticationPrincipal User user, @RequestParam("schedulId") int scheduleId){
+        Map<String, Object> map = new HashMap<>();
+//        if (user == null) {
+//            map.put("result", "fail");
+//            map.put("scheduleId", scheduleId);
+//            return map;
+//        } else {
+            map.put("result", "success");
+
+            return map;
+//        }
+    }
 }
