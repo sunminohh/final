@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.xml.stream.events.Comment;
 
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.mgv.common.file.FileUtils;
@@ -32,7 +33,7 @@ public class OneService {
 	private final FileUtils fileUtils;
 	
 	public List<OneComment> getOneCommentByOne(int oneNo) {
-		return oneDao.getOneCommentByOne(oneNo);
+		return oneDao.getOneCommentsByOne(oneNo);
 	}
 	
 	public void updateOneComment(int oneNo) {
@@ -44,6 +45,13 @@ public class OneService {
 	
 	public void insertComment(OneComment comment) {
 		oneDao.insertComment(comment);
+	}
+	
+	public void deleteComment(int commentNo) {
+		OneComment oneComment = oneDao.getOneCommentByNo(commentNo);
+		oneComment.setDeleted("Y");
+		
+		oneDao.deleteComment(oneComment);
 	}
 	
 	public void insertOne(AddOneForm form, User user) {
@@ -94,14 +102,16 @@ public class OneService {
 		List<MultipartFile> multipartFiles = form.getFiles();
 		for (MultipartFile multipartFile : multipartFiles) {
 			String originalFilename = multipartFile.getOriginalFilename();
-			String saveFilename = fileUtils.saveFile("static/images/support/one", multipartFile);
-			
-			OneFile oneFile = new OneFile();
-			oneFile.setOne(one);
-			oneFile.setOriginalName(originalFilename);
-			oneFile.setSaveName(saveFilename);
-			
-			oneDao.insertOneFile(oneFile);
+			if (StringUtils.hasText(originalFilename)) {
+				String saveFilename = fileUtils.saveFile("static/images/support/one", multipartFile);
+				
+				OneFile oneFile = new OneFile();
+				oneFile.setOne(one);
+				oneFile.setOriginalName(originalFilename);
+				oneFile.setSaveName(saveFilename);
+				
+				oneDao.insertOneFile(oneFile);
+			}
 		}
 	}
 	

@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/cart")
@@ -46,17 +48,42 @@ public class CartController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
 
-        int totalPrice = Integer.parseInt(request.getParameter("totalPrice"));
         int packageNo = Integer.parseInt(request.getParameter("packageNo"));
         int packageAmount = Integer.parseInt(request.getParameter("packageAmount"));
+        int totalPrice = Integer.parseInt(request.getParameter("totalPrice"));
 
-        Cart cart = new Cart();
-        cart.setTotalPrice(totalPrice);
-        cart.setUser(user);
-        cart.setPkg(new Package(packageNo));
-        cart.setAmount(packageAmount);
+        List<Cart> items = cartService.getCartItemsByUserId(user.getId());
 
-        cartService.insertCart(cart);
+        boolean productAlreadyInCart = false;
+        Cart existingCartItem = null;
+
+        for (Cart item : items) {
+            Package pkg = item.getPkg();
+            if (pkg != null && pkg.getNo() == packageNo) {
+                productAlreadyInCart = true;
+                existingCartItem = item;
+                break;
+            }
+        }
+
+        if (productAlreadyInCart) {
+            // 상품이 이미 장바구니에 담겨있을 경우
+            int newAmount = existingCartItem.getAmount() + packageAmount;
+            int newTotalPrice = existingCartItem.getTotalPrice() + totalPrice;
+            existingCartItem.setAmount(newAmount);
+            existingCartItem.setTotalPrice(newTotalPrice);
+
+            cartService.updateCartItem(existingCartItem);
+        } else {
+            // 장바구니에 해당 번호의 상품이 담겨있지 않을 경우
+            Cart cart = new Cart();
+            cart.setTotalPrice(totalPrice);
+            cart.setUser(user);
+            cart.setPkg(new Package(packageNo));
+            cart.setAmount(packageAmount);
+
+            cartService.insertCart(cart);
+        }
 
         return "view/store/list";
     }
@@ -70,16 +97,39 @@ public class CartController {
         int productNo = Integer.parseInt(request.getParameter("productNo"));
         int productAmount = Integer.parseInt(request.getParameter("productAmount"));
 
-        Cart cart = new Cart();
-        cart.setTotalPrice(totalPrice);
-        cart.setUser(user);
-        cart.setProduct(new Product(productNo));
-        cart.setAmount(productAmount);
+        List<Cart> items = cartService.getCartItemsByUserId(user.getId());
 
-        cartService.insertCart(cart);
+        boolean productAlreadyInCart = false;
+        Cart existingCartItem = null;
+
+        for (Cart item : items) {
+            Product product = item.getProduct();
+            if (product != null && product.getNo() == productNo) {
+                productAlreadyInCart = true;
+                existingCartItem = item;
+                break;
+            }
+        }
+
+        if (productAlreadyInCart) {
+            // 상품이 이미 장바구니에 담겨있을 경우
+            int newAmount = existingCartItem.getAmount() + productAmount;
+            int newTotalPrice = existingCartItem.getTotalPrice() + totalPrice;
+            existingCartItem.setAmount(newAmount);
+            existingCartItem.setTotalPrice(newTotalPrice);
+
+            cartService.updateCartItem(existingCartItem);
+        } else {
+            // 장바구니에 해당 번호의 상품이 담겨있지 않을 경우
+            Cart cart = new Cart();
+            cart.setTotalPrice(totalPrice);
+            cart.setUser(user);
+            cart.setProduct(new Product(productNo));
+            cart.setAmount(productAmount);
+
+            cartService.insertCart(cart);
+        }
 
         return "view/store/list";
     }
-
-
 }

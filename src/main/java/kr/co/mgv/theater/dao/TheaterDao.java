@@ -4,9 +4,12 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import kr.co.mgv.theater.vo.FloorInfo;
 import kr.co.mgv.theater.vo.Location;
+import kr.co.mgv.theater.vo.ParkingInfo;
 import kr.co.mgv.theater.vo.Screen;
 import kr.co.mgv.theater.vo.Theater;
+import kr.co.mgv.theater.vo.TheaterFacility;
 
 @Mapper
 public interface TheaterDao {
@@ -16,6 +19,14 @@ public interface TheaterDao {
 	Theater getTheaterDetailByNo(int theaterNo);
 	void updateTheater(Theater theater);
 	void insertTheater(Theater theater);
+	
 	List<Screen> getScreensByTheaterNo(int theaterNo);
 	Screen getScreenById(int screenId);
+	
+	List<TheaterFacility> getFacilities();
+	void insertFacilityInfo(TheaterFacility facility);
+	
+	void insertFloorInfo(FloorInfo floorInfo);
+	
+	void insertParkingInfo(ParkingInfo parkingInfo);
 }

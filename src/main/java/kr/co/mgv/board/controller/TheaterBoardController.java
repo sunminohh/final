@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.mgv.board.form.AddTboardForm;
 import kr.co.mgv.board.form.ReportForm;
+import kr.co.mgv.board.list.TBoardCommentList;
 import kr.co.mgv.board.list.TheaterBoardList;
 import kr.co.mgv.board.service.MovieBoardService;
 import kr.co.mgv.board.service.TheaterBoardService;
@@ -252,7 +253,7 @@ public class TheaterBoardController {
 	// 댓글 관련
 	@PostMapping("/addComment")
 	@ResponseBody
-	public ResponseEntity<TBoardComment> addComment(@RequestParam("no") int no, 
+	public ResponseEntity<TBoardCommentList> addComment(@RequestParam("no") int no, 
 										            @RequestParam("id") String id, 
 										            @RequestParam(name="parentNo", required = false) Integer parentNo, 
 										            @RequestParam(name="greatNo", required = false) Integer greatNo, 
@@ -278,17 +279,22 @@ public class TheaterBoardController {
 		theaterBoardService.TBoardCommentInsert(comment);
 		TheaterBoard board = theaterBoardService.getTheaterBoardByNo(no);
 		int commentCount = board.getCommentCount() + 1;
-		
 		theaterBoardService.updateBoardComment(no, commentCount);
 		
-		TBoardComment inputComment = theaterBoardService.getGreatComment(no, id);
+		List<TBoardComment> parents = theaterBoardService.getComments(no);
+		List<TBoardComment> childs = theaterBoardService.getChildComments(no);
+		TBoardCommentList list = TBoardCommentList
+								 .builder()
+								 .parentComments(parents)
+								 .childComments(childs)
+								 .build(); 
 		
-		return ResponseEntity.ok().body(inputComment);
+		return ResponseEntity.ok().body(list);
 	}
 	
 	@PostMapping("/addReComment")
 	@ResponseBody
-	public ResponseEntity<TBoardComment> addReComment (@RequestParam("no") int no, 
+	public ResponseEntity<TBoardCommentList> addReComment (@RequestParam("no") int no, 
 											    	   @RequestParam("id") String id, 
 											    	   @RequestParam(name="parentNo", required = false) Integer parentNo, 
 											    	   @RequestParam(name="greatNo", required = false) Integer greatNo, 
@@ -314,12 +320,17 @@ public class TheaterBoardController {
 		theaterBoardService.TBoardCommentInsert(comment);
 		TheaterBoard board = theaterBoardService.getTheaterBoardByNo(no);
 		int commentCount = board.getCommentCount() + 1;
-		
 		theaterBoardService.updateBoardComment(no, commentCount);
 		
-		TBoardComment inputComment = theaterBoardService.getChildComment(no, id);
+		List<TBoardComment> parents = theaterBoardService.getComments(no);
+		List<TBoardComment> childs = theaterBoardService.getChildComments(no);
+		TBoardCommentList list = TBoardCommentList
+								 .builder()
+								 .parentComments(parents)
+								 .childComments(childs)
+								 .build(); 
 		
-		return ResponseEntity.ok().body(inputComment);
+		return ResponseEntity.ok().body(list);
 	}
 	
 	@PostMapping("/deleteGreatComment")

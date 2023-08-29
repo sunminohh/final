@@ -58,12 +58,8 @@ $(function() {
 
 // 댓글 관련 코드
 
-      let no = document.querySelector("input[name=no]").value;
-      let loginId = $("#login-id").attr("value");
-      let commentNo = $(this).attr("data-cancel-comment");
-
-	    // 답글 작성 버튼을 클릭하면
-	    $(".great-box").on("click", "[data-comment-no]", function (event) {
+   	    // 답글 작성 버튼을 클릭하면
+	    $("#all-comment-box").on("click", "[data-comment-no]", function (event) {
 	        event.preventDefault();
 
        		let commentNo = $(this).attr("data-comment-no");
@@ -114,61 +110,14 @@ $(function() {
 	        $("#reply-form-" + commentNo).remove();
 	        $("#btn-a-re-reply-" + commentNo).attr('id', 'btn-a-reply-' + commentNo).text('답글쓰기');
 	    });
+	    
+	    
+	  
       
-      
-      	    // 답글 작성 버튼을 클릭하면
-	    $(".great-box-2").on("click", "[data-comment-no]", function (event) {
-	        event.preventDefault();
-
-       		let commentNo = $(this).attr("data-comment-no");
-
-	        // 이미 답글 작성 폼이 열려있는지 확인하고, 열려있으면 닫기
-	        if ($("#reply-form-" + commentNo).length > 0) {
-	            $("#reply-form-" + commentNo).remove();
-	            $("#btn-a-re-reply-" + commentNo).attr('id', 'btn-a-reply-' + commentNo).text('답글쓰기');
-	            return;
-	        }
-
-	        // 답글 작성 폼 HTML
-	        let content = `
-	            <div class="col-11 ms-5 CommentWriter" id="reply-form-${commentNo}">
-	                <div class="comment-inbox border p-2 rounded">
-	                    <em class="comment_inbox_name">${loginId}</em>
-	                    <form id="re-form-comment" method="post" action="/board/store/addReComment">
-	                        <input type="hidden" name="no" value="${no}" />
-	                        <input type="hidden" name="parentNo" value="${commentNo}" />
-	                        <input type="hidden" name="greatNo" value="${commentNo}" />
-							<input type="hidden" name="id" value=${loginId} />
-	                        <div class="row">
-	                            <div id="new-content-div">
-	                                <textarea rows="2" class="comment_inbox_text" name="content" id="content"
-	                                          style="border: none; overflow: hidden; overflow-wrap: break-word;"
-	                                          placeholder="댓글을 남겨보세요"></textarea>
-	                            </div>
-	                            	<div class="re-register-box">
-	
-		                               <button class="btn btn-outline-white btn-sm float-end" id="btn-comment" style="border: none" type="button">등록</button>
-		                            </div>
-		                        </div>
-		                    </form>
-		                </div>
-		            </div>`;
-		
-		        // 답글 작성 폼 추가
-		        $("#reply-comment-box-" + commentNo).append(content);
-		        // 답글 쓰기 버튼을 취소 버튼으로 변경
-		        $("#btn-a-reply-" + commentNo).attr('id', 'btn-a-re-reply-' + commentNo).text('취소');
-	    });
-	
-		    // 답글 작성 취소 버튼을 클릭하면 폼을 제거하고 버튼을 답글쓰기로 변경
-		    $(".great-box-2").on("click", "[data-cancel-comment]", function (event) {
-		        event.preventDefault();
-	
-	
-	        $("#reply-form-" + commentNo).remove();
-	        $("#btn-a-re-reply-" + commentNo).attr('id', 'btn-a-reply-' + commentNo).text('답글쓰기');
-	    });
-      
+   	  
+      let no = document.querySelector("input[name=no]").value;
+      let loginId = $("#login-id").attr("value");
+      let commentNo = $(this).attr("data-cancel-comment");
       
       // 댓글 axax
       $(".register-box").on('click','#btn-comment' ,function() {
@@ -190,24 +139,28 @@ $(function() {
                  url: '/board/store/addComment',
                  method: "POST",
                  data: $("#form-comment").serialize(),
-                 success: function(comment) {
+                 success: function(commentList) {
                      $("#content-box textarea").val('');
                        
-                  
-                     // 성공 시 새로운 댓글 목록을 업데이트                  
-                  // 주어진 날짜 문자열
-                  const originalDateString = comment.createDate;
-                  
-                  // Date 객체로 변환
-                  const dateObject = new Date(originalDateString);
-                  
-                  // 원하는 날짜 형식으로 포맷팅
-                  const formattedDate = `${dateObject.getFullYear()}/${(dateObject.getMonth() + 1).toString().padStart(2, '0')}/${dateObject.getDate().toString().padStart(2, '0')} ${dateObject.getHours().toString().padStart(2, '0')}:${dateObject.getMinutes().toString().padStart(2, '0')}`;
-                  
-
-                                    
-                     content = `
-                           <div class="row great-comment-box pt-1" >
+                  const parents = commentList.parentComments;
+                  const childs = commentList.childComments;
+                  // 성공 시 새로운 댓글 목록을 업데이트                  
+                  let content = `<div class="comment-box">`;
+				  let childContent;
+                    parents.forEach(function(comment) {
+	                  // 주어진 날짜 문자열
+	                  const originalDateString = comment.createDate;
+	                  
+	                  // Date 객체로 변환
+	                  const dateObject = new Date(originalDateString);
+	                  
+	                  // 원하는 날짜 형식으로 포맷팅
+	                  const formattedDate = `${dateObject.getFullYear()}/${(dateObject.getMonth() + 1).toString().padStart(2, '0')}/${dateObject.getDate().toString().padStart(2, '0')} ${dateObject.getHours().toString().padStart(2, '0')}:${dateObject.getMinutes().toString().padStart(2, '0')}`;
+	                  
+						
+                      content += `
+                      <div class="great-box">
+                      	<div class="row great-comment-box pt-1" >
                               <div class="p-1 col-12" id="comment-box">
                                  <div class="d-flex justify-content-between">
                                   <div class="col-sm-11">
@@ -218,7 +171,7 @@ $(function() {
                                           </a>
                                        </div>
                                        <div class="ps-5">
-                                          <p><strong  >${comment.user.id}</strong></p>
+                                          <p><strong>${comment.user.id}</strong></p>
                                           <input type="hidden" name="greatCommentNo" value="${comment.no}" />
                                        </div>
                                     </div>
@@ -233,7 +186,7 @@ $(function() {
                                  </div>
                                     <div class="col-sm-1 d-flex justify-content-end pt-0" sec:authorize="isAuthenticated()">
                                        
-                                       <a href="/board/movie/deleteGreatComment"
+                                       <a href="/board/store/deleteGreatComment"
                                           class="btn btn-link btn-sm text-danger text-decoration-none"
                                           sec:authorize="isAuthenticated()"
                                             th:if="${id == comment.user.id}"
@@ -249,21 +202,71 @@ $(function() {
                               
                               </div>
                         </div>
-                     
-   
+                     </div>
+   					  
                      `
-                       $("#comment-here").append(content);
-                   
-                  // 댓글 등록 완료 후 포커스 이동
-                  let newCommentElement = $("#comment-here").children().last(); // 새로 추가된 댓글 요소 선택
-                  
-                  window.scrollTo(0, newCommentElement.offset().top - 100); // 댓글 요소로 바로 이동 (100은 여유 공간 조절)
+                     childs.forEach(function(child){
+						 
+						 if (childs !== null && comment.no == child.great.no){
+						 content += `
+						  <div class="re-comment-box-loop" id="re-comment-box-${comment.no}">
+							  <div class=" row child-comment-box">
+							 	<div class="p-1 offset-1 col-11 pt-2" id="comment-box" >
+			                        <div class="d-flex justify-content-between" id="child-comment-here">
+			                         <div class="col-sm-11">
+			                            <div id="profile">
+			                              <div id="comment-imgbox" class="float-start" >
+			                                 <a href="사용자상세정보">
+			                                    <img id="profileimg" src="/images/board/sample.png" alt="프로필사진">
+			                                 </a>
+			                              </div>
+			                              <div class="ps-5">
+			                                 <p ><strong class="fs-6" >${child.user.id}</strong></p>
+			                                 <input type="hidden" name="commentNo" value="${child.no}" />
+			                              </div>
+			                           </div>
+			                           <div class="re-commentUserInfo ps-5" >
+			                                    <p><strong >${child.parent.user.id} </strong> <span >${child.content}</span></p>
+			                                    <div id="comment-info" class="d-flex justify-content-start">
+			                                       <p class="float-start me-2" style="font-size: 12px; color: gray">${formattedDate}</p>
+			                                       <!-- 
+			                                       <a id="a-re-reply" href="" class="reply-btn float-satrt" style="text-decoration:none; font-size: 12px; color: gray" sec:authorize="isAuthenticated()">답글쓰기</a>
+			                                       -->
+			                                    </div>
+			                              
+			                           </div>
+			                        </div>
+			                           <div class="col-sm-1 d-flex justify-content-end pt-0" sec:authorize="isAuthenticated()">
+			                              <input type="hidden" name="userId" value="${id}">
+			                              <a href="/board/store/deleteReComment" 
+			                                 class="btn btn-link btn-sm text-danger text-decoration-none"
+			                                 sec:authorize="isAuthenticated()"
+			                                   th:if="${id== child.user.id}"
+			                                   id="delete-reComment-btn">삭제</a>
+			            
+			                           </div>            
+			                     </div>
+			                     <hr>
+			                        <div class="row mb-3 pt-2 " id="re-reply-comment-box">
+			                        </div>
+			                  </div>
+			                 </div>
+			                </div>
+						 `
+						 }
+					 })
+					 content += `</div>`
+					});                
+                       $("#all-comment-box").html(content);
+                   			
 
                      
                      let commentCountUpdate = parseInt($('#ajax-comment-count').text()) + 1;
                      $('#ajax-comment-count').text(commentCountUpdate);
                      $('#ajax-comment-count-2').text(commentCountUpdate);
                      
+                     let newCommentElement = $("#all-comment-box").children().last();
+					 window.scrollTo(0, newCommentElement.offset().top - 100); // 댓글 요소로 바로 이동 (100은 여유 공간 조절)
 
                  }
                  
@@ -272,290 +275,208 @@ $(function() {
           }   
       });
       
-      // 대댓글 axax
-      $(".great-box").on('click','#btn-comment' ,function() {
-        
-        // ㄴ정상작동 -> 등록창 안접히지만 댓글 등록은 됨
+      
+      $("#all-comment-box").on('click','#btn-comment' ,function() {
          
          let $that = $(this);
-         
-         let newContent = $("#new-content-div textarea").val();
+         let inputcontent = $("#new-content-div textarea").val();
+         let id = $("input[name=userId]").val;
     
-          if(newContent === "") { // 댓글 내용이 비어있을 때
+          if(inputcontent === "") { // 댓글 내용이 비어있을 때
               Swal.fire({
                   icon: 'error',
                   text: '댓글 내용을 작성해주세요.',
                   onClose: () => {
-                      $("#new-content-div textarea").focus(); // 입력 필드로 포커스 이동
+                      $("#content-box textarea").focus(); // 입력 필드로 포커스 이동
                   }
               });
           } else { // 댓글 내용이 비어있지 않을 때
               // AJAX 요청을 보내고 새로운 댓글 목록을 받아옴
+          
+             let thisCommentNo = $(".re-comment-here").attr('id');
+             let result = thisCommentNo.substr(16);
              $.ajax({
                  url: '/board/store/addReComment',
                  method: "POST",
                  data: $("#re-form-comment").serialize(),
-                 success: function(comment) {
-                  
-                   $("#new-content-div textarea").val('');
-                   
-                    // 성공 시 새로운 댓글 목록을 업데이트                  
-                  // 주어진 날짜 문자열
-                  const originalDateString = comment.createDate;
-                  
-                  // Date 객체로 변환
-                  const dateObject = new Date(originalDateString);
-                  
-                  // 원하는 날짜 형식으로 포맷팅
-                  const formattedDate = `${dateObject.getFullYear()}/${(dateObject.getMonth() + 1).toString().padStart(2, '0')}/${dateObject.getDate().toString().padStart(2, '0')} ${dateObject.getHours().toString().padStart(2, '0')}:${dateObject.getMinutes().toString().padStart(2, '0')}`;
-                  
-
-                  
-                     // 성공 시 새로운 댓글 목록을 업데이트                  
-                       let thisCommentNo = $(".re-comment-here").attr('id');
-                       let result = thisCommentNo.substr(16);
+                 success: function(commentList) {
+                     $("#content-box textarea").val('');
                        
-                        let content = `
-                       <div class="p-1 offset-1 col-11 pt-2" id="comment-box" >
-                        <div class="d-flex justify-content-between" id="child-comment-here">
-                         <div class="col-sm-11">
-                            <div id="profile">
-                              <div id="comment-imgbox" class="float-start" >
-                                 <a href="사용자상세정보">
-                                    <img id="profileimg" src="/images/board/sample.png" alt="프로필사진">
-                                 </a>
-                              </div>
-                              <div class="ps-5">
-                                 <p><strong class="fs-6"  >${comment.user.id}</strong></p>
-                                 <input type="hidden" name="commentNo" value="${comment.no}" />
-                              </div>
-                           </div>
-                           <div class="re-commentUserInfo ps-5" >
-                                    <p><strong >${comment.parent.user.id} </strong> <span >${comment.content}</span></p>
-                                    <div id="comment-info" class="d-flex justify-content-start">
-                                       <p class="float-start me-2" style="font-size: 12px; color: gray">${formattedDate}</p>
-                                       <!-- 
-                                       <a id="a-re-reply" href="" class="reply-btn float-satrt" style="text-decoration:none; font-size: 12px; color: gray" sec:authorize="isAuthenticated()">답글쓰기</a>
-                                       -->
+                  const parents = commentList.parentComments;
+                  const childs = commentList.childComments;
+                  // 성공 시 새로운 댓글 목록을 업데이트                  
+                  let content = `<div class="comment-box">`;
+                    parents.forEach(function(comment) {
+	                  // 주어진 날짜 문자열
+	                  const originalDateString = comment.createDate;
+	                  
+	                  // Date 객체로 변환
+	                  const dateObject = new Date(originalDateString);
+	                  
+	                  // 원하는 날짜 형식으로 포맷팅
+	                  const formattedDate = `${dateObject.getFullYear()}/${(dateObject.getMonth() + 1).toString().padStart(2, '0')}/${dateObject.getDate().toString().padStart(2, '0')} ${dateObject.getHours().toString().padStart(2, '0')}:${dateObject.getMinutes().toString().padStart(2, '0')}`;
+						
+                      content += `
+                      <div class="great-box">
+                      	<div class="row great-comment-box pt-1" >
+                              <div class="p-1 col-12" id="comment-box">
+                                 <div class="d-flex justify-content-between">
+                                  <div class="col-sm-11">
+                                     <div id="profile">
+                                       <div id="comment-imgbox" class="float-start" >
+                                          <a href="사용자상세정보">
+                                             <img id="profileimg"  src="/images/board/sample.png" alt="프로필사진">
+                                          </a>
+                                       </div>
+                                       <div class="ps-5">
+                                          <p><strong>${comment.user.id}</strong></p>
+                                          <input type="hidden" name="greatCommentNo" value="${comment.no}" />
+                                       </div>
                                     </div>
+                                    <div class="commentUserInfo ps-5" >
+                                             <p >${comment.content}</p>
+                                             <div id="comment-info" class="d-flex justify-content-start">
+                                                <p class="float-start me-2" style="font-size: 12px; color: gray" >${formattedDate}</p>
+                                                <a id="btn-a-reply-${comment.no}" data-comment-no=${comment.no} href="" class="reply-btn float-start" style="text-decoration:none; font-size: 12px; color: gray" sec:authorize="isAuthenticated()">답글쓰기</a>
+                                             </div>
+                                       
+                                    </div>
+                                 </div>
+                                    <div class="col-sm-1 d-flex justify-content-end pt-0" sec:authorize="isAuthenticated()">
+                                       
+                                       <a href="/board/store/deleteGreatComment"
+                                          class="btn btn-link btn-sm text-danger text-decoration-none"
+                                          sec:authorize="isAuthenticated()"
+                                            th:if="${id == comment.user.id}"
+                                            id="delete-comment-btn">삭제</a>
+                     
+                                    </div>            
+                              </div>
+                           </div>   
+                           <hr>
+                        <div class="re-comment-here" id="re-comment-here-${comment.no}">
+                  		</div>
+                              <div class="new-register-box  row mb-3 pt-2" id="reply-comment-box-${comment.no}" >
                               
-                           </div>
+                              </div>
                         </div>
-                           <div class="col-sm-1 d-flex justify-content-end pt-0" sec:authorize="isAuthenticated()">
-                              <input type="hidden" name="userId" value="${id}">
-                              <a href="/board/movie/deleteReComment" 
-                                 class="btn btn-link btn-sm text-danger text-decoration-none"
-                                 sec:authorize="isAuthenticated()"
-                                   th:if="${id== comment.user.id}"
-                                   id="delete-reComment-btn">삭제</a>
-            
-                           </div>            
                      </div>
-                     <hr>
-                        <div class="row mb-3 pt-2 " id="re-reply-comment-box">
-                        </div>
-                  </div>`
+   					  
+                     `
+                     childs.forEach(function(child){
+						 
+						 if (childs !== null && comment.no == child.great.no){
+						 content += `
+						  <div class="re-comment-box-loop" id="re-comment-box-${comment.no}">
+							  <div class=" row child-comment-box">
+							 	<div class="p-1 offset-1 col-11 pt-2" id="comment-box" >
+			                        <div class="d-flex justify-content-between" id="child-comment-here">
+			                         <div class="col-sm-11">
+			                            <div id="profile">
+			                              <div id="comment-imgbox" class="float-start" >
+			                                 <a href="사용자상세정보">
+			                                    <img id="profileimg" src="/images/board/sample.png" alt="프로필사진">
+			                                 </a>
+			                              </div>
+			                              <div class="ps-5">
+			                                 <p ><strong class="fs-6" >${child.user.id}</strong></p>
+			                                 <input type="hidden" name="commentNo" value="${child.no}" />
+			                              </div>
+			                           </div>
+			                           <div class="re-commentUserInfo ps-5" >
+			                                    <p><strong >${child.parent.user.id} </strong> <span >${child.content}</span></p>
+			                                    <div id="comment-info" class="d-flex justify-content-start">
+			                                       <p class="float-start me-2" style="font-size: 12px; color: gray">${formattedDate}</p>
+			                                       <!-- 
+			                                       <a id="a-re-reply" href="" class="reply-btn float-satrt" style="text-decoration:none; font-size: 12px; color: gray" sec:authorize="isAuthenticated()">답글쓰기</a>
+			                                       -->
+			                                    </div>
+			                              
+			                           </div>
+			                        </div>
+			                           <div class="col-sm-1 d-flex justify-content-end pt-0" sec:authorize="isAuthenticated()">
+			                              <input type="hidden" name="userId" value="${id}">
+			                              <a href="/board/store/deleteReComment" 
+			                                 class="btn btn-link btn-sm text-danger text-decoration-none"
+			                                 sec:authorize="isAuthenticated()"
+			                                   th:if="${id== child.user.id}"
+			                                   id="delete-reComment-btn">삭제</a>
+			            
+			                           </div>            
+			                     </div>
+			                     <hr>
+			                        <div class="row mb-3 pt-2 " id="re-reply-comment-box">
+			                        </div>
+			                  </div>
+			                 </div>
+			                </div>
+						 `
+						 }
+					 })
+ 					 content += `</div>`
+					});                
+                       $("#all-comment-box").html(content);
+                   			
+					     $that.closest('.comment-box').find('.re-comment-here').append(content);
                   
-                  $that.closest('.comment-box').find('.re-comment-here').append(content);
-                  
-                   // 답글 작성 폼을 제거하고 답글 쓰기 버튼으로 변경
-                  $that.closest('.great-box').find('.new-register-box ').remove();
-                  $that.closest('.comment-box').find(".reply-btn").attr('id', 'btn-a-reply-' + result).text('답글쓰기');
-            
-                     // 댓글 등록 완료 후 포커스 이동
-                  let newCommentElement = $(".re-comment-here").children().last(); // 새로 추가된 댓글 요소 선택
-                  
-                  window.scrollTo(0, newCommentElement.offset().top - 100); // 댓글 요소로 바로 이동 (100은 여유 공간 조절)         
-            
-                       let commentCountUpdate = parseInt($('#ajax-comment-count').text()) + 1;
+                   //답글 작성 폼을 제거하고 답글 쓰기 버튼으로 변경
+	                 $that.closest('.great-box').find('.new-register-box ').remove();
+	                 $that.closest('.comment-box').find(".reply-btn").attr('id', 'btn-a-reply-' + result).text('답글쓰기');
+	            
+                     let commentCountUpdate = parseInt($('#ajax-comment-count').text()) + 1;
                      $('#ajax-comment-count').text(commentCountUpdate);
                      $('#ajax-comment-count-2').text(commentCountUpdate);
+                     
+                 	 let newCommentElement = $("#all-comment-box").children().last();
+					 window.scrollTo(0, newCommentElement.offset().top - 100); // 댓글 요소로 바로 이동 (100은 여유 공간 조절)
                  }
+                 
              });
+            
           }   
       });
       
-       $(".great-box-2").on('click','#btn-comment' ,function() {
-        
-        // ㄴ정상작동 -> 등록창 안접히지만 댓글 등록은 됨
-         
-         let $that = $(this);
-         
-         let newContent = $("#new-content-div textarea").val();
-    
-          if(newContent === "") { // 댓글 내용이 비어있을 때
-              Swal.fire({
-                  icon: 'error',
-                  text: '댓글 내용을 작성해주세요.',
-                  onClose: () => {
-                      $("#new-content-div textarea").focus(); // 입력 필드로 포커스 이동
-                  }
-              });
-          } else { // 댓글 내용이 비어있지 않을 때
-              // AJAX 요청을 보내고 새로운 댓글 목록을 받아옴
-             $.ajax({
-                 url: '/board/store/addReComment',
-                 method: "POST",
-                 data: $("#re-form-comment").serialize(),
-                 success: function(comment) {
-                  
-                   $("#new-content-div textarea").val('');
-                   
-                    // 성공 시 새로운 댓글 목록을 업데이트                  
-                  // 주어진 날짜 문자열
-                  const originalDateString = comment.createDate;
-                  
-                  // Date 객체로 변환
-                  const dateObject = new Date(originalDateString);
-                  
-                  // 원하는 날짜 형식으로 포맷팅
-                  const formattedDate = `${dateObject.getFullYear()}/${(dateObject.getMonth() + 1).toString().padStart(2, '0')}/${dateObject.getDate().toString().padStart(2, '0')} ${dateObject.getHours().toString().padStart(2, '0')}:${dateObject.getMinutes().toString().padStart(2, '0')}`;
-                  
-
-                  
-                     // 성공 시 새로운 댓글 목록을 업데이트                  
-                       let thisCommentNo = $(".re-comment-here").attr('id');
-                       let result = thisCommentNo.substr(16);
-                       
-                        let content = `
-                       <div class="p-1 offset-1 col-11 pt-2" id="comment-box" >
-                        <div class="d-flex justify-content-between" id="child-comment-here">
-                         <div class="col-sm-11">
-                            <div id="profile">
-                              <div id="comment-imgbox" class="float-start" >
-                                 <a href="사용자상세정보">
-                                    <img id="profileimg" src="/images/board/sample.png" alt="프로필사진">
-                                 </a>
-                              </div>
-                              <div class="ps-5">
-                                 <p ><strong class="fs-6"  >${comment.user.id}</strong></p>
-                                 <input type="hidden" name="commentNo" value="${comment.no}" />
-                              </div>
-                           </div>
-                           <div class="re-commentUserInfo ps-5" >
-                                    <p><strong >${comment.parent.user.id} </strong> <span >${comment.content}</span></p>
-                                    <div id="comment-info" class="d-flex justify-content-start">
-                                       <p class="float-start me-2" style="font-size: 12px; color: gray">${formattedDate}</p>
-                                       <!-- 
-                                       <a id="a-re-reply" href="" class="reply-btn float-satrt" style="text-decoration:none; font-size: 12px; color: gray" sec:authorize="isAuthenticated()">답글쓰기</a>
-                                       -->
-                                    </div>
-                              
-                           </div>
-                        </div>
-                           <div class="col-sm-1 d-flex justify-content-end pt-0" sec:authorize="isAuthenticated()">
-                              <input type="hidden" name="userId" value="${id}">
-                              <a href="/board/movie/deleteReComment" 
-                                 class="btn btn-link btn-sm text-danger text-decoration-none"
-                                 sec:authorize="isAuthenticated()"
-                                   th:if="${id== comment.user.id}"
-                                   id="delete-reComment-btn">삭제</a>
-            
-                           </div>            
-                     </div>
-                     <hr>
-                        <div class="row mb-3 pt-2 " id="re-reply-comment-box">
-                        </div>
-                  </div>`
-                  
-                  $that.closest('.great-box-2').find('.child-comment-box2').append(content);
-                  
-                   // 답글 작성 폼을 제거하고 답글 쓰기 버튼으로 변경
-                  $that.closest('.great-box-2').find('.new-register-box ').remove();
-                  $that.closest('.great-box-2').find(".reply-btn").attr('id', 'btn-a-reply-' + result).text('답글쓰기');
-            
-                     // 댓글 등록 완료 후 포커스 이동
-                  let newCommentElement = $(".child-comment-box2").children().last(); // 새로 추가된 댓글 요소 선택
-                  
-                  window.scrollTo(0, newCommentElement.offset().top - 100); // 댓글 요소로 바로 이동 (100은 여유 공간 조절)         
-            
-                       let commentCountUpdate = parseInt($('#ajax-comment-count').text()) + 1;
-                     $('#ajax-comment-count').text(commentCountUpdate);
-                     $('#ajax-comment-count-2').text(commentCountUpdate);
-                 }
-             });
-          }   
-      });
+      // 댓글 삭제
+      $("#all-comment-box").on('click', '#delete-comment-btn', function(event) {
+		    event.preventDefault();
+		    let $that = $(this);
+		    let thisCommentNo = $that.closest(".great-box").find('input[name=greatCommentNo]').val();
+			console.log(thisCommentNo);
+		    let requestData = {
+		        no: $("input[name=no]").val(),
+		        greatCommentNo: $that.closest('.great-box').find("input[name=greatCommentNo]").val()
+		    };
+		
+		
+		    Swal.fire({
+		        icon: 'warning',
+		        title: '정말 삭제하시겠습니까?',
+		        showCancelButton: true,
+		        confirmButtonText: '네',
+		        cancelButtonText: '아니오',
+		    }).then((result) => {
+		        if (result.isConfirmed) {
+		            $.ajax({
+		                url: '/board/store/deleteGreatComment', // 변경된 엔드포인트
+		                method: 'POST',
+		                contentType: 'application/json',
+		                data: JSON.stringify(requestData),
+		                success: function(commentCount) {
+		                    // 삭제 후의 댓글 수를 받아와서 업데이트
+		                    $('#ajax-comment-count').text(commentCount);
+		                    $("#ajax-comment-count-2").text(commentCount);
+		                    $that.closest('.great-box').remove();
+		                    $("[id^="+'re-comment-box-'+thisCommentNo+"]").remove();
+		                }
+		            });
+		        } else if (result.dismiss === Swal.DismissReason.cancel) {
+		            // 취소 버튼 클릭 시
+		        }
+		    });
+		});
       
-      
-$(".great-box").on('click', '#delete-comment-btn', function(event) {
-    event.preventDefault();
-    let $that = $(this);
-
-    let requestData = {
-        no: $("input[name=no]").val(),
-        greatCommentNo: $that.closest('.great-box').find("input[name=greatCommentNo]").val()
-    };
-
-
-    Swal.fire({
-        icon: 'warning',
-        title: '정말 삭제하시겠습니까?',
-        showCancelButton: true,
-        confirmButtonText: '네',
-        cancelButtonText: '아니오',
-    }).then((result) => {
-        if (result.isConfirmed) {
-            $.ajax({
-                url: '/board/store/deleteGreatComment', // 변경된 엔드포인트
-                method: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(requestData),
-                success: function(commentCount) {
-                    // 삭제 후의 댓글 수를 받아와서 업데이트
-                    $('#ajax-comment-count').text(commentCount);
-                    $("#ajax-comment-count-2").text(commentCount);
-                    $that.closest('.comment-box').remove();
-                  //  $that.closest('.great-box').remove();
-                  //  $that.closest('.comment-box').find('.re-comment-box-loop').remove();
-                }
-            });
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-            // 취소 버튼 클릭 시
-        }
-    });
-});
-
-$(".great-box-2").on('click', '#delete-comment-btn', function(event) {
-    event.preventDefault();
-    let $that = $(this);
-
-    let requestData = {
-        no: $("input[name=no]").val(),
-        greatCommentNo: $that.closest('.great-box-2').find("input[name=greatCommentNo]").val()
-    };
-
-
-    Swal.fire({
-        icon: 'warning',
-        title: '정말 삭제하시겠습니까?',
-        showCancelButton: true,
-        confirmButtonText: '네',
-        cancelButtonText: '아니오',
-    }).then((result) => {
-        if (result.isConfirmed) {
-            $.ajax({
-                url: '/board/store/deleteGreatComment', // 변경된 엔드포인트
-                method: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(requestData),
-                success: function(commentCount) {
-                    // 삭제 후의 댓글 수를 받아와서 업데이트
-                    $('#ajax-comment-count').text(commentCount);
-                    $("#ajax-comment-count-2").text(commentCount);
-                    $that.closest('.great-box-2').remove();
-                  //  $that.closest('.great-box').remove();
-                  //  $that.closest('.comment-box').find('.re-comment-box-loop').remove();
-                }
-            });
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-            // 취소 버튼 클릭 시
-        }
-    });
-});
-
-
-      $(".child-comment-box").on('click', '#delete-reComment-btn', function(event) {
+      // 대댓글 삭제
+      $("#all-comment-box").on('click', '#delete-reComment-btn', function(event) {
           event.preventDefault();
           let $that = $(this);
       
@@ -593,46 +514,6 @@ $(".great-box-2").on('click', '#delete-comment-btn', function(event) {
               }
           });
       });
-
-        $(".child-comment-box2").on('click', '#delete-reComment-btn', function(event) {
-          event.preventDefault();
-          let $that = $(this);
-      
-             // 현재 클릭된 .child-comment-box 내부에서 name이 "commentNo"인 hidden input 요소 선택
-             let commentNoInput = $that.closest(".child-comment-box2").find("input[type='hidden'][name='commentNo']");
-             let commentNo = commentNoInput.val();
-             
-             let requestData = {
-                 no: $("input[name=no]").val(),
-                 commentNo: commentNo
-             };
-      
-          Swal.fire({
-              icon: 'warning',
-              title: '정말 삭제하시겠습니까?',
-              showCancelButton: true,
-              confirmButtonText: '네',
-              cancelButtonText: '아니오',
-          }).then((result) => {
-              if (result.isConfirmed) {
-                  $.ajax({
-                      url: '/board/store/deleteReComment', // 변경된 엔드포인트
-                      method: 'POST',
-                      contentType: 'application/json',
-                      data: JSON.stringify(requestData),
-                      success: function(commentCount) {
-                          // 삭제 후의 댓글 수를 받아와서 업데이트
-                          $('#ajax-comment-count').text(commentCount);
-                          $("#ajax-comment-count-2").text(commentCount);
-                          $that.closest(".child-comment-box2").find("#comment-box").remove();
-                      }
-                  });
-              } else if (result.dismiss === Swal.DismissReason.cancel) {
-                  // 취소 버튼 클릭 시
-              }
-          });
-      });
-
    
 
 // 퀵메뉴 (위로)

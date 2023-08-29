@@ -31,7 +31,8 @@ public class AdminOneController {
 
 	private final OneService oneService;
 	
-	@GetMapping String one(@RequestParam(name = "categoryNo", required = false, defaultValue = "24") int categoryNo,
+	@GetMapping 
+	public String one(@RequestParam(name = "categoryNo", required = false, defaultValue = "24") int categoryNo,
 			@RequestParam(name = "page", required = false, defaultValue = "1") int page,
 			@RequestParam(name = "answered", required = false) String answered,
 			@RequestParam(name ="keyword", required = false) String keyword,
@@ -92,6 +93,12 @@ public class AdminOneController {
 		return "view/admin/support/one/detail";
 	}
 	
+	@GetMapping("/delete")
+	public String delete(@RequestParam("no") int oneNO, Model model) {
+		oneService.deleteOne(oneNO);
+		return "redirect:/admin/support/one";
+	}
+	
 	@PostMapping("/addComment")
 	@ResponseBody
 	public ResponseEntity<List<OneComment>> addComment(@AuthenticationPrincipal User user,
@@ -112,16 +119,16 @@ public class AdminOneController {
 		return ResponseEntity.ok().body(inputComments);
 	}
 	
-	
-	
-	
-	
-	
-	@GetMapping("/delete")
-	public String delete(@RequestParam("no") int oneNO, Model model) {
-		oneService.deleteOne(oneNO);
-		return "redirect:/admin/support/one";
+	@PostMapping("/deleteComment")
+	@ResponseBody
+	public ResponseEntity<Integer> deleteComment(@AuthenticationPrincipal User user,
+			@RequestParam("commentNo") int commentNo) {
+		
+		oneService.deleteComment(commentNo);
+		
+		return ResponseEntity.ok(commentNo);
 	}
+	
 	
 	
 }

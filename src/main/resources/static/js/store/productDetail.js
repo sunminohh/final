@@ -38,9 +38,6 @@ $(function() {
 
     updateTotalAmount();
 
-    // 비회원 장바구니 및 구매 클릭 시 로그인 화면 띄우기
-    $(".btnCart-not-user, .btnPurchase-not-user").on("click", () => $(".login-modal").addClass("is-open"));
-    
     // 구매 후 취소 및 상품 이용 안내
     $(".box-pulldown").on("click", function() {
         if ($(this).hasClass("on")) {
@@ -90,4 +87,25 @@ $(function() {
             })
         })
     })
+
+    const $username = $("input[name='username']");
+
+    $(".btnCart-not-user").on("click", function (e) {
+        e.preventDefault();
+        Swal.fire({
+            icon: 'warning',
+            title: "이용 제한",
+            text: "로그인 후 이용가능합니다. 로그인 하시겠습니까?",
+            showCancelButton: true,
+            confirmButtonText: '네',
+            cancelButtonText: '아니오',
+            didClose: () => {
+                $username.focus();
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $(".btn-login").trigger("click");
+            }
+        });
+    });
 })

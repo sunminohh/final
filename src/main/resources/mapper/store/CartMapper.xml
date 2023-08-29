@@ -44,4 +44,15 @@
         WHERE
             C.USER_ID = #{value}
     </select>
+
+    <update id="updateCartItem" parameterType="Cart">
+        UPDATE
+            MGV_CART
+        SET
+            PRODUCT_AMOUNT = #{amount},
+            TOTAL_PRICE = #{totalPrice},
+            CART_INSERT_DATE = CURRENT_TIMESTAMP
+        WHERE
+            CART_NO = #{no}
+    </update>
 </mapper>

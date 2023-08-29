@@ -1,0 +1,103 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/admin}">
+<head th:fragment="extra-head-content">
+	<link th:href=@{/css/support/comment.css} rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" th:src="@{/js/support/common.js}"></script>
+	<script type="text/javascript" th:src="@{/js/admin/support/adminLost.js}"></script>
+	<script type="text/javascript" th:src="@{/js/admin/support/Lostcomment.js}"></script>
+</head>
+<div id="contents" layout:fragment="content" style="margin-top: -40px;">
+    <h2 class="tit">분실물 문의</h2>
+
+        <div class="table-wrap mt30">
+            <div class="board-view">
+            <div class="tit-area">
+                <p class="tit" th:text="${lost.title}"></p>
+            </div>
+
+            <div class="info">
+                <p>
+                    <span class="txt">문의사항</span>
+                </p>
+                <p>
+                    <span class="txt font-gblue" style="font-weight: bold;"
+                    			th:text="${lost.theater.name}"></span>
+                </p>
+                <p>
+				   <span class="txt" th:if="${lost.user != null}" th:text="${lost.user.email}"></span>
+				   <span class="txt" th:if="${lost.user == null}" th:text="${lost.guestEmail}"></span>
+
+				</p>
+                <p>
+                    <span class="txt" th:text="${#dates.format(lost.updateDate, 'yyyy.MM.dd')}"></span>
+                </p>
+                <p>    
+                    <span class="txt" th:text="${lost.answered == 'Y' ? '답변완료' : '미답변'}"></span>
+                </p>
+            </div>
+            
+            <div class="txt mb-2" th:if="${!#lists.isEmpty(lostFiles)}">
+            	<p style="margin-bottom:5px;"> 
+                    <span class="txt"><strong>첨부파일</strong></span>
+                </p>
+                <a th:each="lostFile : ${lostFiles}" 
+                	th:href="@{/support/lost/download(no=${lostFile.no})}" 
+                	th:text="${lostFile.originalName}"
+                	class="me-3 text-primary"></a>
+            </div>
+
+            <div class="cont">
+				<p th:text="${lost.content}">
+                </p>
+            </div>
+            
+            <hr class="mt-0 pt-0"/>
+	        <!-- 댓글 등록창 -->   
+		    <div class="row pb-2 pt-1">
+		        <div class="col-12 CommentWriter">
+		        <div class="comment-inbox border p-2 rounded" >
+		            <form id="form-comment" method="post" th:action="@{/admin/support/lost/addComment}" >
+		               <input type="hidden" name="no" th:value="${lost.no}"/>
+		                <div class="row">
+		                  <div id="content-box">
+		                     <textarea id="commentArea" rows="2" class="comment_inbox_text" name="content" style="border: none; overflow: hidden; overflow-wrap: break-word; " 
+		                     placeholder="답변을 남겨보세요"></textarea>
+		                  </div>
+		                  <div id="regBox" class="register-box">
+		                     <!-- 등록 버튼 -->
+		                     <button id="btn-comment" class="button purple float-end" style="border: none" type="submit">등록</button>
+		                  </div>
+		               </div>
+		            </form>      
+		        </div>
+		        </div>
+		    </div>	
+            
+           <div id="reviewBox">
+	            <div class="cont review" th:each="comment : ${lostComments}" th:if="${lostComments != null}">
+					<p th:text="${comment.content}"></p>
+					
+					 <div id="delBox" class="col-sm-1 d-flex justify-content-end pt-0 float-end" sec:authorize="isAuthenticated()">
+                          <input type="hidden" name="userId" th:value="${#authentication.principal.id}">
+                          <a th:href="@{/admin/support/lost/deleteComment}"
+                             class="btn btn-link btn-sm text-danger text-decoration-none delete-comment-btn"
+                             sec:authorize="isAuthenticated()"
+                             th:attr="data-comment-no=${comment.no}">삭제</a>
+                       </div>            
+	            </div>
+	       </div>
+        </div>
+    </div>
+	<input type="hidden" name="no" th:value="${param.no}">
+    <div class="btn-group pt40" style="display: block;">
+		<a th:href="@{/admin/support/lost(locationNo=${param.locationNo}, theaterNo=${param.theaterNo}, answered=${param.answered}, page=${param.page}, keyword=${param.keyword})}" 
+			class="button large listBtn" title="목록">목록</a>
+       	<a id="delete-btn" 
+       		class="button large"
+       		th:href="@{/admin/support/lost/delete(no=${param.no})}">삭제</a>
+    </div>
+    
+</div>
+</html>

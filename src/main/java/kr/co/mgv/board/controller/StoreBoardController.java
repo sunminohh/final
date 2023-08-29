@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.mgv.board.form.AddSboardForm;
 import kr.co.mgv.board.form.ReportForm;
+import kr.co.mgv.board.list.SBoardCommentList;
 import kr.co.mgv.board.list.StoreBoardList;
 import kr.co.mgv.board.service.MovieBoardService;
 import kr.co.mgv.board.service.StoreBoardService;
@@ -198,7 +199,7 @@ public class StoreBoardController {
     // 댓글 관련
 	@PostMapping("/addComment")
 	@ResponseBody
-	public ResponseEntity<SBoardComment> addComment (@RequestParam("no") int no, 
+	public ResponseEntity<SBoardCommentList> addComment (@RequestParam("no") int no, 
 										             @RequestParam("id") String id, 
 										             @RequestParam(name="parentNo", required = false) Integer parentNo, 
 										             @RequestParam(name="greatNo", required = false) Integer greatNo, 
@@ -226,14 +227,19 @@ public class StoreBoardController {
 		int commentCount = board.getCommentCount() + 1;
 		storeBoardService.updateBoardComment(no, commentCount);
 		
-		SBoardComment inputComment = storeBoardService.getGreatComment(no, id);
-		
-		return ResponseEntity.ok().body(inputComment);
+		List<SBoardComment> parents = storeBoardService.getComments(no);
+		List<SBoardComment> childs = storeBoardService.getChildComments(no);
+		SBoardCommentList list = SBoardCommentList
+								 .builder()
+								 .parentComments(parents)
+								 .childComments(childs)
+								 .build(); 		
+		return ResponseEntity.ok().body(list);
 	}
 	
 	@PostMapping("/addReComment")
 	@ResponseBody
-	public ResponseEntity<SBoardComment> addReComment (@RequestParam("no") int no, 
+	public ResponseEntity<SBoardCommentList> addReComment (@RequestParam("no") int no, 
 										             @RequestParam("id") String id, 
 										             @RequestParam(name="parentNo", required = false) Integer parentNo, 
 										             @RequestParam(name="greatNo", required = false) Integer greatNo, 
@@ -261,9 +267,14 @@ public class StoreBoardController {
 		int commentCount = board.getCommentCount() + 1;
 		storeBoardService.updateBoardComment(no, commentCount);
 		
-		SBoardComment inputComment = storeBoardService.getChildComment(no, id);
-		
-		return ResponseEntity.ok().body(inputComment);
+		List<SBoardComment> parents = storeBoardService.getComments(no);
+		List<SBoardComment> childs = storeBoardService.getChildComments(no);
+		SBoardCommentList list = SBoardCommentList
+								 .builder()
+								 .parentComments(parents)
+								 .childComments(childs)
+								 .build(); 		
+		return ResponseEntity.ok().body(list);
 	}
 	
 	@PostMapping("/deleteGreatComment")

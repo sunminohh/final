@@ -7,9 +7,11 @@ import org.springframework.stereotype.Service;
 import kr.co.mgv.favoritetheater.dao.FavoriteTheaterDao;
 import kr.co.mgv.favoritetheater.vo.FavoriteTheater;
 import kr.co.mgv.theater.dao.TheaterDao;
+import kr.co.mgv.theater.vo.FloorInfo;
 import kr.co.mgv.theater.vo.Location;
 import kr.co.mgv.theater.vo.Screen;
 import kr.co.mgv.theater.vo.Theater;
+import kr.co.mgv.theater.vo.TheaterFacility;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -64,5 +66,26 @@ public class TheaterService {
 	public List<Screen> getScreenlist(int theaterNo) {
 		List<Screen> screens = theaterDao.getScreensByTheaterNo(theaterNo);
 		return screens;
+	}
+
+	public List<TheaterFacility> getFacilities() {
+		
+		return theaterDao.getFacilities();
+	}
+
+	public void registTheater(Theater theater) {
+		theaterDao.insertTheater(theater);
+		theater.getParkingInfo().setTheaterNo(theater.getNo());
+		theaterDao.insertParkingInfo(theater.getParkingInfo());
+		
+		for(TheaterFacility facility: theater.getFacilities()) {
+			facility.setTheaterNo(theater.getNo());
+			theaterDao.insertFacilityInfo(facility);
+		}
+		
+		for(FloorInfo floorInfo : theater.getFloorInfos()) {
+			floorInfo.setTheaterNo(theater.getNo());
+			theaterDao.insertFloorInfo(floorInfo);
+		}
 	}
 }

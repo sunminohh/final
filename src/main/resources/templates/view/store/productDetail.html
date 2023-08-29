@@ -19,17 +19,14 @@
                     </div>
                 </div>
                 <div id="storeDtl">
-                    <input type="hidden" name="price" id="price" th:value="${product.getPrice()}">
-                    <!-- contents -->
+                    <input type="hidden" name="price" id="price" th:value="${product.getDiscountedPrice()}">
                     <div id="contents">
                         <div class="inner-wrap">
-                            <!-- store-view -->
                             <div class="store-view">
                                 <h2 class="tit" th:text="${product.getName()}"></h2>
                                 <div class="sub-info">
                                     <p class="bundle" th:text="${product.getDescription()}"></p>
                                 </div>
-                                <!-- box-store-view -->
                                 <div class="box-store-view">
                                     <div class="left">
                                         <div class="img">
@@ -40,9 +37,7 @@
                                         </div>
                                         <p class="origin"></p>
                                     </div>
-                                    <!-- right -->
                                     <div class="right">
-                                        <!-- goods-info -->
                                         <div class="goods-info">
                                             <div class="line">
                                                 <p class="tit">
@@ -71,15 +66,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <!--// goods-info -->
-                                        <!--
-                                                        판매종료일때는 각 select, button 에 disabled 처리
-                                                    -->
-                                        <!-- type -->
                                         <div class="type">
-                                            <!-- 수량 금액 일 때 -->
-                                            <!--// 수량 금액 일 때 -->
-                                            <!-- 기프트카드  -->
                                             <div class="receipt">
                                                 <div class="line">
                                                     <p class="tit">
@@ -95,7 +82,7 @@
                                                             <i class="iconset ico-plus"></i>
                                                         </button>
                                                         <div class="money">
-                                                            <em id="prdtSumAmt" th:text="${product.getPrice()}"></em>
+                                                            <em id="prdtSumAmt" th:text="${product.getDiscountedPrice()}"></em>
                                                             <span>원</span>
                                                         </div>
                                                     </div>
