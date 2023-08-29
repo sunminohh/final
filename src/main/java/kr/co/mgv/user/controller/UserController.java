@@ -126,9 +126,9 @@ public class UserController {
         }
     }
 
-    @GetMapping("/ticket")
-    public String ticekt() {
-        return "view/user/info/list";
+    @GetMapping("/booking")
+    public String bookinghome() {
+        return "view/user/booking/list";
     }
 
     @GetMapping("/moviestory")
