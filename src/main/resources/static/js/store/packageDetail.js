@@ -74,11 +74,14 @@ $(function() {
                 success: function success() {
                     Swal.fire({
                         icon: 'success',
-                        text: "상품이 장바구니에 담겼습니다."
+                        text: "상품이 장바구니에 담겼습니다.",
+                        confirmButtonText: '확인'
+                    }).then((result) => {
+                        if (result.value) {
+                            console.log("정보가 성공적으로 서버에 전달되었습니다.");
+                            window.location.href = "http://localhost/store";
+                        }
                     })
-                    console.log("정보가 성공적으로 서버에 전달되었습니다.");
-
-                    // 페이지 리다이렉션
                 },
                 error: function error() {
                     Swal.fire({
