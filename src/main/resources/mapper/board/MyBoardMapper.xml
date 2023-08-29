@@ -23,7 +23,17 @@
 		                    FROM MGV_MOVIE_BOARD
 		                    WHERE board_deleted = 'N' AND board_report = 'N'
 		                        AND user_id = #{id}
-
+		                        <choose>
+		                            <when test="opt == 'title'">
+		                                and board_name like CONCAT('%', #{keyword}, '%')
+		                            </when>
+		                            <when test="opt == 'content'">
+		                                and board_content like CONCAT('%', #{keyword}, '%')
+		                            </when>
+		                            <when test="opt == 'all'">
+		                                and (board_name like CONCAT('%', #{keyword}, '%') or board_content like CONCAT('%', #{keyword}, '%'))
+		                            </when>
+		                        </choose>
 	                        </when>
 	                        <when test="boards == 'theater'">
 	                        	SELECT
