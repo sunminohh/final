@@ -80,6 +80,7 @@
             </div>
 
             <a href="">빠른예매</a>
+            <a sec:authorize="isAuthenticated()" th:href="@{/cart}">장바구니</a>
         </div>
     </div>
     <!--// 2019-04-15 마크업 수정 : 고객요청  -->
