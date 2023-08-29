@@ -1,0 +1,186 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/user}">
+<head>
+	<link th:href="@{/css/board/myboard.css}" rel="stylesheet" />
+	<script type="text/javascript" th:src="@{/js/board/myboard.js}"></script>
+</head>
+<div id="contents" layout:fragment="content">
+  <div class="sub_tit_profile d-flex justify-content-start pb-3">
+  	<span class="thumb">
+  		<img th:src="@{/images/board/sample.png}" width="80" height="80" alt="프로필사진" class="border-sub">
+  	</span>
+  	<div class="text ps-4  pt-2">
+  		<div class="nick_area fs-3 fw-semibold" th:text="${#authentication.principal.name}" >
+    	 사용자 아이디
+  		</div>
+  		<div class="board-count-area d-flex justify-content-start">
+  			<p>작성글<strong>5</strong></p>
+  			<p>댓글<strong>5</strong></p>
+  			<p>좋아요<strong>5</strong></p>
+  		</div>
+  	</div>  
+  </div>
+  
+  <!-- 탭 -->
+  <div class="tab-block-myboard mb30">
+      <ul>
+          <li class="tab-link" th:classappend="${param.catNo == null || #strings.equals(param.catNo, '21') ? 'current' : ''}">
+              <button type="button" class="btn rounded-0" data-tab="tab-1" data-category-no="21" title="전체공지 보기">작성글</button>
+          </li>
+          <li class="tab-link" th:classappend="${#strings.equals(param.catNo, '22') ? 'current' : ''}">
+              <button type="button" class="btn rounded-0" data-tab="tab-2" data-category-no="22" title="MGV 공지 보기">댓글단 글</button>
+          </li>
+          <li class="tab-link" th:classappend="${#strings.equals(param.catNo, '23') ? 'current' : ''}">
+              <button type="button" class="btn rounded-0" data-tab="tab-2" data-category-no="23" title="MGV 공지 보기">작성 댓글</button>
+          </li>
+          <li class="tab-link" th:classappend="${#strings.equals(param.catNo, '24') ? 'current' : ''}">
+              <button type="button" class="btn rounded-0" data-tab="tab-3" data-category-no="24" title="지점 공지 보기">좋아요한 글</button>
+          </li>
+      </ul>
+  </div>
+  
+  	<div class="serch-box">
+	    <div class="d-flex justify-content-start float-start">
+	        <div class="mt-2 pe-2">
+	            <p class="result-count"><strong>전체 <span id="total-rows" class="font-gblue" th:text="${result.pagination.totalRows}">5</span>건</strong>
+	            </p>
+	        </div>
+	
+	        <div class="float-start ps-1">
+	            <form id="form-board-search" method="get" 
+	                  class="row row-cols-lg-auto g-3 align-items-center justify-content-end ">
+					<input type="hidden" name="boards" th:value="${param.boards}"/>
+					<input type="hidden" name="catNo" th:value="${param.catNo == null ? '21' : param.catNo}" />
+					<input type="hidden" name="page" th:value="${param.page == null ? '1' : param.page}" />
+					<input type="hidden" name="id" th:value="${#authentication.principal.id}" />
+	                <div class="col-12 ">
+	                    <select class="form-select form-select-sm form-control-sm" name="opt" th:value="${param.opt}">
+	                        <option value="" disabled> 검색옵션</option>
+	                        <option class="opt-select"
+	                        		th:value="title">
+	                            제목
+	                        </option>
+	                        <option class="opt-select"
+	                        		th:value="content"> 
+	                                내용
+	                        </option>
+	                        <option class="opt-select"
+	                        		th:value="all">
+	                            제목/내용
+	                        </option>
+	                    </select>
+	                </div>
+	                <div class="col-12">
+	                    <input type="text" class="form-control form-control-sm" name="keyword" th:value="${param.keyword}"/>
+	                </div>
+	                <div class="col-12">
+	                    <button type="button" class="btn btn-outline-dark btn-sm" onclick="searchBoard()">검색</button>
+	              </div>
+	          </form>
+	      </div>
+	  </div>
+	  <div>
+	      <div class="d-flex justify-content-end mb-3 float-end ps-3 ">
+	          	<select class="form-select me-1 form-select-sm" style="width: 100px" name="boards" th:value="${param.boards}" onchange="changeBoards()">
+	                <option class="sort-select" th:value="all" >전체</option>
+	                <option class="sort-select" th:value="movie" >영화</option>
+					<option class="sort-select" th:value="theater" >극장</option>
+					<option class="sort-select" th:value="store">스토어</option>
+					<option class="sort-select" th:value="party" >파티</option>
+	            </select>
+	
+	        </div>
+	    </div>
+	</div>	 
+	
+	<div class="board-table" style="min-height: 512px;">
+        <table class="table" id="table-board">
+            <colgroup>
+                <col width="10%">
+                <col width="55%">
+                <col width="20%">
+                <col width="5%">
+            </colgroup>
+            <thead>
+            <tr style="text-align: center;">
+                <th scope="col">게시판</th>
+                <th scope="col">제목</th>
+                <th scope="col">작성일</th>
+                <th scope="col">조회</th>
+            </tr>
+            </thead>
+            <tbody class="boardList">
+            	<tr th:if="${#lists.isEmpty(result.list)}">
+					<td colspan="4">게시글이 존재하지 않습니다.</td>
+				</tr>	
+	            <tr th:each="board:${result.list}" th:if="${not #lists.isEmpty(result.list)}">
+			       	<input type="hidden" name="type" th:vlaue="${board.type}"/>
+			       	<input type="hidden" name="no" th:vlaue="${board.no}"/>
+	                <td style="text-align: center;" th:text="${board.type}">극장</td>
+	                <td>
+	                	<div class="combined-cell">
+		            		<a class="text-black text-decoration-none" th:if="${#strings.equals(board.type, '영화')}" th:href="@{../../board/movie/detail(no=${board.no})}">
+							    <div class="title-content-2" th:text="${board.name.length() > 37 ? board.name.substring(0, 37) + '...' : board.name}"></div>
+							</a>
+		            		<a class="text-black text-decoration-none" th:if="${#strings.equals(board.type, '극장')}" th:href="@{../../board/theater/detail(no=${board.no})}">
+							    <div class="title-content-2" th:text="${board.name.length() > 37 ? board.name.substring(0, 37) + '...' : board.name}"></div>
+							</a>
+		            		<a class="text-black text-decoration-none" th:if="${#strings.equals(board.type, '스토어')}" th:href="@{../../board/store/detail(no=${board.no})}">
+							    <div class="title-content-2" th:text="${board.name.length() > 37 ? board.name.substring(0, 37) + '...' : board.name}"></div>
+							</a>
+		            		<a class="text-black text-decoration-none" th:if="${#strings.equals(board.type, '파티')}" th:href="@{../../board/party/detail(no=${board.no})}">
+							    <div class="title-content-2" th:text="${board.name.length() > 37 ? board.name.substring(0, 37) + '...' : board.name}"></div>
+							</a>
+		                </div>
+	                </td>
+	                <td style="text-align: center;" th:text="${#dates.format(board.createDate, 'yyyy-MM-dd HH:mm')}">2023-08-29</td>
+	                <td style="text-align: center;" th:text=${board.readCount}>15</td>
+	            </tr>
+            </tbody>
+        </table>
+    </div>   
+    
+    <!-- pagination -->
+    <div class="row mb-3">
+      	<div class="col-12">
+            <nav>
+				<ul class="pagination justify-content-center">
+				    <li class="page-item" th:if="${result.pagination.currentBlock > 1}">
+				        <a title="첫번째 페이지 보기"
+				           th:href="@{list(page=1, boards=${param.boards}, opt=${param.opt}, keyword=${param.keyword})}"
+				           class="page-link page-number-link control first"
+				           ></a>
+				    </li>
+				    <li class="page-item" th:if="${result.pagination.currentBlock > 1}">
+				        <a title="이전 5페이지 보기"
+				           th:href="@{list(page=${(result.pagination.currentBlock - 1) * 5} , boards=${param.boards}, opt=${param.opt}, keyword=${param.keyword})}"
+				           class="page-link page-number-link control prev"
+				           ></a>
+				    </li>
+				    <li class="page-item" th:each="num : ${result.pagination.pageNumbers}">
+                        <a th:href="@{list(page=${num}, boards=${param.boards}, opt=${param.opt}, keyword=${param.keyword})}" 
+                           th:text="${num}"
+                           th:classappend="${result.pagination.page == (num) ? 'active' : '' }"
+                           class="page-link page-number-link"
+                           >1</a>
+                    </li>
+                    <li class="page-item" th:if="${result.pagination.currentBlock < result.pagination.totalBlocks}">
+				        <a title="이후 5페이지 보기"
+				           th:href="@{list(page=${result.pagination.currentBlock * 5 + 1}, boards=${param.boards}, opt=${param.opt}, keyword=${param.keyword})}"
+				           class="page-link page-number-link control next"
+				          ></a>
+				    </li>
+                 	<li class="page-item" th:if="${result.pagination.currentBlock < result.pagination.totalBlocks}">
+				        <a title="마지막 페이지 보기"
+				           th:href="@{list(page=${result.pagination.totalPages}, boards=${param.boards}, opt=${param.opt}, keyword=${param.keyword})}"
+				           class="page-link page-number-link control last"
+				           ></a>
+				    </li>
+				    
+				</ul>
+            </nav>
+		</div>
+	</div>      
+</div>
+</html>

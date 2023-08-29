@@ -89,7 +89,7 @@
 <!--        <a href="" class="header-open-layer btn-layer-sitemap" title="사이트맵">사이트맵</a>-->
 <!--        <a href="" class="header-open-layer btn-layer-search" title="검색">검색</a>-->
 <!--        <a href="" class="link-ticket" title="상영시간표">상영시간표</a>-->
-        <a sec:authorize="isAuthenticated()" th:href="@{/user/info}" class="btn-layer-mymgv" title="나의 MGV">나의 MGV</a>
+        <a sec:authorize="isAuthenticated()" th:href="@{/mypage}" class="btn-layer-mymgv" title="나의 MGV">나의 MGV</a>
         <a sec:authorize="isAnonymous()" href="#" class="btn-layer-mymgv btn-my-anonymous" title="나의 MGV">나의 MGV</a>
         <!-- todo 탈퇴 로그인 -->
     </div>

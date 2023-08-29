@@ -1,18 +1,21 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/user}">
+<head>
+
+</head>
 <div id="contents" layout:fragment="content">
     <h2 class="tit">예매/구매 내역</h2>
     <div class="tab-block tab-layer">
         <ul>
-            <li data-url="/mypage/bookinglist?tab=01" data-tit="예매내역" title="예매내역 탭으로 이동" class=""><a href="#myBokdArea" class="btn">예매 </a></li>
-            <li data-url="/mypage/bookinglist?tab=02" data-tit="구매내역" title="구매내역 탭으로 이동" class="on"><a href="#myPurcArea" class="btn">구매 </a></li>
+            <li data-url="/mypage/bookinglist?tab=01" data-tit="예매내역" title="예매내역 탭으로 이동" class=""><a href="#booking-tab" class="btn">예매 </a></li>
+            <li data-url="/mypage/bookinglist?tab=02" data-tit="구매내역" title="구매내역 탭으로 이동" class="on"><a href="#pay-tab" class="btn">구매 </a></li>
         </ul>
     </div>
     <div class="tab-cont-wrap">
 
         <!-- 예매내역 -->
-        <div id="myBokdArea" class="tab-cont"><a href="" class="ir">예매 탭 화면 입니다.</a>
+        <div id="booking-tab" class="tab-cont"><a href="" class="ir">예매 탭 화면 입니다.</a>
 
             <!-- 예매 조회 조건 -->
             <div class="board-list-search mt20">
@@ -155,7 +158,7 @@
         </div>
 
         <!-- 구매내역 영역 -->
-        <div id="myPurcArea" class="tab-cont on"><a href="" class="ir">구매 탭 화면 입니다.</a>
+        <div id="pay-tab" class="tab-cont on"><a href="" class="ir">구매 탭 화면 입니다.</a>
 
             <!-- 구매 조회 조건 -->
             <div class="board-list-search mt20">

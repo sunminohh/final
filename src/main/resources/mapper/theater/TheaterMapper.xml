@@ -110,5 +110,33 @@
 	where screen_id = #{value}
 	</select>
 	
+	<select id="getFacilities" resultType="Facility">
+	select
+		facility_type	as type,
+		facility_name	as name,
+		facility_icon	as icon
+	from MGV_THEATER_FACILITY_TYPE
+	
+	</select>
+	
+	<insert id="insertTheater" parameterType="theater" useGeneratedKeys="true" keyProperty="no">
+		insert into MGV_THEATERS (location_no, theater_name, theater_address, theater_tel, theater_info)
+		values (#{location.no},#{name},#{address},#{tel},#{info})
+	</insert>
+	
+	<insert id="insertFacilityInfo" parameterType="Facility">
+		insert into MGV_THEATER_FACILITY_INFO (theater_no, facility_type)
+		values (#{theaterNo}, #{type})
+	</insert>
+	
+	<insert id="insertFloorInfo" parameterType="FloorInfo">
+		insert into MGV_THEATER_FLOORS_INFO (theater_no, floor, info)
+		values (#{theaterNo}, #{floor}, #{info})
+	</insert>
+	
+	<insert id="insertParkingInfo" parameterType="Parkinginfo">
+		insert into MGV_THEATER_PARKING_INFO (theater_no, parking_info, parking_confirm, parking_cash)
+		values (#{theaterNo}, #{info}, #{confirm}, #{cash})
+	</insert>
 	
 </mapper>

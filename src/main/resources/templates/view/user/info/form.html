@@ -33,7 +33,7 @@
                             <img th:src="@{/images/user/myprofile.png}" alt="기본 이미지">
                         </div>
                         <button type="button" class="button small gray-line" id="btnAddProfileImg">이미지 등록</button>
-                        <a th:href="@{/user/info/disabled}" class="button small member-out">회원탈퇴</a>
+                        <a th:href="@{/mypage/disabled}" class="button small member-out">회원탈퇴</a>
                     </div>
                     <p style="font-size:0.8em; color:#999; margin-top:10px; padding:0; text-align:left; position:absolute; top:22px; left:194px;">
                         ※ 개인정보가 포함된 이미지 등록은 자제하여 주시기 바랍니다.</p>
@@ -61,7 +61,7 @@
         </div>
     </div>
 
-    <form id="action-form" method="post" th:action="@{/user/info/update}">
+    <form id="action-form" method="post" th:action="@{/mypage/update}">
         <input type="hidden" name="id" th:value="${user.id}">
 
         <input type="hidden" name="zipcode" th:value="${user.zipcode}">
@@ -105,7 +105,7 @@
                 <tr>
                     <th scope="row">비밀번호 <em class="font-orange">*</em></th>
                     <td>
-                        <a th:href="@{/user/info/update/password}" class="button small gray-line" title="비밀번호 변경">비밀번호 변경</a>
+                        <a th:href="@{/mypage/update/password}" class="button small gray-line" title="비밀번호 변경">비밀번호 변경</a>
                         <span th:text="|마지막 비밀번호 변경: ${pwdMinDate} 일전에 함 (${#dates.format(user.pwdUpdateDate, 'yyyy-MM-dd HH:mm:ss')})|"></span>
                     </td>
                 </tr>
