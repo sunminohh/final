@@ -18,7 +18,7 @@ public class Product {
 
 	private int no;
 	private String name;
-	private int price;
+	private int originalPrice;
 	private int stock;
 	private String soldOut;
 	private String description;
