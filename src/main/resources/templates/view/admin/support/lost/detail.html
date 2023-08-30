@@ -6,6 +6,7 @@
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" th:src="@{/js/support/common.js}"></script>
 	<script type="text/javascript" th:src="@{/js/admin/support/adminLost.js}"></script>
+	<script type="text/javascript" th:src="@{/js/admin/support/Lostcomment.js}"></script>
 </head>
 <div id="contents" layout:fragment="content" style="margin-top: -40px;">
     <h2 class="tit">분실물 문의</h2>
@@ -51,6 +52,42 @@
 				<p th:text="${lost.content}">
                 </p>
             </div>
+            
+            <hr class="mt-0 pt-0"/>
+	        <!-- 댓글 등록창 -->   
+		    <div class="row pb-2 pt-1">
+		        <div class="col-12 CommentWriter">
+		        <div class="comment-inbox border p-2 rounded" >
+		            <form id="form-comment" method="post" th:action="@{/admin/support/lost/addComment}" >
+		               <input type="hidden" name="no" th:value="${lost.no}"/>
+		                <div class="row">
+		                  <div id="content-box">
+		                     <textarea id="commentArea" rows="2" class="comment_inbox_text" name="content" style="border: none; overflow: hidden; overflow-wrap: break-word; " 
+		                     placeholder="답변을 남겨보세요"></textarea>
+		                  </div>
+		                  <div id="regBox" class="register-box">
+		                     <!-- 등록 버튼 -->
+		                     <button id="btn-comment" class="button purple float-end" style="border: none" type="submit">등록</button>
+		                  </div>
+		               </div>
+		            </form>      
+		        </div>
+		        </div>
+		    </div>	
+            
+           <div id="reviewBox">
+	            <div class="cont review" th:each="comment : ${lostComments}" th:if="${lostComments != null}">
+					<p th:text="${comment.content}"></p>
+					
+					 <div id="delBox" class="col-sm-1 d-flex justify-content-end pt-0 float-end" sec:authorize="isAuthenticated()">
+                          <input type="hidden" name="userId" th:value="${#authentication.principal.id}">
+                          <a th:href="@{/admin/support/lost/deleteComment}"
+                             class="btn btn-link btn-sm text-danger text-decoration-none delete-comment-btn"
+                             sec:authorize="isAuthenticated()"
+                             th:attr="data-comment-no=${comment.no}">삭제</a>
+                       </div>            
+	            </div>
+	       </div>
         </div>
     </div>
 	<input type="hidden" name="no" th:value="${param.no}">

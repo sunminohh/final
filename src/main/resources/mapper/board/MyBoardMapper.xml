@@ -1,0 +1,1150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.mgv.board.mapper.MyBoardDao">
+
+	<select id="getBoardList" parameterType="map" resultType="kr.co.mgv.board.list.BoardList">
+	    SELECT
+		    A.createDate,
+	        A.no,
+	        A.name,
+	        A.readCount,
+	        A.type
+	    FROM (
+	        <choose>
+	            <when test="boards != 'all'">
+	                    <choose>
+	                        <when test="boards == 'movie'">
+	                        SELECT
+	                        board_create_date   AS createDate,
+	                        board_no            AS no,
+	                        board_name          AS name,
+	                        board_read_cnt      AS readCount,
+	                        board_type			AS type
+		                    FROM MGV_MOVIE_BOARD
+		                    WHERE board_deleted = 'N' AND board_report = 'N'
+		                        AND user_id = #{id}
+			                        <choose>
+			                            <when test="opt == 'title'">
+			                                and board_name like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'content'">
+			                                and board_content like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'all'">
+			                                and (board_name like CONCAT('%', #{keyword}, '%') or board_content like CONCAT('%', #{keyword}, '%'))
+			                            </when>
+			                        </choose>
+	                        </when>
+	                        <when test="boards == 'theater'">
+	                        	SELECT
+			                        board_create_date   AS createDate,
+			                        board_no            AS no,
+			                        board_name          AS name,
+			                        board_read_cnt      AS readCount,
+                       	            board_type			AS type
+			                    FROM MGV_THEATER_BOARD
+			                    WHERE board_deleted = 'N' AND board_report = 'N'
+			                        AND user_id = #{id}
+			                        <choose>
+			                            <when test="opt == 'title'">
+			                                and board_name like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'content'">
+			                                and board_content like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'all'">
+			                                and (board_name like CONCAT('%', #{keyword}, '%') or board_content like CONCAT('%', #{keyword}, '%'))
+			                            </when>
+			                        </choose>
+	                        </when>
+	                        <when test="boards == 'store'">
+			                    SELECT
+			                        board_create_date   AS createDate,
+			                        board_no            AS no,
+			                        board_name          AS name,
+			                        board_read_cnt      AS readCount,
+			                        board_type			AS type
+			                    FROM MGV_PRODUCT_BOARD
+			                    WHERE board_deleted = 'N' AND board_report = 'N'
+			                        AND user_id = #{id}
+			                        <choose>
+			                            <when test="opt == 'title'">
+			                                and board_name like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'content'">
+			                                and board_content like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'all'">
+			                                and (board_name like CONCAT('%', #{keyword}, '%') or board_content like CONCAT('%', #{keyword}, '%'))
+			                            </when>
+			                        </choose>	                            
+	                        </when>
+	                        <when test="boards == 'party'">
+			                    SELECT
+			                        board_create_date   AS createDate,
+			                        board_no            AS no,
+			                        board_name          AS name,
+			                        board_read_cnt      AS readCount,
+			                        board_type			AS type
+			                    FROM PARTY_BOARD
+			                    WHERE party_deleted = 'N' AND board_report = 'N'
+			                        AND user_id = #{id}
+			                        <choose>
+			                            <when test="opt == 'title'">
+			                                and board_name like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'content'">
+			                                and board_content like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'all'">
+			                                and (board_name like CONCAT('%', #{keyword}, '%') or board_content like CONCAT('%', #{keyword}, '%'))
+			                            </when>
+			                        </choose>	                            
+	                        </when>
+	                    </choose>
+	            </when>
+	            <otherwise>
+ 					SELECT
+					   board_create_date 		as createDate,
+					   board_no					as no, 
+					   board_name				as name, 
+					   board_read_cnt			as readCount,
+					   board_type				AS type
+					FROM MGV_MOVIE_BOARD
+					WHERE board_deleted = 'N' AND board_report = 'N'
+						and user_id = #{id}
+						<choose>
+			    			<when test="opt == 'title'">
+			    				and board_name like CONCAT('%', #{keyword}, '%')
+			    			</when>
+			    			<when test="opt == 'content'">
+			    				and board_content like CONCAT('%', #{keyword}, '%')
+			    			</when>
+			    			<when test="opt == 'all'">
+			    				and (board_name like CONCAT('%', #{keyword}, '%') or board_content like CONCAT('%', #{keyword}, '%'))
+			    			</when>
+			    		</choose>
+					UNION ALL
+					SELECT 
+						   board_create_date 		as createDate,
+						   board_no					as no, 
+						   board_name				as name, 
+						   board_read_cnt			as readCount,
+						   board_type				AS type
+					FROM PARTY_BOARD
+					WHERE party_deleted = 'N' AND board_report = 'N'
+						and user_id = #{id}
+						<choose>
+			    			<when test="opt == 'title'">
+			    				and board_name like CONCAT('%', #{keyword}, '%')
+			    			</when>
+			    			<when test="opt == 'content'">
+			    				and board_content like CONCAT('%', #{keyword}, '%')
+			    			</when>
+			    			<when test="opt == 'all'">
+			    				and (board_name like CONCAT('%', #{keyword}, '%') or board_content like CONCAT('%', #{keyword}, '%'))
+			    			</when>
+			    		</choose>
+					UNION ALL
+					SELECT 
+						   board_create_date 		as createDate,
+						   board_no					as no, 
+						   board_name				as name, 
+						   board_read_cnt			as readCount,
+						   board_type				AS type
+					FROM MGV_THEATER_BOARD
+					WHERE board_deleted = 'N' AND board_report = 'N'
+						and user_id = #{id}
+						<choose>
+			    			<when test="opt == 'title'">
+			    				and board_name like CONCAT('%', #{keyword}, '%')
+			    			</when>
+			    			<when test="opt == 'content'">
+			    				and board_content like CONCAT('%', #{keyword}, '%')
+			    			</when>
+			    			<when test="opt == 'all'">
+			    				and (board_name like CONCAT('%', #{keyword}, '%') or board_content like CONCAT('%', #{keyword}, '%'))
+			    			</when>
+			    		</choose>
+					UNION ALL
+					SELECT
+						   board_create_date 		as createDate,
+						   board_no					as no, 
+						   board_name				as name, 
+						   board_read_cnt			as readCount,
+						   board_type			    AS type
+					FROM MGV_PRODUCT_BOARD
+					WHERE board_deleted = 'N' AND board_report = 'N'
+						and user_id = #{id}
+						<choose>
+			    			<when test="opt == 'title'">
+			    				and board_name like CONCAT('%', #{keyword}, '%')
+			    			</when>
+			    			<when test="opt == 'content'">
+			    				and board_content like CONCAT('%', #{keyword}, '%')
+			    			</when>
+			    			<when test="opt == 'all'">
+			    				and (board_name like CONCAT('%', #{keyword}, '%') or board_content like CONCAT('%', #{keyword}, '%'))
+			    			</when>
+			    		</choose>
+	            </otherwise>
+	        </choose>
+	    ) AS A
+	    ORDER BY A.createDate
+	    LIMIT 10 OFFSET #{begin}
+	</select>
+	
+	<select id="getListTotalRows" resultType="int" parameterType="map">
+		SELECT COUNT(*)
+			FROM  (
+	        <choose>
+	            <when test="boards != 'all'">
+	                    <choose>
+	                        <when test="boards == 'movie'">
+	                        SELECT
+	                        board_create_date   AS createDate,
+	                        board_no            AS no,
+	                        board_name          AS name,
+	                        board_read_cnt      AS readCount
+		                    FROM MGV_MOVIE_BOARD
+		                    WHERE board_deleted = 'N' AND board_report = 'N'
+		                        AND user_id = #{id}
+	                        <choose>
+	                            <when test="opt == 'title'">
+	                                and board_name like CONCAT('%', #{keyword}, '%')
+	                            </when>
+	                            <when test="opt == 'content'">
+	                                and board_content like CONCAT('%', #{keyword}, '%')
+	                            </when>
+	                            <when test="opt == 'all'">
+	                                and (board_name like CONCAT('%', #{keyword}, '%') or board_content like CONCAT('%', #{keyword}, '%'))
+	                            </when>
+	                        </choose>
+	                        </when>
+	                        <when test="boards == 'theater'">
+	                        	SELECT
+			                        board_create_date   AS createDate,
+			                        board_no            AS no,
+			                        board_name          AS name,
+			                        board_read_cnt      AS readCount
+			                    FROM MGV_THEATER_BOARD
+			                    WHERE board_deleted = 'N' AND board_report = 'N'
+			                        AND user_id = #{id}
+			                        <choose>
+			                            <when test="opt == 'title'">
+			                                and board_name like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'content'">
+			                                and board_content like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'all'">
+			                                and (board_name like CONCAT('%', #{keyword}, '%') or board_content like CONCAT('%', #{keyword}, '%'))
+			                            </when>
+			                        </choose>
+	                        </when>
+	                        <when test="boards == 'store'">
+			                    SELECT
+			                        board_create_date   AS createDate,
+			                        board_no            AS no,
+			                        board_name          AS name,
+			                        board_read_cnt      AS readCount
+			                    FROM MGV_PRODUCT_BOARD
+			                    WHERE board_deleted = 'N' AND board_report = 'N'
+			                        AND user_id = #{id}
+			                        <choose>
+			                            <when test="opt == 'title'">
+			                                and board_name like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'content'">
+			                                and board_content like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'all'">
+			                                and (board_name like CONCAT('%', #{keyword}, '%') or board_content like CONCAT('%', #{keyword}, '%'))
+			                            </when>
+			                        </choose>	                            
+	                        </when>
+	                        <when test="boards == 'party'">
+			                    SELECT
+			                        board_create_date   AS createDate,
+			                        board_no            AS no,
+			                        board_name          AS name,
+			                        board_read_cnt      AS readCount
+			                    FROM PARTY_BOARD
+			                    WHERE party_deleted = 'N' AND board_report = 'N'
+			                        AND user_id = #{id}
+			                        <choose>
+			                            <when test="opt == 'title'">
+			                                and board_name like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'content'">
+			                                and board_content like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'all'">
+			                                and (board_name like CONCAT('%', #{keyword}, '%') or board_content like CONCAT('%', #{keyword}, '%'))
+			                            </when>
+			                        </choose>	                            
+	                        </when>
+	                    </choose>
+	            </when>
+	            <otherwise>
+ 					SELECT
+					   board_create_date 		as createDate,
+					   board_no					as no, 
+					   board_name				as name, 
+					   board_read_cnt			as readCount
+					FROM MGV_MOVIE_BOARD
+					WHERE board_deleted = 'N' AND board_report = 'N'
+						and user_id = #{id}
+						<choose>
+			    			<when test="opt == 'title'">
+			    				and board_name like CONCAT('%', #{keyword}, '%')
+			    			</when>
+			    			<when test="opt == 'content'">
+			    				and board_content like CONCAT('%', #{keyword}, '%')
+			    			</when>
+			    			<when test="opt == 'all'">
+			    				and (board_name like CONCAT('%', #{keyword}, '%') or board_content like CONCAT('%', #{keyword}, '%'))
+			    			</when>
+			    		</choose>
+					UNION ALL
+					SELECT 
+						   board_create_date 		as createDate,
+						   board_no					as no, 
+						   board_name				as name, 
+						   board_read_cnt			as readCount
+					FROM PARTY_BOARD
+					WHERE party_deleted = 'N' AND board_report = 'N'
+						and user_id = #{id}
+						<choose>
+			    			<when test="opt == 'title'">
+			    				and board_name like CONCAT('%', #{keyword}, '%')
+			    			</when>
+			    			<when test="opt == 'content'">
+			    				and board_content like CONCAT('%', #{keyword}, '%')
+			    			</when>
+			    			<when test="opt == 'all'">
+			    				and (board_name like CONCAT('%', #{keyword}, '%') or board_content like CONCAT('%', #{keyword}, '%'))
+			    			</when>
+			    		</choose>
+					UNION ALL
+					SELECT 
+						   board_create_date 		as createDate,
+						   board_no					as no, 
+						   board_name				as name, 
+						   board_read_cnt			as readCount
+					FROM MGV_THEATER_BOARD
+					WHERE board_deleted = 'N' AND board_report = 'N'
+						and user_id = #{id}
+						<choose>
+			    			<when test="opt == 'title'">
+			    				and board_name like CONCAT('%', #{keyword}, '%')
+			    			</when>
+			    			<when test="opt == 'content'">
+			    				and board_content like CONCAT('%', #{keyword}, '%')
+			    			</when>
+			    			<when test="opt == 'all'">
+			    				and (board_name like CONCAT('%', #{keyword}, '%') or board_content like CONCAT('%', #{keyword}, '%'))
+			    			</when>
+			    		</choose>
+					UNION ALL
+					SELECT
+						   board_create_date 		as createDate,
+						   board_no					as no, 
+						   board_name				as name, 
+						   board_read_cnt			as readCount
+					FROM MGV_PRODUCT_BOARD
+					WHERE board_deleted = 'N' AND board_report = 'N'
+						and user_id = #{id}
+						<choose>
+			    			<when test="opt == 'title'">
+			    				and board_name like CONCAT('%', #{keyword}, '%')
+			    			</when>
+			    			<when test="opt == 'content'">
+			    				and board_content like CONCAT('%', #{keyword}, '%')
+			    			</when>
+			    			<when test="opt == 'all'">
+			    				and (board_name like CONCAT('%', #{keyword}, '%') or board_content like CONCAT('%', #{keyword}, '%'))
+			    			</when>
+			    		</choose>
+	            </otherwise>
+	        </choose>
+	    ) as A
+	</select>
+	
+	<select id="getBoardListByComment" parameterType="map" resultType="kr.co.mgv.board.list.BoardList">
+	    SELECT DISTINCT 
+		    A.createDate,
+	        A.no,
+	        A.name,
+	        A.readCount,
+	        A.type
+	    FROM (
+	        <choose>
+	            <when test="boards != 'all'">
+	                    <choose>
+	                        <when test="boards == 'movie'">
+	                        SELECT
+		                        B.BOARD_CREATE_DATE   AS createDate,
+		                        B.board_no            AS no,
+		                        B.board_name          AS name,
+		                        B.board_read_cnt      AS readCount,
+		                        B.board_type		  AS type
+		                    FROM MGV_MOVIE_BOARD B, MGV_MBOARD_COMMENT C
+		                    WHERE B.board_deleted = 'N' AND B.board_report = 'N'
+		                    	and B.board_no = C.board_no
+		                        AND C.user_id = #{id}
+			                        <choose>
+			                            <when test="opt == 'title'">
+			                                and B.board_name like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'content'">
+			                                and B.board_content like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'all'">
+			                                and (B.board_name like CONCAT('%', #{keyword}, '%') or B.board_content like CONCAT('%', #{keyword}, '%'))
+			                            </when>
+			                        </choose>
+	                        </when>
+	                        <when test="boards == 'theater'">
+	                        	SELECT
+			                        B.BOARD_CREATE_DATE   AS createDate,
+			                        B.board_no            AS no,
+			                        B.board_name          AS name,
+			                        B.board_read_cnt      AS readCount,
+			                        B.board_type		  AS type
+			                    FROM MGV_THEATER_BOARD B, MGV_TBOARD_COMMENT C
+			                    WHERE B.board_deleted = 'N' AND B.board_report = 'N'
+			                    	and B.board_no = C.board_no
+			                        AND C.user_id = #{id}
+			                        <choose>
+			                            <when test="opt == 'title'">
+			                                and B.board_name like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'content'">
+			                                and B.board_content like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'all'">
+			                                and (B.board_name like CONCAT('%', #{keyword}, '%') or B.board_content like CONCAT('%', #{keyword}, '%'))
+			                            </when>
+			                        </choose>
+	                        </when>
+	                        <when test="boards == 'store'">
+			                    SELECT
+			                        B.BOARD_CREATE_DATE   AS createDate,
+			                        B.board_no            AS no,
+			                        B.board_name          AS name,
+			                        B.board_read_cnt      AS readCount,
+			                        B.board_type		  AS type	
+			                    FROM MGV_PRODUCT_BOARD B, MGV_PBOARD_COMMENT C
+			                    WHERE B.board_deleted = 'N' AND B.board_report = 'N'
+			                        and B.board_no = C.board_no
+		                        	AND C.user_id = #{id}
+			                        <choose>
+			                            <when test="opt == 'title'">
+			                                and B.board_name like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'content'">
+			                                and B.board_content like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'all'">
+			                                and (B.board_name like CONCAT('%', #{keyword}, '%') or B.board_content like CONCAT('%', #{keyword}, '%'))
+			                            </when>
+			                        </choose>	                            
+	                        </when>
+	                        <when test="boards == 'party'">
+			                    SELECT
+			                        B.BOARD_CREATE_DATE   AS createDate,
+			                        B.board_no            AS no,
+			                        B.board_name          AS name,
+			                        B.board_read_cnt      AS readCount,
+			                        B.board_type		  AS type
+			                    FROM PARTY_BOARD B, PARTY_BOARD_COMMENT C
+			                    WHERE B.party_deleted = 'N' AND B.board_report = 'N'
+			                        and B.board_no = C.board_no
+		                        	AND C.user_id = #{id}
+			                        <choose>
+			                            <when test="opt == 'title'">
+			                                and B.board_name like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'content'">
+			                                and B.board_content like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'all'">
+			                                and (B.board_name like CONCAT('%', #{keyword}, '%') or B.board_content like CONCAT('%', #{keyword}, '%'))
+			                            </when>
+			                        </choose>	                            
+	                        </when>
+	                    </choose>
+	            </when>
+	            <otherwise>
+ 					SELECT
+                        B.BOARD_CREATE_DATE   AS createDate,
+                        B.board_no            AS no,
+                        B.board_name          AS name,
+                        B.board_read_cnt      AS readCount,
+                        B.board_type		  AS type
+                    FROM MGV_MOVIE_BOARD B, MGV_MBOARD_COMMENT C
+                    WHERE B.board_deleted = 'N' AND B.board_report = 'N'
+                    	and B.board_no = C.board_no
+                        AND C.user_id = #{id}
+	                        <choose>
+	                            <when test="opt == 'title'">
+	                                and B.board_name like CONCAT('%', #{keyword}, '%')
+	                            </when>
+	                            <when test="opt == 'content'">
+	                                and B.board_content like CONCAT('%', #{keyword}, '%')
+	                            </when>
+	                            <when test="opt == 'all'">
+	                                and (B.board_name like CONCAT('%', #{keyword}, '%') or B.board_content like CONCAT('%', #{keyword}, '%'))
+	                            </when>
+	                        </choose>
+					UNION ALL
+						SELECT
+	                        B.BOARD_CREATE_DATE   AS createDate,
+	                        B.board_no            AS no,
+	                        B.board_name          AS name,
+	                        B.board_read_cnt      AS readCount,
+	                        B.board_type		  AS type
+	                    FROM MGV_THEATER_BOARD B, MGV_TBOARD_COMMENT C
+	                    WHERE B.board_deleted = 'N' AND B.board_report = 'N'
+	                    	and B.board_no = C.board_no
+	                        AND C.user_id = #{id}
+	                        <choose>
+	                            <when test="opt == 'title'">
+	                                and B.board_name like CONCAT('%', #{keyword}, '%')
+	                            </when>
+	                            <when test="opt == 'content'">
+	                                and B.board_content like CONCAT('%', #{keyword}, '%')
+	                            </when>
+	                            <when test="opt == 'all'">
+	                                and (B.board_name like CONCAT('%', #{keyword}, '%') or B.board_content like CONCAT('%', #{keyword}, '%'))
+	                            </when>
+	                        </choose>
+					UNION ALL
+	                    SELECT
+	                        B.BOARD_CREATE_DATE   AS createDate,
+	                        B.board_no            AS no,
+	                        B.board_name          AS name,
+	                        B.board_read_cnt      AS readCount,
+	                        B.board_type		  AS type	
+	                    FROM MGV_PRODUCT_BOARD B, MGV_PBOARD_COMMENT C
+	                    WHERE B.board_deleted = 'N' AND B.board_report = 'N'
+	                        and B.board_no = C.board_no
+                        	AND C.user_id = #{id}
+	                        <choose>
+	                            <when test="opt == 'title'">
+	                                and B.board_name like CONCAT('%', #{keyword}, '%')
+	                            </when>
+	                            <when test="opt == 'content'">
+	                                and B.board_content like CONCAT('%', #{keyword}, '%')
+	                            </when>
+	                            <when test="opt == 'all'">
+	                                and (B.board_name like CONCAT('%', #{keyword}, '%') or B.board_content like CONCAT('%', #{keyword}, '%'))
+	                            </when>
+	                         </choose>
+					UNION ALL
+						SELECT
+	                        B.BOARD_CREATE_DATE   AS createDate,
+	                        B.board_no            AS no,
+	                        B.board_name          AS name,
+	                        B.board_read_cnt      AS readCount,
+	                        B.board_type		  AS type
+	                    FROM PARTY_BOARD B, PARTY_BOARD_COMMENT C
+	                    WHERE B.party_deleted = 'N' AND B.board_report = 'N'
+	                        and B.board_no = C.board_no
+	                       	AND C.user_id = #{id}
+	                        <choose>
+	                            <when test="opt == 'title'">
+	                                and B.board_name like CONCAT('%', #{keyword}, '%')
+	                            </when>
+	                            <when test="opt == 'content'">
+	                                and B.board_content like CONCAT('%', #{keyword}, '%')
+	                            </when>
+	                            <when test="opt == 'all'">
+	                                and (B.board_name like CONCAT('%', #{keyword}, '%') or B.board_content like CONCAT('%', #{keyword}, '%'))
+	                            </when>
+	                        </choose>	      
+	            </otherwise>
+	        </choose>
+	    ) AS A
+	    ORDER BY A.createDate
+	    LIMIT 10 OFFSET #{begin}
+	</select>
+	
+	
+	<select id="getListTotalRowsByComment" resultType="int" parameterType="map">
+		SELECT COUNT(DISTINCT A.name)
+			 FROM (
+	        <choose>
+	            <when test="boards != 'all'">
+	                    <choose>
+	                        <when test="boards == 'movie'">
+	                        SELECT
+		                        B.BOARD_CREATE_DATE   AS createDate,
+		                        B.board_no            AS no,
+		                        B.board_name          AS name,
+		                        B.board_read_cnt      AS readCount,
+		                        B.board_type		  AS type
+		                    FROM MGV_MOVIE_BOARD B, MGV_MBOARD_COMMENT C
+		                    WHERE B.BOARD_DELETED = 'N' AND B.board_report = 'N'
+		                    	and B.board_no = C.board_no
+		                        AND C.user_id = #{id}
+			                        <choose>
+			                            <when test="opt == 'title'">
+			                                and B.board_name like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'content'">
+			                                and B.board_content like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'all'">
+			                                and (B.board_name like CONCAT('%', #{keyword}, '%') or B.board_content like CONCAT('%', #{keyword}, '%'))
+			                            </when>
+			                        </choose>
+	                        </when>
+	                        <when test="boards == 'theater'">
+	                        	SELECT
+			                        B.board_create_date   AS createDate,
+			                        B.board_no            AS no,
+			                        B.board_name          AS name,
+			                        B.board_read_cnt      AS readCount,
+			                        B.board_type		  AS type
+			                    FROM MGV_THEATER_BOARD B, MGV_TBOARD_COMMENT C
+			                    WHERE B.BOARD_DELETED = 'N' AND B.board_report = 'N'
+			                    	and B.board_no = C.board_no
+			                        AND C.user_id = #{id}
+			                        <choose>
+			                            <when test="opt == 'title'">
+			                                and B.board_name like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'content'">
+			                                and B.board_content like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'all'">
+			                                and (B.board_name like CONCAT('%', #{keyword}, '%') or B.board_content like CONCAT('%', #{keyword}, '%'))
+			                            </when>
+			                        </choose>
+	                        </when>
+	                        <when test="boards == 'store'">
+			                    SELECT
+			                        B.BOARD_CREATE_DATE   AS createDate,
+			                        B.board_no            AS no,
+			                        B.board_name          AS name,
+			                        B.board_read_cnt      AS readCount,
+			                        B.board_type		  AS type	
+			                    FROM MGV_PRODUCT_BOARD B, MGV_PBOARD_COMMENT C
+			                    WHERE B.BOARD_DELETED = 'N' AND B.board_report = 'N'
+			                        and B.board_no = C.board_no
+		                        	AND C.user_id = #{id}
+			                        <choose>
+			                            <when test="opt == 'title'">
+			                                and B.board_name like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'content'">
+			                                and B.board_content like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'all'">
+			                                and (B.board_name like CONCAT('%', #{keyword}, '%') or B.board_content like CONCAT('%', #{keyword}, '%'))
+			                            </when>
+			                        </choose>	                            
+	                        </when>
+	                        <when test="boards == 'party'">
+			                    SELECT
+			                        B.BOARD_CREATE_DATE   AS createDate,
+			                        B.board_no            AS no,
+			                        B.board_name          AS name,
+			                        B.board_read_cnt      AS readCount,
+			                        B.board_type		  AS type
+			                    FROM PARTY_BOARD B, PARTY_BOARD_COMMENT C
+			                    WHERE B.party_DELETED = 'N' AND B.board_report = 'N'
+			                        and B.board_no = C.board_no
+		                        	AND C.user_id = #{id}
+			                        <choose>
+			                            <when test="opt == 'title'">
+			                                and B.board_name like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'content'">
+			                                and B.board_content like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'all'">
+			                                and (B.board_name like CONCAT('%', #{keyword}, '%') or B.board_content like CONCAT('%', #{keyword}, '%'))
+			                            </when>
+			                        </choose>	                            
+	                        </when>
+	                    </choose>
+	            </when>
+	            <otherwise>
+ 					SELECT
+                        B.BOARD_CREATE_DATE   AS createDate,
+                        B.board_no            AS no,
+                        B.board_name          AS name,
+                        B.board_read_cnt      AS readCount,
+                        B.board_type		  AS type
+                    FROM MGV_MOVIE_BOARD B, MGV_MBOARD_COMMENT C
+                    WHERE B.BOARD_DELETED = 'N' AND B.board_report = 'N'
+                    	and B.board_no = C.board_no
+                        AND C.user_id = #{id}
+	                        <choose>
+	                            <when test="opt == 'title'">
+	                                and B.board_name like CONCAT('%', #{keyword}, '%')
+	                            </when>
+	                            <when test="opt == 'content'">
+	                                and B.board_content like CONCAT('%', #{keyword}, '%')
+	                            </when>
+	                            <when test="opt == 'all'">
+	                                and (B.board_name like CONCAT('%', #{keyword}, '%') or B.board_content like CONCAT('%', #{keyword}, '%'))
+	                            </when>
+	                        </choose>
+					UNION ALL
+						SELECT
+	                        B.BOARD_CREATE_DATE   AS createDate,
+	                        B.board_no            AS no,
+	                        B.board_name          AS name,
+	                        B.board_read_cnt      AS readCount,
+	                        B.board_type		  AS type
+	                    FROM MGV_THEATER_BOARD B, MGV_TBOARD_COMMENT C
+	                    WHERE B.BOARD_DELETED = 'N' AND B.board_report = 'N'
+	                    	and B.board_no = C.board_no
+	                        AND C.user_id = #{id}
+	                        <choose>
+	                            <when test="opt == 'title'">
+	                                and B.board_name like CONCAT('%', #{keyword}, '%')
+	                            </when>
+	                            <when test="opt == 'content'">
+	                                and B.board_content like CONCAT('%', #{keyword}, '%')
+	                            </when>
+	                            <when test="opt == 'all'">
+	                                and (B.board_name like CONCAT('%', #{keyword}, '%') or B.board_content like CONCAT('%', #{keyword}, '%'))
+	                            </when>
+	                        </choose>
+					UNION ALL
+	                    SELECT
+	                        B.BOARD_CREATE_DATE   AS createDate,
+	                        B.board_no            AS no,
+	                        B.board_name          AS name,
+	                        B.board_read_cnt      AS readCount,
+	                        B.board_type		  AS type	
+	                    FROM MGV_PRODUCT_BOARD B, MGV_PBOARD_COMMENT C
+	                    WHERE B.BOARD_DELETED = 'N' AND B.board_report = 'N'
+	                        and B.board_no = C.board_no
+                        	AND C.user_id = #{id}
+	                        <choose>
+	                            <when test="opt == 'title'">
+	                                and B.board_name like CONCAT('%', #{keyword}, '%')
+	                            </when>
+	                            <when test="opt == 'content'">
+	                                and B.board_content like CONCAT('%', #{keyword}, '%')
+	                            </when>
+	                            <when test="opt == 'all'">
+	                                and (B.board_name like CONCAT('%', #{keyword}, '%') or B.board_content like CONCAT('%', #{keyword}, '%'))
+	                            </when>
+	                         </choose>
+					UNION ALL
+						SELECT
+	                        B.BOARD_CREATE_DATE   AS createDate,
+	                        B.board_no            AS no,
+	                        B.board_name          AS name,
+	                        B.board_read_cnt      AS readCount,
+	                        B.board_type		  AS type
+	                    FROM PARTY_BOARD B, PARTY_BOARD_COMMENT C
+	                    WHERE B.party_DELETED = 'N' AND B.board_report = 'N'
+	                        and B.board_no = C.board_no
+	                       	AND C.user_id = #{id}
+	                        <choose>
+	                            <when test="opt == 'title'">
+	                                and B.board_name like CONCAT('%', #{keyword}, '%')
+	                            </when>
+	                            <when test="opt == 'content'">
+	                                and B.board_content like CONCAT('%', #{keyword}, '%')
+	                            </when>
+	                            <when test="opt == 'all'">
+	                                and (B.board_name like CONCAT('%', #{keyword}, '%') or B.board_content like CONCAT('%', #{keyword}, '%'))
+	                            </when>
+	                        </choose>	      
+	            </otherwise>
+	        </choose>
+	    ) AS A
+	</select>
+	
+	<select id="getBoardListBylike" parameterType="map" resultType="kr.co.mgv.board.list.BoardList">
+	    SELECT DISTINCT 
+		    A.createDate,
+	        A.no,
+	        A.name,
+	        A.readCount,
+	        A.type
+	    FROM (
+	        <choose>
+	            <when test="boards != 'all'">
+	                    <choose>
+	                        <when test="boards == 'movie'">
+	                        SELECT
+		                        B.BOARD_CREATE_DATE   AS createDate,
+		                        B.board_no            AS no,
+		                        B.board_name          AS name,
+		                        B.board_read_cnt      AS readCount,
+		                        B.board_type		  AS type
+		                    FROM MGV_MOVIE_BOARD B, MOVIE_BOARD_LIKE C
+		                    WHERE B.board_deleted = 'N' AND B.board_report = 'N'
+		                    	and B.board_no = C.board_no
+		                        and C.LIKE_CANCEL = 'N'
+		                        AND C.user_id = #{id}
+			                        <choose>
+			                            <when test="opt == 'title'">
+			                                and B.board_name like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'content'">
+			                                and B.board_content like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'all'">
+			                                and (B.board_name like CONCAT('%', #{keyword}, '%') or B.board_content like CONCAT('%', #{keyword}, '%'))
+			                            </when>
+			                        </choose>
+	                        </when>
+	                        <when test="boards == 'theater'">
+	                        	SELECT
+			                        B.BOARD_CREATE_DATE   AS createDate,
+			                        B.board_no            AS no,
+			                        B.board_name          AS name,
+			                        B.board_read_cnt      AS readCount,
+			                        B.board_type		  AS type
+			                    FROM MGV_THEATER_BOARD B, THEATER_BOARD_LIKE C
+			                    WHERE B.board_deleted = 'N' AND B.board_report = 'N'
+			                    	and B.board_no = C.board_no
+			                        and C.LIKE_CANCEL = 'N'
+			                        AND C.user_id = #{id}
+			                        <choose>
+			                            <when test="opt == 'title'">
+			                                and B.board_name like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'content'">
+			                                and B.board_content like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'all'">
+			                                and (B.board_name like CONCAT('%', #{keyword}, '%') or B.board_content like CONCAT('%', #{keyword}, '%'))
+			                            </when>
+			                        </choose>
+	                        </when>
+	                        <when test="boards == 'store'">
+			                    SELECT
+			                        B.BOARD_CREATE_DATE   AS createDate,
+			                        B.board_no            AS no,
+			                        B.board_name          AS name,
+			                        B.board_read_cnt      AS readCount,
+			                        B.board_type		  AS type	
+			                    FROM MGV_PRODUCT_BOARD B, STORE_BOARD_LIKE C
+			                    WHERE B.board_deleted = 'N' AND B.board_report = 'N'
+			                        and B.board_no = C.board_no
+		                        	and C.LIKE_CANCEL = 'N'
+		                        	AND C.user_id = #{id}
+			                        <choose>
+			                            <when test="opt == 'title'">
+			                                and B.board_name like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'content'">
+			                                and B.board_content like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'all'">
+			                                and (B.board_name like CONCAT('%', #{keyword}, '%') or B.board_content like CONCAT('%', #{keyword}, '%'))
+			                            </when>
+			                        </choose>	                            
+	                        </when>
+	                    </choose>
+	            </when>
+	            <otherwise>
+ 					SELECT
+                        B.BOARD_CREATE_DATE   AS createDate,
+                        B.board_no            AS no,
+                        B.board_name          AS name,
+                        B.board_read_cnt      AS readCount,
+                        B.board_type		  AS type
+                    FROM MGV_MOVIE_BOARD B, MOVIE_BOARD_LIKE C
+                    WHERE B.board_deleted = 'N' AND B.board_report = 'N'
+                    	and B.board_no = C.board_no
+                        and C.LIKE_CANCEL = 'N'
+                        AND C.user_id = #{id}
+	                        <choose>
+	                            <when test="opt == 'title'">
+	                                and B.board_name like CONCAT('%', #{keyword}, '%')
+	                            </when>
+	                            <when test="opt == 'content'">
+	                                and B.board_content like CONCAT('%', #{keyword}, '%')
+	                            </when>
+	                            <when test="opt == 'all'">
+	                                and (B.board_name like CONCAT('%', #{keyword}, '%') or B.board_content like CONCAT('%', #{keyword}, '%'))
+	                            </when>
+	                        </choose>
+					UNION ALL
+						SELECT
+	                        B.BOARD_CREATE_DATE   AS createDate,
+	                        B.board_no            AS no,
+	                        B.board_name          AS name,
+	                        B.board_read_cnt      AS readCount,
+	                        B.board_type		  AS type
+	                    FROM MGV_THEATER_BOARD B, THEATER_BOARD_LIKE C
+	                    WHERE B.board_deleted = 'N' AND B.board_report = 'N'
+	                    	and B.board_no = C.board_no
+	                        and C.LIKE_CANCEL = 'N'
+	                        AND C.user_id = #{id}
+	                        <choose>
+	                            <when test="opt == 'title'">
+	                                and B.board_name like CONCAT('%', #{keyword}, '%')
+	                            </when>
+	                            <when test="opt == 'content'">
+	                                and B.board_content like CONCAT('%', #{keyword}, '%')
+	                            </when>
+	                            <when test="opt == 'all'">
+	                                and (B.board_name like CONCAT('%', #{keyword}, '%') or B.board_content like CONCAT('%', #{keyword}, '%'))
+	                            </when>
+	                        </choose>
+					UNION ALL
+	                    SELECT
+	                        B.BOARD_CREATE_DATE   AS createDate,
+	                        B.board_no            AS no,
+	                        B.board_name          AS name,
+	                        B.board_read_cnt      AS readCount,
+	                        B.board_type		  AS type	
+	                    FROM MGV_PRODUCT_BOARD B, STORE_BOARD_LIKE C
+	                    WHERE B.board_deleted = 'N' AND B.board_report = 'N'
+	                        and B.board_no = C.board_no
+                        	and C.LIKE_CANCEL = 'N'
+                        	AND C.user_id = #{id}
+	                        <choose>
+	                            <when test="opt == 'title'">
+	                                and B.board_name like CONCAT('%', #{keyword}, '%')
+	                            </when>
+	                            <when test="opt == 'content'">
+	                                and B.board_content like CONCAT('%', #{keyword}, '%')
+	                            </when>
+	                            <when test="opt == 'all'">
+	                                and (B.board_name like CONCAT('%', #{keyword}, '%') or B.board_content like CONCAT('%', #{keyword}, '%'))
+	                            </when>
+	                         </choose>
+	            </otherwise>
+	        </choose>
+	    ) AS A
+	    ORDER BY A.createDate
+	    LIMIT 10 OFFSET #{begin}
+	</select>
+	
+	
+	<select id="getListTotalRowsBylike" resultType="int" parameterType="map">
+		SELECT COUNT(DISTINCT A.name)
+			 FROM (
+	        <choose>
+	            <when test="boards != 'all'">
+	                    <choose>
+	                        <when test="boards == 'movie'">
+	                        SELECT
+		                        B.BOARD_CREATE_DATE   AS createDate,
+		                        B.board_no            AS no,
+		                        B.board_name          AS name,
+		                        B.board_read_cnt      AS readCount,
+		                        B.board_type		  AS type
+		                    FROM MGV_MOVIE_BOARD B, MOVIE_BOARD_LIKE C
+		                    WHERE B.BOARD_DELETED = 'N' AND B.board_report = 'N'
+		                    	and B.board_no = C.board_no
+		                        and C.LIKE_CANCEL = 'N'
+		                        AND C.user_id = #{id}
+			                        <choose>
+			                            <when test="opt == 'title'">
+			                                and B.board_name like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'content'">
+			                                and B.board_content like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'all'">
+			                                and (B.board_name like CONCAT('%', #{keyword}, '%') or B.board_content like CONCAT('%', #{keyword}, '%'))
+			                            </when>
+			                        </choose>
+	                        </when>
+	                        <when test="boards == 'theater'">
+	                        	SELECT
+			                        B.board_create_date   AS createDate,
+			                        B.board_no            AS no,
+			                        B.board_name          AS name,
+			                        B.board_read_cnt      AS readCount,
+			                        B.board_type		  AS type
+			                    FROM MGV_THEATER_BOARD B, THEATER_BOARD_LIKE C
+			                    WHERE B.BOARD_DELETED = 'N' AND B.board_report = 'N'
+			                    	and B.board_no = C.board_no
+			                        and C.LIKE_CANCEL = 'N'
+			                        AND C.user_id = #{id}
+			                        <choose>
+			                            <when test="opt == 'title'">
+			                                and B.board_name like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'content'">
+			                                and B.board_content like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'all'">
+			                                and (B.board_name like CONCAT('%', #{keyword}, '%') or B.board_content like CONCAT('%', #{keyword}, '%'))
+			                            </when>
+			                        </choose>
+	                        </when>
+	                        <when test="boards == 'store'">
+			                    SELECT
+			                        B.BOARD_CREATE_DATE   AS createDate,
+			                        B.board_no            AS no,
+			                        B.board_name          AS name,
+			                        B.board_read_cnt      AS readCount,
+			                        B.board_type		  AS type	
+			                    FROM MGV_PRODUCT_BOARD B, STORE_BOARD_LIKE C
+			                    WHERE B.BOARD_DELETED = 'N' AND B.board_report = 'N'
+			                        and B.board_no = C.board_no
+		                        	and C.LIKE_CANCEL = 'N'
+		                        	AND C.user_id = #{id}
+			                        <choose>
+			                            <when test="opt == 'title'">
+			                                and B.board_name like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'content'">
+			                                and B.board_content like CONCAT('%', #{keyword}, '%')
+			                            </when>
+			                            <when test="opt == 'all'">
+			                                and (B.board_name like CONCAT('%', #{keyword}, '%') or B.board_content like CONCAT('%', #{keyword}, '%'))
+			                            </when>
+			                        </choose>	                            
+	                        </when>
+	                    </choose>
+	            </when>
+	            <otherwise>
+ 					SELECT
+                        B.BOARD_CREATE_DATE   AS createDate,
+                        B.board_no            AS no,
+                        B.board_name          AS name,
+                        B.board_read_cnt      AS readCount,
+                        B.board_type		  AS type
+                    FROM MGV_MOVIE_BOARD B, MOVIE_BOARD_LIKE C
+                    WHERE B.BOARD_DELETED = 'N' AND B.board_report = 'N'
+                    	and B.board_no = C.board_no
+                        and C.LIKE_CANCEL = 'N'
+                        AND C.user_id = #{id}
+	                        <choose>
+	                            <when test="opt == 'title'">
+	                                and B.board_name like CONCAT('%', #{keyword}, '%')
+	                            </when>
+	                            <when test="opt == 'content'">
+	                                and B.board_content like CONCAT('%', #{keyword}, '%')
+	                            </when>
+	                            <when test="opt == 'all'">
+	                                and (B.board_name like CONCAT('%', #{keyword}, '%') or B.board_content like CONCAT('%', #{keyword}, '%'))
+	                            </when>
+	                        </choose>
+					UNION ALL
+						SELECT
+	                        B.BOARD_CREATE_DATE   AS createDate,
+	                        B.board_no            AS no,
+	                        B.board_name          AS name,
+	                        B.board_read_cnt      AS readCount,
+	                        B.board_type		  AS type
+	                    FROM MGV_THEATER_BOARD B, THEATER_BOARD_LIKE C
+	                    WHERE B.BOARD_DELETED = 'N' AND B.board_report = 'N'
+	                    	and B.board_no = C.board_no
+	                        and C.LIKE_CANCEL = 'N'
+	                        AND C.user_id = #{id}
+	                        <choose>
+	                            <when test="opt == 'title'">
+	                                and B.board_name like CONCAT('%', #{keyword}, '%')
+	                            </when>
+	                            <when test="opt == 'content'">
+	                                and B.board_content like CONCAT('%', #{keyword}, '%')
+	                            </when>
+	                            <when test="opt == 'all'">
+	                                and (B.board_name like CONCAT('%', #{keyword}, '%') or B.board_content like CONCAT('%', #{keyword}, '%'))
+	                            </when>
+	                        </choose>
+					UNION ALL
+	                    SELECT
+	                        B.BOARD_CREATE_DATE   AS createDate,
+	                        B.board_no            AS no,
+	                        B.board_name          AS name,
+	                        B.board_read_cnt      AS readCount,
+	                        B.board_type		  AS type	
+	                    FROM MGV_PRODUCT_BOARD B, STORE_BOARD_LIKE C
+	                    WHERE B.BOARD_DELETED = 'N' AND B.board_report = 'N'
+	                        and B.board_no = C.board_no
+                        	and C.LIKE_CANCEL = 'N'
+                        	AND C.user_id = #{id}
+	                        <choose>
+	                            <when test="opt == 'title'">
+	                                and B.board_name like CONCAT('%', #{keyword}, '%')
+	                            </when>
+	                            <when test="opt == 'content'">
+	                                and B.board_content like CONCAT('%', #{keyword}, '%')
+	                            </when>
+	                            <when test="opt == 'all'">
+	                                and (B.board_name like CONCAT('%', #{keyword}, '%') or B.board_content like CONCAT('%', #{keyword}, '%'))
+	                            </when>
+	                         </choose>
+	            </otherwise>
+	        </choose>
+	    ) AS A
+	</select>
+	
+	<select id="getPartyByJoin" parameterType="map" resultType="kr.co.mgv.board.list.BoardList">
+		 SELECT
+             B.BOARD_CREATE_DATE   AS createDate,
+             B.board_no            AS no,
+             B.board_name          AS name,
+             B.board_read_cnt      AS readCount,
+             B.board_type		  AS type	
+         FROM PARTY_BOARD B, PARTY_JOIN C
+         WHERE B.party_deleted = 'N' AND B.board_report = 'N'
+             and B.board_no = C.board_no
+            	and C.JOIN_REQUEST = 'Y'
+            	AND C.user_id = #{id}
+             <choose>
+                 <when test="opt == 'title'">
+                     and B.board_name like CONCAT('%', #{keyword}, '%')
+                 </when>
+                 <when test="opt == 'content'">
+                     and B.board_content like CONCAT('%', #{keyword}, '%')
+                 </when>
+                 <when test="opt == 'all'">
+                     and (B.board_name like CONCAT('%', #{keyword}, '%') or B.board_content like CONCAT('%', #{keyword}, '%'))
+                 </when>
+                 <when test="com == 'open'">
+                     and B.PARTY_COMPLETE = 'N'
+                 </when>
+                 <when test="com == 'close'">
+                     and B.PARTY_COMPLETE = 'Y'
+                 </when>
+                 <when test="com == 'all'">
+                     and (B.PARTY_COMPLETE = 'N' or B.PARTY_COMPLETE = 'Y')
+                 </when>
+            </choose>
+        ORDER BY B.BOARD_CREATE_DATE
+	    LIMIT 10 OFFSET #{begin}
+	</select>
+	
+	<select id="getTotalRowsByJoin" resultType="int" parameterType="map">
+		 SELECT
+            count(*)
+         FROM PARTY_BOARD B, PARTY_JOIN C
+         WHERE B.party_deleted = 'N' AND B.board_report = 'N'
+             and B.board_no = C.board_no
+            	and C.JOIN_REQUEST = 'Y'
+            	AND C.user_id = #{id}
+             <choose>
+                 <when test="opt == 'title'">
+                     and B.board_name like CONCAT('%', #{keyword}, '%')
+                 </when>
+                 <when test="opt == 'content'">
+                     and B.board_content like CONCAT('%', #{keyword}, '%')
+                 </when>
+                 <when test="opt == 'all'">
+                     and (B.board_name like CONCAT('%', #{keyword}, '%') or B.board_content like CONCAT('%', #{keyword}, '%'))
+                 </when>
+                 <when test="com == 'open'">
+                     and B.PARTY_COMPLETE = 'N'
+                 </when>
+                 <when test="com == 'close'">
+                     and B.PARTY_COMPLETE = 'Y'
+                 </when>
+                 <when test="com == 'all'">
+                     and (B.PARTY_COMPLETE = 'N' or B.PARTY_COMPLETE = 'Y')
+                 </when>
+            </choose>
+	</select>
+	
+</mapper>
