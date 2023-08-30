@@ -1,15 +1,10 @@
 package kr.co.mgv.theater.dao;
 
 import java.util.List;
+import java.util.Map;
 
+import kr.co.mgv.theater.vo.*;
 import org.apache.ibatis.annotations.Mapper;
-
-import kr.co.mgv.theater.vo.FloorInfo;
-import kr.co.mgv.theater.vo.Location;
-import kr.co.mgv.theater.vo.ParkingInfo;
-import kr.co.mgv.theater.vo.Screen;
-import kr.co.mgv.theater.vo.Theater;
-import kr.co.mgv.theater.vo.TheaterFacility;
 
 @Mapper
 public interface TheaterDao {
@@ -29,4 +24,8 @@ public interface TheaterDao {
 	void insertFloorInfo(FloorInfo floorInfo);
 	
 	void insertParkingInfo(ParkingInfo parkingInfo);
+
+	void insertDisabledSeats(Map<String,Object> params);
+
+	List<String> getDisabledSeatsByScreenId(int screenId);
 }
