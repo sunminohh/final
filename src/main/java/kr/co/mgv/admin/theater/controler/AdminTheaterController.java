@@ -1,4 +1,4 @@
-package kr.co.mgv.admin.common;
+package kr.co.mgv.admin.theater.controler;
 
 import java.util.List;
 
@@ -47,6 +47,28 @@ public class AdminTheaterController {
     @GetMapping("/regist")
     public String registForm() {
     	return "view/admin/theater/form/regist";
+    }
+    
+    @GetMapping("/modify")
+    public String modifyForm(Model model,@RequestParam int theaterNo) {
+    	
+    	List<TheaterFacility> facilities = theaterService.getFacilities();
+    	model.addAttribute("facilities", facilities);
+    	model.addAttribute("theaterNo", theaterNo);
+    	
+    	return "view/admin/theater/form/modify";
+    }
+    
+    @PostMapping("/modify")
+    @ResponseBody
+    public String modifyTheater(@RequestBody Theater theater) {
+    	try{
+    		theaterService.modifyTheater(theater);
+    		return "success";
+    	}catch (Exception e) {
+    		
+    		return "error: " + e.getMessage();
+    	}
     }
     
     @PostMapping("/regist")

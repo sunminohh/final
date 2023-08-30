@@ -47,11 +47,12 @@ $(() => {
 		
 		$.getJSON("/admin/theater/registform",function(data){
 			data.forEach(function(facility){
-				htmlContent += `<option value="${facility.type}">${facility.name}</option>`;			
+				htmlContent += `<option value="${facility.type}" >${facility.name}</option>`;			
 			})
 		$facilitySelect.html(htmlContent);
 		})
 	}
+	
 	
 	function registTheater(){
 		
