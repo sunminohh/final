@@ -1,5 +1,6 @@
 package kr.co.mgv.board.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -95,5 +96,28 @@ public class MyBoardService {
 		result.setPagination(pagination);
 		
 		return result;
+	}
+	
+	public int getBoardsTotalRows(String id) {
+		Map<String , Object> param = new HashMap<String, Object>();
+		param.put("id", id);
+		param.put("boards", "all");
+		
+		return myBoardDao.getListTotalRows(param);
+	}
+	
+	public int getCommentTotalRows(String id) {
+		Map<String , Object> param = new HashMap<String, Object>();
+		param.put("id", id);
+		param.put("boards", "all");
+		
+		return myBoardDao.getListTotalRowsByComment(param);
+	}
+	public int getlikeTotalRows(String id) {
+		Map<String , Object> param = new HashMap<String, Object>();
+		param.put("id", id);
+		param.put("boards", "all");
+		
+		return myBoardDao.getListTotalRowsBylike(param);
 	}
 }

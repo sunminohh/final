@@ -15,9 +15,9 @@
     	 사용자 아이디
   		</div>
   		<div class="board-count-area d-flex justify-content-start">
-  			<p>작성글<strong>5</strong></p>
-  			<p>댓글<strong>5</strong></p>
-  			<p>좋아요<strong>5</strong></p>
+  			<p>작성글<strong th:text="${totalRows}">5</strong></p>
+  			<p>댓글<strong th:text="${CtotalRows}">5</strong></p>
+  			<p>좋아요<strong th:text="${LtotalRows}">5</strong></p>
   		</div>
   	</div>  
   </div>
@@ -47,7 +47,7 @@
 	            </p>
 	        </div>
 	
-	        <div class="float-start ps-1">
+	        <div class=" float-start ps-1">
 	            <form id="form-board-search" method="get" th:action="@{joinList}"
 	                  class="row row-cols-lg-auto g-3 align-items-center justify-content-end ">
 					<input type="hidden" name="com" th:value="${param.com}"/>
