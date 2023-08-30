@@ -16,17 +16,17 @@ $(document).ready(function() {
         localStorage.setItem("selectedCategoryId", $(this).attr("id"));
     });
 
-    function addCommasToPrice() {
-        let priceElements = document.querySelectorAll('.price-detail', '.original');
-        priceElements.forEach(function(element) {
-            let priceValue = element.textContent;
-            let formattedPrice = parseFloat(priceValue).toLocaleString('en-US');
-            element.textContent = formattedPrice;
-        });
-    }
-
-    window.onload = addCommasToPrice;
 });
+function addCommasToPrice() {
+    let priceElements = document.querySelectorAll('.price-detail', '.original');
+    priceElements.forEach(function(element) {
+        let priceValue = element.textContent;
+        let formattedPrice = parseFloat(priceValue).toLocaleString('en-US');
+        element.textContent = formattedPrice;
+    });
+}
+
+window.onload = addCommasToPrice;
 
 
 

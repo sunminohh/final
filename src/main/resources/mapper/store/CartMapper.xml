@@ -8,11 +8,12 @@
          PRODUCT_NO,
          USER_ID,
          PRODUCT_AMOUNT,
-         TOTAL_PRICE,
+         TOTAL_DISCOUNTED_PRICE,
+         TOTAL_ORIGINAL_PRICE,
          PACKAGE_NO
         )
         VALUES
-            (#{product.no}, #{user.id}, #{amount},#{totalPrice}, #{pkg.no})
+            (#{product.no}, #{user.id}, #{amount},#{totalDiscountedPrice}, #{totalOriginalPrice} ,#{pkg.no})
 
     </insert>
 
@@ -25,7 +26,8 @@
             C.USER_ID                   as "user.id",
             C.USER_NAME                 as "user.name",
             A.PRODUCT_AMOUNT            as amount,
-            A.TOTAL_PRICE               as totalPrice,
+            A.TOTAL_DISCOUNTED_PRICE    as totalDiscountedPrice,
+            A.TOTAL_ORIGINAL_PRICE      as totalOriginalPrice,
             A.CART_INSERT_DATE          as insertDate,
             A.CART_PAYMENT_STATUS       as paymentStatus,
             B.PRODUCT_IMAGE             as "product.imagePath",
@@ -52,7 +54,8 @@
             MGV_CART
         SET
             PRODUCT_AMOUNT = #{amount},
-            TOTAL_PRICE = #{totalPrice},
+            TOTAL_DISCOUNTED_PRICE = #{totalDiscountedPrice},
+            TOTAL_ORIGINAL_PRICE = #{totalOriginalPrice},
             CART_INSERT_DATE = CURRENT_TIMESTAMP
         WHERE
             CART_NO = #{no}
@@ -63,6 +66,5 @@
             MGV_CART
         WHERE
             CART_NO = #{value}
-
     </delete>
 </mapper>

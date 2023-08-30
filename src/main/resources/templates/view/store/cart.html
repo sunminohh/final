@@ -62,7 +62,7 @@
                                 <td><em id="purcQtyView" th:text="${cart.getAmount()}"></em></td>
                                 <td>
                                     <div class="goods-info">
-                                        <em id="prdtSumAmtView" class="price priceTimesAmount" th:text="${cart.getTotalPrice()}"></em>원
+                                        <em id="prdtSumAmtView" class="discountedPrice" th:text="${cart.getTotalDiscountedPrice()}"></em>원
                                     </div>
                                 </td>
                                 <td>
@@ -81,7 +81,7 @@
                             <div class="cell all">
                                 <p class="txt">총 상품금액</p>
                                 <p class="price">
-                                    <em id="totPrdtAmtView">0</em>
+                                    <em id="totPrdtAmtView" th:text="${#numbers.formatDecimal(totalOriginalPrice, 0, 'COMMA', 0, 'POINT')}">0</em>
                                     <span>원</span>
                                 </p>
                             </div>
@@ -89,7 +89,7 @@
                             <div class="cell sale">
                                 <p class="txt">할인금액</p>
                                 <p class="price">
-                                    <em id="totDcAmtView">0</em>
+                                    <em id="totDcAmtView" th:text="${#numbers.formatDecimal(discountPrice, 0, 'COMMA', 0, 'POINT')}">0</em>
                                     <span>원</span>
                                 </p>
                             </div>
@@ -97,15 +97,14 @@
                             <div class="cell real">
                                 <p class="txt">최종 결제금액</p>
                                 <p class="price">
-                                    <em id="lstPayAmtView">0</em>
+                                    <em id="lstPayAmtView" th:text="${#numbers.formatDecimal(totalDiscountedPrice, 0, 'COMMA', 0, 'POINT')}">0</em>
                                     <span>원</span>
                                 </p>
                             </div>
                         </div>
                     </div>
                     <div class="btn-group pt40" style="display: block;">
-                        <a href="" class="button large w170px" id="btn_store_back" title="취소">장바구니 비우기</a>
-                        <a href="#" class="button purple large w170px btn-modal-open" id="btn_store_pay_adapter" title="결제">결제하러 가기</a>
+                        <a href="#" class="button purple large w170px btn-modal-open" id="btn_store_pay_adapter" title="구매">구매</a>
                     </div>
                 </div>
             </div>

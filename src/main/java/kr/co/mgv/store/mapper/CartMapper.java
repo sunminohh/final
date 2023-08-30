@@ -15,4 +15,5 @@ public interface CartMapper {
     void updateCartItem(Cart cart);
 
     void deleteCart(int cartNo);
+
 }

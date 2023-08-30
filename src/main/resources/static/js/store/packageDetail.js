@@ -29,11 +29,15 @@ $(function() {
     function updateTotalAmount() {
         let input_d = $(".line .cont input[type='text']");
         let input_num = Number(input_d.val());
-        let price = Number($('#price').val());
-        let totalAmount = price * input_num;
+        let discountedPrice = Number($('#discountedPrice').val());
+        let originalPrice = Number($('#originalPrice').val());
 
-        $('#prdtSumAmt').html(numberWithCommas(totalAmount));
-        $('#totalPrice').val(totalAmount);
+        let totalDiscountedPrice = discountedPrice * input_num;
+        let totalOriginalPrice = originalPrice * input_num;
+
+        $('#prdtSumAmt').html(numberWithCommas(totalDiscountedPrice));
+        $('#totalOriginalPrice').val(totalOriginalPrice);
+        $('#totalDiscountedPrice').val(totalDiscountedPrice);
         $('#packageAmount').val(input_num);
 
     }
@@ -55,13 +59,15 @@ $(function() {
         $('#btnCart-user').click(function(event) {
             event.preventDefault();
 
-            const totalPrice = $("#totalPrice").val();
+            const totalDiscountedPrice = $("#totalDiscountedPrice").val();
+            const totalOriginalPrice = $("#totalOriginalPrice").val();
             const userId = $("#userId").val();
             const packageNo = $("#packageNo").val();
             const packageAmount = $("#packageAmount").val();
 
             const requestData = {
-                totalPrice: totalPrice,
+                totalDiscountedPrice: totalDiscountedPrice,
+                totalOriginalPrice: totalOriginalPrice,
                 userId: userId,
                 packageNo: packageNo,
                 packageAmount: packageAmount
