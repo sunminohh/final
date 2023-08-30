@@ -15,7 +15,8 @@ public class Package {
 
     private int no;
     private String name;
-    private int price;
+    private int discountedPrice;
+    private int originalPrice;
     private String imagePath;
     private String composition;
     private Category category;

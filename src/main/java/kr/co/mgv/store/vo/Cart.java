@@ -20,11 +20,9 @@ public class Cart {
     private Package pkg;
     private User user;
     private int amount;
-    private int totalPrice;
+    private int totalDiscountedPrice;
+    private int totalOriginalPrice;
     private Date insertDate;
     private String paymentStatus;
 
-    public void addAmount(int amount) {
-        this.amount += amount;
-    }
 }

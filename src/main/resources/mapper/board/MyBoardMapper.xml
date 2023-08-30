@@ -586,7 +586,7 @@
 		                        B.board_read_cnt      AS readCount,
 		                        B.board_type		  AS type
 		                    FROM MGV_MOVIE_BOARD B, MGV_MBOARD_COMMENT C
-		                    WHERE B.BOARD_DELETED = 'N' AND B.board_report = 'N'
+		                    WHERE B.board_deleted = 'N' AND B.board_report = 'N'
 		                    	and B.board_no = C.board_no
 		                        AND C.user_id = #{id}
 			                        <choose>
@@ -680,7 +680,7 @@
                         B.board_read_cnt      AS readCount,
                         B.board_type		  AS type
                     FROM MGV_MOVIE_BOARD B, MGV_MBOARD_COMMENT C
-                    WHERE B.BOARD_DELETED = 'N' AND B.board_report = 'N'
+                    WHERE B.board_deleted = 'N' AND B.board_report = 'N'
                     	and B.board_no = C.board_no
                         AND C.user_id = #{id}
 	                        <choose>

@@ -12,11 +12,12 @@
 
     <select id="getPackages" resultType="Package">
         select
-            PACKAGE_NO          as no,
-            PACKAGE_NAME        as name,
-            PACKAGE_PRICE       as price,
-            PACKAGE_IMAGE       as imagePath,
-            PACKAGE_COMPOSITION as composition
+            PACKAGE_NO                  as no,
+            PACKAGE_NAME                as name,
+            PACKAGE_DISCOUNTED_PRICE    as discountedPrice,
+            PACKAGE_ORIGINAL_PRICE      as originalPrice,
+            PACKAGE_IMAGE               as imagePath,
+            PACKAGE_COMPOSITION         as composition
         from
             MGV_PACKAGE
         order by
@@ -25,11 +26,12 @@
 
     <select id="getPackageByNo" parameterType="int" resultType="Package">
         select
-            PACKAGE_NO          as no,
-            PACKAGE_NAME        as name,
-            PACKAGE_PRICE       as price,
-            PACKAGE_IMAGE       as imagePath,
-            PACKAGE_COMPOSITION as composition
+            PACKAGE_NO                  as no,
+            PACKAGE_NAME                as name,
+            PACKAGE_DISCOUNTED_PRICE    as discountedPrice,
+            PACKAGE_ORIGINAL_PRICE      as originalPrice,
+            PACKAGE_IMAGE               as imagePath,
+            PACKAGE_COMPOSITION         as composition
         from
             MGV_PACKAGE
         where
@@ -38,12 +40,13 @@
 
     <select id="getPackagesByCatNo" parameterType="int" resultType="Package">
         select
-            A.PACKAGE_NO          as no,
-            A.PACKAGE_NAME        as name,
-            A.PACKAGE_PRICE       as price,
-            A.PACKAGE_IMAGE       as imagePath,
-            A.PACKAGE_COMPOSITION as composition,
-            B.CAT_NO              as "category.no"
+            A.PACKAGE_NO                as no,
+            A.PACKAGE_NAME              as name,
+            A.PACKAGE_DISCOUNTED_PRICE  as discountedPrice,
+            A.PACKAGE_ORIGINAL_PRICE    as originalPrice,
+            A.PACKAGE_IMAGE             as imagePath,
+            A.PACKAGE_COMPOSITION       as composition,
+            B.CAT_NO                    as "category.no"
         from
             MGV_PACKAGE A, MGV_PRODUCT_CATEGORY B
         where

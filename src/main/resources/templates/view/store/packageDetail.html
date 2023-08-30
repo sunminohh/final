@@ -19,7 +19,8 @@
                 </div>
             </div>
             <div id="storeDtl">
-                <input type="hidden" name="price" id="price" th:value="${package.getPrice()}">
+                <input type="hidden" name="discountedPrice" id="discountedPrice" th:value="${package.getDiscountedPrice()}">
+                <input type="hidden" name="originalPrice" id="originalPrice" th:value="${package.getOriginalPrice()}">
                 <div id="contents">
                     <div class="inner-wrap">
                         <!-- store-view -->
@@ -102,7 +103,8 @@
                                            title="구매" style="padding-left: 130px; padding-right: 130px;">구매</a>
                                         <!-- 회원 -->
                                         <form id="addPackageIntoCart" method="post">
-                                            <input type="hidden" name="totalPrice" id="totalPrice" value="">
+                                            <input type="hidden" name="totalDiscountedPrice" id="totalDiscountedPrice" value="">
+                                            <input type="hidden" name="totalOriginalPrice" id="totalOriginalPrice" value="">
                                             <input type="hidden" name="userId" id="userId"  th:if="${#authorization.expression('isAuthenticated()')}" th:value="${#authentication.principal.id}">
                                             <input type="hidden" name="packageNo" id="packageNo" th:value="${package.getNo()}">
                                             <input type="hidden" name="packageAmount" id="packageAmount" value="">
