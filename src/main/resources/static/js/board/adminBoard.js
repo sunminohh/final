@@ -1,6 +1,43 @@
 $(function() {
 	
-	  $("#one-board").on('click', '#report-btn', function() {
+	  $("#report-table").on('click', '#report-btn', function() {
+		  
+		 const no = $(this).closest('#board-tr').find("input[name=boardNo]").val();
+		 const type = $(this).closest('#board-tr').find("input[name=boardType]").val();
+			  
+		  $("input[name=no]").attr('value', no);
+		  $("input[name=type]").attr('value', type);
+		  
+		  $.ajax({
+                 url: '/admin/board/boardDetail',
+                 method: "GET",
+                 data: $("#board-detail").serialize(),
+                 success: function(result) {
+                    let boardContent = `<p id="board-content">${result.list.content}</p>`
+                    $("#board-info").empty().append(boardContent);
+                    
+                    let reports = result.reports;
+                    let reportContent ="";
+                    reports.forEach(function(report) {
+						reportContent += `
+						<div class="report-reason d-flex justify-content-start  row">
+	               	   		<div class="pe-2 col-2 fw-semibold">${report.reasonName}</div>
+	               	   	`
+	               	   	if(report.reason != null){
+	               	   	reportContent += 
+	               	   	`
+	               	   		<div class="col-10">${report.reason}</div>
+	               	    `
+	               	    }
+	               	   reportContent += `
+	               	  	</div>
+	           	   		<hr class="mt-3">
+						`
+					})
+					$(".report-box").empty().append(reportContent);
+                 }
+             });
+		  
 		  $("#board-modal").modal('show');
 	  })
 })
