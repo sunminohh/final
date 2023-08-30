@@ -32,10 +32,10 @@
               <a type="button" class="btn rounded-0" data-tab="tab-2" data-category-no="22" id="comment-board-list" title="댓글단 글" th:href="@{commentList}">댓글단 글</a>
           </li>
           <li class="tab-link" th:classappend="${#strings.equals(param.catNo, '23') ? 'current' : ''}">
-              <a type="button" class="btn rounded-0" data-tab="tab-2" data-category-no="23" title="MGV 공지 보기" th:href="@{comments}">댓글</a>
+              <a type="button" class="btn rounded-0" data-tab="tab-3" data-category-no="23" title="좋아요한 글" th:href="@{likeList}">좋아요한 글</a>
           </li>
           <li class="tab-link" th:classappend="${#strings.equals(param.catNo, '24') ? 'current' : ''}">
-              <a type="button" class="btn rounded-0" data-tab="tab-3" data-category-no="24" title="좋아요한 글" th:href="@{likeList}">좋아요한 글</a>
+              <a type="button" class="btn rounded-0" data-tab="tab-2" data-category-no="24" title="MGV 공지 보기" th:href="@{joinList}">신청한 글</a>
           </li>
       </ul>
   </div>
@@ -78,14 +78,14 @@
 	                    <input type="text" class="form-control form-control-sm" name="keyword" th:value="${param.keyword}"/>
 	                </div>
 	                <div class="col-12">
-	                    <button type="button" class="btn btn-outline-dark btn-sm" onclick="searchCBoard()">검색</button>
+	                    <button type="button" class="btn btn-outline-dark btn-sm" onclick="searchBoard()">검색</button>
 	              </div>
 	          </form>
 	      </div>
 	  </div>
 	  <div>
 	      <div class="d-flex justify-content-end mb-3 float-end ps-3 ">
-	          	<select class="form-select me-1 form-select-sm" style="width: 100px" name="boards" th:value="${param.boards}" onchange="changeCBoards()">
+	          	<select class="form-select me-1 form-select-sm" style="width: 100px" name="boards" th:value="${param.boards}" onchange="changeBoards()">
 	                <option class="sort-select" th:value="all" th:selected="${#strings.equals(param.boards, 'all')}">전체</option>
 	                <option class="sort-select" th:value="movie" th:selected="${#strings.equals(param.boards, 'movie')}">영화</option>
 					<option class="sort-select" th:value="theater" th:selected="${#strings.equals(param.boards, 'theater')}">극장</option>

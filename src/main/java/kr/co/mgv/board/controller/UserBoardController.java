@@ -85,4 +85,31 @@ public class UserBoardController {
 		
 		return "view/user/board/commentList";
 	}
+
+	@GetMapping("/likeList")
+	public String likeList(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
+			@RequestParam(name = "opt", required = false, defaultValue = "") String opt,
+			@RequestParam(name = "keyword", required = false, defaultValue = "") String keyword,
+			@RequestParam(name = "boards", required = false, defaultValue = "all") String boards,
+			@AuthenticationPrincipal User user,
+			Model model) {
+		
+		Map<String , Object> param = new HashMap<String, Object>();
+		param.put("page", page);
+		String id = user.getId();
+		param.put("id", id);
+		param.put("boards", boards);
+		
+		log.info("{}",id);
+		
+		if(StringUtils.hasText(opt) && StringUtils.hasText(keyword)) {
+			param.put("opt", opt);
+			param.put("keyword", keyword);
+		}
+		
+		MyBoardList result = myBoardService.getBoardListByLike(param);
+		model.addAttribute("result", result);
+		
+		return "view/user/board/likeList";
+	}
 }

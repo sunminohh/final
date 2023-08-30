@@ -56,4 +56,24 @@ public class MyBoardService {
 		
 		return result;
 	}
+
+	public  MyBoardList getBoardListByLike(Map<String, Object> param) {
+		
+		int totalRows = myBoardDao.getListTotalRowsBylike(param);
+		int page = (int) param.get("page");
+		BoardPagination pagination = new BoardPagination(page, totalRows);
+		int begin = pagination.getBegin()-1;
+		int end = pagination.getEnd();
+		param.put("begin", begin);
+		param.put("end", end);
+		
+		List<BoardList> boards = myBoardDao.getBoardListBylike(param);
+		
+		MyBoardList result = new MyBoardList();
+		
+		result.setList(boards);
+		result.setPagination(pagination);
+		
+		return result;
+	}
 }

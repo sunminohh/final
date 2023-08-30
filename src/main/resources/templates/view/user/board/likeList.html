@@ -25,13 +25,13 @@
   <!-- 탭 -->
   <div class="tab-block-myboard mb30">
       <ul>
-          <li class="tab-link" th:classappend="${param.catNo == null || #strings.equals(param.catNo, '21') ? 'current' : ''}">
+          <li class="tab-link"  >
               <a type="button" class="btn rounded-0" data-tab="tab-1" data-category-no="21" title="작성글" th:href="@{list}">작성글</a>
           </li>
-          <li class="tab-link" th:classappend="${#strings.equals(param.catNo, '22') ? 'current' : ''}">
+          <li class="tab-link">
               <a type="button" class="btn rounded-0" data-tab="tab-2" data-category-no="22" id="comment-board-list" title="댓글단 글" th:href="@{commentList}">댓글단 글</a>
           </li>
-          <li class="tab-link" th:classappend="${#strings.equals(param.catNo, '23') ? 'current' : ''}">
+          <li class="tab-link current" th:classappend="${#strings.equals(param.catNo, '23') ? 'current' : ''}">
               <a type="button" class="btn rounded-0" data-tab="tab-3" data-category-no="23" title="좋아요한 글" th:href="@{likeList}">좋아요한 글</a>
           </li>
           <li class="tab-link" th:classappend="${#strings.equals(param.catNo, '24') ? 'current' : ''}">
@@ -48,10 +48,10 @@
 	        </div>
 	
 	        <div class="float-start ps-1">
-	            <form id="form-board-search" method="get" th:action="@{list}"
+	            <form id="form-board-search" method="get" th:action="@{likeList}"
 	                  class="row row-cols-lg-auto g-3 align-items-center justify-content-end ">
 					<input type="hidden" name="boards" th:value="${param.boards}"/>
-					<input type="hidden" name="catNo" th:value="${param.catNo == null ? '21' : param.catNo}" />
+					<input type="hidden" name="catNo" th:value="${param.catNo == null ? '22' : param.catNo}" />
 					<input type="hidden" name="page" th:value="${param.page == null ? '1' : param.page}" />
 					<input type="hidden" name="id" th:value="${#authentication.principal.id}" />
 	                <div class="col-12 ">
@@ -78,19 +78,18 @@
 	                    <input type="text" class="form-control form-control-sm" name="keyword" th:value="${param.keyword}"/>
 	                </div>
 	                <div class="col-12">
-	                    <button type="button" class="btn btn-outline-dark btn-sm" onclick="searchBoard()">검색</button>
+	                    <button type="button" class="btn btn-outline-dark btn-sm" onclick="searchCBoard()">검색</button>
 	              </div>
 	          </form>
 	      </div>
 	  </div>
 	  <div>
 	      <div class="d-flex justify-content-end mb-3 float-end ps-3 ">
-	          	<select class="form-select me-1 form-select-sm" style="width: 100px" name="boards" th:value="${param.boards}" onchange="changeBoards()">
+	          	<select class="form-select me-1 form-select-sm" style="width: 100px" name="boards" th:value="${param.boards}" onchange="changeCBoards()">
 	                <option class="sort-select" th:value="all" th:selected="${#strings.equals(param.boards, 'all')}">전체</option>
 	                <option class="sort-select" th:value="movie" th:selected="${#strings.equals(param.boards, 'movie')}">영화</option>
 					<option class="sort-select" th:value="theater" th:selected="${#strings.equals(param.boards, 'theater')}">극장</option>
 					<option class="sort-select" th:value="store" th:selected="${#strings.equals(param.boards, 'store')}">스토어</option>
-					<option class="sort-select" th:value="party" th:selected="${#strings.equals(param.boards, 'party')}">파티</option>
 	            </select>
 	
 	        </div>
@@ -151,18 +150,18 @@
 				<ul class="pagination justify-content-center">
 				    <li class="page-item" th:if="${result.pagination.currentBlock > 1}">
 				        <a title="첫번째 페이지 보기"
-				           th:href="@{list(page=1, boards=${param.boards}, opt=${param.opt}, keyword=${param.keyword})}"
+				           th:href="@{likeList(page=1, boards=${param.boards}, opt=${param.opt}, keyword=${param.keyword})}"
 				           class="page-link page-number-link control first"
 				           ></a>
 				    </li>
 				    <li class="page-item" th:if="${result.pagination.currentBlock > 1}">
 				        <a title="이전 5페이지 보기"
-				           th:href="@{list(page=${(result.pagination.currentBlock - 1) * 5} , boards=${param.boards}, opt=${param.opt}, keyword=${param.keyword})}"
+				           th:href="@{likeList(page=${(result.pagination.currentBlock - 1) * 5} , boards=${param.boards}, opt=${param.opt}, keyword=${param.keyword})}"
 				           class="page-link page-number-link control prev"
 				           ></a>
 				    </li>
 				    <li class="page-item" th:each="num : ${result.pagination.pageNumbers}">
-                        <a th:href="@{list(page=${num}, boards=${param.boards}, opt=${param.opt}, keyword=${param.keyword})}" 
+                        <a th:href="@{likeList(page=${num}, boards=${param.boards}, opt=${param.opt}, keyword=${param.keyword})}" 
                            th:text="${num}"
                            th:classappend="${result.pagination.page == (num) ? 'active' : '' }"
                            class="page-link page-number-link"
@@ -170,13 +169,13 @@
                     </li>
                     <li class="page-item" th:if="${result.pagination.currentBlock < result.pagination.totalBlocks}">
 				        <a title="이후 5페이지 보기"
-				           th:href="@{list(page=${result.pagination.currentBlock * 5 + 1}, boards=${param.boards}, opt=${param.opt}, keyword=${param.keyword})}"
+				           th:href="@{likeList(page=${result.pagination.currentBlock * 5 + 1}, boards=${param.boards}, opt=${param.opt}, keyword=${param.keyword})}"
 				           class="page-link page-number-link control next"
 				          ></a>
 				    </li>
                  	<li class="page-item" th:if="${result.pagination.currentBlock < result.pagination.totalBlocks}">
 				        <a title="마지막 페이지 보기"
-				           th:href="@{list(page=${result.pagination.totalPages}, boards=${param.boards}, opt=${param.opt}, keyword=${param.keyword})}"
+				           th:href="@{likeList(page=${result.pagination.totalPages}, boards=${param.boards}, opt=${param.opt}, keyword=${param.keyword})}"
 				           class="page-link page-number-link control last"
 				           ></a>
 				    </li>
