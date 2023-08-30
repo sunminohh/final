@@ -20,11 +20,10 @@
 			        </div>
 			
 			        <div class="float-start ps-1">
-			            <form id="form-board-search" method="get" th:action="@{/searchList}"
+			            <form id="form-board-search" method="get" th:action="@{reportList}"
 			                  class="row row-cols-lg-auto g-3 align-items-center justify-content-end ">
 							<input type="hidden" name="boards" th:value="${param.boards}"/>
 							<input type="hidden" name="page" th:value="${param.page == null ? '1' : param.page}" />
-							<input type="hidden" name="id" th:value="${#authentication.principal.id}" />
 			                <div class="col-12 ">
 			                    <select class="form-select form-select-sm form-control-sm" name="opt" th:value="${param.opt}">
 			                        <option value="" disabled> 검색옵션</option>
@@ -79,7 +78,12 @@
     					</tr>
     				</thead>
     				<tbody>
-    					<tr th:each="board:${result.list}">
+				    	<tr th:if="${#lists.isEmpty(result.list)}">
+							<td colspan="5">게시글이 존재하지 않습니다.</td>
+						</tr>	
+    					<tr th:if="${not #lists.isEmpty(result.list)}" th:each="board:${result.list}">
+    						<input type="hidden" name="no" th:value="${board.no}"/>
+    						<input type="hidden" name="type" th:value="${board.type}"/>
 	    					<td th:text="${board.type}">극장</td>
 	    					<td th:text="${board.id}">aaaa</td>
 	    					<td th:text="${board.name.length() > 27 ? board.name.substring(0, 27) + '...' : board.name}">아니 영화표를 왜 돈받고 팔아요?</td>
