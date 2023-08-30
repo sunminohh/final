@@ -1080,4 +1080,71 @@
 	        </choose>
 	    ) AS A
 	</select>
+	
+	<select id="getPartyByJoin" parameterType="map" resultType="kr.co.mgv.board.list.BoardList">
+		 SELECT
+             B.BOARD_CREATE_DATE   AS createDate,
+             B.board_no            AS no,
+             B.board_name          AS name,
+             B.board_read_cnt      AS readCount,
+             B.board_type		  AS type	
+         FROM PARTY_BOARD B, PARTY_JOIN C
+         WHERE B.party_deleted = 'N' AND B.board_report = 'N'
+             and B.board_no = C.board_no
+            	and C.JOIN_REQUEST = 'Y'
+            	AND C.user_id = #{id}
+             <choose>
+                 <when test="opt == 'title'">
+                     and B.board_name like CONCAT('%', #{keyword}, '%')
+                 </when>
+                 <when test="opt == 'content'">
+                     and B.board_content like CONCAT('%', #{keyword}, '%')
+                 </when>
+                 <when test="opt == 'all'">
+                     and (B.board_name like CONCAT('%', #{keyword}, '%') or B.board_content like CONCAT('%', #{keyword}, '%'))
+                 </when>
+                 <when test="com == 'open'">
+                     and B.PARTY_COMPLETE = 'N'
+                 </when>
+                 <when test="com == 'close'">
+                     and B.PARTY_COMPLETE = 'Y'
+                 </when>
+                 <when test="com == 'all'">
+                     and (B.PARTY_COMPLETE = 'N' or B.PARTY_COMPLETE = 'Y')
+                 </when>
+            </choose>
+        ORDER BY B.BOARD_CREATE_DATE
+	    LIMIT 10 OFFSET #{begin}
+	</select>
+	
+	<select id="getTotalRowsByJoin" resultType="int" parameterType="map">
+		 SELECT
+            count(*)
+         FROM PARTY_BOARD B, PARTY_JOIN C
+         WHERE B.party_deleted = 'N' AND B.board_report = 'N'
+             and B.board_no = C.board_no
+            	and C.JOIN_REQUEST = 'Y'
+            	AND C.user_id = #{id}
+             <choose>
+                 <when test="opt == 'title'">
+                     and B.board_name like CONCAT('%', #{keyword}, '%')
+                 </when>
+                 <when test="opt == 'content'">
+                     and B.board_content like CONCAT('%', #{keyword}, '%')
+                 </when>
+                 <when test="opt == 'all'">
+                     and (B.board_name like CONCAT('%', #{keyword}, '%') or B.board_content like CONCAT('%', #{keyword}, '%'))
+                 </when>
+                 <when test="com == 'open'">
+                     and B.PARTY_COMPLETE = 'N'
+                 </when>
+                 <when test="com == 'close'">
+                     and B.PARTY_COMPLETE = 'Y'
+                 </when>
+                 <when test="com == 'all'">
+                     and (B.PARTY_COMPLETE = 'N' or B.PARTY_COMPLETE = 'Y')
+                 </when>
+            </choose>
+	</select>
+	
 </mapper>

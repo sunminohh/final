@@ -112,4 +112,31 @@ public class UserBoardController {
 		
 		return "view/user/board/likeList";
 	}
+
+	@GetMapping("/joinList")
+	public String joinList(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
+			@RequestParam(name = "opt", required = false, defaultValue = "") String opt,
+			@RequestParam(name = "keyword", required = false, defaultValue = "") String keyword,
+			@RequestParam(name = "com", required = false, defaultValue = "all") String com,
+			@AuthenticationPrincipal User user,
+			Model model) {
+		
+		Map<String , Object> param = new HashMap<String, Object>();
+		param.put("page", page);
+		String id = user.getId();
+		param.put("id", id);
+		param.put("com", com);
+		
+		log.info("{}",id);
+		
+		if(StringUtils.hasText(opt) && StringUtils.hasText(keyword)) {
+			param.put("opt", opt);
+			param.put("keyword", keyword);
+		}
+		
+		MyBoardList result = myBoardService.getBoardListByJoin(param);
+		model.addAttribute("result", result);
+		
+		return "view/user/board/joinList";
+	}
 }
