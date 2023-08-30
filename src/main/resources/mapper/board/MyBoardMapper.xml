@@ -573,7 +573,7 @@
 	
 	
 	<select id="getListTotalRowsByComment" resultType="int" parameterType="map">
-		SELECT COUNT(DISTINCT A.no)
+		SELECT COUNT(DISTINCT A.name)
 			 FROM (
 	        <choose>
 	            <when test="boards != 'all'">

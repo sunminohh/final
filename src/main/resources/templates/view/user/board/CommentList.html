@@ -48,7 +48,7 @@
 	        </div>
 	
 	        <div class="float-start ps-1">
-	            <form id="form-board-search" method="get" th:action="@{list}"
+	            <form id="form-board-search" method="get" th:action="@{commentList}"
 	                  class="row row-cols-lg-auto g-3 align-items-center justify-content-end ">
 					<input type="hidden" name="boards" th:value="${param.boards}"/>
 					<input type="hidden" name="catNo" th:value="${param.catNo == null ? '22' : param.catNo}" />
