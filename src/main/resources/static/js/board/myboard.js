@@ -10,6 +10,7 @@ $(function () {
 	      $(this).find('button.btn').addClass('current');
     });
     
+
 	
 })
 	function searchBoard(){	
@@ -33,9 +34,20 @@ $(function () {
 		document.querySelector("#form-board-search").submit();
 	}
 	
+	function changeJoinBoards(){
+		const com = document.querySelector("select[name=com]").value;
+		document.querySelector("input[name=com]").value = com;
+		document.querySelector("input[name=page]").value = 1;
+		
+		document.querySelector("#form-board-search").submit();
+	}
+	
+	
 	function changePage(event, page){
 		event.preventDefault();
 		document.querySelector("input[name=page]").value = page;
 
 		document.querySelector("#form-board-search").submit();
 	}
+	
+	
