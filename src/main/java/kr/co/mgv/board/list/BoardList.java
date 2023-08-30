@@ -21,13 +21,15 @@ public class BoardList {
 	private String name;
 	private int readCount;
 	private String type;
+	private String id;
 	@Builder
-	public BoardList(int no, Date createDate, String name, int readCount, String type) {
+	public BoardList(int no, Date createDate, String name, int readCount, String type, String id) {
 		super();
 		this.no = no;
 		this.createDate = createDate;
 		this.name = name;
 		this.readCount = readCount;
 		this.type = type;
+		this.id = id;
 	}
 }

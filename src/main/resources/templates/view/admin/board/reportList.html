@@ -15,15 +15,14 @@
     		<div class="search-box">
     			 <div class="d-flex justify-content-start float-start">
 			        <div class="mt-2 pe-2">
-			            <p class="result-count"><strong>전체 <span id="total-rows" class="font-gblue" >5</span>건</strong>
+			            <p class="result-count"><strong>전체 <span id="total-rows" class="font-gblue" th:text="${result.pagination.totalRows}">5</span>건</strong>
 			            </p>
 			        </div>
 			
 			        <div class="float-start ps-1">
-			            <form id="form-board-search" method="get" th:action="@{list}"
+			            <form id="form-board-search" method="get" th:action="@{/searchList}"
 			                  class="row row-cols-lg-auto g-3 align-items-center justify-content-end ">
 							<input type="hidden" name="boards" th:value="${param.boards}"/>
-							<input type="hidden" name="catNo" th:value="${param.catNo == null ? '21' : param.catNo}" />
 							<input type="hidden" name="page" th:value="${param.page == null ? '1' : param.page}" />
 							<input type="hidden" name="id" th:value="${#authentication.principal.id}" />
 			                <div class="col-12 ">
@@ -54,8 +53,8 @@
 			              </div>
 			          </form>
 			      </div>
-			  </div>
-			  <div>
+			  	</div>
+			  	<div>
 			      <div class="d-flex justify-content-end mb-3 float-end ps-3 ">
 			          	<select class="form-select me-1 form-select-sm" style="width: 100px" name="boards" th:value="${param.boards}" onchange="changeBoards()">
 			                <option class="sort-select" th:value="all" th:selected="${#strings.equals(param.boards, 'all')}">전체</option>
@@ -80,11 +79,11 @@
     					</tr>
     				</thead>
     				<tbody>
-    					<tr>
-	    					<td>극장</td>
-	    					<td>aaaa</td>
-	    					<td>아니 영화표를 왜 돈받고 팔아요?</td>
-	    					<td>2023-08-22</td>
+    					<tr th:each="board:${result.list}">
+	    					<td th:text="${board.type}">극장</td>
+	    					<td th:text="${board.id}">aaaa</td>
+	    					<td th:text="${board.name.length() > 27 ? board.name.substring(0, 27) + '...' : board.name}">아니 영화표를 왜 돈받고 팔아요?</td>
+	    					<td th:text="${#dates.format(board.createDate, 'yyyy-MM-dd HH:mm')}">2023-08-22</td>
 	    					<td id="one-board">
 	    						<button type="button" class="btn btn-sm btn-light" id="report-btn">확인</button>
 	    					</td>
@@ -92,6 +91,43 @@
     				</tbody>
     			</table>
     		</div>
+    		
+    		<nav th:if="${result.pagination.totalRows > 0}">
+				<ul class="pagination justify-content-center">
+				    <li class="page-item" th:if="${result.pagination.currentBlock > 1}">
+				        <a title="첫번째 페이지 보기"
+				           th:href="@{list(page=1, sort=${param.sort}, rows=${param.rows}, theaterNo=${param.theaterNo}, locationNo=${param.locationNo}, opt=${param.opt}, keyword=${param.keyword})}"
+				           class="page-link page-number-link control first"
+				           ></a>
+				    </li>
+				    <li class="page-item" th:if="${result.pagination.currentBlock > 1}">
+				        <a title="이전 5페이지 보기"
+				           th:href="@{list(page=${(result.pagination.currentBlock - 1) * 5} , sort=${param.sort}, rows=${param.rows}, theaterNo=${param.theaterNo}, locationNo=${param.locationNo}, opt=${param.opt}, keyword=${param.keyword})}"
+				           class="page-link page-number-link control prev"
+				           ></a>
+				    </li>
+				    <li class="page-item" th:each="num : ${result.pagination.pageNumbers}">
+                        <a th:href="@{list(page=${num}, sort=${param.sort}, rows=${param.rows}, theaterNo=${param.theaterNo}, locationNo=${param.locationNo}, opt=${param.opt}, keyword=${param.keyword})}" 
+                           th:text="${num}"
+                           th:classappend="${result.pagination.page == (num) ? 'active' : '' }"
+                           class="page-link page-number-link"
+                           >1</a>
+                    </li>
+                    <li class="page-item" th:if="${result.pagination.currentBlock < result.pagination.totalBlocks}">
+				        <a title="이후 5페이지 보기"
+				           th:href="@{list(page=${result.pagination.currentBlock * 5 + 1}, sort=${param.sort}, rows=${param.rows}, theaterNo=${param.theaterNo}, locationNo=${param.locationNo}, opt=${param.opt}, keyword=${param.keyword})}"
+				           class="page-link page-number-link control next"
+				          ></a>
+				    </li>
+                 	<li class="page-item" th:if="${result.pagination.currentBlock < result.pagination.totalBlocks}">
+				        <a title="마지막 페이지 보기"
+				           th:href="@{list(page=${result.pagination.totalPages}, sort=${param.sort}, rows=${param.rows}, theaterNo=${param.theaterNo}, locationNo=${param.locationNo}, opt=${param.opt}, keyword=${param.keyword})}"
+				           class="page-link page-number-link control last"
+				           ></a>
+				    </li>
+				    
+				</ul>
+            </nav>
     	</div>
     </div>
     
