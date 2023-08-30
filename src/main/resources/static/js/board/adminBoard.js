@@ -16,6 +16,11 @@ $(function() {
                     let boardContent = `<p id="board-content">${result.list.content}</p>`
                     $("#board-info").empty().append(boardContent);
                     
+                    let boardName = `
+                    	 <h1 class="modal-title fs-5 fw-semibold" id="exampleModalLabel" style="color: white;">${result.list.name}</h1>
+                    `
+                    $('.modal-header').empty().append(boardName)
+                    
                     let reports = result.reports;
                     let reportContent ="";
                     reports.forEach(function(report) {
