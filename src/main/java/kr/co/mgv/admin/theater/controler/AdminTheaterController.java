@@ -1,7 +1,9 @@
 package kr.co.mgv.admin.theater.controler;
 
 import java.util.List;
+import java.util.Map;
 
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
+@Secured({"ROLE_ADMIN"})
 @RequestMapping("/admin/theater")
 @RequiredArgsConstructor
 public class AdminTheaterController {
@@ -61,25 +64,23 @@ public class AdminTheaterController {
     
     @PostMapping("/modify")
     @ResponseBody
-    public String modifyTheater(@RequestBody Theater theater) {
+    public Map<String, Object> modifyTheater(@RequestBody Theater theater) {
     	try{
     		theaterService.modifyTheater(theater);
-    		return "success";
+    		return Map.of("status", "success");
     	}catch (Exception e) {
-    		
-    		return "error: " + e.getMessage();
+    		return Map.of("status", "fail", "message", "수정 중 오류가 발생하였습니다");
     	}
     }
     
     @PostMapping("/regist")
     @ResponseBody
-    public String registTheater(@RequestBody Theater theater) {
+    public Map<String, Object>  registTheater(@RequestBody Theater theater) {
     	try{
     		theaterService.registTheater(theater);
-    		return "success";
+    		return Map.of("status", "success");
     	}catch (Exception e) {
-    		
-    		return "error: " + e.getMessage();
+    		return Map.of("status", "fail", "message", "등록 중 오류가 발생하였습니다");
 		}
     }
     

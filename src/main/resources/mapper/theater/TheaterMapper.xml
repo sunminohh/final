@@ -74,7 +74,7 @@
 			E.FACILITY_NAME as name,
 			E.FACILITY_ICON as icon
 		from MGV_THEATER_FACILITY_INFO D, MGV_THEATER_FACILITY_TYPE E
-		where theater_no = #{value}
+		where D.theater_no = #{value}
 		AND D.FACILITY_TYPE = E.FACILITY_TYPE
 	</select>
 	<select id="getTheaterFloorInfosByNo" parameterType="int" resultType="FloorInfo">

@@ -16,7 +16,6 @@ import kr.co.mgv.theater.vo.TheaterFacility;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @RequiredArgsConstructor
 @Service
 public class TheaterService {
@@ -50,7 +49,6 @@ public class TheaterService {
 		favoriteTheater.setUserId(userId);
 		
 		FavoriteTheater theater = favoriteDao.getFavoriteTheater(favoriteTheater);
-		log.info("선호극장정보 ->{}",theater);
 		if(theater != null) {
 			favoriteDao.deleteFavoriteTheater(favoriteTheater);
 		}else {
@@ -91,7 +89,9 @@ public class TheaterService {
 	}
 
 	public void modifyTheater(Theater theater) {
+		// 업데이트전 확인
 		Theater pretheater = theaterDao.getTheaterDetailByNo(theater.getNo());
+		
 		BeanUtils.copyProperties(theater, pretheater);
 		theaterDao.updateTheater(pretheater);
 		
@@ -101,7 +101,7 @@ public class TheaterService {
 		theaterDao.insertParkingInfo(pretheater.getParkingInfo());
 		
 		theaterDao.deleteFacilityInfo(pretheater.getNo());
-		for(TheaterFacility facility: pretheater.getFacilities()) {
+		for(TheaterFacility facility : pretheater.getFacilities()) {
 			facility.setTheaterNo(pretheater.getNo());
 			theaterDao.insertFacilityInfo(facility);
 		}
