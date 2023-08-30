@@ -36,4 +36,24 @@ public class MyBoardService {
 		
 		return result;
 	}
+
+	public  MyBoardList getBoardListByComment(Map<String, Object> param) {
+		
+		int totalRows = myBoardDao.getListTotalRowsByComment(param);
+		int page = (int) param.get("page");
+		BoardPagination pagination = new BoardPagination(page, totalRows);
+		int begin = pagination.getBegin()-1;
+		int end = pagination.getEnd();
+		param.put("begin", begin);
+		param.put("end", end);
+		
+		List<BoardList> boards = myBoardDao.getBoardListByComment(param);
+		
+		MyBoardList result = new MyBoardList();
+		
+		result.setList(boards);
+		result.setPagination(pagination);
+		
+		return result;
+	}
 }
