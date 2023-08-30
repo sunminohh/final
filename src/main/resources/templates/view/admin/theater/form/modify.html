@@ -2,7 +2,7 @@
 <html layout:decorate="~{ layout/admin }">
 <head th:fragment="extra-head-content">
 <script type="text/javascript"
-	th:src="@{/js/admin/theater/registform.js}"></script>
+	th:src="@{/js/admin/theater/modifyform.js}"></script>
 <title>관리자페이지</title>
 <style type="text/css">
 option.disabled{
@@ -19,7 +19,7 @@ option.disabled{
 					<div class="col-12">
 						<div class="card">
 							<div class="card-header">
-								<h5 class="card-title fw-semibold mb-4">극장 등록</h5>
+								<h5 class="card-title fw-semibold mb-4" th:data-theater-no="${theaterNo}">극장 정보 수정</h5>
 							</div>
 							<div class="card-body">
 								<div class="row mb-3">
@@ -36,17 +36,7 @@ option.disabled{
 													<tr>
 														<th>지역(필수)</th>
 														<td >
-															<select
-																class="form-select" name="location" required="required" >
-																<option value="" selected disabled>지역선택</option>
-																<option value="1">서울</option>
-																<option value="2">경기</option>
-																<option value="3">인천</option>
-																<option value="4">대전/충청/세종</option>
-																<option value="5">부산/대구/경상</option>
-																<option value="6">광주/전라/제주</option>
-																<option value="7">강원</option>
-															</select>
+															<input class="form-control" type="text" name="location" required="required" readonly="readonly">
 														</td>
 														<th>극장이름(필수)</th>
 														<td >
@@ -67,24 +57,25 @@ option.disabled{
 														</td>
 														<th>시설안내(필수)</th>
 														<td colspan="3">
-															<select class="form-select"  name="facility" >
-																<option selected disabled>선택하세요</option>
-															</select>
+															<th:block th:each="facility : ${facilities}">
+															<input type="checkbox" class="form-check-input" id="facilityCheck1" th:value="${facility.type}" name="facility" required>
+																<label class="form-check-label" for="facilityCheck1" th:text="${facility.name}">  
+																</label>
+															</th:block>
 														</td>
 													</tr>
 													<tr>
 														<th>층별안내(필수)</th>
 														<td colspan="3" >
-															<div class="d-flex py-1">
+															<div class="d-flex py-1" id="floorBox1">
 																<input type="text" class="form-control" style="width: 25%"
 																	placeholder="예:1층, 로비층" aria-label="floor" name="floor" required="required"> 
 																<input type="text"
 																	class="form-control" placeholder="안내사항"
 																	aria-label="floorinfo" name="floorinfo" required="required">
-																
 																<button type="button" class="ms-1 btn btn-info text-nowrap" id="btnAddFloorInput">추가</button>
 															</div>
-															<div id="floorBox">
+															<div id="floorBox2">
 																
 															</div>
 														</td>

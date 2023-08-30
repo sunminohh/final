@@ -25,8 +25,11 @@ public interface TheaterDao {
 	
 	List<TheaterFacility> getFacilities();
 	void insertFacilityInfo(TheaterFacility facility);
+	void deleteFacilityInfo(int no);
 	
 	void insertFloorInfo(FloorInfo floorInfo);
+	void deleteFloorInfo(int no);
 	
 	void insertParkingInfo(ParkingInfo parkingInfo);
+	void deleteParkingInfo(int no);
 }

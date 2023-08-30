@@ -6,15 +6,21 @@
 
 .board-count-area p {
 	font-size: 13px;
-	padding-right: 25px;
-	position: relative;
+	padding-right: 5px;
 }
 .board-count-area strong {
 	font-size: 13px;
-	padding-left: 3px;
-	position: absolute;
+	padding-right: 5px;
+	position: relative;
 	top: 1px;
+	color: #01738b;
 }
+
+.board-count-area{
+	position: absolute;
+}
+
+
 
 
 /* 탭 메뉴 스타일 */
