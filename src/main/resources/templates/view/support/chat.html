@@ -27,18 +27,50 @@
 </head>
 <body>
 
-<div>
-	<div class="chat-container" id="chatContainer">
-	<h4 class="mb-2" style="text-align:center;">실시간 채팅상담</h4>
-		<div class="messages" id="messages">
-		    <!-- 메시지가 표시될 영역 -->
-		</div>
-		<div class="input-container fixed-bottom" >
-		    <input type="text" id="userInput" placeholder="메시지를 입력하세요...">
-		    <button id="sendButton" class="button purple">전송</button> <!-- 버튼에 id를 추가하였습니다. -->
+
+	<!--
+	<div>
+		<div class="chat-container" id="chatContainer">
+		<h4 class="mb-2" style="text-align:center;">실시간 채팅상담</h4>
+			<div class="messages" id="messages">
+			</div>
+			<div class="input-container fixed-bottom" >
+			    <input type="text" id="userInput" placeholder="메시지를 입력하세요...">
+			    <button id="sendButton" class="button purple">전송</button> 
+			</div>
 		</div>
 	</div>
+	-->
+	
+	<div class="chat_wrap">
+    <div class="header">
+        실시간 채팅상담
+    </div>
+    <div class="chat">
+        <ul>
+            <!-- 동적 생성 -->
+        </ul>
+    </div>
+    <div class="input-div">
+        <textarea placeholder="Press Enter for send message."></textarea>
+    </div>
+ 
+    <!-- format -->
+ 
+    <div class="chat format">
+        <ul>
+            <li>
+                <div class="sender">
+                    <span></span>
+                </div>
+                <div class="message">
+                    <span></span>
+                </div>
+            </li>
+        </ul>
+    </div>
 </div>
+
 		<!--  
 		 <div class="col-12 CommentWriter" style="margin-top:200px;">
 	        <div class="col-12 comment-inbox border p-2 rounded" >
@@ -54,5 +86,6 @@
 	        </div>
 	     </div>
 		-->
+		
 
 </html>
