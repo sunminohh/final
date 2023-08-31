@@ -150,13 +150,19 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 	public void message(WebSocketSession session, ChatMessage chatMessage) throws Exception {
 		String roomId = chatMessage.getRoomId();
 		String userId = chatMessage.getUserId();
+		String receiverId = chatMessage.getReceiverId();
 		String text = chatMessage.getText();
 		
-		WebSocketSession userSession = findUserSession(userId);
+		WebSocketSession userSession = null;
+		if (userId.equals("admin")) {
+			userSession = findUserSession(receiverId);
+		} else {
+			userSession = findUserSession(userId);
+		}
 		
 		ChatMessage responseMessage = new ChatMessage();
-		responseMessage.setCmd("msg");
 		responseMessage.setUserId(userId);
+		responseMessage.setCmd("msg");
 		responseMessage.setRoomId(roomId);
 		responseMessage.setText(text);		
 		

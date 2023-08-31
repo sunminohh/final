@@ -26,6 +26,7 @@ public class ChatMessage {
 	private int no;
 	private String roomId;
 	private String userId;
+	private String receiverId;
 	private String text;
 	private Date sendTime;
 	List<String> waitings;

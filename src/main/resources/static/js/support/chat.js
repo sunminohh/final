@@ -56,6 +56,7 @@ $(function() {
 				cmd: 'msg',
 				roomId: roomId,
 				userId: userId,
+				receiverId: "admin",
 				text: $(this).val()
 			}
 			// 메시지 전송

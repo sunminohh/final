@@ -1,5 +1,6 @@
 $(function(){
     
+    let userId;
     // 웹소켓 객체를 생성하고, 웹소켓 연결요청을 서버로 보낸다.
     let ws  = new SockJS("/chat");
     let roomId = null;
@@ -37,7 +38,7 @@ $(function(){
 			 $("#table-waitings").text(waitings.userId);
 		 } else if (data.cmd == "start") {
 			roomId = data.roomId;
-			let userId = data.userId;
+			userId = data.userId;
 			
 			appendMessagTag("left", userId, "["+userId+"]님과 연결되었습니다.");
 			
@@ -74,6 +75,7 @@ $(function(){
 				cmd: 'msg',
 				roomId: roomId,
 				userId: "admin",
+				receiverId: userId,
 				text: $(this).val()
 			}
 			// 메시지 전송
