@@ -70,4 +70,46 @@ const Chat = (function(){
  
 $(function(){
     Chat.init();
+    
+    let roomId;
+    
+    // 웹소켓 객체를 생성하고, 웹소켓 연결요청을 서버로 보낸다.
+    let ws  = new SockJS("/chat");
+    ws.onopen = function() {
+    	let message = {
+			cmd:"ready",
+			userId: "admin"
+		}
+		console.log(message)
+		ws.send(JSON.stringify(message));
+ 	};
+ 	
+ 	// 서버가 보낸 메세지가 수신되면 함수가 실행된다.
+ 	ws.onmessage = function(message) {
+		 let data = JSON.parse(message.data);
+		 console.log(data);
+		 
+		 if (data.cmd == "wait") {
+			 let waitings = data.waitings;
+			 console.log("대기자 목록", waitings)
+		 } else if (data.cmd == "start") {
+			
+		 } else if (data.cmd == "stop") {
+			
+		 } else if (data.cmd == "msg") {
+			
+		 }
+	 };
+	 
+	 
+    
 });
+
+
+
+
+
+
+
+
+

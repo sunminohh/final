@@ -1,7 +1,7 @@
 *{ margin: 0; padding: 0; }
  
 .chat_wrap .header { font-size: 14px; padding: 15px 0; background:#331c6d; color: white; text-align: center;  }
- 
+
 .chat_wrap .chat { padding-bottom: 80px; }
 .chat_wrap .chat ul { width: 100%; list-style: none; }
 .chat_wrap .chat ul li { width: 100%; }
