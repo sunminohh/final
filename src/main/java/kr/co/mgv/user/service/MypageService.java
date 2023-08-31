@@ -1,11 +1,12 @@
 package kr.co.mgv.user.service;
 
 import kr.co.mgv.user.dao.MypageDao;
-import kr.co.mgv.user.vo.Payment;
+import kr.co.mgv.user.vo.Purchase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -14,9 +15,19 @@ import java.util.List;
 public class MypageService {
     private final MypageDao mypageDao;
 
-    public List<Payment> getAllPaymentsByUserId(String userId) {
+    /*public List<Purchase> getAllPurchaseByUserId(String userId, String startDate, String endDate, String status) {
+        return mypageDao.getAllPurchaseByUserId(userId, startDate, endDate, status);
+    }*/
 
-        return mypageDao.getAllPaymentByUserId(userId);
+    public List<Purchase> getPurchaseByUserId(String userId, String startDate, String endDate, String status) {
+        if ("P".equals(status)) {
+            return mypageDao.getPurchaseByUserId(userId, startDate, endDate,status);
+        } else if ("C".equals(status)) {
+            return mypageDao.getCancelByUserId(userId, startDate, endDate,status);
+        } else {
+            return mypageDao.getAllPurchaseByUserId(userId, startDate, endDate, status);
+        }
+
     }
 
 }

@@ -1,19 +1,26 @@
 package kr.co.mgv.user.controller;
 
+import kr.co.mgv.store.vo.Product;
 import kr.co.mgv.user.form.UserUpdateForm;
 import kr.co.mgv.user.service.MypageService;
 import kr.co.mgv.user.service.UserService;
+import kr.co.mgv.user.vo.Purchase;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
+import java.util.List;
 
 @Controller
 @Secured({"ROLE_USER", "ROLE_ADMIN"})
@@ -26,7 +33,12 @@ public class UserController {
     private final MypageService mypageService;
     private final PasswordEncoder passwordEncoder;
 
-    @RequestMapping({"/",""})
+    private String getLoggedInUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getName();
+    }
+
+    @RequestMapping({"/", ""})
     public String home(@AuthenticationPrincipal User user, Model model) {
         model.addAttribute("user", user);
 
@@ -130,10 +142,24 @@ public class UserController {
     }
 
     @GetMapping("/booking")
-    public String bookinghome(@AuthenticationPrincipal User user, Model model) {
-
+    public String bookinghome() {
 
         return "view/user/booking/list";
+    }
+
+    @PostMapping("/purchase")
+    @ResponseBody
+    public ResponseEntity<List<Purchase>> purchaseList(@AuthenticationPrincipal User user,
+                                                       @RequestParam String startDate,
+                                                       @RequestParam String endDate,
+                                                       @RequestParam String status) {
+        String userId = getLoggedInUserId();
+        log.info("loginId -> {}", userId);
+        List<Purchase> purchases = mypageService.getPurchaseByUserId(userId, startDate, endDate, status);
+        log.info("startDate -> {}", startDate);
+        log.info("endDate -> {}", endDate);
+        log.info("status -> {}", status);
+        return ResponseEntity.ok(purchases);
     }
 
     @GetMapping("/moviestory")

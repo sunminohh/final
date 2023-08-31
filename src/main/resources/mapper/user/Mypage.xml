@@ -1,49 +1,88 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.mgv.user.dao.MypageDao">
-    <!-- 결제내역 전체조회-->
-    <select id="getAllPaymentByUserId" parameterType="string" resultType="Payment">
+    <resultMap id="purchaseWithProductMap" type="Purchase">
+        <result property="purchaseDate" column="purchase_date"/>
+        <result property="cancelDate" column="purchase_canceled_date"/>
+        <result property="price" column="purchase_price"/>
+        <result property="status" column="purchase_status"/>
+        <association property="user" javaType="User">
+            <result property="userId" column="user_id"/>
+        </association>
+        <association property="product" javaType="Product">
+            <result property="productName" column="product_name"/>
+        </association>
+    </resultMap>
+
+    <!--<select id="getPurchaseByUserId" resultMap="purchaseWithProductMap">
         SELECT
-            A.PAYMENT_PURCHASE_DATE AS PARCHASE,
-            C.PRODUCT_NAME AS PNAME,
-            A.PAYMENT_PRICE AS PRICE,
-            A.PAYMENT_STATUS AS STATUS
-        FROM MGV_PAYMENT A
+                A.PURCHASE_DATE   AS purchaseDate,
+                C.PRODUCT_NAME    AS productName,
+                A.PURCHASE_PRICE  AS price,
+                A.PURCHASE_STATUS AS status
+        FROM MGV_PURCHASE A
                  JOIN MGV_USER B ON A.USER_ID = B.USER_ID
                  JOIN MGV_PRODUCT C ON A.PRODUCT_NO = C.PRODUCT_NO
-        WHERE B.USER_ID = #{id}
-        ORDER BY A.PAYMENT_PURCHASE_DATE DESC;
+        WHERE A.PURCHASE_DATE BETWEEN #{startDate} AND #{endDate}
+          AND A.PURCHASE_STATUS = #{status}
+          AND A.USER_ID = #{userId}
+    </select>-->
+
+    <!-- 결제내역 전체조회-->
+    <select id="getAllPurchaseByUserId" parameterType="string" resultMap="purchaseWithProductMap">
+        SELECT
+                A.PURCHASE_DATE   AS purchaseDate,
+                C.PRODUCT_NAME    AS productName,
+                A.PURCHASE_PRICE  AS price,
+                A.PURCHASE_STATUS AS status
+        FROM MGV_PURCHASE A
+                JOIN MGV_USER B ON A.USER_ID = B.USER_ID
+                JOIN MGV_PRODUCT C ON A.PRODUCT_NO = C.PRODUCT_NO
+        WHERE B.USER_ID = #{userId}
+        <if test="status != ''">
+            AND status = #{status}
+        </if>
+        AND purchase_date BETWEEN #{startDate} AND #{endDate}
+        ORDER BY A.PURCHASE_DATE DESC;
 
     </select>
 
     <!-- 구매 조회 -->
-    <select id="getParchaseByUserId" resultType="Payment">
+    <select id="getPurchaseByUserId" parameterType="string" resultMap="purchaseWithProductMap">
         SELECT
-        A.PAYMENT_PURCHASE_DATE AS PARCHASE,
-        C.PRODUCT_NAME AS PNAME,
-        A.PAYMENT_PRICE AS PRICE,
-        A.PAYMENT_STATUS AS STATUS
-        FROM MGV_PAYMENT A
-        JOIN MGV_USER B ON A.USER_ID = B.USER_ID
-        JOIN MGV_PRODUCT C ON A.PRODUCT_NO = C.PRODUCT_NO
-        WHERE B.USER_ID = 'hong'
-        AND A.PAYMENT_STATUS = 'B'
-        ORDER BY A.PAYMENT_PURCHASE_DATE DESC;
+                A.PURCHASE_DATE   AS purchaseDate,
+                C.PRODUCT_NAME    AS productName,
+                A.PURCHASE_PRICE  AS price,
+                A.PURCHASE_STATUS AS status
+        FROM MGV_PURCHASE A
+                 JOIN MGV_USER B ON A.USER_ID = B.USER_ID
+                 JOIN MGV_PRODUCT C ON A.PRODUCT_NO = C.PRODUCT_NO
+        WHERE B.USER_ID = #{userId}
+        <if test="status != null">
+             AND A.PURCHASE_STATUS = 'P'
+        </if>
+        AND purchase_date BETWEEN #{startDate} AND #{endDate}
+        ORDER BY A.PURCHASE_DATE DESC;
 
     </select>
 
     <!-- 구매 취소 조회 -->
-    <select id="getCancelByUserId" resultType="Payment">
+    <select id="getCancelByUserId" parameterType="string" resultMap="purchaseWithProductMap">
         SELECT
-        A.PAYMENT_PURCHASE_DATE AS PARCHASE,
-        C.PRODUCT_NAME AS PNAME,
-        A.PAYMENT_PRICE AS PRICE,
-        A.PAYMENT_STATUS AS STATUS
-        FROM MGV_PAYMENT A
-        JOIN MGV_USER B ON A.USER_ID = B.USER_ID
-        JOIN MGV_PRODUCT C ON A.PRODUCT_NO = C.PRODUCT_NO
-        WHERE B.USER_ID = 'hong'
-        AND A.PAYMENT_STATUS = 'C'
-        ORDER BY A.PAYMENT_PURCHASE_DATE DESC;
+                A.PURCHASE_DATE   AS purchaseDate,
+                C.PRODUCT_NAME    AS productName,
+                A.PURCHASE_PRICE  AS price,
+                A.PURCHASE_STATUS AS status
+        FROM MGV_PURCHASE A
+                 JOIN MGV_USER B ON A.USER_ID = B.USER_ID
+                 JOIN MGV_PRODUCT C ON A.PRODUCT_NO = C.PRODUCT_NO
+        WHERE B.USER_ID = #{userId}
+        <if test="status != null">
+            AND A.PURCHASE_STATUS = 'C'
+        </if>
+        AND purchase_date BETWEEN #{startDate} AND #{endDate}
+        ORDER BY A.PURCHASE_DATE DESC;
     </select>
+
+    <!-- 구매일 조회 -->
 </mapper>

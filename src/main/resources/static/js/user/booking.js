@@ -1,119 +1,127 @@
 $(() => {
-    const $booking = $("#booking-tab");
-    const $pay = $("#pay-tab");
+    $('.tab-cont').hide(); // 모든 탭 컨텐츠 숨기기
+    $('#booking-tab').show(); // 예매 탭 컨텐츠만 보이기
 
-    $('.btn.booking, .btn.pay').on('click', function (e) {
-        e.preventDefault();
+    $('.tab-block a').click(function(e) {
+        e.preventDefault(); // 기본 링크 동작을 막기
 
-        // Remove "on" class from all tab buttons
-        $('.btn.booking, .btn.pay').parent().removeClass('on');
+        const currentAttrValue = $(this).attr('href'); // 클릭된 탭의 href 값을 가져옴
 
-        // Add "on" class to the clicked tab button
-        $(this).parent().addClass('on');
+        // 탭 컨텐츠 표시/숨기기
+        $('.tab-cont').hide(); // 모든 탭 컨텐츠 숨기기
+        $(currentAttrValue).show(); // 클릭된 탭의 컨텐츠만 보이기
 
-        // Hide all tab contents
-        $('.tab-cont').removeClass('on');
+        // 탭 버튼 활성화/비활성화
+        $('.tab-block li').removeClass('on'); // 모든 탭 버튼 비활성화
+        $(this).parent('li').addClass('on'); // 클릭된 탭 버튼만 활성화
 
-        // Get the target tab ID from the href attribute
-        const targetTab = $(this).attr('href');
+    });
 
-        $(targetTab).addClass('on');
+    function setDateRange(period) {
+        const endDate = new Date();
+        let startDate = new Date();
 
-    })
-
-    $(".btn-period .btn").on("click", function() {
-        // 기존 버튼에 있는 "on" 클래스 제거
-        $(".btn-period .btn").removeClass("on");
-
-        // 클릭한 버튼에 "on" 클래스 추가
-        $(this).addClass("on");
-
-        const period = $(this).val(); // 버튼 값 (D7, M1, M3, M6)
-        let today = new Date();
-        let startDate, endDate;
-
-        if (period === "D7") {
-            startDate = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
-        } else if (period === "M1") {
-            startDate = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
-        } else if (period === "M3") {
-            startDate = new Date(today.getFullYear(), today.getMonth() - 3, today.getDate());
-        } else if (period === "M6") {
-            startDate = new Date(today.getFullYear(), today.getMonth() - 6, today.getDate());
+        switch (period) {
+            case 'D7':
+                startDate.setDate(startDate.getDate() - 7);
+                break;
+            case 'M1':
+                startDate.setMonth(startDate.getMonth() - 1);
+                break;
+            case 'M3':
+                startDate.setMonth(startDate.getMonth() - 3);
+                break;
+            case 'M6':
+                startDate.setMonth(startDate.getMonth() - 6);
+                break;
+            default:
+                return;
         }
 
-        endDate = today;
+        // 날짜 형식을 YYYY.MM.DD로 변환
+        function formatDate(date) {
+            const year = date.getFullYear();
+            const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 +1 필요
+            const day = date.getDate().toString().padStart(2, '0');
 
-        // 날짜 형식을 "yyyy.mm.dd"로 변환하여 입력 필드에 설정
-        $("#startDate").val(formatDate(startDate));
-        $("#endDate").val(formatDate(endDate));
+            return `${year}.${month}.${day}`;
+        }
 
-        $("#searchButton").on("click", function() {
-            let startDate = $("#startDate").val();
-            let endDate = $("#endDate").val();
+        // input에 날짜 범위 설정
+        $('#startDate').val(formatDate(startDate));
+        $('#endDate').val(formatDate(endDate));
+    }
 
-            // todo 이후 백엔드로 데이터 조회 요청을 보내는 작업 수행
-            // 예: AJAX 요청을 통해 서버로 startDate와 endDate 전송
+    // 페이지 로드시 현재 선택된 버튼에 대한 날짜 범위 설정
+    setDateRange($('.btn-period .btn.on').val());
+
+    // 각 버튼 클릭 이벤트
+    $('.btn-period .btn').click(function() {
+        $('.btn-period .btn').removeClass('on'); // 모든 버튼의 활성화 상태 해제
+        $(this).addClass('on'); // 클릭한 버튼만 활성화
+
+        const period = $(this).val();
+        setDateRange(period);
+    });
+
+    $("#btnSearch").on("click", function() {
+        const startDate = $("#startDate").val();
+        const endDate = $("#endDate").val();
+
+        let status = $('input[name="status"]:checked').val();
+
+        $.ajax({
+            url: "/mypage/purchase",
+            type: 'POST',
+            data: {
+                startDate: startDate,
+                endDate: endDate,
+                status: status
+            },
+            success: function(data) {
+                let tableBody = $("#purchaceTableBody");
+                tableBody.empty(); // Clear current table content
+
+                $.each(data, function(index, purchase) {
+                    tableBody.append(`
+                        <tr>
+                            <td>${purchase.purchaseDate}</td>
+                            <td>${purchase.productName}</td>
+                            <td>${purchase.price}</td>
+                            <td>${purchase.status}</td>
+                        </tr>
+                    `);
+                    console.log("구매일자 -> ", purchase.purchaseDate);
+                    console.log("상품명 -> ", purchase.productName);
+                    console.log("가격 -> ", purchase.price);
+                    console.log("상태 -> ", purchase.status);
+                });
+            },
+            error: function(error) {
+                console.error("Error:", error);
+            }
         });
     });
 
-    // "구매" 탭을 클릭하면 1개월 버튼에 "btn on" 클래스를 추가하고,
-    // 시작 날짜 및 종료 날짜 입력 필드에 기본값을 설정하는 함수
-    function activateOneMonth() {
-
-        // 현재 날짜를 기준으로 1개월 전 날짜를 계산
-        let today = new Date();
-        let oneMonthAgo = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
-
-        // 날짜 형식을 "yyyy.mm.dd"로 변환
-        let startDateStr = formatDate(oneMonthAgo);
-        let endDateStr = formatDate(today);
-
-        // 날짜를 각각의 입력 필드에 설정
-        $("#startDate").val(startDateStr);
-        $("#endDate").val(endDateStr);
-    }
-
-    // 날짜를 "yyyy.mm.dd" 형식으로 변환하는 함수
-    function formatDate(date) {
-        let year = date.getFullYear();
-        let month = (date.getMonth() + 1).toString().padStart(2, "0");
-        let day = date.getDate().toString().padStart(2, "0");
-        return year + "." + month + "." + day;
-    }
-
-    // "구매" 탭 클릭 시 동작 설정
-    $(".tab-block a.pay").on("click", function() {
-        activateOneMonth();
-    });
-
-    // 초기에도 1개월 기간을 설정
-    activateOneMonth();
-
-
-    // todo 예매
-
-
-    // todo 구매
 })
 
 // datepicker 설정
 $(() => {
     $(".datepicker").datepicker({
         dateFormat: 'yy-mm-dd' //달력 날짜 형태
-        ,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
-        ,showMonthAfterYear:true // 월- 년 순서가아닌 년도 - 월 순서
-        ,changeYear: true //option값 년 선택 가능
-        ,changeMonth: true //option값  월 선택 가능
-        ,showOn: "button" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시
-        ,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
-        ,buttonImageOnly: true //버튼 이미지만 깔끔하게 보이게함
-        ,buttonText: "선택" //버튼 호버 텍스트
-        ,yearSuffix: "년" //달력의 년도 부분 뒤 텍스트
-        ,monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 텍스트
-        ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip
-        ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 텍스트
-        ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 Tooltip
-        ,yearRange: "-100:+0" // 선택 가능한 년도 범위 (현재부터 100년 전부터 현재까지)
+        , showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+        , showMonthAfterYear: true // 월- 년 순서가아닌 년도 - 월 순서
+        , changeYear: true //option값 년 선택 가능
+        , changeMonth: true //option값  월 선택 가능
+        , showOn: "button" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시
+        , buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
+        , buttonImageOnly: true //버튼 이미지만 깔끔하게 보이게함
+        , buttonText: "선택" //버튼 호버 텍스트
+        , yearSuffix: "년" //달력의 년도 부분 뒤 텍스트
+        , monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'] //달력의 월 부분 텍스트
+        , monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'] //달력의 월 부분 Tooltip
+        , dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'] //달력의 요일 텍스트
+        , dayNames: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'] //달력의 요일 Tooltip
+        , yearRange: "-100:+0" // 선택 가능한 년도 범위 (현재부터 100년 전부터 현재까지)
     });
 })

@@ -3,7 +3,6 @@
       layout:decorate="~{layout/user}">
 <head th:fragment="extra-head-content">
     <script th:src="@{/js/user/booking.js}"></script>
-    <script th:src="@{/js/calender.js}"></script>
 </head>
 <div id="contents" layout:fragment="content">
     <h2 class="tit">예매/구매 내역</h2>
@@ -172,11 +171,11 @@
                     <tr>
                         <th scope="row">구분</th>
                         <td>
-                            <input type="radio" name="radPurc" id="radPurc01" value="" checked="checked">
+                            <input type="radio" name="status" id="radPurc01" value="" checked>
                             <label for="radPurc01">전체</label>
-                            <input type="radio" name="radPurc" id="radPurc02" value="P">
+                            <input type="radio" name="status" id="radPurc02" value="P">
                             <label for="radPurc02">구매내역</label>
-                            <input type="radio" name="radPurc" id="radPurc03" value="C">
+                            <input type="radio" name="status" id="radPurc03" value="C">
                             <label for="radPurc03">취소내역</label>
                         </td>
                     </tr>
@@ -190,10 +189,10 @@
                                 <button type="button" class="btn" value="M6">6개월</button>
                             </div>
                             <div class="date">
-                                <input type="text" title="조회기간 시작 날짜 입력" placeholder="yyyy.mm.dd" class="date-calendar v2 datepicker" id="startDate">
+                                <input type="text" title="조회기간 시작 날짜 입력" name="purchaseDate" placeholder="yyyy.mm.dd" class="date-calendar v2 datepicker" id="startDate">
                                 <span>~</span>
-                                <input type="text" title="조회기간 마지막 날짜 입력" placeholder="yyyy.mm.dd" class="date-calendar v2 datepicker" id="endDate">
-                                <button type="button" class="button gray-line" name="search">
+                                <input type="text" title="조회기간 마지막 날짜 입력" name="purchaseDate" placeholder="yyyy.mm.dd" class="date-calendar v2 datepicker" id="endDate">
+                                <button type="button" class="button gray-line" id="btnSearch" name="search">
                                     <i class="iconset ico-search-gray"></i> 조회
                                 </button>
                             </div>
@@ -228,11 +227,8 @@
                         <th scope="col">상태</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    <!--todo if 조건문-->
-                    <tr>
-                        <td colspan="5" class="a-c">결제내역이 없습니다.</td>
-                    </tr>
+                    <tbody id="purchaceTableBody">
+
                     </tbody>
                 </table>
             </div>
