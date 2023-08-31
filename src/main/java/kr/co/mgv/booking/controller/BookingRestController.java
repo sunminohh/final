@@ -57,4 +57,10 @@ public class BookingRestController {
     public List<String> getDisabledSeats(@RequestParam("screenId") int screenId){
         return theaterService.getDisabledSeatsByScreenID(screenId);
     }
+
+    @GetMapping("/deleteDisabledSeats")
+    public String deleteDisabledSeatsByScreenId(@RequestParam("screenId") int screenId){
+        theaterService.deleteDisabledSeatsByScreenId(screenId);
+        return "success";
+    }
 }
