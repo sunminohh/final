@@ -2,7 +2,7 @@ $(() => {
     $('.tab-cont').hide(); // 모든 탭 컨텐츠 숨기기
     $('#booking-tab').show(); // 예매 탭 컨텐츠만 보이기
 
-    $('.tab-block a').click(function(e) {
+    $('.tab-block a').click(function (e) {
         e.preventDefault(); // 기본 링크 동작을 막기
 
         const currentAttrValue = $(this).attr('href'); // 클릭된 탭의 href 값을 가져옴
@@ -56,15 +56,15 @@ $(() => {
     setDateRange($('.btn-period .btn.on').val());
 
     // 각 버튼 클릭 이벤트
-    $('.btn-period .btn').click(function() {
-        $('.btn-period .btn').removeClass('on'); // 모든 버튼의 활성화 상태 해제
-        $(this).addClass('on'); // 클릭한 버튼만 활성화
+    $('.btn-period .btn').click(function () {
+        $('.btn-period .btn').removeClass('on');
+        $(this).addClass('on');
 
         const period = $(this).val();
         setDateRange(period);
     });
 
-    $("#btnSearch").on("click", function() {
+    $("#btnSearch").on("click", function () {
         const startDate = $("#startDate").val();
         const endDate = $("#endDate").val();
 
@@ -78,26 +78,35 @@ $(() => {
                 endDate: endDate,
                 status: status
             },
-            success: function(data) {
+            success: function (data) {
                 let tableBody = $("#purchaceTableBody");
-                tableBody.empty(); // Clear current table content
+                tableBody.empty();
 
-                $.each(data, function(index, purchase) {
+                if (data && data.length === 0) {
                     tableBody.append(`
+                        <tr>
+                            <td colspan="5" class="a-c">결제내역이 없습니다.</td>
+                        </tr>
+                    `);
+                } else {
+
+                    $.each(data, function (index, purchase) {
+                        tableBody.append(`
                         <tr>
                             <td>${moment(purchase.purchaseDate).format("yyyy-MM-DD")}</td>
                             <td>${purchase.product.name}</td>
-                            <td>${purchase.price % 1000 === 0 ? new Intl.NumberFormat('ko-KR').format(purchase.price) : purchase.price }</td>
+                            <td>${purchase.price % 1000 === 0 ? new Intl.NumberFormat('ko-KR').format(purchase.price) : purchase.price}</td>
                             <td>${purchase.status === 'P' ? '구매' : '취소'}</td>
                         </tr>
-                    `);
-                    // console.log("구매일자 -> ", purchase.purchaseDate);
-                    // console.log("상품명 -> ", purchase.product.name);
-                    // console.log("가격 -> ", purchase.price);
-                    // console.log("상태 -> ", purchase.status);
-                });
+                        `);
+                        // console.log("구매일자 -> ", purchase.purchaseDate);
+                        // console.log("상품명 -> ", purchase.product.name);
+                        // console.log("가격 -> ", purchase.price);
+                        // console.log("상태 -> ", purchase.status);
+                    });
+                }
             },
-            error: function(error) {
+            error: function (error) {
                 console.error("Error:", error);
             }
         });

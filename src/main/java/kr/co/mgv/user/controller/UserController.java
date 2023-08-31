@@ -149,8 +149,7 @@ public class UserController {
 
     @PostMapping("/purchase")
     @ResponseBody
-    public ResponseEntity<List<Purchase>> purchaseList(@AuthenticationPrincipal User user,
-                                                       @RequestParam String startDate,
+    public ResponseEntity<List<Purchase>> purchaseList(@RequestParam String startDate,
                                                        @RequestParam String endDate,
                                                        @RequestParam String status) {
         String userId = getLoggedInUserId();
