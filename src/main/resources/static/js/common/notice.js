@@ -1,10 +1,7 @@
 $(function() {
-	
-	
-	
-})
-	let noticeWS = new SockJs("/notice");
-	noticeWS.onmaessage = function(message) {
-		let text = message.data
-		// 알람표시
-	}
+    let noticeWS = new SockJS("/notice");
+    noticeWS.onmessage = function(message) {
+        let text = message.data;
+        // 알람 표시
+    };
+});
