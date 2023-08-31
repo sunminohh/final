@@ -445,7 +445,7 @@
 	    ) as A
 	</select>
 
-	
+<!-- 신고이유 -->
 	<select id="getReportReasons" parameterType="map" resultType="kr.co.mgv.board.vo.BoardReport">
 		SELECT 
 	        A.reason,
@@ -501,7 +501,91 @@
 	 ) as A
 	</select>
 
-<!-- 신고이유 -->
-
 <!-- 신고된 게시물 update -->
+	<update id="updateReportBoard" parameterType="map">
+		<choose>
+			<when test="type=='영화'">
+				update MGV_MOVIE_BOARD
+				<set>
+					<if test="deleted != null">
+						board_deleted = #{deleted},
+					</if>
+					<if test="report != null">
+						board_report = #{report},
+					</if>
+					<if test="reportCount != null">
+						REPORT_COUNT = #{reportCount}
+					</if>
+				</set>
+				where board_no = #{no}
+			</when>
+			<when test="type=='극장'">
+				update MGV_THEATER_BOARD
+				<set>
+					<if test="deleted != null">
+						board_deleted = #{deleted},
+					</if>
+					<if test="report != null">
+						board_report = #{report},
+					</if>
+					<if test="reportCount != null">
+						REPORT_COUNT = #{reportCount}
+					</if>
+				</set>
+				where board_no = #{no}
+			</when>
+			<when test="type=='스토어'">
+				update MGV_PRODUCT_BOARD
+				<set>
+					<if test="deleted != null">
+						board_deleted = #{deleted},
+					</if>
+					<if test="report != null">
+						board_report = #{report},
+					</if>
+					<if test="reportCount != null">
+						REPORT_COUNT = #{reportCount}
+					</if>
+				</set>
+				where board_no = #{no}
+			</when>
+			<when test="type=='파티'">
+				update PARTY_BOARD
+				<set>
+					<if test="deleted != null">
+						PARTY_deleted = #{deleted},
+					</if>
+					<if test="report != null">
+						board_report = #{report},
+					</if>
+					<if test="reportCount != null">
+						BOARD_REPORT_COUNT = #{reportCount}
+					</if>
+				</set>
+				where board_no = #{no}
+			</when>
+		</choose>
+	</update>
+	
+<!-- 신고이유 삭제 -->
+	<delete id="deleteReportReasonByNo" parameterType="map">
+		<choose>
+			<when test="type=='영화'">
+				delete from MGV_MBOARD_REPORT
+				WHERE BOARD_NO = #{no}
+			</when>
+			<when test="type=='극장'">
+				delete from MGV_TBOARD_REPORT
+				WHERE BOARD_NO = #{no}
+			</when>
+			<when test="type=='스토어'">
+				delete from MGV_PBOARD_REPORT
+				WHERE BOARD_NO = #{no}
+			</when>
+			<when test="type=='파티'">
+				delete from PBOARD_REPORT
+				WHERE BOARD_NO = #{no}
+			</when>
+		</choose>
+	</delete>	
 </mapper>

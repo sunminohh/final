@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -72,6 +73,46 @@ public class AdminBoardController {
 		AdminBoardList result = AdminBoardList.builder().list(board).reports(reports).build();
 		
 		return ResponseEntity.ok().body(result);
+	}
+	
+	@PostMapping("/delete")
+	@ResponseBody
+	public ResponseEntity<Integer> deleteReportBoard(@RequestParam("type") String type,
+													 @RequestParam("no") int no){
+		
+		// 해당 게시물의 deleted를 Y로 변경
+		Map<String , Object> param = new HashMap<String, Object>();
+		param.put("type", type);
+		param.put("no", no);
+		param.put("deleted", "Y");
+		adminBoardService.deleteReportBoard(param);
+		
+		// 변경후 리스트의 전체건수 구하기
+		int totalRows = adminBoardService.getTotalrows();
+		
+		return ResponseEntity.ok().body(totalRows);
+	}
+
+	@PostMapping("/restore")
+	@ResponseBody
+	public ResponseEntity<Integer> deleteRestoreBoard(@RequestParam("type") String type,
+			@RequestParam("no") int no){
+		
+		// 해당 게시물의 신고상태 초기화
+		Map<String , Object> param = new HashMap<String, Object>();
+		param.put("type", type);
+		param.put("no", no);
+		param.put("report", "N");
+		param.put("reportCount", 0);
+		adminBoardService.resotreReportBoard(param);
+		
+		// 해당 게시물의 신고이유 목록 삭제
+		adminBoardService.deleteReportReasonByNo(param);
+		
+		// 변경후 리스트의 전체건수 구하기
+		int totalRows = adminBoardService.getTotalrows();
+		
+		return ResponseEntity.ok().body(totalRows);
 	}
 	
 }
