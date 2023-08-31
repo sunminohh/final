@@ -77,7 +77,7 @@
     						<th>확인</th>
     					</tr>
     				</thead>
-    				<tbody>
+    				<tbody id="board-tbody">
 				    	<tr th:if="${#lists.isEmpty(result.list)}">
 							<td colspan="5">게시글이 존재하지 않습니다.</td>
 						</tr>	
@@ -100,22 +100,22 @@
     			<input type="hidden" name="type">
     		</form>
     		
-    		<nav th:if="${result.pagination.totalRows > 0}">
+    		<nav th:if="${result.pagination.totalRows > 0}" id="board-nav">
 				<ul class="pagination justify-content-center">
 				    <li class="page-item" th:if="${result.pagination.currentBlock > 1}">
 				        <a title="첫번째 페이지 보기"
-				           th:href="@{list(page=1, sort=${param.sort}, rows=${param.rows}, theaterNo=${param.theaterNo}, locationNo=${param.locationNo}, opt=${param.opt}, keyword=${param.keyword})}"
+				           th:href="@{reportList(page=1, boards=${param.boards}, opt=${param.opt}, keyword=${param.keyword})}"
 				           class="page-link page-number-link control first"
 				           ></a>
 				    </li>
 				    <li class="page-item" th:if="${result.pagination.currentBlock > 1}">
 				        <a title="이전 5페이지 보기"
-				           th:href="@{list(page=${(result.pagination.currentBlock - 1) * 5} , sort=${param.sort}, rows=${param.rows}, theaterNo=${param.theaterNo}, locationNo=${param.locationNo}, opt=${param.opt}, keyword=${param.keyword})}"
+				           th:href="@{reportList(page=${(result.pagination.currentBlock - 1) * 5} ,boards=${param.boards}, opt=${param.opt}, keyword=${param.keyword})}"
 				           class="page-link page-number-link control prev"
 				           ></a>
 				    </li>
 				    <li class="page-item" th:each="num : ${result.pagination.pageNumbers}">
-                        <a th:href="@{list(page=${num}, sort=${param.sort}, rows=${param.rows}, theaterNo=${param.theaterNo}, locationNo=${param.locationNo}, opt=${param.opt}, keyword=${param.keyword})}" 
+                        <a th:href="@{reportList(page=${num}, boards=${param.boards}, opt=${param.opt}, keyword=${param.keyword})}" 
                            th:text="${num}"
                            th:classappend="${result.pagination.page == (num) ? 'active' : '' }"
                            class="page-link page-number-link"
@@ -123,13 +123,13 @@
                     </li>
                     <li class="page-item" th:if="${result.pagination.currentBlock < result.pagination.totalBlocks}">
 				        <a title="이후 5페이지 보기"
-				           th:href="@{list(page=${result.pagination.currentBlock * 5 + 1}, sort=${param.sort}, rows=${param.rows}, theaterNo=${param.theaterNo}, locationNo=${param.locationNo}, opt=${param.opt}, keyword=${param.keyword})}"
+				           th:href="@{reportList(page=${result.pagination.currentBlock * 5 + 1}, boards=${param.boards}, opt=${param.opt}, keyword=${param.keyword})}"
 				           class="page-link page-number-link control next"
 				          ></a>
 				    </li>
                  	<li class="page-item" th:if="${result.pagination.currentBlock < result.pagination.totalBlocks}">
 				        <a title="마지막 페이지 보기"
-				           th:href="@{list(page=${result.pagination.totalPages}, sort=${param.sort}, rows=${param.rows}, theaterNo=${param.theaterNo}, locationNo=${param.locationNo}, opt=${param.opt}, keyword=${param.keyword})}"
+				           th:href="@{reportList(page=${result.pagination.totalPages}, boards=${param.boards}, opt=${param.opt}, keyword=${param.keyword})}"
 				           class="page-link page-number-link control last"
 				           ></a>
 				    </li>
@@ -166,7 +166,7 @@
 	            <div class="modal-footer" >
 	                <div class="btn-box d-flex justify-content-center">
 	                    <button type="button" class="btn btn-sm btn-light me-1" id="delete-btn" style="color: red;">삭제</button>
-	                    <button type="button" class="btn btn-sm btn-light" id="cancel-btn" style="color: blue;">복구</button>
+	                    <button type="button" class="btn btn-sm btn-light" id="restore-btn" style="color: blue;">복구</button>
 	                </div>
 	            </div>
 	        </div>

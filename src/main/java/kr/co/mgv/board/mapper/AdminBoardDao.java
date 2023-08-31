@@ -18,4 +18,5 @@ public interface AdminBoardDao {
 	List<BoardReport> getReportReasons (Map<String, Object> param);
 	
 	void updateReportBoard(Map<String, Object> param);
+	void deleteReportReasonByNo(Map<String, Object> param);
 }
