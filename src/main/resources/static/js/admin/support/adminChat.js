@@ -92,6 +92,19 @@ $(function(){
 		 if (data.cmd == "wait") {
 			 let waitings = data.waitings;
 			 console.log("대기자 목록", waitings)
+			 
+			 $tbody = $("#table-waitings tbody").empty();
+			 
+			 waitings.forEach(function(userId) {
+				 let row = `
+				 	<tr>
+				 		<td>${userId}</td>
+				 	</tr>
+				 `
+				 $tbody.append(row);
+			 });
+			 
+			 $("#table-waitings").text(waitings.userId);
 		 } else if (data.cmd == "start") {
 			
 		 } else if (data.cmd == "stop") {
