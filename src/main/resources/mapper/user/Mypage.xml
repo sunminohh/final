@@ -14,20 +14,6 @@
         </association>
     </resultMap>
 
-    <!--<select id="getPurchaseByUserId" resultMap="purchaseWithProductMap">
-        SELECT
-                A.PURCHASE_DATE   AS purchaseDate,
-                C.PRODUCT_NAME    AS productName,
-                A.PURCHASE_PRICE  AS price,
-                A.PURCHASE_STATUS AS status
-        FROM MGV_PURCHASE A
-                 JOIN MGV_USER B ON A.USER_ID = B.USER_ID
-                 JOIN MGV_PRODUCT C ON A.PRODUCT_NO = C.PRODUCT_NO
-        WHERE A.PURCHASE_DATE BETWEEN #{startDate} AND #{endDate}
-          AND A.PURCHASE_STATUS = #{status}
-          AND A.USER_ID = #{userId}
-    </select>-->
-
     <!-- 결제내역 전체조회-->
     <select id="getPurchaseByUserId" parameterType="string" resultMap="purchaseWithProductMap">
         SELECT

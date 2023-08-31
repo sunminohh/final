@@ -15,10 +15,6 @@ import java.util.List;
 public class MypageService {
     private final MypageDao mypageDao;
 
-    /*public List<Purchase> getAllPurchaseByUserId(String userId, String startDate, String endDate, String status) {
-        return mypageDao.getAllPurchaseByUserId(userId, startDate, endDate, status);
-    }*/
-
     public List<Purchase> getPurchaseByUserId(String userId, String startDate, String endDate, String status) {
         return mypageDao.getPurchaseByUserId(userId, startDate, endDate,status);
     }
