@@ -105,6 +105,7 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 		
 		ChatMessage responseMessage = new ChatMessage();
 		responseMessage.setCmd("start");
+		responseMessage.setUserId(userId);
 		responseMessage.setRoomId(uuid);
 		
 		sendMessage(adminSession, responseMessage);
@@ -147,18 +148,20 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 	// 응답
 	//		메세지 응답 - {cmd:msg, roomId:xxx,  text:"xxxxxxxxxxxxx"}
 	public void message(WebSocketSession session, ChatMessage chatMessage) throws Exception {
-		WebSocketSession user = (WebSocketSession) room.get("user");
-		WebSocketSession admin = (WebSocketSession) room.get("admin");
+		String roomId = chatMessage.getRoomId();
+		String userId = chatMessage.getUserId();
+		String text = chatMessage.getText();
 		
-		String roomId = (String) room.get("roomId");
+		WebSocketSession userSession = findUserSession(userId);
 		
 		ChatMessage responseMessage = new ChatMessage();
 		responseMessage.setCmd("msg");
+		responseMessage.setUserId(userId);
 		responseMessage.setRoomId(roomId);
-		responseMessage.setText(chatMessage.getText());		
+		responseMessage.setText(text);		
 		
-		sendMessage(user, responseMessage);
-		sendMessage(admin, responseMessage);
+		sendMessage(userSession, responseMessage);
+		sendMessage(adminSession, responseMessage);
 	}
 	
 	// 모든 고객들에게 대기자 목록과 자신의 위치를 보내는 메소드
