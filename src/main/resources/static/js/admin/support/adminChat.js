@@ -87,7 +87,7 @@ $(function(){
 	
 	function appendMessagTag(className, userName, text) {
 		let tag = `
-			 <li class="${className}>
+			 <li class="${className}">
                 <div class="sender">
                     <span>${userName}</span>
                 </div>
@@ -96,6 +96,9 @@ $(function(){
                 </div>
             </li>
 		`
+		// 스크롤바 아래 고정
+        //$('div.chat').scrollTop($('div.chat').prop('scrollHeight'));
+        
 		$('div.chat:not(.format) ul').append(tag);
 	}
 	
