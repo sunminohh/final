@@ -17,7 +17,12 @@ $(function() {
                     $("#board-info").empty().append(boardContent);
                     
                     let boardName = `
+                    	<div class="col-11">
                     	 <h1 class="modal-title fs-5 fw-semibold" id="exampleModalLabel" style="color: white;">${result.list.name}</h1>
+                    	</div>
+                    	<div class="col-1"> 
+                    	 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="position: absolute; top: 15px; right: 15px;"></button>
+                    	</div>
                     `
                     $('.modal-header').empty().append(boardName)
                     
@@ -45,6 +50,47 @@ $(function() {
 		  
 		  $("#board-modal").modal('show');
 	  })
+	  
+	$(".btn-box").on('click', '#delete-btn', function() {
+	    const type = $("input[name=type]").val();
+	    const no = $("input[name=no]").val();
+	    
+	           Swal.fire({
+           icon: 'warning',
+           title: '정말 삭제하시겠습니까?',
+           showCancelButton: true,
+           confirmButtonText: '네',
+           cancelButtonText: '아니오',
+       }).then((result) => {
+           if (result.isConfirmed) {
+			    $.ajax({
+			        url: '/admin/board/delete',
+			        type: 'POST', 
+			        data: {
+			            type: type,
+			            no: no
+			        },
+			        success: function(totalRows) {
+						    if ($("input[name=boardNo]").val() === no && $("input[name=boardType]").val() === type) {
+						        const boardTr = $("#board-tr");
+						        boardTr.remove();
+						    }
+						    $("#total-rows").text(totalRows);
+						    $("#board-modal").modal('hide');
+						    
+			        },
+			        error: function(error) {
+						
+			        }
+			    });
+                    
+           } else if (result.dismiss === Swal.DismissReason.cancel) {
+               
+           }
+       });
+	    
+	});
+
 })
 
 	function searchBoard(){	
