@@ -135,7 +135,7 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 	//		상담취소 - {cmd:cancel, userId:hong}
 	// 응답
 	//		대기자 명단 - {cmd:wait, waitings:[hong, kim, kang]}
-	public void cancelReq(WebSocketSession session, ChatMessage chatMessage)  throws Exception{
+	public void cancelReq(WebSocketSession session, ChatMessage chatMessage)  throws Exception {
 		String userId = chatMessage.getUserId();
 		removeUserSession(userId);
 		
@@ -162,7 +162,7 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 	}
 	
 	// 모든 고객들에게 대기자 목록과 자신의 위치를 보내는 메소드
-	// 새고객이 접속할 때, 종료했을 때, 오류가 발생했을 때 모두 대기자 목록에 변화가 생기는 경우임으로 대기자 목록 및 자신의 위치정보를 모든 고객에게 발송하는다.
+	// 새고객이 접속할 때, 종료했을 때, 오류가 발생했을 때 모두 대기자 목록에 변화가 생기는 경우임으로 대기자 목록 및 자신의 위치정보를 모든 고객에게 발송한다.
 	private void broadcast() throws Exception {
 		
 		// 대기자 정보를 보내는 메세지 객체 생성
