@@ -15,9 +15,9 @@
     	 사용자 아이디
   		</div>
   		<div class="board-count-area d-flex justify-content-start">
-  			<p>작성글<strong>5</strong></p>
-  			<p>댓글<strong>5</strong></p>
-  			<p>좋아요<strong>5</strong></p>
+  			<p>작성글<strong th:text="${totalRows}">5</strong></p>
+  			<p>댓글<strong th:text="${CtotalRows}">5</strong></p>
+  			<p>좋아요<strong th:text="${LtotalRows}">5</strong></p>
   		</div>
   	</div>  
   </div>
@@ -32,10 +32,10 @@
               <a type="button" class="btn rounded-0" data-tab="tab-2" data-category-no="22" id="comment-board-list" title="댓글단 글" th:href="@{commentList}">댓글단 글</a>
           </li>
           <li class="tab-link" th:classappend="${#strings.equals(param.catNo, '23') ? 'current' : ''}">
-              <a type="button" class="btn rounded-0" data-tab="tab-2" data-category-no="23" title="MGV 공지 보기" th:href="@{comments}">댓글</a>
+              <a type="button" class="btn rounded-0" data-tab="tab-3" data-category-no="23" title="좋아요한 글" th:href="@{likeList}">좋아요한 글</a>
           </li>
           <li class="tab-link" th:classappend="${#strings.equals(param.catNo, '24') ? 'current' : ''}">
-              <a type="button" class="btn rounded-0" data-tab="tab-3" data-category-no="24" title="좋아요한 글" th:href="@{likeList}">좋아요한 글</a>
+              <a type="button" class="btn rounded-0" data-tab="tab-2" data-category-no="24" title="MGV 공지 보기" th:href="@{joinList}">신청한 글</a>
           </li>
       </ul>
   </div>

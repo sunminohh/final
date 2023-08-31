@@ -15,4 +15,10 @@ public interface MyBoardDao {
 
 	List<BoardList> getBoardListByComment(Map<String, Object> param);
 	int getListTotalRowsByComment (Map<String, Object> param);
+
+	List<BoardList> getBoardListBylike(Map<String, Object> param);
+	int getListTotalRowsBylike (Map<String, Object> param);
+
+	List<BoardList> getPartyByJoin(Map<String, Object> param);
+	int getTotalRowsByJoin (Map<String, Object> param);
 }

@@ -119,6 +119,16 @@
 	
 	</select>
 	
+	<update id="updateTheater" parameterType="theater">
+		update MGV_THEATERS
+		set  
+			theater_name = #{name},
+			theater_address = #{address}, 
+			theater_tel = #{tel},
+			theater_info = #{info}
+		where theater_no = #{no}
+	</update>
+	
 	<insert id="insertTheater" parameterType="theater" useGeneratedKeys="true" keyProperty="no">
 		insert into MGV_THEATERS (location_no, theater_name, theater_address, theater_tel, theater_info)
 		values (#{location.no},#{name},#{address},#{tel},#{info})
@@ -151,4 +161,19 @@
 		    from MGV_SCREEN_DISABLED_SEATS
 		where SCREEN_ID=#{VALUE}
 	</select>
+
+	<delete id="deleteFacilityInfo" parameterType="int">
+		delete from MGV_THEATER_FACILITY_INFO
+		where theater_no = #{value}
+	</delete>
+
+	<delete id="deleteFloorInfo" parameterType="int">
+		delete from MGV_THEATER_FLOORS_INFO
+		where theater_no = #{value}
+	</delete>
+
+	<delete id="deleteParkingInfo" parameterType="int">
+		delete from MGV_THEATER_PARKING_INFO
+		where theater_no = #{value}
+	</delete>
 </mapper>

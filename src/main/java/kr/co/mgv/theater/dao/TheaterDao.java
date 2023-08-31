@@ -20,12 +20,15 @@ public interface TheaterDao {
 	
 	List<TheaterFacility> getFacilities();
 	void insertFacilityInfo(TheaterFacility facility);
+	void deleteFacilityInfo(int no);
 	
 	void insertFloorInfo(FloorInfo floorInfo);
+	void deleteFloorInfo(int no);
 	
 	void insertParkingInfo(ParkingInfo parkingInfo);
 
 	void insertDisabledSeats(Map<String,Object> params);
 
 	List<String> getDisabledSeatsByScreenId(int screenId);
+	void deleteParkingInfo(int no);
 }

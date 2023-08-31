@@ -19,9 +19,9 @@
 	<script	src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.9/locale/ko.min.js"></script>
 	<script	src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.9/plugin/isSameOrAfter.min.js"></script>
 	<script	src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.9/plugin/calendar.min.js"></script>
-	<link th:href=@{/css/support/chat.css} rel="stylesheet">
+	<link th:href=@{/css/support/adminChat.css} rel="stylesheet">
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script type="text/javascript" th:src="@{/js/support/chat.js}"></script>
+	<script type="text/javascript" th:src="@{/js/admin/support/adminChat.js}"></script>
 </head>
 <title>상담톡</title>
 </head>
@@ -42,33 +42,38 @@
 	</div>
 	-->
 	
-	<div class="chat_wrap">
-    <div class="header">
-        실시간 채팅상담
-    </div>
-    <div class="chat">
-        <ul>
-            <!-- 동적 생성 -->
-        </ul>
-    </div>
-    <div class="input-div">
-        <textarea placeholder="Press Enter for send message."></textarea>
-    </div>
- 
-    <!-- format -->
- 
-    <div class="chat format">
-        <ul>
-            <li>
-                <div class="sender">
-                    <span></span>
-                </div>
-                <div class="message">
-                    <span></span>
-                </div>
-            </li>
-        </ul>
-    </div>
-</div>
+		<div class="chat_wrap">
+		    <div class="header">
+		        실시간 채팅상담
+		    </div>
+		    <!-- 
+			<div class="side">
+				대기자 목록
+			</div>
+		     -->
+		    <div class="chat">
+		        <ul>
+		            <!-- 동적 생성 -->
+		        </ul>
+		    </div>
+		    <div class="input-div">
+		        <textarea placeholder="메세지를 입력하세요..."></textarea>
+		    </div>
+		 
+		    <!-- format -->
+		 
+		    <div class="chat format">
+		        <ul>
+		            <li>
+		                <div class="sender">
+		                    <span></span>
+		                </div>
+		                <div class="message">
+		                    <span></span>
+		                </div>
+		            </li>
+		        </ul>
+		    </div>
+		</div>
 
 </html>

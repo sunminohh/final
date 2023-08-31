@@ -1,5 +1,7 @@
 package kr.co.mgv.theater.vo;
 
+import java.util.List;
+
 import org.apache.ibatis.type.Alias;
 
 import lombok.Getter;
@@ -19,4 +21,5 @@ public class TheaterFacility {
 	private String name;
 	private String icon;
 	private String type;
+
 }

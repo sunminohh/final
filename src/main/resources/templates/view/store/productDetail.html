@@ -19,7 +19,8 @@
                     </div>
                 </div>
                 <div id="storeDtl">
-                    <input type="hidden" name="price" id="price" th:value="${product.getDiscountedPrice()}">
+                    <input type="hidden" name="discountedPrice" id="discountedPrice" th:value="${product.getDiscountedPrice()}">
+                    <input type="hidden" name="originalPrice" id="originalPrice" th:value="${product.getOriginalPrice()}">
                     <div id="contents">
                         <div class="inner-wrap">
                             <div class="store-view">
@@ -82,7 +83,8 @@
                                                             <i class="iconset ico-plus"></i>
                                                         </button>
                                                         <div class="money">
-                                                            <em id="prdtSumAmt" th:text="${product.getDiscountedPrice()}"></em>
+                                                            <p class="original" th:if="${product.getCategory().getNo() == 5}" th:text="${product.getOriginalPrice()}" style="text-decoration: line-through;"></p>
+                                                            <em id="prdtSumAmt"></em>
                                                             <span>원</span>
                                                         </div>
                                                     </div>
@@ -98,7 +100,8 @@
                                                title="구매" style="padding-left: 130px; padding-right: 130px;">구매</a>
                                             <!-- 회원 -->
                                             <form id="addProductIntoCart" method="post">
-                                                <input type="hidden" name="totalPrice" id="totalPrice" value="">
+                                                <input type="hidden" name="totalDiscountedPrice" id="totalDiscountedPrice" value="">
+                                                <input type="hidden" name="totalOriginalPrice" id="totalOriginalPrice" value="">
                                                 <input type="hidden" name="userId" id="userId"  th:if="${#authorization.expression('isAuthenticated()')}" th:value="${#authentication.principal.id}">
                                                 <input type="hidden" name="productNo" id="productNo" th:value="${product.getNo()}">
                                                 <input type="hidden" name="productAmount" id="productAmount" value="">

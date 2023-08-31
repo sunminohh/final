@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import kr.co.mgv.theater.vo.*;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import kr.co.mgv.favoritetheater.dao.FavoriteTheaterDao;
@@ -99,4 +100,27 @@ public class TheaterService {
 		return theaterDao.getDisabledSeatsByScreenId(ScreenId);
 	}
 
+
+	public void modifyTheater(Theater theater) {
+		Theater pretheater = theaterDao.getTheaterDetailByNo(theater.getNo());
+		BeanUtils.copyProperties(theater, pretheater);
+		theaterDao.updateTheater(pretheater);
+		
+		
+		theaterDao.deleteParkingInfo(pretheater.getNo());
+		pretheater.getParkingInfo().setTheaterNo(pretheater.getNo());
+		theaterDao.insertParkingInfo(pretheater.getParkingInfo());
+		
+		theaterDao.deleteFacilityInfo(pretheater.getNo());
+		for(TheaterFacility facility: pretheater.getFacilities()) {
+			facility.setTheaterNo(pretheater.getNo());
+			theaterDao.insertFacilityInfo(facility);
+		}
+		
+		theaterDao.deleteFloorInfo(pretheater.getNo());
+		for(FloorInfo floorInfo : pretheater.getFloorInfos()) {
+			floorInfo.setTheaterNo(pretheater.getNo());
+			theaterDao.insertFloorInfo(floorInfo);
+		}
+	}
 }

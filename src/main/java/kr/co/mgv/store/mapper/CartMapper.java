@@ -13,4 +13,7 @@ public interface CartMapper {
     List<Cart> getCartItemsByUserId(String userId);
 
     void updateCartItem(Cart cart);
+
+    void deleteCart(int cartNo);
+
 }
