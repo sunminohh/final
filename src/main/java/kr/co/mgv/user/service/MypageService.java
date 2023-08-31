@@ -20,14 +20,7 @@ public class MypageService {
     }*/
 
     public List<Purchase> getPurchaseByUserId(String userId, String startDate, String endDate, String status) {
-        if ("P".equals(status)) {
-            return mypageDao.getPurchaseByUserId(userId, startDate, endDate,status);
-        } else if ("C".equals(status)) {
-            return mypageDao.getCancelByUserId(userId, startDate, endDate,status);
-        } else {
-            return mypageDao.getAllPurchaseByUserId(userId, startDate, endDate, status);
-        }
-
+        return mypageDao.getPurchaseByUserId(userId, startDate, endDate,status);
     }
 
 }

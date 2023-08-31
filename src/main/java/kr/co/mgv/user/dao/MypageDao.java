@@ -11,17 +11,9 @@ import java.util.List;
 public interface MypageDao {
 
     // 결제내역 조회
-    List<Purchase> getAllPurchaseByUserId(@Param("userId") String userId,
-                                          @Param("startDate") String startDate,
-                                          @Param("endDate") String endDate,
-                                          @Param("status") String status);
     List<Purchase> getPurchaseByUserId(@Param("userId") String userId,
                                        @Param("startDate") String startDate,
                                        @Param("endDate") String endDate,
                                        @Param("status") String status);
-    List<Purchase> getCancelByUserId(@Param("userId") String userId,
-                                     @Param("startDate") String startDate,
-                                     @Param("endDate") String endDate,
-                                     @Param("status") String status);
 
 }

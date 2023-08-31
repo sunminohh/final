@@ -7,10 +7,10 @@
         <result property="price" column="purchase_price"/>
         <result property="status" column="purchase_status"/>
         <association property="user" javaType="User">
-            <result property="userId" column="user_id"/>
+            <result property="id" column="user_id"/>
         </association>
         <association property="product" javaType="Product">
-            <result property="productName" column="product_name"/>
+            <result property="name" column="product_name"/>
         </association>
     </resultMap>
 
@@ -29,58 +29,21 @@
     </select>-->
 
     <!-- 결제내역 전체조회-->
-    <select id="getAllPurchaseByUserId" parameterType="string" resultMap="purchaseWithProductMap">
+    <select id="getPurchaseByUserId" parameterType="string" resultMap="purchaseWithProductMap">
         SELECT
-                A.PURCHASE_DATE   AS purchaseDate,
-                C.PRODUCT_NAME    AS productName,
-                A.PURCHASE_PRICE  AS price,
-                A.PURCHASE_STATUS AS status
+                A.PURCHASE_DATE,
+                C.PRODUCT_NAME,
+                A.PURCHASE_PRICE,
+                A.PURCHASE_STATUS,
+                B.USER_ID
         FROM MGV_PURCHASE A
                 JOIN MGV_USER B ON A.USER_ID = B.USER_ID
                 JOIN MGV_PRODUCT C ON A.PRODUCT_NO = C.PRODUCT_NO
         WHERE B.USER_ID = #{userId}
-        <if test="status != ''">
-            AND status = #{status}
+        <if test="status neq null and status != ''">
+            AND A.PURCHASE_STATUS = #{status}
         </if>
-        AND purchase_date BETWEEN #{startDate} AND #{endDate}
-        ORDER BY A.PURCHASE_DATE DESC;
-
-    </select>
-
-    <!-- 구매 조회 -->
-    <select id="getPurchaseByUserId" parameterType="string" resultMap="purchaseWithProductMap">
-        SELECT
-                A.PURCHASE_DATE   AS purchaseDate,
-                C.PRODUCT_NAME    AS productName,
-                A.PURCHASE_PRICE  AS price,
-                A.PURCHASE_STATUS AS status
-        FROM MGV_PURCHASE A
-                 JOIN MGV_USER B ON A.USER_ID = B.USER_ID
-                 JOIN MGV_PRODUCT C ON A.PRODUCT_NO = C.PRODUCT_NO
-        WHERE B.USER_ID = #{userId}
-        <if test="status != null">
-             AND A.PURCHASE_STATUS = 'P'
-        </if>
-        AND purchase_date BETWEEN #{startDate} AND #{endDate}
-        ORDER BY A.PURCHASE_DATE DESC;
-
-    </select>
-
-    <!-- 구매 취소 조회 -->
-    <select id="getCancelByUserId" parameterType="string" resultMap="purchaseWithProductMap">
-        SELECT
-                A.PURCHASE_DATE   AS purchaseDate,
-                C.PRODUCT_NAME    AS productName,
-                A.PURCHASE_PRICE  AS price,
-                A.PURCHASE_STATUS AS status
-        FROM MGV_PURCHASE A
-                 JOIN MGV_USER B ON A.USER_ID = B.USER_ID
-                 JOIN MGV_PRODUCT C ON A.PRODUCT_NO = C.PRODUCT_NO
-        WHERE B.USER_ID = #{userId}
-        <if test="status != null">
-            AND A.PURCHASE_STATUS = 'C'
-        </if>
-        AND purchase_date BETWEEN #{startDate} AND #{endDate}
+        AND A.PURCHASE_DATE BETWEEN #{startDate} AND #{endDate}
         ORDER BY A.PURCHASE_DATE DESC;
     </select>
 

@@ -85,14 +85,14 @@ $(() => {
                 $.each(data, function(index, purchase) {
                     tableBody.append(`
                         <tr>
-                            <td>${purchase.purchaseDate}</td>
-                            <td>${purchase.productName}</td>
+                            <td>${moment(purchase.purchaseDate).format("yyyy-MM-DD")}</td>
+                            <td>${purchase.product.name}</td>
                             <td>${purchase.price}</td>
-                            <td>${purchase.status}</td>
+                            <td>${purchase.status === 'P' ? '구매' : '취소'}</td>
                         </tr>
                     `);
                     console.log("구매일자 -> ", purchase.purchaseDate);
-                    console.log("상품명 -> ", purchase.productName);
+                    console.log("상품명 -> ", purchase.product.name);
                     console.log("가격 -> ", purchase.price);
                     console.log("상태 -> ", purchase.status);
                 });
