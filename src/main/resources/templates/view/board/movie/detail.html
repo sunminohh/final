@@ -104,10 +104,10 @@
             <em class="comment_inbox_name" th:text="${#authentication.principal.id}"
                th:value="${#authentication.principal.id}"
                id="login-id">로그인된 아이디</em>
-            
             <form id="form-comment" method="post" th:action="@{/board/movie/addComment}" >
                <input type="hidden" name="no" th:value="${board.no}" />
                <input type="hidden" name="id" th:value="${#authentication.principal.id}" />
+               <input type="hidden" name="writerId" th:value="${board.user.id}">
                 <div class="row">
                   <div id="content-box">
                      <textarea rows="2" class="comment_inbox_text" name="content" style="border: none; overflow: hidden; overflow-wrap: break-word; " 
