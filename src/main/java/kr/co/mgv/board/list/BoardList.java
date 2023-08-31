@@ -2,10 +2,6 @@ package kr.co.mgv.board.list;
 
 import java.util.Date;
 
-import kr.co.mgv.board.vo.MovieBoard;
-import kr.co.mgv.board.vo.PartyBoard;
-import kr.co.mgv.board.vo.StoreBoard;
-import kr.co.mgv.board.vo.TheaterBoard;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,8 +18,11 @@ public class BoardList {
 	private int readCount;
 	private String type;
 	private String id;
+	private String content;
+	private int reportNo;
 	@Builder
-	public BoardList(int no, Date createDate, String name, int readCount, String type, String id) {
+	public BoardList(int no, Date createDate, String name, int readCount, String type, String id, 
+			String content, int reportNo) {
 		super();
 		this.no = no;
 		this.createDate = createDate;
@@ -31,5 +30,7 @@ public class BoardList {
 		this.readCount = readCount;
 		this.type = type;
 		this.id = id;
+		this.content = content;
+		this.reportNo = reportNo;
 	}
 }

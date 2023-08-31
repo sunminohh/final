@@ -2,21 +2,24 @@ package kr.co.mgv.booking.controller;
 
 import kr.co.mgv.booking.service.BookingService;
 import kr.co.mgv.schedule.dto.BookingScheduleDto;
-import kr.co.mgv.schedule.service.ScheduleService;
+import kr.co.mgv.theater.dto.SeatsDto;
+import kr.co.mgv.theater.service.TheaterService;
+import kr.co.mgv.theater.vo.DisabledSeat;
+import kr.co.mgv.user.vo.User;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/api/booking")
 @AllArgsConstructor
+@Slf4j
 public class BookingRestController {
     BookingService bookingService;
+    TheaterService theaterService;
     @RequestMapping("/{date}")
     public Map<String, Integer> scheduleApi(@PathVariable String date){
     return bookingService.isElementClassActive(date);
@@ -30,4 +33,28 @@ public class BookingRestController {
         return  bookingService.getBookingSchedules(map);
     }
 
+
+    @GetMapping("/step0")
+    public Map<String, Object> xxx(@AuthenticationPrincipal User user, @RequestParam("schedulId") int scheduleId){
+        Map<String, Object> map = new HashMap<>();
+//        if (user == null) {
+//            map.put("result", "fail");
+//            map.put("scheduleId", scheduleId);
+//            return map;
+//        } else {
+            map.put("result", "success");
+
+            return map;
+//        }
+    }
+
+    @PostMapping("/updateSeats")
+    public String updateSeats(@RequestBody List<String> params){
+        theaterService.registDisalbedSeats(params);
+        return "sucess";
+    }
+    @GetMapping("/getDisabledSeats")
+    public List<String> getDisabledSeats(@RequestParam("screenId") int screenId){
+        return theaterService.getDisabledSeatsByScreenID(screenId);
+    }
 }
