@@ -11,7 +11,7 @@ $(() => {
 		REGISTSCHEDULE: "/admin/theater/schedule/register",
 		DELETESCHEDULE: "/admin/theater/schedule/delete",
 		THEATER: "/admin/theater/detail",
-		REGIST_THEATER: "/admin/theater/regist",
+		MODIFY_THEATER: "/admin/theater/modify",
 		THEATER_LIST: "/theater/theaterList"
 	}
     getTheaterList();
@@ -103,7 +103,15 @@ $(() => {
 	}
 	
 	function handlerBtnUpdate(){
-		window.location.href=API_URLS.REGIST_THEATER;
+		let theaterNo = $theaters.find(".active").attr("data-theater-no");
+		if(theaterNo){
+			window.location.href=API_URLS.MODIFY_THEATER+"?theaterNo="+theaterNo;
+		}else{
+			Swal.fire({
+				icon:"error",
+				text:"지역과 극장을 선택해주세요.",
+			})
+		}
 	}
 	
 });

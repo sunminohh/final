@@ -29,105 +29,106 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/admin/support/one")
 public class AdminOneController {
 
-    private final OneService oneService;
-
-    @GetMapping
-    public String one(@RequestParam(name = "categoryNo", required = false, defaultValue = "24") int categoryNo,
-                      @RequestParam(name = "page", required = false, defaultValue = "1") int page,
-                      @RequestParam(name = "answered", required = false) String answered,
-                      @RequestParam(name = "keyword", required = false) String keyword,
-                      Model model) {
-
-        Map<String, Object> param = new HashMap<>();
-        param.put("categoryNo", categoryNo);
-        param.put("page", page);
-
-        if (StringUtils.hasText(answered)) {
-            param.put("answered", answered);
-        }
-
-        if (StringUtils.hasText(keyword)) {
-            param.put("keyword", keyword);
-        }
-
-        OneList oneList = oneService.search(param);
-        model.addAttribute("result", oneList);
-
-        return "view/admin/support/one/list";
-    }
-
-    @GetMapping("/list")
-    @ResponseBody
-    public OneList list(@RequestParam(name = "categoryNo", required = false, defaultValue = "24") int categoryNo,
-                        @RequestParam(name = "page", required = false, defaultValue = "1") int page,
-                        @RequestParam(name = "answered", required = false) String answered,
-                        @RequestParam(name = "keyword", required = false) String keyword) {
-
-        Map<String, Object> param = new HashMap<>();
-        param.put("categoryNo", categoryNo);
-        param.put("page", page);
-
-        if (StringUtils.hasText(answered)) {
-            param.put("answered", answered);
-        }
-
-        if (StringUtils.hasText(keyword)) {
-            param.put("keyword", keyword);
-        }
-
-        OneList oneList = oneService.search(param);
-
-        return oneList;
-    }
-
-    @GetMapping("/detail")
-    public String getOneByNo(@RequestParam("no") int oneNo, Model model) {
-        One one = oneService.getOneByNo(oneNo);
-        List<OneFile> oneFiles = oneService.getOneFileByOneNo(oneNo);
-        List<OneComment> oneComment = oneService.getOneCommentByOne(oneNo);
-
-        model.addAttribute("one", one);
-        model.addAttribute("oneFiles", oneFiles);
-        model.addAttribute("oneComment", oneComment);
-
-        return "view/admin/support/one/detail";
-    }
-
-    @PostMapping("/addComment")
-    @ResponseBody
-    public ResponseEntity<List<OneComment>> addComment(@AuthenticationPrincipal User user,
-                                                       @RequestParam("no") int oneNo,
-                                                       @RequestParam("content") String content) {
-
-        One one = One.builder().no(oneNo).build();
-        OneComment comment = OneComment.builder().
-                user(user).
-                one(one).
-                content(content).build();
-
-        oneService.insertComment(comment);
-        oneService.updateOneComment(oneNo);
-
-        List<OneComment> inputComments = oneService.getOneCommentByOne(oneNo);
-
-        return ResponseEntity.ok().body(inputComments);
-    }
-
-    @PostMapping("/deleteComment")
-    @ResponseBody
-    public ResponseEntity<Integer> deleteComment(@AuthenticationPrincipal User user,
-                                                 @RequestParam("commentNo") int commentNo) {
-
-        oneService.deleteComment(commentNo);
-
-        return ResponseEntity.ok(commentNo);
-    }
-
-    @GetMapping("/delete")
-    public String delete(@RequestParam("no") int oneNO, Model model) {
-        oneService.deleteOne(oneNO);
-        return "redirect:/admin/support/one";
-    }
-
-
+	private final OneService oneService;
+	
+	@GetMapping 
+	public String one(@RequestParam(name = "categoryNo", required = false, defaultValue = "24") int categoryNo,
+			@RequestParam(name = "page", required = false, defaultValue = "1") int page,
+			@RequestParam(name = "answered", required = false) String answered,
+			@RequestParam(name ="keyword", required = false) String keyword,
+			Model model) {
+		
+		Map<String, Object> param = new HashMap<>();
+		param.put("categoryNo", categoryNo);
+		param.put("page", page);
+		
+		if (StringUtils.hasText(answered)) {
+			param.put("answered", answered);
+		}
+	
+		if (StringUtils.hasText(keyword)) {
+			param.put("keyword", keyword);
+		}
+		
+		OneList oneList = oneService.search(param);	
+		model.addAttribute("result", oneList);
+		
+		return "view/admin/support/one/list";
+	}
+	
+	@GetMapping("/list")
+	@ResponseBody
+	public OneList list(@RequestParam(name = "categoryNo", required = false, defaultValue = "24") int categoryNo,
+			@RequestParam(name = "page", required = false, defaultValue = "1") int page,
+			@RequestParam(name = "answered", required = false) String answered,
+			@RequestParam(name ="keyword", required = false) String keyword) {
+		
+		Map<String, Object> param = new HashMap<>();
+		param.put("categoryNo", categoryNo);
+		param.put("page", page);
+		
+		if (StringUtils.hasText(answered)) {
+			param.put("answered", answered);
+		}
+	
+		if (StringUtils.hasText(keyword)) {
+			param.put("keyword", keyword);
+		}
+		
+		OneList oneList = oneService.search(param);
+		
+		return oneList;
+	}
+	
+	@GetMapping("/detail")
+	public String getOneByNo(@RequestParam("no") int oneNo, Model model) {
+		One one = oneService.getOneByNo(oneNo);
+		List<OneFile> oneFiles = oneService.getOneFileByOneNo(oneNo);
+		List<OneComment> oneComment = oneService.getOneCommentByOne(oneNo);
+		
+		model.addAttribute("one", one);
+		model.addAttribute("oneFiles", oneFiles);
+		model.addAttribute("oneComment", oneComment);
+		
+		return "view/admin/support/one/detail";
+	}
+	
+	@GetMapping("/delete")
+	public String delete(@RequestParam("no") int oneNO, Model model) {
+		oneService.deleteOne(oneNO);
+		return "redirect:/admin/support/one";
+	}
+	
+	@PostMapping("/addComment")
+	@ResponseBody
+	public ResponseEntity<List<OneComment>> addComment(@AuthenticationPrincipal User user,
+			@RequestParam("no") int oneNo,
+			@RequestParam("content") String content) {
+		
+		One one = One.builder().no(oneNo).build();
+		OneComment comment = OneComment.builder().
+							user(user).
+							one(one).
+							content(content).build();
+		
+		oneService.insertComment(comment);
+		oneService.updateOneComment(oneNo);
+		
+		List<OneComment> inputComments = oneService.getOneCommentByOne(oneNo);
+		
+		return ResponseEntity.ok().body(inputComments);
+	}
+	
+	@PostMapping("/deleteComment")
+	@ResponseBody
+	public ResponseEntity<Integer> deleteComment(@AuthenticationPrincipal User user,
+			@RequestParam("commentNo") int commentNo) {
+		
+		oneService.deleteComment(commentNo);
+		
+		return ResponseEntity.ok(commentNo);
+	}
+	
+	
+	
 }

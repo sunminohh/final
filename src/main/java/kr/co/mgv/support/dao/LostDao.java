@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import kr.co.mgv.support.vo.Lost;
+import kr.co.mgv.support.vo.LostComment;
 import kr.co.mgv.support.vo.LostFile;
 import kr.co.mgv.theater.vo.Location;
 import kr.co.mgv.theater.vo.Theater;
@@ -13,6 +14,15 @@ import kr.co.mgv.theater.vo.Theater;
 @Mapper
 public interface LostDao {
 
+	// 답변 조회
+	List<LostComment> getLostCommentsByLost(int lostNo);
+	// 답변 하나 조회
+	LostComment getLostCommentByNo(int commentNo);
+	// 답변 등록
+	void insertComment(LostComment comment);
+	// 답변 삭제
+	void deleteComment(LostComment comment);
+	
 	// 분실물문의 등록
 	void insertLost(Lost lost);
 	

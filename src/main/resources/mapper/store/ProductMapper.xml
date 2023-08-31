@@ -21,7 +21,7 @@
         select
             A.PRODUCT_NO                    as no,
             A.PRODUCT_NAME                  as name,
-            A.PRODUCT_PRICE                 as price,
+            A.PRODUCT_ORIGINAL_PRICE        as originalPrice,
             A.PRODUCT_STOCK                 as stock,
             A.PRODUCT_SOLD_OUT              as soldOut,
             A.PRODUCT_DESCRIPTION           as description,
@@ -42,7 +42,7 @@
         select
             A.PRODUCT_NO                    as no,
             A.PRODUCT_NAME                  as name,
-            A.PRODUCT_PRICE                 as price,
+            A.PRODUCT_ORIGINAL_PRICE        as originalPrice,
             A.PRODUCT_STOCK                 as stock,
             A.PRODUCT_SOLD_OUT              as soldOut,
             A.PRODUCT_DESCRIPTION           as description,
@@ -63,7 +63,7 @@
         select
             A.PRODUCT_NO                    as no,
             A.PRODUCT_NAME                  as name,
-            A.PRODUCT_PRICE                 as price,
+            A.PRODUCT_ORIGINAL_PRICE         as originalPrice,
             A.PRODUCT_STOCK                 as stock,
             A.PRODUCT_SOLD_OUT              as soldOut,
             A.PRODUCT_DESCRIPTION           as description,

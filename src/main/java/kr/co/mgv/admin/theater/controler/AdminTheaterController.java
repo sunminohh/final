@@ -1,4 +1,4 @@
-package kr.co.mgv.admin.common;
+package kr.co.mgv.admin.theater.controler;
 
 import java.util.List;
 
@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -15,8 +16,11 @@ import kr.co.mgv.movie.vo.Movie;
 import kr.co.mgv.theater.service.TheaterService;
 import kr.co.mgv.theater.vo.Screen;
 import kr.co.mgv.theater.vo.Theater;
+import kr.co.mgv.theater.vo.TheaterFacility;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 @RequestMapping("/admin/theater")
 @RequiredArgsConstructor
@@ -43,6 +47,46 @@ public class AdminTheaterController {
     @GetMapping("/regist")
     public String registForm() {
     	return "view/admin/theater/form/regist";
+    }
+    
+    @GetMapping("/modify")
+    public String modifyForm(Model model,@RequestParam int theaterNo) {
+    	
+    	List<TheaterFacility> facilities = theaterService.getFacilities();
+    	model.addAttribute("facilities", facilities);
+    	model.addAttribute("theaterNo", theaterNo);
+    	
+    	return "view/admin/theater/form/modify";
+    }
+    
+    @PostMapping("/modify")
+    @ResponseBody
+    public String modifyTheater(@RequestBody Theater theater) {
+    	try{
+    		theaterService.modifyTheater(theater);
+    		return "success";
+    	}catch (Exception e) {
+    		
+    		return "error: " + e.getMessage();
+    	}
+    }
+    
+    @PostMapping("/regist")
+    @ResponseBody
+    public String registTheater(@RequestBody Theater theater) {
+    	try{
+    		theaterService.registTheater(theater);
+    		return "success";
+    	}catch (Exception e) {
+    		
+    		return "error: " + e.getMessage();
+		}
+    }
+    
+    @GetMapping("/registform")
+    @ResponseBody
+    public List<TheaterFacility> getFacilities(){
+    	return theaterService.getFacilities();
     }
     
     @GetMapping("/detail")

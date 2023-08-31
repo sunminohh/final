@@ -2,7 +2,7 @@
 <html layout:decorate="~{ layout/admin }">
 <head th:fragment="extra-head-content">
 <script type="text/javascript"
-	th:src="@{/js/admin/theater/form.js}"></script>
+	th:src="@{/js/admin/theater/registform.js}"></script>
 <title>관리자페이지</title>
 <style type="text/css">
 option.disabled{
@@ -34,7 +34,7 @@ option.disabled{
 												</colgroup>
 												<tbody class="form-group" id="abled">
 													<tr>
-														<th>지역</th>
+														<th>지역(필수)</th>
 														<td >
 															<select
 																class="form-select" name="location" required="required" >
@@ -48,23 +48,24 @@ option.disabled{
 																<option value="7">강원</option>
 															</select>
 														</td>
-														<th>극장이름</th>
+														<th>극장이름(필수)</th>
 														<td >
 															<input class="form-control" type="text" name="theater-name" required="required">
 														</td>
 													</tr>
 													<tr>
-														<th>주소</th>
+														<th>주소(필수)</th>
 														<td colspan="3" >
 															<input class="form-control" type="text" name="address" required="required">
 														</td>
 													</tr>
 													<tr>
-														<th>전화번호</th>
+														<th>전화번호(필수)</th>
 														<td>
-															<input class="form-control" type="tel" name="tel" required="required">
+															<input class="form-control" type="tel" name="tel" required="required" placeholder="xxx-xxxx-xxxx형식으로 적어주세요" 
+																		pattern="(\d{2,3}-)?\d{3,4}-\d{4}" title="유효한 전화번호 형식을 입력하세요. (예: 02-123-4567 또는 031-1234-5678)">
 														</td>
-														<th>시설안내</th>
+														<th>시설안내(필수)</th>
 														<td colspan="3">
 															<select class="form-select"  name="facility" >
 																<option selected disabled>선택하세요</option>
@@ -72,11 +73,11 @@ option.disabled{
 														</td>
 													</tr>
 													<tr>
-														<th>층별안내</th>
-														<td colspan="3" name="floor">
+														<th>층별안내(필수)</th>
+														<td colspan="3" >
 															<div class="d-flex py-1">
-																<input type="text" class="form-control" style="width: 20%"
-																	placeholder="층수" aria-label="floor" name="floor" required="required"> 
+																<input type="text" class="form-control" style="width: 25%"
+																	placeholder="예:1층, 로비층" aria-label="floor" name="floor" required="required"> 
 																<input type="text"
 																	class="form-control" placeholder="안내사항"
 																	aria-label="floorinfo" name="floorinfo" required="required">
@@ -89,24 +90,24 @@ option.disabled{
 														</td>
 													</tr>
 													<tr>
-														<th>주차안내</th>
+														<th>주차안내(필수)</th>
 														<td colspan="3"><textarea rows="5"
 																style="width: 100%;" name="parkinginfo" required="required"></textarea></td>
 													</tr>
 													<tr>
-														<th>주차확인</th>
+														<th>주차확인(필수)</th>
 														<td colspan="3"><textarea rows="5"
 																style="width: 100%;" name="parkingconfirm" required="required"></textarea></td>
 													</tr>
 													<tr>
-														<th>주차요금</th>
+														<th>주차요금(필수)</th>
 														<td colspan="3"><textarea rows="5"
 																style="width: 100%;" name="parkingcash" required="required"></textarea></td>
 													</tr>
 													<tr>
-														<th>소개,설명</th>
+														<th>소개,설명(필수)</th>
 														<td colspan="3"><textarea rows="5"
-																style="width: 100%;" name="parkinginfo" required="required"></textarea></td>
+																style="width: 100%;" name="theaterInfo" required="required"></textarea></td>
 													</tr>
 												</tbody>
 											</table>

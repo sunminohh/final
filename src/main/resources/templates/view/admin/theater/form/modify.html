@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html layout:decorate="~{ layout/admin }">
+<head th:fragment="extra-head-content">
+<script type="text/javascript"
+	th:src="@{/js/admin/theater/modifyform.js}"></script>
+<title>관리자페이지</title>
+<style type="text/css">
+option.disabled{
+	background-color: lightgrey;
+} 
+</style>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="container-fluid">
+			<div style="width: 100%">
+				<!--  Row 1 -->
+				<div class="row mb-3">
+					<div class="col-12">
+						<div class="card">
+							<div class="card-header">
+								<h5 class="card-title fw-semibold mb-4" th:data-theater-no="${theaterNo}">극장 정보 수정</h5>
+							</div>
+							<div class="card-body">
+								<div class="row mb-3">
+									<div class="col-12">
+										<form class="border bg-light p-3" method="post">
+											<table class="board-form va-m">
+												<colgroup>
+													<col style="width: 150px;">
+													<col>
+													<col style="width: 150px;">
+													<col>
+												</colgroup>
+												<tbody class="form-group" id="abled">
+													<tr>
+														<th>지역(필수)</th>
+														<td >
+															<input class="form-control" type="text" name="location" required="required" readonly="readonly">
+														</td>
+														<th>극장이름(필수)</th>
+														<td >
+															<input class="form-control" type="text" name="theater-name" required="required">
+														</td>
+													</tr>
+													<tr>
+														<th>주소(필수)</th>
+														<td colspan="3" >
+															<input class="form-control" type="text" name="address" required="required">
+														</td>
+													</tr>
+													<tr>
+														<th>전화번호(필수)</th>
+														<td>
+															<input class="form-control" type="tel" name="tel" required="required" placeholder="xxx-xxxx-xxxx형식으로 적어주세요" 
+																		pattern="(\d{2,3}-)?\d{3,4}-\d{4}" title="유효한 전화번호 형식을 입력하세요. (예: 02-123-4567 또는 031-1234-5678)">
+														</td>
+														<th>시설안내(필수)</th>
+														<td colspan="3">
+															<th:block th:each="facility : ${facilities}">
+															<input type="checkbox" class="form-check-input" id="facilityCheck1" th:value="${facility.type}" name="facility" required>
+																<label class="form-check-label" for="facilityCheck1" th:text="${facility.name}">  
+																</label>
+															</th:block>
+														</td>
+													</tr>
+													<tr>
+														<th>층별안내(필수)</th>
+														<td colspan="3" >
+															<div class="d-flex py-1" id="floorBox1">
+																<input type="text" class="form-control" style="width: 25%"
+																	placeholder="예:1층, 로비층" aria-label="floor" name="floor" required="required"> 
+																<input type="text"
+																	class="form-control" placeholder="안내사항"
+																	aria-label="floorinfo" name="floorinfo" required="required">
+																<button type="button" class="ms-1 btn btn-info text-nowrap" id="btnAddFloorInput">추가</button>
+															</div>
+															<div id="floorBox2">
+																
+															</div>
+														</td>
+													</tr>
+													<tr>
+														<th>주차안내(필수)</th>
+														<td colspan="3"><textarea rows="5"
+																style="width: 100%;" name="parkinginfo" required="required"></textarea></td>
+													</tr>
+													<tr>
+														<th>주차확인(필수)</th>
+														<td colspan="3"><textarea rows="5"
+																style="width: 100%;" name="parkingconfirm" required="required"></textarea></td>
+													</tr>
+													<tr>
+														<th>주차요금(필수)</th>
+														<td colspan="3"><textarea rows="5"
+																style="width: 100%;" name="parkingcash" required="required"></textarea></td>
+													</tr>
+													<tr>
+														<th>소개,설명(필수)</th>
+														<td colspan="3"><textarea rows="5"
+																style="width: 100%;" name="theaterInfo" required="required"></textarea></td>
+													</tr>
+												</tbody>
+											</table>
+											<div class="text-end p-2 ">
+												<button type="button" class="btn btn-secondary btn-sm" id="btnCancel">취소</button>
+												<button type="submit" class="btn btn-primary btn-sm" id="btnReg">등록</button>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -29,7 +29,14 @@
 		where COMMENT_NO = #{value}
 			  and comment_deleted = 'N'
 	</select>
-	
+
+	<insert id="insertComment" parameterType="kr.co.mgv.support.vo.OneComment">
+	insert into MGV_ONE_COMMENT
+	(comment_content, one_no, user_id)
+	values
+		(#{content}, #{one.no}, #{user.id})
+	</insert>
+
 	<update id="deleteComment" parameterType="kr.co.mgv.support.vo.OneComment">
 		UPDATE 
 			MGV_ONE_COMMENT
@@ -38,14 +45,7 @@
 		WHERE 
 			COMMENT_NO= #{no}
 	</update>
-
-	<insert id="insertComment" parameterType="kr.co.mgv.support.vo.OneComment">
-	insert into MGV_ONE_COMMENT
-	(comment_content, one_no, user_id)
-	values
-		(#{content}, #{one.no}, #{user.id});
-	</insert>
-
+	
 	<insert id="insertOne" parameterType="kr.co.mgv.support.vo.One">
 		insert into MGV_SUPPORT_ONE
 		(one_title, one_content,
