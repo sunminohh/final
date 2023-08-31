@@ -98,8 +98,11 @@ public class MovieBoardService {
 	
 // comment
 	
-	public void MBoardCommentInsert(MBoardComment comment) {
+	public void MBoardCommentInsert(MBoardComment comment,  String writerId) {
 		movieBoardDao.insertMBoardComment(comment);
+		if(comment.getUser().getId() != writerId) {
+			
+		}
 	}
 	
 	public List<MBoardComment> getComments(int no) {
