@@ -1,9 +1,9 @@
 package kr.co.mgv.board.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import kr.co.mgv.board.BoardPagination;
@@ -17,15 +17,19 @@ import kr.co.mgv.board.vo.MBoardLike;
 import kr.co.mgv.board.vo.MboardReport;
 import kr.co.mgv.board.vo.MovieBoard;
 import kr.co.mgv.board.vo.ReportReason;
+import kr.co.mgv.board.websocket.handler.NoticeWebsocketHandler;
 import kr.co.mgv.movie.vo.Movie;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class MovieBoardService {
 	
 	private final MovieBoardDao movieBoardDao;
+	private final NoticeWebsocketHandler noticeWebsocketHandler;
 
 // 게시물 리스트
 	public MovieBoardList getMBoards(Map<String, Object> param) {
@@ -98,10 +102,21 @@ public class MovieBoardService {
 	
 // comment
 	
-	public void MBoardCommentInsert(MBoardComment comment,  String writerId) {
+	public void MBoardCommentInsert(MBoardComment comment,  String writerId) throws IOException {
 		movieBoardDao.insertMBoardComment(comment);
-		if(comment.getUser().getId() != writerId) {
-			
+		
+		String type = "영화";
+		String code = "comment";
+		int boardNo = comment.getBoard().getNo();
+		String boardName = comment.getBoard().getName();
+		if (boardName.length() > 8) {
+			boardName =  boardName.substring(0, 8);
+		}
+		String fromId = comment.getUser().getId();
+		if(comment.getUser().getId() != writerId && comment.getGreat() == null) {
+			String text = "["+ type + "]게시판 [" +boardName+ "...]에 " + fromId + "님이 댓글을 달았습니다."+boardNo; 
+			noticeWebsocketHandler.sendMessage(writerId, text);
+			log.info("text -> {}",text);
 		}
 	}
 	

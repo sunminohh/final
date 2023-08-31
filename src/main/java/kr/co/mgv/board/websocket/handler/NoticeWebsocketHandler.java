@@ -12,7 +12,10 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class NoticeWebsocketHandler extends TextWebSocketHandler {
 
 	private Map<String, WebSocketSession> sessions = new ConcurrentHashMap<String, WebSocketSession>();
@@ -40,9 +43,11 @@ public class NoticeWebsocketHandler extends TextWebSocketHandler {
 	}
 	
 	public void sendMessage(String userId, String text) throws IOException {
+		System.out.println("["+userId+"] ["+text+"]");
 		TextMessage message = new TextMessage(text);
 		
 		WebSocketSession session = sessions.get(userId);
+		System.out.println("세션["+ session+"]");
 		if(session != null) {
 			session.sendMessage(message);
 		}

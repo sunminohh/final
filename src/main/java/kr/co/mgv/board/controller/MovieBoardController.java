@@ -1,5 +1,6 @@
 package kr.co.mgv.board.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -238,7 +239,7 @@ public class MovieBoardController {
                              @RequestParam(name="parentNo", required = false) Integer parentNo, 
                              @RequestParam(name="greatNo", required = false) Integer greatNo, 
                              @RequestParam("content") String content,
-                             @RequestParam("writerId") String writerId) {
+                             @RequestParam("writerId") String writerId) throws IOException {
     	
 //    	log.info("게시물 번호 -> {}", no);
 //    	log.info("사용자 아이디 -> {}", id);
@@ -249,9 +250,7 @@ public class MovieBoardController {
     	MBoardComment comment = new MBoardComment();
     	comment.setContent(content);
     	
-    	MovieBoard mBoard = MovieBoard.builder()
-    						.no(no)
-    						.build();
+    	MovieBoard mBoard =	movieBoardService.getMovieBoardByNo(no);
     	comment.setBoard(mBoard);
     	
 		if (parentNo != null) {
@@ -294,7 +293,7 @@ public class MovieBoardController {
     		@RequestParam(name="parentNo", required = false) Integer parentNo, 
     		@RequestParam(name="greatNo", required = false) Integer greatNo, 
     		@RequestParam("content") String content,
-    		@RequestParam("writerId") String writerId) {
+    		@RequestParam("writerId") String writerId) throws IOException {
     	
 //    	log.info("게시물 번호 -> {}", no);
 //    	log.info("사용자 아이디 -> {}", id);
@@ -305,9 +304,7 @@ public class MovieBoardController {
     	MBoardComment comment = new MBoardComment();
     	comment.setContent(content);
     	
-    	MovieBoard mBoard = MovieBoard.builder()
-    			.no(no)
-    			.build();
+    	MovieBoard mBoard = movieBoardService.getMovieBoardByNo(no);
     	comment.setBoard(mBoard);
     	
     	if (parentNo != null) {
