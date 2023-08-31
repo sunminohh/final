@@ -140,33 +140,38 @@
     </div>
     
     <!-- 게시물 확인 모달 -->
-   <div class="modal fade" id="board-modal"  aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-          <div class="modal-content">
-               <div class="modal-header" style="background-color: #A06E8D;">
-                 <h1 class="modal-title fs-5 fw-semibold" id="exampleModalLabel" style="color: white;">게시물 제목</h1>
-                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
-               </div>
-               <div class="modal-body" style="max-height: 400px; overflow-y: auto; width:500px;">
-                   <div class="row mb-3 board-content pb-5" id="board-info">
-					 	<p id="board-content">아니면 할인이라도 해주던가 아니 왜이렇게 비싸냐구요. 환불해주세요.</p>
-               	   </div>
-               	   <div class="report-box">
-	               	   <div class="report-reason d-flex justify-content-start  row">
-	               	   		<div class="pe-2 col-2 fw-semibold">기타</div>
-	               	   		<div class="col-10">어이가 없네 당연히 영화표는 돈 주고 사야하는거 아닌지? 상식이 없네요 ;;;</div>
-	               	   </div>
-	           	   		<hr class="mt-3">
-               	   </div>
-               	   
-           	   	   <div class="btn-box d-flex justify-content-center">
-           	   	   		<button type="button" class="btn btn-sm btn-danger me-1" id="delete-btn">삭제</button>
-           	   	   		<button type="button" class="btn btn-sm btn-info" id="cancel-btn">복구</button>
-           	   	   </div>
-               </div>
-          </div>
-      </div>
-   </div>
+	<div class="modal fade" id="board-modal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	    <div class="modal-dialog" style="margin-top: 7%; margin-left: 31.5%;">
+	        <div class="modal-content" style="height: 600px; width: 700px;  border-radius: 10px; ">
+				<div class="modal-header row-11" style="background-color: rgb(192, 192, 192); position: relative; border-radius: 10px 10px 0 0;">
+					<div class="col-11">
+					    <h1 class="modal-title fs-5 fw-semibold" id="exampleModalLabel" style="color: white;">게시물 제목</h1>
+					</div>
+					<div class="col-1">
+					    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="position: absolute; top: 15px; right: 15px;"></button>
+					</div>
+				</div>
+	            <div class="modal-body" style="max-height: 600px; overflow-y: auto; width: 700px;">
+	                <div class="row mb-3 board-content pb-5" id="board-info">
+	                    <p id="board-content">아니면 할인이라도 해주던가 아니 왜이렇게 비싸냐구요. 환불해주세요.</p>
+	                </div>
+	                <div class="report-box">
+	                    <div class="report-reason d-flex justify-content-start row">
+	                        <div class="pe-2 col-2 fw-semibold">기타</div>
+	                        <div class="col-10">어이가 없네 당연히 영화표는 돈 주고 사야하는거 아닌지? 상식이 없네요 ;;;</div>
+	                    </div>
+	                    <hr class="mt-3">
+	                </div>
+	            </div>
+	            <div class="modal-footer" >
+	                <div class="btn-box d-flex justify-content-center">
+	                    <button type="button" class="btn btn-sm btn-light me-1" id="delete-btn" style="color: red;">삭제</button>
+	                    <button type="button" class="btn btn-sm btn-light" id="cancel-btn" style="color: blue;">복구</button>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
    <!-- 게시물 확인 모달 -->
 </div>
 </html>

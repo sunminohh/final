@@ -31,4 +31,6 @@ public interface TheaterDao {
 
 	List<String> getDisabledSeatsByScreenId(int screenId);
 	void deleteParkingInfo(int no);
+
+	void deleteDisabledSeatsByScreenId(int screenId);
 }

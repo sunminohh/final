@@ -123,4 +123,8 @@ public class TheaterService {
 			theaterDao.insertFloorInfo(floorInfo);
 		}
 	}
+
+	public void deleteDisabledSeatsByScreenId(int screenId){
+		theaterDao.deleteDisabledSeatsByScreenId(screenId);
+	}
 }

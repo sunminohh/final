@@ -16,4 +16,6 @@ public interface AdminBoardDao {
 	
 	BoardList getBoardDetail(Map<String, Object> param);
 	List<BoardReport> getReportReasons (Map<String, Object> param);
+	
+	void updateReportBoard(Map<String, Object> param);
 }
