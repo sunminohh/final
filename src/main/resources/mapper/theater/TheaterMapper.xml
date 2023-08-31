@@ -176,4 +176,10 @@
 		delete from MGV_THEATER_PARKING_INFO
 		where theater_no = #{value}
 	</delete>
+
+	<delete id="deleteDisabledSeatsByScreenId" parameterType="int">
+		delete from MGV_SCREEN_DISABLED_SEATS
+		where SCREEN_ID=#{VALUE}
+	</delete>
+
 </mapper>
