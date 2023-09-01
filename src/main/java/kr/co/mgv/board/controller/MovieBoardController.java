@@ -152,7 +152,8 @@ public class MovieBoardController {
     @ResponseBody
     public ResponseEntity<Void> addLike(@RequestParam("no") int no,
     									@RequestParam("id") String id,
-    									@RequestParam("likeCount") int likeCount) {
+    									@RequestParam("likeCount") int likeCount,
+    									@RequestParam("writerId") String writerId) throws IOException {
 				    	
     	MBoardLike like = new MBoardLike();
     	User user = User.builder()
@@ -167,10 +168,10 @@ public class MovieBoardController {
 
     	if (savedLike != null && "Y".equals(savedLike.getCancel())) {
     		savedLike.setCancel("N");
-    		movieBoardService.updateMBoardLike(savedLike);
+    		movieBoardService.updateMBoardLike(savedLike, writerId);
     	} else if(savedLike != null && "N".equals(savedLike.getCancel())) {
     		savedLike.setCancel("Y");
-    		movieBoardService.updateMBoardLike(savedLike);
+    		movieBoardService.updateMBoardLike(savedLike, writerId);
     	} else if(savedLike == null) {
     		movieBoardService.insertBoardLike(like);
     	}

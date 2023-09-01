@@ -46,6 +46,7 @@
                      <input type="hidden" name="no" th:value="${board.no}" />
                      <input type="hidden" name="id" th:value="${#authentication.principal.id}" />
                      <input type="hidden" name="likeCount" th:value="${board.likeCount}">
+                     <input type="hidden" name="writerId" th:value="${board.user.id}">
                      <button  th:if="${like == null || (like != null && #strings.equals(like.cancel, 'Y'))}" class="btn btn-ligth pe-1" type="button" id="like-button" style="color:red; border-color: white; font-size:16px" data-button-type="plus">♡</button>
                      <button  th:if="${like != null && #strings.equals(like.cancel, 'N')}" class="btn btn-ligth pe-1" type="button" id="like-button" style="color:red; border-color: white; font-size:16px"  data-button-type="minus">♥</button>
                      <p class="mt-3 pt-1" th:text="${board.likeCount}"></p>

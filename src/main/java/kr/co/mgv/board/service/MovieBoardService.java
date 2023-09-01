@@ -87,7 +87,28 @@ public class MovieBoardService {
 		return movieBoardDao.getLikeByBnoAndId(like);
 	}
 	
-	public void updateMBoardLike (MBoardLike like) {
+	public void updateMBoardLike (MBoardLike like ,String writerId) throws IOException {
+		
+		MBoardLike savedLike = movieBoardDao.getLikeByBnoAndId(like);
+
+		String fromId = like.getUser().getId();
+		String type = "영화";
+		int boardNo = like.getBoard().getNo();
+		MovieBoard board = movieBoardDao.getMBoardByNo(boardNo);
+		String BoardName = board.getName();
+		
+    	if(savedLike != null && "Y".equals(savedLike.getCancel()) && !writerId.equals(fromId)) {
+    		String text = "["+ type + "]게시판 [" +BoardName+ "...]에 " + fromId + "님이 게시글을 좋아합니다."+boardNo; 
+			noticeWebsocketHandler.sendMessage(writerId, text);
+			log.info("text -> {}",text);
+    	} 
+    	
+    	if(savedLike == null && !writerId.equals(fromId)) {
+    		String text = "["+ type + "]게시판 [" +BoardName+ "...]에 " + fromId + "님이 게시글을 좋아합니다."+boardNo; 
+			noticeWebsocketHandler.sendMessage(writerId, text);
+			log.info("text -> {}",text);
+    	}
+		
 		movieBoardDao.updateLike(like);
 	}
 	
