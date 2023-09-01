@@ -42,7 +42,7 @@ $(function() {
         			     <hr class="mt-4"/>`;
         const noticeIcon = `알림<span class="red-dot"></span>`
         			     
-        $(".no-list").prepend(content);
+        $(".no-list-board").prepend(content);
         $(".totalCnt").empty().append(totalNotice);
         $(".notice").empty().append(noticeIcon);
     };
@@ -101,7 +101,7 @@ $(function() {
 				console.log(notices);
 				
 				$(".totalCnt").empty().append(totalNotice);
-				$(".no-list").empty().append(content);
+				$(".no-list-board").empty().append(content);
 		    },
 		    error: function(xhr, status, error) {
 		    }
