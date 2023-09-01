@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.mgv.user.dao.MypageDao">
+    <resultMap id="purchaseWithProductMap" type="Purchase">
+        <result property="purchaseDate" column="purchase_date"/>
+        <result property="cancelDate" column="purchase_canceled_date"/>
+        <result property="price" column="purchase_price"/>
+        <result property="status" column="purchase_status"/>
+        <association property="user" javaType="User">
+            <result property="id" column="user_id"/>
+        </association>
+        <association property="product" javaType="Product">
+            <result property="name" column="product_name"/>
+        </association>
+    </resultMap>
+
+    <!-- 결제내역 전체조회-->
+    <select id="getPurchaseByUserId" parameterType="string" resultMap="purchaseWithProductMap">
+        SELECT
+                A.PURCHASE_DATE,
+                C.PRODUCT_NAME,
+                A.PURCHASE_PRICE,
+                A.PURCHASE_STATUS,
+                B.USER_ID
+        FROM MGV_PURCHASE A
+                JOIN MGV_USER B ON A.USER_ID = B.USER_ID
+                JOIN MGV_PRODUCT C ON A.PRODUCT_NO = C.PRODUCT_NO
+        WHERE B.USER_ID = #{userId}
+        <if test="status neq null and status != ''">
+            AND A.PURCHASE_STATUS = #{status}
+        </if>
+        AND A.PURCHASE_DATE BETWEEN #{startDate} AND #{endDate}
+        ORDER BY A.PURCHASE_DATE DESC;
+    </select>
+
+    <!-- 구매일 조회 -->
+</mapper>
