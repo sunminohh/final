@@ -29,32 +29,21 @@
 <body>
 	
 	<div class="chat_wrap">
-    <div class="header">
-        실시간 채팅상담 <span  class="ms-5">전체 대기자 수 : <span id="waiting-count">0</span>명</span> (<span id="waiting-position"></span>번째)
-    </div>
-    <div class="chat" th:attr="data-user-id=${#authentication.principal.id}">
-        <ul>
-            <!-- 동적 생성 -->
-        </ul>
-    </div>
-    <div class="input-div">
-        <textarea placeholder="메세지를 입력하세요..." disabled id="input-field"></textarea>
-    </div>
- 
-    <!-- format -->
- 
-    <div class="chat format">
-        <ul>
-            <li>
-                <div class="sender">
-                    <span></span>
-                </div>
-                <div class="message">
-                    <span></span>
-                </div>
-            </li>
-        </ul>
-    </div>
-</div>
+	    <div class="header">
+	        실시간 채팅상담 <span  class="ms-5">전체 대기자 수 : <span id="waiting-count">0</span>명</span> (<span id="waiting-position"></span>번째)
+	    </div>
+	    <div class="row">
+	 	<div style="height:420px;">
+		    <div class="chat" th:attr="data-user-id=${#authentication.principal.id}"  style="height:400px; overflow: scroll;">
+		        <ul>
+		            <!-- 동적 생성 -->
+		        </ul>
+		    </div>
+		    <div class="input-div">
+		        <textarea placeholder="메세지를 입력하세요..." disabled id="input-field"></textarea>
+		    </div>
+	 	</div>
+	 	</div>
+	</div>
 
 </html>

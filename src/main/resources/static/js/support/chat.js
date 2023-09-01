@@ -33,7 +33,9 @@ $(function() {
 			
 			appendMessagTag("left", "관리자", "관리자와 상담이 시작되었습니다.");
 		} else if (data.cmd == "stop") {
-	
+			$("#input-field").prop("disabled", true);
+			
+			appendMessagTag("left", "관리자", "상담이 종료되었습니다.");
 		} else if (data.cmd == "msg") {
 			roomId = data.roomId;
 			let userId = data.userId;
@@ -77,7 +79,10 @@ $(function() {
                 </div>
             </li>
 		`
-		 $('div.chat:not(.format) ul').append(tag);
+		$('div.chat:not(.format) ul').append(tag);
+        
+		// 스크롤바 아래 고정
+        $('div.chat').scrollTop($('div.chat').prop('scrollHeight'));
 	}
 	
 	// 메세지 입력박스 내용 지우기

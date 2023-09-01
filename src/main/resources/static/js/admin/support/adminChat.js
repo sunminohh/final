@@ -29,7 +29,7 @@ $(function(){
 			 waitings.forEach(function(userId) {
 				 let row = `
 				 	<tr>
-				 		<td>${userId}</td>
+				 		<td><span>${userId}</span></td>
 				 	</tr>
 				 `
 				 $tbody.append(row);
@@ -38,12 +38,15 @@ $(function(){
 			 $("#table-waitings").text(waitings.userId);
 		 } else if (data.cmd == "start") {
 			roomId = data.roomId;
-			userId = data.userId;
 			
 			appendMessagTag("left", userId, "["+userId+"]님과 연결되었습니다.");
 			
 		 } else if (data.cmd == "stop") {
+			let userId = data.userId;
+			appendMessagTag("left", userId, "["+userId+"]님과 상담이 종료되었습니다.");
 			
+			roomId = null;
+			userId = null;
 		 } else if (data.cmd == "msg") {
 			roomId = data.roomId;
 			let userId = data.userId;
@@ -57,15 +60,35 @@ $(function(){
 		 }
 	 };
 	 
-    $("#table-waitings tbody").on("click", "td", function() {
+    $("#table-waitings tbody").on("click", "span", function() {
+		
+		userId = $(this).text();
 		
 		let message = {
 			cmd:"start",
-			userId: $(this).text()
+			userId: userId
 		}
 		console.log(message)
 		ws.send(JSON.stringify(message));
+
+		let button = '<a class="float-end text-decoration-none text-danger" data-user-id="${userId}">종료</a>';
+		$(this).after(button);
+
 	})
+	
+	$("#table-waitings tbody").on("click", "a", function(event){
+		event.preventDefault();
+	
+		let message = {
+			cmd:"stop",
+			userId: userId
+		}
+		ws.send(JSON.stringify(message));
+		
+		$(this).closest("td").remove();
+		
+	})
+	
 	
 	$(document).on('keydown', 'div.input-div textarea', function(e){
 		if(e.keyCode == 13 && !e.shiftKey) {
@@ -96,10 +119,10 @@ $(function(){
                 </div>
             </li>
 		`
-		// 스크롤바 아래 고정
-        //$('div.chat').scrollTop($('div.chat').prop('scrollHeight'));
-        
 		$('div.chat:not(.format) ul').append(tag);
+        
+		// 스크롤바 아래 고정
+        $('div.chat').scrollTop($('div.chat').prop('scrollHeight'));
 	}
 	
 	// 메세지 입력박스 내용 지우기
