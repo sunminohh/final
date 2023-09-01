@@ -42,7 +42,7 @@ public class HomeCotroller {
 		
 		
 		NoticeList noticeList = noticeService.search(param);
-		model.addAttribute("noticeList", noticeList);
+		model.addAttribute("noticeResult", noticeList);
 		
 		
 		return "view/support/home";
