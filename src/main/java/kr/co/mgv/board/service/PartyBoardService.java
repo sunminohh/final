@@ -220,10 +220,35 @@ public class PartyBoardService {
 		return partyBoardDao.getAcceptCount(no);
 	}
 	
-	public void partyComplete (int no) {
+	public void partyComplete (int no) throws IOException {
 		PartyBoard board = partyBoardDao.getPBoardByNo(no);
 		board.setComplete("Y");
 		partyBoardDao.updatePBoardByNo(board);
+		
+		String type = "파티";
+		String code = "complete";
+		int boardNo = no;
+		String boardName = board.getName();
+		if (boardName.length() > 8) {
+			boardName =  boardName.substring(0, 8);
+		}
+		
+		List<String> toIds = partyBoardDao.getIdsByAcceptAndComplete(no);
+		for(String toId : toIds) {
+			String text = "["+ type + "]게시판 [" +boardName+ "...]에 " + "파티신청이 수락되었습니다."+boardNo; 
+			noticeWebsocketHandler.sendMessage(toId, text);
+			log.info("text -> {}",text);
+			
+			AddBoardNoticeForm form = AddBoardNoticeForm.builder()
+									  .boardType(type)
+									  .boardNo(boardNo)
+									  .fromId(board.getUser().getId())
+									  .toId(toId)
+									  .code(code)
+									  .boardName(boardName)
+									  .build();
+			boardNoticeDao.insertNotice(form);
+		}
 	}
 	
 	// 신고관련

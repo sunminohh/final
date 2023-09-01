@@ -317,7 +317,7 @@ public class PartyController {
 
 		@PostMapping("/partyComplete")
 		@ResponseBody
-		public ResponseEntity<Void> partyComplete(@RequestParam("no") int no){
+		public ResponseEntity<Void> partyComplete(@RequestParam("no") int no) throws IOException{
 			
 			partyBoardService.partyComplete(no);
 			

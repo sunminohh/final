@@ -77,7 +77,7 @@ $(function () {
 						                	<div id="join-box" class="d-flex justify-content-between">
 							                    <p class="me-1">${notAccept.user.id}</p>
 							                    <button type="button" class="btn btn-sm btn-outline-dark" id="join-btn" style="height: 23px; font-size: 10px">수락</button>
-							                    <input type="hidden" name="partyId" value="${notAccept.user.id}">
+							                    <input type="hidden" id="party-id" name="partyId" value="${notAccept.user.id}">
 							                    <input type="hidden" name="boardNo" value="${no}">
 						                	</div>
 						                `;
@@ -147,7 +147,7 @@ $(function () {
 			                	<div id="join-box" class="d-flex justify-content-between">
 				                    <p class="me-1">${notAccept.user.id}</p>
 				                    <button type="button" class="btn btn-sm btn-outline-dark" id="join-btn" style="height: 23px; font-size: 10px">수락</button>
-				                    <input type="hidden" name="partyId" value="${notAccept.user.id}">
+				                    <input type="hidden" id="party-id" name="partyId" value="${notAccept.user.id}">
 				                    <input type="hidden" name="boardNo" value="${no}">
 			                	</div>
 			                `;
@@ -186,6 +186,7 @@ $(function () {
 	  
 	  $("#party-complete-btn").on('click', function() {
 		  const no = $('input[name=no]').val(); 
+        
 		  Swal.fire({
 	           icon: 'warning',
 	           title: '정말 마감하시겠습니까? ',
