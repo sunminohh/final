@@ -18,13 +18,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.mgv.support.vo.ChatMessage;
 
 public class ChatSocketHandler extends TextWebSocketHandler {
-	// 자바객체 -> json, json -> 자바객체 변환한다.
+	// 자바객체 -> json, json -> 자바객체 변환
 	private ObjectMapper objectMapper = new ObjectMapper();
-	// 관리자 웹소켓세션객체를 저장하는 변수다.
+	// 관리자 웹소켓세션객체를 저장하는 변수
 	private WebSocketSession adminSession;
-	// 사용자 웹소켓세션을 저장하는 변수다 [{userId:'hong', "session": 웹소켓세션}, {userId:'hong', "session": 웹소켓세션}, {userId:'hong', "session": 웹소켓세션},]
+	// 사용자 웹소켓세션을 저장하는 변수[{userId:'sun', "session": 웹소켓세션}, {userId:'ohhgeo', "session": 웹소켓세션}, {userId:'hong', "session": 웹소켓세션},]
 	private List<Map<String, Object>> userSessions = new ArrayList<>();
-	// 현재 상담중인 사용자세션과 관리자세션객체가 저장된다.
+	// 현재 상담중인 사용자세션과 관리자세션객체를 저장
 	private Map<String, Object> room = new HashMap<>();
 	
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -87,22 +87,21 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 	}
 	
 	// 요청
-	//		상담요청 - {cmd:req, userId:hong} 메세지 처리
+	//		상담요청 - {cmd:req, userId:sun} 메세지 처리
 	// 응답
-	//		대기자 명단 - {cmd:wait, waitings:[hong, kim, kang]}
+	//		대기자 명단 - {cmd:wait, waitings:[sun, ohhgeo, hong]}
 	public void reqChat(WebSocketSession session, ChatMessage chatMessage) throws Exception {
 		String userId = chatMessage.getUserId();
 		
 		userSessions.add(Map.of("userId", userId, "session", session));
 
 		broadcast();
-		
 	}
 	
 	// 요청
 	//		관리자 준비 요청 - {cmd:ready}
 	// 응답
-	//		대기자 명단 - {cmd:wait, waitings:[hong, kim, kang]}
+	//		대기자 명단 - {cmd:wait, waitings:[sun, ohhgeo, hong]}
 	public void readyChat(WebSocketSession session, ChatMessage chatMessage) throws Exception {
 		adminSession = session;
 		
@@ -110,7 +109,7 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 	}
 	
 	// 요청
-	//		상담 시작요청 -{cmd:start: userId:hong}
+	//		상담 시작요청 -{cmd:start: userId:sun}
 	// 응답
 	//		채팅방정보 - {cmd:start, roomId:xxxxx}
 	public void startChat(WebSocketSession session, ChatMessage chatMessage) throws Exception {
@@ -131,7 +130,7 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 	}
 	
 	// 요청
-	//		상담종료 - {cmd:stop, roomId:xxxx, userId:hong}
+	//		상담종료 - {cmd:stop, roomId:xxxx, userId:sun}
 	// 응답
 	//		종료된 채팅방정보 - {cmd:stop, roomId:xxx}
 	public void stopChat(WebSocketSession session, ChatMessage chatMessage) throws Exception {
@@ -156,7 +155,7 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 	// 요청
 	//		상담취소 - {cmd:cancel, userId:hong}
 	// 응답
-	//		대기자 명단 - {cmd:wait, waitings:[hong, kim, kang]}
+	//		대기자 명단 - {cmd:wait, waitings:[sun, ohhgeo, hong]}
 	public void cancelReq(WebSocketSession session, ChatMessage chatMessage)  throws Exception {
 		String userId = chatMessage.getUserId();
 		removeUserSession(userId);
@@ -165,7 +164,7 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 	}
 	
 	// 요청
-	//		메세지 전송 요청 - {cmd:msg, userId:hong, roomId:xxx,  text:"xxxxxxxxxxxxx"}
+	//		메세지 전송 요청 - {cmd:msg, userId:sun, roomId:xxx,  text:"xxxxxxxxxxxxx"}
 	// 응답
 	//		메세지 응답 - {cmd:msg, roomId:xxx,  text:"xxxxxxxxxxxxx"}
 	public void message(WebSocketSession session, ChatMessage chatMessage) throws Exception {
@@ -192,7 +191,7 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 	}
 	
 	// 모든 고객들에게 대기자 목록과 자신의 위치를 보내는 메소드
-	// 새고객이 접속할 때, 종료했을 때, 오류가 발생했을 때 모두 대기자 목록에 변화가 생기는 경우임으로 대기자 목록 및 자신의 위치정보를 모든 고객에게 발송한다.
+	// 새고객이 접속할 때, 종료했을 때, 오류가 발생했을 때 모두 대기자 목록에 변화가 생기는 경우임으로 대기자 목록 및 자신의 위치정보를 모든 고객에게 발송
 	private void broadcast() throws Exception {
 		
 		// 대기자 정보를 보내는 메세지 객체 생성
@@ -226,9 +225,7 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 			try {
 				String jsonMessage = new ObjectMapper().writeValueAsString(message);
 				session.sendMessage(new TextMessage(jsonMessage));
-			} catch (Exception ex) {
-			
-			}
+			} catch (Exception ex) {}
 		}
 	}
 
@@ -242,6 +239,7 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 		
 		return null;
 	}
+	
 	private String findUser(WebSocketSession session) {
 		for (Map<String, Object> map : userSessions) {
 			WebSocketSession savedSession = (WebSocketSession) map.get("session");

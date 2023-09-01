@@ -95,7 +95,6 @@ $(function() {
 		ws.send(JSON.stringify(message));
 	}
     
-    
 });
 	
 	

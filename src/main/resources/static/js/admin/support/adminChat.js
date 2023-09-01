@@ -81,7 +81,6 @@ $(function(){
 	        }
         
         }
-
 	})
 	
 	$("#table-waitings tbody").on("click", "a", function(event){
@@ -141,8 +140,6 @@ $(function(){
 	function send(message) {
 		ws.send(JSON.stringify(message));
 	}
-	
-	
 	
 });
 
