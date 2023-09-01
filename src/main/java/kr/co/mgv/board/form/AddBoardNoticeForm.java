@@ -11,15 +11,17 @@ import lombok.Setter;
 public class AddBoardNoticeForm {
 
 	private String boardType;
+	private String boardName;
 	private int boardNo;
 	private String fromId;
 	private String toId;
 	private String code;
 	
 	@Builder
-	public AddBoardNoticeForm(String boardType, int boardNo, String fromId, String toId, String code) {
+	public AddBoardNoticeForm(String boardType, String boardName, int boardNo, String fromId, String toId, String code) {
 		super();
 		this.boardType = boardType;
+		this.boardName = boardName;
 		this.boardNo = boardNo;
 		this.fromId = fromId;
 		this.toId = toId;

@@ -46,6 +46,7 @@
                      <input type="hidden" name="no" th:value="${board.no}" />
                      <input type="hidden" name="id" th:value="${#authentication.principal.id}" />
                      <input type="hidden" name="likeCount" th:value="${board.likeCount}">
+                     <input type="hidden" name="writerId" th:value="${board.user.id}">
                      <button  th:if="${like == null || (like != null && #strings.equals(like.cancel, 'Y'))}" class="btn btn-ligth pe-1" type="button" id="like-button" style="color:red; border-color: white; font-size:16px" data-button-type="plus">♡</button>
                      <button  th:if="${like != null && #strings.equals(like.cancel, 'N')}" class="btn btn-ligth pe-1" type="button" id="like-button" style="color:red; border-color: white; font-size:16px"  data-button-type="minus">♥</button>
                      <p class="mt-3 pt-1" th:text="${board.likeCount}"></p>
@@ -108,6 +109,7 @@
             <form id="form-comment" method="post" th:action="@{/board/movie/addComment}" >
                <input type="hidden" name="no" th:value="${board.no}" />
                <input type="hidden" name="id" th:value="${#authentication.principal.id}" />
+               <input type="hidden" name="writerId" th:value="${board.user.id}">
                 <div class="row">
                   <div id="content-box">
                      <textarea rows="2" class="comment_inbox_text" name="content" style="border: none; overflow: hidden; overflow-wrap: break-word; " 
@@ -152,8 +154,9 @@
                            </a>
                         </div>
                         <div class="ps-5">
-                           <p><strong th:text="${comment.user.id}" >작성자아이디</strong></p>
+                           <p><strong th:text="${comment.user.id}" id="greatCommentId">작성자아이디</strong></p>
                            <input type="hidden" name="greatCommentNo" th:value="${comment.no}" />
+                           <input type="hidden" name="greatCommentId" th:value="${comment.user.id}" />
                         </div>
                      </div>
                      <div class="commentUserInfo ps-5" >

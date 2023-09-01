@@ -14,6 +14,7 @@ public class BoardNotice {
 
 	private int no;
 	private String boardType;
+	private String boardName;
 	private int boardNo;
 	private String fromId;
 	private String toId;
@@ -21,11 +22,12 @@ public class BoardNotice {
 	private Date createDate;
 	private String checked;
 	@Builder
-	public BoardNotice(int no, String boardType, int boardNo, String fromId, String toId, String code, Date createDate,
+	public BoardNotice(int no, String boardType, String boardName, int boardNo, String fromId, String toId, String code, Date createDate,
 			String checked) {
 		super();
 		this.no = no;
 		this.boardType = boardType;
+		this.boardName = boardName;
 		this.boardNo = boardNo;
 		this.fromId = fromId;
 		this.toId = toId;
