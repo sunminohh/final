@@ -84,11 +84,7 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 	public void readyChat(WebSocketSession session, ChatMessage chatMessage) throws Exception {
 		adminSession = session;
 		
-		ChatMessage responseMessage = new ChatMessage();
-		responseMessage.setCmd("wait");
-		responseMessage.setWaitings(watingList());
-		
-		sendMessage(adminSession, responseMessage);
+		broadcast();
 	}
 	
 	// 요청
@@ -123,6 +119,7 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 		ChatMessage responseMessage = new ChatMessage();
 		responseMessage.setCmd("stop");
 		responseMessage.setRoomId(roomId);
+		responseMessage.setUserId(userId);
 		
 		WebSocketSession userSession = findUserSession(userId);
 		
@@ -130,6 +127,8 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 		sendMessage(userSession, responseMessage);
 		
 		room = null;
+		removeUserSession(userId);
+		broadcast();
 	}
 	
 	// 요청

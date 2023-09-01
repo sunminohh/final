@@ -48,6 +48,7 @@ $(function() {
 
        		let commentNo = $(this).attr("data-comment-no");
 			const writerId = $("input[name=writerId]").val();
+			const greatCommentId = $(this).closest(".great-box").find("#greatCommentId").text();
 
 	        // 이미 답글 작성 폼이 열려있는지 확인하고, 열려있으면 닫기
 	        if ($("#reply-form-" + commentNo).length > 0) {
@@ -66,6 +67,8 @@ $(function() {
 	                        <input type="hidden" name="greatNo" value="${commentNo}" />
 							<input type="hidden" name="id" value=${loginId} />
 							<input type="hidden" name="writerId" value=${writerId} />
+							<input type="hidden" name="greatCommentId" value=${greatCommentId} />
+							
 	                        <div class="row">
 	                            <div id="new-content-div">
 	                                <textarea rows="2" class="comment_inbox_text" name="content" id="content"
@@ -156,8 +159,9 @@ $(function() {
                                           </a>
                                        </div>
                                        <div class="ps-5">
-                                          <p><strong>${comment.user.id}</strong></p>
+                                          <p><strong id="greatCommentId">${comment.user.id}</strong></p>
                                           <input type="hidden" name="greatCommentNo" value="${comment.no}" />
+                                          <input type="hidden" name="greatCommentId" value="${comment.user.id}" />
                                        </div>
                                     </div>
                                     <div class="commentUserInfo ps-5" >
@@ -314,7 +318,7 @@ $(function() {
                                           </a>
                                        </div>
                                        <div class="ps-5">
-                                          <p><strong>${comment.user.id}</strong></p>
+                                          <p><strong id="greatCommentId">${comment.user.id}</strong></p>
                                           <input type="hidden" name="greatCommentNo" value="${comment.no}" />
                                        </div>
                                     </div>
