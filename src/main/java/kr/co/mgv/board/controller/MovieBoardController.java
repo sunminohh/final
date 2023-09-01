@@ -147,6 +147,7 @@ public class MovieBoardController {
         return "view/board/movie/detail";
     }
     
+    // 좋아요 관련
     @PostMapping("/changelike")
     @ResponseBody
     public ResponseEntity<Void> addLike(@RequestParam("no") int no,

@@ -170,7 +170,8 @@ public class StoreBoardController {
 	@ResponseBody
 	public ResponseEntity<Void> addLike(@RequestParam("no") int no,
 										@RequestParam("id") String id,
-										@RequestParam("likeCount") int likeCount){
+										@RequestParam("likeCount") int likeCount,
+										@RequestParam("writerId") String writerId) throws IOException{
 		
 		SBoardLike like = new SBoardLike();
     	User user = User.builder()
@@ -185,10 +186,10 @@ public class StoreBoardController {
 		
 	 	if (savedLike != null && "Y".equals(savedLike.getCancel())) {
     		savedLike.setCancel("N");
-    		storeBoardService.updateSboardLike(savedLike);
+    		storeBoardService.updateSboardLike(savedLike, writerId);
     	} else if(savedLike != null && "N".equals(savedLike.getCancel())) {
     		savedLike.setCancel("Y");
-    		storeBoardService.updateSboardLike(savedLike);
+    		storeBoardService.updateSboardLike(savedLike, writerId);
     	} else if(savedLike == null) {
     		storeBoardService.insertBoardLike(like);
     	}
