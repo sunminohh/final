@@ -416,8 +416,6 @@ $(function() {
                      $('#ajax-comment-count').text(commentCountUpdate);
                      $('#ajax-comment-count-2').text(commentCountUpdate);
                      
-                 	 let newCommentElement = $("#all-comment-box").children().last();
-					 window.scrollTo(0, newCommentElement.offset().top - 100); // 댓글 요소로 바로 이동 (100은 여유 공간 조절)
                  }
                  
              });

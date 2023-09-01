@@ -2,10 +2,42 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.mgv.board.mapper.BoardNoticeDao">
 <!-- CRUD -->
-<insert id="insertNotice" parameterType="kr.co.mgv.board.form.AddBoardNoticeForm">
-	INSERT INTO MGV_BOARD_NOTICE
-	(BOARD_TYPE, BOARD_NO, FROM_ID, TO_ID, NOTICE_CODE )
-	VALUES(#{boardType}, #{boardNo}, #{fromId}, #{toId}, #{code})
-</insert>
+	<insert id="insertNotice" parameterType="kr.co.mgv.board.form.AddBoardNoticeForm">
+		INSERT INTO MGV_BOARD_NOTICE
+		(BOARD_TYPE, BOARD_NO, FROM_ID, TO_ID, NOTICE_CODE, BOARD_NAME )
+		VALUES(#{boardType}, #{boardNo}, #{fromId}, #{toId}, #{code}, #{boardName})
+	</insert>
 
+	<select id="getNoticesByToId" parameterType="string" resultType="kr.co.mgv.board.vo.BoardNotice">
+		SELECT 
+		    NOTICE_NO				as no, 
+		    BOARD_TYPE				as boardType, 
+		    BOARD_NAME				as boardName, 
+		    BOARD_NO				as boardNo, 
+		    FROM_ID					as fromId, 
+		    TO_ID					as toId, 
+		    NOTICE_CODE				as code, 
+		    NOTICE_CREATE_DATE		as createDate, 
+		    NOTICE_CHECKED			as checked
+		FROM MGV_BOARD_NOTICE
+		WHERE to_id = #{value}
+		    AND NOTICE_CREATE_DATE >= DATE_SUB(NOW(), INTERVAL 30 DAY)
+		ORDER BY NOTICE_CREATE_DATE DESC;
+	</select>
+	
+	<select id="getTotalNotice" parameterType="string" resultType="int">
+		select count(*)
+		from MGV_BOARD_NOTICE
+		WHERE to_id = #{value}
+		AND NOTICE_CREATE_DATE >= DATE_SUB(NOW(), INTERVAL 30 DAY)
+	</select>
+	<select id="getNoticeNo" resultType="int">
+		select 
+			notice_no		as no
+		from 
+			MGV_BOARD_NOTICE
+		ORDER BY 
+		    notice_no DESC
+		LIMIT 1;
+	</select>
 </mapper>
