@@ -34,13 +34,35 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		System.out.println("웹소켓 연결이 종료됨..............");
-		removeSession(session);
+		String userId = findUser(session);
+		
+		if (!"admin".equals(userId)) {
+			removeSession(session);
+			broadcast();
+			
+			ChatMessage responseMessage = new ChatMessage();
+			responseMessage.setCmd("exit");
+			responseMessage.setUserId(userId);
+			
+			sendMessage(adminSession, responseMessage);			
+		} 
 	}
 	
 	@Override
 	public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
 		System.out.println("웹소켓 데이터 전송 중 오류가 발생함.............");
-		removeSession(session);
+		String userId = findUser(session);
+		
+		if (!"admin".equals(userId)) {
+			removeSession(session);
+			broadcast();
+			
+			ChatMessage responseMessage = new ChatMessage();
+			responseMessage.setCmd("exit");
+			responseMessage.setUserId(userId);
+			
+			sendMessage(adminSession, responseMessage);			
+		} 
 	}
 	
 	protected void handleTextMessage(WebSocketSession session, TextMessage  message) throws Exception {
@@ -205,7 +227,7 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 				String jsonMessage = new ObjectMapper().writeValueAsString(message);
 				session.sendMessage(new TextMessage(jsonMessage));
 			} catch (Exception ex) {
-				removeSession(session);
+			
 			}
 		}
 	}
@@ -215,6 +237,17 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 			String savedId = (String) map.get("userId");
 			if (savedId.equals(userId)) {
 				return (WebSocketSession) map.get("session");
+			}
+		}
+		
+		return null;
+	}
+	private String findUser(WebSocketSession session) {
+		for (Map<String, Object> map : userSessions) {
+			WebSocketSession savedSession = (WebSocketSession) map.get("session");
+			String savedId = (String) map.get("userId");
+			if (savedSession == session) {
+				return savedId;
 			}
 		}
 		
@@ -246,7 +279,6 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 				iterator.remove();
 			}			
 		}
-		broadcast();
 		
 	}
 }
