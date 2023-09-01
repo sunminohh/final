@@ -86,140 +86,94 @@
 	</div>
 	<hr>
 	
+	<!--
+	<div class="notice-wrap row">
+		<div class="block-left col-6">
+			<div class="tit-area">
+				<h3 class="tit small">자주 묻는 질문 BEST5</h3>
+				<a th:href="@{/support/faq}" class ="more">
+				더보기 
+				<i class="iconset ico-arr-right-gray m107"></i>
+				</a>
+			</div>
+			<div>
+				<ol class="decimal-list" th:each="faq, iterStat : ${result.faqList}">
+					<li th:if="${iterStat.index < 5}">
+						<a th:href="@{/support/faq}" class="faqBtn" th:if="${iterStat.index < 5}">
+							<span class="font-roboto" th:text="${faq.orderNo}">&nbsp;</span>
+							<span class="font-gblue" th:text="${faq.category.name}"></span>
+							<span class="date" th:text="${#dates.format(faq.updateDate, 'yyyy.MM.dd')}"></span>
+							
+							<span th:text="${faq.title}" class="d-inline-block text-truncate" 
+								style="max-width: 190px;">
+							</span>
+						</a>
+					</li>
+				</ol>
+			</div>
+		</div>
+		
+		<div class="block-right col-6">
+			<div class="tit-area">
+				<h3 class="tit small">공지사항</h3>
+				<a th:href="@{/support/notice}" class ="more">
+				더보기 
+				<i class="iconset ico-arr-right-gray m107"></i>
+				</a>
+			</div>
+		</div>
+	</div>
+	-->
+	
 	<div class="row mt-4">
 		<div class="col-6 mb-4">
 			<div>
 			<p class="float-start" style="font-size:18px;">자주 묻는 질문 BEST5</p>
-			<a th:href="@{/support/faq}" class ="float-end mt-2 text-black text-decoration-none" style="font-size:14px;">더보기 <img th:src="@{/images/support/next.png}" width="11" height="11"></a>
+			<a th:href="@{/support/faq}" class ="float-end mt-2 text-black text-decoration-none" style="font-size:14px;">더보기 <i class="iconset ico-arr-right-gray m107"></i></a>
 			</div>
 			
-			<table class="table table-borderless  border-bottom">
-				<tbody style="font-size:14px;">
-					<tr class="border-top  border-dark">
-						<td>1</td>
-						<td>[기프트카드]</td>
+			<table class="table table-borderless border-top  border-dark">
+				<tbody style="font-size:14px;" th:each="faq, iterStat : ${faqResult.faqList}">
+					<tr th:if="${iterStat.index < 5}" style="cursor: pointer;">
+						<td th:text="${faq.orderNo}"></td>
+						<td class="font-green" th:text="${faq.category.name}"></td>
 						<td>
-						<span class="d-inline-block text-truncate" style="max-width: 190px;">
-							기프트카드를 보냈는데 상대방이	받지 못한다고 합니다.								
-						</span>
+							<a th:text="${faq.title}" class="d-inline-block text-truncate" 
+								th:href="@{/support/faq}"
+								style="max-width: 190px;">
+							</a>
 						</td>
-						<td>2023.07.12</td>
+						<td th:text="${#dates.format(faq.updateDate, 'yyyy.MM.dd')}"></td>
 					</tr>
-					<tr>
-						<td>2</td>
-						<td>[기프트카드]</td>
-						<td>
-						<span class="d-inline-block text-truncate" style="max-width: 190px;">
-							선물은 어떤 경로로 보낼 수 있나요?						
-						</span>
-						</td>
-						<td>2023.07.12</td>
-					</tr>
-					<tr>
-						<td>3</td>
-						<td>[기프트카드]</td>
-						<td>
-						<span class="d-inline-block text-truncate" style="max-width: 190px;">
-							신용카드의 구매 한도는 얼마이며, 법인카드로 결제가 가능한가요?								
-						</span>
-						</td>
-						<td>2023.07.12</td>
-					</tr>
-					<tr>
-						<td>4</td>
-						<td>[기프트카드]</td>
-						<td>
-						<span class="d-inline-block text-truncate" style="max-width: 190px;">
-							여러 명에게 선물한 후 부분적으로 취소가 가능한가요?						
-						</span>
-						</td>
-						<td>2023.07.12</td>
-					</tr>
-					<tr class="">
-						<td>5</td>
-						<td>[기프트카드]</td>
-						<td>
-						<span class="d-inline-block text-truncate" style="max-width: 190px;">
-							예약 전송을 할 수 있나요?								
-						</span>
-						</td>
-						<td>2023.07.12</td>
-					</tr>
-				
 				</tbody>
 			</table>
+			<hr style="margin-top:-15px;">
 		</div>
+		
 		<div class="col-6 mb-4">
 			<div>
 				<p class="float-start" style="font-size:18px;">공지사항</p>
-				<a th:href="@{/support/notice}" class ="float-end mt-2 text-black text-decoration-none" style="font-size:14px;">더보기 <img th:src="@{/images/support/next.png}" width="11" height="11"></a>
+				<a class ="float-end mt-2 text-black text-decoration-none" style="font-size:14px;">더보기 <i class="iconset ico-arr-right-gray m107"></i></a>
 			</div>
-			<table class="table table-borderless border-bottom">
-				<tbody style="font-size:14px;">
-					<tr class="border-top  border-dark">
+			<table class="table table-borderless border-top  border-dark">
+			 
+				<!-- <tbody style="font-size:14px;" th:each="notice, iterStat : ${noticeResult.noticeList}">
+					<tr th:if="${iterStat.index < 5}" style="cursor: pointer;">
+						<td><img th:src="@{/images/support/notice.png}" width="15" height="15"></td>
+						<td th:text="${notice.type == '공지' ? '공지' : '이벤트'}"></td>
 						<td>
-							<img th:src="@{/images/support/notice.png}" width="15" height="15">
+							<a th:text="${notice.title}" class="d-inline-block text-truncate" 
+								th:href="@{/support/notice}"
+								style="max-width: 190px;">
+							</a>
 						</td>
-						<td>[공지]</td>
-						<td>
-							<span class="d-inline-block text-truncate" style="max-width: 190px;">
-								메가박스 이용 약관 변경 안내								
-							</span>
-						</td>
-						<td>2023.07.12</td>
+						<td th:text="${#dates.format(notice.updateDate, 'yyyy.MM.dd')}"></td>
 					</tr>
-					<tr>
-						<td>
-							<img th:src="@{/images/support/location.png}" width="15" height="15">
-						</td>
-						<td>[원주]</td>
-						<td>
-							<span class="d-inline-block text-truncate" style="max-width: 190px;">
-								[원주] 운영시간 변경 공지 (7/12부터~)						
-							</span>
-						</td>
-						<td>2023.07.12</td>
-					</tr>
-					<tr>
-						<td>
-							<img th:src="@{/images/support/location.png}" width="15" height="15">
-						</td>
-						<td>[분당]</td>
-						<td>
-							<span class="d-inline-block text-truncate" style="max-width: 190px;">
-								[분당] "현금없는 극장" 운영 안내				
-							</span>
-						</td>
-						<td>2023.07.12</td>
-					</tr>
-					<tr>
-						<td>
-							<img th:src="@{/images/support/notice.png}" width="15" height="15">
-						</td>
-						<td>[공지]</td>
-						<td>
-							<span class="d-inline-block text-truncate" style="max-width: 190px;">
-								[OK캐쉬백] 시스템 (On/Off-Line) 정기 예방 점검 안내 (7/13)		
-							</span>
-						</td>
-						<td>2023.07.12</td>
-					</tr>
-					<tr>
-						<td>
-							<img th:src="@{/images/support/location.png}" width="15" height="15">
-						</td>
-						<td>[코엑스]</td>
-						<td>
-							<span class="d-inline-block text-truncate" style="max-width: 190px;">
-								 [코엑스]시사회 진행에 따른 고객 안내 (7월 13일)
-							</span>
-						</td>
-						<td>2023.07.12</td>
-					</tr>
-				</tbody>
+				</tbody> -->
+			
 			</table>
 		</div>
-		</div>
+	</div>
 		
 		<div class="row mt-4">
 			<div class="col-12">
@@ -253,12 +207,3 @@
 	
 </script>
 </th:block>
-
-
-
-
-
-
-
-
-
