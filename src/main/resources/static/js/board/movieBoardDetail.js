@@ -320,6 +320,7 @@ $(function() {
                                        <div class="ps-5">
                                           <p><strong id="greatCommentId">${comment.user.id}</strong></p>
                                           <input type="hidden" name="greatCommentNo" value="${comment.no}" />
+                                          <input type="hidden" name="greatCommentId" value="${comment.user.id}" />
                                        </div>
                                     </div>
                                     <div class="commentUserInfo ps-5" >
