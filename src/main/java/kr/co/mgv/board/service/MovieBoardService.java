@@ -87,7 +87,28 @@ public class MovieBoardService {
 		return movieBoardDao.getLikeByBnoAndId(like);
 	}
 	
-	public void updateMBoardLike (MBoardLike like) {
+	public void updateMBoardLike (MBoardLike like ,String writerId) throws IOException {
+		
+		MBoardLike savedLike = movieBoardDao.getLikeByBnoAndId(like);
+
+		String fromId = like.getUser().getId();
+		String type = "영화";
+		int boardNo = like.getBoard().getNo();
+		MovieBoard board = movieBoardDao.getMBoardByNo(boardNo);
+		String BoardName = board.getName();
+		
+    	if(savedLike != null && "Y".equals(savedLike.getCancel()) && !writerId.equals(fromId)) {
+    		String text = "["+ type + "]게시판 [" +BoardName+ "...]에 " + fromId + "님이 게시글을 좋아합니다."+boardNo; 
+			noticeWebsocketHandler.sendMessage(writerId, text);
+			log.info("text -> {}",text);
+    	} 
+    	
+    	if(savedLike == null && !writerId.equals(fromId)) {
+    		String text = "["+ type + "]게시판 [" +BoardName+ "...]에 " + fromId + "님이 게시글을 좋아합니다."+boardNo; 
+			noticeWebsocketHandler.sendMessage(writerId, text);
+			log.info("text -> {}",text);
+    	}
+		
 		movieBoardDao.updateLike(like);
 	}
 	
@@ -113,11 +134,34 @@ public class MovieBoardService {
 			boardName =  boardName.substring(0, 8);
 		}
 		String fromId = comment.getUser().getId();
-		if(comment.getUser().getId() != writerId && comment.getGreat() == null) {
+		// 댓글 달렸을때, 댓글작성자 -> 게시물 작성자
+		if(!fromId.equals(writerId) && comment.getGreat() == null) {
+			log.info("게시글작성자-> {}",writerId);
+			log.info("현댓글작성자-> {}",fromId);
 			String text = "["+ type + "]게시판 [" +boardName+ "...]에 " + fromId + "님이 댓글을 달았습니다."+boardNo; 
 			noticeWebsocketHandler.sendMessage(writerId, text);
 			log.info("text -> {}",text);
 		}
+		
+		// 대댓글 달렸을때, 대댓글 작성자 -> 댓글 작성자
+		if(comment.getGreat() != null && ! comment.getGreat().getUser().getId().equals(fromId)) {
+				log.info("게시글 작성자-> {}",writerId);
+				log.info("현댓글 작성자-> {}",fromId);
+				log.info("모댓글 작성자 -> {}",comment.getGreat().getUser().getId());
+				String text = "["+ type + "]게시판 [" +boardName+ "...]에 " + fromId + "님이 대댓글을 달았습니다."+boardNo; 
+				noticeWebsocketHandler.sendMessage(comment.getGreat().getUser().getId(), text);
+				log.info("text -> {}",text);
+		}
+		
+		// 내 게시글의 다른 사용자의 댓글에 내가 아닌 사용자가 대댓글을 달았다
+		if(comment.getGreat() != null &&  comment.getGreat().getUser().getId().equals(fromId)) {
+			log.info("게시글 작성자-> {}",writerId);
+			log.info("현댓글 작성자-> {}",fromId);
+			log.info("모댓글 작성자 -> {}",comment.getGreat().getUser().getId());
+			String text = "["+ type + "]게시판 [" +boardName+ "...]에 " + fromId + "님이 댓글을 달았습니다."+boardNo; 
+			noticeWebsocketHandler.sendMessage(writerId, text);
+			log.info("text -> {}",text);
+	}
 	}
 	
 	public List<MBoardComment> getComments(int no) {
