@@ -35,27 +35,6 @@ $(function() {
           });
       });
 
-/*
-   신청버튼 관련 코드
-*/   
-      let joinButtonClicked = false;
-      $("#join-button").click(function(event) {
-         event.preventDefault();
-         if (!joinButtonClicked) {
-            $(this).removeClass("btn-outline-secondary").addClass("btn-secondary")
-                  .text("취소하기");
-            joinButtonClicked = true;
-         } else {
-            $(this).removeClass("btn-secondary").addClass("btn-outline-secondary")
-                  .text("신청하기");
-            joinButtonClicked = false;
-         }
-      });
-
-
-
-
-
 // 댓글 관련 코드
 
    	    // 답글 작성 버튼을 클릭하면
@@ -63,6 +42,8 @@ $(function() {
 	        event.preventDefault();
 
        		let commentNo = $(this).attr("data-comment-no");
+       		const writerId = $("input[name=writerId]").val();
+			const greatCommentId = $(this).closest(".great-box").find("#greatCommentId").text();
 
 	        // 이미 답글 작성 폼이 열려있는지 확인하고, 열려있으면 닫기
 	        if ($("#reply-form-" + commentNo).length > 0) {
@@ -81,6 +62,8 @@ $(function() {
 	                        <input type="hidden" name="parentNo" value="${commentNo}" />
 	                        <input type="hidden" name="greatNo" value="${commentNo}" />
 							<input type="hidden" name="id" value=${loginId} />
+							<input type="hidden" name="writerId" value=${writerId} />
+							<input type="hidden" name="greatCommentId" value=${greatCommentId} />
 	                        <div class="row">
 	                            <div id="new-content-div">
 	                                <textarea rows="2" class="comment_inbox_text" name="content" id="content"
@@ -171,7 +154,7 @@ $(function() {
                                           </a>
                                        </div>
                                        <div class="ps-5">
-                                          <p><strong>${comment.user.id}</strong></p>
+                                          <p><strong id="greatCommentId">${comment.user.id}</strong></p>
                                           <input type="hidden" name="greatCommentNo" value="${comment.no}" />
                                        </div>
                                     </div>
@@ -329,7 +312,7 @@ $(function() {
                                           </a>
                                        </div>
                                        <div class="ps-5">
-                                          <p><strong>${comment.user.id}</strong></p>
+                                          <p><strong id="greatCommentId">${comment.user.id}</strong></p>
                                           <input type="hidden" name="greatCommentNo" value="${comment.no}" />
                                        </div>
                                     </div>

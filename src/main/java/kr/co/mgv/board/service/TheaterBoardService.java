@@ -1,22 +1,27 @@
 package kr.co.mgv.board.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
 import kr.co.mgv.board.BoardPagination;
+import kr.co.mgv.board.form.AddBoardNoticeForm;
 import kr.co.mgv.board.form.AddTboardForm;
 import kr.co.mgv.board.form.ReportForm;
 import kr.co.mgv.board.list.TheaterBoardList;
+import kr.co.mgv.board.mapper.BoardNoticeDao;
 import kr.co.mgv.board.mapper.TheaterBoardDao;
 import kr.co.mgv.board.vo.BoardLocation;
 import kr.co.mgv.board.vo.BoardTheater;
+import kr.co.mgv.board.vo.MovieBoard;
 import kr.co.mgv.board.vo.ReportReason;
 import kr.co.mgv.board.vo.TBoardComment;
 import kr.co.mgv.board.vo.TBoardLike;
 import kr.co.mgv.board.vo.TboardReport;
 import kr.co.mgv.board.vo.TheaterBoard;
+import kr.co.mgv.board.websocket.handler.NoticeWebsocketHandler;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 
@@ -25,6 +30,8 @@ import lombok.RequiredArgsConstructor;
 public class TheaterBoardService {
 	
 	private final TheaterBoardDao theaterBoardDao;
+	private final NoticeWebsocketHandler noticeWebsocketHandler;
+	private final BoardNoticeDao boardNoticeDao;
 	
 	public TheaterBoardList getTBoards(Map<String, Object> param) {
 		
@@ -99,7 +106,46 @@ public class TheaterBoardService {
 		return theaterBoardDao.getLikeByBnoAndId(like);
 	}
 	
-	public void updateTboardLike(TBoardLike like) {
+	public void updateTboardLike(TBoardLike like, String writerId) throws IOException {
+		
+		TBoardLike savedLike = theaterBoardDao.getLikeByBnoAndId(like);
+		String fromId = like.getUser().getId();
+		String type = "극장";
+		int boardNo = like.getBoard().getNo();
+		TheaterBoard board = theaterBoardDao.getTBoardByNo(boardNo);
+		String BoardName = board.getName();
+		if (BoardName.length() > 8) {
+			BoardName =  BoardName.substring(0, 8);
+		}
+		
+    	if(savedLike != null && "Y".equals(savedLike.getCancel()) && !writerId.equals(fromId)) {
+    		String text = "["+ type + "]게시판 [" +BoardName+ "...]에 " + fromId + "님이 게시글을 좋아합니다."+boardNo; 
+			noticeWebsocketHandler.sendMessage(writerId, text);
+			AddBoardNoticeForm form = AddBoardNoticeForm.builder()
+					  .boardType(type)
+					  .boardNo(boardNo)
+					  .fromId(fromId)
+					  .toId(writerId)
+					  .code("like")
+					  .boardName(BoardName)
+					  .build();
+			boardNoticeDao.insertNotice(form);
+    	} 
+    	
+    	if(savedLike == null && !writerId.equals(fromId)) {
+    		String text = "["+ type + "]게시판 [" +BoardName+ "...]에 " + fromId + "님이 게시글을 좋아합니다."+boardNo; 
+			noticeWebsocketHandler.sendMessage(writerId, text);
+			AddBoardNoticeForm form = AddBoardNoticeForm.builder()
+					  .boardType(type)
+					  .boardNo(boardNo)
+					  .fromId(fromId)
+					  .toId(writerId)
+					  .code("like")
+					  .boardName(BoardName)
+					  .build();
+			boardNoticeDao.insertNotice(form);
+    	}
+		
 		theaterBoardDao.updateLike(like);
 	}
 	
@@ -111,8 +157,65 @@ public class TheaterBoardService {
 		theaterBoardDao.updateTBoardByNo(board);
 	}
 	
-	public void TBoardCommentInsert(TBoardComment comment) {
+	public void TBoardCommentInsert(TBoardComment comment, String writerId) throws IOException {
 		theaterBoardDao.insertTBoardComment(comment);
+		
+		String type = "극장";
+		String code = "comment";
+		int boardNo = comment.getBoard().getNo();
+		String boardName = comment.getBoard().getName();
+		if (boardName.length() > 8) {
+			boardName =  boardName.substring(0, 8);
+		}
+		String fromId = comment.getUser().getId();
+		// 댓글 달렸을때, 댓글작성자 -> 게시물 작성자
+		if(!fromId.equals(writerId) && comment.getGreat() == null) {
+			String text = "["+ type + "]게시판 [" +boardName+ "...]에 " + fromId + "님이 댓글을 달았습니다."+boardNo; 
+			noticeWebsocketHandler.sendMessage(writerId, text);
+			
+			AddBoardNoticeForm form = AddBoardNoticeForm.builder()
+									  .boardType(type)
+									  .boardNo(boardNo)
+									  .fromId(fromId)
+									  .toId(writerId)
+									  .code("comment")
+									  .boardName(boardName)
+									  .build();
+			boardNoticeDao.insertNotice(form);
+		}
+		
+		// 대댓글 달렸을때, 대댓글 작성자 -> 댓글 작성자
+		if(comment.getGreat() != null && ! comment.getGreat().getUser().getId().equals(fromId)) {
+				String text = "["+ type + "]게시판 [" +boardName+ "...]에 " + fromId + "님이 대댓글을 달았습니다."+boardNo; 
+				noticeWebsocketHandler.sendMessage(comment.getGreat().getUser().getId(), text);
+				
+				AddBoardNoticeForm form = AddBoardNoticeForm.builder()
+						  .boardType(type)
+						  .boardNo(boardNo)
+						  .fromId(fromId)
+						  .toId(comment.getGreat().getUser().getId())
+						  .code("reComment")
+						  .boardName(boardName)
+						  .build();
+				boardNoticeDao.insertNotice(form);
+		}
+		
+		// 내 게시글의 다른 사용자의 댓글에 내가 아닌 사용자가 대댓글을 달았다
+		if(comment.getGreat() != null && !writerId.equals(fromId) ) {
+			String text = "["+ type + "]게시판 [" +boardName+ "...]에 " + fromId + "님이 댓글을 달았습니다."+boardNo; 
+			noticeWebsocketHandler.sendMessage(writerId, text);
+			
+			AddBoardNoticeForm form = AddBoardNoticeForm.builder()
+					  .boardType(type)
+					  .boardNo(boardNo)
+					  .fromId(fromId)
+					  .toId(writerId)
+					  .code("comment")
+					  .boardName(boardName)
+					  .build();
+			boardNoticeDao.insertNotice(form);
+		}		
+		
 	}
 	
 	public List<TBoardComment> getComments(int no) {
