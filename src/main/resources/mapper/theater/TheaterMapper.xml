@@ -149,6 +149,19 @@
 		values (#{theaterNo}, #{info}, #{confirm}, #{cash})
 	</insert>
 
+	<insert id="insertScreen" parameterType="Screen" useGeneratedKeys="true" keyProperty="id">
+		insert into MGV_THEATER_SCREEN (screen_name, theater_no, screen_seats, screen_row, screen_col)
+		values (#{name}, #{theater.no}, #{seats}, #{row}, #{col})
+	</insert>
+	
+	<insert id="insertDisabledSeat" parameterType="map">
+		insert into MGV_SCREEN_DISABLED_SEATS (SCREEN_ID,SEAT_NO)
+		values
+			<foreach collection="disabledSeats" item="item" index="index" separator=",">
+				(#{screenId},#{item})
+			</foreach>
+	</insert>
+	
 	<insert id="insertDisabledSeats" parameterType="map">
 		insert into MGV_SCREEN_DISABLED_SEATS (SCREEN_ID,SEAT_NO)
 		values

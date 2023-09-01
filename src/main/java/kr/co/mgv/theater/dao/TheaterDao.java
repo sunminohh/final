@@ -26,11 +26,14 @@ public interface TheaterDao {
 	void deleteFloorInfo(int no);
 	
 	void insertParkingInfo(ParkingInfo parkingInfo);
+	void deleteParkingInfo(int no);
 
 	void insertDisabledSeats(Map<String,Object> params);
 
 	List<String> getDisabledSeatsByScreenId(int screenId);
-	void deleteParkingInfo(int no);
 
 	void deleteDisabledSeatsByScreenId(int screenId);
+	void insertDisabledSeat(Map<String, Object> map);
+	
+	void insertScreen(Screen screen);
 }

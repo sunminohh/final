@@ -11574,7 +11574,7 @@ body.no-scroll .tab-list.fixed {
     background-image: url(https://img.megabox.co.kr/static/pc/images/common/bg/bg-seat-condition-impossible.png)!important
 }
 
-.btn-seat-row {
+button.btn-seat-row {
     overflow: hidden;
     display: inline-block;
     width: 16px;

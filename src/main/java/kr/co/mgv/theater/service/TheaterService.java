@@ -1,5 +1,6 @@
 package kr.co.mgv.theater.service;
 
+import java.awt.print.Printable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -10,9 +11,11 @@ import org.springframework.stereotype.Service;
 import kr.co.mgv.favoritetheater.dao.FavoriteTheaterDao;
 import kr.co.mgv.favoritetheater.vo.FavoriteTheater;
 import kr.co.mgv.theater.dao.TheaterDao;
+import kr.co.mgv.theater.dto.ScreenDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class TheaterService {
@@ -126,5 +129,24 @@ public class TheaterService {
 
 	public void deleteDisabledSeatsByScreenId(int screenId){
 		theaterDao.deleteDisabledSeatsByScreenId(screenId);
+	}
+
+	public void registScreen(ScreenDto screenDto) {
+		Screen screen =screenDto.getScreen();
+		theaterDao.insertScreen(screen);
+		log.info("dto->{}",screenDto.toString());
+		List<String> seatList = theaterDao.getDisabledSeatsByScreenId(screen.getId());
+		if(!seatList.isEmpty()) {
+			theaterDao.deleteDisabledSeatsByScreenId(screen.getId());
+		}
+		Map<String, Object> map = new HashMap<>();
+		map.put("screenId", screen.getId());
+		map.put("disabledSeats", screenDto.getDisabledSeats());
+		log.info("map->{}",map.toString());
+		theaterDao.insertDisabledSeat(map);
+			
+		
+		log.info("screenDto->{}",screenDto);
+		
 	}
 }

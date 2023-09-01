@@ -11,8 +11,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @Alias("Screen")
 public class Screen {
-	private int id;
-	private int seats;
+	private Integer id;
+	private Integer seats;
 	private String name;
 	private Theater theater;
+	private Integer row;
+	private Integer col;
 }

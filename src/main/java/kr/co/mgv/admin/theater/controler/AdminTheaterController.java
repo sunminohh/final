@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.co.mgv.movie.service.MovieService;
 import kr.co.mgv.movie.vo.Movie;
+import kr.co.mgv.theater.dto.ScreenDto;
 import kr.co.mgv.theater.service.TheaterService;
 import kr.co.mgv.theater.vo.Screen;
 import kr.co.mgv.theater.vo.Theater;
@@ -50,6 +51,28 @@ public class AdminTheaterController {
     @GetMapping("/regist")
     public String registForm() {
     	return "view/admin/theater/form/regist";
+    }
+    
+    @GetMapping("/screen/regist")
+    public String registScreenForm() {
+    	return "view/admin/theater/screen/regist";
+    }
+    
+    @PostMapping("/screen/regist")
+    @ResponseBody
+    public Map<String, Object> registScreen(@RequestBody ScreenDto screenDto) {
+    	try {
+    		theaterService.registScreen(screenDto);
+    		return Map.of("status", "success");
+    	}catch (Exception e) {
+    		log.info("error massage->{}",e.getMessage());
+    		return Map.of("status", "fail", "message", "등록 중 오류가 발생하였습니다");
+    	}
+    }
+    
+    @GetMapping("/screen/modify")
+    public String modifyScreenForm() {
+    	return "view/admin/theater/screen/modify";
     }
     
     @GetMapping("/modify")
