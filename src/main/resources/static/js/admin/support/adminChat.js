@@ -62,17 +62,22 @@ $(function(){
 	 
     $("#table-waitings tbody").on("click", "span", function() {
 		
-		userId = $(this).text();
-		
-		let message = {
-			cmd:"start",
-			userId: userId
-		}
-		console.log(message)
-		ws.send(JSON.stringify(message));
-
-		let button = '<a class="float-end text-decoration-none text-danger" data-user-id="${userId}">종료</a>';
-		$(this).after(button);
+		if (!userId) { // userId가 설정되지 않았을 때만 호출
+	        userId = $(this).text();
+			
+			let message = {
+				cmd:"start",
+				userId: userId
+			}
+			console.log(message)
+			ws.send(JSON.stringify(message));
+	
+			if (!$(this).next("a").length) { // 종료 버튼이 없을 때만 추가
+	            let button = '<a class="float-end text-decoration-none text-danger" data-user-id="${userId}">종료</a>';
+	            $(this).after(button);
+	        }
+        
+        }
 
 	})
 	
