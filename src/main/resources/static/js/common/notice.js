@@ -7,17 +7,105 @@ $(function() {
 
     noticeWS.onmessage = function(message) {
         console.log("응답메세지-----------", message.data);
-        let text = message.data;
-        let type = text.match(/\[.*?\]/)[0];
-        let boardNoMatch = text.match(/\[(.*?)\]/);
-        let boardNo = boardNoMatch && boardNoMatch.length > 1 ? boardNoMatch[1] : null;
+        const text = message.data;
+        const type = text.match(/\[.*?\]/)[0];
+        const index = text.lastIndexOf(".");
+        const boardNo = text.substring(index + 1);
+        
+        const startIndex = text.indexOf("[");
+		const endIndex = text.indexOf(".]") + 2;
+		const titleResult = text.substring(startIndex, endIndex);
 
+        const contentStartIndex = text.indexOf("]에")+2;
+		const contentEndIndex = text.lastIndexOf("다.")+1;
+		const contentResult = text.substring(contentStartIndex, contentEndIndex);
+		let totalNotice = parseInt($(".totalCnt").text())+1;
+		
+		
         console.log(type);
         let href;
         if (type === '[영화]' && boardNo) {
-            href = `http://localhost/board/movie?no=${boardNo}`;
+            href = `http://localhost/board/movie/detail?no=${boardNo}`;
         }
-        let content = `<a href="${href}">${text}</a>`;
-        $(".no-list").prepend(content);
+        if (type === '[극장]' && boardNo) {
+            href = `http://localhost/board/theater/detail?no=${boardNo}`;
+        }
+        if (type === '[스토어]' && boardNo) {
+            href = `http://localhost/board/store/detail?no=${boardNo}`;
+        }
+        if (type === '[파티]' && boardNo) {
+            href = `http://localhost/board/party/detail?no=${boardNo}`;
+        }
+        const content = `<a href="${href}" class="float-start fw-semibold" style="color:#01738b;">${titleResult}</a><br/>
+        				 <p class="float-start ms-1">${contentResult}</p>
+        				 <input type="hidden" name="noticeNo" value="${boardNo}">
+        			     <hr class="mt-4"/>`;
+        const noticeIcon = `알림<span class="red-dot"></span>`
+        			     
+        $(".no-list-board").prepend(content);
+        $(".totalCnt").empty().append(totalNotice);
+        $(".notice").empty().append(noticeIcon);
     };
+    
+    $(".notice").click(function() {
+		$(".notice").empty().append('알림');
+		$.ajax({
+		    url: '/notice/getNotices',
+		    method: 'GET',
+		    success: function(result) {
+				let notices = result.notices;
+				let totalNotice = result.totalNotice;
+				let content ="";
+				let codeContent ="";
+				let href = "";
+				
+		        notices.forEach(function(notice){
+					let type = notice.boardType;
+					let code = notice.code;
+					let id = notice.fromId;
+					if(code === 'comment'){
+						codeContent = id+'님이 댓글을 달았습니다.'
+					}
+					if(code === 'reComment'){
+						codeContent = id+'님이 대댓글을 달았습니다.'
+					}
+					if(code === 'like'){
+						codeContent = id+'님이 게시글을 좋아합니다.'
+					}
+					if(code === 'join'){
+						codeContent = id+'님이 파티를 신청하셨습니다.'
+					}
+					if(code === 'complete'){
+						codeContent = '파티신청이 수락되었습니다.'
+					}
+					if (type === '영화') {
+			            href = `http://localhost/board/movie/detail?no=${notice.boardNo}`;
+			        }
+			        if (type === '극장') {
+			            href = `http://localhost/board/theater/detail?no=${notice.boardNo}`;
+			        }
+			        if (type === '스토어') {
+			            href = `http://localhost/board/store/detail?no=${notice.boardNo}`;
+			        }
+			        if (type === '파티') {
+			            href = `http://localhost/board/party/detail?no=${notice.boardNo}`;
+			        }
+				
+					content += `
+						<a href="${href}" class="float-start fw-semibold" style="color:#01738b;">[${type}]게시판 [${notice.boardName}...]</a><br/>
+        				<p class="float-start ms-1">${codeContent}</p>
+        			    <input type="hidden" name="noticeNo" value="${notice.no}">
+        			    <hr class="mt-4"/>
+					`
+				})
+				console.log(notices);
+				
+				$(".totalCnt").empty().append(totalNotice);
+				$(".no-list-board").empty().append(content);
+		    },
+		    error: function(xhr, status, error) {
+		    }
+		});
+	})
+
 });

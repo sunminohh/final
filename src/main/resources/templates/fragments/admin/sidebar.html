@@ -116,7 +116,7 @@
 								1:1 문의</a></li>
 						<li class="sidebar-item"><a class="sidebar-link" th:href="@{/admin/support/lost}" aria-expanded="false">
 								분실물 문의</a></li>
-						<li class="sidebar-item"><a class="sidebar-link" th:href="@{/admin/support/chat}" id="btn-open-chat" aria-expanded="false">
+						<li class="sidebar-item" id="btn-open-chat"><a class="sidebar-link" th:href="@{/admin/support/chat}" id="btn-open-chat" aria-expanded="false">
 								상담톡</a></li>
 					</ul>
 				</li>
@@ -178,4 +178,13 @@
 		<!-- End Sidebar navigation -->
 	</div>
 	<!-- End Sidebar scroll-->
+	
+	 <script type="text/javascript">
+		$("#btn-open-chat").click(function(event) {
+			event.preventDefault();
+			window.open("/admin/support/chat", "chat-window", "width=750,height=650,status=no,toolbar=no,left=1200,top=200");
+		});
+	</script>
+
 </aside>
+

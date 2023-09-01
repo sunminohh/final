@@ -54,6 +54,7 @@
 	            <input type="hidden" name="request" >
 	            <input type="hidden" name="no" th:value="${board.no}" />
 	            <input type="hidden" name="id" th:value="${#authentication.principal.id}" />
+	            <input type="hidden" name="writerId" th:value="${board.user.id}">
 	        	<button th:if="${join == null || (join != null && #strings.equals(join.request, 'N') && #strings.equals(board.complete, 'N'))}" class="btn btn-outline-success btn-sm " type="button" id="request-button" data-button-type="plus">파티신청</button>
 	            <button th:if="${join != null && #strings.equals(join.request, 'Y') && #strings.equals(board.complete, 'N')}" class="btn btn-success btn-sm" type="button" id="request-button"  data-button-type="minus">신청취소</button>
 	         </form>
@@ -123,6 +124,7 @@
             <form id="form-comment" method="post" th:action="@{/board/party/addComment}" >
                <input type="hidden" name="no" th:value="${board.no}" />
                <input type="hidden" name="id" th:value="${#authentication.principal.id}" />
+               <input type="hidden" name="writerId" th:value="${board.user.id}">
                 <div class="row">
                   <div id="content-box">
                      <textarea rows="2" class="comment_inbox_text" name="content" style="border: none; overflow: hidden; overflow-wrap: break-word; " 
@@ -169,7 +171,7 @@
                            </a>
                         </div>
                         <div class="ps-5">
-                           <p><strong th:text="${comment.user.id}" >작성자아이디</strong></p>
+                           <p><strong th:text="${comment.user.id}" id="greatCommentId" >작성자아이디</strong></p>
                            <input type="hidden" name="greatCommentNo" th:value="${comment.no}" />
                         </div>
                      </div>
