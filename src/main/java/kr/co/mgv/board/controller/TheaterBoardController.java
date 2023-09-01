@@ -172,7 +172,8 @@ public class TheaterBoardController {
 	@ResponseBody
 	public ResponseEntity<Void> addLike(@RequestParam("no") int no,
 										@RequestParam("id") String id,
-										@RequestParam("likeCount") int likeCount){
+										@RequestParam("likeCount") int likeCount,
+										@RequestParam("writerId") String writerId) throws IOException {
 		
 		TBoardLike like = new TBoardLike();
     	User user = User.builder()
@@ -187,10 +188,10 @@ public class TheaterBoardController {
 		
 	 	if (savedLike != null && "Y".equals(savedLike.getCancel())) {
     		savedLike.setCancel("N");
-    		theaterBoardService.updateTboardLike(savedLike);
+    		theaterBoardService.updateTboardLike(savedLike, writerId);
     	} else if(savedLike != null && "N".equals(savedLike.getCancel())) {
     		savedLike.setCancel("Y");
-    		theaterBoardService.updateTboardLike(savedLike);
+    		theaterBoardService.updateTboardLike(savedLike, writerId);
     	} else if(savedLike == null) {
     		theaterBoardService.insertBoardLike(like);
     	}

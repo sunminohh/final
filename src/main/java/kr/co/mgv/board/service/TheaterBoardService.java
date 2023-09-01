@@ -15,6 +15,7 @@ import kr.co.mgv.board.mapper.BoardNoticeDao;
 import kr.co.mgv.board.mapper.TheaterBoardDao;
 import kr.co.mgv.board.vo.BoardLocation;
 import kr.co.mgv.board.vo.BoardTheater;
+import kr.co.mgv.board.vo.MovieBoard;
 import kr.co.mgv.board.vo.ReportReason;
 import kr.co.mgv.board.vo.TBoardComment;
 import kr.co.mgv.board.vo.TBoardLike;
@@ -105,7 +106,46 @@ public class TheaterBoardService {
 		return theaterBoardDao.getLikeByBnoAndId(like);
 	}
 	
-	public void updateTboardLike(TBoardLike like) {
+	public void updateTboardLike(TBoardLike like, String writerId) throws IOException {
+		
+		TBoardLike savedLike = theaterBoardDao.getLikeByBnoAndId(like);
+		String fromId = like.getUser().getId();
+		String type = "극장";
+		int boardNo = like.getBoard().getNo();
+		TheaterBoard board = theaterBoardDao.getTBoardByNo(boardNo);
+		String BoardName = board.getName();
+		if (BoardName.length() > 8) {
+			BoardName =  BoardName.substring(0, 8);
+		}
+		
+    	if(savedLike != null && "Y".equals(savedLike.getCancel()) && !writerId.equals(fromId)) {
+    		String text = "["+ type + "]게시판 [" +BoardName+ "...]에 " + fromId + "님이 게시글을 좋아합니다."+boardNo; 
+			noticeWebsocketHandler.sendMessage(writerId, text);
+			AddBoardNoticeForm form = AddBoardNoticeForm.builder()
+					  .boardType(type)
+					  .boardNo(boardNo)
+					  .fromId(fromId)
+					  .toId(writerId)
+					  .code("like")
+					  .boardName(BoardName)
+					  .build();
+			boardNoticeDao.insertNotice(form);
+    	} 
+    	
+    	if(savedLike == null && !writerId.equals(fromId)) {
+    		String text = "["+ type + "]게시판 [" +BoardName+ "...]에 " + fromId + "님이 게시글을 좋아합니다."+boardNo; 
+			noticeWebsocketHandler.sendMessage(writerId, text);
+			AddBoardNoticeForm form = AddBoardNoticeForm.builder()
+					  .boardType(type)
+					  .boardNo(boardNo)
+					  .fromId(fromId)
+					  .toId(writerId)
+					  .code("like")
+					  .boardName(BoardName)
+					  .build();
+			boardNoticeDao.insertNotice(form);
+    	}
+		
 		theaterBoardDao.updateLike(like);
 	}
 	
