@@ -7,17 +7,39 @@ $(function() {
 
     noticeWS.onmessage = function(message) {
         console.log("응답메세지-----------", message.data);
-        let text = message.data;
-        let type = text.match(/\[.*?\]/)[0];
-        let boardNoMatch = text.match(/\[(.*?)\]/);
-        let boardNo = boardNoMatch && boardNoMatch.length > 1 ? boardNoMatch[1] : null;
+        const text = message.data;
+        const searchString = "습니다.";
+		const textIndex = text.indexOf(searchString);
+		const result = text.substring(0, textIndex + searchString.length);
+        const type = text.match(/\[.*?\]/)[0];
+        const index = text.lastIndexOf(".");
+        const boardNo = text.substring(index + 1);
+        
+        const startIndex = text.indexOf("[");
+		const endIndex = text.indexOf(".]") + 2;
+		const titleResult = text.substring(startIndex, endIndex);
+
+        const contentStartIndex = text.indexOf("에")+1;
+		const contentEndIndex = text.lastIndexOf(".")+1;
+		const contentResult = text.substring(contentStartIndex, contentEndIndex);
 
         console.log(type);
         let href;
         if (type === '[영화]' && boardNo) {
-            href = `http://localhost/board/movie?no=${boardNo}`;
+            href = `http://localhost/board/movie/detail?no=${boardNo}`;
         }
-        let content = `<a href="${href}">${text}</a>`;
+        if (type === '[극장]' && boardNo) {
+            href = `http://localhost/board/theater/detail?no=${boardNo}`;
+        }
+        if (type === '[스토어]' && boardNo) {
+            href = `http://localhost/board/store/detail?no=${boardNo}`;
+        }
+        if (type === '[파티]' && boardNo) {
+            href = `http://localhost/board/party/detail?no=${boardNo}`;
+        }
+        const content = `<a href="${href}" class="float-start fw-semibold" style="color:#01738b;">${titleResult}</a><br/>
+        				 <p class="float-start ms-1">${contentResult}</p>
+        			     <hr class="mt-4"/>`;
         $(".no-list").prepend(content);
     };
 });

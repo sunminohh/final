@@ -152,8 +152,9 @@
                            </a>
                         </div>
                         <div class="ps-5">
-                           <p><strong th:text="${comment.user.id}" >작성자아이디</strong></p>
+                           <p><strong th:text="${comment.user.id}" id="greatCommentId">작성자아이디</strong></p>
                            <input type="hidden" name="greatCommentNo" th:value="${comment.no}" />
+                           <input type="hidden" name="greatCommentId" th:value="${comment.user.id}" />
                         </div>
                      </div>
                      <div class="commentUserInfo ps-5" >
