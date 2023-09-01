@@ -7,10 +7,12 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import kr.co.mgv.board.BoardPagination;
+import kr.co.mgv.board.form.AddBoardNoticeForm;
 import kr.co.mgv.board.form.AddMboardForm;
 import kr.co.mgv.board.form.MBoardForm;
 import kr.co.mgv.board.form.ReportForm;
 import kr.co.mgv.board.list.MovieBoardList;
+import kr.co.mgv.board.mapper.BoardNoticeDao;
 import kr.co.mgv.board.mapper.MovieBoardDao;
 import kr.co.mgv.board.vo.MBoardComment;
 import kr.co.mgv.board.vo.MBoardLike;
@@ -30,6 +32,7 @@ public class MovieBoardService {
 	
 	private final MovieBoardDao movieBoardDao;
 	private final NoticeWebsocketHandler noticeWebsocketHandler;
+	private final BoardNoticeDao boardNoticeDao;
 
 // 게시물 리스트
 	public MovieBoardList getMBoards(Map<String, Object> param) {
@@ -101,12 +104,28 @@ public class MovieBoardService {
     		String text = "["+ type + "]게시판 [" +BoardName+ "...]에 " + fromId + "님이 게시글을 좋아합니다."+boardNo; 
 			noticeWebsocketHandler.sendMessage(writerId, text);
 			log.info("text -> {}",text);
+			AddBoardNoticeForm form = AddBoardNoticeForm.builder()
+					  .boardType(type)
+					  .boardNo(boardNo)
+					  .fromId(fromId)
+					  .toId(writerId)
+					  .code("like")
+					  .build();
+			boardNoticeDao.insertNotice(form);
     	} 
     	
     	if(savedLike == null && !writerId.equals(fromId)) {
     		String text = "["+ type + "]게시판 [" +BoardName+ "...]에 " + fromId + "님이 게시글을 좋아합니다."+boardNo; 
 			noticeWebsocketHandler.sendMessage(writerId, text);
 			log.info("text -> {}",text);
+			AddBoardNoticeForm form = AddBoardNoticeForm.builder()
+					  .boardType(type)
+					  .boardNo(boardNo)
+					  .fromId(fromId)
+					  .toId(writerId)
+					  .code("like")
+					  .build();
+			boardNoticeDao.insertNotice(form);
     	}
 		
 		movieBoardDao.updateLike(like);
@@ -141,6 +160,15 @@ public class MovieBoardService {
 			String text = "["+ type + "]게시판 [" +boardName+ "...]에 " + fromId + "님이 댓글을 달았습니다."+boardNo; 
 			noticeWebsocketHandler.sendMessage(writerId, text);
 			log.info("text -> {}",text);
+			
+			AddBoardNoticeForm form = AddBoardNoticeForm.builder()
+									  .boardType(type)
+									  .boardNo(boardNo)
+									  .fromId(fromId)
+									  .toId(writerId)
+									  .code("comment")
+									  .build();
+			boardNoticeDao.insertNotice(form);
 		}
 		
 		// 대댓글 달렸을때, 대댓글 작성자 -> 댓글 작성자
@@ -151,6 +179,15 @@ public class MovieBoardService {
 				String text = "["+ type + "]게시판 [" +boardName+ "...]에 " + fromId + "님이 대댓글을 달았습니다."+boardNo; 
 				noticeWebsocketHandler.sendMessage(comment.getGreat().getUser().getId(), text);
 				log.info("text -> {}",text);
+				
+				AddBoardNoticeForm form = AddBoardNoticeForm.builder()
+						  .boardType(type)
+						  .boardNo(boardNo)
+						  .fromId(fromId)
+						  .toId(comment.getGreat().getUser().getId())
+						  .code("reComment")
+						  .build();
+				boardNoticeDao.insertNotice(form);
 		}
 		
 		// 내 게시글의 다른 사용자의 댓글에 내가 아닌 사용자가 대댓글을 달았다
@@ -161,7 +198,16 @@ public class MovieBoardService {
 			String text = "["+ type + "]게시판 [" +boardName+ "...]에 " + fromId + "님이 댓글을 달았습니다."+boardNo; 
 			noticeWebsocketHandler.sendMessage(writerId, text);
 			log.info("text -> {}",text);
-	}
+			
+			AddBoardNoticeForm form = AddBoardNoticeForm.builder()
+					  .boardType(type)
+					  .boardNo(boardNo)
+					  .fromId(fromId)
+					  .toId(writerId)
+					  .code("comment")
+					  .build();
+			boardNoticeDao.insertNotice(form);
+		}
 	}
 	
 	public List<MBoardComment> getComments(int no) {

@@ -8,9 +8,6 @@ $(function() {
     noticeWS.onmessage = function(message) {
         console.log("응답메세지-----------", message.data);
         const text = message.data;
-        const searchString = "니다.";
-		const textIndex = text.indexOf(searchString);
-		const result = text.substring(0, textIndex + searchString.length);
         const type = text.match(/\[.*?\]/)[0];
         const index = text.lastIndexOf(".");
         const boardNo = text.substring(index + 1);
