@@ -201,7 +201,7 @@ public class TheaterBoardService {
 		}
 		
 		// 내 게시글의 다른 사용자의 댓글에 내가 아닌 사용자가 대댓글을 달았다
-		if(comment.getGreat() != null &&  !comment.getGreat().getUser().getId().equals(fromId) && !writerId.equals(fromId) ) {
+		if(comment.getGreat() != null && !writerId.equals(fromId) ) {
 			String text = "["+ type + "]게시판 [" +boardName+ "...]에 " + fromId + "님이 댓글을 달았습니다."+boardNo; 
 			noticeWebsocketHandler.sendMessage(writerId, text);
 			
