@@ -55,4 +55,12 @@ public class AdminBoardService {
 	public void deleteReportBoard (Map<String, Object> param) {
 		adminBoardDao.updateReportBoard(param);
 	}
+
+	public void resotreReportBoard (Map<String, Object> param) {
+		adminBoardDao.updateReportBoard(param);
+	}
+	
+	public void deleteReportReasonByNo (Map<String, Object> param) {
+		adminBoardDao.deleteReportReasonByNo(param);
+	}
 }

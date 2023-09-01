@@ -1,21 +1,21 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/user}">
-<head>
-
+<head th:fragment="extra-head-content">
+    <script th:src="@{/js/user/booking.js}"></script>
 </head>
 <div id="contents" layout:fragment="content">
     <h2 class="tit">예매/구매 내역</h2>
-    <div class="tab-block tab-layer">
+    <div class="tab-block">
         <ul>
-            <li data-url="/mypage/bookinglist?tab=01" data-tit="예매내역" title="예매내역 탭으로 이동" class=""><a href="#booking-tab" class="btn">예매 </a></li>
-            <li data-url="/mypage/bookinglist?tab=02" data-tit="구매내역" title="구매내역 탭으로 이동" class="on"><a href="#pay-tab" class="btn">구매 </a></li>
+            <li class="on"><a href="#booking-tab" class="btn booking">예매 </a></li>
+            <li class=""><a href="#pay-tab" class="btn pay">구매 </a></li>
         </ul>
     </div>
     <div class="tab-cont-wrap">
 
         <!-- 예매내역 -->
-        <div id="booking-tab" class="tab-cont"><a href="" class="ir">예매 탭 화면 입니다.</a>
+        <div id="booking-tab" class="tab-cont on"><a href="" class="ir">예매 탭 화면 입니다.</a>
 
             <!-- 예매 조회 조건 -->
             <div class="board-list-search mt20">
@@ -158,7 +158,7 @@
         </div>
 
         <!-- 구매내역 영역 -->
-        <div id="pay-tab" class="tab-cont on"><a href="" class="ir">구매 탭 화면 입니다.</a>
+        <div id="pay-tab" class="tab-cont"><a href="" class="ir">구매 탭 화면 입니다.</a>
 
             <!-- 구매 조회 조건 -->
             <div class="board-list-search mt20">
@@ -171,30 +171,11 @@
                     <tr>
                         <th scope="row">구분</th>
                         <td>
-                            <div class="dropdown bootstrap-select mr10 small bs3"><select class="selectpicker mr10 small" name="selPurc" tabindex="-98">
-                                <option value="">전체</option>
-                                <option value="SPD54">스토어</option>
-                                <option value="SPD52">모바일오더</option>
-                            </select>
-                                <button type="button" class="btn dropdown-toggle btn-default bs-placeholder" data-toggle="dropdown" role="button" title="전체">
-                                    <div class="filter-option">
-                                        <div class="filter-option-inner">
-                                            <div class="filter-option-inner-inner">전체</div>
-                                        </div>
-                                    </div>
-                                    <span class="bs-caret"><span class="caret"></span></span></button>
-                                <div class="dropdown-menu open" role="combobox">
-                                    <div class="inner open" role="listbox" aria-expanded="false" tabindex="-1">
-                                        <ul class="dropdown-menu inner "></ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <input type="radio" name="radPurc" id="radPurc01" value="" checked="checked">
+                            <input type="radio" name="status" id="radPurc01" value="" checked>
                             <label for="radPurc01">전체</label>
-                            <input type="radio" name="radPurc" id="radPurc02" value="P">
+                            <input type="radio" name="status" id="radPurc02" value="P">
                             <label for="radPurc02">구매내역</label>
-                            <input type="radio" name="radPurc" id="radPurc03" value="C">
+                            <input type="radio" name="status" id="radPurc03" value="C">
                             <label for="radPurc03">취소내역</label>
                         </td>
                     </tr>
@@ -208,12 +189,10 @@
                                 <button type="button" class="btn" value="M6">6개월</button>
                             </div>
                             <div class="date">
-                                <input type="text" title="조회기간 시작 날짜 입력" placeholder="yyyy.mm.dd" class="date-calendar v2 hasDatepicker" id="dp1690876290260">
-                                <button type="button" class="ui-datepicker-trigger">날짜 선택</button>
+                                <input type="text" title="조회기간 시작 날짜 입력" name="purchaseDate" placeholder="yyyy.mm.dd" class="date-calendar v2 datepicker" id="startDate">
                                 <span>~</span>
-                                <input type="text" title="조회기간 마지막 날짜 입력" placeholder="yyyy.mm.dd" class="date-calendar v2 hasDatepicker" id="dp1690876290261">
-                                <button type="button" class="ui-datepicker-trigger">날짜 선택</button>
-                                <button type="button" class="button gray-line" name="search">
+                                <input type="text" title="조회기간 마지막 날짜 입력" name="purchaseDate" placeholder="yyyy.mm.dd" class="date-calendar v2 datepicker" id="endDate">
+                                <button type="button" class="button gray-line" id="btnSearch" name="search">
                                     <i class="iconset ico-search-gray"></i> 조회
                                 </button>
                             </div>
@@ -233,32 +212,36 @@
 
             <div class="table-wrap">
                 <table class="board-list" summary="결제일시, 구분, 상품명, 결제금액, 상태 항목을 가진 결제내역 목록 표">
-                    <caption>결제일시, 구분, 상품명, 결제금액, 상태 항목을 가진 결제내역 목록 표</caption>
+                    <caption>결제일시, 상품명, 결제금액, 상태 항목을 가진 결제내역 목록 표</caption>
                     <colgroup>
                         <col style="width:160px;">
-                        <col style="width:150px;">
                         <col>
                         <col style="width:120px;">
                         <col style="width:120px;">
                     </colgroup>
                     <thead>
                     <tr>
-                        <th scope="col">결제일시</th>
-                        <th scope="col">구분</th>
+                        <th scope="col">결제일</th>
                         <th scope="col">상품명</th>
                         <th scope="col">결제금액</th>
                         <th scope="col">상태</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    <tr>
-                        <td colspan="5" class="a-c">결제내역이 없습니다.</td>
-                    </tr>
+                    <tbody id="purchaceTableBody">
+
                     </tbody>
                 </table>
             </div>
 
-            <nav class="pagination" id="navPurc"></nav>
+            <div class="row mb-3">
+                <div class="col-12">
+                    <nav>
+                        <ul class="pagination justify-content-center">
+
+                        </ul>
+                    </nav>
+                </div>
+            </div>
 
             <!-- 구매 안내상황  -->
             <div class="box-pulldown mt30">
