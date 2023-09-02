@@ -50,18 +50,18 @@ public class UserService {
         userDao.updateUser(user);
     }
 
-    // todo 회원탈퇴
+    // 회원탈퇴
     public void disableUser(String id, String reason) {
         User user = userDao.getUserById(id);
 
-        // todo 사용자 정보 수정
+        // 사용자 정보 수정
         user.setDisabled("Y");
         user.setReason(reason);
         user.setUpdateDate(new Date());
 
         userDao.disabledUser(user);
 
-        // todo 보유권한 변경
+        // 보유권한 변경
         Map<String, Object> param = new HashMap<>();
         param.put("userId", user.getId());
         userRoleDao.updateUserRole(param);

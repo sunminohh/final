@@ -357,6 +357,17 @@
 				BOARD_NO = ${value}
     </select>
     
+    <select id="getIdsByAcceptAndComplete" parameterType="int" resultType="String">
+    	select B.user_id		as "user.id"
+    	from PARTY_BOARD A, PARTY_JOIN B
+    	where A.board_no = B.board_no
+    	and A.PARTY_COMPLETE = 'Y'
+    	and B.JOIN_ACCEPT = 'Y'
+    	and A.board_no = #{value};
+    </select>
+    
+    <!-- 신고관련 -->
+    
     <insert id="insertPboardReport" parameterType="kr.co.mgv.board.vo.PBoardReport">
     	INSERT PBOARD_REPORT
 		(REPORT_REASON, REASON_NO, BOARD_NO, USER_ID)

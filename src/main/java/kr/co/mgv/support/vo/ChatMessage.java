@@ -1,9 +1,8 @@
 package kr.co.mgv.support.vo;
 
 import java.util.Date;
+import java.util.List;
 
-import kr.co.mgv.user.vo.User;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,22 +12,24 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ChatMessage {
 
+	/*
+	 * 채팅 명령
+	 * req		: 채팅요청	
+	 * ready	: 채팅준비
+	 * start 	: 채팅시작
+	 * msg		: 메세지
+	 * cancel	: 채팅취소
+	 * stop		: 채팅종료
+	 */
+	
+	private String cmd;
 	private int no;
-	private ChatRoom chatRoom;
-	private User user;
-	private String content;
+	private String roomId;
+	private String userId;
+	private String receiverId;
+	private String text;
 	private Date sendTime;
-	
-	@Builder
-	public ChatMessage(int no, ChatRoom chatRoom, User user, String content, Date sendTime) {
-		super();
-		this.no = no;
-		this.chatRoom = chatRoom;
-		this.user = user;
-		this.content = content;
-		this.sendTime = sendTime;
-	}
-	
-	
+	List<String> waitings;
+	private int position;
 	
 }

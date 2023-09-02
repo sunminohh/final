@@ -14,15 +14,15 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ChatRoom {
 
-	private int no;
+	private String id;
 	private User admin;
 	private User user;
 	private Date createTime;
 	
 	@Builder
-	public ChatRoom(int no, User admin, User user, Date createTime) {
+	public ChatRoom(String id, User admin, User user, Date createTime) {
 		super();
-		this.no = no;
+		this.id = id;
 		this.admin = admin;
 		this.user = user;
 		this.createTime = createTime;

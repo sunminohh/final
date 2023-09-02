@@ -138,17 +138,30 @@
 		insert into MGV_THEATER_FACILITY_INFO (theater_no, facility_type)
 		values (#{theaterNo}, #{type})
 	</insert>
-	
+
 	<insert id="insertFloorInfo" parameterType="FloorInfo">
 		insert into MGV_THEATER_FLOORS_INFO (theater_no, floor, info)
 		values (#{theaterNo}, #{floor}, #{info})
 	</insert>
-	
+
 	<insert id="insertParkingInfo" parameterType="Parkinginfo">
 		insert into MGV_THEATER_PARKING_INFO (theater_no, parking_info, parking_confirm, parking_cash)
 		values (#{theaterNo}, #{info}, #{confirm}, #{cash})
 	</insert>
-	
+
+	<insert id="insertDisabledSeats" parameterType="map">
+		insert into MGV_SCREEN_DISABLED_SEATS (SCREEN_ID,SEAT_NO)
+		values
+		    <foreach collection="seatNos" item="item" index="index" separator=",">
+				(#{screenId},#{item})
+			</foreach>
+	</insert>
+	<select id="getDisabledSeatsByScreenId" parameterType="int" resultType="String">
+		select SEAT_NO as seatNo
+		    from MGV_SCREEN_DISABLED_SEATS
+		where SCREEN_ID=#{VALUE}
+	</select>
+
 	<delete id="deleteFacilityInfo" parameterType="int">
 		delete from MGV_THEATER_FACILITY_INFO
 		where theater_no = #{value}
@@ -163,4 +176,10 @@
 		delete from MGV_THEATER_PARKING_INFO
 		where theater_no = #{value}
 	</delete>
+
+	<delete id="deleteDisabledSeatsByScreenId" parameterType="int">
+		delete from MGV_SCREEN_DISABLED_SEATS
+		where SCREEN_ID=#{VALUE}
+	</delete>
+
 </mapper>

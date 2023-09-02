@@ -1,18 +1,15 @@
 package kr.co.mgv.theater.service;
 
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
+import kr.co.mgv.theater.vo.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import kr.co.mgv.favoritetheater.dao.FavoriteTheaterDao;
 import kr.co.mgv.favoritetheater.vo.FavoriteTheater;
 import kr.co.mgv.theater.dao.TheaterDao;
-import kr.co.mgv.theater.vo.FloorInfo;
-import kr.co.mgv.theater.vo.Location;
-import kr.co.mgv.theater.vo.Screen;
-import kr.co.mgv.theater.vo.Theater;
-import kr.co.mgv.theater.vo.TheaterFacility;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -89,6 +86,20 @@ public class TheaterService {
 			theaterDao.insertFloorInfo(floorInfo);
 		}
 	}
+	public void registDisalbedSeats(List<String> seatNos){
+		int screenId=Integer.parseInt(seatNos.get(0));
+		seatNos.remove(0);
+		HashSet<String> overLap = new HashSet<>(theaterDao.getDisabledSeatsByScreenId(screenId));
+		Map<String,Object> params=new HashMap<>();
+		params.put("screenId",screenId);
+		params.put("seatNos",seatNos.stream().filter(seatNo-> !overLap.contains(seatNo)).collect(Collectors.toList()));
+		theaterDao.insertDisabledSeats(params);
+	}
+
+	public List<String> getDisabledSeatsByScreenID(int ScreenId){
+		return theaterDao.getDisabledSeatsByScreenId(ScreenId);
+	}
+
 
 	public void modifyTheater(Theater theater) {
 		Theater pretheater = theaterDao.getTheaterDetailByNo(theater.getNo());
@@ -111,5 +122,9 @@ public class TheaterService {
 			floorInfo.setTheaterNo(pretheater.getNo());
 			theaterDao.insertFloorInfo(floorInfo);
 		}
+	}
+
+	public void deleteDisabledSeatsByScreenId(int screenId){
+		theaterDao.deleteDisabledSeatsByScreenId(screenId);
 	}
 }

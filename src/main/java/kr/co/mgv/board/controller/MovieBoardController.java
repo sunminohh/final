@@ -1,5 +1,6 @@
 package kr.co.mgv.board.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -147,11 +147,13 @@ public class MovieBoardController {
         return "view/board/movie/detail";
     }
     
+    // 좋아요 관련
     @PostMapping("/changelike")
     @ResponseBody
     public ResponseEntity<Void> addLike(@RequestParam("no") int no,
     									@RequestParam("id") String id,
-    									@RequestParam("likeCount") int likeCount) {
+    									@RequestParam("likeCount") int likeCount,
+    									@RequestParam("writerId") String writerId) throws IOException {
 				    	
     	MBoardLike like = new MBoardLike();
     	User user = User.builder()
@@ -166,10 +168,10 @@ public class MovieBoardController {
 
     	if (savedLike != null && "Y".equals(savedLike.getCancel())) {
     		savedLike.setCancel("N");
-    		movieBoardService.updateMBoardLike(savedLike);
+    		movieBoardService.updateMBoardLike(savedLike, writerId);
     	} else if(savedLike != null && "N".equals(savedLike.getCancel())) {
     		savedLike.setCancel("Y");
-    		movieBoardService.updateMBoardLike(savedLike);
+    		movieBoardService.updateMBoardLike(savedLike, writerId);
     	} else if(savedLike == null) {
     		movieBoardService.insertBoardLike(like);
     	}
@@ -237,8 +239,9 @@ public class MovieBoardController {
                              @RequestParam("id") String id, 
                              @RequestParam(name="parentNo", required = false) Integer parentNo, 
                              @RequestParam(name="greatNo", required = false) Integer greatNo, 
-                             @RequestParam("content") String content) {
-        
+                             @RequestParam("content") String content,
+                             @RequestParam("writerId") String writerId) throws IOException {
+    	
 //    	log.info("게시물 번호 -> {}", no);
 //    	log.info("사용자 아이디 -> {}", id);
 //    	log.info("내용 -> {}", content);
@@ -248,9 +251,7 @@ public class MovieBoardController {
     	MBoardComment comment = new MBoardComment();
     	comment.setContent(content);
     	
-    	MovieBoard mBoard = MovieBoard.builder()
-    						.no(no)
-    						.build();
+    	MovieBoard mBoard =	movieBoardService.getMovieBoardByNo(no);
     	comment.setBoard(mBoard);
     	
 		if (parentNo != null) {
@@ -270,8 +271,7 @@ public class MovieBoardController {
     			.id(id)
     			.build();
     	comment.setUser(user);
-    	
-    	movieBoardService.MBoardCommentInsert(comment);
+    	movieBoardService.MBoardCommentInsert(comment, writerId);
     	MovieBoard board = movieBoardService.getMovieBoardByNo(no);
     	int commentCount = board.getCommentCount()+1;
     	movieBoardService.updateBoardComment(no, commentCount);
@@ -292,20 +292,20 @@ public class MovieBoardController {
     		@RequestParam("id") String id, 
     		@RequestParam(name="parentNo", required = false) Integer parentNo, 
     		@RequestParam(name="greatNo", required = false) Integer greatNo, 
-    		@RequestParam("content") String content) {
+    		@RequestParam("content") String content,
+    		@RequestParam("writerId") String writerId,
+    		@RequestParam("greatCommentId") String greatCommentId) throws IOException {
     	
 //    	log.info("게시물 번호 -> {}", no);
 //    	log.info("사용자 아이디 -> {}", id);
 //    	log.info("내용 -> {}", content);
 //    	log.info("부모번호 -> {}", parentNo);
-//    	log.info("조상번호 -> {}", greatNo);
+    	log.info("조상아이디 -> {}", greatCommentId);
     	
     	MBoardComment comment = new MBoardComment();
     	comment.setContent(content);
     	
-    	MovieBoard mBoard = MovieBoard.builder()
-    			.no(no)
-    			.build();
+    	MovieBoard mBoard = movieBoardService.getMovieBoardByNo(no);
     	comment.setBoard(mBoard);
     	
     	if (parentNo != null) {
@@ -314,9 +314,12 @@ public class MovieBoardController {
     				.build();
     		comment.setParent(parentComment);
     	}
+    	
+    	User writer = User.builder().id(greatCommentId).build();
     	if (greatNo != null) {
     		MBoardComment greatComment = MBoardComment.builder()
     				.no(greatNo)
+    				.user(writer)
     				.build();
     		comment.setGreat(greatComment);
     	}
@@ -326,7 +329,7 @@ public class MovieBoardController {
     			.build();
     	comment.setUser(user);
     	
-    	movieBoardService.MBoardCommentInsert(comment);
+    	movieBoardService.MBoardCommentInsert(comment, writerId);
     	MovieBoard board = movieBoardService.getMovieBoardByNo(no);
     	int commentCount = board.getCommentCount()+1;
     	movieBoardService.updateBoardComment(no, commentCount);

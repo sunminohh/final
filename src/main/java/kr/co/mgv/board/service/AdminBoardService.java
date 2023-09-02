@@ -1,5 +1,6 @@
 package kr.co.mgv.board.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,7 @@ import kr.co.mgv.board.BoardPagination;
 import kr.co.mgv.board.list.BoardList;
 import kr.co.mgv.board.list.MyBoardList;
 import kr.co.mgv.board.mapper.AdminBoardDao;
+import kr.co.mgv.board.vo.BoardReport;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -34,5 +36,31 @@ public class AdminBoardService {
 		result.setPagination(pagination);
 		
 		return result;
+	}
+	
+	public BoardList getBoardDetail(Map<String, Object> param) {
+		return adminBoardDao.getBoardDetail(param);
+	}
+	
+	public int getTotalrows() {
+		Map<String , Object> param = new HashMap<String, Object>();
+		param.put("boards", "all");
+		return adminBoardDao.getTotalRows(param);
+	}
+	
+	public List<BoardReport> getReports (Map<String, Object> param){
+		return adminBoardDao.getReportReasons(param);
+	}
+	
+	public void deleteReportBoard (Map<String, Object> param) {
+		adminBoardDao.updateReportBoard(param);
+	}
+
+	public void resotreReportBoard (Map<String, Object> param) {
+		adminBoardDao.updateReportBoard(param);
+	}
+	
+	public void deleteReportReasonByNo (Map<String, Object> param) {
+		adminBoardDao.deleteReportReasonByNo(param);
 	}
 }

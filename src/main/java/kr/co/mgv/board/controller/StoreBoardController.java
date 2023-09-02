@@ -1,5 +1,6 @@
 package kr.co.mgv.board.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -169,7 +170,8 @@ public class StoreBoardController {
 	@ResponseBody
 	public ResponseEntity<Void> addLike(@RequestParam("no") int no,
 										@RequestParam("id") String id,
-										@RequestParam("likeCount") int likeCount){
+										@RequestParam("likeCount") int likeCount,
+										@RequestParam("writerId") String writerId) throws IOException{
 		
 		SBoardLike like = new SBoardLike();
     	User user = User.builder()
@@ -184,10 +186,10 @@ public class StoreBoardController {
 		
 	 	if (savedLike != null && "Y".equals(savedLike.getCancel())) {
     		savedLike.setCancel("N");
-    		storeBoardService.updateSboardLike(savedLike);
+    		storeBoardService.updateSboardLike(savedLike, writerId);
     	} else if(savedLike != null && "N".equals(savedLike.getCancel())) {
     		savedLike.setCancel("Y");
-    		storeBoardService.updateSboardLike(savedLike);
+    		storeBoardService.updateSboardLike(savedLike, writerId);
     	} else if(savedLike == null) {
     		storeBoardService.insertBoardLike(like);
     	}
@@ -203,11 +205,12 @@ public class StoreBoardController {
 										             @RequestParam("id") String id, 
 										             @RequestParam(name="parentNo", required = false) Integer parentNo, 
 										             @RequestParam(name="greatNo", required = false) Integer greatNo, 
-										             @RequestParam("content") String content){
+										             @RequestParam("content") String content,
+										             @RequestParam("writerId") String writerId) throws IOException{
 		SBoardComment comment = new SBoardComment();
 		comment.setContent(content);
 		
-		StoreBoard sBoard = StoreBoard.builder().no(no).build();
+		StoreBoard sBoard = storeBoardService.getStoreBoardByNo(no);
 		comment.setBoard(sBoard);
 		
 		if (parentNo != null) {
@@ -222,7 +225,7 @@ public class StoreBoardController {
 		User user = User.builder().id(id).build();
 		comment.setUser(user);
 
-		storeBoardService.SBoardCommentInsert(comment);
+		storeBoardService.SBoardCommentInsert(comment, writerId);
 		StoreBoard board = storeBoardService.getStoreBoardByNo(no);
 		int commentCount = board.getCommentCount() + 1;
 		storeBoardService.updateBoardComment(no, commentCount);
@@ -243,26 +246,29 @@ public class StoreBoardController {
 										             @RequestParam("id") String id, 
 										             @RequestParam(name="parentNo", required = false) Integer parentNo, 
 										             @RequestParam(name="greatNo", required = false) Integer greatNo, 
-										             @RequestParam("content") String content){
+										             @RequestParam("content") String content,
+										             @RequestParam("writerId") String writerId,
+										     		 @RequestParam("greatCommentId") String greatCommentId) throws IOException{
 		SBoardComment comment = new SBoardComment();
 		comment.setContent(content);
 		
-		StoreBoard sBoard = StoreBoard.builder().no(no).build();
+		StoreBoard sBoard = storeBoardService.getStoreBoardByNo(no);
 		comment.setBoard(sBoard);
 		
 		if (parentNo != null) {
 		SBoardComment parentComment = SBoardComment.builder().no(parentNo).build();
 		comment.setParent(parentComment);
 		}
+    	User writer = User.builder().id(greatCommentId).build();
 		if (greatNo != null) {
-		SBoardComment greatComment = SBoardComment.builder().no(greatNo).build();
+		SBoardComment greatComment = SBoardComment.builder().user(writer).no(greatNo).build();
 		comment.setGreat(greatComment);
 		}
 		
 		User user = User.builder().id(id).build();
 		comment.setUser(user);
 
-		storeBoardService.SBoardCommentInsert(comment);
+		storeBoardService.SBoardCommentInsert(comment, writerId);
 		StoreBoard board = storeBoardService.getStoreBoardByNo(no);
 		int commentCount = board.getCommentCount() + 1;
 		storeBoardService.updateBoardComment(no, commentCount);

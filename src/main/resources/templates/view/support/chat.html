@@ -21,54 +21,29 @@
 	<script	src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.9/plugin/calendar.min.js"></script>
 	<link th:href=@{/css/support/chat.css} rel="stylesheet">
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 	<script type="text/javascript" th:src="@{/js/support/chat.js}"></script>
 </head>
 <title>상담톡</title>
 </head>
 <body>
-
-
-	<!--
-	<div>
-		<div class="chat-container" id="chatContainer">
-		<h4 class="mb-2" style="text-align:center;">실시간 채팅상담</h4>
-			<div class="messages" id="messages">
-			</div>
-			<div class="input-container fixed-bottom" >
-			    <input type="text" id="userInput" placeholder="메시지를 입력하세요...">
-			    <button id="sendButton" class="button purple">전송</button> 
-			</div>
-		</div>
-	</div>
-	-->
 	
 	<div class="chat_wrap">
-    <div class="header">
-        실시간 채팅상담
-    </div>
-    <div class="chat">
-        <ul>
-            <!-- 동적 생성 -->
-        </ul>
-    </div>
-    <div class="input-div">
-        <textarea placeholder="Press Enter for send message."></textarea>
-    </div>
- 
-    <!-- format -->
- 
-    <div class="chat format">
-        <ul>
-            <li>
-                <div class="sender">
-                    <span></span>
-                </div>
-                <div class="message">
-                    <span></span>
-                </div>
-            </li>
-        </ul>
-    </div>
-</div>
+	    <div class="header">
+	        실시간 채팅상담 <span  class="ms-5">전체 대기자 수 : <span id="waiting-count">0</span>명</span> (<span id="waiting-position"></span>번째)
+	    </div>
+	    <div class="row">
+	 	<div style="height:420px;">
+		    <div class="chat" th:attr="data-user-id=${#authentication.principal.id}"  style="height:400px; overflow: scroll;">
+		        <ul>
+		            <!-- 동적 생성 -->
+		        </ul>
+		    </div>
+		    <div class="input-div">
+		        <textarea placeholder="메세지를 입력하세요..." disabled id="input-field"></textarea>
+		    </div>
+	 	</div>
+	 	</div>
+	</div>
 
 </html>

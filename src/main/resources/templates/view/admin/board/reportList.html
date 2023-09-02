@@ -77,41 +77,45 @@
     						<th>확인</th>
     					</tr>
     				</thead>
-    				<tbody>
+    				<tbody id="board-tbody">
 				    	<tr th:if="${#lists.isEmpty(result.list)}">
 							<td colspan="5">게시글이 존재하지 않습니다.</td>
 						</tr>	
-    					<tr th:if="${not #lists.isEmpty(result.list)}" th:each="board:${result.list}">
-    						<input type="hidden" name="no" th:value="${board.no}"/>
-    						<input type="hidden" name="type" th:value="${board.type}"/>
+    					<tr th:if="${not #lists.isEmpty(result.list)}" th:each="board:${result.list}" id="board-tr">
+    						<input type="hidden" name="boardNo" th:value="${board.no}"/>
+    						<input type="hidden" name="boardType" th:value="${board.type}"/>
 	    					<td th:text="${board.type}">극장</td>
 	    					<td th:text="${board.id}">aaaa</td>
 	    					<td th:text="${board.name.length() > 27 ? board.name.substring(0, 27) + '...' : board.name}">아니 영화표를 왜 돈받고 팔아요?</td>
 	    					<td th:text="${#dates.format(board.createDate, 'yyyy-MM-dd HH:mm')}">2023-08-22</td>
-	    					<td id="one-board">
+	    					<td>
 	    						<button type="button" class="btn btn-sm btn-light" id="report-btn">확인</button>
 	    					</td>
     					</tr>
     				</tbody>
     			</table>
     		</div>
+    		<form id="board-detail" method="get" th:action="@{/boardDetail}">
+    			<input type="hidden" name="no">
+    			<input type="hidden" name="type">
+    		</form>
     		
-    		<nav th:if="${result.pagination.totalRows > 0}">
+    		<nav th:if="${result.pagination.totalRows > 0}" id="board-nav">
 				<ul class="pagination justify-content-center">
 				    <li class="page-item" th:if="${result.pagination.currentBlock > 1}">
 				        <a title="첫번째 페이지 보기"
-				           th:href="@{list(page=1, sort=${param.sort}, rows=${param.rows}, theaterNo=${param.theaterNo}, locationNo=${param.locationNo}, opt=${param.opt}, keyword=${param.keyword})}"
+				           th:href="@{reportList(page=1, boards=${param.boards}, opt=${param.opt}, keyword=${param.keyword})}"
 				           class="page-link page-number-link control first"
 				           ></a>
 				    </li>
 				    <li class="page-item" th:if="${result.pagination.currentBlock > 1}">
 				        <a title="이전 5페이지 보기"
-				           th:href="@{list(page=${(result.pagination.currentBlock - 1) * 5} , sort=${param.sort}, rows=${param.rows}, theaterNo=${param.theaterNo}, locationNo=${param.locationNo}, opt=${param.opt}, keyword=${param.keyword})}"
+				           th:href="@{reportList(page=${(result.pagination.currentBlock - 1) * 5} ,boards=${param.boards}, opt=${param.opt}, keyword=${param.keyword})}"
 				           class="page-link page-number-link control prev"
 				           ></a>
 				    </li>
 				    <li class="page-item" th:each="num : ${result.pagination.pageNumbers}">
-                        <a th:href="@{list(page=${num}, sort=${param.sort}, rows=${param.rows}, theaterNo=${param.theaterNo}, locationNo=${param.locationNo}, opt=${param.opt}, keyword=${param.keyword})}" 
+                        <a th:href="@{reportList(page=${num}, boards=${param.boards}, opt=${param.opt}, keyword=${param.keyword})}" 
                            th:text="${num}"
                            th:classappend="${result.pagination.page == (num) ? 'active' : '' }"
                            class="page-link page-number-link"
@@ -119,13 +123,13 @@
                     </li>
                     <li class="page-item" th:if="${result.pagination.currentBlock < result.pagination.totalBlocks}">
 				        <a title="이후 5페이지 보기"
-				           th:href="@{list(page=${result.pagination.currentBlock * 5 + 1}, sort=${param.sort}, rows=${param.rows}, theaterNo=${param.theaterNo}, locationNo=${param.locationNo}, opt=${param.opt}, keyword=${param.keyword})}"
+				           th:href="@{reportList(page=${result.pagination.currentBlock * 5 + 1}, boards=${param.boards}, opt=${param.opt}, keyword=${param.keyword})}"
 				           class="page-link page-number-link control next"
 				          ></a>
 				    </li>
                  	<li class="page-item" th:if="${result.pagination.currentBlock < result.pagination.totalBlocks}">
 				        <a title="마지막 페이지 보기"
-				           th:href="@{list(page=${result.pagination.totalPages}, sort=${param.sort}, rows=${param.rows}, theaterNo=${param.theaterNo}, locationNo=${param.locationNo}, opt=${param.opt}, keyword=${param.keyword})}"
+				           th:href="@{reportList(page=${result.pagination.totalPages}, boards=${param.boards}, opt=${param.opt}, keyword=${param.keyword})}"
 				           class="page-link page-number-link control last"
 				           ></a>
 				    </li>
@@ -136,51 +140,38 @@
     </div>
     
     <!-- 게시물 확인 모달 -->
-   <div class="modal fade" id="board-modal"  aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-          <div class="modal-content">
-               <div class="modal-header" style="background-color: #A06E8D;">
-                 <h1 class="modal-title fs-5 fw-semibold" id="exampleModalLabel" style="color: white;">게시물 제목</h1>
-                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
-               </div>
-               <div class="modal-body" style="max-height: 400px; overflow-y: auto; width:500px;">
-                   <div class="row mb-3 board-content pb-5">
-					 	<p>아니면 할인이라도 해주던가 아니 왜이렇게 비싸냐구요. 환불해주세요.</p>
-					 	<img id="profileimg"  th:src="@{/images/board/sample.png}" alt="프로필사진">
-					 	<img id="profileimg"  th:src="@{/images/board/sample.png}" alt="프로필사진">
-					 	<img id="profileimg"  th:src="@{/images/board/sample.png}" alt="프로필사진">
-               	   </div>
-               	   <div class="report-reason d-flex justify-content-start  row">
-               	   		<div class="pe-2 col-2 fw-semibold">기타</div>
-               	   		<div class="col-10">어이가 없네 당연히 영화표는 돈 주고 사야하는거 아닌지? 상식이 없네요 ;;;</div>
-               	   </div>
-           	   		<hr class="mt-3">
-               	   <div class="report-reason d-flex justify-content-start row">
-               	   		<div class="pe-2 col-2 fw-semibold">기타</div>
-               	   		<div class="col-10">어이가 없네 당연히 영화표는 돈 주고 사야하는거 아닌지? 상식이 없네요 ;;;</div>
-               	   </div>
-           	   		<hr class="mt-3">
-               	   <div class="report-reason d-flex justify-content-start row">
-               	   		<div class="pe-2 col-2 fw-semibold">기타</div>
-               	   		<div class="col-10">어이가 없네 당연히 영화표는 돈 주고 사야하는거 아닌지? 상식이 없네요 ;;;</div>
-               	   </div>
-           	   		<hr class="mt-3">
-               	   <div class="report-reason d-flex justify-content-start">
-               	   		<div class="pe-2 fw-semibold">나체 이미지 또는 성적 행위</div>
-               	   </div>
-           	   		<hr class="mt-3">
-               	   <div class="report-reason d-flex justify-content-start">
-               	   		<div class="pe-2 fw-semibold">나체 이미지 또는 성적 행위</div>
-               	   </div>
-           	   		<hr class="mt-3">
-           	   	   <div class="btn-box d-flex justify-content-center">
-           	   	   		<button type="button" class="btn btn-sm btn-danger me-1" id="delete-btn">삭제</button>
-           	   	   		<button type="button" class="btn btn-sm btn-info" id="cancel-btn">복구</button>
-           	   	   </div>
-               </div>
-          </div>
-      </div>
-   </div>
+	<div class="modal fade" id="board-modal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	    <div class="modal-dialog" style="margin-top: 7%; margin-left: 31.5%;">
+	        <div class="modal-content" style="height: 600px; width: 700px;  border-radius: 10px; ">
+				<div class="modal-header row-11" style="background-color: rgb(192, 192, 192); position: relative; border-radius: 10px 10px 0 0;">
+					<div class="col-11">
+					    <h1 class="modal-title fs-5 fw-semibold" id="exampleModalLabel" style="color: white;">게시물 제목</h1>
+					</div>
+					<div class="col-1">
+					    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="position: absolute; top: 15px; right: 15px;"></button>
+					</div>
+				</div>
+	            <div class="modal-body" style="max-height: 600px; overflow-y: auto; width: 700px;">
+	                <div class="row mb-3 board-content pb-5" id="board-info">
+	                    <p id="board-content">아니면 할인이라도 해주던가 아니 왜이렇게 비싸냐구요. 환불해주세요.</p>
+	                </div>
+	                <div class="report-box">
+	                    <div class="report-reason d-flex justify-content-start row">
+	                        <div class="pe-2 col-2 fw-semibold">기타</div>
+	                        <div class="col-10">어이가 없네 당연히 영화표는 돈 주고 사야하는거 아닌지? 상식이 없네요 ;;;</div>
+	                    </div>
+	                    <hr class="mt-3">
+	                </div>
+	            </div>
+	            <div class="modal-footer" >
+	                <div class="btn-box d-flex justify-content-center">
+	                    <button type="button" class="btn btn-sm btn-light me-1" id="delete-btn" style="color: red;">삭제</button>
+	                    <button type="button" class="btn btn-sm btn-light" id="restore-btn" style="color: blue;">복구</button>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
    <!-- 게시물 확인 모달 -->
 </div>
 </html>
