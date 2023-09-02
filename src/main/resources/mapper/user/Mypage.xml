@@ -33,16 +33,20 @@
         ORDER BY A.PURCHASE_DATE DESC
     </select>
     <select id="getTotalRowsByUserId" parameterType="string" resultType="int">
-        SELECT COUNT(*)
+        SELECT COUNT(A.PURCHASE_NO)
         FROM MGV_PURCHASE A
-        JOIN MGV_USER B on A.USER_ID = B.USER_ID
-        WHERE USER_ID = #{userId}
-        AND PURCHASE_DATE BETWEEN #{startDate} AND #{endDate}
-        AND STATUS = #{status}
+        JOIN MGV_USER B ON A.USER_ID = B.USER_ID
+        JOIN MGV_PRODUCT C ON A.PRODUCT_NO = C.PRODUCT_NO
+        WHERE B.USER_ID = #{userId}
+        <if test="status neq null and status != ''">
+            AND A.PURCHASE_STATUS = #{status}
+        </if>
+        AND A.PURCHASE_DATE BETWEEN #{startDate} AND #{endDate}
     </select>
     <select id="getPurchases" parameterType="map" resultType="Purchase">
         select *
             from (SELECT ROW_NUMBER() OVER (ORDER BY A.PURCHASE_DATE DESC) as ROW_NUM,
+                A.PURCHASE_NO            as "no",
                 A.PURCHASE_DATE            as purchaseDate,
                 A.PURCHASE_CANCELED_DATE   as canceledDate,
                 C.PRODUCT_NAME             as "product.name",

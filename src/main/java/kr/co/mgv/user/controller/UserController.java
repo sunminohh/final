@@ -148,15 +148,13 @@ public class UserController {
 
     @PostMapping("/purchase")
     @ResponseBody
-    public ResponseEntity<List<Purchase>> purchaseList(@RequestParam String startDate,
+    public ResponseEntity<HashMap<String, Object>> purchaseList(@RequestParam String startDate,
                                                        @RequestParam String endDate,
                                                        @RequestParam String status,
-                                                       @RequestParam(name = "rows", defaultValue = "5") int rows,
                                                        @RequestParam(name = "page", defaultValue = "1") int page) {
         String userId = getLoggedInUserId();
         log.info("loginId -> {}", userId);
-        List<Purchase> purchases = mypageService.getPurchaseByUserId(userId, startDate, endDate, status, rows, page);
-        log.info("rows -> {}", rows);
+        HashMap<String, Object> purchases = mypageService.getPurchaseByUserId(userId, startDate, endDate, status, page);
         log.info("page -> {}", page);
         log.info("startDate -> {}", startDate);
         log.info("endDate -> {}", endDate);
