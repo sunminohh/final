@@ -89,8 +89,11 @@ $(() => {
             success: function (data) {
                 const $tableBody = $("#purchaceTableBody").empty();
                 const $pagination = $(".pagination");
+                const $totalRows = $(".font-gblue");
 
-                const { purchases, pagination } = data;
+                const { purchases, pagination, totalRows } = data;
+
+                $totalRows.text(totalRows);
 
                 if (purchases && purchases.length === 0) {
                     $tableBody.append(`
@@ -100,6 +103,7 @@ $(() => {
                     `);
                     $pagination.empty();
                 } else {
+
                     $.each(purchases, function (index, purchase) {
                         $tableBody.append(`
                         <tr>
@@ -110,6 +114,7 @@ $(() => {
                         </tr>
                         `);
                     });
+
 
                     $pagination.html(renderPagination(pagination));
                 }

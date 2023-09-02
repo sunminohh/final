@@ -26,6 +26,7 @@ public class MypageService {
         HashMap<String, Object> result = new HashMap<>();
         result.put("purchases", purchases);
         result.put("pagination", pagination);
+        result.put("totalRows", totalRows);
         return result;
     }
 
