@@ -2,11 +2,11 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/default}">
 <head th:fragment="extra-head-content">
-
+    <script th:src="@{/js/user/pwd-find.js}"></script>
 </head>
 <div layout:fragment="content" id="contents" class="pwd-form">
 
-    <form id="action-form" method="post" th:action="@{/user/auth/pass-find}">
+    <form id="action-form" method="post" th:action="@{/user/pass-find}">
         <div class="member-wrap">
             <!-- col-wrap -->
             <div class="col-wrap">
@@ -17,7 +17,7 @@
 
                     <div class="tab-list">
                         <ul>
-                            <li><a th:href="@{/user/auth/user-find}" title="아이디찾기 선택">아이디찾기<!--아이디찾기--></a></li>
+                            <li><a th:href="@{/user/user-find}" title="아이디찾기 선택">아이디찾기<!--아이디찾기--></a></li>
                             <li class="on"><a href="javaScript:void(0);" title="비밀번호 찾기 선택">비밀번호 찾기<!--비밀번호 찾기--></a></li>
                         </ul>
                     </div>
@@ -36,13 +36,13 @@
                             <tr>
                                 <th scope="row"><label for="ibxSchPwdLoginId">아이디 <em class="font-orange">*</em></label></th>
                                 <td>
-                                    <input id="ibxSchPwdLoginId" maxlength="20" type="text" placeholder="아이디" class="input-text w230px"><!--아이디-->
+                                    <input id="ibxSchPwdLoginId" name="id" maxlength="20" type="text" placeholder="아이디" class="input-text w230px"><!--아이디-->
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row"><label for="ibxSchPwdMbNm">이름 <em class="font-orange">*</em></label></th>
                                 <td>
-                                    <input id="ibxSchPwdMbNm" maxlength="20" type="text" placeholder="이름" class="input-text w230px"><!--이름-->
+                                    <input id="ibxSchPwdMbNm" name="name" type="text" placeholder="이름" class="input-text w230px"><!--이름-->
                                 </td>
                             </tr>
                             <tr>
@@ -78,7 +78,7 @@
                     </div>
                     <!--비밀번호 찾기-->
                     <div class="btn-member-bottom v1">
-                        <button id="btnSchPwd" type="button" class="button purple large disabled" disabled="disabled">비밀번호 찾기<!--비밀번호 찾기--></button>
+                        <button id="btnSchPwd" type="button" class="button purple large" disabled>비밀번호 찾기<!--비밀번호 찾기--></button>
                     </div>
 
                 </div>
