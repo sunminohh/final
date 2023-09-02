@@ -92,10 +92,10 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 	//		대기자 명단 - {cmd:wait, waitings:[sun, ohhgeo, hong]}
 	public void reqChat(WebSocketSession session, ChatMessage chatMessage) throws Exception {
 		String userId = chatMessage.getUserId();
-		
-		userSessions.add(Map.of("userId", userId, "session", session));
-
-		broadcast();
+		if (userId != null) {
+			userSessions.add(Map.of("userId", userId, "session", session));
+			broadcast();
+		}
 	}
 	
 	// 요청
