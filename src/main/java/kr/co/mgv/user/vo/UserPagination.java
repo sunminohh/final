@@ -1,12 +1,13 @@
 package kr.co.mgv.user.vo;
 
+import lombok.Data;
 import lombok.Getter;
 
 import java.util.stream.IntStream;
 
-@Getter
+@Data
 public class UserPagination {
-    private int rows = 10;
+    private int rows = 5;
     private int pages = 5;
     private int page;
     private int totalRows;

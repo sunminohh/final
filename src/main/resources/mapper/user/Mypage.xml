@@ -3,7 +3,7 @@
 <mapper namespace="kr.co.mgv.user.dao.MypageDao">
     <resultMap id="purchaseWithProductMap" type="Purchase">
         <result property="purchaseDate" column="purchase_date"/>
-        <result property="cancelDate" column="purchase_canceled_date"/>
+        <result property="canceledDate" column="purchase_canceled_date"/>
         <result property="price" column="purchase_price"/>
         <result property="status" column="purchase_status"/>
         <association property="user" javaType="User">
@@ -30,8 +30,34 @@
             AND A.PURCHASE_STATUS = #{status}
         </if>
         AND A.PURCHASE_DATE BETWEEN #{startDate} AND #{endDate}
-        ORDER BY A.PURCHASE_DATE DESC;
+        ORDER BY A.PURCHASE_DATE DESC
     </select>
-
+    <select id="getTotalRowsByUserId" parameterType="string" resultType="int">
+        SELECT COUNT(*)
+        FROM MGV_PURCHASE A
+        JOIN MGV_USER B on A.USER_ID = B.USER_ID
+        WHERE USER_ID = #{userId}
+        AND PURCHASE_DATE BETWEEN #{startDate} AND #{endDate}
+        AND STATUS = #{status}
+    </select>
+    <select id="getPurchases" parameterType="map" resultType="Purchase">
+        select *
+            from (SELECT ROW_NUMBER() OVER (ORDER BY A.PURCHASE_DATE DESC) as ROW_NUM,
+                A.PURCHASE_DATE            as purchaseDate,
+                A.PURCHASE_CANCELED_DATE   as canceledDate,
+                C.PRODUCT_NAME             as "product.name",
+                A.PURCHASE_PRICE           as price,
+                A.PURCHASE_STATUS          as status,
+                B.USER_ID                  as "user.id"
+            FROM MGV_PURCHASE A
+            JOIN MGV_USER B on A.USER_ID = B.USER_ID
+            JOIN MGV_PRODUCT C ON A.PRODUCT_NO = C.PRODUCT_NO
+            WHERE B.USER_ID = #{userId}
+            <if test="status neq null and status != ''">
+                AND A.PURCHASE_STATUS = #{status}
+            </if>
+            AND A.PURCHASE_DATE BETWEEN #{startDate} AND #{endDate}) as PURCHASE_ROW
+        WHERE ROW_NUM BETWEEN #{begin} and #{end};
+    </select>
     <!-- 구매일 조회 -->
 </mapper>

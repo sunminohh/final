@@ -15,6 +15,7 @@ import kr.co.mgv.board.mapper.BoardNoticeDao;
 import kr.co.mgv.board.mapper.PartyBoardDao;
 import kr.co.mgv.board.mapper.TheaterBoardDao;
 import kr.co.mgv.board.vo.BoardLocation;
+import kr.co.mgv.board.vo.MovieBoard;
 import kr.co.mgv.board.vo.PBoardComment;
 import kr.co.mgv.board.vo.PBoardReport;
 import kr.co.mgv.board.vo.PartyBoard;
@@ -150,9 +151,50 @@ public class PartyBoardService {
 		return partyBoardDao.getJoinByPnoAndAccept(join);
 	}
 	
-	public void updateJoin (int no, User user, String request) {
-		PartyBoard board = PartyBoard.builder().no(no).build();
+	public void updateJoin (int no, User user, String request, String writerId) throws IOException {
+		PartyBoard board = partyBoardDao.getPBoardByNo(no);
 		PartyJoin join = PartyJoin.builder().board(board).user(user).request(request).build();
+		PartyJoin savedJoin = partyBoardDao.getJoinByPnoAndId(join);
+		
+		String fromId = join.getUser().getId();
+		String type = "파티";
+		int boardNo = join.getBoard().getNo();
+		String BoardName = board.getName();
+		if (BoardName.length() > 8) {
+			BoardName =  BoardName.substring(0, 8);
+		}
+		
+		if(savedJoin != null && "N".equals(savedJoin.getRequest()) && !writerId.equals(fromId)) {
+    		String text = "["+ type + "]게시판 [" +BoardName+ "...]에 " + fromId + "님이 파티를 신청 했습니다."+boardNo; 
+			noticeWebsocketHandler.sendMessage(writerId, text);
+			log.info("text -> {}",text);
+			AddBoardNoticeForm form = AddBoardNoticeForm.builder()
+					  .boardType(type)
+					  .boardNo(boardNo)
+					  .fromId(fromId)
+					  .toId(writerId)
+					  .code("join")
+					  .boardName(BoardName)
+					  .build();
+			boardNoticeDao.insertNotice(form);
+    	} 
+    	
+    	if(savedJoin == null && !writerId.equals(fromId)) {
+    		String text = "["+ type + "]게시판 [" +BoardName+ "...]에 " + fromId + "님이 파티를 신청 했습니다."+boardNo; 
+			noticeWebsocketHandler.sendMessage(writerId, text);
+			log.info("text -> {}",text);
+			AddBoardNoticeForm form = AddBoardNoticeForm.builder()
+					  .boardType(type)
+					  .boardNo(boardNo)
+					  .fromId(fromId)
+					  .toId(writerId)
+					  .code("join")
+					  .boardName(BoardName)
+					  .build();
+			boardNoticeDao.insertNotice(form);
+    	}
+		
+		
 		partyBoardDao.updateJoin(join);
 	}
 	
@@ -178,10 +220,35 @@ public class PartyBoardService {
 		return partyBoardDao.getAcceptCount(no);
 	}
 	
-	public void partyComplete (int no) {
+	public void partyComplete (int no) throws IOException {
 		PartyBoard board = partyBoardDao.getPBoardByNo(no);
 		board.setComplete("Y");
 		partyBoardDao.updatePBoardByNo(board);
+		
+		String type = "파티";
+		String code = "complete";
+		int boardNo = no;
+		String boardName = board.getName();
+		if (boardName.length() > 8) {
+			boardName =  boardName.substring(0, 8);
+		}
+		
+		List<String> toIds = partyBoardDao.getIdsByAcceptAndComplete(no);
+		for(String toId : toIds) {
+			String text = "["+ type + "]게시판 [" +boardName+ "...]에 " + "파티신청이 수락되었습니다."+boardNo; 
+			noticeWebsocketHandler.sendMessage(toId, text);
+			log.info("text -> {}",text);
+			
+			AddBoardNoticeForm form = AddBoardNoticeForm.builder()
+									  .boardType(type)
+									  .boardNo(boardNo)
+									  .fromId(board.getUser().getId())
+									  .toId(toId)
+									  .code(code)
+									  .boardName(boardName)
+									  .build();
+			boardNoticeDao.insertNotice(form);
+		}
 	}
 	
 	// 신고관련

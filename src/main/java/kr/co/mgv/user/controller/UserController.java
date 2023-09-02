@@ -1,6 +1,5 @@
 package kr.co.mgv.user.controller;
 
-import kr.co.mgv.store.vo.Product;
 import kr.co.mgv.user.form.UserUpdateForm;
 import kr.co.mgv.user.service.MypageService;
 import kr.co.mgv.user.service.UserService;
@@ -8,7 +7,6 @@ import kr.co.mgv.user.vo.Purchase;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
@@ -19,8 +17,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @Secured({"ROLE_USER", "ROLE_ADMIN"})
@@ -151,10 +150,14 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<List<Purchase>> purchaseList(@RequestParam String startDate,
                                                        @RequestParam String endDate,
-                                                       @RequestParam String status) {
+                                                       @RequestParam String status,
+                                                       @RequestParam(name = "rows", defaultValue = "5") int rows,
+                                                       @RequestParam(name = "page", defaultValue = "1") int page) {
         String userId = getLoggedInUserId();
         log.info("loginId -> {}", userId);
-        List<Purchase> purchases = mypageService.getPurchaseByUserId(userId, startDate, endDate, status);
+        List<Purchase> purchases = mypageService.getPurchaseByUserId(userId, startDate, endDate, status, rows, page);
+        log.info("rows -> {}", rows);
+        log.info("page -> {}", page);
         log.info("startDate -> {}", startDate);
         log.info("endDate -> {}", endDate);
         log.info("status -> {}", status);

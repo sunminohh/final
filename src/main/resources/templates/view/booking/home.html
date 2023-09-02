@@ -43,9 +43,11 @@
             let selectedSeat
             const seatChoices = new Set
             let screenId
-            let screenRow=10
-            let screenCol=11
-
+            let screenRow=14
+            let screenCol=20+1
+            let maxSeatChoices
+            let curSeatChoices
+            let prevMouseOverSeat
             function apiByDate(date){
                 fetch('api/booking/'+date).then(res => res.json()).then(item=>{
                     let aa= JSON.stringify(item)
@@ -195,7 +197,7 @@
                     const tBtn = $("#tBtn-"+id)
                     const html = `<div class="wrap" id="selected">
                         <p class="txt">${id}
-                            <button type="button" class="del" onClick="fn_deleteBrchChoice('1572', '10')" box-id="${id}"
+                            <button type="button" class="del" box-id="${id}"
                                     brch-no="1572" area-cd="10" spclb-yn="N" theab-kind-cd="10">삭제
                             </button>
                         </p>
@@ -266,9 +268,9 @@
                 fetch(url).then(res=>res.json()).then(data=> {
                 $.each(data,(index,s) => {
                     const scheduleHtml=`<li>
-                    <button type="button" class="btn" schedule-id="${s.id}" start="${s.startTime}" play-de="${selectedDate}" end=""
-                            turn="1" movie-no="${s.movieNo}" theater-no="0029" screen-id="${s.screenId}"
-                            play-schdl-no="2308240029024" netfnl-adopt-at="N" rest-seat-cnt="105"
+                    <button type="button" class="btn" id="schedule-${s.id}" schedule-id="${s.id}" start="${s.startTime}" play-de="${selectedDate}" end=""
+                            turn="1" movie-no="${s.movieNo}" theater-no="${s.theaterNo}" screen-id="${s.screenId}" screen-name="${s.screenName}"
+                            theater-name="${s.theaterName}" netfnl-adopt-at="N" rest-seat-cnt="105" start-time="${s.startTime}" end-time="${s.endTime}"
                             ctts-ty-div-cd="MVCT01" theab-popup-at="Y" theab-popup-no="2015">
                         <div class="legend"><i class="iconset ico-sun" title="">조조</i></div>
                         <span class="time"><strong title="상영 시작">${s.startTime}</strong><em title="상영 종료">~${s.endTime}</em></span><span
@@ -293,12 +295,45 @@
                 $("#step0").hide()
                 $("#step1").show()
                 createSeats(screenRow,screenCol)
+                maxSeatChoices=0
+                curSeatChoices=0
                 // $("input[name='username']").val("");
                 // $("input[name='$password']").val("");
                 // $("input[name='username']").focus()
                 // $(".login-modal").addClass("is-open")
+                const movie = $("#mBtn-"+mNo)
+                generateSeatResultByScheduleId(scheduleId)
             })
 
+            function generateSeatResultByScheduleId(id){
+                    const s=$("#schedule-"+id)
+                    const mNo=s.attr('movie-no')
+                const movie = $("#mBtn-"+mNo)
+                $(".seat-result").children()
+                    .children(':first').html(`
+                                <span class="movie-grade small age-${movie.attr('contentRating')}">${movie.attr('contentRatingKr')}</span>
+                                <p class="tit">${movie.attr('movie-nm')}</p>
+                                <p class="cate">2D</p>`)
+                    .next().html(`<p class="theater">${s.attr('theater-name')}</p>
+                                    <p class="special">${s.attr('screen-name')}</p>
+                                    <p class="date">
+                                        <span>${selectedDate}</span>
+                                        <em>(${today.format('dd')})</em>
+                                    </p>
+                                    <div class="other-time">
+                                        <button type="button" class="now">${s.attr('start-time')} ~ ${s.attr('end-time')} <i class="arr"></i>
+                                        </button>
+                                        <ul class="other">
+                                            <li>
+                                                <button type="button" choicnt="90" playschdlno="2307311372034" class="btn on ">08:55~10:54</button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <p class="poster">
+                                        <img src="${movie.attr('img-path')}">
+                                    </p>`)
+
+            }
             function createSeats(screenRow,screenCol){
                 const seatsDiv = $("#seatsDiv")
                 fetch("/api/booking/getDisabledSeats?screenId="+screenId).then(res=>res.json()).then(json=>{
@@ -326,7 +361,6 @@
 
             function initDefaultSeats(screenRow,screenCol){
                 const seatsDiv = $("#seatsDiv")
-                seatsDiv.empty()
                 for (let i=0; i<screenRow; i++){
                     let rowChar=String.fromCharCode(65+i)
                     seatsDiv.append('<div class="row justify-content-center"></div>')
@@ -377,17 +411,21 @@
             }
 
             function createActiveSeat(seatNo,screenRow,screenCol, state){
-                return `<button type="button" title="${seatNo} (스탠다드/일반)" class="jq-tooltip seat-condition ${state}" id=${seatNo} r=${screenRow} c=${screenCol} seatclasscd="GERN_CLS" seatzonecd="GERN_ZONE" seatuniqno="00100101" rownm="A" seatno="1" seatchoidircval="1" seatchoigrpno="2" seatchoigrpnm="A2" seatchoirowcnt="6" seatchoigrpseq="1" seattocnt="1">
+                return `<button type="button" title="${seatNo} (스탠다드/일반)" class="jq-tooltip seat-condition ${state}" id=${seatNo} r=${screenRow} c=${screenCol} seatclasscd="GERN_CLS" seatzonecd="GERN_ZONE">
                                      <span class="num">${seatNo}</span>
                                     <span class="rank">일반</span>
                                                     </button>`
             }
             function createDisabledSeat(seatNo,screenRow,screenCol){
-                return `<div class="empty" id="${seatNo}" r="${screenRow}" c="${screenCol}" style="width:18px; height:18px; padding:0px;"></div>`
+                return `<div class="empty" id="${seatNo}" r="${screenRow}" c="${screenCol}" style="width:20px; height:19px; padding:0px;"></div>`
             }
 
             $("#seatsDiv").on('click','button',function() {
-                const id=$(this).attr('id')
+                const double = $(this).addClass('choice').siblings('.on').addClass('choice').length
+                curSeatChoices=curSeatChoices+1+double
+                console.log(curSeatChoices)
+                singleSeatCheck()
+          /*      const id=$(this).attr('id')
                 if(selectedSeat){
                     if(selectedSeat==id){
                         clearSeatChoices()
@@ -397,39 +435,77 @@
                     selectedSeat=id
                     $(this).addClass('choice')
                     return;
-                }
+                }*/
             })
             $("#seatsDiv").on('mouseover','button',function() {
-                if(seatChoices.size>0){
+                // if(seatChoices.size>0){
+                //     return
+                // }
+                // mouseoverSeat && mouseoverSeat.removeClass('on')
+                // mouseoverSeat=$(this)
+                // mouseoverSeat.addClass('on')
+                // const id=$(this).attr('id')
+                // if(selectedSeat){
+                //     if(selectedSeat==id){
+                //         return
+                //     }else selectSeats($(this).attr('r'), $(this).attr('c'))
+                // }else {
+                //     return;
+                // }
+                const seatsToPick = maxSeatChoices - curSeatChoices
+                if(seatsToPick==0){
                     return
-                }
-                mouseoverSeat && mouseoverSeat.removeClass('on')
-                mouseoverSeat=$(this)
-                mouseoverSeat.addClass('on')
-                const id=$(this).attr('id')
-                if(selectedSeat){
-                    if(selectedSeat==id){
-                        return
-                    }else selectSeats($(this).attr('r'), $(this).attr('c'))
+                }else if(seatsToPick==1){
+                    $(this).toggleClass('on')
                 }else {
-                    return;
+
+                    const l=$(this).attr('seq-len')
+                    if(l==1){
+                        $(this).toggleClass('on')
+                        return
+                    }
+                    const k=$(this).attr('seq')
+                    let left
+                    if(l>2 && k==l-1){
+                        if(l%2==1 && prevMouseOverSeat)
+                            if(prevMouseOverSeat==$(this).next().attr('id')){
+                                left=true
+                            }else if(prevMouseOverSeat==$(this).prev().attr('id')){
+                                left=false
+                            }else left=false
+                    }else if(k<l-1){
+                        if(k%2==0){
+                            left=true
+                        }else left=false
+                    }else left=true
+                    if(left){
+                        $(this).addClass('on').prev().addClass('on')
+                        return
+                    }else {
+                        $(this).addClass('on').next().addClass('on')
+                        return
+                    }
                 }
             })
-            function selectSeats(screenRow,screenCol){
-                $("#seatsDiv .jq-tooltip").removeClass('on')
-                const sr= $("#"+selectedSeat).attr('r')
-                const sc= $("#"+selectedSeat).attr('c')
-                const startRow=Math.min(sr,screenRow)
-                const endRow=Math.max(sr,screenRow)+1
-                const startCol= Math.min(sc,screenCol)
-                const endCol= Math.max(sc,screenCol)+1
-
-                const aaaa=$("#seatsDiv").children().slice(startRow,endRow)
-                // const y='.jq-tooltip.seat-condition.standard.common'
-                aaaa.each(function(index,el){
-                    $(this).children().slice(startCol,endCol).addClass('on')
-                })
-            }
+            $("#seatsDiv").on('mouseleave','button',function() {
+                prevMouseOverSeat=$(this).attr('id')
+                    $(this).removeClass('on').siblings().removeClass('on')
+            })
+            // function selectSeats(screenRow,screenCol){
+            //     $("#seatsDiv .jq-tooltip").removeClass('on')
+            //     const sr= $("#"+selectedSeat).attr('r')
+            //     const sc= $("#"+selectedSeat).attr('c')
+            //     const startRow=Math.min(sr,screenRow)
+            //     const endRow=Math.max(sr,screenRow)+1
+            //     const startCol= Math.min(sc,screenCol)
+            //     const endCol= Math.max(sc,screenCol)+1
+            //
+            //     const aaaa=$("#seatsDiv").children().slice(startRow,endRow)
+            //     // const y='.jq-tooltip.seat-condition.standard.common'
+            //     aaaa.each(function(index,el){
+            //         $(this).children().slice(startCol,endCol).addClass('on')
+            //     })
+            // }
 
             function chooseSeats(){
                 const seats=$("#seatsDiv .on")
@@ -486,10 +562,125 @@
                 seatNumbering(screenRow,screenCol)
                 clearSeatChoices()
             })
-            $("#mCSB_1_container222").on('mouseleave',()=>{
-                if(selectedSeat){
-                    const onSeats=$("#seatsDiv .on").removeClass('on')
+            // $("#mCSB_1_container222").on('mouseleave',()=>{
+            //     if(selectedSeat){
+            //         const onSeats=$("#seatsDiv .on").removeClass('on')
+            //     }
+            // })
+
+            function sequncing(rowNum) {
+                if (rowNum) {
+                    sequncingByRowNum(rowNum)
+                    return
                 }
+                const seatsDiv = $("#seatsDiv")
+                let r = seatsDiv.children().length
+
+                for (let i = 0; i < r; i++) {
+                    sequncingByRowNum(i)
+                }
+            }
+            function sequncingByRowNum(rowNum){
+                const seatsDiv = $("#seatsDiv")
+                const seats= seatsDiv.children(":eq("+rowNum+")").children('.standard.common').not('.finish').not('.choice')
+                let prev
+                const arr  = []
+                let k=1
+                seats.each(function(i,seat) {
+                    const c = parseInt($(this).attr('c'))
+                    const isLast= i === (seats.length-1)
+                    if (prev &&!isLast && prev.attr('c') == c - 1) {
+                    } else{
+                        isLast && arr.push($(this))
+                        $.each(arr, function (k) {
+                            $(this).attr('seq', k + 1).attr('seq-len',arr.length )
+                        })
+                        arr.splice(0, arr.length)
+                    }
+                    arr.push($(this))
+                    prev = $(this)
+                })
+            }
+            function blockSingleSeats(rowNum){
+                if (rowNum) {
+                    blockSingleSeatsByRowNum(rowNum)
+                    return
+                }
+                const seatsDiv = $("#seatsDiv")
+                let r = seatsDiv.children().length
+                for (let i = 0; i < r; i++) {
+                    blockSingleSeatsByRowNum(i)
+                }
+            }
+            function singleSeatCheck(){
+                if(maxSeatChoices-curSeatChoices==1){
+                    sequncing()
+                    blockSingleSeats()
+                }else{
+                    $("#seatsDiv").find(".impossible").removeClass('impossible view')
+                }
+            }
+            function blockSingleSeatsByRowNum(rowNum){
+                const seatsDiv = $("#seatsDiv")
+                const seats = seatsDiv.children(":eq("+rowNum+")").children('.standard.common').not('finish').not('.choice')
+                seats.each(function(i) {
+                    let l = parseInt($(this).attr('seq-len'))
+                    if(l>2){
+                        let flag
+                        let k =parseInt( $(this).attr('seq'))
+                        let x = l-k
+                        if(k>1 && k<l){
+                            if(k === 2 || k === l-1){
+                                flag=true
+                            }else{
+                                let modulo=(k%2 == 0)
+                                if(l%2 == 0){
+                                    let c=$(this).attr('c')*2
+                                    if(screenCol/2 > (c+x-k)/2){
+                                        modulo=!modulo
+                                    }
+                                }
+                                if (modulo){
+                                    flag=true
+                                }
+                            }
+                        }
+                        if(flag){
+                            $(this).addClass('impossible view')
+                        }
+                    }
+                })
+            }
+            $(".up").on('click',function(){
+                if(maxSeatChoices==8){
+                    return
+                }
+                maxSeatChoices++
+                singleSeatCheck()
+                if(maxSeatChoices-curSeatChoices==1){
+                    sequncing()
+                    blockSingleSeats()
+                }else{
+                    $("#seatsDiv").find(".impossible").removeClass('impossible view')
+                }
+               let count= $(this).prev().children(':first')
+                count.text(parseInt(count.text())+1)
+            })
+
+            $(".down").on('click',function(){
+                if(maxSeatChoices==0){
+                    return
+                }
+                maxSeatChoices--
+                singleSeatCheck()
+                if(maxSeatChoices-curSeatChoices==1){
+                    sequncing()
+                    blockSingleSeats()
+                }else{
+                    $("#seatsDiv").find(".impossible").removeClass('impossible view')
+                }
+                let count= $(this).prev().children(':first')
+                count.text(parseInt(count.text())+1)
             })
         })
 
@@ -587,7 +778,7 @@
                                                     <div id="mCSB_1_container123" class="mCSB_container" style="position:relative; top:0; left:0;" dir="ltr">
                                                         <ul>
                                                             <li th:each="movie, i : ${movies}">
-                                                                <button th:type="button" th:id="|mBtn-${movie.no}|" class="btn" th:movie-nm="${movie.title}" th:movie-no="${movie.no}" th:img-path="${movie.getMainPoster()}" movie-popup-at="N" movie-popup-no="0" form-at="Y">
+                                                                <button th:type="button" th:id="|mBtn-${movie.no}|" th:contentRatingKr = "${movie.contentRatingKr}" th:contentRating="${movie.contentRating}" class="btn" th:movie-nm="${movie.title}" th:movie-no="${movie.no}" th:img-path="${movie.getMainPoster()}" movie-popup-at="N" movie-popup-no="0" form-at="Y">
                                                                 <span th:class="|movie-grade small age-${movie.contentRating}|" th:text="${movie.contentRating}" ></span>
                                                                 <i class="iconset ico-heart-small">보고싶어 설정안함</i>
                                                                 <span class="txt" th:text="${movie.title}"></span>
@@ -1480,21 +1671,6 @@
                                             <button type="button" class="up" title="청소년 좌석 선택 증가">+</button>
                                         </div>
                                     </div>
-                                    <div class="cell">
-                                        <p class="txt">우대</p>
-                                        <div class="count">
-                                            <button type="button" class="down" title="우대 좌석 선택 감소">-</button>
-                                            <div class="number">
-                                                <button type="button" class="now" title="우대 현재 좌석 선택 수" ticketgrpcd="TKS">0</button>
-                                                <ul class="num-choice">
-                                                    <li>
-                                                        <button type="button" class="btn on">0</button>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <button type="button" class="up" title="우대 좌석 선택 증가">+</button>
-                                        </div>
-                                    </div>
                                 </div>
                                 <div class="seat-layout">
                                     <div class="alert" style="display: none;"></div>
@@ -1528,85 +1704,85 @@
                             </div>
                             <div class="zone-legend" style="display: none"></div>
                         </div>
-                    </div>
-                    <div class="seat-result">
-                        <div class="wrap">
-                            <div class="tit-area">
-                                <span class="movie-grade small age-all age-12">12세이상관람가</span>
-                                <p class="tit">(더빙) 명탐정코난: 흑철의 어영</p>
-                                <p class="cate">2D(더빙)</p>
-                            </div>
-                            <div class="info-area">
-                                <p class="theater">강남</p>
-                                <p class="special">5관</p>
-                                <p class="date">
-                                    <span>2023.07.31</span>
-                                    <em>(월)</em>
-                                </p>
-                                <div class="other-time">
-                                    <button type="button" class="now">08:55~10:54 <i class="arr"></i>
-                                    </button>
-                                    <ul class="other">
-                                        <li>
-                                            <button type="button" choicnt="90" playschdlno="2307311372034" class="btn on ">08:55~10:54</button>
-                                        </li>
-                                    </ul>
+                        <div class="seat-result">
+                            <div class="wrap">
+                                <div class="tit-area">
+                                    <span class="movie-grade small">12세이상관람가</span>
+                                    <p class="tit">(더빙) 명탐정코난: 흑철의 어영</p>
+                                    <p class="cate">2D</p>
                                 </div>
-                                <p class="poster">
-                                </p>
-                            </div>
-                            <div class="choice-seat-area">
-                                <div class="legend">
-                                    <ul class="list">
-                                        <li>
-                                            <div class="seat-condition choice" title="선택한 좌석"></div>
-                                            <em>선택</em>
-                                        </li>
-                                        <li>
-                                            <div class="seat-condition finish" title="예매 완료"></div>
-                                            <em>예매완료</em>
-                                        </li>
-                                        <li>
-                                            <div class="seat-condition impossible" title="선택 불가"></div>
-                                            <em>선택불가</em>
-                                        </li>
-                                        <li>
-                                            <div class="seat-condition common" title="일반"></div>
-                                            <em> 일반</em>
-                                        </li>
-                                        <li>
-                                            <div class="seat-condition disabled" title="장애인석"></div>
-                                            <em> 장애인석</em>
-                                        </li>
-                                    </ul>
+                                <div class="info-area">
+                                    <p class="theater">강남</p>
+                                    <p class="special">5관</p>
+                                    <p class="date">
+                                        <span>2023.07.31</span>
+                                        <em>(월)</em>
+                                    </p>
+                                    <div class="other-time">
+                                        <button type="button" class="now">08:55~10:54 <i class="arr"></i>
+                                        </button>
+                                        <ul class="other">
+                                            <li>
+                                                <button type="button" choicnt="90" playschdlno="2307311372034" class="btn on ">08:55~10:54</button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <p class="poster">
+                                    </p>
                                 </div>
-                                <div class="seat-num">
-                                    <p class="tit">선택좌석</p>
-                                    <div class="my-seat">
-                                        <div class="seat all" title="구매가능 좌석">-</div>
-                                        <div class="seat all" title="구매가능 좌석">-</div>
-                                        <div class="seat all" title="구매가능 좌석">-</div>
-                                        <div class="seat all" title="구매가능 좌석">-</div>
-                                        <div class="seat all" title="구매가능 좌석">-</div>
-                                        <div class="seat all" title="구매가능 좌석">-</div>
-                                        <div class="seat all" title="구매가능 좌석">-</div>
-                                        <div class="seat all" title="구매가능 좌석">-</div>
+                                <div class="choice-seat-area">
+                                    <div class="legend">
+                                        <ul class="list">
+                                            <li>
+                                                <div class="seat-condition choice" title="선택한 좌석"></div>
+                                                <em>선택</em>
+                                            </li>
+                                            <li>
+                                                <div class="seat-condition finish" title="예매 완료"></div>
+                                                <em>예매완료</em>
+                                            </li>
+                                            <li>
+                                                <div class="seat-condition impossible" title="선택 불가"></div>
+                                                <em>선택불가</em>
+                                            </li>
+                                            <li>
+                                                <div class="seat-condition common" title="일반"></div>
+                                                <em> 일반</em>
+                                            </li>
+                                            <li>
+                                                <div class="seat-condition disabled" title="장애인석"></div>
+                                                <em> 장애인석</em>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="seat-num">
+                                        <p class="tit">선택좌석</p>
+                                        <div class="my-seat">
+                                            <div class="seat all" title="구매가능 좌석">-</div>
+                                            <div class="seat all" title="구매가능 좌석">-</div>
+                                            <div class="seat all" title="구매가능 좌석">-</div>
+                                            <div class="seat all" title="구매가능 좌석">-</div>
+                                            <div class="seat all" title="구매가능 좌석">-</div>
+                                            <div class="seat all" title="구매가능 좌석">-</div>
+                                            <div class="seat all" title="구매가능 좌석">-</div>
+                                            <div class="seat all" title="구매가능 좌석">-</div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="pay-area">
-                                <p class="count"></p>
-                                <div class="pay">
-                                    <p class="tit">최종결제금액</p>
-                                    <div class="money">
-                                        <em>0</em>
-                                        <span>원</span>
+                                <div class="pay-area">
+                                    <p class="count"></p>
+                                    <div class="pay">
+                                        <p class="tit">최종결제금액</p>
+                                        <div class="money">
+                                            <em>0</em>
+                                            <span>원</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="btn-group">
-                                <a href="javaScript:void(0)" class="button" id="pagePrevious" title="이전">이전</a>
-                                <a href="javaScript:void(0)" class="button disabled" id="pageNext" title="다음">다음</a>
+                                <div class="btn-group">
+                                    <a href="javaScript:void(0)" class="button" id="pagePrevious" title="이전">이전</a>
+                                    <a href="javaScript:void(0)" class="button disabled" id="pageNext" title="다음">다음</a>
+                                </div>
                             </div>
                         </div>
                     </div>

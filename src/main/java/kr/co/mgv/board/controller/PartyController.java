@@ -243,16 +243,17 @@ public class PartyController {
 		@ResponseBody
 		public ResponseEntity<Void> changeRequest(@RequestParam("no") int no,
 												  @RequestParam("request") String request,
-												  @AuthenticationPrincipal User user){
+												  @AuthenticationPrincipal User user,
+												  @RequestParam("writerId") String writerId) throws IOException{
 			PartyJoin savedJoin = partyBoardService.getJoinByPnoAndId(no, user);
 			PartyBoard savedBoard = partyBoardService.getPBoardByNo(no);
 			int requestCount = savedBoard.getRequestCount();
 			
 			if(savedJoin != null && "Y".equals(savedJoin.getRequest())) {
-				partyBoardService.updateJoin(no, user, request);
+				partyBoardService.updateJoin(no, user, request, writerId);
 				savedBoard.setRequestCount(requestCount - 1);
 			} else if (savedJoin != null && "N".equals(savedJoin.getRequest())) {
-				partyBoardService.updateJoin(no, user, request);
+				partyBoardService.updateJoin(no, user, request, writerId);
 				savedBoard.setRequestCount(requestCount + 1);
 			} else if (savedJoin == null) {
 				partyBoardService.insertPartyJoin(no, user);
@@ -316,7 +317,7 @@ public class PartyController {
 
 		@PostMapping("/partyComplete")
 		@ResponseBody
-		public ResponseEntity<Void> partyComplete(@RequestParam("no") int no){
+		public ResponseEntity<Void> partyComplete(@RequestParam("no") int no) throws IOException{
 			
 			partyBoardService.partyComplete(no);
 			
