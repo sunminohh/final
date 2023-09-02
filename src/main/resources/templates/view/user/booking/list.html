@@ -162,7 +162,7 @@
 
             <!-- 구매 조회 조건 -->
             <div class="board-list-search mt20">
-                <table summary="구매 조회 조건">
+                <table>
                     <colgroup>
                         <col style="width:75px;">
                         <col>
@@ -192,7 +192,7 @@
                                 <input type="text" title="조회기간 시작 날짜 입력" name="purchaseDate" placeholder="yyyy.mm.dd" class="date-calendar v2 datepicker" id="startDate">
                                 <span>~</span>
                                 <input type="text" title="조회기간 마지막 날짜 입력" name="purchaseDate" placeholder="yyyy.mm.dd" class="date-calendar v2 datepicker" id="endDate">
-                                <button type="button" class="button gray-line" id="btnSearch" name="search">
+                                <button type="button" class="button gray-line" id="btnCheck" name="search">
                                     <i class="iconset ico-search-gray"></i> 조회
                                 </button>
                             </div>
@@ -206,12 +206,12 @@
             <!-- 구매 목록  -->
             <div class="board-list-util mb10">
                 <p class="result-count pt00">
-                    <strong>전체 <b class="font-gblue">0</b>건</strong>
+                    <strong>전체 <span class="font-gblue" id="totalCnt"></span>건</strong>
                 </p>
             </div>
 
             <div class="table-wrap">
-                <table class="board-list" summary="결제일시, 구분, 상품명, 결제금액, 상태 항목을 가진 결제내역 목록 표">
+                <table class="board-list">
                     <caption>결제일시, 상품명, 결제금액, 상태 항목을 가진 결제내역 목록 표</caption>
                     <colgroup>
                         <col style="width:160px;">

@@ -101,7 +101,76 @@ $(() => {
                 console.error("Error:", error);
             }
         });
+        // loadData(currentPage);
     });
+
+    /*function loadData(page) {
+        const startDate = $("#startDate").val();
+        const endDate = $("#endDate").val();
+
+        let status = $('input[name="status"]:checked').val();
+
+        $.ajax({
+            url: "/mypage/purchase",
+            type: 'POST',
+            data: {
+                page: page,
+                startDate: startDate,
+                endDate: endDate,
+                status: status
+            },
+            success: function (data) {
+                let tableBody = $("#purchaceTableBody");
+                tableBody.empty();
+
+                if (data && data.length === 0) {
+                    tableBody.append(`
+                        <tr>
+                            <td colspan="5" class="a-c">결제내역이 없습니다.</td>
+                        </tr>
+                    `);
+                } else {
+
+                    $.each(data, function (index, purchase) {
+                        tableBody.append(`
+                        <tr>
+                            <td>${moment(purchase.purchaseDate).format("yyyy-MM-DD")}</td>
+                            <td>${purchase.product.name}</td>
+                            <td>${purchase.price % 1000 === 0 ? new Intl.NumberFormat('ko-KR').format(purchase.price) : purchase.price}</td>
+                            <td>${purchase.status === 'P' ? '구매' : '취소'}</td>
+                        </tr>
+                        `);
+                        // console.log("구매일자 -> ", purchase.purchaseDate);
+                        // console.log("상품명 -> ", purchase.product.name);
+                        // console.log("가격 -> ", purchase.price);
+                        // console.log("상태 -> ", purchase.status);
+                    });
+                }
+            },
+            error: function (error) {
+                console.error("Error:", error);
+            }
+        });
+    }
+
+    function renderPagination(totalPages, currentPage) {
+        let paginationHtml = '';
+
+        for (let i = i; i <= totalPages; i++) {
+            if (i === currentPage) {
+                paginationHtml += `<li class=page-item active"><a class="page-link" herf="#">${i}</a></li>`;
+            } else {
+                paginationHtml += `<li class="page-item"><a class="page-link" href="#" data-page="${i}"></a></li>`;
+            }
+        }
+        $(".pagination").html(paginationHtml);
+
+        $(".pagination .page-link").on('click', function (e) {
+            e.preventDefault();
+            currentPage = $(this).data("page");
+            loadData(currentPage);
+        });
+    }*/
 
 })
 

@@ -4,7 +4,6 @@ import kr.co.mgv.user.vo.Purchase;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.Date;
 import java.util.List;
 
 @Mapper
@@ -14,6 +13,20 @@ public interface MypageDao {
     List<Purchase> getPurchaseByUserId(@Param("userId") String userId,
                                        @Param("startDate") String startDate,
                                        @Param("endDate") String endDate,
-                                       @Param("status") String status);
+                                       @Param("status") String status,
+                                       @Param("begin") int begin,
+                                       @Param("end") int end);
 
+    int getTotalRowsByUserId(@Param("userId") String userId,
+                             @Param("startDate") String startDate,
+                             @Param("endDate") String endDate,
+                             @Param("status") String status);
+
+
+    List<Purchase> getPurchases(@Param("userId") String userId,
+                                @Param("startDate") String startDate,
+                                @Param("endDate") String endDate,
+                                @Param("status") String status,
+                                @Param("begin") int begin,
+                                @Param("end") int end);
 }
