@@ -11,6 +11,7 @@
             <div class="inner-wrap">
                 <!-- store-payment -->
                 <div class="store-payment">
+                    <!-- 주문 form -->
                     <h2 class="tit">장바구니</h2>
                     <h3 class="tit">장바구니 목록</h3>
                     <div class="table-wrap">
@@ -18,6 +19,7 @@
                         <form action="/cart/delete" method="post" class="delete-form">
                             <input type="hidden" name="cartNo" class="delete-cartNo">
                         </form>
+                        <form action="/order/order" id="order-form" method="post" class="order-form">
                         <table class="board-list">
                             <caption>주문상품정보 목록 표</caption>
                             <colgroup>
@@ -42,17 +44,17 @@
                                         <p class="img"><a th:href="@{/store/detail/product(productNo=${cart.getProduct().getNo()})}"><img th:src="${cart.getProduct().getImagePath()}" onerror="noImg(this);"></a></p>
                                     </div>
                                 </td>
-                                <td class="a-c" th:if="${cart.getPkg()}">
-                                    <div class="goods-info" th:if="${cart.getPkg().getImagePath()}">
-                                        <p class="img"><a th:href="@{/store/detail/package(packageNo=${cart.getPkg().getNo()})}"><img th:src="${cart.getPkg().getImagePath()}" onerror="noImg(this);"></a></p>
-                                    </div>
-                                </td>
                                 <th scope="row" th:if="${cart.getProduct()}">
                                     <div class="goods-info">
                                         <p class="name"><a th:href="@{/store/detail/product(productNo=${cart.getProduct().getNo()})}" th:text="${cart.getProduct().getName()}"></a></p>
                                         <p class="bundle" th:text="${cart.getProduct().getDescription()}"></p>
                                     </div>
                                 </th>
+                                <td class="a-c" th:if="${cart.getPkg()}">
+                                    <div class="goods-info" th:if="${cart.getPkg().getImagePath()}">
+                                        <p class="img"><a th:href="@{/store/detail/package(packageNo=${cart.getPkg().getNo()})}"><img th:src="${cart.getPkg().getImagePath()}" onerror="noImg(this);"></a></p>
+                                    </div>
+                                </td>
                                 <th scope="row" th:if="${cart.getPkg()}">
                                     <div class="goods-info">
                                         <p class="name"><a th:href="@{/store/detail/package(packageNo=${cart.getPkg().getNo()})}" th:text="${cart.getPkg().getName()}"></a></p>
@@ -70,9 +72,21 @@
                                         <i class="bi bi-trash"></i>
                                     </a>
                                 </td>
+                                <div class="product-container">
+                                    <input type="hidden" name="product-no" id="product-no" th:if="${cart.getProduct()}" th:value="${cart.getProduct().getNo()}">
+                                    <input type="hidden" name="product-amount" id="product-amount" th:if="${cart.getProduct()}" th:value="${cart.getAmount()}">
+                                    <input type="hidden" name="product-price" id="product-price" th:if="${cart.getProduct()}" th:value="${cart.getTotalDiscountedPrice()}">
+                                </div>
+                                <div class="package-container">
+                                    <input type="hidden" name="package-no" id="package-no" th:if="${cart.getPkg()}" th:value="${cart.getPkg().getNo()}">
+                                    <input type="hidden" name="package-amount" id="package-amount" th:if="${cart.getPkg()}" th:value="${cart.getAmount()}">
+                                    <input type="hidden" name="package-price" id="package-price" th:if="${cart.getPkg()}" th:value="${cart.getTotalDiscountedPrice()}">
+                                </div>
                             </tr>
+                                    <input type="hidden" name="order-total-price" id="order-total-price" th:value="${totalDiscountedPrice}">
                             </tbody>
                         </table>
+                        </form>
                     </div>
                     <h3 class="tit mt40">총 결제금액</h3>
                     <!-- payment-final -->
@@ -104,7 +118,7 @@
                         </div>
                     </div>
                     <div class="btn-group pt40" style="display: block;">
-                        <a href="#" class="button purple large w170px btn-modal-open" id="btn_store_pay_adapter" title="구매">구매</a>
+                        <a href="#" class="button purple large w170px btn-order-form" id="btn_store_pay_adapter" title="구매">구매</a>
                     </div>
                 </div>
             </div>
