@@ -1,0 +1,55 @@
+<html xmlns:th="http://www.thymeleaf.org"
+   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/support}">
+<head th:fragment="extra=head-content">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" th:src="@{/js/support/terms.js}"></script>
+</head>
+<div id="contents" class="" layout:fragment="content">
+    <h2 class="tit">이용약관</h2>
+    <ul class="dot-list mb10">
+        <li>항목을 선택 하시면 해당 내용으로 이동합니다.</li>
+    </ul>
+    <div class="terms-content">
+        <div class="terms_bx clearfix agreeType1">
+            <ul class="pull-left" id="titleLeft"> <li><a class="on" href="javascript:void(0);" title="제 1조. 목적 보기"><strong>제 1조.</strong> 목적</a></li> <li><a href="javascript:void(0);" title="제 2조. 약관의 효력 및 변경 보기"><strong>제 2조.</strong> 약관의 효력 및 변경</a></li> <li><a href="javascript:void(0);" title="제 3조. 약관 외 준칙 보기"><strong>제 3조.</strong> 약관 외 준칙</a></li> <li><a href="javascript:void(0);" title="제 4조. 용어의 정의 보기"><strong>제 4조.</strong> 용어의 정의</a></li> <li><a href="javascript:void(0);" title="제 5조. 회원 가입 및 카드 발급 보기"><strong>제 5조.</strong> 회원 가입 및 카드 발급</a></li> <li><a href="javascript:void(0);" title="제 6조. 멤버십 카드의 이용 및 관리 보기"><strong>제 6조.</strong> 멤버십 카드의 이용 및 관리</a></li> <li><a href="javascript:void(0);" title="제 7조. 회원 탈퇴 및 자격 상실 보기"><strong>제 7조.</strong> 회원 탈퇴 및 자격 상실</a></li> <li><a href="javascript:void(0);" title="제 8 조. 회원에 대한 통지 보기"><strong>제 8 조.</strong> 회원에 대한 통지</a></li> <li><a href="javascript:void(0);" title="제 9조. 회원 정보의 변경 보기"><strong>제 9조.</strong> 회원 정보의 변경</a></li> <li><a href="javascript:void(0);" title="제 10조. 회사의 의무 보기"><strong>제 10조.</strong> 회사의 의무</a></li> <li><a href="javascript:void(0);" title="제 11조. 회원의 의무 보기"><strong>제 11조.</strong> 회원의 의무</a></li> <li><a href="javascript:void(0);" title="제 12조. 회원 서비스 혜택 보기"><strong>제 12조.</strong> 회원 서비스 혜택</a></li> <li><a href="javascript:void(0);" title="제 13조. 포인트 안내 보기"><strong>제 13조.</strong> 포인트 안내</a></li> <li><a href="javascript:void(0);" title="제 14 조. 모바일 오더 서비스 보기"><strong>제 14 조.</strong> 모바일 오더 서비스</a></li></ul>
+            <ul class="pull-left" id="titleRight"> <li><a href="javascript:void(0);" title="제 15조. 기프트카드 서비스 보기"><strong>제 15조.</strong> 기프트카드 서비스</a></li> <li><a href="javascript:void(0);" title="제 16조. 개인정보 수집 및 이용과 제공 보기"><strong>제 16조.</strong> 개인정보 수집 및 이용과 제공</a></li> <li><a href="javascript:void(0);" title="제17조. 개인정보 보유 및 이용기간 보기"><strong>제17조.</strong> 개인정보 보유 및 이용기간</a></li> <li><a href="javascript:void(0);" title="제 18조. 회원의 게시물 보기"><strong>제 18조.</strong> 회원의 게시물</a></li> <li><a href="javascript:void(0);" title="제 19조. 저작권 등의 귀속 보기"><strong>제 19조.</strong> 저작권 등의 귀속</a></li> <li><a href="javascript:void(0);" title="제 20조. 광고게재 및 광고주와의 거래 보기"><strong>제 20조.</strong> 광고게재 및 광고주와의 거래</a></li> <li><a href="javascript:void(0);" title="제 21조. 사이트의 연결 보기"><strong>제 21조.</strong> 사이트의 연결</a></li> <li><a href="javascript:void(0);" title="제 22조. 서비스 이용 책임 보기"><strong>제 22조.</strong> 서비스 이용 책임</a></li> <li><a href="javascript:void(0);" title="제 23조. 서비스 제공의 중지 보기"><strong>제 23조.</strong> 서비스 제공의 중지</a></li> <li><a href="javascript:void(0);" title="제 24조. 손해배상 보기"><strong>제 24조.</strong> 손해배상</a></li> <li><a href="javascript:void(0);" title="제 25조. 면책 보기"><strong>제 25조.</strong> 면책</a></li> <li><a href="javascript:void(0);" title="제 26조. 관할 법원 보기"><strong>제 26조.</strong> 관할 법원</a></li> <li><a href="javascript:void(0);" title="부칙 보기"><strong>부칙</strong></a></li></ul>
+        </div>
+
+        <!-- 이용약관 -->
+        <div id="footer_terms" class="terms_text term_text" tabindex="0">
+            <div>
+                <dl>
+                    <dt id="n1">제 1조. 목적</dt>
+                    <br>
+                    <dd>본 약관은 메가박스중앙(주)(이하 “회사”라 합니다)가 제공하는 온라인, 오프라인 서비스(이하 "서비스"라 합니다) 이용과 관련하여 회사와 이용자의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다.</dd>
+                    <br>
+                    <dt id="n2">제 2조. 약관의 효력 및 변경</dt>
+                    <br>
+                    <dd>1. 본 약관은 서비스를 이용하고자 본 약관에 동의한 모든 회원에 대하여 그 효력을 발생합니다.<br>
+                        2. 본 약관의 내용은 회원(서비스)가입 시 게재되거나 공지된 내용에 회원이 동의함으로써 그 효력이 발생합니다.<br>
+                        3. 회사는 합리적인 사유가 발생될 경우 본 약관을 변경(수정 또는 개정)할 수 있으며, 약관을 개정할 경우 회사는 시행일 및 개정 사유를 명시하여 현행 약관과 함께 시행일로부터 최소 7일 전, 고객에게 불리하게 변경되거나 중요한 내용인 경우에는 최소 30일 전에 회사의 웹사이트 또는 전자메일 등을 통해 공지합니다.<br>
+                        4. 회원은 변경된 약관에 동의하지 않을 경우 회원 탈퇴를 요청할 수 있으며, 변경된 약관의 효력 발생일 이후 탈퇴 요청을 하지 않을 경우 약관의 변경 사항에 동의한 것으로 간주됩니다.</dd>
+                    <br>
+                    <dt id="n3">제 3조. 약관 외 준칙</dt>
+                    <br>
+                    <dd>1. 본 약관에 명시되지 아니한 사항에 대해서는 전자상거래 등에서의 소비자보호에 관한 법률, 정보통신망 이용촉진 및 정보보호 등에 관한 법률 및 기타 관련 법령의 규정에 따릅니다.<br>
+                        2. 본 약관에 명시되지 않은 서비스에 대한 사항은 당사 홈페이지, 모바일 또는 영화관 현장을 통한 해당 서비스 공지사항에 따릅니다.</dd>
+                    <br>
+      
+                    <dt id="n26">제 26조. 관할 법원</dt>
+                    <br>
+                    <dd>서비스 이용으로 발생한 분쟁에 대해 소송이 제기될 경우 회사의 본사 소재지를 관할하는 법원을 전속 관할법원으로 합니다.</dd>
+                    <br>
+                    <dt id="etc">부칙</dt>
+                    <br>
+                    <dd>1. (시행일) 이 약관은 2023년 6월 19일부터 시행합니다.<br>
+                        2. (변경) 종전의 약관은 본 약관으로 대체합니다.</dd>
+                </dl>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+</html> dt id를 누르면 스크롤을 dt id가 있는쪽으로 이동시키고싶어. 이 이벤트를 위한자바스크립트 코드 알려줘
