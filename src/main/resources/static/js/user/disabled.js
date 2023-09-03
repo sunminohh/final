@@ -117,37 +117,38 @@ $(() => {
             return false;
         }
 
-        // 비밀번호 체크 및 탈퇴처리
-        $.ajax({
-            url: "/mypage/disabled",
-            type: "POST",
-            data: formData,
-            success: function () {
-                Swal.fire({
-                    icon: 'warning',
-                    title: "정말 탈퇴 하시겠습니까?",
-                    text: "탈퇴 시 관리자에게 문의하셔야 합니다.",
-                    showCancelButton: true,
-                    confirmButtonText: '탈퇴',
-                    cancelButtonText: '취소',
-                }).then((result) => {
-                    if (result.isConfirmed) {
+        Swal.fire({
+            icon: 'warning',
+            title: "정말 탈퇴 하시겠습니까?",
+            text: "탈퇴 시 관리자에게 문의하셔야 합니다.",
+            showCancelButton: true,
+            confirmButtonText: '탈퇴',
+            cancelButtonText: '취소',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // 비밀번호 체크 및 탈퇴처리
+                $.ajax({
+                    url: "/mypage/disabled",
+                    type: "POST",
+                    data: formData,
+                    success: function () {
                         Swal.fire({
                             icon: 'success',
                             title: "탈퇴 처리되었습니다.",
                             confirmButtonText: '확인',
                         }).then(() => {
                             location.href = "/logout";
+                            return true;
                         });
+                    },
+                    error: function (e) {
+                        errorAlert($pwd, "비밀번호가 일치하지 않습니다.");
+                        pwdErrMsg.text("다시 입력해주세요.").css('color', 'red');
+                        return false;
                     }
                 });
-            },
-            error: function (e) {
-                errorAlert($pwd, "비밀번호가 일치하지 않습니다.");
-                pwdErrMsg.text("다시 입력해주세요.").css('color', 'red');
-                return false;
             }
-        });
+        })
     })
 
     $("input[name='checkPassword']").keyup(() => {
@@ -272,7 +273,7 @@ $(() => {
             btnConfirm.prop("disabled", true);
             authErrMsg.text("");
         }
-        if (number.length !== 8) {
+        if (number.length !== 6) {
             btnConfirm.prop("disabled", true);
             return false;
         } else {

@@ -3,7 +3,6 @@ package kr.co.mgv.user.controller;
 import kr.co.mgv.user.form.UserUpdateForm;
 import kr.co.mgv.user.service.MypageService;
 import kr.co.mgv.user.service.UserService;
-import kr.co.mgv.user.vo.Purchase;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,8 +17,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Controller
 @Secured({"ROLE_USER", "ROLE_ADMIN"})
@@ -118,7 +115,7 @@ public class UserController {
         return "view/user/info/disabled";
     }
 
-    // todo 사용자 이메일 체크
+    // 사용자 이메일 체크
     @PostMapping("/checkEmail")
     public ResponseEntity<String> checkEmail(@AuthenticationPrincipal User user, UserUpdateForm form) {
         if (form.getEmail().equals(user.getEmail())) {
@@ -128,7 +125,7 @@ public class UserController {
         }
     }
 
-    // todo 회원 탈퇴
+    // 회원 탈퇴
     @PostMapping("/disabled")
     public ResponseEntity<String> disableUser(@AuthenticationPrincipal User user, UserUpdateForm form) {
         if (passwordEncoder.matches(form.getCheckPassword(), user.getPassword())) {
