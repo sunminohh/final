@@ -14,7 +14,6 @@ $(() => {
         // 탭 버튼 활성화/비활성화
         $('.tab-block li').removeClass('on'); // 모든 탭 버튼 비활성화
         $(this).parent('li').addClass('on'); // 클릭된 탭 버튼만 활성화
-
     });
 
     function setDateRange(period) {
@@ -63,7 +62,6 @@ $(() => {
         const period = $(this).val();
         setDateRange(period);
     });
-
 
     $("#btnCheck").on("click", function () {
         searchPurchase();

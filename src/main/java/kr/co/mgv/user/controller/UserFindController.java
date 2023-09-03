@@ -42,16 +42,6 @@ public class UserFindController {
         }
     }
 
-    /*@GetMapping("/user-modal")
-    public String userModal(Model model, HttpSession session) {
-        User user = (User) session.getAttribute("findUser");
-
-        if (user != null) {
-            model.addAttribute("user", user);
-        }
-        return "view/user/find/user-modal";
-    }*/
-
     @GetMapping("/pwd-form")
     public String pwdfindForm() {
 

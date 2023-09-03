@@ -1,7 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/default}">
 <head th:fragment="extra-head-content">
-    <script th:src="@{/js/calender.js}"></script>
     <script th:src="@{/js/user/id-find.js}"></script>
     <style>
         .alert {
@@ -72,7 +71,7 @@
             <!--// col-wrap -->
         </div>
     </form>
-    <div class="alert-popup" style="position: fixed; padding-top: 45px; background: rgb(255, 255, 255); z-index: 5006; top: 151.5px; left: 568px; width: 400px; opacity: 1; display: none;">
+    <div class="alert-popup" style="position: fixed; padding-top: 45px; background: rgb(255, 255, 255); z-index: 5006; top: 151.5px; left: 568px; width: 400px; display: none;">
         <div class="wrap">
             <header class="layer-header">
                 <h3 class="tit">알림</h3>
@@ -80,11 +79,10 @@
             <div class="layer-con" style="height:250px">
                 <p id="userInfo"></p>
                 <div class="btn-group" style="display: block;">
-                    <button type="button" class="button lyclose" style="display: none;"></button>
                     <button type="button" class="button purple confirm">확인</button>
                 </div>
             </div>
-            <button type="button" class="btn-layer-close">레이어 닫기</button>
+            <button type="button" class="btn-layer-close"></button>
         </div>
     </div>
 </div>
