@@ -1,10 +1,5 @@
 package kr.co.mgv.support.service;
 
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.stereotype.Service;
-
 import kr.co.mgv.support.dao.FaqDao;
 import kr.co.mgv.support.dto.FaqList;
 import kr.co.mgv.support.form.AddFaqForm;
@@ -14,6 +9,10 @@ import kr.co.mgv.support.vo.SupportCategory;
 import kr.co.mgv.support.vo.SupportPagination;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
