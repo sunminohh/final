@@ -14,6 +14,7 @@ public interface FaqDao {
 	// Faq 리스트 조회
 	int getTotalRows(Map<String, Object> param);
 	List<Faq> getFaqListByNo(Map<String, Object> param);
+	List<Faq> getFaqList();
 	
 	// faq 카테고리 조회
 	List<SupportCategory> getCategories(String categoryType);

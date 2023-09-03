@@ -86,45 +86,6 @@
 	</div>
 	<hr>
 	
-	<!--
-	<div class="notice-wrap row">
-		<div class="block-left col-6">
-			<div class="tit-area">
-				<h3 class="tit small">자주 묻는 질문 BEST5</h3>
-				<a th:href="@{/support/faq}" class ="more">
-				더보기 
-				<i class="iconset ico-arr-right-gray m107"></i>
-				</a>
-			</div>
-			<div>
-				<ol class="decimal-list" th:each="faq, iterStat : ${result.faqList}">
-					<li th:if="${iterStat.index < 5}">
-						<a th:href="@{/support/faq}" class="faqBtn" th:if="${iterStat.index < 5}">
-							<span class="font-roboto" th:text="${faq.orderNo}">&nbsp;</span>
-							<span class="font-gblue" th:text="${faq.category.name}"></span>
-							<span class="date" th:text="${#dates.format(faq.updateDate, 'yyyy.MM.dd')}"></span>
-							
-							<span th:text="${faq.title}" class="d-inline-block text-truncate" 
-								style="max-width: 190px;">
-							</span>
-						</a>
-					</li>
-				</ol>
-			</div>
-		</div>
-		
-		<div class="block-right col-6">
-			<div class="tit-area">
-				<h3 class="tit small">공지사항</h3>
-				<a th:href="@{/support/notice}" class ="more">
-				더보기 
-				<i class="iconset ico-arr-right-gray m107"></i>
-				</a>
-			</div>
-		</div>
-	</div>
-	-->
-	
 	<div class="row mt-4">
 		<div class="col-6 mb-4">
 			<div>
@@ -133,14 +94,14 @@
 			</div>
 			
 			<table class="table table-borderless border-top  border-dark">
-				<tbody style="font-size:14px;" th:each="faq, iterStat : ${faqResult.faqList}">
+				<tbody style="font-size:14px;" th:each="faq, iterStat : ${faqResult}">
 					<tr th:if="${iterStat.index < 5}" style="cursor: pointer;">
 						<td th:text="${faq.orderNo}"></td>
 						<td class="font-green" th:text="${faq.category.name}"></td>
 						<td>
 							<a th:text="${faq.title}" class="d-inline-block text-truncate" 
 								th:href="@{/support/faq}"
-								style="max-width: 190px;">
+								style="max-width: 210px;">
 							</a>
 						</td>
 						<td th:text="${#dates.format(faq.updateDate, 'yyyy.MM.dd')}"></td>
@@ -153,25 +114,29 @@
 		<div class="col-6 mb-4">
 			<div>
 				<p class="float-start" style="font-size:18px;">공지사항</p>
-				<a class ="float-end mt-2 text-black text-decoration-none" style="font-size:14px;">더보기 <i class="iconset ico-arr-right-gray m107"></i></a>
+				<a th:href="@{/support/notice}" class ="float-end mt-2 text-black text-decoration-none" style="font-size:14px;">더보기 <i class="iconset ico-arr-right-gray m107"></i></a>
 			</div>
 			<table class="table table-borderless border-top  border-dark">
-			 
-				<!-- <tbody style="font-size:14px;" th:each="notice, iterStat : ${noticeResult.noticeList}">
+				 <tbody style="font-size:14px;" th:each="notice, iterStat : ${noticeResult}">
 					<tr th:if="${iterStat.index < 5}" style="cursor: pointer;">
-						<td><img th:src="@{/images/support/notice.png}" width="15" height="15"></td>
-						<td th:text="${notice.type == '공지' ? '공지' : '이벤트'}"></td>
+						<td th:if="${notice.theater == null || notice.theater.name == null}">
+					        <i class="iconset ico-notice"></i>
+					    </td>
+					    <td th:unless="${notice.theater == null || notice.theater.name == null}">
+					        <i class="iconset ico-marker"></i>
+					    </td>
+						<td th:text="${notice.theater == null || notice.theater.name == null ? '공지' : notice.theater.name}"></td>
 						<td>
 							<a th:text="${notice.title}" class="d-inline-block text-truncate" 
-								th:href="@{/support/notice}"
-								style="max-width: 190px;">
+								th:href="@{/support/notice/detail(no=${notice.no})}"
+								style="max-width: 210px;">
 							</a>
 						</td>
 						<td th:text="${#dates.format(notice.updateDate, 'yyyy.MM.dd')}"></td>
 					</tr>
-				</tbody> -->
-			
+				</tbody> 
 			</table>
+			<hr style="margin-top:-15px;">
 		</div>
 	</div>
 		
@@ -192,9 +157,14 @@
 <th:block layout:fragment="script">
  <script type="text/javascript">
 	$("#btn-open-chat").click(function(event) {
-		event.preventDefault();
-		window.open("/support/chat", "chat-window", "width=450,height=550,status=no,toolbar=no,left=1200,top=200");
-	});
+        event.preventDefault();
+        let chatWindow = window.open("/support/chat", "chat-window", "width=450,height=550,status=no,toolbar=no,left=1200,top=200,resizable=no");
+    
+        // 창 크기 조절 방지
+        chatWindow.addEventListener('resize', function() {
+            chatWindow.resizeTo(450, 620);
+        });
+    });
 	
 	$("#btn-chat-anonymous").click(function(event) {
 		event.preventDefault();

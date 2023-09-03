@@ -29,7 +29,7 @@ $(function() {
 			$("#waiting-position").text(position + 1);
 		} else if (data.cmd == "start") {
 			roomId = data.roomId;
-			$("#input-field").prop("disabled", false);
+			$("#input-field").prop("disabled", false)
 			
 			appendMessagTag("left", "관리자", "관리자와 상담이 시작되었습니다.");
 		} else if (data.cmd == "stop") {
