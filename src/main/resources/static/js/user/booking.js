@@ -92,13 +92,12 @@ $(() => {
                 const $totalRows = $(".font-gblue");
 
                 const { purchases, pagination, totalRows } = data;
-
                 $totalRows.text(totalRows);
 
                 if (purchases && purchases.length === 0) {
                     $tableBody.append(`
                         <tr>
-                            <td colspan="5" class="a-c">결제내역이 없습니다.</td>
+                            <td colspan="4" class="a-c">결제내역이 없습니다.</td>
                         </tr>
                     `);
                     $pagination.empty();
@@ -114,7 +113,6 @@ $(() => {
                         </tr>
                         `);
                     });
-
 
                     $pagination.html(renderPagination(pagination));
                 }

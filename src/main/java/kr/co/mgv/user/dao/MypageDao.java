@@ -23,10 +23,4 @@ public interface MypageDao {
                              @Param("endDate") String endDate,
                              @Param("status") String status);
 
-    List<Purchase> getPurchaseByUserId(@Param("userId") String userId,
-                                       @Param("startDate") String startDate,
-                                       @Param("endDate") String endDate,
-                                       @Param("status") String status,
-                                       @Param("begin") int begin,
-                                       @Param("end") int end);
 }

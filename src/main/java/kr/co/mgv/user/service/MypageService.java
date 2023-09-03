@@ -1,8 +1,8 @@
 package kr.co.mgv.user.service;
 
-import kr.co.mgv.support.vo.SupportPagination;
 import kr.co.mgv.user.dao.MypageDao;
 import kr.co.mgv.user.vo.Purchase;
+import kr.co.mgv.user.vo.UserPagination;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ public class MypageService {
     public HashMap<String, Object> getPurchaseByUserId(String userId, String startDate, String endDate, String status, int page) {
 
         int totalRows = this.getTotalRowsByUserId(userId, startDate, endDate, status);
-        SupportPagination pagination = new SupportPagination(page, totalRows);
+        UserPagination pagination = new UserPagination(page, totalRows);
 
         List<Purchase> purchases = mypageDao.getPurchases(userId, startDate, endDate, status, pagination.getBegin(), pagination.getEnd());
 

@@ -9,7 +9,7 @@ import java.util.stream.IntStream;
 public class UserPagination {
     private int rows = 5;
     private int pages = 5;
-    private int page;
+    private int page = 1;
     private int totalRows;
     private int totalPages;
     private int totalBlocks;
