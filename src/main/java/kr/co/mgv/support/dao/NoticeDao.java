@@ -15,8 +15,9 @@ public interface NoticeDao {
 	void insertNotice(Notice notice);
 
 	// 공지사항 리스트 조회
-	List<Notice> getNotice(Map<String, Object> param);
 	int getTotalRows(Map<String, Object> param);
+	List<Notice> getNotice(Map<String, Object> param);
+	List<Notice> getNoticeList();
 	
 	// 공지사항 업데이트
 	void updateNoticeByNo(Notice notice);

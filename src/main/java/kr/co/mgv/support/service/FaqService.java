@@ -74,6 +74,10 @@ public class FaqService {
 		return result;
 	}
 	
+	public List<Faq> getFaqList() {
+		return faqDao.getFaqList();
+	}
+	
 	public Faq getFaqByNo(int faqNo) {
 		return faqDao.getFaqByNo(faqNo);
 	}

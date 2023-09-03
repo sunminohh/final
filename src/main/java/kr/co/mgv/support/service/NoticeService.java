@@ -123,6 +123,10 @@ public class NoticeService {
 		return noticeDao.getNoticeByNo(noticeNo);
 	}
 	
+	public List<Notice> getNoticeList() {
+		return noticeDao.getNoticeList();
+	}
+	
 	public Notice getPrevNotice(int noticeNo) {
 		return noticeDao.getPrevNotice(noticeNo);
 	}
