@@ -32,19 +32,17 @@ public class UserFindController {
     @PostMapping("/user-find")
     public ResponseEntity<?> userfind(@RequestParam String name,
                                       @RequestParam String birth,
-                                      @RequestParam String email,
-                                      HttpSession session) {
+                                      @RequestParam String email) {
         User user = userService.getUserByEmail(email);
 
         if (user != null && user.getName().equals(name) && user.getBirth().toString().equals(birth)) {
-            session.setAttribute("findUser", user);
             return ResponseEntity.ok(user);
         } else {
             return ResponseEntity.badRequest().body("회원정보가 없습니다.");
         }
     }
 
-    @GetMapping("/user-modal")
+    /*@GetMapping("/user-modal")
     public String userModal(Model model, HttpSession session) {
         User user = (User) session.getAttribute("findUser");
 
@@ -52,7 +50,7 @@ public class UserFindController {
             model.addAttribute("user", user);
         }
         return "view/user/find/user-modal";
-    }
+    }*/
 
     @GetMapping("/pwd-form")
     public String pwdfindForm() {

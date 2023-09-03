@@ -1,18 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:fragment="config">
-
-</head>
-<div th:fragment="modal" id="find-modal" class="modal find-modal" style="z-index: 1000">
+<div class="alert-popup" style="position: fixed; padding-top: 45px; background: rgb(255, 255, 255); z-index: 5006; top: 151.5px; left: 568px; width: 400px; opacity: 1;">
     <div class="wrap">
         <header class="layer-header">
             <h3 class="tit">알림</h3>
         </header>
         <div class="layer-con" style="height:250px">
-            <p class="txt-common">회원님의 아이디는 [] 입니다.<br>가입일 : </p>
             <p th:text="|회원님의 아이디는 [${user.id}] 입니다.|<br>| 가입일 : ${user.createDate} |"></p>
-            <div class="btn-group">
-                <button type="button" class="button lyclose" style="display: none;"></button>
+            <div class="btn-group"><button type="button" class="button lyclose" style="display: none;"></button>
                 <button type="button" class="button purple confirm">확인</button>
             </div>
         </div>

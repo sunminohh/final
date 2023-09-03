@@ -12,7 +12,6 @@ $(() => {
     let birthCheck = false;
     let emailCheck = false;
 
-
     $("#action-form").submit(function (e) {
         e.preventDefault();
 
@@ -35,8 +34,10 @@ $(() => {
                 email: email,
                 birth: birth,
             },
-            success: function () {
-                window.location.href = "/user/user-modal";
+            success: function (user) {
+                const infoText = `회원님의 아이디는 [${user.id}] 입니다. 가입일 : ${moment(user.createDate).format('YYYY-MM-DD')}`;
+                $('#userInfo').text(infoText);
+                $('.alert-popup').modal('show');
             },
             error: function (error) {
                 console.error(error);
@@ -67,6 +68,14 @@ $(() => {
 
     });
 
+    $(".alert-popup .confirm").click(() => {
+        location.href = "/";
+    })
+
+    $(".btn-layer-close").click(() => {
+        // todo 모달 닫기
+    })
+
     // 입력 체크
     $("input[name='name']").keyup(() => {
         const nameValue = $name.val();
@@ -89,9 +98,9 @@ $(() => {
             $birth.val(birthValue.replace(numReg, ''));
         } else if (!isValidBirtDate(birthValue)) {
             birthCheck = false;
-            $("#birth-error-text").text("생년월일을 정확히 입력해주세요.");
+            $("#birth-error-text").text("생년월일을 정확히 입력해주세요.").show();
         } else {
-            $("#birth-error-text").text("");
+            $("#birth-error-text").text("").hide();
         }
     })
 
@@ -105,9 +114,9 @@ $(() => {
             $email.val(emailValue.replace(korReg, ''));
         } else if (!emailReg.test(emailValue)) {
             emailCheck = false;
-            $("#email-error-text").text("이메일 형식이 아닙니다.");
+            $("#email-error-text").text("이메일 형식이 아닙니다.").show();
         } else {
-            $("#email-error-text").text("");
+            $("#email-error-text").text("").hide();
         }
     })
 
