@@ -192,9 +192,14 @@
 <th:block layout:fragment="script">
  <script type="text/javascript">
 	$("#btn-open-chat").click(function(event) {
-		event.preventDefault();
-		window.open("/support/chat", "chat-window", "width=450,height=550,status=no,toolbar=no,left=1200,top=200");
-	});
+        event.preventDefault();
+        let chatWindow = window.open("/support/chat", "chat-window", "width=450,height=550,status=no,toolbar=no,left=1200,top=200,resizable=no");
+    
+        // 창 크기 조절 방지
+        chatWindow.addEventListener('resize', function() {
+            chatWindow.resizeTo(450, 620);
+        });
+    });
 	
 	$("#btn-chat-anonymous").click(function(event) {
 		event.preventDefault();
