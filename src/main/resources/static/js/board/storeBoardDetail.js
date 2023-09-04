@@ -143,7 +143,7 @@ $(function() {
 						
                       content += `
                       <div class="great-box">
-                      	<div class="row great-comment-box pt-1" >
+                      	<div class="row great-comment-box pt-1 ms-1" >
                               <div class="p-1 col-12" id="comment-box">
                                  <div class="d-flex justify-content-between">
                                   <div class="col-sm-11">
@@ -178,7 +178,7 @@ $(function() {
                                     </div>            
                               </div>
                            </div>   
-                           <hr>
+                           <hr style="width:1080px; ">
                         <div class="re-comment-here" id="re-comment-here-${comment.no}">
                   		</div>
                               <div class="new-register-box  row mb-3 pt-2" id="reply-comment-box-${comment.no}" >
@@ -199,7 +199,7 @@ $(function() {
 			                         <div class="col-sm-11">
 			                            <div id="profile">
 			                              <div id="comment-imgbox" class="float-start" >
-			                                 <a href="/board/user/list?id=${chlid.user.id}">
+			                                 <a href="/board/user/list?id=${child.user.id}">
 			                                    <img id="profileimg" src="/images/board/sample.png" alt="프로필사진">
 			                                 </a>
 			                              </div>
@@ -301,7 +301,7 @@ $(function() {
 						
                       content += `
                       <div class="great-box">
-                      	<div class="row great-comment-box pt-1" >
+                      	<div class="row great-comment-box pt-1 ms-1" >
                               <div class="p-1 col-12" id="comment-box">
                                  <div class="d-flex justify-content-between">
                                   <div class="col-sm-11">
@@ -336,7 +336,7 @@ $(function() {
                                     </div>            
                               </div>
                            </div>   
-                           <hr>
+                           <hr style="width:1080px; ">
                         <div class="re-comment-here" id="re-comment-here-${comment.no}">
                   		</div>
                               <div class="new-register-box  row mb-3 pt-2" id="reply-comment-box-${comment.no}" >
@@ -410,8 +410,6 @@ $(function() {
                      $('#ajax-comment-count').text(commentCountUpdate);
                      $('#ajax-comment-count-2').text(commentCountUpdate);
                      
-                 	 let newCommentElement = $("#all-comment-box").children().last();
-					 window.scrollTo(0, newCommentElement.offset().top - 100); // 댓글 요소로 바로 이동 (100은 여유 공간 조절)
                  }
                  
              });
