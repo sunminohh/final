@@ -21,6 +21,7 @@ import kr.co.mgv.support.form.AddLostForm;
 import kr.co.mgv.support.service.LostService;
 import kr.co.mgv.support.view.SupportFileDownloadView;
 import kr.co.mgv.support.vo.Lost;
+import kr.co.mgv.support.vo.LostComment;
 import kr.co.mgv.support.vo.LostFile;
 import kr.co.mgv.theater.vo.Location;
 import kr.co.mgv.theater.vo.Theater;
@@ -37,7 +38,7 @@ public class LostController {
 	private final SupportFileDownloadView supportFileDownloadView;
 	private final LostService lostService;
 
-	@RequestMapping
+	@GetMapping
     public String lost(	@RequestParam(name = "locationNo", required = false, defaultValue = "0") int locationNo,
 			@RequestParam(name = "theaterNo", required = false, defaultValue = "0") int theaterNo,
 			@RequestParam(name = "page", required = false, defaultValue = "1") int page,
@@ -173,12 +174,15 @@ public class LostController {
 	
 	
 	
-	@RequestMapping("/detail")
+	@GetMapping("/detail")
 	public String getLostByNo(@RequestParam("no") int lostNo, Model model) {
 		Lost lost = lostService.getLostByNo(lostNo);
 		List<LostFile> lostFiles = lostService.getLostFilesByLostNo(lostNo);
+		List<LostComment> lostComments = lostService.getLostCommentsByLost(lostNo);
+		
 		model.addAttribute("lost", lost);
 		model.addAttribute("lostFiles", lostFiles);
+		model.addAttribute("lostComments", lostComments);
 		
 		return "view/support/lost/detail";
 	}
