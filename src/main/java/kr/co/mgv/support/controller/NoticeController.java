@@ -25,7 +25,7 @@ public class NoticeController {
 	
 	private final NoticeService noticeService;
 	
-    @RequestMapping
+    @GetMapping
     public String notice(@RequestParam(name = "catNo", required = false, defaultValue = "21") int catNo,
     		@RequestParam(name = "page", required = false, defaultValue = "1") int page,
     		@RequestParam(name = "locationNo", required = false, defaultValue = "0") int locationNo,
@@ -83,7 +83,7 @@ public class NoticeController {
     	return noticeList;
     }
 
-    @RequestMapping("/detail")
+    @GetMapping("/detail")
     public String getNoticeByNo(@RequestParam("no") int noticeNo, Model model) {
     	Notice notice = noticeService.getNoticeByNo(noticeNo);
     	
