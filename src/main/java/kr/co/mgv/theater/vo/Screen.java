@@ -15,6 +15,6 @@ public class Screen {
 	private Integer seats;
 	private String name;
 	private Theater theater;
-	private Integer row;
-	private Integer col;
+	private Integer screenRow;
+	private Integer screenCol;
 }

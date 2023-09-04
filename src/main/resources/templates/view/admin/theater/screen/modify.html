@@ -2,12 +2,26 @@
 <html layout:decorate="~{ layout/admin }">
 <head th:fragment="extra-head-content">
 <script type="text/javascript"
-	th:src="@{/js/admin/theater/modifyform.js}"></script>
+	th:src="@{/js/admin/theater/screen/modifyform.js}"></script>
 <title>관리자페이지</title>
 <style type="text/css">
-option.disabled{
+option.disabled {
 	background-color: lightgrey;
-} 
+}
+
+.seat-condition {
+	overflow: hidden;
+	display: inline-block;
+	width: 18px;
+	height: 18px;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	vertical-align: middle;
+	background-position: 0 0;
+	background-repeat: no-repeat;
+	background-color: #fff
+}
 </style>
 </head>
 <body>
@@ -17,98 +31,164 @@ option.disabled{
 				<!--  Row 1 -->
 				<div class="row mb-3">
 					<div class="col-12">
-						<div class="card">
+						<div class="card p-1">
 							<div class="card-header">
-								<h5 class="card-title fw-semibold mb-4" th:data-theater-no="${theaterNo}">극장 정보 수정</h5>
+								<h3 class="card-title fw-semibold mb-4">상영관 수정</h3>
 							</div>
 							<div class="card-body">
-								<div class="row mb-3">
-									<div class="col-12">
-										<form class="border bg-light p-3" method="post">
+
+								<form class="border bg-light p-3" method="post">
+									<div class="row mb-3">
+										<div class="col-12">
 											<table class="board-form va-m">
 												<colgroup>
-													<col style="width: 150px;">
-													<col>
-													<col style="width: 150px;">
-													<col>
+													<col style="width: 25%;">
+													<col style="width: 25%;">
+													<col style="width: 20%;">
+													<col style="width: 35%;">
 												</colgroup>
 												<tbody class="form-group" id="abled">
 													<tr>
 														<th>지역(필수)</th>
 														<td >
-															<input class="form-control" type="text" name="location" required="required" readonly="readonly">
+															<select
+																class="form-select" name="location" required="required" id="select-location">
+																<option value="" selected disabled>지역선택</option>
+																<option value="1">서울</option>
+																<option value="2">경기</option>
+																<option value="3">인천</option>
+																<option value="4">대전/충청/세종</option>
+																<option value="5">부산/대구/경상</option>
+																<option value="6">광주/전라/제주</option>
+																<option value="7">강원</option>
+															</select>
 														</td>
-														<th>극장이름(필수)</th>
+														<th>극장선택(필수)</th>
 														<td >
-															<input class="form-control" type="text" name="theater-name" required="required">
+															<select class="form-select"  name="theater-name" id="select-theater" required="required">
+																<option value="" selected disabled>지역선택</option>
+															</select>
 														</td>
 													</tr>
 													<tr>
-														<th>주소(필수)</th>
-														<td colspan="3" >
-															<input class="form-control" type="text" name="address" required="required">
-														</td>
-													</tr>
-													<tr>
-														<th>전화번호(필수)</th>
+														<th>
+															상영관 선택(필수)
+														</th>
 														<td>
-															<input class="form-control" type="tel" name="tel" required="required" placeholder="xxx-xxxx-xxxx형식으로 적어주세요" 
-																		pattern="(\d{2,3}-)?\d{3,4}-\d{4}" title="유효한 전화번호 형식을 입력하세요. (예: 02-123-4567 또는 031-1234-5678)">
+															<select class="form-select"  name="name" id="screenInfo" required="required">
+																<option value="" selected disabled>극장선택</option>
+															</select>
 														</td>
-														<th>시설안내(필수)</th>
-														<td colspan="3">
-															<th:block th:each="facility : ${facilities}">
-															<input type="checkbox" class="form-check-input" id="facilityCheck1" th:value="${facility.type}" name="facility" required>
-																<label class="form-check-label" for="facilityCheck1" th:text="${facility.name}">  
-																</label>
-															</th:block>
+														<th>상영관 이름(필수)</th>
+														<td >
+															<input class="form-control" id="screenName" required="required">
 														</td>
 													</tr>
-													<tr>
-														<th>층별안내(필수)</th>
-														<td colspan="3" >
-															<div class="d-flex py-1" id="floorBox1">
-																<input type="text" class="form-control" style="width: 25%"
-																	placeholder="예:1층, 로비층" aria-label="floor" name="floor" required="required"> 
-																<input type="text"
-																	class="form-control" placeholder="안내사항"
-																	aria-label="floorinfo" name="floorinfo" required="required">
-																<button type="button" class="ms-1 btn btn-info text-nowrap" id="btnAddFloorInput">추가</button>
-															</div>
-															<div id="floorBox2">
-																
-															</div>
-														</td>
-													</tr>
-													<tr>
-														<th>주차안내(필수)</th>
-														<td colspan="3"><textarea rows="5"
-																style="width: 100%;" name="parkinginfo" required="required"></textarea></td>
-													</tr>
-													<tr>
-														<th>주차확인(필수)</th>
-														<td colspan="3"><textarea rows="5"
-																style="width: 100%;" name="parkingconfirm" required="required"></textarea></td>
-													</tr>
-													<tr>
-														<th>주차요금(필수)</th>
-														<td colspan="3"><textarea rows="5"
-																style="width: 100%;" name="parkingcash" required="required"></textarea></td>
-													</tr>
-													<tr>
-														<th>소개,설명(필수)</th>
-														<td colspan="3"><textarea rows="5"
-																style="width: 100%;" name="theaterInfo" required="required"></textarea></td>
-													</tr>
-												</tbody>
-											</table>
-											<div class="text-end p-2 ">
-												<button type="button" class="btn btn-secondary btn-sm" id="btnCancel">취소</button>
-												<button type="submit" class="btn btn-primary btn-sm" id="btnReg">등록</button>
-											</div>
-										</form>
+													</tbody>
+													</table>
+										</div>
+									
 									</div>
-								</div>
+									<div class="row mb-3">
+										<div class="col-12">
+											<div id="step1" class="quick-reserve">
+												<h4 class="tit">좌석표</h4>
+												<div class="seat-select-section">
+													<div class="seat-section">
+														<div class="tit-util">
+															<div class="right">
+																<button type="button" class="button gray-line small"
+																	id="emptyChoice">
+																	<i class="iconset ico-reset-small"></i>선택취소
+																</button>
+															</div>
+															<div class="right">
+																<button type="button" class="button gray-line small"
+																	id="emptySeat">
+																	<i class="iconset ico-reset-small"></i>좌석지우기
+																</button>
+															</div>
+															<div class="right">
+																<button type="button" class="button gray-line small"
+																	id="seatSoftReset">
+																	<i class="iconset ico-reset-small"></i>소프트리셋(변경사항취소)
+																</button>
+															</div>
+														</div>
+														<div class="seat-area">
+															<div class="seat-count" style="min-height: 52px">
+																<div class="cell">
+																	<p class="txt">행</p>
+																	<div class="count">
+																		<input class="form-control" type="number" min="0"
+																			max="26" id="screenRow" name="row" value="10"
+																			title="0~26의 숫자">
+																	</div>
+																</div>
+																<div class="cell ">
+																	<p class="txt">열</p>
+																	<div class="count">
+																			<input class="form-control" type="number" min="0"
+																				max="30" id="screenCol" name="colum" value="5"
+																				title="0~30의 숫자">
+																	</div>
+																	<button type="button" class="btn btn-sm btn-info ms-1" id="btn-seat-set">선택</button>
+																</div>
+																<div class="cell">
+																	<div class="count">
+																	<input class="form-control" type="number" placeholder="좌석수" id="seatsQuantity" required readonly>
+																	</div>
+																	<button type="button" class="btn btn-sm btn-info ms-1" id="btn-seat-cal">정산</button>
+																	
+																</div>
+															</div>
+															<div class="seat-layout">
+																<div class="alert" style="display: none;"></div>
+																<div class="seat-count-before off" style="top: 0px">관람인원을
+																	선택하십시요</div>
+																<div
+																	class="scroll m-scroll mCustomScrollbar _mCS_1 mCS_no_scrollbar" >
+																	<div id="mCSB_1222"
+																		class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside"
+																		style="max-height: none;" tabindex="0">
+																		<div id="mCSB_1_container222"
+																			class="mCSB_container mCS_no_scrollbar_y"
+																			style="position: relative; top: 0px; left: 0px;"
+																			dir="ltr">
+
+																			<div id="seatLayout"
+																				style="width: 100%; height: 100%;" data-simplebar="init">
+																				<div style="text-align: center">
+																					<img
+																						src="https://www.megabox.co.kr/static/pc/images/reserve/img-theater-screen.png"
+																						alt="screen" class="mCS_img_loaded">
+																				</div>
+																				<div style="height: 20px;"></div>
+																				<div class="justify-content-center" id="seatsDiv" ></div>
+																			</div>
+																			<img
+																				src="https://www.megabox.co.kr/static/pc/images/reserve/img-door-left-right.png"
+																				alt="좌우측 출입구"
+																				style="position: absolute; left: 231px; top: 30px; width: 16px; height: 16px;"
+																				class="mCS_img_loaded">
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+
+									</div>
+									<div class="text-end p-2 mt-5">
+										<button type="button" class="btn btn-secondary btn-sm"
+											id="btnCancel">취소</button>
+										<button type="submit" class="btn btn-primary btn-sm"
+											id="btnReg">등록</button>
+									</div>
+								</form>
 							</div>
 						</div>
 					</div>

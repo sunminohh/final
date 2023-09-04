@@ -12,11 +12,11 @@ $(() => {
 	const $seat = $("#seatsQuantity")
 	const $location = $("#select-location")
 	const $theater = $("#select-theater")
-	const $screenInfo =$("#screenName")
+	const $screenInfo =$("#screenInfo")
+	const $screenName = $("#screenName")
 	const $screenRow=$("#screenRow");	//행
 	const $screenCol=$("#screenCol");	//열
 	
-	let screenId;
 	let screenRow=0;	//행
 	let screenCol=0;	//열
 	
@@ -26,16 +26,48 @@ $(() => {
 	
 	$btnSeatCal.on("click",function(){
 		const params = []
-		const $emptySeat = $(".empty")
-		$emptySeat.each(function() {
+		let x = $(".empty")
+		x.each(function(i, e) {
 			params.push($(this).attr('id'))
 		})
 		const screenSeatsQuantity = screenRow * (screenCol - 1) - (params.length)
 		$seat.val(screenSeatsQuantity)
 	})
 	
-	$location.change(handlerChangeLocation);
 	
+	$("#emptySeat").on('click', () => {
+		const seats = $("#seatsDiv .choice")
+		seats.each(function(i, e) {
+			$(this).replaceWith(createDisabledSeat($(this).attr('id'), $(this).attr('r'), $(this).attr('c')))
+		})
+		clearSeatChoices()
+		seatNumbering(screenRow, screenCol)
+	})
+
+	$("#seatSoftReset").on('click', () => {
+		clearSeatChoices()
+		$("#seatsDiv").empty()
+		$screenInfo.change();
+	})
+	$("#emptyChoice").on('click', () => {
+		clearSeatChoices()
+	})
+	
+	$btnReg.on('click', (e) => {
+		e.preventDefault();
+		handlerBtnRegClick();
+	})
+	
+	
+	$("#mCSB_1_container222").on('mouseleave', () => {
+		if (selectedSeat) {
+			const onSeats = $("#seatsDiv .on").removeClass('on')
+		}
+	})
+	
+	$location.change(handlerChangeLocation);
+	$theater.change(handlerChangeTheater);
+	$screenInfo.change(handlerChangeScreen);
 	init();
 	function init(){
 		screenRow=$screenRow.val();
@@ -49,6 +81,31 @@ $(() => {
 			$screenCol.val(screenCol)
 		}
 		initDefaultSeats(screenRow, screenCol)
+	}
+	
+	function createSeats(screenId,screenRow, screenCol) {
+		const $seatsDiv = $("#seatsDiv");
+		$seatsDiv.empty();
+		fetch("/api/booking/getDisabledSeats?screenId=" + screenId).then(res => res.json()).then(json => {
+			const allEmptySeats = new Set
+			$.each(json, (id, disabledSeatNo) => {
+				allEmptySeats.add(disabledSeatNo)
+			})
+			for (let i = 0; i < screenRow; i++) {
+				let rowChar = String.fromCharCode(65 + i)
+				$seatsDiv.append('<div class="row justify-content-center"></div>')
+				let row = $seatsDiv.children(":last-child")
+				row.append(createFirstSeat(rowChar))
+				for (let j = 1; j < screenCol; j++) {
+					let seatNo = rowChar + j
+					if (allEmptySeats.has(seatNo)) {
+						row.append(createDisabledSeat(seatNo, i, j))
+					} else row.append(createActiveSeat(seatNo, i, j, "standard common"))
+				}
+			}
+			seatNumbering(screenRow, screenCol)
+		})
+
 	}
 
 	function initDefaultSeats(screenRow, screenCol) {
@@ -65,7 +122,6 @@ $(() => {
 			}
 		}
 			seatNumbering(screenRow, screenCol)
-		fetch("api/booking/deleteDisabledSeats?screenId=" + screenId).then(res => console.log(res))
 	}
 	
 	
@@ -117,7 +173,7 @@ $(() => {
 	}
 
 	function handlerChangeLocation(){
-		let locationNo = $(this).val();
+		const locationNo = $(this).val();
 		$theater.empty();
 		let content = `<option value="" selected="" disabled="">극장선택</option>`
 		$.getJSON("/admin/theater/theaterList",{"locationNo":locationNo},function(theaters){
@@ -126,6 +182,30 @@ $(() => {
 			})
 				$theater.append(content);
 		})
+	}
+
+	function handlerChangeTheater(){
+		const theaterNo = $(this).val();
+		$screenInfo.empty();
+		let content = `<option value="" selected="" disabled="">상영관 선택</option>`
+		$.getJSON("/admin/theater/screen/screenList",{"theaterNo":theaterNo},function(screens){
+			screens.forEach(function(screen){
+				content += `<option value="${screen.id}" data-row="${screen.screenRow}" data-col="${screen.screenCol}">${screen.name}</option>`
+			})
+				$screenInfo.append(content);
+		})
+	}
+	
+	function handlerChangeScreen(){
+		const screenId = $screenInfo.val()
+		const screenName = $screenInfo.find("option:selected").text();
+		screenRow = $screenInfo.find("option:selected").attr("data-row")
+		screenCol = $screenInfo.find("option:selected").attr("data-col")
+		createSeats(screenId, screenRow, screenCol);
+		$screenRow.val(screenRow);
+		$screenCol.val(screenCol-1);
+		$screenName.val(screenName);
+		
 	}
 
 	$("#seatsDiv").on('click', 'button', function() {
@@ -157,7 +237,6 @@ $(() => {
 			return;
 		}
 	})
-	
 	function selectSeats(screenRow, screenCol) {
 		$("#seatsDiv .jq-tooltip").removeClass('on')
 		const sr = $("#" + selectedSeat).attr('r')
@@ -167,9 +246,9 @@ $(() => {
 		const startCol = Math.min(sc, screenCol)
 		const endCol = Math.max(sc, screenCol) + 1
 
-		const $addonSeat = $("#seatsDiv").children().slice(startRow, endRow)
+		const aaaa = $("#seatsDiv").children().slice(startRow, endRow)
 		// const y='.jq-tooltip.seat-condition.standard.common'
-		$addonSeat.each(function(index, el) {
+		aaaa.each(function(index, el) {
 			$(this).children().slice(startCol, endCol).addClass('on')
 		})
 	}
@@ -187,33 +266,13 @@ $(() => {
 		selectedSeat = undefined
 		seatChoices.clear()
 	}
-	// $(this).replaceWith(`<div class="empty" style="width:18px; height:18x; padding:0px;"></div>`)
-
-	$("#emptySeat").on('click', () => {
-		const seats = $("#seatsDiv .choice")
-		seats.each(function(i, e) {
-			$(this).replaceWith(createDisabledSeat($(this).attr('id'), $(this).attr('r'), $(this).attr('c')))
-		})
-		clearSeatChoices()
-		seatNumbering(screenRow, screenCol)
-	})
-
-	$("#seatSoftReset").on('click', () => {
-		clearSeatChoices()
-		$("#seatsDiv").empty()
-		init();
-	})
-	$("#emptyChoice").on('click', () => {
-		clearSeatChoices()
-	})
 	
-	$btnReg.on('click', (e) => {
-		e.preventDefault();
+	function handlerBtnRegClick(){
 		const disabledSeats = [] 
 		const theaterNo = $theater.val();
-		const screenName = $screenInfo.val();
+		const screenName = $screenName.val();
 		const screenSeatsQuantity = $seat.val();
-		
+		const screenId=$screenInfo.val()
 		const $emptySeats = $(".empty")
 		$emptySeats.each(function(i, e) {
 			disabledSeats.push($(this).attr('id'))
@@ -224,6 +283,7 @@ $(() => {
 				theater:{
 					no:theaterNo
 				},
+				id:screenId,
 				name: screenName,
 				screenRow:screenRow,
 				screenCol:screenCol,
@@ -235,7 +295,7 @@ $(() => {
 		
 		$.ajax({
             type: "POST",
-			url: '/admin/theater/screen/regist',
+			url: '/admin/theater/screen/modify',
 			contentType: 'application/json',
 			data: JSON.stringify(data),
             success: function(response) {
@@ -266,16 +326,7 @@ $(() => {
 			}
 		
 		})
-	})
-	
-
-	$("#mCSB_1_container222").on('mouseleave', () => {
-		if (selectedSeat) {
-			const onSeats = $("#seatsDiv .on").removeClass('on')
-		}
-	})
-	
-	
+	}
 	
 })
 	

@@ -134,7 +134,6 @@ public class TheaterService {
 	public void registScreen(ScreenDto screenDto) {
 		Screen screen =screenDto.getScreen();
 		theaterDao.insertScreen(screen);
-		log.info("dto->{}",screenDto.toString());
 		List<String> seatList = theaterDao.getDisabledSeatsByScreenId(screen.getId());
 		if(!seatList.isEmpty()) {
 			theaterDao.deleteDisabledSeatsByScreenId(screen.getId());
@@ -142,11 +141,22 @@ public class TheaterService {
 		Map<String, Object> map = new HashMap<>();
 		map.put("screenId", screen.getId());
 		map.put("disabledSeats", screenDto.getDisabledSeats());
-		log.info("map->{}",map.toString());
 		theaterDao.insertDisabledSeat(map);
-			
-		
-		log.info("screenDto->{}",screenDto);
-		
+	}
+
+	public void modifyScreen(ScreenDto screenDto) {
+		Screen screen =screenDto.getScreen();
+		Screen updatedScreen = theaterDao.getScreenById(screen.getId());
+		BeanUtils.copyProperties(screen, updatedScreen);
+		theaterDao.updateScreen(updatedScreen);
+		List<String> seatList = theaterDao.getDisabledSeatsByScreenId(updatedScreen.getId());
+		if(!seatList.isEmpty()) {
+			theaterDao.deleteDisabledSeatsByScreenId(updatedScreen.getId());
+		}
+		seatList = screenDto.getDisabledSeats();
+		Map<String, Object> map = new HashMap<>();
+		map.put("screenId", updatedScreen.getId());
+		map.put("disabledSeats", seatList);
+		theaterDao.insertDisabledSeat(map);
 	}
 }

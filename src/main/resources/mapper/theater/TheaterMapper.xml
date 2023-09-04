@@ -96,7 +96,9 @@
 	<select id="getScreensByTheaterNo" parameterType="int" resultType="Screen">
 	select 
 		screen_id	as id,
-		screen_name	as name
+		screen_name	as name,
+		screen_row	as screenRow,
+		screen_col	as screenCol
 	from MGV_THEATER_SCREEN
 	where theater_no = #{value}
 	</select>
@@ -129,6 +131,16 @@
 		where theater_no = #{no}
 	</update>
 	
+	<update id="updateScreen" parameterType="Screen">
+		update MGV_THEATER_SCREEN
+		set
+			screen_name = #{name},
+			screen_seats  = #{seats},
+			screen_row = #{screenRow},
+			screen_col = #{screenCol}
+		where screen_id = #{id}
+	</update>
+	
 	<insert id="insertTheater" parameterType="theater" useGeneratedKeys="true" keyProperty="no">
 		insert into MGV_THEATERS (location_no, theater_name, theater_address, theater_tel, theater_info)
 		values (#{location.no},#{name},#{address},#{tel},#{info})
@@ -151,7 +163,7 @@
 
 	<insert id="insertScreen" parameterType="Screen" useGeneratedKeys="true" keyProperty="id">
 		insert into MGV_THEATER_SCREEN (screen_name, theater_no, screen_seats, screen_row, screen_col)
-		values (#{name}, #{theater.no}, #{seats}, #{row}, #{col})
+		values (#{name}, #{theater.no}, #{seats}, #{screenRow}, #{screenCol})
 	</insert>
 	
 	<insert id="insertDisabledSeat" parameterType="map">

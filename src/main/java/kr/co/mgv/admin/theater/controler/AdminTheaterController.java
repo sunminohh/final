@@ -70,9 +70,27 @@ public class AdminTheaterController {
     	}
     }
     
+    @PostMapping("/screen/modify")
+    @ResponseBody
+    public Map<String, Object> modifyScreen(@RequestBody ScreenDto screenDto) {
+    	try {
+    		theaterService.modifyScreen(screenDto);
+    		return Map.of("status", "success");
+    	}catch (Exception e) {
+    		log.info("error massage->{}",e.getMessage());
+    		return Map.of("status", "fail", "message", "등록 중 오류가 발생하였습니다");
+    	}
+    }
+    
     @GetMapping("/screen/modify")
     public String modifyScreenForm() {
     	return "view/admin/theater/screen/modify";
+    }
+    
+    @GetMapping("/screen/screenList")
+    @ResponseBody
+    public List<Screen> getScreenList(int theaterNo) {
+    	return theaterService.getScreenlist(theaterNo);
     }
     
     @GetMapping("/modify")
