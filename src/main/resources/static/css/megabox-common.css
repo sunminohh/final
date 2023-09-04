@@ -11446,15 +11446,16 @@ body.no-scroll .tab-list.fixed {
 .seat-condition {
     overflow: hidden;
     display: inline-block;
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 19px;
     margin: 0;
     padding: 0;
     border: 0;
     vertical-align: middle;
     background-position: 0 0;
     background-repeat: no-repeat;
-    background-color: #fff
+    background-color: #fff;
+    margin-bottom: 2px;
 }
 
 .seat-condition.common {
@@ -11577,14 +11578,14 @@ body.no-scroll .tab-list.fixed {
 button.btn-seat-row {
     overflow: hidden;
     display: inline-block;
-    width: 16px;
-    height: 16px;
+    width: 19px;
+    height: 19px;
     margin: 0;
     padding: 0;
     border: 0;
     font-size: .7333em;
     color: #000;
-    vertical-align: middle;
+   /* vertical-align: middle; */
     border: 1px solid #ccc;
     background-color: #fff
 }
@@ -11624,7 +11625,7 @@ button.seat-condition .num {
     text-align: center;
     color: #fff;
     font-size: .7333em;
-    line-height: 18px;
+    line-height: 21px;
     text-indent: 0
 }
 

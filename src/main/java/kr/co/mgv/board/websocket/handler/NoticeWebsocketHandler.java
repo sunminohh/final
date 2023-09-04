@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.CloseStatus;
@@ -25,21 +26,27 @@ public class NoticeWebsocketHandler extends TextWebSocketHandler {
 		System.out.println("로그인 아이디 -----------------" + getUserId(session));
 		String loginId = getUserId(session);
 		System.out.println("웹소켓 연결요청이 접수됨.........." + loginId);
-		sessions.put(loginId, session);
+		if (loginId != null) {
+			sessions.put(loginId, session);			
+		}
 	}
 	
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		System.out.println("웹소켓 연결이 종료됨..........");
 		String loginId = getUserId(session);
-		sessions.remove(loginId);
+		if (loginId != null) {
+			sessions.remove(loginId);
+		}
 	}
 	
 	@Override
 	public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
 		System.out.println("웹소켓 데이터 전송 중 오류가 발생함.............");
 		String loginId = getUserId(session);
-		sessions.remove(loginId);
+		if (loginId != null) {
+			sessions.remove(loginId);
+		}
 	}
 	
 	public void sendMessage(String userId, String text) throws IOException {
@@ -53,9 +60,17 @@ public class NoticeWebsocketHandler extends TextWebSocketHandler {
 		}
 	}
 	
-	private String getUserId(WebSocketSession session) {
-		return 
-				((UsernamePasswordAuthenticationToken)((SecurityContext)session.getAttributes().get("SPRING_SECURITY_CONTEXT")).getAuthentication()).getName();
+	private String getUserId(WebSocketSession session) throws NullPointerException{
+		SecurityContext securityContext = (SecurityContext)session.getAttributes().get("SPRING_SECURITY_CONTEXT");
+		if (securityContext == null) {
+			return null;
+		}
+		Authentication authentication = securityContext.getAuthentication();
+		if (authentication == null) {
+			return null;
+		}
+		return authentication.getName();
+			
 	}
 	
 }

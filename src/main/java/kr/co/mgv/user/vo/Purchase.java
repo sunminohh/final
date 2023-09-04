@@ -15,7 +15,7 @@ public class Purchase {
     private int no;
 
     private Date purchaseDate;
-    private Date cancelDate;
+    private Date canceledDate;
 
     private String status;
     private int price;
@@ -23,9 +23,9 @@ public class Purchase {
     private Product product;
 
     @Builder
-    public Purchase(Date purchaseDate, Date cancelDate, String status, int price, User user, Product product) {
+    public Purchase(Date purchaseDate, Date canceledDate, String status, int price, User user, Product product) {
         this.purchaseDate = purchaseDate;
-        this.cancelDate = cancelDate;
+        this.canceledDate = canceledDate;
         this.status = status;
         this.price = price;
         this.user = user;

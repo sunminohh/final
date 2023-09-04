@@ -1,17 +1,21 @@
 package kr.co.mgv.board.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
 import kr.co.mgv.board.BoardPagination;
+import kr.co.mgv.board.form.AddBoardNoticeForm;
 import kr.co.mgv.board.form.AddPboardForm;
 import kr.co.mgv.board.form.ReportForm;
 import kr.co.mgv.board.list.PartyBoardList;
+import kr.co.mgv.board.mapper.BoardNoticeDao;
 import kr.co.mgv.board.mapper.PartyBoardDao;
 import kr.co.mgv.board.mapper.TheaterBoardDao;
 import kr.co.mgv.board.vo.BoardLocation;
+import kr.co.mgv.board.vo.MovieBoard;
 import kr.co.mgv.board.vo.PBoardComment;
 import kr.co.mgv.board.vo.PBoardReport;
 import kr.co.mgv.board.vo.PartyBoard;
@@ -20,6 +24,7 @@ import kr.co.mgv.board.vo.PartyJoin;
 import kr.co.mgv.board.vo.ReportReason;
 import kr.co.mgv.board.vo.SboardReport;
 import kr.co.mgv.board.vo.StoreBoard;
+import kr.co.mgv.board.websocket.handler.NoticeWebsocketHandler;
 import kr.co.mgv.schedule.vo.Schedule;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +37,8 @@ public class PartyBoardService {
 
 	private final PartyBoardDao partyBoardDao;
 	private final TheaterBoardDao theaterBoardDao;
+	private final NoticeWebsocketHandler noticeWebsocketHandler;
+	private final BoardNoticeDao boardNoticeDao;
 	
 	// 등록폼 관련
 	public List<PartyBoardSchedule> getScheduleList(Map<String, Object> param) {
@@ -144,9 +151,50 @@ public class PartyBoardService {
 		return partyBoardDao.getJoinByPnoAndAccept(join);
 	}
 	
-	public void updateJoin (int no, User user, String request) {
-		PartyBoard board = PartyBoard.builder().no(no).build();
+	public void updateJoin (int no, User user, String request, String writerId) throws IOException {
+		PartyBoard board = partyBoardDao.getPBoardByNo(no);
 		PartyJoin join = PartyJoin.builder().board(board).user(user).request(request).build();
+		PartyJoin savedJoin = partyBoardDao.getJoinByPnoAndId(join);
+		
+		String fromId = join.getUser().getId();
+		String type = "파티";
+		int boardNo = join.getBoard().getNo();
+		String BoardName = board.getName();
+		if (BoardName.length() > 8) {
+			BoardName =  BoardName.substring(0, 8);
+		}
+		
+		if(savedJoin != null && "N".equals(savedJoin.getRequest()) && !writerId.equals(fromId)) {
+    		String text = "["+ type + "]게시판 [" +BoardName+ "...]에 " + fromId + "님이 파티를 신청 했습니다."+boardNo; 
+			noticeWebsocketHandler.sendMessage(writerId, text);
+			log.info("text -> {}",text);
+			AddBoardNoticeForm form = AddBoardNoticeForm.builder()
+					  .boardType(type)
+					  .boardNo(boardNo)
+					  .fromId(fromId)
+					  .toId(writerId)
+					  .code("join")
+					  .boardName(BoardName)
+					  .build();
+			boardNoticeDao.insertNotice(form);
+    	} 
+    	
+    	if(savedJoin == null && !writerId.equals(fromId)) {
+    		String text = "["+ type + "]게시판 [" +BoardName+ "...]에 " + fromId + "님이 파티를 신청 했습니다."+boardNo; 
+			noticeWebsocketHandler.sendMessage(writerId, text);
+			log.info("text -> {}",text);
+			AddBoardNoticeForm form = AddBoardNoticeForm.builder()
+					  .boardType(type)
+					  .boardNo(boardNo)
+					  .fromId(fromId)
+					  .toId(writerId)
+					  .code("join")
+					  .boardName(BoardName)
+					  .build();
+			boardNoticeDao.insertNotice(form);
+    	}
+		
+		
 		partyBoardDao.updateJoin(join);
 	}
 	
@@ -172,10 +220,35 @@ public class PartyBoardService {
 		return partyBoardDao.getAcceptCount(no);
 	}
 	
-	public void partyComplete (int no) {
+	public void partyComplete (int no) throws IOException {
 		PartyBoard board = partyBoardDao.getPBoardByNo(no);
 		board.setComplete("Y");
 		partyBoardDao.updatePBoardByNo(board);
+		
+		String type = "파티";
+		String code = "complete";
+		int boardNo = no;
+		String boardName = board.getName();
+		if (boardName.length() > 8) {
+			boardName =  boardName.substring(0, 8);
+		}
+		
+		List<String> toIds = partyBoardDao.getIdsByAcceptAndComplete(no);
+		for(String toId : toIds) {
+			String text = "["+ type + "]게시판 [" +boardName+ "...]에 " + "파티신청이 수락되었습니다."+boardNo; 
+			noticeWebsocketHandler.sendMessage(toId, text);
+			log.info("text -> {}",text);
+			
+			AddBoardNoticeForm form = AddBoardNoticeForm.builder()
+									  .boardType(type)
+									  .boardNo(boardNo)
+									  .fromId(board.getUser().getId())
+									  .toId(toId)
+									  .code(code)
+									  .boardName(boardName)
+									  .build();
+			boardNoticeDao.insertNotice(form);
+		}
 	}
 	
 	// 신고관련
@@ -214,8 +287,75 @@ public class PartyBoardService {
 	}
 	
 	// 댓글 관련
-	public void insertComment(PBoardComment comment) {
+	public void insertComment(PBoardComment comment, String writerId) throws IOException {
 		partyBoardDao.insertPBoardComment(comment);
+		
+		String type = "파티";
+		String code = "comment";
+		int boardNo = comment.getBoard().getNo();
+		String boardName = comment.getBoard().getName();
+		if (boardName.length() > 8) {
+			boardName =  boardName.substring(0, 8);
+		}
+		String fromId = comment.getUser().getId();
+		// 댓글 달렸을때, 댓글작성자 -> 게시물 작성자
+		if(!fromId.equals(writerId) && comment.getGreat() == null) {
+			log.info("게시글작성자-> {}",writerId);
+			log.info("현댓글작성자-> {}",fromId);
+			String text = "["+ type + "]게시판 [" +boardName+ "...]에 " + fromId + "님이 댓글을 달았습니다."+boardNo; 
+			noticeWebsocketHandler.sendMessage(writerId, text);
+			log.info("text -> {}",text);
+			
+			AddBoardNoticeForm form = AddBoardNoticeForm.builder()
+									  .boardType(type)
+									  .boardNo(boardNo)
+									  .fromId(fromId)
+									  .toId(writerId)
+									  .code("comment")
+									  .boardName(boardName)
+									  .build();
+			boardNoticeDao.insertNotice(form);
+		}
+		
+		// 대댓글 달렸을때, 대댓글 작성자 -> 댓글 작성자
+		if(comment.getGreat() != null && ! comment.getGreat().getUser().getId().equals(fromId)) {
+				log.info("게시글 작성자-> {}",writerId);
+				log.info("현댓글 작성자-> {}",fromId);
+				log.info("모댓글 작성자 -> {}",comment.getGreat().getUser().getId());
+				String text = "["+ type + "]게시판 [" +boardName+ "...]에 " + fromId + "님이 대댓글을 달았습니다."+boardNo; 
+				noticeWebsocketHandler.sendMessage(comment.getGreat().getUser().getId(), text);
+				log.info("text -> {}",text);
+				
+				AddBoardNoticeForm form = AddBoardNoticeForm.builder()
+						  .boardType(type)
+						  .boardNo(boardNo)
+						  .fromId(fromId)
+						  .toId(comment.getGreat().getUser().getId())
+						  .code("reComment")
+						  .boardName(boardName)
+						  .build();
+				boardNoticeDao.insertNotice(form);
+		}
+		
+		// 내 게시글의 다른 사용자의 댓글에 내가 아닌 사용자가 대댓글을 달았다
+		if(comment.getGreat() != null &&  !comment.getGreat().getUser().getId().equals(fromId) && !writerId.equals(fromId) ) {
+			log.info("게시글 작성자-> {}",writerId);
+			log.info("현댓글 작성자-> {}",fromId);
+			log.info("모댓글 작성자 -> {}",comment.getGreat().getUser().getId());
+			String text = "["+ type + "]게시판 [" +boardName+ "...]에 " + fromId + "님이 댓글을 달았습니다."+boardNo; 
+			noticeWebsocketHandler.sendMessage(writerId, text);
+			log.info("text -> {}",text);
+			
+			AddBoardNoticeForm form = AddBoardNoticeForm.builder()
+					  .boardType(type)
+					  .boardNo(boardNo)
+					  .fromId(fromId)
+					  .toId(writerId)
+					  .code("comment")
+					  .boardName(boardName)
+					  .build();
+			boardNoticeDao.insertNotice(form);
+		}
 	}
 	
 	public List<PBoardComment> getGreatComments(int no){

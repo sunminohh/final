@@ -35,6 +35,7 @@ public interface PartyBoardDao {
 	List<PartyJoin> getJoinByPnoAndAccept(PartyJoin join);
 	void updateJoin (PartyJoin join);
 	int getAcceptCount (int no);
+	List<String> getIdsByAcceptAndComplete(int no);
 	
 	// 신고관련
 	void insertPboardReport(PBoardReport report);

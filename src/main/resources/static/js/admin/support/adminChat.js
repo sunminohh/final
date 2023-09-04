@@ -57,6 +57,9 @@ $(function(){
 			} else {
 				appendMessagTag("left", userId, text);
 			}
+		 } else if (data.cmd == "exit") {
+			 let userId = data.userId;
+			 appendMessagTag("left", userId, "["+userId+"]님이 상담톡에서 나갔습니다.");
 		 }
 	 };
 	 
@@ -78,7 +81,6 @@ $(function(){
 	        }
         
         }
-
 	})
 	
 	$("#table-waitings tbody").on("click", "a", function(event){

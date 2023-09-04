@@ -1,5 +1,6 @@
 package kr.co.mgv.board.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -171,7 +172,8 @@ public class TheaterBoardController {
 	@ResponseBody
 	public ResponseEntity<Void> addLike(@RequestParam("no") int no,
 										@RequestParam("id") String id,
-										@RequestParam("likeCount") int likeCount){
+										@RequestParam("likeCount") int likeCount,
+										@RequestParam("writerId") String writerId) throws IOException {
 		
 		TBoardLike like = new TBoardLike();
     	User user = User.builder()
@@ -186,10 +188,10 @@ public class TheaterBoardController {
 		
 	 	if (savedLike != null && "Y".equals(savedLike.getCancel())) {
     		savedLike.setCancel("N");
-    		theaterBoardService.updateTboardLike(savedLike);
+    		theaterBoardService.updateTboardLike(savedLike, writerId);
     	} else if(savedLike != null && "N".equals(savedLike.getCancel())) {
     		savedLike.setCancel("Y");
-    		theaterBoardService.updateTboardLike(savedLike);
+    		theaterBoardService.updateTboardLike(savedLike, writerId);
     	} else if(savedLike == null) {
     		theaterBoardService.insertBoardLike(like);
     	}
@@ -257,11 +259,12 @@ public class TheaterBoardController {
 										            @RequestParam("id") String id, 
 										            @RequestParam(name="parentNo", required = false) Integer parentNo, 
 										            @RequestParam(name="greatNo", required = false) Integer greatNo, 
-										            @RequestParam("content") String content){
+										            @RequestParam("content") String content,
+										            @RequestParam("writerId") String writerId) throws IOException{
 		TBoardComment comment = new TBoardComment();
 		comment.setContent(content);
 		
-		TheaterBoard tBoard = TheaterBoard.builder().no(no).build();
+		TheaterBoard tBoard = theaterBoardService.getTheaterBoardByNo(no);
 		comment.setBoard(tBoard);
 		
 		if (parentNo != null) {
@@ -276,7 +279,7 @@ public class TheaterBoardController {
 		User user = User.builder().id(id).build();
 		comment.setUser(user);
 		
-		theaterBoardService.TBoardCommentInsert(comment);
+		theaterBoardService.TBoardCommentInsert(comment, writerId);
 		TheaterBoard board = theaterBoardService.getTheaterBoardByNo(no);
 		int commentCount = board.getCommentCount() + 1;
 		theaterBoardService.updateBoardComment(no, commentCount);
@@ -298,26 +301,29 @@ public class TheaterBoardController {
 											    	   @RequestParam("id") String id, 
 											    	   @RequestParam(name="parentNo", required = false) Integer parentNo, 
 											    	   @RequestParam(name="greatNo", required = false) Integer greatNo, 
-											    	   @RequestParam("content") String content) {
+											    	   @RequestParam("content") String content,
+											    	   @RequestParam("greatCommentId") String greatCommentId,
+											    	   @RequestParam("writerId") String writerId) throws IOException {
 		TBoardComment comment = new TBoardComment();
 		comment.setContent(content);
 		
-		TheaterBoard tBoard = TheaterBoard.builder().no(no).build();
+		TheaterBoard tBoard = theaterBoardService.getTheaterBoardByNo(no);
 		comment.setBoard(tBoard);
 		
 		if (parentNo != null) {
 			TBoardComment parentComment = TBoardComment.builder().no(parentNo).build();
 			comment.setParent(parentComment);
 		}
+		User writer = User.builder().id(greatCommentId).build();
 		if (greatNo != null) {
-			TBoardComment greatComment = TBoardComment.builder().no(greatNo).build();
+			TBoardComment greatComment = TBoardComment.builder().no(greatNo).user(writer).build();
 			comment.setGreat(greatComment);
 		}
 		
 		User user = User.builder().id(id).build();
 		comment.setUser(user);
 		
-		theaterBoardService.TBoardCommentInsert(comment);
+		theaterBoardService.TBoardCommentInsert(comment, writerId);
 		TheaterBoard board = theaterBoardService.getTheaterBoardByNo(no);
 		int commentCount = board.getCommentCount() + 1;
 		theaterBoardService.updateBoardComment(no, commentCount);
