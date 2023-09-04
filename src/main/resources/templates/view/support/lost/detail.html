@@ -49,12 +49,12 @@
                 	class="me-3 text-primary"></a>
             </div>
 
-            <div class="cont">
+            <div class="cont" style="margin-bottom:200px;">
 				<p th:text="${lost.content}">
                 </p>
             </div>
         
-	        <div id="reviewBox"style="margin-top:200px;">
+	        <div id="reviewBox">
 	            <div class="cont review" th:each="comment : ${lostComments}" th:if="${lostComments != null}">
 					<p th:text="${comment.content}"></p>
 		        </div>

@@ -407,7 +407,7 @@ $(function () {
                                   <div class="col-sm-11">
                                      <div id="profile">
                                        <div id="comment-imgbox" class="float-start" >
-                                          <a href="사용자상세정보">
+                                          <a href="/board/user/list?id=${comment.user.id}">
                                              <img id="profileimg"  src="/images/board/sample.png" alt="프로필사진">
                                           </a>
                                        </div>
@@ -457,7 +457,7 @@ $(function () {
 			                         <div class="col-sm-11">
 			                            <div id="profile">
 			                              <div id="comment-imgbox" class="float-start" >
-			                                 <a href="사용자상세정보">
+			                                 <a href="/board/user/list?id=${child.user.id}">
 			                                    <img id="profileimg" src="/images/board/sample.png" alt="프로필사진">
 			                                 </a>
 			                              </div>
@@ -565,7 +565,7 @@ $(function () {
                                   <div class="col-sm-11">
                                      <div id="profile">
                                        <div id="comment-imgbox" class="float-start" >
-                                          <a href="사용자상세정보">
+                                          <a href="/board/user/list?id=${comment.user.id}">
                                              <img id="profileimg"  src="/images/board/sample.png" alt="프로필사진">
                                           </a>
                                        </div>
@@ -615,7 +615,7 @@ $(function () {
 			                         <div class="col-sm-11">
 			                            <div id="profile">
 			                              <div id="comment-imgbox" class="float-start" >
-			                                 <a href="사용자상세정보">
+			                                 <a href="/board/user/list?id=${child.user.id}">
 			                                    <img id="profileimg" src="/images/board/sample.png" alt="프로필사진">
 			                                 </a>
 			                              </div>
