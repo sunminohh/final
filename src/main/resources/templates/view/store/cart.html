@@ -1,9 +1,57 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default}">
 <head th:fragment="extra-head-content">
     <title>장바구니</title>
-    <style></style>
     <script th:src="@{/js/store/cart.js}"></script>
+    <script src="https://js.tosspayments.com/v1"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+
+    <script>
+        let amount = 50000;
+
+        let tossPayments = TossPayments("test_ck_Lex6BJGQOVDY7zZDAQOrW4w2zNbg");
+
+        function pay(method, requestJson) {
+            console.log(requestJson);
+            tossPayments.requestPayment(method, requestJson)
+                .catch(function (error) {
+
+                    if (error.code === "USER_CANCEL") {
+                        alert('유저가 취소했습니다.');
+                    } else {
+                        alert(error.message);
+                    }
+
+                });
+        }
+
+        let path = "/";
+        let successUrl = window.location.origin + path + "success";
+        let failUrl = window.location.origin + path + "fail";
+        let callbackUrl = window.location.origin + path + "va_callback";
+        let orderId = new Date().getTime();
+
+        let jsons = {
+            "card": {
+                "amount": amount,
+                "orderId": "sample-" + orderId,
+                "orderName": "토스 티셔츠 외 2건",
+                "successUrl": successUrl,
+                "failUrl": failUrl,
+                "cardCompany": null,
+                "cardInstallmentPlan": null,
+                "maxCardInstallmentPlan": null,
+                "useCardPoint": false,
+                "customerName": "박토스",
+                "customerEmail": null,
+                "customerMobilePhone": null,
+                "taxFreeAmount": null,
+                "useInternationalCardOnly": false,
+                "flowMode": "DEFAULT",
+                "discountCode": null,
+                "appScheme": null
+            }
+        }
+    </script>
 </head>
 <body>
 <div layout:fragment="content">
@@ -118,7 +166,7 @@
                         </div>
                     </div>
                     <div class="btn-group pt40" style="display: block;">
-                        <a href="#" class="button purple large w170px btn-order-form" id="btn_store_pay_adapter" title="구매">구매</a>
+                        <button type="button" id="btn-tosspay" class="button  purple large w170px btn-order-form" title="구매" onclick="pay('카드', jsons.card)">구매</button>
                     </div>
                 </div>
             </div>

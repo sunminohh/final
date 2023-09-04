@@ -1,5 +1,6 @@
 $(document).ready(function() {
 
+    /*
     $(".btn-order-form").on("click", function(e) {
         e.preventDefault();
 
@@ -63,6 +64,8 @@ $(document).ready(function() {
         });
     });
 
+     */
+
     $(".delete-btn").on("click", function(e) {
         e.preventDefault();
 
@@ -105,4 +108,3 @@ function addCommasToPrice() {
 }
 
 window.onload = addCommasToPrice;
-
