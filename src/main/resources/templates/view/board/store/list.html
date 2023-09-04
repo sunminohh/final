@@ -155,7 +155,6 @@
             <div class="text-end">
                 <a sec:authorize="isAuthenticated()" id="write-board" th:href=@{/board/store/add} class="btn btn-dark btn-sm" style="text-decoration: none; color: white; ">새 게시글
                     등록</a>
-            <div class="text-end">
                 <a sec:authorize="isAnonymous()" id="write-board-anonymous" th:href=@{/board/store/add} class="btn btn-dark btn-sm" style="text-decoration: none; color: white; ">새 게시글
                     등록</a>
             </div>

@@ -33,7 +33,7 @@ public class AdminFaqController {
 	
 	private final FaqService faqService;
 	
-	@RequestMapping
+	@GetMapping
 	public String faq(@RequestParam(name = "catNo", required = false, defaultValue = "1") int catNo,
 			@RequestParam(name = "page", required = false, defaultValue = "1") int page,
 			@RequestParam(name = "keyword", required = false) String keyword,
@@ -68,7 +68,7 @@ public class AdminFaqController {
 		return faqList;
 	}
 	
-	@RequestMapping("/detail") 
+	@GetMapping("/detail") 
 	public String getFaqByNo(@RequestParam("no") int faqNo, Model model) {
 		Faq faq = faqService.getFaqByNo(faqNo);
 		model.addAttribute("faq", faq);
