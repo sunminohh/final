@@ -67,7 +67,7 @@ $(function() {
        		let pagination = result.pagination;
        		
        		if (boards.length === 0) {
-				   $tbody.append(`
+				   $tbody.empty().append(`
 				   <tr>
 					<td colspan="4">게시글이 존재하지 않습니다.</td>
 				</tr>
@@ -86,7 +86,12 @@ $(function() {
 	                  
 	                  // 원하는 날짜 형식으로 포맷팅
 	                  const formattedDate = `${dateObject.getFullYear()}/${(dateObject.getMonth() + 1).toString().padStart(2, '0')}/${dateObject.getDate().toString().padStart(2, '0')} ${dateObject.getHours().toString().padStart(2, '0')}:${dateObject.getMinutes().toString().padStart(2, '0')}`;
-	                  
+	                 
+	                  let boardName = board.name;
+	                  if (boardName.length >= 48) {
+						  boardName = boardName.slice(0, 48) + '...';
+						}
+							                   
 						
 						if(board.type === '영화'){
 							href=`../../board/movie/detail?no=${board.no}`
@@ -109,7 +114,7 @@ $(function() {
 		                <td>
 		                	<div class="combined-cell">
 			            		<a class="text-black text-decoration-none" href="${href}">
-								    <div class="title-content-2">${board.name}</div>
+								    <div class="title-content-2">${boardName}</div>
 								</a>
 			                </div>
 		                </td>

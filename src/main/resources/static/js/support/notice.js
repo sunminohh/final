@@ -1,12 +1,5 @@
 $(function() {
 	
-	const params = new URLSearchParams(location.search);
-	const defaultKeyword = params.get('keyword');
-	if (defaultKeyword) {
-		$("input[name=keyword]").val(defaultKeyword);
-		getNoticeList();
-	}
-	
 	// 탭컬러 바꾸기
 	$('li.tab-link').click(function() {
 
@@ -54,6 +47,13 @@ $(function() {
 		
 		getNoticeList();
 	});
+	
+	const params = new URLSearchParams(location.search);
+	const defaultKeyword = params.get('keyword');
+	if (defaultKeyword) {
+		$("input[name=keyword]").val(defaultKeyword);
+		getNoticeList();
+	}
 	
 	// 폼 전송 이벤트
 	$("#actionForm").on('submit', function(e) {
@@ -107,28 +107,26 @@ $(function() {
        		let pagination = result.pagination;
        		
        		if (noticeList.length === 0) {
-				   $tbody.append(`
-				   		<tr><th colspan='5' style="text-align:center;">조회된 내역이 없습니다.</th></tr>
-				   `);
+				   $tbody.append(`<tr><th colspan='5' style="text-align:center;">조회된 내역이 없습니다.</th></tr>`);
+				   $pagination.empty();
 			} else {
 				 const tbodyHtml = noticeList.map(function(notice, index) {
-					 
 					return `
-				<tr>
-	                <td>${notice.no}</td>
-	                <td>${notice.theater == null || notice.theater.name == null ? 'MGV' : notice.theater.name}</td>
-	                <td>${notice.type == '공지' ? '공지' : '이벤트'}</td>
-	                <td style="text-align:left;">
-				            	<a class="text-black text-decoration-none
-	                	d-inline-block text-truncate" style="max-width: 400px;"
-				            		href="/support/notice/detail?no=${notice.no}"
-				            		data-no="${notice.no}">
-				            		${notice.title}
-				            	</a>
-				            </td>
-	                <td>${notice.updateDate}</td>
-	            </tr>
-				`	 
+							<tr>
+				                <td>${notice.no}</td>
+				                <td>${notice.theater == null || notice.theater.name == null ? 'MGV' : notice.theater.name}</td>
+				                <td>${notice.type == '공지' ? '공지' : '이벤트'}</td>
+				                <td style="text-align:left;">
+							            	<a class="text-black text-decoration-none
+				                				d-inline-block text-truncate" style="max-width: 400px;"
+							            		href="/support/notice/detail?no=${notice.no}"
+							            		data-no="${notice.no}">
+							            		${notice.title}
+							            	</a>
+							            </td>
+				                <td>${notice.updateDate}</td>
+				            </tr>
+							`	 
 				}).join("\n");
 				
 				$tbody.html(tbodyHtml);
@@ -142,7 +140,6 @@ $(function() {
 		
 		let noticeNo = $(this).attr("data-no");
 		$("#actionForm input[name=no]").val(noticeNo);
-		$("#actionForm").attr("action", '/support/notice/detail?no=' + noticeNo);
 		
 		document.querySelector("#actionForm").submit();
 	})
