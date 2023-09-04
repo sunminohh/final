@@ -1,15 +1,11 @@
 package kr.co.mgv.booking.service;
 
-import kr.co.mgv.movie.service.MovieService;
 import kr.co.mgv.schedule.dao.ScheduleDao;
 import kr.co.mgv.schedule.dto.BookingScheduleDto;
 import kr.co.mgv.schedule.dto.DailyScheduleDto;
-import kr.co.mgv.theater.dto.SeatsDto;
 import kr.co.mgv.theater.service.TheaterService;
-import kr.co.mgv.theater.vo.Location;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.HandlerResultHandler;
 
 import java.util.HashMap;
 import java.util.List;
