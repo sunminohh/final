@@ -236,13 +236,13 @@ $(function() {
       
       if(id !== userId && (userId != null || userId === undefined)){
          Swal.fire({
-                icon: 'error',
+                icon: 'warning',
                 text: '다른 사용자의 분실물 문의 내용을 볼 수 없습니다.',
             });
       }
       if(userId === null || userId === undefined || userId === ""){
          Swal.fire({
-                icon: 'error',
+                icon: 'warning',
                 text: '로그인 후 열람 가능합니다.',
             });
       }
