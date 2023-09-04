@@ -8,19 +8,17 @@ import lombok.ToString;
 import org.apache.ibatis.type.Alias;
 
 import java.util.Date;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @ToString
-@Alias("order")
-public class order {
+@Alias("Order")
+public class Order {
 
     private int no;
     private User user;
-    private Product product;
-    private int Quantity;
     private int totalPrice;
     private Date orderDate;
+    private Date cancelDate;
+    private String status;
 }
-
