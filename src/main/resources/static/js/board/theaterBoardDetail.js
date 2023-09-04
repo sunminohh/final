@@ -136,7 +136,6 @@ $(function() {
 	                  
 	                  // 원하는 날짜 형식으로 포맷팅
 	                  const formattedDate = `${dateObject.getFullYear()}/${(dateObject.getMonth() + 1).toString().padStart(2, '0')}/${dateObject.getDate().toString().padStart(2, '0')} ${dateObject.getHours().toString().padStart(2, '0')}:${dateObject.getMinutes().toString().padStart(2, '0')}`;
-	                  
 						
                       content += `
                       <div class="great-box">
@@ -153,7 +152,6 @@ $(function() {
                                        <div class="ps-5">
                                           <p><strong id="greatCommentId">${comment.user.id}</strong></p>
                                           <input type="hidden" name="greatCommentNo" value="${comment.no}" />
-                                       	  <input type="hidden" name="greatCommentId" value="${comment.user.id}" />
                                        </div>
                                     </div>
                                     <div class="commentUserInfo ps-5" >
@@ -164,19 +162,24 @@ $(function() {
                                              </div>
                                        
                                     </div>
-                                 </div>
-                                    <div class="col-sm-1 d-flex justify-content-end pt-0" sec:authorize="isAuthenticated()">
-                                       
-                                       <a href="/board/theater/deleteGreatComment"
+                                 </div>`
+                                    
+                            if(comment.user.id === loginId) {
+								
+                                   content += `
+                                    <div class="col-sm-1 d-flex justify-content-end pt-0" sec:authorize="isAuthenticated()"> 
+                                       <a href="/board/party/deleteGreatComment"
                                           class="btn btn-link btn-sm text-danger text-decoration-none"
                                           sec:authorize="isAuthenticated()"
-                                            th:if="${id == comment.user.id}"
                                             id="delete-comment-btn">삭제</a>
                      
-                                    </div>            
-                              </div>
+                                    </div> `           
+							}          
+                            
+                        content += 
+                              `</div>
                            </div>   
-                           <hr style="width:1080px; ">
+                           <hr style="width:1080px;">
                         <div class="re-comment-here" id="re-comment-here-${comment.no}">
                   		</div>
                               <div class="new-register-box  row mb-3 pt-2" id="reply-comment-box-${comment.no}" >
@@ -216,17 +219,24 @@ $(function() {
 			                                    </div>
 			                              
 			                           </div>
-			                        </div>
+			                        </div>`
+			                        
+			                        if(child.user.id === loginId){
+			                           content += `
 			                           <div class="col-sm-1 d-flex justify-content-end pt-0" sec:authorize="isAuthenticated()">
 			                              <input type="hidden" name="userId" value="${id}">
-			                              <a href="/board/theater/deleteReComment" 
+			                              <a href="/board/party/deleteReComment" 
 			                                 class="btn btn-link btn-sm text-danger text-decoration-none"
 			                                 sec:authorize="isAuthenticated()"
 			                                   th:if="${id== child.user.id}"
 			                                   id="delete-reComment-btn">삭제</a>
 			            
-			                           </div>            
-			                     </div>
+			                           </div>         
+			                              
+			                    `}
+			                    
+			                   content += `  
+			                    </div>
 			                     <hr>
 			                        <div class="row mb-3 pt-2 " id="re-reply-comment-box">
 			                        </div>
@@ -236,8 +246,8 @@ $(function() {
 						 `
 						 }
 					 })
-					 content += `</div>`
-					});                
+ 					 content += `</div>`
+					});                                
                        $("#all-comment-box").html(content);
                    			
 
@@ -312,7 +322,6 @@ $(function() {
                                        <div class="ps-5">
                                           <p><strong id="greatCommentId">${comment.user.id}</strong></p>
                                           <input type="hidden" name="greatCommentNo" value="${comment.no}" />
-                                          <input type="hidden" name="greatCommentId" value="${comment.user.id}" />
                                        </div>
                                     </div>
                                     <div class="commentUserInfo ps-5" >
@@ -323,19 +332,24 @@ $(function() {
                                              </div>
                                        
                                     </div>
-                                 </div>
-                                    <div class="col-sm-1 d-flex justify-content-end pt-0" sec:authorize="isAuthenticated()">
-                                       
-                                       <a href="/board/theater/deleteGreatComment"
+                                 </div>`
+                                    
+                            if(comment.user.id === loginId) {
+								
+                                   content += `
+                                    <div class="col-sm-1 d-flex justify-content-end pt-0" sec:authorize="isAuthenticated()"> 
+                                       <a href="/board/party/deleteGreatComment"
                                           class="btn btn-link btn-sm text-danger text-decoration-none"
                                           sec:authorize="isAuthenticated()"
-                                            th:if="${id == comment.user.id}"
                                             id="delete-comment-btn">삭제</a>
                      
-                                    </div>            
-                              </div>
+                                    </div> `           
+							}          
+                            
+                        content += 
+                              `</div>
                            </div>   
-                           <hr style="width:1080px; ">
+                           <hr style="width:1080px;">
                         <div class="re-comment-here" id="re-comment-here-${comment.no}">
                   		</div>
                               <div class="new-register-box  row mb-3 pt-2" id="reply-comment-box-${comment.no}" >
@@ -375,17 +389,24 @@ $(function() {
 			                                    </div>
 			                              
 			                           </div>
-			                        </div>
+			                        </div>`
+			                        
+			                        if(child.user.id === loginId){
+			                           content += `
 			                           <div class="col-sm-1 d-flex justify-content-end pt-0" sec:authorize="isAuthenticated()">
 			                              <input type="hidden" name="userId" value="${id}">
-			                              <a href="/board/theater/deleteReComment" 
+			                              <a href="/board/party/deleteReComment" 
 			                                 class="btn btn-link btn-sm text-danger text-decoration-none"
 			                                 sec:authorize="isAuthenticated()"
 			                                   th:if="${id== child.user.id}"
 			                                   id="delete-reComment-btn">삭제</a>
 			            
-			                           </div>            
-			                     </div>
+			                           </div>         
+			                              
+			                    `}
+			                    
+			                   content += `  
+			                    </div>
 			                     <hr>
 			                        <div class="row mb-3 pt-2 " id="re-reply-comment-box">
 			                        </div>
@@ -396,7 +417,7 @@ $(function() {
 						 }
 					 })
  					 content += `</div>`
-					});                
+					});                                
                        $("#all-comment-box").html(content);
                    			
 					     $that.closest('.comment-box').find('.re-comment-here').append(content);
