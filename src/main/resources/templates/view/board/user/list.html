@@ -59,14 +59,14 @@
 	                    <input type="text" class="form-control form-control-sm" name="keyword" th:value="${param.keyword}"/>
 	                </div>
 	                <div class="col-12">
-	                    <button type="button" class="btn btn-outline-dark btn-sm" onclick="searchBoard()">검색</button>
+	                    <button type="button" id="searchBtn" class="btn btn-outline-dark btn-sm">검색</button>
 	              </div>
 	          </form>
 	      </div>
 	  </div>
 	  <div>
-	      <div class="d-flex justify-content-end mb-3 float-end ps-3 ">
-	          	<select class="form-select me-1 form-select-sm" style="width: 100px" name="boards" th:value="${param.boards}" onchange="changeBoards()">
+	      <div class="d-flex justify-content-end mb-3 float-end ps-3 " id="select-board">
+	          	<select class="form-select me-1 form-select-sm" style="width: 100px" name="boards" th:value="${param.boards}" >
 	                <option class="sort-select" th:value="all" th:selected="${#strings.equals(param.boards, 'all')}">전체</option>
 	                <option class="sort-select" th:value="movie" th:selected="${#strings.equals(param.boards, 'movie')}">영화</option>
 					<option class="sort-select" th:value="theater" th:selected="${#strings.equals(param.boards, 'theater')}">극장</option>
@@ -134,12 +134,14 @@
 				        <a title="첫번째 페이지 보기"
 				           th:href="@{list(page=1,id=${param.id}, boards=${param.boards}, opt=${param.opt}, keyword=${param.keyword})}"
 				           class="page-link page-number-link control first"
+				           data-page="1"
 				           ></a>
 				    </li>
 				    <li class="page-item" th:if="${result.pagination.currentBlock > 1}">
 				        <a title="이전 5페이지 보기"
 				           th:href="@{list(page=${(result.pagination.currentBlock - 1) * 5} ,id=${param.id}, boards=${param.boards}, opt=${param.opt}, keyword=${param.keyword})}"
 				           class="page-link page-number-link control prev"
+				           th:attr="data-page=${(result.pagination.currentBlock -1)* 10}"
 				           ></a>
 				    </li>
 				    <li class="page-item" th:each="num : ${result.pagination.pageNumbers}">
@@ -147,18 +149,21 @@
                            th:text="${num}"
                            th:classappend="${result.pagination.page == (num) ? 'active' : '' }"
                            class="page-link page-number-link"
+                           th:attr="data-page=${num}"
                            >1</a>
                     </li>
                     <li class="page-item" th:if="${result.pagination.currentBlock < result.pagination.totalBlocks}">
 				        <a title="이후 5페이지 보기"
 				           th:href="@{list(page=${result.pagination.currentBlock * 5 + 1},id=${param.id}, boards=${param.boards}, opt=${param.opt}, keyword=${param.keyword})}"
 				           class="page-link page-number-link control next"
+				           th:attr="data-page=${result.pagination.currentBlock * 10 + 1}"
 				          ></a>
 				    </li>
                  	<li class="page-item" th:if="${result.pagination.currentBlock < result.pagination.totalBlocks}">
 				        <a title="마지막 페이지 보기"
 				           th:href="@{list(page=${result.pagination.totalPages},id=${param.id}, boards=${param.boards}, opt=${param.opt}, keyword=${param.keyword})}"
 				           class="page-link page-number-link control last"
+				           th:attr="data-page=${result.pagination.totalPages}"
 				           ></a>
 				    </li>
 				    
