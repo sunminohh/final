@@ -28,7 +28,7 @@ public class AdminNoticeController {
 
 	private final NoticeService noticeService;
 	
-    @RequestMapping
+	@GetMapping
     public String notice(@RequestParam(name = "catNo", required = false, defaultValue = "21") int catNo,
     		@RequestParam(name = "page", required = false, defaultValue = "1") int page,
     		@RequestParam(name = "locationNo", required = false, defaultValue = "0") int locationNo,
@@ -57,7 +57,7 @@ public class AdminNoticeController {
         return "view/admin/support/notice/list";
     }
     
-    @GetMapping("/list")
+	@GetMapping("/list")
     @ResponseBody
     public NoticeList getNotice(@RequestParam(name = "catNo", required = false, defaultValue = "21") int catNo,
     		@RequestParam(name = "page", required = false, defaultValue = "1") int page,
@@ -86,7 +86,7 @@ public class AdminNoticeController {
     	return noticeList;
     }
 
-    @RequestMapping("/detail")
+	@GetMapping("/detail")
     public String getNoticeByNo(@RequestParam("no") int noticeNo, Model model) {
     	Notice notice = noticeService.getNoticeByNo(noticeNo);
     	
@@ -117,8 +117,9 @@ public class AdminNoticeController {
     	Notice notice = noticeService.getNoticeByNo(noticeNo);
     	model.addAttribute("notice", notice);
     	model.addAttribute("locations", noticeService.getLocations());
-    	model.addAttribute("theaters", noticeService.getTheatesrByLocationNo(notice.getLocation().getNo()));
-    	
+    	if (notice.getLocation() != null) {
+    		model.addAttribute("theaters", noticeService.getTheatesrByLocationNo(notice.getLocation().getNo()));
+    	}
     	return "view/admin/support/notice/modifyform";
     }
     

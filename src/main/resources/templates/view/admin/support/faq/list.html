@@ -15,12 +15,13 @@
 	        <a href="/admin/support/faq/form" class="button purple" title="자주 묻는 질문 등록">등록</a>
    		</div>
 	
-	    <form method="post" action="faq/detail" id="actionForm">
+	    <form method="get" action="faq/detail" id="actionForm">
 		    <div class="input-search-area mb30">
 		        <div class="input-area">
 		            <label for="search01" class="label">빠른검색</label>
 				
 		            <div class="board-search w460px">
+		            	<input type="hidden" name="no" />
 		                <input type="hidden" name="catNo" th:value="${param.catNo == null ? '1' : param.catNo}" />
 		                <input type="hidden" name="page" th:value="${param.page}" />
 		                <input type="search" name="keyword" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" value="" maxlength="15"  autocomplete="off">

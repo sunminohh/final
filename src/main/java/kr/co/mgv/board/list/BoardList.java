@@ -16,13 +16,15 @@ public class BoardList {
 	private Date createDate;
 	private String name;
 	private int readCount;
+	private int likeCount;
+	private int commentCount;
 	private String type;
 	private String id;
 	private String content;
 	private int reportNo;
 	@Builder
 	public BoardList(int no, Date createDate, String name, int readCount, String type, String id, 
-			String content, int reportNo) {
+			String content, int reportNo, int likeCount, int commentCount) {
 		super();
 		this.no = no;
 		this.createDate = createDate;
@@ -32,5 +34,7 @@ public class BoardList {
 		this.id = id;
 		this.content = content;
 		this.reportNo = reportNo;
+		this.commentCount = commentCount;
+		this.likeCount = likeCount;
 	}
 }
