@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Alias("dailySales")
+@Alias("totalSales")
 public class TotalSales {
 
 	private Integer id;
