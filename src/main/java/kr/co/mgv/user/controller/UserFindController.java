@@ -8,10 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
@@ -44,26 +41,26 @@ public class UserFindController {
 
     @GetMapping("/pwd-form")
     public String pwdfindForm() {
-
         return "view/user/find/pwdform";
     }
 
-    @PostMapping("/pwd-form")
-    public String pwdfind(UserFindForm form, Model model) {
+    @PostMapping("/check")
+    public ResponseEntity<String> UserCheck(UserFindForm form) {
+        User user = userService.getUserById(form.getId());
 
+        if (user != null && user.getName().equals(form.getName()) && user.getEmail().equals(form.getEmail())) {
+            return ResponseEntity.ok("ok");
+        } else {
+            return ResponseEntity.badRequest().body("회원정보가 없습니다. 다시 시도해주세요.");
+        }
 
-        return "redirect:/user/auth/pass-find";
     }
 
-    @GetMapping("pass-find")
-    public String changePwdForm(UserFindForm form, Model model) {
+    @PostMapping("pwd-find")
+    public ResponseEntity<String> pwdfind(UserFindForm form) {
+        User user = userService.getUserById(form.getId());
 
-        return "view/user/find/pass-find";
-    }
+        return ResponseEntity.ok("ok");
 
-    @PostMapping("/pass-find")
-    public String sucPwd() {
-
-        return "redirect:/";
     }
 }

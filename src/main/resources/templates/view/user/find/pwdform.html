@@ -3,10 +3,15 @@
       layout:decorate="~{layout/default}">
 <head th:fragment="extra-head-content">
     <script th:src="@{/js/user/pwd-find.js}"></script>
+    <style>
+        .alert {
+            display: none;
+        }
+    </style>
 </head>
 <div layout:fragment="content" id="contents" class="pwd-form">
 
-    <form id="action-form" method="post" th:action="@{/user/pass-find}">
+    <form id="action-form" method="post" th:action="@{/user/pwd-find}">
         <div class="member-wrap">
             <!-- col-wrap -->
             <div class="col-wrap">
@@ -27,7 +32,6 @@
 
                     <div class="table-wrap">
                         <table class="board-form">
-                            <caption>아이디이름, 휴대폰 번호, 인증번호 항목을 가진 비밀번호 찾기 입력 표<!--아이디이름, 휴대폰 번호, 인증번호 항목을 가진 비밀번호 찾기 입력 표--></caption>
                             <colgroup>
                                 <col style="width:130px;">
                                 <col>
@@ -36,23 +40,23 @@
                             <tr>
                                 <th scope="row"><label for="ibxSchPwdLoginId">아이디 <em class="font-orange">*</em></label></th>
                                 <td>
-                                    <input id="ibxSchPwdLoginId" name="id" maxlength="20" type="text" placeholder="아이디" class="input-text w230px"><!--아이디-->
+                                    <input id="ibxSchPwdLoginId" name="id" maxlength="20" type="text" placeholder="아이디" class="input-text w230px" autocomplete="off">
                                 </td>
                             </tr>
                             <tr>
-                                <th scope="row"><label for="ibxSchPwdMbNm">이름 <em class="font-orange">*</em></label></th>
+                                <th scope="row"><label for="userName">이름 <em class="font-orange">*</em></label></th>
                                 <td>
-                                    <input id="ibxSchPwdMbNm" name="name" type="text" placeholder="이름" class="input-text w230px"><!--이름-->
+                                    <input id="userName" name="name" type="text" placeholder="이름" class="input-text w230px" autocomplete="off">
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row"><label>E-mail <em class="font-orange">*</em></label></th>
                                 <td>
                                     <input type="hidden" id="userId">
-                                    <input type="text" id="userEmail" name="email" class="input-text w230px" autocomplete="off">
+                                    <input type="text" name="email" class="input-text w230px" autocomplete="off">
                                     <button id="btnSendAuthMail" type="button" class="button gray w75px ml08" disabled>인증요청</button>
                                     <button id="btnResendAuthMail" type="button" class="button gray w75px ml08" style="display: none" disabled>재전송</button>
-                                    <span id="email-error-text" class="alert"></span>
+                                    <br><span id="email-error-text" class="alert"></span>
                                 </td>
                             </tr>
                             <tr id="auth-number" style="display: none;">
@@ -60,7 +64,7 @@
                                 <td>
                                     <div class="chk-num">
                                         <div class="line">
-                                            <input maxlength="8" type="text" id="userAuth" class="input-text w180px" autocomplete="off">
+                                            <input maxlength="6" type="text" id="userAuth" class="input-text w180px" autocomplete="off">
 
                                             <div class="time-limit" id="schEmailtimer">
                                                 3:00
@@ -69,7 +73,7 @@
                                     </div>
 
                                     <button id="btnConfirm" type="button" class="button gray w75px ml08" disabled>인증확인</button>
-                                    <span id="auth-error-text" class="alert"></span>
+                                    <br><span id="auth-error-text" class="alert"></span>
                                 </td>
                             </tr>
 
@@ -78,7 +82,7 @@
                     </div>
                     <!--비밀번호 찾기-->
                     <div class="btn-member-bottom v1">
-                        <button id="btnSchPwd" type="button" class="button purple large" disabled>비밀번호 찾기<!--비밀번호 찾기--></button>
+                        <button id="btnPwdFind" type="submit" class="button purple large" disabled>비밀번호 찾기</button>
                     </div>
 
                 </div>
