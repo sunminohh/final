@@ -1,12 +1,5 @@
 $(function() {
 	
-	const params = new URLSearchParams(location.search);
-	const defaultKeyword = params.get('keyword');
-	if (defaultKeyword) {
-		$("input[name=keyword]").val(defaultKeyword);
-		getLostList();
-	}
-	
 	// 폼에서 지역조회
 	$("#theater").prop("disabled", true);
 	
@@ -147,6 +140,13 @@ $(function() {
 		getLostList();
 	});
 	
+	const params = new URLSearchParams(location.search);
+	const defaultKeyword = params.get('keyword');
+	if (defaultKeyword) {
+		$("input[name=keyword]").val(defaultKeyword);
+		getLostList();
+	}
+	
 	// 폼 전송 이벤트
 	$("#actionForm").on('submit', function(e) {
 		e.preventDefault();
@@ -192,8 +192,8 @@ $(function() {
 				$tbody.append(`<tr><th colspan='5' style="text-align:center;">조회된 내역이 없습니다.</th></tr>`);
 				$pagination.empty();
 			} else {
-				lostList.forEach(function(lost, index) {
-					let content = `
+				const tbodyHtml = lostList.map(function(lost, index) {
+					return `
 						<tr>
 						 	<td>${lost.no}</td>
 				            <td>${lost.theater.name}</td>
@@ -205,25 +205,22 @@ $(function() {
 				            	</a>
 				            </td>
 				            <td>${lost.answered == 'Y' ? '답변완료' : '미답변'}</td>
-				            <td>${lost.updateDate}</td>
+				            <td>${lost.createDate}</td>
 			           </tr>
-					`
-					$tbody.append(content);
-				});
-
+						`
+				}).join("\n");
+				
+				$tbody.html(tbodyHtml);
 				$pagination.html(renderPagination(pagination));
 			}
 		})
 	}
-	
-	
 	
      $("#table-lost tbody").on("click", "a", function(event) {
 		event.preventDefault();
 		
 		let lostNo = $(this).attr("data-no");
 		$("#actionForm input[name=no]").val(lostNo);
-		$("#actionForm").attr("action", 'lost/detail?no=' + lostNo);
 		
 		document.querySelector("#actionForm").submit();
 	})

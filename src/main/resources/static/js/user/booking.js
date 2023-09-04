@@ -2,7 +2,7 @@ $(() => {
     $('.tab-cont').hide(); // 모든 탭 컨텐츠 숨기기
     $('#booking-tab').show(); // 예매 탭 컨텐츠만 보이기
 
-    $('.tab-block a').click(function(e) {
+    $('.tab-block a').click(function (e) {
         e.preventDefault(); // 기본 링크 동작을 막기
 
         const currentAttrValue = $(this).attr('href'); // 클릭된 탭의 href 값을 가져옴
@@ -14,7 +14,6 @@ $(() => {
         // 탭 버튼 활성화/비활성화
         $('.tab-block li').removeClass('on'); // 모든 탭 버튼 비활성화
         $(this).parent('li').addClass('on'); // 클릭된 탭 버튼만 활성화
-
     });
 
     function setDateRange(period) {
@@ -56,52 +55,71 @@ $(() => {
     setDateRange($('.btn-period .btn.on').val());
 
     // 각 버튼 클릭 이벤트
-    $('.btn-period .btn').click(function() {
-        $('.btn-period .btn').removeClass('on'); // 모든 버튼의 활성화 상태 해제
-        $(this).addClass('on'); // 클릭한 버튼만 활성화
+    $('.btn-period .btn').click(function () {
+        $('.btn-period .btn').removeClass('on');
+        $(this).addClass('on');
 
         const period = $(this).val();
         setDateRange(period);
     });
 
-    $("#btnSearch").on("click", function() {
+    $("#btnCheck").on("click", function () {
+        searchPurchase();
+    });
+
+    // 페이지네이션 클릭
+    $('.pagination').on('click', '.page-number-link', function(event) {
+        event.preventDefault();
+        const page = $(this).attr("data-page");
+        $('.page-number-link').removeClass('active');
+        $(this).addClass('active');
+        searchPurchase(page);
+    })
+
+    function searchPurchase(page = 1) {
         const startDate = $("#startDate").val();
         const endDate = $("#endDate").val();
-
-        let status = $('input[name="status"]:checked').val();
-
+        const status = $('input[name="status"]:checked').val();
         $.ajax({
             url: "/mypage/purchase",
             type: 'POST',
-            data: {
-                startDate: startDate,
-                endDate: endDate,
-                status: status
-            },
-            success: function(data) {
-                let tableBody = $("#purchaceTableBody");
-                tableBody.empty(); // Clear current table content
+            data: { startDate, endDate, status, page },
+            success: function (data) {
+                const $tableBody = $("#purchaceTableBody").empty();
+                const $pagination = $(".pagination");
+                const $totalRows = $(".font-gblue");
 
-                $.each(data, function(index, purchase) {
-                    tableBody.append(`
+                const { purchases, pagination, totalRows } = data;
+                $totalRows.text(totalRows);
+
+                if (purchases && purchases.length === 0) {
+                    $tableBody.append(`
+                        <tr>
+                            <td colspan="4" class="a-c">결제내역이 없습니다.</td>
+                        </tr>
+                    `);
+                    $pagination.empty();
+                } else {
+
+                    $.each(purchases, function (index, purchase) {
+                        $tableBody.append(`
                         <tr>
                             <td>${moment(purchase.purchaseDate).format("yyyy-MM-DD")}</td>
                             <td>${purchase.product.name}</td>
-                            <td>${purchase.price % 1000 === 0 ? new Intl.NumberFormat('ko-KR').format(purchase.price) : purchase.price }</td>
+                            <td>${purchase.price % 1000 === 0 ? new Intl.NumberFormat('ko-KR').format(purchase.price) : purchase.price}</td>
                             <td>${purchase.status === 'P' ? '구매' : '취소'}</td>
                         </tr>
-                    `);
-                    // console.log("구매일자 -> ", purchase.purchaseDate);
-                    // console.log("상품명 -> ", purchase.product.name);
-                    // console.log("가격 -> ", purchase.price);
-                    // console.log("상태 -> ", purchase.status);
-                });
+                        `);
+                    });
+
+                    $pagination.html(renderPagination(pagination));
+                }
             },
-            error: function(error) {
+            error: function (error) {
                 console.error("Error:", error);
             }
         });
-    });
+    }
 
 })
 

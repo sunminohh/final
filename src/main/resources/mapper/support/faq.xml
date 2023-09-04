@@ -59,6 +59,25 @@
 			and A.FAQ_DELETED = 'N'
 			and A.FAQ_NO = #{value}
 	</select>
+	
+	<select id="getFaqList" resultType="kr.co.mgv.support.vo.Faq">
+		SELECT
+		 	A.FAQ_NO			as no,
+			A.FAQ_TITLE			as title,
+			A.FAQ_CONTENT		as content,
+			A.FAQ_DELETED		as deleted,
+		 	A.FAQ_UPDATE_DATE	as updateDate, 
+		 	A.FAQ_CREATE_DATE	as createDate, 
+			A.CATEGORY_NO		as "category.no",
+			B.CATEGORY_NAME 	as "category.name",
+		 	A.USER_ID			as "user.id",
+			A.FAQ_ORDER_NO		as "orderNo"
+		FROM 
+			MGV_SUPPORT_FAQ A, MGV_SUPPORT_CATEGORIES B
+		where
+			A.CATEGORY_NO = B.CATEGORY_NO
+			and A.FAQ_DELETED = 'N'
+	</select>
 
 	<select id="getTotalRows" parameterType="map" resultType="int">
 		select count(*)

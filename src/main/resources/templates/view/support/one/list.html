@@ -31,7 +31,7 @@
     <div class="board-list-util">
         <p class="result-count"><strong>전체 <span class="font-gblue" id="totalCnt"></span>건</strong></p>
 
-        <form method="post" id="actionForm">
+        <form method="get" id="actionForm">
             <div class="ml07 bs3  d-flex justify-content-end" style="margin-bottom: -15px;">
                 <select id="answer" title="접수상태 선택" name="answered"
                         class="form-select form-select-sm ml06 form-control-sm mb-3"
@@ -42,6 +42,7 @@
                 </select>
 
                 <div class="board-search">
+                	<input type="hidden" name="no"/>
                     <input type="hidden" name="tab" th:value="${param.tab == null ? 'tab-one' : param.tab}">
                     <input type="hidden" name="guestName" th:value="${param.guestName}"/>
                     <input type="hidden" name="guestEmail" th:value="${param.guestEmail}"/>

@@ -146,7 +146,7 @@ $(function() {
                                   <div class="col-sm-11">
                                      <div id="profile">
                                        <div id="comment-imgbox" class="float-start" >
-                                          <a href="사용자상세정보">
+                                          <a href="/board/user/list?id=${comment.user.id}">
                                              <img id="profileimg"  src="/images/board/sample.png" alt="프로필사진">
                                           </a>
                                        </div>
@@ -197,7 +197,7 @@ $(function() {
 			                         <div class="col-sm-11">
 			                            <div id="profile">
 			                              <div id="comment-imgbox" class="float-start" >
-			                                 <a href="사용자상세정보">
+			                                 <a href="/board/user/list?id=${child.user.id}">
 			                                    <img id="profileimg" src="/images/board/sample.png" alt="프로필사진">
 			                                 </a>
 			                              </div>
@@ -305,7 +305,7 @@ $(function() {
                                   <div class="col-sm-11">
                                      <div id="profile">
                                        <div id="comment-imgbox" class="float-start" >
-                                          <a href="사용자상세정보">
+                                          <a href="/board/user/list?id=${comment.user.id}">
                                              <img id="profileimg"  src="/images/board/sample.png" alt="프로필사진">
                                           </a>
                                        </div>
@@ -356,7 +356,7 @@ $(function() {
 			                         <div class="col-sm-11">
 			                            <div id="profile">
 			                              <div id="comment-imgbox" class="float-start" >
-			                                 <a href="사용자상세정보">
+			                                 <a href="/board/user/list?id=${child.user.id}">
 			                                    <img id="profileimg" src="/images/board/sample.png" alt="프로필사진">
 			                                 </a>
 			                              </div>
@@ -409,8 +409,7 @@ $(function() {
                      $('#ajax-comment-count').text(commentCountUpdate);
                      $('#ajax-comment-count-2').text(commentCountUpdate);
                      
-                 	 let newCommentElement = $("#all-comment-box").children().last();
-					 window.scrollTo(0, newCommentElement.offset().top - 100); // 댓글 요소로 바로 이동 (100은 여유 공간 조절)
+                 	 
                  }
                  
              });

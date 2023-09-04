@@ -120,7 +120,7 @@ $(() => {
     // 인증번호 입력 시 이벤트
     $("#userAuth").keyup(() => {
         const number = $authNumber.val().trim();
-        if (number.length === 8) {
+        if (number.length === 6) {
             btnConfirm.prop("disabled", false);
             return true;
         } else {
