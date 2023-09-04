@@ -63,31 +63,37 @@
                 	></a>
             </div>
 
-            <div class="cont">
+            <div class="cont" style="margin-bottom:200px;">
 				<p th:text="${lost.content}">
-					
-               
                 </p>
             </div>
+        
+	        <div id="reviewBox">
+	            <div class="cont review" th:each="comment : ${lostComments}" th:if="${lostComments != null}">
+					<p th:text="${comment.content}"></p>
+		        </div>
+		    </div>
         </div>
         </div>
 
+        <input type="hidden" name="no" th:value="${param.no}"/>
         <div class="btn-group pt40" style="display: block;">
-			  <button type="button" class="button large" onclick="document.querySelector('#form').submit();">목록</button>
+			  <a th:href="@{/support/one/myinquery(tab=${param.tab}, answered=${param.answered}, page=${param.page}, keyword=${param.keyword}, guestName=${param.guestName}, guestEmail=${param.guestEmail})}" 
+			  	class="button large listBtn" title="목록">목록</a>
 			  <a id="delete-btn"
 	          	 class="button large"
 	             th:href="@{/support/one/mylost/delete(no=${param.no})}">삭제
 			  </a>
         </div>
         
-        <input type="hidden" name="no" th:value="${param.no}"/>
+        <!--  
         <form id="form" method="post" action="/support/one/myinquery">
-        	<input type="hidden" name="tab" th:value="tab-lost">
 	    	<input type="hidden" name="answered" th:value="${param.answered}"/>
 	    	<input type="hidden" name="page" th:value="${param.page}"/>
 	    	<input type="hidden" name="keyword" th:value="${param.keyword}"/>
 	    	<input type="hidden" name="guestName" th:value="${param.guestName}"/>
 	    	<input type="hidden" name="guestEmail" th:value="${param.guestEmail}"/>
         </form>
+        -->
         
 </div>

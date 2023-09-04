@@ -22,8 +22,10 @@ import kr.co.mgv.support.service.LostService;
 import kr.co.mgv.support.service.OneService;
 import kr.co.mgv.support.view.SupportFileDownloadView;
 import kr.co.mgv.support.vo.Lost;
+import kr.co.mgv.support.vo.LostComment;
 import kr.co.mgv.support.vo.LostFile;
 import kr.co.mgv.support.vo.One;
+import kr.co.mgv.support.vo.OneComment;
 import kr.co.mgv.support.vo.OneFile;
 import kr.co.mgv.support.vo.SupportCategory;
 import kr.co.mgv.theater.vo.Location;
@@ -45,13 +47,13 @@ public class OneController {
         return "view/support/one/form";
     }
 	
-	@RequestMapping("/myinquery")
+	@GetMapping("/myinquery")
 	public String myinquery() {
 
 		return "view/support/one/list";
 	}
 	
-	@RequestMapping("/list")
+	@GetMapping("/list")
 	@ResponseBody
 	public OneList list(@AuthenticationPrincipal User user,
 			@RequestParam(name = "page", required = false, defaultValue = "1") int page,
@@ -105,12 +107,15 @@ public class OneController {
 		return oneService.getCategoriesByType(type);
 	}
 	
-	@RequestMapping("/myinquery/detail")
+	@GetMapping("/myinquery/detail")
 	public String getOneByNo(@RequestParam("no") int oneNo, Model model) {
 		One one = oneService.getOneByNo(oneNo);
 		List<OneFile> oneFiles = oneService.getOneFileByOneNo(oneNo);
+		List<OneComment> oneComments = oneService.getOneCommentByOne(oneNo);
+		
 		model.addAttribute("one", one);
 		model.addAttribute("oneFiles", oneFiles);
+		model.addAttribute("oneComments", oneComments);
 		
 		return "view/support/one/detail";
 	}
@@ -130,12 +135,15 @@ public class OneController {
 		return mav;
 	}
 	
-	@RequestMapping("/mylost/detail")
+	@GetMapping("/mylost/detail")
 	public String getMyLostByNo(@RequestParam("no") int lostNo, Model model) {
 		Lost lost = lostService.getLostByNo(lostNo);
 		List<LostFile> lostFiles = lostService.getLostFilesByLostNo(lostNo);
+		List<LostComment> lostComments = lostService.getLostCommentsByLost(lostNo);
+		
 		model.addAttribute("lost", lost);
 		model.addAttribute("lostFiles", lostFiles);
+		model.addAttribute("lostComments", lostComments);
 		
 		return "view/support/one/lostdetail";
 	}
