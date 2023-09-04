@@ -140,7 +140,7 @@ $(function() {
 						
                       content += `
                       <div class="great-box">
-                      	<div class="row great-comment-box pt-1" >
+                      	<div class="row great-comment-box pt-1 ms-1" >
                               <div class="p-1 col-12" id="comment-box">
                                  <div class="d-flex justify-content-between">
                                   <div class="col-sm-11">
@@ -176,7 +176,7 @@ $(function() {
                                     </div>            
                               </div>
                            </div>   
-                           <hr>
+                           <hr style="width:1080px; ">
                         <div class="re-comment-here" id="re-comment-here-${comment.no}">
                   		</div>
                               <div class="new-register-box  row mb-3 pt-2" id="reply-comment-box-${comment.no}" >
@@ -299,7 +299,7 @@ $(function() {
 						
                       content += `
                       <div class="great-box">
-                      	<div class="row great-comment-box pt-1" >
+                      	<div class="row great-comment-box pt-1 ms-1" >
                               <div class="p-1 col-12" id="comment-box">
                                  <div class="d-flex justify-content-between">
                                   <div class="col-sm-11">
@@ -335,7 +335,7 @@ $(function() {
                                     </div>            
                               </div>
                            </div>   
-                           <hr>
+                           <hr style="width:1080px; ">
                         <div class="re-comment-here" id="re-comment-here-${comment.no}">
                   		</div>
                               <div class="new-register-box  row mb-3 pt-2" id="reply-comment-box-${comment.no}" >
