@@ -887,21 +887,86 @@
                 <h2 class="tit">게시판</h2>
                 <a href="/board/movie/list" class="btn-more-cross purple">더보기</a>
             </div>
+			<div class="row mt-4">
+				<div class="col-6 mb-4">
+					<div>
+						<p class="float-start" style="font-size:18px;">댓글수 BEST5</p>
+						<a th:href="@{/board/movie/list}" class ="float-end mt-2 text-black text-decoration-none" style="font-size:14px;">더보기 <i class="iconset ico-arr-right-gray m107"></i></a>
+					</div>
+					
+					<table class="table table-borderless border-top  border-dark">
+						<tbody style="font-size:14px;" >
+							<tr th:if="${#lists.isEmpty(comment)}">
+								<td colspan="5">게시글이 존재하지 않습니다.</td>
+							</tr>	
+							<tr th:if="${not #lists.isEmpty(comment)}" style="cursor: pointer;" th:each="board:${comment}">
+								<td th:text="${board.type}"></td>
+								<td>
+									<div class="combined-cell">
+					            		<a class="text-black text-decoration-none" th:if="${#strings.equals(board.type, '영화')}" th:href="@{../../board/movie/detail(no=${board.no})}">
+										    <div class="title-content-2" th:text="${board.name.length() > 13 ? board.name.substring(0, 13) + '...' : board.name}"></div>
+										</a>
+					            		<a class="text-black text-decoration-none" th:if="${#strings.equals(board.type, '극장')}" th:href="@{../../board/theater/detail(no=${board.no})}">
+										    <div class="title-content-2" th:text="${board.name.length() > 13 ? board.name.substring(0, 13) + '...' : board.name}"></div>
+										</a>
+					            		<a class="text-black text-decoration-none" th:if="${#strings.equals(board.type, '스토어')}" th:href="@{../../board/store/detail(no=${board.no})}">
+										    <div class="title-content-2" th:text="${board.name.length() > 13 ? board.name.substring(0, 13) + '...' : board.name}"></div>
+										</a>
+					            		<a class="text-black text-decoration-none" th:if="${#strings.equals(board.type, '파티')}" th:href="@{../../board/party/detail(no=${board.no})}">
+										    <div class="title-content-2" th:text="${board.name.length() > 13 ? board.name.substring(0, 13) + '...' : board.name}"></div>
+										</a>
+					                </div>
+								</td>
+								<td th:text="${#dates.format(board.createDate, 'yyyy-MM-dd')}"></td>
+							</tr>
+						</tbody>
+					</table>
+					<hr style="margin-top:-15px;">
+				</div>
+				
+				<div class="col-6 mb-4">
+					<div>
+						<p class="float-start" style="font-size:18px;">좋아요수 BEST5</p>
+						<a th:href="@{/board/movie/list}" class ="float-end mt-2 text-black text-decoration-none" style="font-size:14px;">더보기 <i class="iconset ico-arr-right-gray m107"></i></a>
+					</div>
+					<table class="table table-borderless border-top  border-dark">
+						 <tbody style="font-size:14px;">
+						 	<tr th:if="${#lists.isEmpty(like)}">
+								<td colspan="5">게시글이 존재하지 않습니다.</td>
+							</tr>	
+							<tr th:if="${not #lists.isEmpty(like)}" style="cursor: pointer;" th:each="board:${like}">
+								<td th:text="${board.type}"></td>
+								<td>
+									<div class="combined-cell">
+					            		<a class="text-black text-decoration-none" th:if="${#strings.equals(board.type, '영화')}" th:href="@{../../board/movie/detail(no=${board.no})}">
+										    <div class="title-content-2" th:text="${board.name.length() > 13 ? board.name.substring(0, 13) + '...' : board.name}"></div>
+										</a>
+					            		<a class="text-black text-decoration-none" th:if="${#strings.equals(board.type, '극장')}" th:href="@{../../board/theater/detail(no=${board.no})}">
+										    <div class="title-content-2" th:text="${board.name.length() > 13 ? board.name.substring(0, 13) + '...' : board.name}"></div>
+										</a>
+					            		<a class="text-black text-decoration-none" th:if="${#strings.equals(board.type, '스토어')}" th:href="@{../../board/store/detail(no=${board.no})}">
+										    <div class="title-content-2" th:text="${board.name.length() > 13 ? board.name.substring(0, 13) + '...' : board.name}"></div>
+										</a>
+					            		<a class="text-black text-decoration-none" th:if="${#strings.equals(board.type, '파티')}" th:href="@{../../board/party/detail(no=${board.no})}">
+										    <div class="title-content-2" th:text="${board.name.length() > 13 ? board.name.substring(0, 13) + '...' : board.name}"></div>
+										</a>
+					                </div>
+								</td>
+								<td th:text="${#dates.format(board.createDate, 'yyyy-MM-dd')}"></td>
+							</tr>
+						</tbody> 
+					</table>
+					<hr style="margin-top:-15px;">
+				</div>
+			</div>
 
-            <div class="menu-link">
-                <div class="cell vip"><a href="/benefit/viplounge" title="VIP LOUNGE 페이지로 이동">VIP LOUNGE</a></div>
-                <div class="cell membership"><a href="/benefit/membership" title="멤버십 페이지로 이동">멤버십</a></div>
-                <div class="cell card"><a href="/benefit/discount/guide" title="할인카드안내 페이지로 이동">할인카드안내</a></div>
-                <div class="cell event"><a href="/event" title="이벤트 페이지로 이동">이벤트</a></div>
-                <div class="cell store"><a href="/store" title="스토어 페이지로 이동">스토어</a></div>
-            </div>
         </div>
         <!--// wrap -->
     </div>
     <!--// section main-board : 게시판 -->
 
     <!--// section giftcon_wrap : 게시판 -->
-    <div id="main_section03" class="section giftcon_wrap">
+    <div id="main_section03 " class="section giftcon_wrap">
         <div class="warp">
             <div class="tit-util">
                 <h2 class="tit">스토어</h2>

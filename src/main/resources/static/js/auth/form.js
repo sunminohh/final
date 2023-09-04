@@ -278,7 +278,7 @@ $(() => {
                 successAlert($email, "해당 이메일로 인증번호가 전송되었습니다. \n 확인부탁드립니다.");
                 $("#userEmail").prop("readonly", true);
                 $("#btnAuthMail").prop("disabled", true);
-                $("#mail-number").show();
+                $("#auth-number").show();
             } else {
                 errorAlert($email, "인증번호 요청 실패: " + response);
             }
