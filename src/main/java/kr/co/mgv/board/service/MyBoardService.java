@@ -120,4 +120,11 @@ public class MyBoardService {
 		
 		return myBoardDao.getListTotalRowsBylike(param);
 	}
+	
+	public List<BoardList> getBest5(String sort){
+		Map<String , Object> param = new HashMap<String, Object>();
+		param.put("sort", sort);
+		return myBoardDao.getBest5(param);
+	}
+	
 }

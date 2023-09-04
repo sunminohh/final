@@ -47,4 +47,9 @@ public class MovieRestController {
         List<Movie> movies = movieService.getAllMovies();
         return ResponseEntity.status(HttpStatus.OK).body(movies);
     }
+
+    @GetMapping("/search")
+    public List<String> movieSearch(@RequestParam("keyword") String keyword){
+        return movieService.searchWord(keyword);
+    }
 }
