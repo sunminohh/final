@@ -1,6 +1,5 @@
 $(function() {
 	
-	
 	// 탭컬러 바꾸기
 	$('li.tab-link').click(function() {
 
@@ -42,7 +41,18 @@ $(function() {
 		
 	});
 	
-	// 수정폼극장조회
+	// 수정폼에서 MGV공지가 checked일때
+	$("#mgvNotice").change(function() {
+		$("#modifyloc").prop("disabled", true);
+		$("#modifythr").prop("disabled", true);
+	})
+	// 수정폼에서 지점공지가 checked일때
+	$("#thrNotice").change(function() {
+		$("#modifyloc").prop("disabled", false);
+		$("#modifythr").prop("disabled", false);
+	})
+	
+	// 수정폼에서 극장조회
 	$("#modifyloc").change(function() {
 		
 		let locationNo = $(this).val();
@@ -132,7 +142,8 @@ $(function() {
 				                <td>${notice.theater == null || notice.theater.name == null ? 'MGV' : notice.theater.name}</td>
 				                <td>${notice.type == '공지' ? '공지' : '이벤트'}</td>
 				                <td style="text-align:left;">
-							            	<a class="text-black text-decoration-none"
+							            	<a class="text-black text-decoration-none
+	                							d-inline-block text-truncate" style="max-width: 400px;"
 							            		href="/admin/support/notice/detail?no=${notice.no}"
 							            		data-no="${notice.no}">
 							            		${notice.title}
@@ -144,7 +155,6 @@ $(function() {
 				}).join("\n");
 				
 				$tbody.html(tbodyHtml);
-				
 				$pagination.html(renderPagination(pagination));
 			 };
 		})
@@ -155,7 +165,6 @@ $(function() {
 		
 		let noticeNo = $(this).attr("data-no");
 		$("#actionForm input[name=no]").val(noticeNo);
-		$("#actionForm").attr("action", '/admin/support/notice/detail?no=' + noticeNo);
 		
 		document.querySelector("#actionForm").submit();
 	})
