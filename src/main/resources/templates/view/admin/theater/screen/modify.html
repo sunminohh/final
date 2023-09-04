@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html layout:decorate="~{ layout/admin }">
+<head th:fragment="extra-head-content">
+<script type="text/javascript"
+	th:src="@{/js/admin/theater/screen/modifyform.js}"></script>
+<title>관리자페이지</title>
+<style type="text/css">
+option.disabled {
+	background-color: lightgrey;
+}
+
+.seat-condition {
+	overflow: hidden;
+	display: inline-block;
+	width: 18px;
+	height: 18px;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	vertical-align: middle;
+	background-position: 0 0;
+	background-repeat: no-repeat;
+	background-color: #fff
+}
+</style>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="container-fluid">
+			<div style="width: 100%">
+				<!--  Row 1 -->
+				<div class="row mb-3">
+					<div class="col-12">
+						<div class="card p-1">
+							<div class="card-header">
+								<h3 class="card-title fw-semibold mb-4">상영관 수정</h3>
+							</div>
+							<div class="card-body">
+
+								<form class="border bg-light p-3" method="post">
+									<div class="row mb-3">
+										<div class="col-12">
+											<table class="board-form va-m">
+												<colgroup>
+													<col style="width: 25%;">
+													<col style="width: 25%;">
+													<col style="width: 20%;">
+													<col style="width: 35%;">
+												</colgroup>
+												<tbody class="form-group" id="abled">
+													<tr>
+														<th>지역(필수)</th>
+														<td >
+															<select
+																class="form-select" name="location" required="required" id="select-location">
+																<option value="" selected disabled>지역선택</option>
+																<option value="1">서울</option>
+																<option value="2">경기</option>
+																<option value="3">인천</option>
+																<option value="4">대전/충청/세종</option>
+																<option value="5">부산/대구/경상</option>
+																<option value="6">광주/전라/제주</option>
+																<option value="7">강원</option>
+															</select>
+														</td>
+														<th>극장선택(필수)</th>
+														<td >
+															<select class="form-select"  name="theater-name" id="select-theater" required="required">
+																<option value="" selected disabled>지역선택</option>
+															</select>
+														</td>
+													</tr>
+													<tr>
+														<th>
+															상영관 선택(필수)
+														</th>
+														<td>
+															<select class="form-select"  name="name" id="screenInfo" required="required">
+																<option value="" selected disabled>극장선택</option>
+															</select>
+														</td>
+														<th>상영관 이름(필수)</th>
+														<td >
+															<input class="form-control" id="screenName" required="required">
+														</td>
+													</tr>
+													</tbody>
+													</table>
+										</div>
+									
+									</div>
+									<div class="row mb-3">
+										<div class="col-12">
+											<div id="step1" class="quick-reserve">
+												<h4 class="tit">좌석표</h4>
+												<div class="seat-select-section">
+													<div class="seat-section">
+														<div class="tit-util">
+															<div class="right">
+																<button type="button" class="button gray-line small"
+																	id="emptyChoice">
+																	<i class="iconset ico-reset-small"></i>선택취소
+																</button>
+															</div>
+															<div class="right">
+																<button type="button" class="button gray-line small"
+																	id="emptySeat">
+																	<i class="iconset ico-reset-small"></i>좌석지우기
+																</button>
+															</div>
+															<div class="right">
+																<button type="button" class="button gray-line small"
+																	id="seatSoftReset">
+																	<i class="iconset ico-reset-small"></i>소프트리셋(변경사항취소)
+																</button>
+															</div>
+														</div>
+														<div class="seat-area">
+															<div class="seat-count" style="min-height: 52px">
+																<div class="cell">
+																	<p class="txt">행</p>
+																	<div class="count">
+																		<input class="form-control" type="number" min="0"
+																			max="26" id="screenRow" name="row" value="10"
+																			title="0~26의 숫자">
+																	</div>
+																</div>
+																<div class="cell ">
+																	<p class="txt">열</p>
+																	<div class="count">
+																			<input class="form-control" type="number" min="0"
+																				max="30" id="screenCol" name="colum" value="5"
+																				title="0~30의 숫자">
+																	</div>
+																	<button type="button" class="btn btn-sm btn-info ms-1" id="btn-seat-set">선택</button>
+																</div>
+																<div class="cell">
+																	<div class="count">
+																	<input class="form-control" type="number" placeholder="좌석수" id="seatsQuantity" required readonly>
+																	</div>
+																	<button type="button" class="btn btn-sm btn-info ms-1" id="btn-seat-cal">정산</button>
+																	
+																</div>
+															</div>
+															<div class="seat-layout">
+																<div class="alert" style="display: none;"></div>
+																<div class="seat-count-before off" style="top: 0px">관람인원을
+																	선택하십시요</div>
+																<div
+																	class="scroll m-scroll mCustomScrollbar _mCS_1 mCS_no_scrollbar" >
+																	<div id="mCSB_1222"
+																		class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside"
+																		style="max-height: none;" tabindex="0">
+																		<div id="mCSB_1_container222"
+																			class="mCSB_container mCS_no_scrollbar_y"
+																			style="position: relative; top: 0px; left: 0px;"
+																			dir="ltr">
+
+																			<div id="seatLayout"
+																				style="width: 100%; height: 100%;" data-simplebar="init">
+																				<div style="text-align: center">
+																					<img
+																						src="https://www.megabox.co.kr/static/pc/images/reserve/img-theater-screen.png"
+																						alt="screen" class="mCS_img_loaded">
+																				</div>
+																				<div style="height: 20px;"></div>
+																				<div class="justify-content-center" id="seatsDiv" ></div>
+																			</div>
+																			<img
+																				src="https://www.megabox.co.kr/static/pc/images/reserve/img-door-left-right.png"
+																				alt="좌우측 출입구"
+																				style="position: absolute; left: 231px; top: 30px; width: 16px; height: 16px;"
+																				class="mCS_img_loaded">
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+
+									</div>
+									<div class="text-end p-2 mt-5">
+										<button type="button" class="btn btn-secondary btn-sm"
+											id="btnCancel">취소</button>
+										<button type="submit" class="btn btn-primary btn-sm"
+											id="btnReg">등록</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

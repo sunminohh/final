@@ -17,6 +17,8 @@ public interface TheaterDao {
 	
 	List<Screen> getScreensByTheaterNo(int theaterNo);
 	Screen getScreenById(int screenId);
+	void insertScreen(Screen screen);
+	void updateScreen(Screen screen);
 	
 	List<TheaterFacility> getFacilities();
 	void insertFacilityInfo(TheaterFacility facility);
@@ -26,11 +28,11 @@ public interface TheaterDao {
 	void deleteFloorInfo(int no);
 	
 	void insertParkingInfo(ParkingInfo parkingInfo);
-
-	void insertDisabledSeats(Map<String,Object> params);
-
-	List<String> getDisabledSeatsByScreenId(int screenId);
 	void deleteParkingInfo(int no);
 
+	void insertDisabledSeats(Map<String,Object> params);
+	List<String> getDisabledSeatsByScreenId(int screenId);
 	void deleteDisabledSeatsByScreenId(int screenId);
+	void insertDisabledSeat(Map<String, Object> map);
+	
 }

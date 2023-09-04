@@ -1,5 +1,6 @@
 package kr.co.mgv.theater.service;
 
+import java.awt.print.Printable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import kr.co.mgv.favoritetheater.dao.FavoriteTheaterDao;
 import kr.co.mgv.favoritetheater.vo.FavoriteTheater;
 import kr.co.mgv.theater.dao.TheaterDao;
+import kr.co.mgv.theater.dto.ScreenDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,7 +49,6 @@ public class TheaterService {
 		favoriteTheater.setUserId(userId);
 		
 		FavoriteTheater theater = favoriteDao.getFavoriteTheater(favoriteTheater);
-		log.info("선호극장정보 ->{}",theater);
 		if(theater != null) {
 			favoriteDao.deleteFavoriteTheater(favoriteTheater);
 		}else {
@@ -102,7 +103,9 @@ public class TheaterService {
 
 
 	public void modifyTheater(Theater theater) {
+		// 업데이트전 확인
 		Theater pretheater = theaterDao.getTheaterDetailByNo(theater.getNo());
+		
 		BeanUtils.copyProperties(theater, pretheater);
 		theaterDao.updateTheater(pretheater);
 		
@@ -112,7 +115,7 @@ public class TheaterService {
 		theaterDao.insertParkingInfo(pretheater.getParkingInfo());
 		
 		theaterDao.deleteFacilityInfo(pretheater.getNo());
-		for(TheaterFacility facility: pretheater.getFacilities()) {
+		for(TheaterFacility facility : pretheater.getFacilities()) {
 			facility.setTheaterNo(pretheater.getNo());
 			theaterDao.insertFacilityInfo(facility);
 		}
@@ -126,5 +129,34 @@ public class TheaterService {
 
 	public void deleteDisabledSeatsByScreenId(int screenId){
 		theaterDao.deleteDisabledSeatsByScreenId(screenId);
+	}
+
+	public void registScreen(ScreenDto screenDto) {
+		Screen screen =screenDto.getScreen();
+		theaterDao.insertScreen(screen);
+		List<String> seatList = theaterDao.getDisabledSeatsByScreenId(screen.getId());
+		if(!seatList.isEmpty()) {
+			theaterDao.deleteDisabledSeatsByScreenId(screen.getId());
+		}
+		Map<String, Object> map = new HashMap<>();
+		map.put("screenId", screen.getId());
+		map.put("disabledSeats", screenDto.getDisabledSeats());
+		theaterDao.insertDisabledSeat(map);
+	}
+
+	public void modifyScreen(ScreenDto screenDto) {
+		Screen screen =screenDto.getScreen();
+		Screen updatedScreen = theaterDao.getScreenById(screen.getId());
+		BeanUtils.copyProperties(screen, updatedScreen);
+		theaterDao.updateScreen(updatedScreen);
+		List<String> seatList = theaterDao.getDisabledSeatsByScreenId(updatedScreen.getId());
+		if(!seatList.isEmpty()) {
+			theaterDao.deleteDisabledSeatsByScreenId(updatedScreen.getId());
+		}
+		seatList = screenDto.getDisabledSeats();
+		Map<String, Object> map = new HashMap<>();
+		map.put("screenId", updatedScreen.getId());
+		map.put("disabledSeats", seatList);
+		theaterDao.insertDisabledSeat(map);
 	}
 }
