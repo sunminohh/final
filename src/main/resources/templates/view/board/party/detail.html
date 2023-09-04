@@ -21,7 +21,7 @@
       <div class="col-12">
          <div id="profile" class="pb-1 ">
             <div id="imgbox" class="float-start" >
-               <a href="사용자상세정보">
+               <a th:href="@{/board/user/list(id=${board.user.id})}">
                   <img id="profileimg"  th:src="@{/images/board/sample.png}" alt="프로필사진">
                </a>
             </div>
@@ -38,7 +38,6 @@
                </div>
             </div>
          </div>
-         
          <div class="txc-textbox pt-0 " style=" padding: 20px;">
             <p th:utext="${board.content}">파이널 화이팅~~</p>
          </div>
@@ -166,7 +165,7 @@
                    <div class="col-sm-11">
                       <div id="profile">
                         <div id="comment-imgbox" class="float-start" >
-                           <a href="사용자상세정보">
+                           <a th:href="@{/board/user/list(id=${comment.user.id})}">
                               <img id="profileimg"  th:src="@{/images/board/sample.png}" alt="프로필사진">
                            </a>
                         </div>
@@ -207,7 +206,7 @@
                          <div class="col-sm-11">
                             <div id="profile">
                               <div id="comment-imgbox" class="float-start" >
-                                 <a href="사용자상세정보">
+                                 <a th:href="@{/board/user/list(id=${child.user.id})}">
                                     <img id="profileimg"  th:src="@{/images/board/sample.png}" alt="프로필사진">
                                  </a>
                               </div>

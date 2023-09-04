@@ -190,7 +190,7 @@
 	            </otherwise>
 	        </choose>
 	    ) AS A
-	    ORDER BY A.createDate
+	    ORDER BY A.createDate desc
 	    LIMIT 10 OFFSET #{begin}
 	</select>
 	
@@ -567,7 +567,7 @@
 	            </otherwise>
 	        </choose>
 	    ) AS A
-	    ORDER BY A.createDate
+	    ORDER BY A.createDate desc
 	    LIMIT 10 OFFSET #{begin}
 	</select>
 	
@@ -922,7 +922,7 @@
 	            </otherwise>
 	        </choose>
 	    ) AS A
-	    ORDER BY A.createDate
+	    ORDER BY A.createDate desc
 	    LIMIT 10 OFFSET #{begin}
 	</select>
 	
@@ -1113,7 +1113,7 @@
                      and (B.PARTY_COMPLETE = 'N' or B.PARTY_COMPLETE = 'Y')
                  </when>
             </choose>
-        ORDER BY B.BOARD_CREATE_DATE
+        ORDER BY B.BOARD_CREATE_DATE desc
 	    LIMIT 10 OFFSET #{begin}
 	</select>
 	
