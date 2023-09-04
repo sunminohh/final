@@ -264,11 +264,14 @@ $(function() {
 		event.preventDefault();
 		
 		let boardNo = $(this).attr("data-no");
+		$("input[name=no]").val(boardNo); 
+
 		let tab = $("input[name=tab]").val(); 
+
 		if (tab == 'tab-one') {
-			$("#actionForm").attr("action", '/support/one/myinquery/detail?no=' + boardNo);
+			$("#actionForm").attr("action", '/support/one/myinquery/detail');
 		} else {
-			$("#actionForm").attr("action", '/support/one/mylost/detail?no=' + boardNo);
+			$("#actionForm").attr("action", '/support/one/mylost/detail');
 		}
 		
 		document.querySelector("#actionForm").submit();
