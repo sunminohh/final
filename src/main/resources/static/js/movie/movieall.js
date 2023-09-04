@@ -55,4 +55,6 @@ function highlightTitle(keyword, title){
         })
     }
 
+
+$(".modal-layer").show()
 })
