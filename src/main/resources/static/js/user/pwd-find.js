@@ -69,15 +69,35 @@ $(() => {
         timerDisplay.text(formattedTime);
     }
 
-    $("#action-form").submit(function (e) {
+    $("#action-form").submit(async function (e) {
         e.preventDefault();
 
-        const form = $(this).serialize();
+        const id = $id.val();
+        const email = $email.val();
 
-        const idValue = $id.val();
-        const nameValue = $name.val();
-        const emailValue = $email.val();
-
+        try {
+            const response = await $.ajax({
+                url: "/user/tempPwd",
+                type: "POST",
+                data: {"email": email, "id": id}
+            });
+            if (response === "success") {
+                console.log("사용자 이메일 -> ", email);
+                Swal.fire({
+                    icon: 'success',
+                    title: "임시비밀번호 전송 완료",
+                    text: "빠른 시일 내에 변경해주시길 바랍니다."
+                }).then(() => {
+                    location.href = "/";
+                })
+            }
+        } catch (error) {
+            console.error(error);
+            Swal.fire({
+                icon: 'error',
+                text: error.responseText
+            })
+        }
 
 
     })
@@ -156,7 +176,9 @@ $(() => {
                 if (response === "success") {
                     sessionStorage.setItem("emailConfirmCode", response);
                     successAlert($inputAuth, "해당 이메일로 인증번호가 전송되었습니다. \n 확인부탁드립니다.");
-
+                    $id.prop('disabled', true);
+                    $name.prop('disabled', true);
+                    $email.prop('disabled', true);
                     btnResendEmail.show();
                     btnSendEmail.hide();
                     startTimer(); // 타이머 시작
@@ -248,6 +270,8 @@ $(() => {
                     Swal.fire({
                         icon: 'success',
                         text: "인증완료"
+                    }).then(() => {
+
                     })
                     stopTimer();
                     successCheck();

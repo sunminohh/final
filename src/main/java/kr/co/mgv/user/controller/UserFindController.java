@@ -1,11 +1,14 @@
 package kr.co.mgv.user.controller;
 
 import kr.co.mgv.user.form.UserFindForm;
+import kr.co.mgv.user.service.EmailServiceImpl;
 import kr.co.mgv.user.service.UserService;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +22,8 @@ import javax.servlet.http.HttpSession;
 public class UserFindController {
 
     private final UserService userService;
+    private final EmailServiceImpl emailService;
+    private final PasswordEncoder passwordEncoder;
 
     // todo find
     @GetMapping("/user-find")
@@ -27,6 +32,7 @@ public class UserFindController {
     }
 
     @PostMapping("/user-find")
+    @ResponseBody
     public ResponseEntity<?> userfind(@RequestParam String name,
                                       @RequestParam String birth,
                                       @RequestParam String email) {
@@ -45,6 +51,7 @@ public class UserFindController {
     }
 
     @PostMapping("/check")
+    @ResponseBody
     public ResponseEntity<String> UserCheck(UserFindForm form) {
         User user = userService.getUserById(form.getId());
 
@@ -56,11 +63,26 @@ public class UserFindController {
 
     }
 
-    @PostMapping("pwd-find")
-    public ResponseEntity<String> pwdfind(UserFindForm form) {
-        User user = userService.getUserById(form.getId());
+    @PostMapping("/tempPwd")
+    @ResponseBody
+    public ResponseEntity<String> sendMail(@RequestParam("email") String email,
+                                           @RequestParam("id") String userId) {
+        log.info("사용자 입력 이메일 -> {}", email);
+        User user = userService.getUserById(userId);
+        log.info("사용자 입력 아이디 -> {}", userId);
 
-        return ResponseEntity.ok("ok");
+        try {
+            // 임시비밀번호
+            String tempPwd = emailService.sendTempPwdMessage(email);
+            log.info("임시 비밀번호 -> {}", tempPwd);
+            userService.updatePassword(user.getId(), passwordEncoder.encode(tempPwd));
 
+            return ResponseEntity.ok("success");
+
+        } catch (Exception e) {
+            log.error("Error sending email", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("메일 전송 중 오류가 발생했습니다. 잠시 후 시도해주세요.");
+        }
     }
+
 }
