@@ -64,7 +64,14 @@ public class MovieController {
     return new ModelAndView("downloadFileView");
 }
 
-
+@GetMapping("/movieall")
+public String movieAll(Model model, @AuthenticationPrincipal User user){
+    model.addAttribute("movies",movieService.getAllMovies());
+    if(user!=null) {
+        model.addAttribute("likedMovies", movieService.getAllLikedMovieNos(user.getId()));
+    }
+    return "view/movie/movieall";
+}
     @GetMapping("/sync")
     public String sync(){
         movieService.sync();

@@ -28,7 +28,7 @@ $(() => {
             if (timeLeft > 0) {
                 timeLeft--;
                 btnResendEmail.prop('disabled', true);
-                $("#mail-number").show();
+                $("#auth-number").show();
                 updateTimerDisplay();
             } else {
                 clearInterval(timer);
@@ -37,7 +37,7 @@ $(() => {
                     icon: 'error',
                     text: '인증 시간이 초과되었습니다. 다시 인증해주세요.',
                 }).then(() => {
-                    $("#mail-number").hide();
+                    $("#auth-number").hide();
                     btnResendEmail.prop('disabled', false);
                     $authNumber.val("");
                     return false;
@@ -120,7 +120,7 @@ $(() => {
     // 인증번호 입력 시 이벤트
     $("#userAuth").keyup(() => {
         const number = $authNumber.val().trim();
-        if (number.length === 8) {
+        if (number.length === 6) {
             btnConfirm.prop("disabled", false);
             return true;
         } else {
@@ -161,7 +161,7 @@ $(() => {
     }
 
     function successCheck() {
-        $("#mail-number").hide();
+        $("#auth-number").hide();
         $("#btnSuccess").prop("disabled", false);
         $("#userAuth").prop("readonly", true);
         btnConfirm.prop("disabled", true);

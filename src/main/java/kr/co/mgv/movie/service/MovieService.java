@@ -108,18 +108,17 @@ public class MovieService {
             insertWordIntoTrie(director, trie, movie.getTitle());
             insertWordIntoTrie(title, trie, movie.getTitle());
             for(String actor : movie.getCast().split(", ")){
-                insertWordIntoTrie(actor,trie,title);
+                insertWordIntoTrie(getJamo(actor),trie,movie.getTitle());
             }
         }
         return trie;
     }
     public List<String> searchWord(String keyword){
-        String word=keyword;
-        keyword=getJamo(keyword);
+       String keywordJamo=getJamo(keyword);
         Node head=initTrie();
-        int l=keyword.length();
+        int l=keywordJamo.length();
         for(int i=0; i<l; i++) {
-            char key=keyword.charAt(i);
+            char key=keywordJamo.charAt(i);
 
             if(!head.children.containsKey(key)) {
                 return new ArrayList<String>();
@@ -128,7 +127,7 @@ public class MovieService {
         }
         List<String> result = new ArrayList<String>();
         for (String x : head.data) {
-            result.add(modifyString(word,x));
+            result.add(x);
             if(result.size()==10) {
                 break;
             }

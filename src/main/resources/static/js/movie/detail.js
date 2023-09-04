@@ -35,4 +35,21 @@ $(() => {
         const url = `http://localhost/api/movie/like/${no}/${userId}/${like}`
             fetch(url).then((res) => console.log(res));
     })
+    $("#rating").on('input',function(){
+        $("#ratingValue").text($(this).val())
+    })
+
+    $(".oneContent").hide()
+    $("#to-comment").on('click',function(e){
+        e.preventDefault()
+        $(this).addClass('on').siblings().removeClass('on')
+        $(".infoContent").hide()
+        $(".oneContent").show()
+    })
+    $("#to-info").on('click',function(e){
+        e.preventDefault()
+        $(this).addClass('on').siblings().removeClass('on')
+        $(".oneContent").hide()
+        $(".infoContent").show()
+    })
 })

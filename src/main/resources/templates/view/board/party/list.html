@@ -183,7 +183,9 @@
 			</table>
 
             <div class="text-end">
-                <a th:href=@{/board/party/add} class="btn btn-dark btn-sm" style="text-decoration: none; color: white; ">새 게시글
+                <a sec:authorize="isAuthenticated()" id="write-board" th:href=@{/board/party/add} class="btn btn-dark btn-sm" style="text-decoration: none; color: white; ">새 게시글
+                    등록</a>
+                <a sec:authorize="isAnonymous()" id="write-board-anonymous" th:href=@{/board/party/add} class="btn btn-dark btn-sm" style="text-decoration: none; color: white; ">새 게시글
                     등록</a>
             </div>
 

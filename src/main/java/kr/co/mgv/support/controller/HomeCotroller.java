@@ -1,20 +1,14 @@
 package kr.co.mgv.support.controller;
 
 
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import kr.co.mgv.support.dto.FaqList;
-import kr.co.mgv.support.dto.NoticeList;
 import kr.co.mgv.support.service.FaqService;
 import kr.co.mgv.support.service.NoticeService;
 import kr.co.mgv.support.vo.Faq;

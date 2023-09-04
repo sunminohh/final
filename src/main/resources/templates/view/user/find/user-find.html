@@ -1,11 +1,16 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/default}">
 <head th:fragment="extra-head-content">
-    <script th:src="@{/js/calender.js}"></script>
+    <script th:src="@{/js/user/id-find.js}"></script>
+    <style>
+        .alert {
+            display: none;
+        }
+    </style>
 </head>
 <div layout:fragment="content" id="contents" class="user-form">
 
-    <form id="action-form" method="post" th:action="@{/user/auth/id-find}">
+    <form id="action-form" method="post" th:action="@{/user/user-find}">
         <div class="member-wrap">
             <!-- col-wrap -->
             <div class="col-wrap">
@@ -17,11 +22,12 @@
                     <div class="tab-list">
                         <ul>
                             <li class="on"><a href="javaScript:void(0);" title="아이디찾기 선택">아이디 찾기<!--아이디찾기--></a></li>
-                            <li><a th:href="@{/user/auth/pwd-form}" title="비밀번호 찾기 선택">비밀번호 찾기<!--비밀번호 찾기--></a></li>
+                            <li><a th:href="@{/user/pwd-form}" title="비밀번호 찾기 선택">비밀번호 찾기<!--비밀번호 찾기--></a></li>
                         </ul>
                     </div>
 
                     <h2 class="tit mt40">간편찾기<!--간편찾기--></h2>
+                    <span> <em class="font-orange">*</em> 필수 항목</span>
 
                     <div class="table-wrap">
                         <table class="board-form">
@@ -32,15 +38,15 @@
                             </colgroup>
                             <tbody>
                             <tr>
-                                <th scope="row"><label for="ibxSchIdMbNm">이름 <em class="font-orange">*</em></label></th>
+                                <th scope="row"><label for="userName">이름 <em class="font-orange">*</em></label></th>
                                 <td>
-                                    <input id="ibxSchIdMbNm" name="name" maxlength="20" type="text" placeholder="이름" class="input-text w230px" autocomplete="off">
+                                    <input id="userName" name="name" maxlength="20" type="text" placeholder="이름" class="input-text w230px" autocomplete="off">
                                 </td>
                             </tr>
                             <tr>
-                                <th scope="row"><label for="userbirth">생년월일 <em class="font-orange">*</em></label></th>
-                                <td id="userbirth">
-                                    <input id="datepicker" width="276" name="birth" type="text" placeholder="날짜 선택" class="input-text w260px" readonly>
+                                <th scope="row"><label for="userBirth">생년월일 <em class="font-orange">*</em></label></th>
+                                <td>
+                                    <input id="userBirth" name="birth" maxlength="8" type="text" placeholder="생년월일 앞8자리" class="input-text w230px" autocomplete="off"><br/>
                                     <span id="birth-error-text" class="alert"></span>
                                 </td>
                             </tr>
@@ -48,7 +54,7 @@
                                 <th scope="row"><label>E-mail <em class="font-orange">*</em></label></th>
                                 <td>
                                     <input type="hidden" id="">
-                                    <input type="text" id="userEmail" name="email" class="input-text w230px" autocomplete="off">
+                                    <input type="text" id="userEmail" name="email" class="input-text w230px" autocomplete="off"><br/>
                                     <span id="email-error-text" class="alert"></span>
                                 </td>
                             </tr>
@@ -57,7 +63,7 @@
                     </div>
 
                     <div class="btn-member-bottom v1">
-                        <button id="btnSchId" type="button" class="button purple large" disabled="disabled">아이디 찾기<!--아이디 찾기--></button>
+                        <button id="btnSchId" type="submit" class="button purple large">아이디 찾기</button>
                     </div>
 
                 </div>
@@ -66,5 +72,19 @@
             <!--// col-wrap -->
         </div>
     </form>
+    <div class="alert-popup" style="position: fixed; padding-top: 45px; background: rgb(255, 255, 255); z-index: 5006; top: 151.5px; left: 568px; width: 400px; display: none;">
+        <div class="wrap">
+            <header class="layer-header">
+                <h3 class="tit">알림</h3>
+            </header>
+            <div class="layer-con" style="height:250px">
+                <p id="userInfo"></p>
+                <div class="btn-group" style="display: block;">
+                    <button type="button" class="button purple confirm">확인</button>
+                </div>
+            </div>
+            <button type="button" class="btn-layer-close"></button>
+        </div>
+    </div>
 </div>
 </html>

@@ -14,7 +14,6 @@ $(() => {
         // 탭 버튼 활성화/비활성화
         $('.tab-block li').removeClass('on'); // 모든 탭 버튼 비활성화
         $(this).parent('li').addClass('on'); // 클릭된 탭 버튼만 활성화
-
     });
 
     function setDateRange(period) {
@@ -64,7 +63,6 @@ $(() => {
         setDateRange(period);
     });
 
-
     $("#btnCheck").on("click", function () {
         searchPurchase();
     });
@@ -72,7 +70,7 @@ $(() => {
     // 페이지네이션 클릭
     $('.pagination').on('click', '.page-number-link', function(event) {
         event.preventDefault();
-        const page = $(this).attr("data-page");
+        let page = $(this).attr("data-page");
         $('.page-number-link').removeClass('active');
         $(this).addClass('active');
         searchPurchase(page);
@@ -87,24 +85,24 @@ $(() => {
             type: 'POST',
             data: { startDate, endDate, status, page },
             success: function (data) {
-                const $tableBody = $("#purchaceTableBody").empty();
-                const $pagination = $(".pagination");
-                const $totalRows = $(".font-gblue");
-
+                let $tbody = $("#purchaceTableBody");
+                let $pagination = $(".pagination");
+                let $totalRows = $(".font-gblue");
                 const { purchases, pagination, totalRows } = data;
-                $totalRows.text(totalRows);
 
-                if (purchases && purchases.length === 0) {
-                    $tableBody.append(`
+                $totalRows.text(totalRows);
+                $tbody.empty();
+
+                if (purchases.length === 0) {
+                    $tbody.append(`
                         <tr>
                             <td colspan="4" class="a-c">결제내역이 없습니다.</td>
                         </tr>
                     `);
                     $pagination.empty();
                 } else {
-
                     $.each(purchases, function (index, purchase) {
-                        $tableBody.append(`
+                        $tbody.append(`
                         <tr>
                             <td>${moment(purchase.purchaseDate).format("yyyy-MM-DD")}</td>
                             <td>${purchase.product.name}</td>

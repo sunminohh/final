@@ -128,3 +128,16 @@
 		document.querySelector("#form-board-search").submit();
 	}
 	
+	$(function() {
+		
+	$("#write-board-anonymous").click(function(event) {
+		event.preventDefault();
+		Swal.fire({
+			icon: 'warning',
+			title: "이용 제한",
+			text: "로그인 후 이용 가능한 서비스입니다."
+		})
+	});
+		
+	})
+	

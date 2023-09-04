@@ -190,7 +190,7 @@
 	            </otherwise>
 	        </choose>
 	    ) AS A
-	    ORDER BY A.createDate
+	    ORDER BY A.createDate desc
 	    LIMIT 10 OFFSET #{begin}
 	</select>
 	
@@ -567,7 +567,7 @@
 	            </otherwise>
 	        </choose>
 	    ) AS A
-	    ORDER BY A.createDate
+	    ORDER BY A.createDate desc
 	    LIMIT 10 OFFSET #{begin}
 	</select>
 	
@@ -922,7 +922,7 @@
 	            </otherwise>
 	        </choose>
 	    ) AS A
-	    ORDER BY A.createDate
+	    ORDER BY A.createDate desc
 	    LIMIT 10 OFFSET #{begin}
 	</select>
 	
@@ -1113,7 +1113,7 @@
                      and (B.PARTY_COMPLETE = 'N' or B.PARTY_COMPLETE = 'Y')
                  </when>
             </choose>
-        ORDER BY B.BOARD_CREATE_DATE
+        ORDER BY B.BOARD_CREATE_DATE desc
 	    LIMIT 10 OFFSET #{begin}
 	</select>
 	
@@ -1147,4 +1147,67 @@
             </choose>
 	</select>
 	
+	<select id="getBest5" parameterType="map" resultType="kr.co.mgv.board.list.BoardList">
+	    SELECT
+		    A.createDate,
+	        A.no,
+	        A.name,
+	        A.readCount,
+	        A.likeCount,
+	        A.commentCount,
+	        A.type
+	    FROM (
+ 					SELECT
+					   board_create_date 		as createDate,
+					   board_no					as no, 
+					   board_name				as name, 
+					   board_read_cnt			as readCount,
+					   board_like_count			as likeCount,
+					   board_comment_cnt	    as commentCount,
+					   board_type				AS type
+					FROM MGV_MOVIE_BOARD
+					WHERE board_deleted = 'N' AND board_report = 'N'
+					UNION ALL
+					SELECT 
+						   board_create_date 		as createDate,
+						   board_no					as no, 
+						   board_name				as name, 
+						   board_read_cnt			as readCount,
+						   request_count			as likeCount,
+					       board_comment_count	    as commentCount,
+						   board_type				AS type
+					FROM PARTY_BOARD
+					WHERE party_deleted = 'N' AND board_report = 'N'
+					UNION ALL
+					SELECT 
+						   board_create_date 		as createDate,
+						   board_no					as no, 
+						   board_name				as name, 
+						   board_read_cnt			as readCount,
+						   board_like_count			as likeCount,
+					       board_comment_cnt	    as commentCount,
+						   board_type				AS type
+					FROM MGV_THEATER_BOARD
+					WHERE board_deleted = 'N' AND board_report = 'N'
+					UNION ALL
+					SELECT
+						   board_create_date 		as createDate,
+						   board_no					as no, 
+						   board_name				as name, 
+						   board_read_cnt			as readCount,
+						   board_like_count			as likeCount,
+					       board_comment_cnt	    as commentCount,
+						   board_type			    AS type
+					FROM MGV_PRODUCT_BOARD
+					WHERE board_deleted = 'N' AND board_report = 'N'
+	    ) AS A
+	    ORDER BY
+	    <if test="sort =='comment'">
+	    	A.commentCount desc, A.createDate desc
+	    </if>
+	    <if test="sort =='like'">
+	    	A.likeCount desc, A.createDate desc
+	    </if>
+	    LIMIT 5
+	</select>
 </mapper>

@@ -49,31 +49,30 @@
                 	class="me-3 text-primary"></a>
             </div>
 
-            <div class="cont">
+            <div class="cont" style="margin-bottom:200px;">
 				<p th:text="${lost.content}">
                 </p>
             </div>
+        
+	        <div id="reviewBox">
+	            <div class="cont review" th:each="comment : ${lostComments}" th:if="${lostComments != null}">
+					<p th:text="${comment.content}"></p>
+		        </div>
+		    </div>
         </div>
         </div>
+        
 
-        <div class="btn-group pt40" style="display: block;">
-      	  <button class="button large listBtn" title="목록" onclick="document.querySelector('#form').submit();">목록
-      	  </button>
+	    <input type="hidden" name="no" th:value="${param.no}"/>
+	    <div class="btn-group pt40" style="display: block;">
+      	  <a th:href="@{/support/lost/(locationNo=${param.locationNo}, theaterNo=${param.theaterNo}, answered=${param.answered}, page=${param.page}, keyword=${param.keyword})}"
+      	  	 class="button large listBtn" title="목록">목록</a>
           <a id = "delete-btn"
           	 class="button large"
              th:href="@{/support/lost/delete(no=${param.no})}">삭제
 		  </a>
         </div>
-        
-	    <input type="hidden" name="no" th:value="${param.no}"/>
-        <form id="form" method="post" action="/support/lost">
-	    	<input type="hidden" name="page" th:value="${param.page}"/>
-	    	<input type="hidden" name="locationNo" th:value="${param.locationNo}"/>
-	    	<input type="hidden" name="theaterNo" th:value="${param.theaterNo}"/>
-	    	<input type="hidden" name="keyword" th:value="${param.keyword}"/>
-	    	<input type="hidden" name="answered" th:value="${param.answered}"/>
-        </form>
-        
+	   
 </div>
 </html>
 

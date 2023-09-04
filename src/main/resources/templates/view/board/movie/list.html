@@ -60,7 +60,7 @@
                                 </select>
                             </div>
                             <div class="col-12">
-                                <input type="text" class="form-control form-control-sm" name="keyword" th:value="${param.keyword}"/>
+                                <input type="text" style="width: 140px;" class="form-control form-control-sm" name="keyword" th:value="${param.keyword}"/>
                             </div>
                             <div class="col-12">
                                 <button type="button" class="btn btn-outline-dark btn-sm" onclick="searchBoard()">검색</button>
@@ -142,7 +142,10 @@
 
             <div class="text-end">
                 <a  sec:authorize="isAuthenticated()"
-                	th:href=@{/board/movie/add} class="btn btn-dark btn-sm" style="text-decoration: none; color: white; ">새 게시글
+                	th:href=@{/board/movie/add} class="btn btn-dark btn-sm" id="write-board" style="text-decoration: none; color: white; ">새 게시글
+                    등록</a>
+                <a  sec:authorize="isAnonymous()"
+                	th:href=@{/board/movie/add} class="btn btn-dark btn-sm" id="write-board-anonymous" style="text-decoration: none; color: white; ">새 게시글
                     등록</a>
             </div>
 

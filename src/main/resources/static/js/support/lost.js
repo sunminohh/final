@@ -1,12 +1,5 @@
 $(function() {
 	
-	const params = new URLSearchParams(location.search);
-	const defaultKeyword = params.get('keyword');
-	if (defaultKeyword) {
-		$("input[name=keyword]").val(defaultKeyword);
-		getLostList();
-	}
-	
 	// 폼에서 지역조회
 	$("#theater").prop("disabled", true);
 	
@@ -147,6 +140,13 @@ $(function() {
 		getLostList();
 	});
 	
+	const params = new URLSearchParams(location.search);
+	const defaultKeyword = params.get('keyword');
+	if (defaultKeyword) {
+		$("input[name=keyword]").val(defaultKeyword);
+		getLostList();
+	}
+	
 	// 폼 전송 이벤트
 	$("#actionForm").on('submit', function(e) {
 		e.preventDefault();
@@ -169,65 +169,94 @@ $(function() {
 		getLostList();
 	})	
 	
-	function getLostList() {
-		// form의 값 조회
-		let locationNo = $("select[name=locationNo]").val();
-		let theaterNo = $("select[name=theaterNo]").val();
-		let answered = $("select[name=answered]").val();
-		let page = $("input[name=page]").val();
-		let keyword = $("input[name=keyword]").val();
-		
-		let $tbody = $(".lostList ").empty()
-		let $pagination = $(".pagination");
-		
-		$.getJSON("/support/lost/list", {locationNo:locationNo, theaterNo:theaterNo, answered:answered, page:page,  keyword:keyword}, function(result) {
-			
-			// 총 건수 업데이트
-			$('#totalCnt').text(result.pagination.totalRows);
-			
-			let lostList = result.lostList;
-			let pagination = result.pagination;
-			
-			if (lostList.length === 0) {
-				$tbody.append(`<tr><th colspan='5' style="text-align:center;">조회된 내역이 없습니다.</th></tr>`);
-				$pagination.empty();
-			} else {
-				lostList.forEach(function(lost, index) {
-					let content = `
-						<tr>
-						 	<td>${lost.no}</td>
-				            <td>${lost.theater.name}</td>
-				            <td style="text-align:left;">
-				            	<a class="text-black text-decoration-none"
-				            		href="/support/lost/detail?no=${lost.no}"
-				            		data-no="${lost.no}">
-				            		${lost.title }
-				            	</a>
-				            </td>
-				            <td>${lost.answered == 'Y' ? '답변완료' : '미답변'}</td>
-				            <td>${lost.updateDate}</td>
-			           </tr>
-					`
-					$tbody.append(content);
-				});
-
-				$pagination.html(renderPagination(pagination));
-			}
-		})
-	}
-	
-	
-	
+   function getLostList() {
+      // form의 값 조회
+      let locationNo = $("select[name=locationNo]").val();
+      let theaterNo = $("select[name=theaterNo]").val();
+      let answered = $("select[name=answered]").val();
+      let page = $("input[name=page]").val();
+      let keyword = $("input[name=keyword]").val();
+      
+      let $tbody = $(".lostList ").empty()
+      let $pagination = $(".pagination");
+      
+      $.getJSON("/support/lost/list", {locationNo:locationNo, theaterNo:theaterNo, answered:answered, page:page,  keyword:keyword}, function(result) {
+         
+         // 총 건수 업데이트
+         $('#totalCnt').text(result.pagination.totalRows);
+         
+         let lostList = result.lostList;
+         let pagination = result.pagination;
+         
+         if (lostList.length === 0) {
+            $tbody.append(`<tr><th colspan='5' style="text-align:center;">조회된 내역이 없습니다.</th></tr>`);
+            $pagination.empty();
+         } else {
+            const tbodyHtml = lostList.map(function(lost, index) {
+               let user = lost.user;
+               let lostUser = '';
+               if(user !== null){
+                  lostUser = `
+                        <input  type="hidden" name="id" value="${lost.user.id}"/>
+                  `
+               }
+               return `
+                  <tr id="lost-tr">
+                  `
+                  +
+                     lostUser
+                     +
+                        `<input type="hidden" name="guestEmail" value="${lost.guestEmail}"/>
+                      <td>${lost.no}</td>
+                        <td>${lost.theater.name}</td>
+                        <td style="text-align:left;">
+                           <a class="text-black text-decoration-none"
+                              href="/support/lost/detail?no=${lost.no}"
+                              data-no="${lost.no}">
+                              ${lost.title }
+                           </a>
+                        </td>
+                        <td>${lost.answered == 'Y' ? '답변완료' : '미답변'}</td>
+                        <td>${lost.createDate}</td>
+                    </tr>
+                  `
+            }).join("\n");
+            
+            $tbody.html(tbodyHtml);
+            $pagination.html(renderPagination(pagination));
+         }
+      })
+   }
+   
      $("#table-lost tbody").on("click", "a", function(event) {
-		event.preventDefault();
-		
-		let lostNo = $(this).attr("data-no");
-		$("#actionForm input[name=no]").val(lostNo);
-		$("#actionForm").attr("action", 'lost/detail?no=' + lostNo);
-		
-		document.querySelector("#actionForm").submit();
-	})
-		
+      event.preventDefault();
+      const id = $(this).closest('#lost-tr').find("input[name=id]").val();
+      const userId = $("input[name=userId]").val(); 
+      const guestEmail = $(this).closest('#lost-tr').find("input[name=guestEmail]").val(); 
+      
+      if(id !== userId && (userId != null || userId === undefined)){
+         Swal.fire({
+                icon: 'error',
+                text: '다른 사용자의 분실물 문의 내용을 볼 수 없습니다.',
+            });
+      }
+      if(userId === null || userId === undefined || userId === ""){
+         Swal.fire({
+                icon: 'error',
+                text: '로그인 후 열람 가능합니다.',
+            });
+      }
+      
+      
+      if (id === userId && !(userId === null || userId === undefined || userId === "")){
+            
+         let lostNo = $(this).attr("data-no");
+         $("#actionForm input[name=no]").val(lostNo);
+         
+         document.querySelector("#actionForm").submit();
+      }
+
+   })
 })
 
 

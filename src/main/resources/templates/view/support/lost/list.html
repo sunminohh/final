@@ -20,7 +20,7 @@
     <div class="board-list-util">
         <p class="result-count"><strong>전체 <span class="font-gblue" id="totalCnt" th:text="${result.pagination.totalRows}"></span>건</strong></p>
         
-        <form method="post" action="lost/detail" id="actionForm">    
+        <form id="actionForm" method="get" action="/support/lost/detail">    
         <div class="ml07 bs3  d-flex justify-content-end" style="margin-bottom: -15px;">
          	<select id="location" title="지역선택" name="locationNo"
 	                                class="form-select form-select-sm  ml06 form-control-sm mb-3"
@@ -41,7 +41,8 @@
 	        </select>
 	        
 	        <div class="board-search">
-		        <input type="hidden" name="page" value="1" />
+	       		<input type="hidden" name="no" />
+		        <input type="hidden" name="page" th:value="${param.page == null ? '1' : param.page}"/>
 	            <input type="search" name="keyword" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" th:value="${param.keyword}" autocomplete="off">
 	            <button type="button" id="searchBtn" class="btn-search-input">검색</button>
 	        </div>
@@ -49,7 +50,8 @@
 	</form>
     </div>
 
-    <div class="table-wrap">
+   <div class="table-wrap">
+       <input sec:authorize="isAuthenticated()" type="hidden" name="userId" th:value="${#authentication.principal.id}"/>
         <table class="board-list" id="table-lost">
             <colgroup>
                 <col style="width:72px;">
@@ -68,47 +70,24 @@
             </tr>
             </thead>
             <tbody class="lostList">
-	            <tr th:each="lost: ${result.lostList}">
-		            <td th:text="${lost.no}"></td>
-		            <td th:text="${lost.theater.name}"></td>
-		            <td style="text-align:left;">
-						<a class="text-black text-decoration-none"
-			            	 th:href="@{/support/lost/detail(no=${lost.no})}"
-			            	 th:attr="data-no=${lost.no}"
-			            	 th:text="${lost.title}">
-		            	</a>
-		            </td>
-		            <td th:text="${lost.answered == 'Y' ? '답변완료' : '미답변'}"></td>
-		            <td th:text="${#dates.format(lost.createDate, 'yyyy.MM.dd')}"></td>
-	            </tr>
+               <tr th:each="lost: ${result.lostList}" id="lost-tr">
+                  <input th:if="${lost.user != null} " type="hidden" name="id" th:value="${lost.user.id}"/>
+                  <input type="hidden" name="guestEmail" th:value="${lost.guestEmail}"/>
+                  <td th:text="${lost.no}"></td>
+                  <td th:text="${lost.theater.name}"></td>
+                  <td style="text-align:left;">
+                  <a class="text-black text-decoration-none link-detail"
+                         th:href="@{/support/lost/detail(no=${lost.no})}"
+                         th:attr="data-no=${lost.no}"
+                         th:text="${lost.title}" >
+                     </a>
+                  </td>
+                  <td th:text="${lost.answered == 'Y' ? '답변완료' : '미답변'}"></td>
+                  <td th:text="${#dates.format(lost.createDate, 'yyyy.MM.dd')}"></td>
+               </tr>
             </tbody>
         </table>
     </div>
-
-    <section id="layer-01" class="layer-popup" style="top: 31px; left: 304.5px; width: 500px; height:300px; opacity: 1; display: none;">
-        <div class="wrap">
-            <header class="layer-header">
-                <h3 class="tit">
-                    비밀번호 입력
-                </h3>
-            </header>
-
-            <div class="layer-con">
-                <p>글 작성시 입력한 비밀번호를 입력해주세요.</p>
-                <div class="box-gray a-c">
-                    <input type="password" id="password" title="비밀번호 입력" class="input-text w250px">
-                    <p class="font-red mt10 mb0">비밀번호가 일치하지 않습니다. 다시 입력해주세요.</p>
-                </div>
-                <div class="btn-group">
-                    <a href="#" class="button small lyclose" id="cancelBtn" title="취소">취소</a>
-                    <a href="#" class="button small purple" id="chkBtn" title="확인">확인</a>
-                </div>
-            </div>
-
-            <button type="button" class="btn-layer-close">레이어 닫기</button>
-        </div>
-    </section>
-    
     <!-- pagination -->
     <div class="row mb-3">
       	<div class="col-12">
@@ -151,5 +130,5 @@
 		</div>
 	</div>
     <!--// pagination -->
-
 </div>
+</html>

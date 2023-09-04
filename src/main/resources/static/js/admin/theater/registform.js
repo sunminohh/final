@@ -111,13 +111,40 @@ $(() => {
 			url: '/admin/theater/regist',
 			contentType: 'application/json',
 			data: JSON.stringify(theater),
-            success: function(response) {
-				if('success' == response){
-					location.reload();
-				}else{
-					console.log(response);
-				}
-			}
+            success: function(data) {
+						if (data.status === 'success') {
+							Swal.fire({
+								icon: 'success',
+								title: '등록 성공',
+								text: '극장 정보가 수정되었습니다.',
+								confirmButtonText: '확인'
+							}).then(() => {
+								location.reload();
+							});
+						} else if (data.status === 'fail') {
+							Swal.fire({
+								icon: 'error',
+								title: '등록 실패',
+								text: data.message,
+								confirmButtonText: '확인'
+							});
+						} else {
+							Swal.fire({
+								icon: 'info',
+								title: '알 수 없는 상태',
+								text: '서버로부터 알 수 없는 응답을 받았습니다.',
+								confirmButtonText: '확인'
+							});
+						}
+					},
+					error: function(error) {
+						Swal.fire({
+								icon: 'error',
+								title: '네트워크 오류',
+								text: error,
+								confirmButtonText: '확인'
+							});
+					}
 		});
 	}
 	

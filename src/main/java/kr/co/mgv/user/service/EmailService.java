@@ -9,10 +9,17 @@ public interface EmailService {
     // 메일 내용 작성
     MimeMessage createMessage(String to) throws MessagingException, UnsupportedEncodingException;
 
-    // 랜덤 인증 코드 전송
+    // 임시비밀번호 메일 내용 작성
+    MimeMessage tempPwdMessage(String to) throws MessagingException, UnsupportedEncodingException;
+
+    // 인증번호 전송
     String createKey();
+    
+    // 임시비밀번호 전송
+    String createPwdKey();
 
     // 메일 발송
     String sendSimpleMessage(String to) throws Exception;
+    String sendTempPwdMessage(String to) throws Exception;
 
 }

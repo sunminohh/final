@@ -21,7 +21,7 @@
       <div class="col-12">
          <div id="profile" class="pb-1 ">
             <div id="imgbox" class="float-start" >
-               <a href="사용자상세정보">
+               <a th:href="@{/board/user/list(id=${board.user.id})}">
                   <img id="profileimg"  th:src="@{/images/board/sample.png}" alt="프로필사진">
                </a>
             </div>
@@ -38,7 +38,6 @@
                </div>
             </div>
          </div>
-         
          <div class="txc-textbox pt-0 " style=" padding: 20px;">
             <p th:utext="${board.content}">파이널 화이팅~~</p>
          </div>
@@ -160,13 +159,13 @@
       <div class="comment-box" 
              th:each="comment : ${comments}">
          <div class="great-box pt-1">
-         <div class="row great-comment-box" >
+         <div class="row great-comment-box ms-1" >
                <div class="p-1 col-12" id="comment-box">
                   <div class="d-flex justify-content-between">
                    <div class="col-sm-11">
                       <div id="profile">
                         <div id="comment-imgbox" class="float-start" >
-                           <a href="사용자상세정보">
+                           <a th:href="@{/board/user/list(id=${comment.user.id})}">
                               <img id="profileimg"  th:src="@{/images/board/sample.png}" alt="프로필사진">
                            </a>
                         </div>
@@ -195,7 +194,7 @@
                      </div>            
                </div>
             </div>   
-            <hr>
+            <hr style="width: 1080px;">
                <div class="new-register-box row mb-3 pt-2" id="reply-comment-box-" th:attrappend="id=${comment.no}" >
                </div>         
          </div>
@@ -207,7 +206,7 @@
                          <div class="col-sm-11">
                             <div id="profile">
                               <div id="comment-imgbox" class="float-start" >
-                                 <a href="사용자상세정보">
+                                 <a th:href="@{/board/user/list(id=${child.user.id})}">
                                     <img id="profileimg"  th:src="@{/images/board/sample.png}" alt="프로필사진">
                                  </a>
                               </div>
@@ -227,7 +226,7 @@
                               
                            </div>
                         </div>
-                           <div class="col-sm-1 d-flex justify-content-end pt-0" sec:authorize="isAuthenticated()">
+                           <div class="col-sm-1 d-flex justify-content-end pt-0 pe-3" sec:authorize="isAuthenticated()">
                               <input type="hidden" name="userId" th:value="${#authentication.principal.id}">
                               <a th:href="@{/board/party/deleteReComment}" 
                                  class="btn btn-link btn-sm text-danger text-decoration-none"

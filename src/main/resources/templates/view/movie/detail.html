@@ -132,18 +132,13 @@
     <!--// movie-detail -->
 
     <div id="contentData">
-
-        <script src="/js/Chart.js"></script>
-        <script src="/js/utils.js"></script>
-        <script src="/js/analyser.js"></script>
-
         <div class="inner-wrap">
             <div class="tab-list movie">
                 <ul>
-                    <li class="on"><a href="/on/oh/oha/Movie/selectMovieInfo.do" title="주요정보 탭으로 이동">주요정보</a></li>
-                    <li><a href="/on/oh/oha/Movie/selectMovieOneDetail.do" title="실관람평 탭으로 이동">실관람평</a></li>
-                    <li><a href="/on/oh/oha/Movie/selectMoviePostDetailC.do" title="무비포스트 탭으로 이동">무비포스트</a></li>
-                    <li><a href="/on/oh/oha/Movie/selectMovieStilDetail.do" title="예고편/스틸컷 탭으로 이동">예고편/스틸컷</a></li>
+                    <li class="on" id="to-info"><a href="" title="주요정보 탭으로 이동">주요정보</a></li>
+                    <li id="to-comment"><a href="" title="실관람평 탭으로 이동">실관람평</a></li>
+                    <!--<li><a href="" title="무비포스트 탭으로 이동">무비포스트</a></li>-->
+                    <li><a href="" title="예고편/스틸컷 탭으로 이동">예고편/스틸컷</a></li>
                 </ul>
             </div>
 
@@ -178,7 +173,7 @@
                 <div class="col">
                     <dl>
                         <dt>좋아요 수</dt>
-                        <dd id="charByPoint" th:text="${movie.likes}">배우·스토리</dd>
+                        <dd id="charByPoint" th:text="${movie.likes}"></dd>
                     </dl>
 
                     <div class="graph" style="position: relative; bottom: 29px;"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
@@ -254,326 +249,10 @@
             </div>
             <!--// movie-graph -->
 
-            <!-- 영화관 선택후 -->
-
-            <h2 class="tit small mt70">무대인사</h2>
-            <!-- movie-greeting  -->
-            <div class="reserve movie-greeting">
-                <ul>
-
-
-
-
-
-                    <li>
-                        <p class="greeting-date">2023.07.30</p>
-
-
-
-
-                        <div class="greeting-infomation">
-                            <p class="greeting-location">목동 MX관</p>
-                            <p class="greeting-time">13:00~15:19</p>
-                            <p class="greeting-moment">상영후</p>
-                            <p class="greeting-person">류승완감독,조인성,김혜수,염정아,박정민,김종수 외 7명 </p>
-
-
-
-                            <p class="btn">
-                                <a href="#" class="button purple" title="바로예매" brch-no="1581" play-schdl-no="2307301581078" rpst-movie-no="23029300" theab-no="01" play-de="20230730" play-seq="2" netfnl-adopt-at="Y">바로예매</a>
-                            </p>
-
-
-                        </div>
-
-
-
-
-
-
-
-
-
-                        <div class="greeting-infomation">
-                            <p class="greeting-location">목동 컴포트2관(소파석)</p>
-                            <p class="greeting-time">13:15~15:34</p>
-                            <p class="greeting-moment">상영후</p>
-                            <p class="greeting-person">류승완감독,조인성,김혜수,염정아,박정민,김종수 외 7명 </p>
-
-
-                            <p class="btn gray"><a href="javascript:void(0);" class="button gray soldOutBtn">매진</a></p>
-
-
-
-                        </div>
-
-
-
-
-
-
-
-
-
-                        <div class="greeting-infomation">
-                            <p class="greeting-location">목동 MX관</p>
-                            <p class="greeting-time">15:50~17:59</p>
-                            <p class="greeting-moment">상영전</p>
-                            <p class="greeting-person">류승완감독,조인성,김혜수,염정아,박정민,김종수 외 7명 </p>
-
-
-                            <p class="btn gray"><a href="javascript:void(0);" class="button gray soldOutBtn">매진</a></p>
-
-
-
-                        </div>
-
-
-
-
-
-
-
-
-
-                        <div class="greeting-infomation">
-                            <p class="greeting-location">목동 컴포트2관(소파석)</p>
-                            <p class="greeting-time">16:05~18:14</p>
-                            <p class="greeting-moment">상영전</p>
-                            <p class="greeting-person">류승완감독,조인성,김혜수,염정아,박정민,김종수 외 7명 </p>
-
-
-                            <p class="btn gray"><a href="javascript:void(0);" class="button gray soldOutBtn">매진</a></p>
-
-
-
-                        </div>
-
-
-
-
-
-
-
-                    </li>
-                    <li>
-                        <p class="greeting-date">2023.08.05</p>
-
-
-
-                        <div class="greeting-infomation">
-                            <p class="greeting-location">코엑스 2관</p>
-                            <p class="greeting-time">11:10~13:29</p>
-                            <p class="greeting-moment">상영후</p>
-                            <p class="greeting-person">류승완 감독, 김혜수, 염정아, 조인성, 박정민, 김종수, 고민시, 박경혜, 주보비, 정도원, 안세호</p>
-
-
-                            <p class="btn gray"><a href="javascript:void(0);" class="button gray soldOutBtn">매진</a></p>
-
-
-
-                        </div>
-
-
-
-
-
-
-
-
-
-                        <div class="greeting-infomation">
-                            <p class="greeting-location">코엑스 4관</p>
-                            <p class="greeting-time">11:20~13:39</p>
-                            <p class="greeting-moment">상영후</p>
-                            <p class="greeting-person">류승완 감독, 김혜수, 염정아, 조인성, 박정민, 김종수, 고민시, 박경혜, 주보비, 정도원, 안세호</p>
-
-
-                            <p class="btn gray"><a href="javascript:void(0);" class="button gray soldOutBtn">매진</a></p>
-
-
-
-                        </div>
-
-
-
-
-
-
-
-
-
-                        <div class="greeting-infomation">
-                            <p class="greeting-location">코엑스 컴포트 6관</p>
-                            <p class="greeting-time">11:30~13:49</p>
-                            <p class="greeting-moment">상영후</p>
-                            <p class="greeting-person">류승완 감독, 김혜수, 염정아, 조인성, 박정민, 김종수, 고민시, 박경혜, 주보비, 정도원, 안세호</p>
-
-
-                            <p class="btn gray"><a href="javascript:void(0);" class="button gray soldOutBtn">매진</a></p>
-
-
-
-                        </div>
-
-
-
-
-
-
-
-
-
-                        <div class="greeting-infomation">
-                            <p class="greeting-location">코엑스 2관</p>
-                            <p class="greeting-time">14:00~16:19</p>
-                            <p class="greeting-moment">상영전</p>
-                            <p class="greeting-person">류승완 감독, 김혜수, 염정아, 조인성, 박정민, 김종수, 고민시, 박경혜, 주보비, 정도원, 안세호</p>
-
-
-                            <p class="btn gray"><a href="javascript:void(0);" class="button gray soldOutBtn">매진</a></p>
-
-
-
-                        </div>
-
-
-
-
-
-
-
-
-
-                        <div class="greeting-infomation">
-                            <p class="greeting-location">코엑스 4관</p>
-                            <p class="greeting-time">14:10~16:29</p>
-                            <p class="greeting-moment">상영전</p>
-                            <p class="greeting-person">류승완 감독, 김혜수, 염정아, 조인성, 박정민, 김종수, 고민시, 박경혜, 주보비, 정도원, 안세호</p>
-
-
-                            <p class="btn gray"><a href="javascript:void(0);" class="button gray soldOutBtn">매진</a></p>
-
-
-
-                        </div>
-
-
-
-
-
-
-
-                    </li>
-                    <li>
-                        <p class="greeting-date">2023.08.06</p>
-
-
-
-                        <div class="greeting-infomation">
-                            <p class="greeting-location">송도 MX관(발코니)</p>
-                            <p class="greeting-time">11:00~13:19</p>
-                            <p class="greeting-moment">상영후</p>
-                            <p class="greeting-person">김혜수, 염정아, 조인성, 박정민, 고민시, 박준면, 박경혜, 주보비, 안세호, 류승완 감독</p>
-
-
-
-                            <p class="btn">
-                                <a href="#" class="button purple" title="바로예매" brch-no="4062" play-schdl-no="2308064062050" rpst-movie-no="23029300" theab-no="06" play-de="20230806" play-seq="2" netfnl-adopt-at="Y">바로예매</a>
-                            </p>
-
-
-                        </div>
-
-
-
-
-
-
-
-
-
-                        <div class="greeting-infomation">
-                            <p class="greeting-location">송도 골프킹아카데미(4관)</p>
-                            <p class="greeting-time">11:10~13:29</p>
-                            <p class="greeting-moment">상영후</p>
-                            <p class="greeting-person">김혜수, 염정아, 조인성, 박정민, 고민시, 박준면, 박경혜, 주보비, 안세호, 류승완 감독</p>
-
-
-                            <p class="btn gray"><a href="javascript:void(0);" class="button gray soldOutBtn">매진</a></p>
-
-
-
-                        </div>
-
-
-
-
-
-
-
-
-
-                        <div class="greeting-infomation">
-                            <p class="greeting-location">송도 MX관(발코니)</p>
-                            <p class="greeting-time">13:40~15:49</p>
-                            <p class="greeting-moment">상영전</p>
-                            <p class="greeting-person">김혜수, 염정아, 조인성, 박정민, 고민시, 박준면, 박경혜, 주보비, 안세호, 류승완 감독</p>
-
-
-
-                            <p class="btn">
-                                <a href="#" class="button purple" title="바로예매" brch-no="4062" play-schdl-no="2308064062004" rpst-movie-no="23029300" theab-no="06" play-de="20230806" play-seq="3" netfnl-adopt-at="Y">바로예매</a>
-                            </p>
-
-
-                        </div>
-
-
-
-
-
-
-
-
-
-                        <div class="greeting-infomation">
-                            <p class="greeting-location">송도 골프킹아카데미(4관)</p>
-                            <p class="greeting-time">13:50~15:59</p>
-                            <p class="greeting-moment">상영전</p>
-                            <p class="greeting-person">김혜수, 염정아, 조인성, 박정민, 고민시, 박준면, 박경혜, 주보비, 안세호, 류승완 감독</p>
-
-
-                            <p class="btn gray"><a href="javascript:void(0);" class="button gray soldOutBtn">매진</a></p>
-
-
-
-                        </div>
-
-                    </li>
-
-
-
-                </ul>
-
-                <div class="btn-more">
-                    <button type="button" class="btn"><span>닫기</span> <i class="iconset ico-btn-more-arr"></i></button>
-                </div>
-            </div>
-
-            <!--// movie-greeting  -->
-
-
-
-
             <!-- 한줄평 있을 때 -->
             <div class="tit-util mt70 mb15 oneContent">
-                <h2 class="tit small">밀수에 대한 <span class="font-gblue">5,449</span>개의 이야기가 있어요!</h2>
+                <h2 class="tit small"th:text="|영화 < ${movie.title} > 에 대한 평점과 한줄평|"> <span class="font-gblue">0</span></h2>
             </div>
-
-
-
-
             <!-- 레이어  : 본 영화 등록 -->
             <section id="saw_movie_regi" class="modal-layer">
                 <div class="wrap">
@@ -612,16 +291,6 @@
             </section>
             <!--// 레이어  : 본 영화 등록 -->
 
-
-
-
-
-
-
-
-
-
-
             <div class="movie-idv-story oneContent">
 
 
@@ -656,35 +325,72 @@
                         <div class="story-area">
                             <!-- 프로필영역 -->
                             <div class="user-prof">
-                                <div class="prof-img"><img src="https://img.megabox.co.kr/static/pc/images/common/ico/ico-mega-profile.png" alt="MEGABOX"></div>
-                                <p class="user-id">thstkdr**</p>
+                                <div class="prof-img"><img style="width:120%; height:120%; " th:src="@{/images/mgv.png}"></div>
                             </div>
                             <!-- // 프로필영역 -->
 
                             <!-- 내용 영역 -->
                             <div class="story-box">
                                 <div class="story-wrap">
-                                    <div class="story-cont">
-                                        <span class="font-gblue">손상기</span>님 <span class="font-gblue">밀수</span> 재미있게 보셨나요? 영화의 어떤 점이 좋았는지 이야기해주세요.
+                                    <div class="story-cont" sec:authorize="!isAuthenticated()" >
+                                        <span class="font-gblue" th:text="${movie.title}"></span> 재미있게 보셨나요? 평점을 남기기 위해 로그인을 해주세요.
                                     </div>
-                                    <div class="story-write">
-                                        <a href="#none" class="btn-modal-open oneWrtBtn" w-data="500" h-data="680" data-cd="PREV" title="관람평쓰기"><i class="iconset ico-story-write"></i> 관람평쓰기</a>
+                                    <div class="story-cont" sec:authorize="isAuthenticated()" >
+                                        <span  class="font-gblue" th:text="${#authentication.principal.name}"></span>님 <span class="font-gblue" th:text="${movie.title}"></span> 재미있게 보셨나요? 영화의 어떤 점이 좋았는지 이야기해주세요.
                                     </div>
                                 </div>
                             </div>
                             <!-- // 내용 영역 -->
                         </div>
                     </li>
-
-
-
-
-                    <li class="type01 oneContentTag">    <div class="story-area">        <div class="user-prof">            <div class="prof-img"><img src="/static/pc/images/mypage/bg-photo.png" alt="프로필 사진" title="프로필 사진" onerror="noImg(this, 'human')"></div>            <p class="user-id">sdsmbs**</p>        </div>        <div class="story-box">            <div class="story-wrap review"><div class="tit">관람평</div>                <div class="story-cont">                    <div class="story-point">                        <span>8</span>                    </div>                    <div class="story-recommend"><em>연출 외</em><em>+2</em><em style="display: none">연출</em><em style="display: none">영상미</em><em style="display: none">배우</em>                    </div>                    <div class="story-txt">저마다 속셈과 해녀들의 연대가 좋았음</div>                    <div class="story-like">                        <button type="button" class="oneLikeBtn" title="댓글 추천" data-no="2306174" data-is="N"><i class="iconset ico-like-gray"></i> <span>0</span></button>                    </div>                    <div class="story-util">                        <div class="post-funtion">                            <div class="wrap">                                <button type="button" class="btn-alert">옵션보기</button>                                <div class="balloon-space user">                                    <div class="balloon-cont"><div class="user">    <p class="reset a-c">스포일러 및 욕설/비방하는<br>내용이 있습니까?</p>    <button type="button" class="maskOne" data-no="2306174">댓글 신고 <i class="iconset ico-arr-right-green"></i></button></div>                                            <div class="btn-close"><a href="#" title="닫기"><img src="/static/pc/images/common/btn/btn-balloon-close.png" alt="닫기"></a></div>                                        </div>                                    </div>                                </div>                            </div>                        </div>                    </div>                </div>            </div>        </div>        <div class="story-date">            <div class="review on">                <span>2 분전</span>            </div>        </div></li><li class="type01 oneContentTag">    <div class="story-area">        <div class="user-prof">            <div class="prof-img"><img src="/static/pc/images/mypage/bg-photo.png" alt="프로필 사진" title="프로필 사진" onerror="noImg(this, 'human')"></div>            <p class="user-id">melody21**</p>        </div>        <div class="story-box">            <div class="story-wrap review"><div class="tit">관람평</div>                <div class="story-cont">                    <div class="story-point">                        <span>10</span>                    </div>                    <div class="story-recommend"><em>연출 외</em><em>+2</em><em style="display: none">연출</em><em style="display: none">배우</em><em style="display: none">OST</em>                    </div>                    <div class="story-txt">조춘자는 갓캐다.. 권상사 존잘</div>                    <div class="story-like">                        <button type="button" class="oneLikeBtn" title="댓글 추천" data-no="2306173" data-is="N"><i class="iconset ico-like-gray"></i> <span>0</span></button>                    </div>                    <div class="story-util">                        <div class="post-funtion">                            <div class="wrap">                                <button type="button" class="btn-alert">옵션보기</button>                                <div class="balloon-space user">                                    <div class="balloon-cont"><div class="user">    <p class="reset a-c">스포일러 및 욕설/비방하는<br>내용이 있습니까?</p>    <button type="button" class="maskOne" data-no="2306173">댓글 신고 <i class="iconset ico-arr-right-green"></i></button></div>                                            <div class="btn-close"><a href="#" title="닫기"><img src="/static/pc/images/common/btn/btn-balloon-close.png" alt="닫기"></a></div>                                        </div>                                    </div>                                </div>                            </div>                        </div>                    </div>                </div>            </div>        </div>        <div class="story-date">            <div class="review on">                <span>3 분전</span>            </div>        </div></li><li class="type01 oneContentTag">    <div class="story-area">        <div class="user-prof">            <div class="prof-img"><img src="/static/pc/images/mypage/bg-photo.png" alt="프로필 사진" title="프로필 사진" onerror="noImg(this, 'human')"></div>            <p class="user-id">golden**</p>        </div>        <div class="story-box">            <div class="story-wrap review"><div class="tit">관람평</div>                <div class="story-cont">                    <div class="story-point">                        <span>10</span>                    </div>                    <div class="story-recommend"><em>연출 외</em><em>+2</em><em style="display: none">연출</em><em style="display: none">스토리</em><em style="display: none">배우</em>                    </div>                    <div class="story-txt">가법게 보로 갔는데 재미나게 보고 왔었어.반전에 반전 스토리전계  좋았었어</div>                    <div class="story-like">                        <button type="button" class="oneLikeBtn" title="댓글 추천" data-no="2306172" data-is="N"><i class="iconset ico-like-gray"></i> <span>0</span></button>                    </div>                    <div class="story-util">                        <div class="post-funtion">                            <div class="wrap">                                <button type="button" class="btn-alert">옵션보기</button>                                <div class="balloon-space user">                                    <div class="balloon-cont"><div class="user">    <p class="reset a-c">스포일러 및 욕설/비방하는<br>내용이 있습니까?</p>    <button type="button" class="maskOne" data-no="2306172">댓글 신고 <i class="iconset ico-arr-right-green"></i></button></div>                                            <div class="btn-close"><a href="#" title="닫기"><img src="/static/pc/images/common/btn/btn-balloon-close.png" alt="닫기"></a></div>                                        </div>                                    </div>                                </div>                            </div>                        </div>                    </div>                </div>            </div>        </div>        <div class="story-date">            <div class="review on">                <span>3 분전</span>            </div>        </div></li><li class="type01 oneContentTag">    <div class="story-area">        <div class="user-prof">            <div class="prof-img"><img src="/static/pc/images/mypage/bg-photo.png" alt="프로필 사진" title="프로필 사진" onerror="noImg(this, 'human')"></div>            <p class="user-id">ch12345678**</p>        </div>        <div class="story-box">            <div class="story-wrap review"><div class="tit">관람평</div>                <div class="story-cont">                    <div class="story-point">                        <span>8</span>                    </div>                    <div class="story-recommend"><em>배우</em>                    </div>                    <div class="story-txt">무대인사 최고였어요</div>                    <div class="story-like">                        <button type="button" class="oneLikeBtn" title="댓글 추천" data-no="2306170" data-is="N"><i class="iconset ico-like-gray"></i> <span>0</span></button>                    </div>                    <div class="story-util">                        <div class="post-funtion">                            <div class="wrap">                                <button type="button" class="btn-alert">옵션보기</button>                                <div class="balloon-space user">                                    <div class="balloon-cont"><div class="user">    <p class="reset a-c">스포일러 및 욕설/비방하는<br>내용이 있습니까?</p>    <button type="button" class="maskOne" data-no="2306170">댓글 신고 <i class="iconset ico-arr-right-green"></i></button></div>                                            <div class="btn-close"><a href="#" title="닫기"><img src="/static/pc/images/common/btn/btn-balloon-close.png" alt="닫기"></a></div>                                        </div>                                    </div>                                </div>                            </div>                        </div>                    </div>                </div>            </div>        </div>        <div class="story-date">            <div class="review on">                <span>6 분전</span>            </div>        </div></li><li class="type01 oneContentTag">    <div class="story-area">        <div class="user-prof">            <div class="prof-img"><img src="/static/pc/images/mypage/bg-photo.png" alt="프로필 사진" title="프로필 사진" onerror="noImg(this, 'human')"></div>            <p class="user-id">flamesj**</p>        </div>        <div class="story-box">            <div class="story-wrap review"><div class="tit">관람평</div>                <div class="story-cont">                    <div class="story-point">                        <span>8</span>                    </div>                    <div class="story-recommend"><em>연출</em><em>영상미</em>                    </div>                    <div class="story-txt">용썼네. 과거 추억도</div>                    <div class="story-like">                        <button type="button" class="oneLikeBtn" title="댓글 추천" data-no="2306169" data-is="N"><i class="iconset ico-like-gray"></i> <span>0</span></button>                    </div>                    <div class="story-util">                        <div class="post-funtion">                            <div class="wrap">                                <button type="button" class="btn-alert">옵션보기</button>                                <div class="balloon-space user">                                    <div class="balloon-cont"><div class="user">    <p class="reset a-c">스포일러 및 욕설/비방하는<br>내용이 있습니까?</p>    <button type="button" class="maskOne" data-no="2306169">댓글 신고 <i class="iconset ico-arr-right-green"></i></button></div>                                            <div class="btn-close"><a href="#" title="닫기"><img src="/static/pc/images/common/btn/btn-balloon-close.png" alt="닫기"></a></div>                                        </div>                                    </div>                                </div>                            </div>                        </div>                    </div>                </div>            </div>        </div>        <div class="story-date">            <div class="review on">                <span>9 분전</span>            </div>        </div></li><li class="type01 oneContentTag">    <div class="story-area">        <div class="user-prof">            <div class="prof-img"><img src="/static/pc/images/mypage/bg-photo.png" alt="프로필 사진" title="프로필 사진" onerror="noImg(this, 'human')"></div>            <p class="user-id">reto**</p>        </div>        <div class="story-box">            <div class="story-wrap review"><div class="tit">관람평</div>                <div class="story-cont">                    <div class="story-point">                        <span>3</span>                    </div>                    <div class="story-recommend"><em>연출</em><em>스토리</em>                    </div>                    <div class="story-txt">배우들의 대사가 잘 안들림 본론으로 가기전에 지겨워짐 그러나 고민시 배우는 김혜수 염정아 배우들 사이 에서도 존재가 두곽됨</div>                    <div class="story-like">                        <button type="button" class="oneLikeBtn" title="댓글 추천" data-no="2306168" data-is="N"><i class="iconset ico-like-gray"></i> <span>0</span></button>                    </div>                    <div class="story-util">                        <div class="post-funtion">                            <div class="wrap">                                <button type="button" class="btn-alert">옵션보기</button>                                <div class="balloon-space user">                                    <div class="balloon-cont"><div class="user">    <p class="reset a-c">스포일러 및 욕설/비방하는<br>내용이 있습니까?</p>    <button type="button" class="maskOne" data-no="2306168">댓글 신고 <i class="iconset ico-arr-right-green"></i></button></div>                                            <div class="btn-close"><a href="#" title="닫기"><img src="/static/pc/images/common/btn/btn-balloon-close.png" alt="닫기"></a></div>                                        </div>                                    </div>                                </div>                            </div>                        </div>                    </div>                </div>            </div>        </div>        <div class="story-date">            <div class="review on">                <span>11 분전</span>            </div>        </div></li><li class="type01 oneContentTag">    <div class="story-area">        <div class="user-prof">            <div class="prof-img"><img src="/static/pc/images/mypage/bg-photo.png" alt="프로필 사진" title="프로필 사진" onerror="noImg(this, 'human')"></div>            <p class="user-id">hajiwon08**</p>        </div>        <div class="story-box">            <div class="story-wrap review"><div class="tit">관람평</div>                <div class="story-cont">                    <div class="story-point">                        <span>10</span>                    </div>                    <div class="story-recommend"><em>배우</em>                    </div>                    <div class="story-txt">조인성은 최고 보고 또 반해버림</div>                    <div class="story-like">                        <button type="button" class="oneLikeBtn" title="댓글 추천" data-no="2306165" data-is="N"><i class="iconset ico-like-gray"></i> <span>0</span></button>                    </div>                    <div class="story-util">                        <div class="post-funtion">                            <div class="wrap">                                <button type="button" class="btn-alert">옵션보기</button>                                <div class="balloon-space user">                                    <div class="balloon-cont"><div class="user">    <p class="reset a-c">스포일러 및 욕설/비방하는<br>내용이 있습니까?</p>    <button type="button" class="maskOne" data-no="2306165">댓글 신고 <i class="iconset ico-arr-right-green"></i></button></div>                                            <div class="btn-close"><a href="#" title="닫기"><img src="/static/pc/images/common/btn/btn-balloon-close.png" alt="닫기"></a></div>                                        </div>                                    </div>                                </div>                            </div>                        </div>                    </div>                </div>            </div>        </div>        <div class="story-date">            <div class="review on">                <span>13 분전</span>            </div>        </div></li><li class="type01 oneContentTag">    <div class="story-area">        <div class="user-prof">            <div class="prof-img"><img src="/static/pc/images/mypage/bg-photo.png" alt="프로필 사진" title="프로필 사진" onerror="noImg(this, 'human')"></div>            <p class="user-id">lovestory**</p>        </div>        <div class="story-box">            <div class="story-wrap review"><div class="tit">관람평</div>                <div class="story-cont">                    <div class="story-point">                        <span>8</span>                    </div>                    <div class="story-recommend"><em>연출</em><em>배우</em>                    </div>                    <div class="story-txt">제주도 동해바다로 바캉스 갈 필요 없게 만드는 올여름 바캉스는 밀수</div>                    <div class="story-like">                        <button type="button" class="oneLikeBtn" title="댓글 추천" data-no="2306160" data-is="N"><i class="iconset ico-like-gray"></i> <span>0</span></button>                    </div>                    <div class="story-util">                        <div class="post-funtion">                            <div class="wrap">                                <button type="button" class="btn-alert">옵션보기</button>                                <div class="balloon-space user">                                    <div class="balloon-cont"><div class="user">    <p class="reset a-c">스포일러 및 욕설/비방하는<br>내용이 있습니까?</p>    <button type="button" class="maskOne" data-no="2306160">댓글 신고 <i class="iconset ico-arr-right-green"></i></button></div>                                            <div class="btn-close"><a href="#" title="닫기"><img src="/static/pc/images/common/btn/btn-balloon-close.png" alt="닫기"></a></div>                                        </div>                                    </div>                                </div>                            </div>                        </div>                    </div>                </div>            </div>        </div>        <div class="story-date">            <div class="review on">                <span>14 분전</span>            </div>        </div></li><li class="type01 oneContentTag">    <div class="story-area">        <div class="user-prof">            <div class="prof-img"><img src="/static/pc/images/mypage/bg-photo.png" alt="프로필 사진" title="프로필 사진" onerror="noImg(this, 'human')"></div>            <p class="user-id">wlsl7**</p>        </div>        <div class="story-box">            <div class="story-wrap review"><div class="tit">관람평</div>                <div class="story-cont">                    <div class="story-point">                        <span>10</span>                    </div>                    <div class="story-recommend"><em>스토리</em><em>배우</em>                    </div>                    <div class="story-txt">배우님들의 연기가 넘 좋았어요~</div>                    <div class="story-like">                        <button type="button" class="oneLikeBtn" title="댓글 추천" data-no="2306159" data-is="N"><i class="iconset ico-like-gray"></i> <span>0</span></button>                    </div>                    <div class="story-util">                        <div class="post-funtion">                            <div class="wrap">                                <button type="button" class="btn-alert">옵션보기</button>                                <div class="balloon-space user">                                    <div class="balloon-cont"><div class="user">    <p class="reset a-c">스포일러 및 욕설/비방하는<br>내용이 있습니까?</p>    <button type="button" class="maskOne" data-no="2306159">댓글 신고 <i class="iconset ico-arr-right-green"></i></button></div>                                            <div class="btn-close"><a href="#" title="닫기"><img src="/static/pc/images/common/btn/btn-balloon-close.png" alt="닫기"></a></div>                                        </div>                                    </div>                                </div>                            </div>                        </div>                    </div>                </div>            </div>        </div>        <div class="story-date">            <div class="review on">                <span>14 분전</span>            </div>        </div></li><li class="type01 oneContentTag">    <div class="story-area">        <div class="user-prof">            <div class="prof-img"><img src="/static/pc/images/mypage/bg-photo.png" alt="프로필 사진" title="프로필 사진" onerror="noImg(this, 'human')"></div>            <p class="user-id">hoho5**</p>        </div>        <div class="story-box">            <div class="story-wrap review"><div class="tit">관람평</div>                <div class="story-cont">                    <div class="story-point">                        <span>8</span>                    </div>                    <div class="story-recommend"><em>배우</em>                    </div>                    <div class="story-txt">내용이 좀 아쉽지만 잘봤어요</div>                    <div class="story-like">                        <button type="button" class="oneLikeBtn" title="댓글 추천" data-no="2306155" data-is="N"><i class="iconset ico-like-gray"></i> <span>0</span></button>                    </div>                    <div class="story-util">                        <div class="post-funtion">                            <div class="wrap">                                <button type="button" class="btn-alert">옵션보기</button>                                <div class="balloon-space user">                                    <div class="balloon-cont"><div class="user">    <p class="reset a-c">스포일러 및 욕설/비방하는<br>내용이 있습니까?</p>    <button type="button" class="maskOne" data-no="2306155">댓글 신고 <i class="iconset ico-arr-right-green"></i></button></div>                                            <div class="btn-close"><a href="#" title="닫기"><img src="/static/pc/images/common/btn/btn-balloon-close.png" alt="닫기"></a></div>                                        </div>                                    </div>                                </div>                            </div>                        </div>                    </div>                </div>            </div>        </div>        <div class="story-date">            <div class="review on">                <span>19 분전</span>            </div>        </div></li><li class="type01 oneContentTag">    <div class="story-area">        <div class="user-prof">            <div class="prof-img"><img src="/static/pc/images/mypage/bg-photo.png" alt="프로필 사진" title="프로필 사진" onerror="noImg(this, 'human')"></div>            <p class="user-id">ok9105**</p>        </div>        <div class="story-box">            <div class="story-wrap review"><div class="tit">관람평</div>                <div class="story-cont">                    <div class="story-point">                        <span>10</span>                    </div>                    <div class="story-recommend"><em>영상미</em><em>배우</em>                    </div>                    <div class="story-txt">조연, 주연 모두 연기잘합니다 최고👍</div>                    <div class="story-like">                        <button type="button" class="oneLikeBtn" title="댓글 추천" data-no="2306154" data-is="N"><i class="iconset ico-like-gray"></i> <span>0</span></button>                    </div>                    <div class="story-util">                        <div class="post-funtion">                            <div class="wrap">                                <button type="button" class="btn-alert">옵션보기</button>                                <div class="balloon-space user">                                    <div class="balloon-cont"><div class="user">    <p class="reset a-c">스포일러 및 욕설/비방하는<br>내용이 있습니까?</p>    <button type="button" class="maskOne" data-no="2306154">댓글 신고 <i class="iconset ico-arr-right-green"></i></button></div>                                            <div class="btn-close"><a href="#" title="닫기"><img src="/static/pc/images/common/btn/btn-balloon-close.png" alt="닫기"></a></div>                                        </div>                                    </div>                                </div>                            </div>                        </div>                    </div>                </div>            </div>        </div>        <div class="story-date">            <div class="review on">                <span>22 분전</span>            </div>        </div></li><li class="type01 oneContentTag">    <div class="story-area">        <div class="user-prof">            <div class="prof-img"><img src="/static/pc/images/mypage/bg-photo.png" alt="프로필 사진" title="프로필 사진" onerror="noImg(this, 'human')"></div>            <p class="user-id">dudrn1212**</p>        </div>        <div class="story-box">            <div class="story-wrap review"><div class="tit">관람평</div>                <div class="story-cont">                    <div class="story-point">                        <span>10</span>                    </div>                    <div class="story-recommend"><em>연출 외</em><em>+3</em><em style="display: none">연출</em><em style="display: none">스토리</em><em style="display: none">영상미</em><em style="display: none">배우</em>                    </div>                    <div class="story-txt">부모님 보여드렸는데 좋아하시네여</div>                    <div class="story-like">                        <button type="button" class="oneLikeBtn" title="댓글 추천" data-no="2306152" data-is="N"><i class="iconset ico-like-gray"></i> <span>0</span></button>                    </div>                    <div class="story-util">                        <div class="post-funtion">                            <div class="wrap">                                <button type="button" class="btn-alert">옵션보기</button>                                <div class="balloon-space user">                                    <div class="balloon-cont"><div class="user">    <p class="reset a-c">스포일러 및 욕설/비방하는<br>내용이 있습니까?</p>    <button type="button" class="maskOne" data-no="2306152">댓글 신고 <i class="iconset ico-arr-right-green"></i></button></div>                                            <div class="btn-close"><a href="#" title="닫기"><img src="/static/pc/images/common/btn/btn-balloon-close.png" alt="닫기"></a></div>                                        </div>                                    </div>                                </div>                            </div>                        </div>                    </div>                </div>            </div>        </div>        <div class="story-date">            <div class="review on">                <span>28 분전</span>            </div>        </div></li><li class="type01 oneContentTag">    <div class="story-area">        <div class="user-prof">            <div class="prof-img"><img src="/static/pc/images/mypage/bg-photo.png" alt="프로필 사진" title="프로필 사진" onerror="noImg(this, 'human')"></div>            <p class="user-id">kangho22**</p>        </div>        <div class="story-box">            <div class="story-wrap review"><div class="tit">관람평</div>                <div class="story-cont">                    <div class="story-point">                        <span>6</span>                    </div>                    <div class="story-recommend"><em>OST</em>                    </div>                    <div class="story-txt">트로트가 취향은 아니지만 괜찮았습니다 다만 연기력이나 스토리는 잘 모르겠네요</div>                    <div class="story-like">                        <button type="button" class="oneLikeBtn" title="댓글 추천" data-no="2306150" data-is="N"><i class="iconset ico-like-gray"></i> <span>0</span></button>                    </div>                    <div class="story-util">                        <div class="post-funtion">                            <div class="wrap">                                <button type="button" class="btn-alert">옵션보기</button>                                <div class="balloon-space user">                                    <div class="balloon-cont"><div class="user">    <p class="reset a-c">스포일러 및 욕설/비방하는<br>내용이 있습니까?</p>    <button type="button" class="maskOne" data-no="2306150">댓글 신고 <i class="iconset ico-arr-right-green"></i></button></div>                                            <div class="btn-close"><a href="#" title="닫기"><img src="/static/pc/images/common/btn/btn-balloon-close.png" alt="닫기"></a></div>                                        </div>                                    </div>                                </div>                            </div>                        </div>                    </div>                </div>            </div>        </div>        <div class="story-date">            <div class="review on">                <span>30 분전</span>            </div>        </div></li><li class="type01 oneContentTag">    <div class="story-area">        <div class="user-prof">            <div class="prof-img"><img src="https://img.megabox.co.kr/SharedImg/asis/user/profile/2014/10/18/EC/5FC676-7578-45E2-8F11-EFEC9627A74F.large.jpg" alt="프로필 사진" title="프로필 사진" onerror="noImg(this, 'human')"></div>            <p class="user-id">a28**</p>        </div>        <div class="story-box">            <div class="story-wrap review"><div class="tit">관람평</div>                <div class="story-cont">                    <div class="story-point">                        <span>6</span>                    </div>                    <div class="story-recommend"><em>스토리</em><em>배우</em>                    </div>                    <div class="story-txt">처음엔 지루했는데....중간 가니까 재밌슴</div>                    <div class="story-like">                        <button type="button" class="oneLikeBtn" title="댓글 추천" data-no="2306149" data-is="N"><i class="iconset ico-like-gray"></i> <span>0</span></button>                    </div>                    <div class="story-util">                        <div class="post-funtion">                            <div class="wrap">                                <button type="button" class="btn-alert">옵션보기</button>                                <div class="balloon-space user">                                    <div class="balloon-cont"><div class="user">    <p class="reset a-c">스포일러 및 욕설/비방하는<br>내용이 있습니까?</p>    <button type="button" class="maskOne" data-no="2306149">댓글 신고 <i class="iconset ico-arr-right-green"></i></button></div>                                            <div class="btn-close"><a href="#" title="닫기"><img src="/static/pc/images/common/btn/btn-balloon-close.png" alt="닫기"></a></div>                                        </div>                                    </div>                                </div>                            </div>                        </div>                    </div>                </div>            </div>        </div>        <div class="story-date">            <div class="review on">                <span>31 분전</span>            </div>        </div></li><li class="type01 oneContentTag">    <div class="story-area">        <div class="user-prof">            <div class="prof-img"><img src="https://img.megabox.co.kr/SharedImg/2022/02/22/t3ptxH3scn8ycHcTKQIMdOZQwFuddqb8_640.jpeg" alt="프로필 사진" title="프로필 사진" onerror="noImg(this, 'human')"></div>            <p class="user-id">tj10**</p>        </div>        <div class="story-box">            <div class="story-wrap review"><div class="tit">관람평</div>                <div class="story-cont">                    <div class="story-point">                        <span>9</span>                    </div>                    <div class="story-recommend"><em>스토리</em><em>배우</em>                    </div>                    <div class="story-txt">가족들과  즐겁게 관람했습니다. 추천합니다^^*</div>                    <div class="story-like">                        <button type="button" class="oneLikeBtn" title="댓글 추천" data-no="2306147" data-is="N"><i class="iconset ico-like-gray"></i> <span>0</span></button>                    </div>                    <div class="story-util">                        <div class="post-funtion">                            <div class="wrap">                                <button type="button" class="btn-alert">옵션보기</button>                                <div class="balloon-space user">                                    <div class="balloon-cont"><div class="user">    <p class="reset a-c">스포일러 및 욕설/비방하는<br>내용이 있습니까?</p>    <button type="button" class="maskOne" data-no="2306147">댓글 신고 <i class="iconset ico-arr-right-green"></i></button></div>                                            <div class="btn-close"><a href="#" title="닫기"><img src="/static/pc/images/common/btn/btn-balloon-close.png" alt="닫기"></a></div>                                        </div>                                    </div>                                </div>                            </div>                        </div>                    </div>                </div>            </div>        </div>        <div class="story-date">            <div class="review on">                <span>34 분전</span>            </div>        </div></li><li class="type01 oneContentTag">    <div class="story-area">        <div class="user-prof">            <div class="prof-img"><img src="/static/pc/images/mypage/bg-photo.png" alt="프로필 사진" title="프로필 사진" onerror="noImg(this, 'human')"></div>            <p class="user-id">kjmmm10**</p>        </div>        <div class="story-box">            <div class="story-wrap review"><div class="tit">관람평</div>                <div class="story-cont">                    <div class="story-point">                        <span>6</span>                    </div>                    <div class="story-recommend"><em>연출 외</em><em>+2</em><em style="display: none">연출</em><em style="display: none">배우</em><em style="display: none">OST</em>                    </div>                    <div class="story-txt">촌스럽지만 제법 잘 살린 레트로 액션</div>                    <div class="story-like">                        <button type="button" class="oneLikeBtn" title="댓글 추천" data-no="2306146" data-is="N"><i class="iconset ico-like-gray"></i> <span>0</span></button>                    </div>                    <div class="story-util">                        <div class="post-funtion">                            <div class="wrap">                                <button type="button" class="btn-alert">옵션보기</button>                                <div class="balloon-space user">                                    <div class="balloon-cont"><div class="user">    <p class="reset a-c">스포일러 및 욕설/비방하는<br>내용이 있습니까?</p>    <button type="button" class="maskOne" data-no="2306146">댓글 신고 <i class="iconset ico-arr-right-green"></i></button></div>                                            <div class="btn-close"><a href="#" title="닫기"><img src="/static/pc/images/common/btn/btn-balloon-close.png" alt="닫기"></a></div>                                        </div>                                    </div>                                </div>                            </div>                        </div>                    </div>                </div>            </div>        </div>        <div class="story-date">            <div class="review on">                <span>33 분전</span>            </div>        </div></li><li class="type01 oneContentTag">    <div class="story-area">        <div class="user-prof">            <div class="prof-img"><img src="/static/pc/images/mypage/bg-photo.png" alt="프로필 사진" title="프로필 사진" onerror="noImg(this, 'human')"></div>            <p class="user-id">dieman**</p>        </div>        <div class="story-box">            <div class="story-wrap review"><div class="tit">관람평</div>                <div class="story-cont">                    <div class="story-point">                        <span>9</span>                    </div>                    <div class="story-recommend"><em>배우</em>                    </div>                    <div class="story-txt">간만에 볼만한 한국영화인듯하네요 믿고보는 혜수누님!
-                </div>                    <div class="story-like">                        <button type="button" class="oneLikeBtn" title="댓글 추천" data-no="2306143" data-is="N"><i class="iconset ico-like-gray"></i> <span>0</span></button>                    </div>                    <div class="story-util">                        <div class="post-funtion">                            <div class="wrap">                                <button type="button" class="btn-alert">옵션보기</button>                                <div class="balloon-space user">                                    <div class="balloon-cont"><div class="user">    <p class="reset a-c">스포일러 및 욕설/비방하는<br>내용이 있습니까?</p>    <button type="button" class="maskOne" data-no="2306143">댓글 신고 <i class="iconset ico-arr-right-green"></i></button></div>                                            <div class="btn-close"><a href="#" title="닫기"><img src="/static/pc/images/common/btn/btn-balloon-close.png" alt="닫기"></a></div>                                        </div>                                    </div>                                </div>                            </div>                        </div>                    </div>                </div>            </div>        </div>        <div class="story-date">            <div class="review on">                <span>38 분전</span>            </div>        </div></li><li class="type01 oneContentTag">    <div class="story-area">        <div class="user-prof">            <div class="prof-img"><img src="/static/pc/images/mypage/bg-photo.png" alt="프로필 사진" title="프로필 사진" onerror="noImg(this, 'human')"></div>            <p class="user-id">daniel**</p>        </div>        <div class="story-box">            <div class="story-wrap review"><div class="tit">관람평</div>                <div class="story-cont">                    <div class="story-point">                        <span>10</span>                    </div>                    <div class="story-recommend"><em>연출 외</em><em>+4</em><em style="display: none">연출</em><em style="display: none">스토리</em><em style="display: none">영상미</em><em style="display: none">배우</em><em style="display: none">OST</em>                    </div>                    <div class="story-txt">처음에 해녀가 물잘할때 양식 광어가 올라와서 웃기긴 했는데
-                    익숙한 음악도 많이 나오고 너무 재밌어서 더위를 잊을 수 있었어여</div>                    <div class="story-like">                        <button type="button" class="oneLikeBtn" title="댓글 추천" data-no="2306141" data-is="N"><i class="iconset ico-like-gray"></i> <span>0</span></button>                    </div>                    <div class="story-util">                        <div class="post-funtion">                            <div class="wrap">                                <button type="button" class="btn-alert">옵션보기</button>                                <div class="balloon-space user">                                    <div class="balloon-cont"><div class="user">    <p class="reset a-c">스포일러 및 욕설/비방하는<br>내용이 있습니까?</p>    <button type="button" class="maskOne" data-no="2306141">댓글 신고 <i class="iconset ico-arr-right-green"></i></button></div>                                            <div class="btn-close"><a href="#" title="닫기"><img src="/static/pc/images/common/btn/btn-balloon-close.png" alt="닫기"></a></div>                                        </div>                                    </div>                                </div>                            </div>                        </div>                    </div>                </div>            </div>        </div>        <div class="story-date">            <div class="review on">                <span>41 분전</span>            </div>        </div></li><li class="type01 oneContentTag">    <div class="story-area">        <div class="user-prof">            <div class="prof-img"><img src="/static/pc/images/mypage/bg-photo.png" alt="프로필 사진" title="프로필 사진" onerror="noImg(this, 'human')"></div>            <p class="user-id">jungah**</p>        </div>        <div class="story-box">            <div class="story-wrap review"><div class="tit">관람평</div>                <div class="story-cont">                    <div class="story-point">                        <span>8</span>                    </div>                    <div class="story-recommend"><em>배우</em>                    </div>                    <div class="story-txt">재미있게 잘 봤어요</div>                    <div class="story-like">                        <button type="button" class="oneLikeBtn" title="댓글 추천" data-no="2306140" data-is="N"><i class="iconset ico-like-gray"></i> <span>0</span></button>                    </div>                    <div class="story-util">                        <div class="post-funtion">                            <div class="wrap">                                <button type="button" class="btn-alert">옵션보기</button>                                <div class="balloon-space user">                                    <div class="balloon-cont"><div class="user">    <p class="reset a-c">스포일러 및 욕설/비방하는<br>내용이 있습니까?</p>    <button type="button" class="maskOne" data-no="2306140">댓글 신고 <i class="iconset ico-arr-right-green"></i></button></div>                                            <div class="btn-close"><a href="#" title="닫기"><img src="/static/pc/images/common/btn/btn-balloon-close.png" alt="닫기"></a></div>                                        </div>                                    </div>                                </div>                            </div>                        </div>                    </div>                </div>            </div>        </div>        <div class="story-date">            <div class="review on">                <span>42 분전</span>            </div>        </div></li><li class="type01 oneContentTag">    <div class="story-area">        <div class="user-prof">            <div class="prof-img"><img src="/static/pc/images/mypage/bg-photo.png" alt="프로필 사진" title="프로필 사진" onerror="noImg(this, 'human')"></div>            <p class="user-id">jyun**</p>        </div>        <div class="story-box">            <div class="story-wrap review"><div class="tit">관람평</div>                <div class="story-cont">                    <div class="story-point">                        <span>8</span>                    </div>                    <div class="story-recommend"><em>배우</em>                    </div>                    <div class="story-txt">재미있게 보았습니다. 배우들이 배우들이니만큼 연기는 좋아요.</div>                    <div class="story-like">                        <button type="button" class="oneLikeBtn" title="댓글 추천" data-no="2306139" data-is="N"><i class="iconset ico-like-gray"></i> <span>0</span></button>                    </div>                    <div class="story-util">                        <div class="post-funtion">                            <div class="wrap">                                <button type="button" class="btn-alert">옵션보기</button>                                <div class="balloon-space user">                                    <div class="balloon-cont"><div class="user">    <p class="reset a-c">스포일러 및 욕설/비방하는<br>내용이 있습니까?</p>    <button type="button" class="maskOne" data-no="2306139">댓글 신고 <i class="iconset ico-arr-right-green"></i></button></div>                                            <div class="btn-close"><a href="#" title="닫기"><img src="/static/pc/images/common/btn/btn-balloon-close.png" alt="닫기"></a></div>                                        </div>                                    </div>                                </div>                            </div>                        </div>                    </div>                </div>            </div>        </div>        <div class="story-date">            <div class="review on">                <span>45 분전</span>            </div>        </div></li></ul>
-
-
-
+                    <li class="type01 oneContentTag" sec:authorize="isAuthenticated()">
+                        <div class="story-area">
+                            <div class="user-prof"  >
+                                <div class="prof-img"><img th:src="@{/images/user/myprofile.png}" alt="프로필 사진"
+                                                           title="프로필 사진" onerror="noImg(this, 'human')"></div>
+                                <p class="user-id" th:text="${#authentication.principal.id}"></p></div>
+                            <div class="story-box">
+                                <div class="story-wrap review">
+                                    <div class="story-cont">
+                                        <div class="story-point">    <label for="rating">평점 선택:</label>
+                                            <input type="range" id="rating" name="rating" min="1" max="10" step="1">
+                                            <output for="rating" id="ratingValue">5</output></div>
+                                        <div class="story-txt"><input class="input-text"type="text"></input></div>
+                                        <div class="story-point">
+                                            <a href="#none" class="btn-modal-open oneWrtBtn" w-data="500" h-data="680" data-cd="PREV" title="관람평쓰기"><i class="iconset ico-story-write"></i> 관람평쓰기</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="story-date">
+                            <div class="review on"><span>9 분전</span></div>
+                        </div>
+                    </li>
+                    <li class="type01 oneContentTag" sec:authorize="!isAuthenticated()">
+                        <div class="story-area">
+                            <div class="user-prof" >
+                                <div class="prof-img"><img th:src="@{/images/user/myprofile.png}" alt="프로필 사진"
+                                                           title="프로필 사진" onerror="noImg(this, 'human')"></div>
+                                <p class="user-id" >로그인 필요</p></div>
+                            <div class="story-box">
+                                <div class="story-wrap review">
+                                    <div class="story-cont">
+                                        <div class="story-point">    <label for="rating">평점 선택:</label>
+                                            <input type="range" id="rating-guest" name="rating" min="1" max="10" step="1" disabled>
+                                            <output for="rating" id="ratingValue-guest">5</output></div>
+                                        <div class="story-txt"><input class="input-text"type="text" disabled></input></div>
+                                        <div class="story-point">
+                                            <a href="#none" class="btn-modal-open oneWrtBtn" w-data="500" h-data="680" data-cd="PREV" title="관람평쓰기" disabled><i class="iconset ico-story-write"></i>로그인 후 사용가능합니다.</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="story-date">
+                            <div class="review on"><span>9 분전</span></div>
+                        </div>
+                    </li>
 
 
             </div>
@@ -692,211 +398,13 @@
         <!--// inner-wrap -->
 
         <!-- movie-detail-poster -->
-        <div class="movie-detail-poster mt70 moviepostContent">
-            <div class="inner-wrap">
-
-
-
-                <!--목록이 있을 때  -->
-                <div class="tit-util mb15">
-                    <h2 class="tit small white">무비포스트</h2>
-                    <a href="#" id="goMoviePost" class="more" data-nm="밀수" title="무비포스트 페이지로 이동">더보기 <i class="iconset ico-arr-right-white"></i></a>
-                </div>
-
-                <!-- movie-post-list -->
-                <div class="movie-post-list" style="position: relative; height: 425.172px;">
-
-                    <div class="grid-item" style="position: absolute; left: 0px; top: 0px;">
-                        <div class="wrap">
-
-
-                            <div class="img">
-                                <a href="#layer_post_detail" title="무비포스트 상세보기" class="moviePostBtn btn-modal-open2" w-data="850" h-data="auto" data-no="231150"><img src="https://img.megabox.co.kr/SharedImg/2023/07/18/6O1YI0SdZqUlb63isHggGbR1NcTz3yxl_230.jpg" onerror="noImg(this)" alt="밀수"></a>
-                            </div>
-
-                            <div class="cont">
-                                <div class="writer">
-
-                                    <a href="#" title="무비포스트 페이지로 이동" class="moviePostId" data-id="1D1105BC-97D3-4CCA-939F-0FC7A378CF3C">jarodb**</a>
-
-                                </div>
-
-                                <a href="#layer_post_detail" title="무비포스트 상세보기" class="link moviePostBtn btn-modal-open2" w-data="850" h-data="auto" data-no="231150">
-                                    <div class="label">
-
-
-                                    </div>
-
-                                    <p class="tit">밀수</p>
-                                    <p class="txt">시원한 바다에서 전복과 함께 금괴도~~</p>
-                                    <p class="time">1 시간전</p>
-                                </a>
-
-                                <div class="condition">
-                                    <button type="button" class="btn-like postLikeBtn listBtn" data-no="231150">
-                                        <i class="iconset ico-like ">좋아요 수</i>
-                                        <span class="none">0</span>
-                                    </button>
-                                    <a href="#layer_post_detail" title="무비포스트 상세보기" class="post-detailRlyPopup btn-modal-open2" w-data="850" h-data="auto" data-no="231150">
-                                        <i class="iconset ico-reply" id="">댓글 수</i> 0
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="grid-item" style="position: absolute; left: 290px; top: 0px;">
-                        <div class="wrap">
-
-
-                            <div class="img">
-                                <a href="#layer_post_detail" title="무비포스트 상세보기" class="moviePostBtn btn-modal-open2" w-data="850" h-data="auto" data-no="231149"><img src="https://img.megabox.co.kr/SharedImg/2023/07/17/o9e9CdzyxYsCVGTp2Vnr4osaE5DD9Xs7_230.jpg" onerror="noImg(this)" alt="밀수"></a>
-                            </div>
-
-                            <div class="cont">
-                                <div class="writer">
-
-                                    <a href="#" title="무비포스트 페이지로 이동" class="moviePostId" data-id="743CD3D4-FDF7-4A80-869D-254B0807DE50">david052**</a>
-
-                                </div>
-
-                                <a href="#layer_post_detail" title="무비포스트 상세보기" class="link moviePostBtn btn-modal-open2" w-data="850" h-data="auto" data-no="231149">
-                                    <div class="label">
-
-
-                                    </div>
-
-                                    <p class="tit">밀수</p>
-                                    <p class="txt">반전에 긴장감을 오랜만에 느낄 수 있었던 영화</p>
-                                    <p class="time">1 시간전</p>
-                                </a>
-
-                                <div class="condition">
-                                    <button type="button" class="btn-like postLikeBtn listBtn" data-no="231149">
-                                        <i class="iconset ico-like ">좋아요 수</i>
-                                        <span class="none">0</span>
-                                    </button>
-                                    <a href="#layer_post_detail" title="무비포스트 상세보기" class="post-detailRlyPopup btn-modal-open2" w-data="850" h-data="auto" data-no="231149">
-                                        <i class="iconset ico-reply" id="">댓글 수</i> 0
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="grid-item" style="position: absolute; left: 580px; top: 0px;">
-                        <div class="wrap">
-
-
-                            <div class="img">
-                                <a href="#layer_post_detail" title="무비포스트 상세보기" class="moviePostBtn btn-modal-open2" w-data="850" h-data="auto" data-no="231145"><img src="https://img.megabox.co.kr/SharedImg/2023/07/17/xKYeqRXiIz88IcN0aoXmgwTEoIxtEdKJ_230.jpg" onerror="noImg(this)" alt="밀수"></a>
-                            </div>
-
-                            <div class="cont">
-                                <div class="writer">
-
-                                    <a href="#" title="무비포스트 페이지로 이동" class="moviePostId" data-id="64756F1D-930F-420F-9AD5-B14B36C67EDD">yohan10**</a>
-
-                                </div>
-
-                                <a href="#layer_post_detail" title="무비포스트 상세보기" class="link moviePostBtn btn-modal-open2" w-data="850" h-data="auto" data-no="231145">
-                                    <div class="label">
-
-
-                                    </div>
-
-                                    <p class="tit">밀수</p>
-                                    <p class="txt">조인성은 이 와중에도 멋짐<br>배우들이 끌고가는 영화</p>
-                                    <p class="time">2 시간전</p>
-                                </a>
-
-                                <div class="condition">
-                                    <button type="button" class="btn-like postLikeBtn listBtn" data-no="231145">
-                                        <i class="iconset ico-like ">좋아요 수</i>
-                                        <span class="none">0</span>
-                                    </button>
-                                    <a href="#layer_post_detail" title="무비포스트 상세보기" class="post-detailRlyPopup btn-modal-open2" w-data="850" h-data="auto" data-no="231145">
-                                        <i class="iconset ico-reply" id="">댓글 수</i> 0
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="grid-item" style="position: absolute; left: 870px; top: 0px;">
-                        <div class="wrap">
-
-
-                            <div class="img">
-                                <a href="#layer_post_detail" title="무비포스트 상세보기" class="moviePostBtn btn-modal-open2" w-data="850" h-data="auto" data-no="231144"><img src="https://img.megabox.co.kr/SharedImg/2023/07/17/xKYeqRXiIz88IcN0aoXmgwTEoIxtEdKJ_230.jpg" onerror="noImg(this)" alt="밀수"></a>
-                            </div>
-
-                            <div class="cont">
-                                <div class="writer">
-
-                                    <a href="#" title="무비포스트 페이지로 이동" class="moviePostId" data-id="D25DCF44-217F-4611-9A76-9F3E75BC10BC">ducab0ca**</a>
-
-                                </div>
-
-                                <a href="#layer_post_detail" title="무비포스트 상세보기" class="link moviePostBtn btn-modal-open2" w-data="850" h-data="auto" data-no="231144">
-                                    <div class="label">
-
-
-                                    </div>
-
-                                    <p class="tit">밀수</p>
-                                    <p class="txt">이 장면 하나때문만에라도 봐야하는 영화</p>
-                                    <p class="time">2 시간전</p>
-                                </a>
-
-                                <div class="condition">
-                                    <button type="button" class="btn-like postLikeBtn listBtn" data-no="231144">
-                                        <i class="iconset ico-like ">좋아요 수</i>
-                                        <span class="none">0</span>
-                                    </button>
-                                    <a href="#layer_post_detail" title="무비포스트 상세보기" class="post-detailRlyPopup btn-modal-open2" w-data="850" h-data="auto" data-no="231144">
-                                        <i class="iconset ico-reply" id="">댓글 수</i> 0
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <!--// movie-post-list -->
-
 
             </div>
         </div>
         <!--// movie-detail-poster -->
 
-        <div class="inner-wrap mt70 infoContent">
-            <div class="tit-util mb15">
-                <h2 class="tit small">이벤트</h2>
-                <a href="/event" title="이벤트 페이지로 이동" class="more">더보기 <i class="iconset ico-arr-right-gray"></i></a>
-            </div>
-
-            <div class="event-box">
-                <ul>
-
-
-                    <li>
-                        <a href="#" title="<밀수> 메가토크 상세보기" class="eventBtn" data-no="13743" data-netfunnel="N"><img src="https://img.megabox.co.kr/SharedImg/event/2023/07/25/Jp348ykGojjXNQ83lCTFXE62QKWooUDd.jpg" onerror="noImg(this)" alt="<밀수> 메가토크"></a>
-                    </li>
-
-
-
-                    <li>
-                        <a href="#" title="[디즈니 100주년 기념] NO.2 월E 콤보 런칭 상세보기" class="eventBtn" data-no="13750" data-netfunnel="N"><img src="https://img.megabox.co.kr/SharedImg/event/2023/07/26/8EyEtoZBbt1t1eDHIKTmFDu5HJE4bwl5.jpg" onerror="noImg(this)" alt="[디즈니 100주년 기념] NO.2 월E 콤보 런칭"></a>
-                    </li>
-
-
-                </ul>
-            </div>
-        </div>
-
         <!-- 레이어 : 관람평 등록 -->
-        <section id="layer_regi_reply_review" class="modal-layer">
+        <div id="layer_regi_reply_review" class="modal-layer">
             <div class="wrap">
                 <header class="layer-header">
                     <h3 class="tit"><span class="oneTitle"></span> 작성하기</h3>
@@ -975,7 +483,7 @@
 
                 <button type="button" class="btn-modal-close">레이어 닫기</button>
             </div>
-        </section>
+        </div>
 
         <!-- 무비포스트 상세 레이어팝업 -->
 
