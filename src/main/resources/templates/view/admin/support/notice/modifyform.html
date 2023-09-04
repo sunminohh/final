@@ -31,27 +31,31 @@
                     	<div class="d-flex justify-content-start" style="margin-bottom: -15px;">
                     		<!-- 라디오버튼 -->
 							<div class="me-2 pt-2">
-		                        <input type="radio" name="categoryNo" value="22" th:checked="${notice.category.no == 22}">
+		                        <input id="mgvNotice" type="radio" name="categoryNo" value="22" th:checked="${notice.category.no == 22}">
 								<label for="aq1">MGV 공지</label>
 							</div>
+							
 							<div class="me-3 pt-2">
-								<input type="radio" name="categoryNo" value="23" class="ml20"  th:checked="${notice.category.no == 23}">
-								<label for="aq2">지점 공지</label>
+								<input id="thrNotice" type="radio" name="categoryNo" value="23" class="ml20"  th:checked="${notice.category.no == 23}">
+								<label for="aq2" >지점 공지</label>
 							</div>
 	
 							<!-- 지역, 극장선택 셀렉트박스 -->
 	                        <select id="modifyloc" title="지역선택" name="locationNo"
 	                                class="form-select form-select-sm  ml07 form-control-sm mb-3"
+	                                th:disabled="${notice.category.no != 23}"
 	                                style="width: 100px; float:left">
 	                            <option value="" selected disabled>지역선택</option>
-	                            <option th:each="loc: ${locations}" th:value="${loc.no}" th:text="${loc.name}" th:selected="${loc.no == notice.location.no}"></option>
+	                            <option th:each="loc: ${locations}" th:value="${loc.no}" th:text="${loc.name}" th:selected="${notice.location != null && loc.no == notice.location.no}"></option>
 	                        </select>
 	
 	                        <select id="modifythr" title="극장선택" name="theaterNo" 
 	                        		class="form-select form-select-sm ml07 form-control-sm mb-3"
+	                        		 th:disabled="${notice.category.no != 23}"
 	                                style="width: 100px; float:left; position: relative; left:5px;">
 	      						<option value="" selected disabled>극장선택</option>
-	      						<option th:each="thr: ${theaters}" th:value="${thr.no}" th:text="${thr.name}" th:selected="${thr.no == notice.theater.no}"></option>
+	      						<option 
+	      							th:each="thr: ${theaters}" th:value="${thr.no}" th:text="${thr.name}" th:selected="${thr.no == notice.theater.no}"></option>
 	                        </select>
                     	</div>
                     </td>

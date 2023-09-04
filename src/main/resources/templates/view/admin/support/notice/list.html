@@ -30,7 +30,7 @@
 	    </div>
     <div class="board-list-util">
     <p class="result-count"><strong>전체 <span class="font-gblue" id="totalCnt" th:text="${result.pagination.totalRows}"></span>건</strong></p>
-	<form method="post" action="admin/notice/detail" id="actionForm" >    
+	<form method="get" action="/admin/support/notice/detail" id="actionForm" >    
 	     <div class="ml07 bs3  d-flex justify-content-end">
 	         	<select id="location" title="지역선택" name="locationNo"
 		                                class="form-select form-select-sm  ml06 form-control-sm mb-3"
@@ -44,6 +44,7 @@
 		     	</select>
 	       
 		        <div class="board-search">
+		        	<input type="hidden" name="no" />
 			        <input type="hidden" name="catNo" th:value="${param.catNo == null ? '21' : param.catNo}" />
 			        <input type="hidden" name="page" th:value="${param.page == null ? '1' : param.page}" />
 		            <input type="search" name="keyword" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" th:value="${param.keyword}" autocomplete="off">
@@ -77,7 +78,8 @@
 	                <td th:text="${notice.theater == null || notice.theater.name == null ? 'MGV' : notice.theater.name}"></td>
 	                <td th:text="${notice.type == '공지' ? '공지' : '이벤트'}"></td>
 	                <td style="text-align:left;">
-	                	<a class="text-black text-decoration-none"
+	                	 <a class="text-black text-decoration-none
+                      		d-inline-block text-truncate" style="max-width: 400px;"
 	                		th:href="@{/admin/support/notice/detail(no=${notice.no})}"
 	                		th:attr="data-no=${notice.no}"
 	                		th:text=${notice.title}>
