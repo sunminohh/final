@@ -23,4 +23,9 @@ public class SalesController {
 	public List<TotalSales> getDailytTotalSales(){
 		return salesService.getDailyTotalSales();
 	}
+	
+	@GetMapping("/management")
+	public String salesManagement() {
+		return "view/admin/sales/management";
+	}
 }
