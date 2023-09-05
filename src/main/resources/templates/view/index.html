@@ -885,7 +885,11 @@
             <!-- 게시판 시작 -->
             <div class="tit-util">
                 <h2 class="tit">게시판</h2>
-                <a href="/board/movie/list" class="btn-more-cross purple">더보기</a>
+                <div class="right">
+                    <a th:href="@{/board/movie/list}" title="게시판 더보기" style="color: black;">
+                        게시판 더보기 <i class="iconset ico-more-corss gray"></i>
+                    </a>
+                </div>
             </div>
 			<div class="row mt-4">
 				<div class="col-6 mb-4">
@@ -970,7 +974,11 @@
         <div class="wrap">
             <div class="tit-util">
                 <h2 class="tit">스토어</h2>
-                <a th:href="@{/store}" class="btn-more-cross purple" style="margin-right: 400px;">더보기</a>
+                <div class="right">
+                    <a th:href="@{/store}" title="스토어 더보기">
+                        스토어 더보기 <i class="iconset ico-more-corss gray"></i>
+                    </a>
+                </div>
             </div>
             <ul class="giftcon_list_wrap  mt-4">
 

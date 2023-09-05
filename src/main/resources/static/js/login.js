@@ -56,7 +56,7 @@ $(() => {
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify({id: username, password}),
             success: function (res) {
-                location.href = '/';
+                location.reload();
             },
             error: function (error) {
                 console.error(error);

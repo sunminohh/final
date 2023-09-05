@@ -1,5 +1,6 @@
 package kr.co.mgv.user.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,7 @@ import java.util.List;
 public class User implements UserDetails {
     
     private String id;
+    @JsonIgnore
     private String password;
     private String name;
     private String email;
