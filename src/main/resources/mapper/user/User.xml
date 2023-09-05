@@ -11,6 +11,7 @@
             user_email              as email,
             user_zipcode            as zipcode,
             user_address            as address,
+            user_kakao_yn           as kakaoYn,
             user_disabled           as disabled,
             user_create_date        as createDate,
             user_update_date        as updateDate,
@@ -31,6 +32,7 @@
             user_zipcode            as zipcode,
             user_address            as address,
             user_disabled           as disabled,
+            user_kakao_yn           as kakaoYn,
             user_create_date        as createDate,
             user_update_date        as updateDate,
             user_pwd_update_date    as pwdUpdateDate

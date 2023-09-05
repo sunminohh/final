@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -20,15 +23,20 @@ import kr.co.mgv.support.service.LostService;
 import kr.co.mgv.support.vo.Lost;
 import kr.co.mgv.support.vo.LostComment;
 import kr.co.mgv.support.vo.LostFile;
+import kr.co.mgv.user.service.EmailService;
+import kr.co.mgv.user.service.EmailServiceImpl;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admin/support/lost")
+@Slf4j
 public class AdminLostController {
 	
 	private final LostService lostService;
+	private final EmailServiceImpl emailService; 
 
 	@GetMapping
     public String lost(	@RequestParam(name = "locationNo", required = false, defaultValue = "0") int locationNo,
@@ -120,21 +128,28 @@ public class AdminLostController {
 	@ResponseBody
 	public ResponseEntity<List<LostComment>> addComment(@AuthenticationPrincipal User user,
 			@RequestParam("no") int lostNo,
-			@RequestParam("content") String content) {
+			@RequestParam("content") String content) throws Exception {
 		
-		Lost lost = Lost.builder().no(lostNo).build();
-		LostComment comment =LostComment.builder().
-							user(user).
-							lost(lost).
-							content(content).build();
-		
-		lostService.insertComment(comment);
-		lostService.updateLostComment(lostNo);
-		
+		lostService.insertComment(user, lostNo, content);
 		List<LostComment> inputComments = lostService.getLostCommentsByLost(lostNo);
-		
+	
 		return ResponseEntity.ok().body(inputComments);
 	}
+	
+	@PostMapping("/mail")
+    @ResponseBody
+    public ResponseEntity<String> mailConfirm(@RequestParam("email") String email, HttpSession session) {
+        try {
+            String content = emailService.sendTempqnaMessage(email);
+            log.info("메일내용 -> {}", content);
+
+            // 생성한 인증 코드를 세션에 저장
+            return ResponseEntity.ok().body("success");
+        } catch (Exception e) {
+            log.error("Error sending email", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("메일 전송 중 오류가 발생했습니다.");
+        }
+    }
 	
 	@PostMapping("/deleteComment")
 	@ResponseBody

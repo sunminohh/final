@@ -1400,7 +1400,8 @@ h2.tit {
 
 .giftcon_list_wrap > li {
     /*float:left;*/
-    width: 270px;
+    background-color: white;
+    width: 33%;
     padding: 20px 19px 30px;
     border: 1px solid #e4e4e4;
     border-radius: 10px
@@ -1504,7 +1505,7 @@ h2.tit {
 .main-curation {
     display: block;
     position: relative;
-    min-height: 840px;
+    min-height: 600px;
     padding: 0;
     background-color: #252451;
 }

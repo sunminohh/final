@@ -29,7 +29,10 @@ $(function(){
 			 waitings.forEach(function(userId) {
 				 let row = `
 				 	<tr>
-				 		<td><span>${userId}</span></td>
+				 		<td style="color: white;">
+				 		<img src="/images/board/sample.png" width="40" height="40" alt="프로필사진" style="border-radius: 50%;">
+				 		<span style=" margin-left: 10px;">${userId}</span>
+				 		</td>
 				 	</tr>
 				 `
 				 $tbody.append(row);

@@ -1,8 +1,11 @@
 package kr.co.mgv.user.controller;
 
+import kr.co.mgv.user.dto.KakaoToken;
+import kr.co.mgv.user.dto.KakaoUserInfo;
 import kr.co.mgv.user.form.UserJoinForm;
 import kr.co.mgv.user.service.AuthenticationService;
 import kr.co.mgv.user.service.EmailServiceImpl;
+import kr.co.mgv.user.service.TokenService;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +23,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
@@ -33,6 +37,7 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
     private final EmailServiceImpl emailService;
     private final AuthenticationManager authenticationManager;
+    private final TokenService tokenService;
 
 
     // 회원가입
@@ -53,6 +58,7 @@ public class AuthenticationController {
                 .email(form.getEmail())
                 .birth(form.getBirth())
                 .password(form.getPassword())
+                .kakaoYn(form.getKakaoYn())
                 .build();
 
         authenticationService.createUser(user);
@@ -147,5 +153,32 @@ public class AuthenticationController {
         }
     }
 
+    @GetMapping("/kakao")
+    public String t(HttpSession session, SessionStatus sessionStatus, RedirectAttributes redirectAttributes,
+                    @RequestParam String code) {
+        log.info("[LOGIN] - kakao, access code: {}", code);
+        KakaoToken kakaoToken = tokenService.getToken(code);
+        log.info("[LOGIN] - kakao, access token: {}", kakaoToken);
+        KakaoUserInfo kakaoUserInfo = tokenService.getUserInfo(kakaoToken.getAccess_token());
+        User user = authenticationService.getUserByEmail(kakaoUserInfo.getKakao_account().getEmail());
+        if (user == null) {
+            UserJoinForm form = new UserJoinForm();
+            form.setId(kakaoUserInfo.getId());
+            form.setName(kakaoUserInfo.getKakao_account().getProfile().getNickname());
+            form.setEmail(kakaoUserInfo.getKakao_account().getEmail());
+            form.setPassword(kakaoUserInfo.getId());
+            form.setKakaoYn("Y");
+            return this.join(form, sessionStatus, redirectAttributes);
+        } else if (user.getKakaoYn().equals("Y")) {
+            user.setPassword(user.getId());
+            HttpStatus loginResultCode = this.login(session, user).getStatusCode();
+            if (loginResultCode == HttpStatus.OK) {
+                return "redirect:/";
+            }
+        } else {
+            // TODO 카카오 연동이 되지 않고, 이미 존재하는 계정일 경우 처리
+        }
+        return "redirect:/";
+    }
 
 }

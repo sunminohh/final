@@ -29,7 +29,7 @@
 							<input type="hidden" name="productNo" th:value="${param.productNo }" />
 							<input type="hidden" name="catNo" th:value="${param.catNo }" />
                             <div class="col-12 ">
-                                <select class="form-select form-select-sm  form-control-sm" name="opt" th:value="${param.opt}">
+                                <select class="form-select form-select-sm  form-control-sm" name="opt" th:value="${param.opt}"  style="border-radius: 15px">
                                     <option value="" disabled> 검색옵션</option>
                                     <option class="opt-select"
                                     		th:value="title"
@@ -53,11 +53,15 @@
                                     </option>
                                 </select>
                             </div>
-                            <div class="col-12">
-                                <input type="text" style="width: 140px;" class="form-control form-control-sm" name="keyword" th:value="${param.keyword}"/>
+                            <div class="col-12 ps-0">
+                                <input type="text" style="width: 140px; border-radius: 15px" class="form-control form-control-sm" name="keyword" th:value="${param.keyword}"/>
                             </div>
-                            <div class="col-12">
-                                <button type="button" class="btn btn-outline-dark btn-sm" onclick="searchBoard()">검색</button>
+                            <div class="col-12 ps-0">
+                                <button type="button" id="search-btn" class="btn btn-sm" onclick="searchBoard()" style=" border-radius: 100%; background-color:#058eab7a; border-color:#058eab7a; color: white;">
+                                	<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+								  		<path  d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+								  	</svg>
+								 </button>
                             </div>
                         </form>
                     </div>
@@ -103,7 +107,9 @@
                                 style="width: 130px; float:left; position: relative; left:5px;" 
                                 name="productNo" onchange="changeSboard()">
       						<option value="" selected disabled th:text="상품선택"></option>
-      						<option th:each="product:${products}" th:if="${param.catNo != 0}" th:value="${product.no}" th:text="${product.name}"></option>
+      						<option th:each="product:${products}" th:if="${param.catNo != 0}" th:value="${product.no}" 
+      						        th:text="${product.name}"
+      						        th:selected="${#strings.equals(product.no, param.productNo)}"></option>
                         </select>
 
                     </div>
@@ -139,7 +145,7 @@
 	                    <td>
 			                <div class="combined-cell">
 			                    <div class="comment-count" th:text="${'('+#numbers.formatInteger(board.commentCount, 1, 'COMMA')+')'}">(3,000)</div>
-			            		<a class="text-black text-decoration-none" th:href="@{/board/store/read(no=${board.no},page=${result.pagination.page}, rows=${param.rows}, sort=${param.sort}, productNo=${param.productNo}, opt=${param.opt}, keyword=${param.keyword})}">
+			            		<a class="text-black text-decoration-none" th:href="@{/board/store/read(no=${board.no},page=${result.pagination.page}, rows=${param.rows}, sort=${param.sort}, catNo=${param.catNo}, productNo=${param.productNo}, opt=${param.opt}, keyword=${param.keyword})}">
 								    <div class="title-content-2" th:text="${board.name.length() > 43 ? board.name.substring(0, 43) + '...' : board.name}">게시글제목입니다. 짱 길게 만들어야지.게시글제목입니다. 짱 길게 만들어야지.게시글제목입니다. 짱 길게 만들어야지.게시글제목입니다. 짱 길게 만들어야지.게시글제목입니다. 짱 길게 만들어야지.</div>
 								</a>
 			                </div>

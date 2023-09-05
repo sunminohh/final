@@ -26,8 +26,8 @@
                     			th:text="${lost.theater.name}"></span>
                 </p>
                 <p>
-				   <span class="txt" th:if="${lost.user != null}" th:text="${lost.user.email}"></span>
-				   <span class="txt" th:if="${lost.user == null}" th:text="${lost.guestEmail}"></span>
+				   <span class="txt user" th:if="${lost.user != null}" th:text="${lost.user.email}"></span>
+				   <span class="txt user" th:if="${lost.user == null}" th:text="${lost.guestEmail}"></span>
 
 				</p>
                 <p>

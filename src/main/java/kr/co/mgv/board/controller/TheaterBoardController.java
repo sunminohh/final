@@ -116,6 +116,7 @@ public class TheaterBoardController {
 					   @RequestParam(name = "rows", required = false, defaultValue = "10") Integer rows,
 					   @RequestParam("sort") String sort,
 					   @RequestParam(name = "theaterNo", required = false) Integer theaterNo,
+					   @RequestParam(name = "locationNo", required = false) Integer locationNo,
 					   @RequestParam("opt") String opt,
 					   @RequestParam("keyword") String keyword,
 					   RedirectAttributes redirectAttributes) {
@@ -129,6 +130,7 @@ public class TheaterBoardController {
         	redirectAttributes.addAttribute("rows", rows);		
         }
         redirectAttributes.addAttribute("theaterNo", theaterNo);
+        redirectAttributes.addAttribute("locationNo", locationNo);
         redirectAttributes.addAttribute("opt", opt);
         redirectAttributes.addAttribute("keyword", keyword);
 		
