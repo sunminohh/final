@@ -56,7 +56,7 @@ $(() => {
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify({id: username, password}),
             success: function (res) {
-                location.href = '/';
+                location.reload();
             },
             error: function (error) {
                 console.error(error);
@@ -87,6 +87,10 @@ $(() => {
             }
         });
     }
+
+    $(".btn-kakao-login").click(() => {
+        location.href = `https://kauth.kakao.com/oauth/authorize?client_id=926865cb22da364155170d20476bc058&redirect_uri=http://localhost/user/auth/kakao&response_type=code`
+    });
 });
 
 // Login UI
@@ -114,6 +118,4 @@ $(() => {
         evt = evt || window.event;
         evt.keyCode === 27 ? closeModal() : false;
     };
-
-
 });

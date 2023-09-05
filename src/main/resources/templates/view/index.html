@@ -881,11 +881,15 @@
     <!-- section main-benefit : 게시판 -->
     <div id="main_section02" class="section main-benefit mb-0 pb-0">
         <!-- wrap -->
-        <div class="wrap">
+        <div class="wrap" style="min-height:500px;">
             <!-- 게시판 시작 -->
             <div class="tit-util">
                 <h2 class="tit">게시판</h2>
-                <a href="/board/movie/list" class="btn-more-cross purple">더보기</a>
+                <div class="right">
+                    <a th:href="@{/board/movie/list}" title="게시판 더보기" style="color: black;">
+                        게시판 더보기 <i class="iconset ico-more-corss gray"></i>
+                    </a>
+                </div>
             </div>
 			<div class="row mt-4">
 				<div class="col-6 mb-4">
@@ -966,11 +970,15 @@
     <!--// section main-board : 게시판 -->
 
     <!--// section giftcon_wrap : 게시판 -->
-    <div id="main_section03 " class="section giftcon_wrap pt-0" style="padding-left: 400px; margin-top: -30px;">
-        <div class="warp">
+    <div id="main_section03 " class="section giftcon_wrap pt-0 main-curation">
+        <div class="wrap">
             <div class="tit-util">
                 <h2 class="tit">스토어</h2>
-                <a th:href="@{/store}" class="btn-more-cross purple" style="margin-right: 400px;">더보기</a>
+                <div class="right">
+                    <a th:href="@{/store}" title="스토어 더보기">
+                        스토어 더보기 <i class="iconset ico-more-corss gray"></i>
+                    </a>
+                </div>
             </div>
             <ul class="giftcon_list_wrap  mt-4">
 
