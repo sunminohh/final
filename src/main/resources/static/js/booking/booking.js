@@ -22,6 +22,7 @@ $(()=>{
     let maxSeatChoices
     let curSeatChoices
     let prevMouseOverSeat
+    let ticketPrice = 10000
     function apiByDate(date){
         fetch('api/booking/'+date).then(res => res.json()).then(item=>{
             let aa= JSON.stringify(item)
@@ -391,6 +392,10 @@ $(()=>{
 
     $("#seatsDiv").on('click','button',function() {
         const seatsToPick = maxSeatChoices - curSeatChoices
+        if($(this).hasClass('impossible')){
+            alert('해당 좌석은 선택 불가능합니다')
+            return
+        }
         if($(this).hasClass('choice')){
             removeCurSeatChoice($(this).attr('id'))
             const pair = $(this).attr('pair')
