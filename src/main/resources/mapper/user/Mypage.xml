@@ -38,9 +38,26 @@
                 AND PURCHASE_DATE BETWEEN #{startDate} AND #{endDate}
     </select>
 
+    <select id="getPurchaseByNo" parameterType="int" resultType="Purchase">
+        select
+            A.PURCHASE_DATE             AS purchaseDate,
+            A.PURCHASE_CANCELED_DATE    AS canceledDate,
+            C.PRODUCT_NAME              AS "product.name",
+            A.PURCHASE_PRICE            AS price,
+            A.PURCHASE_STATUS           AS status,
+            B.USER_ID                   AS "user.id"
+        FROM
+            MGV_PURCHASE A
+            LEFT JOIN MGV_USER B ON A.USER_ID = B.USER_ID
+            LEFT JOIN MGV_PRODUCT C ON A.PRODUCT_NO = C.PRODUCT_NO
+        WHERE
+            A.PURCHASE_NO = #{purchaseNo}
+    </select>
+
     <update id="updatePurchaseByNo" parameterType="int">
         UPDATE MGV_PURCHASE
-        SET PURCHASE_STATUS = 'C'
+        SET PURCHASE_STATUS = 'C',
+            PURCHASE_CANCELED_DATE = CURRENT_TIMESTAMP
         WHERE PURCHASE_NO = #{purchaseNo}
     </update>
 

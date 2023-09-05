@@ -38,6 +38,7 @@ public class MypageService {
 
     public boolean cancelPurchase(int purchaseNo) {
         int updateRows = mypageDao.updatePurchaseByNo(purchaseNo);
+
         return updateRows > 0;
     }
 }

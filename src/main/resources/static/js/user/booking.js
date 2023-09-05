@@ -79,6 +79,7 @@ $(() => {
         const startDate = $("#startDate").val();
         const endDate = $("#endDate").val();
         const status = $('input[name="status"]:checked').val();
+
         $.ajax({
             url: "/mypage/purchase",
             type: 'POST',
@@ -101,11 +102,15 @@ $(() => {
                     $pagination.empty();
                 } else {
                     $.each(purchases, function (index, purchase) {
-                        let actionCellContent;
                         let priceFormatted = purchase.price % 1000 === 0 ? new Intl.NumberFormat('ko-KR').format(purchase.price) : purchase.price;
 
+                        let actionCellContent;
                         let statusClass = '';
-                        if (purchase.status === 'P') {
+
+                        if (cancelPurchase(purchase.purchaseDate) && purchase.status === 'P') {
+                            actionCellContent = `<button type="button" class="button gray-line small btnCancelPruc" data-purchase-no="${purchase.no}">구매취소</button>`;
+                            statusClass = 'font-gblue';
+                        } else if (purchase.status === 'P') {
                             actionCellContent = `<button type="button" class="button gray-line small btnCancelPruc" data-purchase-no="${purchase.no}">구매취소</button>`;
                             statusClass = 'font-gblue';
                         } else {
@@ -131,10 +136,29 @@ $(() => {
                 console.error("Error:", error);
             }
         });
+
+    }
+
+    function cancelPurchase(purchaseDate) {
+        let currentDate = moment();
+        let expirationDate = moment(purchaseDate).add(7, 'days');
+
+        return currentDate.isBefore(expirationDate);
     }
 
     $(document).on('click', '.btnCancelPruc', function () {
         let purchaseNo = $(this).attr("data-purchase-no");
+        let purchaseDate = $(this).closest('tr').find('td:first').text();
+
+        if (!cancelPurchase(purchaseDate)) {
+            Swal.fire({
+                icon: "warning",
+                title: "구매 취소 불가",
+                text: "구매 취소 기간이 지났습니다."
+            });
+            return;
+        }
+
         Swal.fire({
             icon: 'warning',
             text: "구매취소 하시겠습니까?",
@@ -164,7 +188,15 @@ $(() => {
                     }
                 })
             }
-        })
+        });
+    })
+
+    $(document).on('click', '.btnCancelPruc[disabled]', function () {
+        Swal.fire({
+            icon: "warning",
+            title: "구매 취소 불가",
+            text: "구매취소 기간이 지났습니다."
+        });
     })
 })
 
