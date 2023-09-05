@@ -9,7 +9,7 @@ import java.util.stream.IntStream;
 public class UserPagination {
     private int rows = 5;
     private int pages = 5;
-    private int page = 1;
+    private int page;
     private int totalRows;
     private int totalPages;
     private int totalBlocks;
@@ -52,7 +52,7 @@ public class UserPagination {
         isLast = page == totalPages;
         prePage = page - 1;
         nextPage = page + 1;
-        begin = (page - 1)*rows;
+        begin = (page - 1)*rows+1;
         end = page*rows;
         pageNumbers = IntStream.range(beginPage, endPage+1).toArray();
     }
