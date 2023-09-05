@@ -121,7 +121,6 @@ $(document).ready(function() {
 		
 		let faqNo = $(this).attr("data-no");
 		$("#actionForm input[name=no]").val(faqNo);
-		$("#actionForm").attr("action", '/admin/support/faq/detail?no=' + faqNo);
 		
 		document.querySelector("#actionForm").submit();
 	})

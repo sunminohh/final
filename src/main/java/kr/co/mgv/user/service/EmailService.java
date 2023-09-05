@@ -8,6 +8,7 @@ public interface EmailService {
 
     // 메일 내용 작성
     MimeMessage createMessage(String to) throws MessagingException, UnsupportedEncodingException;
+    MimeMessage qnaMessage(String to) throws MessagingException, UnsupportedEncodingException;
 
     // 임시비밀번호 메일 내용 작성
     MimeMessage tempPwdMessage(String to) throws MessagingException, UnsupportedEncodingException;
@@ -21,5 +22,6 @@ public interface EmailService {
     // 메일 발송
     String sendSimpleMessage(String to) throws Exception;
     String sendTempPwdMessage(String to) throws Exception;
+    String sendTempqnaMessage(String to) throws Exception;
 
 }

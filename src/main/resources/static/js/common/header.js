@@ -25,4 +25,10 @@ $(() => {
             text: '서비스 준비 중 입니다.'
         })
     });
+    $("#event").click(function () {
+        Swal.fire({
+            icon: 'warning',
+            text: '서비스 준비 중 입니다.'
+        })
+    });
 });

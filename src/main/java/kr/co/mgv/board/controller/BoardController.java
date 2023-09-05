@@ -1,6 +1,7 @@
 package kr.co.mgv.board.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.co.mgv.board.list.BoardList;
 import kr.co.mgv.board.list.MyBoardList;
 import kr.co.mgv.board.service.MyBoardService;
 import lombok.RequiredArgsConstructor;
@@ -74,4 +76,5 @@ public class BoardController {
 		
 		return ResponseEntity.ok().body(result);
 	}
+
 }

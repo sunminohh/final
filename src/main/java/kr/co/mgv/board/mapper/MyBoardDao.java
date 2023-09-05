@@ -21,4 +21,6 @@ public interface MyBoardDao {
 
 	List<BoardList> getPartyByJoin(Map<String, Object> param);
 	int getTotalRowsByJoin (Map<String, Object> param);
+	
+	List<BoardList> getBest5(Map<String , Object> param);
 }

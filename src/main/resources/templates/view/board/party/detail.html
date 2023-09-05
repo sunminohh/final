@@ -86,7 +86,7 @@
                th:href="@{/board/party/delete(no=${param.no})}" 
                sec:authorize="isAuthenticated()"
                th:if="${#authentication.principal.id == board.user.id}">삭제</a>
-            <a class="pe-1" th:href="@{/board/party/list(page=${param.page}, rows=${param.rows}, complete=${param.complete}, sort=${param.sort}, theaterNo=${param.theaterNo}, opt=${param.opt}, keyword=${param.keyword})}" >목록</a>
+            <a class="pe-1" th:href="@{/board/party/list(page=${param.page}, rows=${param.rows}, complete=${param.complete}, sort=${param.sort}, locationNo=${param.locationNo}, theaterNo=${param.theaterNo}, opt=${param.opt}, keyword=${param.keyword})}" >목록</a>
          </div>
 
       </div>
@@ -159,7 +159,7 @@
       <div class="comment-box" 
              th:each="comment : ${comments}">
          <div class="great-box pt-1">
-         <div class="row great-comment-box" >
+         <div class="row great-comment-box ms-1" >
                <div class="p-1 col-12" id="comment-box">
                   <div class="d-flex justify-content-between">
                    <div class="col-sm-11">
@@ -194,7 +194,7 @@
                      </div>            
                </div>
             </div>   
-            <hr>
+            <hr style="width: 1080px;">
                <div class="new-register-box row mb-3 pt-2" id="reply-comment-box-" th:attrappend="id=${comment.no}" >
                </div>         
          </div>
@@ -226,7 +226,7 @@
                               
                            </div>
                         </div>
-                           <div class="col-sm-1 d-flex justify-content-end pt-0" sec:authorize="isAuthenticated()">
+                           <div class="col-sm-1 d-flex justify-content-end pt-0 pe-3" sec:authorize="isAuthenticated()">
                               <input type="hidden" name="userId" th:value="${#authentication.principal.id}">
                               <a th:href="@{/board/party/deleteReComment}" 
                                  class="btn btn-link btn-sm text-danger text-decoration-none"

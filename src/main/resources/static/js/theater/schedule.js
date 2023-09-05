@@ -70,7 +70,7 @@ $(() => {
 															play-seq="${schedule.turn}" >
 									<div class="td-ab">
 										<div class="txt-center">
-											<a href="" title="영화예매하기">
+											<a href="/booking" title="영화예매하기">
 												<div class="ico-box">
 													<i class="iconset ico-off"></i>
 												</div>
