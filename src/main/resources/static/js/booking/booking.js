@@ -402,6 +402,7 @@ $(()=>{
             if(pair){
                 removeCurSeatChoice(pair)
             }
+            singleSeatCheck()
             return
         }
         if (seatsToPick==0){
@@ -426,6 +427,16 @@ $(()=>{
             seat1.attr('pair',seatNo2)
             $(".my-seat").children(":eq("+curSeatChoices+++")").addClass('choice').removeClass('possible').text(seatNo2)
         }
+        let ticketsPicked = curSeatChoices
+        let adultTickets=$("#adult-tickets").text()
+        console.log(adultTickets)
+        let underageTickets = $("#underage-tickets").text()
+        let totalPrice = ticketPrice * adultTickets * 1.5
+        if(ticketsPicked >adultTickets){
+            totalPrice+=ticketPrice*underageTickets
+        }
+        const regexp = /\B(?=(\d{3})+(?!\d))/g
+        $("#tickets-total-price").text(totalPrice.toString().replace(regexp, ','))
 
     }
     function removeCurSeatChoice(seatNo){
@@ -500,47 +511,10 @@ $(()=>{
             $(this).replaceWith(createDisabledSeat($(this).attr('id'),$(this).attr('r'),$(this).attr('c')))
         })
         clearSeatChoices()
-
-
-    })
-
-    $("#seatSoftReset").on('click',()=>{
-        clearSeatChoices()
-        $("#seatsDiv").empty()
-        createSeats(screenRow,screenCol)
     })
     $("#clearChoice").on('click',()=>{
         clearChoice()
     })
-    $("#updateSeats").on('click',()=> {
-        const params = []
-        params.push(screenId)
-        let x = $(".empty")
-        x.each(function (i, e) {
-            params.push($(this).attr('id'))
-        })
-        fetch("/api/booking/updateSeats", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json; charset=utf-8"
-            },
-            body: JSON.stringify(params)
-        }).then(res => console.log(res))
-        seatNumbering(screenRow,screenCol)
-        clearSeatChoices()
-        const screenSeatsQuantity= screenRow*(screenCol-1)-(params.length-1)
-        console.log(screenId+ " 스크린의 총 좌석수 => " +screenSeatsQuantity)
-    })
-    $("#seatHardReset").on('click',()=>{
-        initDefaultSeats(screenRow,screenCol)
-        seatNumbering(screenRow,screenCol)
-        clearSeatChoices()
-    })
-    // $("#mCSB_1_container222").on('mouseleave',()=>{
-    //     if(selectedSeat){
-    //         const onSeats=$("#seatsDiv .on").removeClass('on')
-    //     }
-    // })
 
     function sequncing(rowNum) {
         if (rowNum) {
@@ -629,6 +603,7 @@ $(()=>{
     function clearChoice(){
         maxSeatChoices=0
         curSeatChoices=0
+        $("#tickets-total-price").text(0)
         $("#seatsDiv").find("button").removeClass('on choice impossible view')
         $('.number').children().text(0)
         $(".my-seat").html(`                                            <div class="seat all" title="구매가능 좌석">-</div>
