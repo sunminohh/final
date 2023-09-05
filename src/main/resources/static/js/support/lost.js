@@ -265,7 +265,7 @@ $(function() {
             });
       }
       
-      // 비회원이다.
+      // 비회원일때
       if(!userId){
 		 // 회원이 작성한 글을 클릭했을 때
 		 if (id != null) {
@@ -274,7 +274,6 @@ $(function() {
                 text: '비회원은 회원의 문의 내용을 볼 수 없습니다.',
             }); 
 		 } else {
-		 
 	         Swal.fire({
 				  title: '게시글 확인',
 				  icon: 'info',
@@ -296,11 +295,11 @@ $(function() {
 				          resolve();
 				        } else {
 				          resolve();
-				           let lostNo = $(this).attr("data-no");
-         $("#actionForm input[name=no]").val(lostNo);
-         
-         document.querySelector("#actionForm").submit();
-      
+			         	  let lostNo = $(this).attr("data-no");
+				          $("#actionForm input[name=no]").val(lostNo);
+				         
+				          document.querySelector("#actionForm").submit();
+			      
 				        }
 				      });
 				    }
