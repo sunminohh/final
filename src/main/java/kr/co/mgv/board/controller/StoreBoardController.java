@@ -115,6 +115,7 @@ public class StoreBoardController {
 					   @RequestParam("page") int page,
 					   @RequestParam(name = "rows", required = false, defaultValue = "10") Integer rows,
 					   @RequestParam("sort") String sort,
+					   @RequestParam(name = "catNo", required = false) Integer catNo,
 					   @RequestParam(name = "productNo", required = false) Integer productNo,
 					   @RequestParam("opt") String opt,
 					   @RequestParam("keyword") String keyword,
@@ -129,6 +130,7 @@ public class StoreBoardController {
         if(rows != null) {
         	redirectAttributes.addAttribute("rows", rows);		
         }
+        redirectAttributes.addAttribute("catNo", catNo);
         redirectAttributes.addAttribute("productNo", productNo);
         redirectAttributes.addAttribute("opt", opt);
         redirectAttributes.addAttribute("keyword", keyword);
