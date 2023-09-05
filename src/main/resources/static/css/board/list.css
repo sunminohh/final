@@ -1,5 +1,5 @@
     .table {
-        table-layout: fixed; /* 테이블의 너비를 고정 */
+        table-layout: fixed; 
     }
 
 
@@ -9,7 +9,7 @@
     }
 
     .comment-count {
-        margin-right: 5px; /* 적절한 여백 설정 */
+        margin-right: 5px; 
         color: darkgray;
     }
-    
+   
