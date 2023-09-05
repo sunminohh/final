@@ -224,25 +224,25 @@ $(function() {
                   `
                }
                return `
-                  <tr id="lost-tr">
+                  <tr>
                   `
                   +
                      lostUser
                      +
-                        `<input type="hidden" name="guestEmail" value="${lost.guestEmail}"/>
-                      <td>${lost.no}</td>
-                        <td>${lost.theater.name}</td>
-                        <td style="text-align:left;">
-                           <a class="text-black text-decoration-none"
-                              href="/support/lost/detail?no=${lost.no}"
-                              data-no="${lost.no}">
-                              ${lost.title }
-                           </a>
-                        </td>
-                        <td>${lost.answered == 'Y' ? '답변완료' : '미답변'}</td>
-                        <td>${lost.createDate}</td>
-                    </tr>
-                  `
+                        `<input  type="hidden" name="guestPassword" value="${lost.guestPassword}"/>
+	                      <td>${lost.no}</td>
+	                        <td>${lost.theater.name}</td>
+	                        <td style="text-align:left;">
+	                           <a class="text-black text-decoration-none"
+	                              href="/support/lost/detail?no=${lost.no}"
+	                              data-no="${lost.no}">
+	                              ${lost.title }
+	                           </a>
+	                        </td>
+	                        <td>${lost.answered == 'Y' ? '답변완료' : '미답변'}</td>
+	                        <td>${lost.createDate}</td>
+	                    </tr>
+	                  `
             }).join("\n");
             
             $tbody.html(tbodyHtml);
@@ -251,27 +251,64 @@ $(function() {
       })
    }
    
-     $("#table-lost tbody").on("click", "a", function(event) {
+   $("#table-lost tbody").on("click", "a", function(event) {
       event.preventDefault();
-      const id = $(this).closest('#lost-tr').find("input[name=id]").val();
+      const id = $(this).closest('tr').find("input[name=id]").val();
       const userId = $("input[name=userId]").val(); 
-      const guestEmail = $(this).closest('#lost-tr').find("input[name=guestEmail]").val(); 
+      const guestPassword =  $(this).closest('tr').find("input[name=guestPassword]").val(); 
       
-      if(id !== userId && (userId != null || userId === undefined)){
+      // 로그인한 사람과 게시글의 아이디가 서로 다를 때
+      if(userId && id !== userId){
          Swal.fire({
                 icon: 'warning',
                 text: '다른 사용자의 분실물 문의 내용을 볼 수 없습니다.',
             });
       }
-      if(userId === null || userId === undefined || userId === ""){
-         Swal.fire({
+      
+      // 비회원이다.
+      if(!userId){
+		 // 회원이 작성한 글을 클릭했을 때
+		 if (id != null) {
+			Swal.fire({
                 icon: 'warning',
-                text: '로그인 후 열람 가능합니다.',
-            });
-      }
+                text: '비회원은 회원의 문의 내용을 볼 수 없습니다.',
+            }); 
+		 } else {
+		 
+	         Swal.fire({
+				  title: '게시글 확인',
+				  icon: 'info',
+				  text: '글 작성시 입력한 비밀번호를 입력해주세요.',
+				  input: 'text',
+				  customClass: {
+				    validationMessage: 'my-validation-message'
+				  },
+				  showCancelButton: true,
+				    confirmButtonText: '확인',
+				    showLoaderOnConfirm: true,
+				    cancelButtonText: '취소',
+				    preConfirm: (value) => {
+				      return new Promise((resolve) => {
+				        if (value !== guestPassword) {
+				          Swal.showValidationMessage(
+				            '<i class="fa fa-info-circle"></i> 비밀번호가 일치하지 않습니다. 다시 입력해주세요.'
+				          );
+				          resolve();
+				        } else {
+				          resolve();
+				           let lostNo = $(this).attr("data-no");
+         $("#actionForm input[name=no]").val(lostNo);
+         
+         document.querySelector("#actionForm").submit();
       
+				        }
+				      });
+				    }
+				  });
+		}
+}
       
-      if (id === userId && !(userId === null || userId === undefined || userId === "")){
+      if (id && userId && id === userId){
             
          let lostNo = $(this).attr("data-no");
          $("#actionForm input[name=no]").val(lostNo);
