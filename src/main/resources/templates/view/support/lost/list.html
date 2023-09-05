@@ -69,10 +69,10 @@
                 <th scope="col" style="text-align:center;">등록일</th>
             </tr>
             </thead>
-            <tbody class="lostList">
-               <tr th:each="lost: ${result.lostList}" id="lost-tr">
-                  <input th:if="${lost.user != null} " type="hidden" name="id" th:value="${lost.user.id}"/>
-                  <input type="hidden" name="guestEmail" th:value="${lost.guestEmail}"/>
+            <tbody class="lostList" >
+               <tr th:each="lost: ${result.lostList}">
+                  <input th:if="${lost.user != null}" type="hidden" name="id" th:value="${lost.user.id}"/>
+                  <input type="hidden" name="guestPassword" th:value="${lost.guestPassword}"/>
                   <td th:text="${lost.no}"></td>
                   <td th:text="${lost.theater.name}"></td>
                   <td style="text-align:left;">
