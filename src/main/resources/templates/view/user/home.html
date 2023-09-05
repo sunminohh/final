@@ -3,255 +3,182 @@
       layout:decorate="~{layout/user}">
 <div layout:fragment="content" id="contents">
 
-<!-- my-mgv-main -->
-  <div class="my-mgv-main">
+    <!-- my-mgv-main -->
+    <div class="my-mgv-main">
 
-    <div class="my-mgv-info">
-      <!-- top -->
-      <div class="top2">
-        <!-- <div class="mbclass" id="myPhoto">
-          <div class="wrap">
-            <form name="fileForm" style="display: none;">
-              <input type="file"   name="file">
-              <input type="hidden" name="fileMbNo" value="13709053" />
-            </form>
+        <div class="my-mgv-info">
+            <!-- top -->
+            <div class="top2">
+                <!-- <div class="mbclass" id="myPhoto">
+                  <div class="wrap">
+                    <form name="fileForm" style="display: none;">
+                      <input type="file"   name="file">
+                      <input type="hidden" name="fileMbNo" value="13709053" />
+                    </form>
 
-            <i class="iconset ico-add-photo"></i>
+                    <i class="iconset ico-add-photo"></i>
 
-            <button type="button" class="img">
-              <img src="" alt="" onerror="noImg(this, 'human')" />
-            </button>
-          </div>
+                    <button type="button" class="img">
+                      <img src="" alt="" onerror="noImg(this, 'human')" />
+                    </button>
+                  </div>
 
-        </div> -->
-        <div class="mbimg"><img th:src="@{/images/user/welcome.png}" alt="WELCOME"></div>
-        <div class="mb_name">안녕하세요!<p><span th:text="${user.name}"></span>님</p></div>
-        <div class="link">
-          <a th:href="@{/mypage/auth}">개인정보수정</a>
-        </div>
-       </div>
-      <!--// top -->
-
-      <!-- bottom -->
-      <div class="bottom2">
-        <!-- theater -->
-        <div class="items theater" id="myFaverBrch">
-          <div class="tit-area">
-            <p class="tit">선호하는 극장</p>
-            <a href="#" class="more"><i class="iconset ico-arr-right-gray">변경</i></a>
-          </div>
-
-          <div class="list">
-            <div class="no-list" style="">
-              <span>선호극장</span>을 설정하세요.
+                </div> -->
+                <div class="mbimg"><img th:src="@{/images/user/welcome.png}" alt="WELCOME"></div>
+                <div class="mb_name">안녕하세요!<p><span th:text="${user.name}"></span>님</p></div>
+                <div class="link">
+                    <a th:href="@{/mypage/auth}">개인정보수정</a>
+                </div>
             </div>
-            <ol></ol>
-          </div>
+            <!--// top -->
         </div>
-        <!--// theater -->
+        <!--// my-mgv-info -->
 
-        <!-- coupon -->
-        <div class="items coupon" id="myCoupon">
-          <div class="tit-area">
-            <p class="tit">관람권</p>
-            <a href="#" class="more"><i class="iconset ico-arr-right-gray">더보기</i></a>
-          </div>
+        <!-- column -->
+        <!--<div class="column mt70">
+            &lt;!&ndash; left &ndash;&gt;
+            <div class="col left" id="myStory">
+                <div class="tit-util">
+                    <h2 class="tit small">나의 무비스토리</h2>
 
-          <div class="list">
-            <ul>
-              <li>
-                <span>영화관람권</span>
-                <em>0 매</em>
-              </li>
-              <li>
-                <span>스토어교환권</span>
-                <em>0 매</em>
-              </li>
-              <li>
-                <span>할인/제휴쿠폰</span>
-                <em>0 매</em>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <!--// coupon -->
+                    <div class="right">
+                        <a href="#" class="button gray-line small btn-modal-open" w-data="600" h-data="470">본 영화 등록</a>
+                    </div>
+                </div>
 
-        <!-- 스페셜 멤버십 -->
-        <div class="items special-membership" id="myMembership">
+                <div class="box-border link-movie-story">
+                    <a href="#" title="본 영화 탭으로 이동">
+                        <em>0</em>
+                        <span>본 영화</span>
+                    </a>
 
-          <div class="tit-area">
-            <p class="tit">스페셜 멤버십</p>
-            <a href="/curation/specialcontent" class="more"><i class="iconset ico-arr-right-gray">더보기</i></a>
-          </div>
+                    <a href="#" title="관람평 탭으로 이동">
+                        <em>0</em>
+                        <span>관람평</span>
+                    </a>
 
-          <!-- 스폐셜 가입 안했을 때 -->
-          <div class="no-join">
-            <p class="txt">가입된 스페셜 멤버십이 없습니다.</p>
+                    <a href="#" title="보고싶어 탭으로 이동">
+                        <em>0</em>
+                        <span>보고싶어</span>
+                    </a>
 
-            <a href="/curation/specialcontent">스페셜멤버십</a>
-          </div>
-
-          <!-- <div class="join">
-            <div class="box">
-              <img src="images/2023/01/my_dashboard_so_01.png" alt="filmsociety" />
+                    <a href="#" title="무비포스트 탭으로 이동">
+                        <em>0</em>
+                        <span>무비포스트</span>
+                    </a>
+                </div>
             </div>
-            <div class="box">
-              <img src="images/2023/01/my_dashboard_so_02.png" alt="classic society" />
+            &lt;!&ndash;// left &ndash;&gt;
+
+            &lt;!&ndash; right &ndash;&gt;
+            <div class="col right" id="myFaverInfo">
+                <div class="tit-util">
+                    <h2 class="tit small">선호관람정보</h2>
+
+                    <div class="right">
+                        <a href="#" class="button gray-line small">설정</a>
+                    </div>
+                </div>
+
+                <div class="box-border favor-see">
+                    <ul class="dot-list gray">
+                        <li><span class="font-gblue mr10">내 선호장르</span></li>
+                        <li><span class="font-gblue mr10">내 선호시간</span></li>
+                    </ul>
+                </div>
             </div>
-          </div> -->
-        </div>
-        <!--//스페셜 멤버십 -->
+            &lt;!&ndash;// right &ndash;&gt;
+        </div>-->
+        <!--// column -->
 
-      </div>
-      <!--// bottom -->
-    </div>
-    <!--// my-mgv-info -->
+        <div id="myBokd">
+            <div class="tit-util mt70">
+                <h2 class="tit small">나의 예매내역</h2>
 
-    <!-- column -->
-    <div class="column mt70">
-      <!-- left -->
-      <div class="col left" id="myStory">
-        <div class="tit-util">
-          <h2 class="tit small">나의 무비스토리</h2>
-
-          <div class="right">
-            <a href="#" class="button gray-line small btn-modal-open" w-data="600" h-data="470">본 영화 등록</a>
-          </div>
-        </div>
-
-        <div class="box-border link-movie-story">
-          <a href="#" title="본 영화 탭으로 이동">
-            <em>0</em>
-            <span>본 영화</span>
-          </a>
-
-          <a href="#" title="관람평 탭으로 이동">
-            <em>0</em>
-            <span>관람평</span>
-          </a>
-
-          <a href="#" title="보고싶어 탭으로 이동">
-            <em>0</em>
-            <span>보고싶어</span>
-          </a>
-
-          <a href="#" title="무비포스트 탭으로 이동">
-            <em>0</em>
-            <span>무비포스트</span>
-          </a>
-        </div>
-      </div>
-      <!--// left -->
-
-      <!-- right -->
-      <div class="col right" id="myFaverInfo">
-        <div class="tit-util">
-          <h2 class="tit small">선호관람정보</h2>
-
-          <div class="right">
-            <a href="#" class="button gray-line small">설정</a>
-          </div>
-        </div>
-
-        <div class="box-border favor-see">
-          <ul class="dot-list gray">
-            <li><span class="font-gblue mr10">내 선호장르</span></li>
-            <li><span class="font-gblue mr10">내 선호시간</span></li>
-          </ul>
-        </div>
-      </div>
-      <!--// right -->
-    </div>
-    <!--// column -->
-
-    <div id="myBokd">
-      <div class="tit-util mt70">
-        <h2 class="tit small">나의 예매내역</h2>
-
-        <a href="#" class="more">더보기 <i class="iconset ico-arr-right-gray"></i></a>
-      </div>
-
-      <!-- my-reserve-history -->
-      <div class="my-reserve-history">
-        <ul>
-          <li class="no-result">
-            <!--todo if문 -->
-            <div class="no-history-reservation">
-              예매 내역이 없습니다.
+                <a href="#" class="more">더보기 <i class="iconset ico-arr-right-gray"></i></a>
             </div>
-          </li>
-        </ul>
-      </div>
-      <!--// my-reserve-history -->
+
+            <!-- my-reserve-history -->
+            <div class="my-reserve-history">
+                <ul>
+                    <li class="no-result">
+                        <!--todo if문 -->
+                        <div class="no-history-reservation">
+                            예매 내역이 없습니다.
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <!--// my-reserve-history -->
+        </div>
+
+        <div id="myPurc">
+            <div class="tit-util mt70">
+                <h2 class="tit small">나의 구매내역</h2>
+
+                <a href="#" class="more">더보기 <i class="iconset ico-arr-right-gray"></i></a>
+            </div>
+
+            <div class="table-wrap">
+                <table class="board-list line">
+                    <caption>나의 구매내역 요약 표</caption>
+                    <colgroup>
+                        <col style="width:160px;">
+                        <col style="width:140px;">
+                        <col>
+                        <col style="width:120px;">
+                        <col style="width:80px;">
+                    </colgroup>
+                    <tbody>
+                    <tr>
+                        <!--todo if 문-->
+                        <td colspan="6" class="a-c">구매내역이 없습니다.</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- column -->
+        <div class="column mt70">
+            <!-- left -->
+            <!--<div class="col left" id="mySbsc">
+                <div class="tit-util">
+                    <h2 class="tit small">참여이벤트</h2>
+                    <a href="#" class="more" title="참여이벤트 더보기">더보기 <i class="iconset ico-arr-right-gray"></i></a>
+                </div>
+
+                <div class="brd-list">
+                    <ul>
+                        &lt;!&ndash;todo if 문&ndash;&gt;
+                        <li class="no-result">
+                            참여한 이벤트가 없습니다.
+                        </li>
+                    </ul>
+                </div>
+            </div>-->
+            <!--// left -->
+
+            <!-- right -->
+            <div class="col" id="myInq">
+                <div class="tit-util">
+                    <h2 class="tit small">문의내역</h2>
+
+                    <a href="#" class="more" title="문의내역 더보기">더보기 <i class="iconset ico-arr-right-gray"></i></a>
+                </div>
+
+                <div class="brd-list">
+                    <ul>
+                        <li class="no-result">
+                            문의내역이 없습니다.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!--// right -->
+        </div>
+        <!--// column -->
     </div>
-
-    <div id="myPurc">
-      <div class="tit-util mt70">
-        <h2 class="tit small">나의 구매내역</h2>
-
-        <a href="#" class="more">더보기 <i class="iconset ico-arr-right-gray"></i></a>
-      </div>
-
-      <div class="table-wrap">
-        <table class="board-list line">
-          <caption>나의 구매내역 요약 표</caption>
-          <colgroup>
-            <col style="width:160px;">
-            <col style="width:140px;">
-            <col>
-            <col style="width:120px;">
-            <col style="width:80px;">
-          </colgroup>
-          <tbody>
-          <tr>
-            <!--todo if 문-->
-            <td colspan="6" class="a-c">구매내역이 없습니다.</td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- column -->
-    <div class="column mt70">
-      <!-- left -->
-      <div class="col left" id="mySbsc">
-        <div class="tit-util">
-          <h2 class="tit small">참여이벤트</h2>
-          <a href="#" class="more" title="참여이벤트 더보기">더보기 <i class="iconset ico-arr-right-gray"></i></a>
-        </div>
-
-        <div class="brd-list">
-          <ul>
-            <!--todo if 문-->
-            <li class="no-result">
-              참여한 이벤트가 없습니다.
-            </li>
-          </ul>
-        </div>
-      </div>
-      <!--// left -->
-
-      <!-- right -->
-      <div class="col right" id="myInq">
-        <div class="tit-util">
-          <h2 class="tit small">문의내역</h2>
-
-          <a href="#" class="more" title="문의내역 더보기">더보기 <i class="iconset ico-arr-right-gray"></i></a>
-        </div>
-
-        <div class="brd-list">
-          <ul>
-            <li class="no-result">
-              문의내역이 없습니다.
-            </li>
-          </ul>
-        </div>
-      </div>
-      <!--// right -->
-    </div>
-    <!--// column -->
-  </div>
-  <!--// my-mgv-main -->
+    <!--// my-mgv-main -->
 </div>
 </html>
