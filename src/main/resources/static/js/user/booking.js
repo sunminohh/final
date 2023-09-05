@@ -1,6 +1,4 @@
 $(() => {
-    $('.tab-cont').hide(); // 모든 탭 컨텐츠 숨기기
-    $('#booking-tab').show(); // 예매 탭 컨텐츠만 보이기
 
     $('.tab-block a').click(function (e) {
         e.preventDefault(); // 기본 링크 동작을 막기
@@ -15,6 +13,7 @@ $(() => {
         $('.tab-block li').removeClass('on'); // 모든 탭 버튼 비활성화
         $(this).parent('li').addClass('on'); // 클릭된 탭 버튼만 활성화
     });
+
 
     function setDateRange(period) {
         const endDate = new Date();
@@ -102,12 +101,25 @@ $(() => {
                     $pagination.empty();
                 } else {
                     $.each(purchases, function (index, purchase) {
+                        let actionCellContent;
+                        let priceFormatted = purchase.price % 1000 === 0 ? new Intl.NumberFormat('ko-KR').format(purchase.price) : purchase.price;
+
+                        let statusClass = '';
+                        if (purchase.status === 'P') {
+                            actionCellContent = `<button type="button" class="button gray-line small btnCancelPruc" data-purchase-no="${purchase.no}">구매취소</button>`;
+                            statusClass = 'font-gblue';
+                        } else {
+                            actionCellContent = '결제취소';
+                            statusClass = 'font-red';
+                        }
+
                         $tbody.append(`
                         <tr>
                             <td>${moment(purchase.purchaseDate).format("yyyy-MM-DD")}</td>
                             <td>${purchase.product.name}</td>
-                            <td>${purchase.price % 1000 === 0 ? new Intl.NumberFormat('ko-KR').format(purchase.price) : purchase.price}</td>
-                            <td>${purchase.status === 'P' ? '구매' : '취소'}</td>
+                            <td class="${statusClass}">${priceFormatted}</td>
+                            <td>${actionCellContent}</td>
+                            
                         </tr>
                         `);
                     });
@@ -121,7 +133,41 @@ $(() => {
         });
     }
 
+    $(document).on('click', '.btnCancelPruc', function () {
+        let purchaseNo = $(this).attr("data-purchase-no");
+        Swal.fire({
+            icon: 'warning',
+            text: "구매취소 하시겠습니까?",
+            showCancelButton: true,
+            confirmButtonColor: '확인',
+            cancelButtonText: '취소',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '/mypage/purchase/cancel',
+                    type: "POST",
+                    data: {"no": purchaseNo},
+                    success: function () {
+                        Swal.fire({
+                            icon: 'success',
+                            title: '취소 완료',
+                            text: '구매취소 되었습니다.'
+                        });
+                        searchPurchase();
+                    },
+                    error: function (error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: '오류 발생',
+                            text: error.responseText
+                        })
+                    }
+                })
+            }
+        })
+    })
 })
+
 
 // datepicker 설정
 $(() => {
