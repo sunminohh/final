@@ -958,24 +958,8 @@
                             <div class="tit-util">
                                 <h3 class="tit small"> 관람인원선택</h3>
                                 <div class="right">
-                                    <button type="button" class="button gray-line small" id="updateSeats">
-                                        <i class="iconset ico-reset-small"></i>데이터전송 </button>
-                                </div>
-                                <div class="right">
                                     <button type="button" class="button gray-line small" id="clearChoice">
                                         <i class="iconset ico-reset-small"></i>초기화 </button>
-                                </div>
-                                <div class="right">
-                                    <button type="button" class="button gray-line small" id="emptySeat">
-                                        <i class="iconset ico-reset-small"></i>좌석지우기 </button>
-                                </div>
-                                <div class="right">
-                                    <button type="button" class="button gray-line small" id="seatSoftReset">
-                                        <i class="iconset ico-reset-small"></i>소프트리셋(변경사항취소) </button>
-                                </div>
-                                <div class="right">
-                                    <button type="button" class="button gray-line small" id="seatHardReset">
-                                        <i class="iconset ico-reset-small"></i>하드리셋(DB내 빈좌석 전부삭제) </button>
                                 </div>
                             </div>
                             <div class="seat-area">
@@ -985,10 +969,10 @@
                                         <div class="count">
                                             <button type="button" class="down" title="성인 좌석 선택 감소">-</button>
                                             <div class="number">
-                                                <button type="button" class="now" title="성인 현재 좌석 선택 수" ticketgrpcd="TKA">0</button>
+                                                <button type="button" id="adult-tickets" class="now" title="성인 현재 좌석 선택 수" ticketgrpcd="TKA">0</button>
                                                 <ul class="num-choice">
                                                     <li>
-                                                        <button type="button" class="btn on">0</button>
+                                                        <button  type="button" class="btn on">0</button>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -1000,7 +984,7 @@
                                         <div class="count">
                                             <button type="button" class="down" title="청소년 좌석 선택 감소">-</button>
                                             <div class="number">
-                                                <button type="button" class="now" title="청소년 현재 좌석 선택 수" ticketgrpcd="TKY">0</button>
+                                                <button type="button" id="underage-tickets" class="now" title="청소년 현재 좌석 선택 수" ticketgrpcd="TKY">0</button>
                                                 <ul class="num-choice">
                                                     <li>
                                                         <button type="button" class="btn on">0</button>
@@ -1113,7 +1097,7 @@
                                     <div class="pay">
                                         <p class="tit">최종결제금액</p>
                                         <div class="money">
-                                            <em>0</em>
+                                            <em id="tickets-total-price">0</em>
                                             <span>원</span>
                                         </div>
                                     </div>
