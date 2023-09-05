@@ -31,4 +31,6 @@ public class UserJoinForm {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd", iso = DateTimeFormat.ISO.DATE)
     private LocalDate birth;
+
+    private String kakaoYn = "N";
 }

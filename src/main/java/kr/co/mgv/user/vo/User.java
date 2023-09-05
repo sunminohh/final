@@ -23,7 +23,6 @@ import java.util.List;
 public class User implements UserDetails {
     
     private String id;
-    @JsonIgnore
     private String password;
     private String name;
     private String email;
@@ -33,13 +32,14 @@ public class User implements UserDetails {
     private Date createDate;
     private Date updateDate;
     private Date pwdUpdateDate;
+    private String kakaoYn;
     private String disabled;
     private String reason;
     private List<String> roleName;
 
     @Builder
     public User(String id, String email, String password, String name, LocalDate birth, Date createDate,
-               String zipcode, String address, Date updateDate, Date pwdUpdateDate, String disabled, String reason, List<String> roleName) {
+               String zipcode, String address, Date updateDate, Date pwdUpdateDate, String kakaoYn, String disabled, String reason, List<String> roleName) {
         super();
         this.id = id;
         this.email = email;
@@ -51,6 +51,7 @@ public class User implements UserDetails {
         this.createDate = createDate;
         this.updateDate = updateDate;
         this.pwdUpdateDate = pwdUpdateDate;
+        this.kakaoYn = kakaoYn;
         this.disabled = disabled;
         this.reason = reason;
         this.roleName = roleName;

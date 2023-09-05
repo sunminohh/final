@@ -3,9 +3,9 @@
 <mapper namespace="kr.co.mgv.user.dao.AuthenticationDao">
     <insert id="insertUser" parameterType="User">
         insert into MGV_USER
-            (user_id, user_password, user_name, user_email, user_birth)
+            (user_id, user_password, user_name, user_email, user_birth, user_kakao_yn)
         values
-            (#{id}, #{password}, #{name}, #{email}, #{birth})
+            (#{id}, #{password}, #{name}, #{email}, #{birth}, #{kakaoYn})
     </insert>
 
     <select id="getUserById" parameterType="string" resultType="User">
@@ -16,6 +16,7 @@
             user_birth              as birth,
             user_email              as email,
             user_disabled           as disabled,
+            user_kakao_yn           as kakaoYn,
             user_create_date        as createDate,
             user_update_date        as updateDate,
             role_name               as roleName
@@ -34,6 +35,7 @@
             user_name                   as name,
             user_birth                  as birth,
             user_email                  as email,
+            user_kakao_yn               as kakaoYn,
             user_create_date            as createDate,
             user_update_date            as updateDate
         from
