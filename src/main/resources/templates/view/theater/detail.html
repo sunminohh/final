@@ -229,6 +229,76 @@
 							</div>
 						</div>
 					</div>
+					<div class="tit-util mt70 mb15">
+				<h3 class="tit">극장 공지사항</h3>
+				<a th:href="@{/support/notice}" class="more" title="극장 공지사항 더보기">더보기
+					<i class="iconset ico-arr-right-gray"></i>
+				</a>
+			</div>
+			<div class="table-wrap">
+				<table class="board-list">
+					<caption>극장, 제목, 지역, 등록일이 들어간 극장 공지사항 목록</caption>
+					<colgroup>
+						<col style="width: 150px;">
+						<col>
+						<col style="width: 150px;">
+						<col style="width: 120px;">
+					</colgroup>
+					<thead>
+						<tr>
+							<th scope="col">극장</th>
+							<th scope="col">제목</th>
+							<th scope="col">지역</th>
+							<th scope="col">등록일</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>수원AK플라자(수원역)</td>
+							<th scope="row"><a
+								th:href="@{/support/notice/detail(noticeNo='1')}"
+								title="[수원AK플라자] 주차장 이용 안내 상세보기"> [수원AK플라자] 주차장 이용 안내 </a></th>
+							<td>경기</td>
+							<td>2023.07.26</td>
+						</tr>
+						<tr>
+							<td>수원AK플라자(수원역)</td>
+							<th scope="row"><a
+								th:href="@{/support/notice/detail(noticeNo='1')}"
+								title="[수원AK플라자] 극장 도보 이용 안내 상세보기"> [수원AK플라자] 극장 도보 이용 안내 </a></th>
+							<td>경기</td>
+							<td>2023.07.26</td>
+						</tr>
+						<tr>
+							<td>대전신세계 아트앤사이언스</td>
+							<th scope="row"><a
+								th:href="@{/support/notice/detail(noticeNo='1')}"
+								title="[대전신세계 아트앤사이언스]시사회 진행에 따른 고객 안내문(7/27) 상세보기"> [대전신세계
+									아트앤사이언스]시사회 진행에 따른 고객 안내문(7/27) </a></th>
+							<td>대전/충청/세종</td>
+							<td>2023.07.26</td>
+						</tr>
+						<tr>
+							<td>코엑스</td>
+							<th scope="row"><a
+								th:href="@{/support/notice/detail(noticeNo='1')}"
+								title="[코엑스] 시사회 진행에 따른 고객 안내문 (7/27) 상세보기"> [코엑스] 시사회 진행에
+									따른 고객 안내문 (7/27) </a></th>
+							<td>서울</td>
+							<td>2023.07.25</td>
+						</tr>
+						<tr>
+							<td>수원남문</td>
+							<th scope="row"><a
+								th:href="@{/support/notice/detail(noticeNo='1')}"
+								title="[수원남문] 공무원 할인 종료 안내(~7/31까지) 상세보기"> [수원남문] 공무원 할인 종료
+									안내(~7/31까지) </a></th>
+							<td>경기</td>
+							<td>2023.07.24</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 				</div>
 				<!-- /탭01번 -->
 				<div id="tab02" class="tab-cont ">
