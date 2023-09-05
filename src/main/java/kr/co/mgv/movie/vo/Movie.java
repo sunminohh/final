@@ -8,7 +8,10 @@ import lombok.Setter;
 import lombok.ToString;
 import org.apache.ibatis.type.Alias;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Setter
@@ -77,6 +80,9 @@ public class Movie {
             return 0;
         }
         return (double) score/scoreGiver;
+    }
+    public List<String> getActors(){
+        return Arrays.stream(cast.split(", ")).collect(Collectors.toList());
     }
     @Builder
 	public Movie(int no, double rating, int chartRank, int rankInten, int audiCnt, String title, String titleEng,
