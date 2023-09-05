@@ -25,9 +25,11 @@ import lombok.RequiredArgsConstructor;
 public class TheaterController {
 
 	private final TheaterService theaterService;
+
 	
     @GetMapping({"/", "", "/list"})
     public String home() {
+    	
         return "view/theater/home";
     }
 
