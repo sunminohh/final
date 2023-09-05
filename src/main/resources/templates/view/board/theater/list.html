@@ -30,7 +30,7 @@
 							<input type="hidden" name="theaterNo" th:value="${param.theaterNo }" />
 							<input type="hidden" name="locationNo" th:value="${param.locationNo }" />
                             <div class="col-12 ">
-                                <select class="form-select form-select-sm  form-control-sm" name="opt" th:value="${param.opt}">
+                                <select class="form-select form-select-sm  form-control-sm " name="opt" th:value="${param.opt}" style="border-radius: 15px">
                                     <option value="" disabled> 검색옵션</option>
                                     <option class="opt-select"
                                     		th:value="title"
@@ -54,11 +54,15 @@
                                     </option>
                                 </select>
                             </div>
-                            <div class="col-12">
-                                <input type="text" style="width: 140px;" class="form-control form-control-sm" name="keyword" th:value="${param.keyword}"/>
+                            <div class="col-12  ps-0">
+                                <input type="text" style="width: 140px; border-radius: 15px;" class="form-control form-control-sm" name="keyword" th:value="${param.keyword}" />
                             </div>
-                            <div class="col-12">
-                                <button type="button" class="btn btn-outline-dark btn-sm" onclick="searchBoard()">검색</button>
+                            <div class="col-12 ps-0">
+                                <button type="button" id="search-btn" class="btn btn-sm" onclick="searchBoard()" style=" border-radius: 100%; background-color:#058eab7a; border-color:#058eab7a; color: white;">
+                                	<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+								  		<path  d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+								  	</svg>
+								 </button>
                             </div>
                         </form>
                     </div>
@@ -113,7 +117,6 @@
 
             </div>
             <hr class="mt-5 mb-0">
-
             <table class="table table-sm" id="table-Tboard">
                 <colgroup>
                     <col width="5%">
@@ -163,7 +166,7 @@
             </div>
 
 
-            <nav th:if="${result.pagination.totalRows > 0}">
+            <nav th:if="${result.pagination.totalRows > 0}" >
 				<ul class="pagination justify-content-center">
 				    <li class="page-item" th:if="${result.pagination.currentBlock > 1}">
 				        <a title="첫번째 페이지 보기"
@@ -199,7 +202,6 @@
 				    
 				</ul>
             </nav>
-
         </div>
     </div>
 </div>

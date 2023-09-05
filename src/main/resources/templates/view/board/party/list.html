@@ -30,7 +30,7 @@
 							<input type="hidden" name="locationNo" th:value="${param.locationNo }" />
 							<input type="hidden" name="complete" th:value="${param.complete }" />
                             <div class="col-12 ">
-                                <select class="form-select form-select-sm form-control-sm" name="opt" th:value="${param.opt}">
+                                <select class="form-select form-select-sm form-control-sm" name="opt" th:value="${param.opt}"  style="border-radius: 15px">
                                     <option value="" disabled> 검색옵션</option>
                                     <option class="opt-select"
                                     		th:value="movieTitle"
@@ -59,11 +59,15 @@
                                     </option>
                                 </select>
                             </div>
-                            <div class="col-12">
-                                <input type="text" class="form-control form-control-sm" name="keyword" th:value="${param.keyword}" style="width: 140px;"/>
+                            <div class="col-12 ps-0">
+                                <input type="text" class="form-control form-control-sm" name="keyword" th:value="${param.keyword}" style="width: 140px; border-radius: 15px"/>
                             </div>
-                            <div class="col-12">
-                                <button type="button" class="btn btn-outline-dark btn-sm" onclick="searchBoard()">검색</button>
+                            <div class="col-12 ps-0">
+                                 <button type="button" id="search-btn" class="btn btn-sm" onclick="searchBoard()" style=" border-radius: 100%; background-color:#058eab7a; border-color:#058eab7a; color: white;">
+                                	<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+								  		<path  d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+								  	</svg>
+								 </button>
                             </div>
                         </form>
                     </div>
@@ -129,7 +133,7 @@
             </div>
             <hr class="mt-5 mb-0 pb-0" >
 
-			<table class="table table-sm" id="table-Pboard">
+			<table class="table table-sm" id="table-Pboard" >
 			    <colgroup>
 			        <col width="5%">
 			        <col width="50%">
@@ -166,14 +170,14 @@
 			            </td>
 						<td class="fw-light">
 						    <div class="selected-movie-info-box pe-2 pt-2 border" 
-						    	 style="border-radius: 7px; border-color:rgb(212, 212, 212); background-color: rgb(212, 212, 212); width:147px; height: 23px;"
+						    	 style="border-radius: 7px; border-color:rgb(255, 250, 238); background-color:white; height: 23px; width:147px; "
 						    	 th:if="${#strings.equals(board.complete, 'Y')}">
-						        <p class="ms-2" style="color:rgb(64, 44, 27); font-size: 10px; margin-top: -3px;"  th:text="${board.schedule.date + ' ' + board.schedule.start + ' ' + (board.gender == 'N' ? '남/여' : (board.gender == 'W' ? '여' : '남')) + ' ' + board.headCount + '명'}">2023-08-23 18:00 남/여 2</p>
+						        <p class="ms-2" style="color:rgb(216, 216, 216); font-size: 10px; margin-top: -3px;"  th:text="${board.schedule.date + ' ' + board.schedule.start + ' ' + (board.gender == 'N' ? '남/여' : (board.gender == 'W' ? '여' : '남')) + ' ' + board.headCount + '명'}">2023-08-23 18:00 남/여 2</p>
 						    </div>
 						    <div class="selected-movie-info-box pe-2 pt-2 border" 
-						    	 style="border-radius: 7px; border-color:rgb(254, 243, 220); background-color:rgb(254, 243, 220); width:147px; height: 23px;"
+						    	 style="border-radius: 7px; border-color:rgb(232, 232, 232); background-color: rgb(232, 232, 232); width:147px; height: 23px;"
 						    	 th:if="${#strings.equals(board.complete, 'N')}">
-						        <p class="ms-2" style="color:rgb(64, 44, 27); font-size: 10px; margin-top: -3px;"  th:text="${board.schedule.date + ' ' + board.schedule.start + ' ' + (board.gender == 'N' ? '남/여' : (board.gender == 'W' ? '여' : '남')) + ' ' + board.headCount + '명'}">2023-08-23 18:00 남/여 2</p>
+						        <p class="ms-2" style="color:rgb(115, 115, 115); font-size: 10px; margin-top: -3px;"  th:text="${board.schedule.date + ' ' + board.schedule.start + ' ' + (board.gender == 'N' ? '남/여' : (board.gender == 'W' ? '여' : '남')) + ' ' + board.headCount + '명'}">2023-08-23 18:00 남/여 2</p>
 						    </div>
 						</td>
 	                    <td class="fw-light" th:text="${board.user.id}">작성자아이디</td>
