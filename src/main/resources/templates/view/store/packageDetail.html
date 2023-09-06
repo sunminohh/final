@@ -5,6 +5,7 @@
 <head th:fragment="extra-head-content">
     <title>스토어</title>
     <script src="/js/store/packageDetail.js"></script>
+    <script src="https://js.tosspayments.com/v1"></script>
 </head>
 <body>
     <div layout:fragment="content" id="content">
@@ -103,16 +104,17 @@
                                            title="구매" style="padding-left: 130px; padding-right: 130px;">구매</a>
                                         <!-- 회원 -->
                                         <form id="addPackageIntoCart" method="post">
+                                            <input type="hidden" id="package-name" th:value="${package.getName()}">
                                             <input type="hidden" name="totalDiscountedPrice" id="totalDiscountedPrice" value="">
                                             <input type="hidden" name="totalOriginalPrice" id="totalOriginalPrice" value="">
                                             <input type="hidden" name="userId" id="userId"  th:if="${#authorization.expression('isAuthenticated()')}" th:value="${#authentication.principal.id}">
                                             <input type="hidden" name="packageNo" id="packageNo" th:value="${package.getNo()}">
+                                            <input type="hidden" name="catNo" id="catNo" th:value="${package.getCategory().getNo()}">
                                             <input type="hidden" name="packageAmount" id="packageAmount" value="">
                                         </form>
                                         <a sec:authorize="isAuthenticated()" href="/cart" id="btnCart-user" class="button large btnCart-user" w-data="500" h-data="410"
                                            title="장바구니" style="padding-left: 110px; padding-right: 110px;" type="submit">장바구니</a>
-                                        <a sec:authorize="isAuthenticated()" href="#" id="btnPurc-user" class="button purple large btnPurchase-user" w-data="500" h-data="410"
-                                           title="구매" style="padding-left: 130px; padding-right: 130px;" type="submit">구매</a>
+                                        <button sec:authorize="isAuthenticated()" type="button" id="btn-tosspay" class="button purple large btnPurchase-user" w-data="500" h-data="410" style="padding-left: 130px; padding-right: 130px;">구매</button>
                                     </div>
                                 </div>
                                 <!--// right -->

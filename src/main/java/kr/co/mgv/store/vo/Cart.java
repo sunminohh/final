@@ -24,5 +24,5 @@ public class Cart {
     private int totalOriginalPrice;
     private Date insertDate;
     private String paymentStatus;
-
+    private int catNo;
 }

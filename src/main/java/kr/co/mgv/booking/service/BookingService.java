@@ -1,5 +1,7 @@
 package kr.co.mgv.booking.service;
 
+import kr.co.mgv.booking.dao.BookingDao;
+import kr.co.mgv.booking.vo.Booking;
 import kr.co.mgv.schedule.dao.ScheduleDao;
 import kr.co.mgv.schedule.dto.BookingScheduleDto;
 import kr.co.mgv.schedule.dto.DailyScheduleDto;
@@ -15,9 +17,9 @@ import java.util.Map;
 @AllArgsConstructor
 public class BookingService {
 
-        ScheduleDao scheduleDao;
-        TheaterService theaterService;
-
+       private ScheduleDao scheduleDao;
+       private TheaterService theaterService;
+       private BookingDao bookingDao;
         public Map<String, Integer> isElementClassActive(String date){
             Map<String,Integer> map= new HashMap<>();
 
@@ -33,5 +35,8 @@ public class BookingService {
             return scheduleDao.getBookingSchedules(params);
         }
 
+        public void insertBooking(Booking booking){
+            bookingDao.insertBooking(booking);
+        }
 
 }

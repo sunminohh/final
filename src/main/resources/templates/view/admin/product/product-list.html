@@ -35,9 +35,9 @@
 										<td></td>
 										<td th:text="${product.getNo()}"></td>
 										<td th:text="${product.getName()}"></td>
-										<td th:text="${product.getPrice()}"></td>
+										<td th:text="${product.getDiscountedPrice()}"></td>
 										<td th:text="${product.getSoldOut()}"></td>
-										<td th:text="${product.getCatNo()}"></td>
+										<td th:text="${product.getCategory().getNo()}"></td>
 										<td th:text="${product.getCreateDate()}"></td>
 									</tr>
 								</tbody>

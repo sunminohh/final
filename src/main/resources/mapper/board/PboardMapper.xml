@@ -228,7 +228,7 @@
   				and (A.board_name like  CONCAT('%', #{keyword}, '%') or A.board_content like  CONCAT('%', #{keyword}, '%'))
   			</when>
   			<when test="opt == 'writer'">
-  				and A.member_id like  CONCAT('%', #{keyword}, '%')
+  				and A.user_id like  CONCAT('%', #{keyword}, '%')
   			</when>
   		</choose>
   		<choose>
