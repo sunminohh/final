@@ -104,6 +104,7 @@
                                                 <input type="hidden" name="totalOriginalPrice" id="totalOriginalPrice" value="">
                                                 <input type="hidden" name="userId" id="userId"  th:if="${#authorization.expression('isAuthenticated()')}" th:value="${#authentication.principal.id}">
                                                 <input type="hidden" name="productNo" id="productNo" th:value="${product.getNo()}">
+                                                <input type="hidden" name="catNo" id="catNo" th:value="${product.getCategory().getNo()}">
                                                 <input type="hidden" name="productAmount" id="productAmount" value="">
                                             </form>
                                             <a sec:authorize="isAuthenticated()" href="/cart" id="btnCart-user" class="button large btnCart-user" w-data="500" h-data="410"

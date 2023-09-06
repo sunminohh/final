@@ -61,13 +61,15 @@ $(function() {
             const userId = $("#userId").val();
             const productNo = $("#productNo").val();
             const productAmount = $("#productAmount").val();
+            const catNo = $("#catNo").val();
 
             const requestData = {
                 totalDiscountedPrice: totalDiscountedPrice,
                 totalOriginalPrice: totalOriginalPrice,
                 userId: userId,
                 productNo: productNo,
-                productAmount: productAmount
+                productAmount: productAmount,
+                catNo: catNo
             };
 
             $.ajax({
