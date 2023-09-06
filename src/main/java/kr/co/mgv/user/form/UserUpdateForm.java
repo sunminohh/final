@@ -24,4 +24,14 @@ public class UserUpdateForm {
     private String zipcode;
     private String address;
     private String reason;
+
+    public UserUpdateForm(MultipartFile file, String checkPassword, String newPassword, String email, String zipcode, String address, String reason) {
+        this.file = file;
+        this.checkPassword = checkPassword;
+        this.newPassword = newPassword;
+        this.email = email;
+        this.zipcode = zipcode;
+        this.address = address;
+        this.reason = reason;
+    }
 }

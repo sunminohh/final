@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 @Controller
@@ -90,11 +91,24 @@ public class UserController {
         }
     }
 
-/*    @PostMapping("/upload")
+    @PostMapping("/upload")
     public String updateUploadImg(@AuthenticationPrincipal User user, UserUpdateForm form) {
-        userService.updateUser(user.getId(), form.getImgFile());
+        userService.updateUploadProfile(user.getId(), form.getFile());
+        log.info("Controller - inputFileName -> {}", form.getFile());
         return "redirect:/mypage/form";
-    }*/
+    }
+
+    @PostMapping("/deleteImg")
+    @ResponseBody
+    public ResponseEntity<?> deleteImg(@AuthenticationPrincipal User user, String file) {
+        try {
+            userService.deleteProfileImg(user.getId(), file);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("서버 에러", e);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     // 비밀번호 변경
     @GetMapping("/update/password")
