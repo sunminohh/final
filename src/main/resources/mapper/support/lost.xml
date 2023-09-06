@@ -185,7 +185,7 @@
 			A.THEATER_NO 			as "theater.no",
 			C.theater_name			as "theater.name",
 			A.user_email			as "user.email",
-			A.user_id			as "user.id",
+			A.user_id				as "user.id",
 			A.LOST_GUEST_EMAIL		as guestEmail
 		FROM 
 			MGV_SUPPORT_LOST A, MGV_LOCATION B , MGV_THEATERS C
