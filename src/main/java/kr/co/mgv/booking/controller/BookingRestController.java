@@ -1,6 +1,7 @@
 package kr.co.mgv.booking.controller;
 
 import kr.co.mgv.booking.service.BookingService;
+import kr.co.mgv.booking.vo.Booking;
 import kr.co.mgv.schedule.dto.BookingScheduleDto;
 import kr.co.mgv.theater.dto.SeatsDto;
 import kr.co.mgv.theater.service.TheaterService;
@@ -8,6 +9,7 @@ import kr.co.mgv.theater.vo.DisabledSeat;
 import kr.co.mgv.user.vo.User;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -69,8 +71,16 @@ public class BookingRestController {
             return null;
         }
         @PostMapping("/bookingPay")
-    public Object bookingPay(@RequestBody Map<String,String> params){
-        log.info("price ->{}",params.get("finalPrice"));
-        return params.toString();
+    public ResponseEntity<Booking> bookingPay(@RequestBody Booking booking, @AuthenticationPrincipal User user){
+        booking.setUserId(user.getId());
+        booking.setUserName(user.getName());
+        try{
+            bookingService.insertBooking(booking);
+            return ResponseEntity.ok(booking);
+        }catch (Exception e){
+            log.info(e.getMessage());
+            return (ResponseEntity<Booking>) ResponseEntity.badRequest();
+        }
+
         }
 }

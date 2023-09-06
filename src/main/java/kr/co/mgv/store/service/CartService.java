@@ -29,4 +29,8 @@ public class CartService {
         cartMapper.deleteCart(cartNo);
     }
 
+    public void deleteCartByUserId(String userId) {
+        cartMapper.deleteCartByUserId(userId);
+    }
+
 }
