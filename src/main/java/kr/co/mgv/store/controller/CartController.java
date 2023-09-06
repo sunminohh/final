@@ -66,6 +66,7 @@ public class CartController {
         int totalOriginalPrice = Integer.parseInt(request.getParameter("totalOriginalPrice"));
         int packageNo = Integer.parseInt(request.getParameter("packageNo"));
         int packageAmount = Integer.parseInt(request.getParameter("packageAmount"));
+        int catNo = Integer.parseInt(request.getParameter("catNo"));
 
         List<Cart> items = cartService.getCartItemsByUserId(user.getId());
 
@@ -99,6 +100,7 @@ public class CartController {
             cart.setUser(user);
             cart.setPkg(new Package(packageNo));
             cart.setAmount(packageAmount);
+            cart.setCatNo(catNo);
 
             cartService.insertCart(cart);
         }
@@ -115,6 +117,7 @@ public class CartController {
         int totalOriginalPrice = Integer.parseInt(request.getParameter("totalOriginalPrice"));
         int productNo = Integer.parseInt(request.getParameter("productNo"));
         int productAmount = Integer.parseInt(request.getParameter("productAmount"));
+        int catNo = Integer.parseInt(request.getParameter("catNo"));
 
         List<Cart> items = cartService.getCartItemsByUserId(user.getId());
 
@@ -148,6 +151,7 @@ public class CartController {
             cart.setUser(user);
             cart.setProduct(new Product(productNo));
             cart.setAmount(productAmount);
+            cart.setCatNo(catNo);
 
             cartService.insertCart(cart);
         }

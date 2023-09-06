@@ -8,6 +8,12 @@ spring:
     username: ENC(9XDA7hCZmrSpgSMOeKNU1HcluBP0iYxE)
     password: ENC(LHl89g5NCgKgbPOU1S67Wbu5vFvDpZjC)
     driver-class-name: com.mysql.cj.jdbc.Driver
+  servlet:
+    multipart:
+      max-file-size: 10485760
+      max-request-size: 104857600
+          
+        
 
 ## email setting
   mail:

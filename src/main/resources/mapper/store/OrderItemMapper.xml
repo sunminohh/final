@@ -4,14 +4,15 @@
     <insert id="insertOrderItem" parameterType="OrderItem">
         INSERT INTO MGV_ORDER_ITEM
         (
-         PRODUCT_NO,
-         PRODUCT_AMOUNT,
-         PRODUCT_PRICE,
-         PACKAGE_NO,
-         PACKAGE_AMOUNT,
-         PACKAGE_PRICE,
-         ORDER_NO
+            ORDER_ID,
+            CAT_NO,
+            PRODUCT_NO,
+            PRODUCT_AMOUNT,
+            PRODUCT_PRICE,
+            PACKAGE_NO,
+            PACKAGE_AMOUNT,
+            PACKAGE_PRICE
         ) VALUES
-              (#{productNo},#{productAmount},#{productPrice},#{packageNo}, #{packageAmount}, #{packagePrice}, #{orderNo})
+              (#{orderId}, #{catNo}, #{productNo}, #{productAmount}, #{productPrice}, #{packageNo}, #{packageAmount}, #{packagePrice})
     </insert>
 </mapper>

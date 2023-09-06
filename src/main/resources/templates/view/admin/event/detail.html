@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/admin}">
+<head th:fragment="extra-head-content">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<div id="contents" layout:fragment="content" style="margin-top: -40px;">
+    <h2 class="tit">이벤트</h2>
+
+        <div class="table-wrap mt30">
+            <div class="board-view">
+            <div class="tit-area">
+                <p class="tit" th:text="${event.title}"></p>
+            </div>
+
+            <div class="info">
+                <p>
+                    <span class="tit">카테고리</span>
+				   	<span class="txt" th:text="${event.category.name}"></span>
+                </p>
+                <p>
+                    <span class="tit">시작일</span>
+				   	<span class="txt" th:text="${#dates.format(event.startDate, 'yyyy.MM.dd')}"></span>
+				</p>
+                <p>
+                	<span class="tit">종료일</span>
+                    <span class="txt" th:text="${#dates.format(event.endDate, 'yyyy.MM.dd')}"></span>
+                </p>
+                <p>
+                	<span class="tit">등록일</span>
+                    <span class="txt" th:text="${#dates.format(event.updateDate, 'yyyy.MM.dd')}"></span>
+                </p>
+            </div>
+            
+            <div class="cont">
+				<p class="tit">메인 이미지</p>
+				<img th:src="@{|/images/event/${event.mainImage}|}">
+					
+            </div>
+            <div class="cont">
+				<p class="tit">상세 이미지</p>
+				<img th:src="@{|/images/event/${event.detailImage}|}">
+            </div>
+        </div>
+        </div>
+
+        <div class="btn-group pt40" style="display: block;">
+          <a id ="modify-btn" class="button large"
+          		th:href="@{/admin/event/modifyform(no=${param.no})}">수정
+		  </a>
+		  
+		  <a 
+           class="button large listBtn" title="목록">목록</a>
+           
+          <a id = "delete-btn"
+          	 class="button large"
+          	>삭제
+		  </a>
+        </div>
+        
+	</div>
+</html>

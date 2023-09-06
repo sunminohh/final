@@ -21,7 +21,7 @@
 										<td>
 											<label for="category"></label>
 											<select id="category" name="catNo" required>
-												<option th:each="category : ${categories}" th:value="${category.catNo}" th:text="${category.catName}"></option>
+												<option th:each="category : ${categories}" th:value="${category.getNo()}" th:text="${category.getName()}"></option>
 											</select>
 										</td>
 									</tr>

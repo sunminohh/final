@@ -1,0 +1,94 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/admin}">
+<head th:fragment="extra-head-content">
+	<link th:href=@{/css/event/form.css} rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script th:src="@{/js/admin/event/form.js}"></script>
+</head>
+<title>관리자페이지</title>
+<div layout:fragment="content" style="margin-top: -40px;">
+    <div id="contents">
+	    <h2 class="tit">이벤트</h2>
+   		<p class="reset mt30 a-r font-orange">* 필수</p>
+	    <form id="insertform" name="regFrm" method="post" th:action="@{/admin/event/add}" th:object=${addEventForm} enctype="multipart/form-data">
+        <div class="table-wrap mt10">
+            <table class="board-form va-m">
+                <colgroup> 
+                    <col style="width:150px;">
+                    <col>
+                    <col style="width:150px;">
+                    <col>
+                </colgroup>
+                <tbody>
+                <tr>
+                    <th scope="row"><label for="cat">카테고리</label> <em class="font-orange">*</em></th>
+                    <td colspan="3">
+             			 <div class="d-flex justify-content-start" style="margin-bottom: -15px; margin-left: -7px;">
+	                        <select id="eventCat" title="카테고리 선택" name="categoryNo"
+	                                class="form-select form-select-sm  ml07 form-control-sm mb-3"
+	                                style="width: 150px; float:left">
+	                            <option value="" selected disabled>카테고리 선택</option>
+	                        </select>
+                    	</div>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <th scope="row"><label for="title">제목</label> <em class="font-orange">*</em></th>
+                    <td colspan="3"><input type="text" name="title" class="input-text"></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="eventStartDate">시작일</label> <em class="font-orange">*</em></th>
+                    <td>
+                        <input type="date" id="eventStartDate" name="startDate" class="input-text w150px" value="" maxlength="30">
+                    </td>
+                    <th scope="row"><label for="eventEndDate">종료일</label> <em class="font-orange">*</em></th>
+                    <td>
+                        <input type="date" id="eventEndDate" name="endDate" class="input-text w150px" value="" maxlength="30">
+                    </td>
+                </tr>
+                
+                <tr>
+                    <th scope="row">메인 사진첨부 <em class="font-orange">*</em></th> 
+                    <td colspan="3">
+                        <div class="upload-image-box">
+                            <div class="info-txt">
+                                <p>* JPEG, PNG 형식의 5M 이하의 파일만 첨부 가능합니다.</p>
+                                <button type="button" id="uploadBtn1" class="btn-image-add float-end">
+								  <span>파일선택</span>
+								  <input type="file" name="file1" id="fileInput1" style="display: none;" accept="image/png, image/jpeg">
+								</button>
+                            </div>
+                            <div id="imgList1"></div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">상세 사진첨부 <em class="font-orange">*</em></th> 
+                    <td colspan="3">
+                        <div class="upload-image-box">
+                            <div class="info-txt">
+                                <p>* JPEG, PNG 형식의 5M 이하의 파일만 첨부 가능합니다.</p>
+                                <button type="button" id="uploadBtn2" class="btn-image-add float-end">
+								  <span>파일선택</span>
+								  <input type="file" name="file2" id="fileInput2" style="display: none;" accept="image/png, image/jpeg">
+								</button>
+                            </div>
+                            <div id="imgList2"></div>
+                        </div>
+                    </td>
+                </tr>
+                
+                </tbody>
+            </table>
+        </div>
+
+        <div class="btn-group pt40" style="display: block;">
+            <button id="btn-submit" type="submit" class="button purple large">등록</button>
+        </div>
+    </form>
+            
+    </div>
+</div>
+</html>
