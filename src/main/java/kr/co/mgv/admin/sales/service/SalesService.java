@@ -19,30 +19,7 @@ public class SalesService {
 		return salesDao.getDailyTotalSales();
 	}
 
-	public void updateDailySales(String date) {
-		TotalSales dailySales = salesDao.getDailySalesbyDate(date);
-		if(dailySales != null) {
-			
-		}else {
-			
-		}
-		
-		TotalSales movieSales =salesDao.getDailyMovieSalesbyDate(date);
-		if(movieSales != null) {
-			
-		}else {
-			
-		}
-		
-		
-		
-		TotalSales productSales =salesDao.getDailyProductSalesbyDate(date);
-		if(productSales != null) {
-			
-		}else {
-			
-		}
-	}
+	
 	
 	public void insertDailySales() {
 		salesDao.insertDailySales();
@@ -50,7 +27,8 @@ public class SalesService {
 		salesDao.insertDailyProductSales();
 	}
 
-	public void insertMonthlySales() {
+	public void insertMonthlySales( ) {
+		
 		salesDao.insertMonthlySales();
 		salesDao.insertMonthlyMovieSales();
 		salesDao.insertMonthlyProductSales();

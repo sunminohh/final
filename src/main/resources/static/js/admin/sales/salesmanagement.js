@@ -11,6 +11,8 @@ $(() => {
 	const chartOption = {
 		series: [
 			{ name: "매출", data: [180, 355, 390] },
+			{ name: "영화매출", data: [180, 355, 390] },
+			{ name: "상품매출", data: [180, 355, 390] },
 		],
 		chart: {
 			type: "bar",
@@ -20,9 +22,19 @@ $(() => {
 			foreColor: "#adb0bb",
 			fontFamily: 'inherit',
 			sparkline: { enabled: false },
-			
+			events: {
+			    dataPointSelection: function (event, chartContext, config) {
+			        console.log(config);
+			        const dataPointIndex = config.dataPointIndex;
+					const seriesIndex = config.seriesIndex;
+					const value = chartContext.w.globals.series[seriesIndex][dataPointIndex];
+					const categories = chartContext.w.globals.labels[dataPointIndex]; // 카테고리 값 얻기
+					const seriesName = chartContext.w.config.series[seriesIndex].name; // 시리즈 이름 얻기
+					console.log(`클릭한 데이터 포인트: ${dataPointIndex}, 시리즈: ${seriesName}, 카테고리: ${categories}, 값: ${value}`);
+		    },
 		},
-		colors: ["#5D87FF", "#49BEFF"],
+		},
+		colors: ["#5D87FF", "#49BEFF","#1fffff"],
 		plotOptions: {
 			bar: {
 				horizontal: false,
@@ -117,6 +129,12 @@ $(() => {
 				{
 					data: seriesData,
 				},
+				{
+					data: seriesData,
+				},
+				{
+					data: seriesData,
+				},
 			],
 		});
 	}
@@ -137,103 +155,5 @@ $(() => {
 		}
 	});
 
-	// =====================================
-	// Breakup
-	// =====================================
-	const breakup = {
-		color: "#adb5bd",
-		series: [38, 40, 25],
-		labels: ["2022", "2021", "2020"],
-		chart: {
-			width: 180,
-			type: "donut",
-			fontFamily: "Plus Jakarta Sans', sans-serif",
-			foreColor: "#adb0bb",
-		},
-		plotOptions: {
-			pie: {
-				startAngle: 0,
-				endAngle: 360,
-				donut: {
-					size: '75%',
-				},
-			},
-		},
-		stroke: {
-			show: false,
-		},
-		dataLabels: {
-			enabled: false,
-		},
-		legend: {
-			show: false,
-		},
-		colors: ["#5D87FF", "#ecf2ff", "#F9F9FD"],
-		responsive: [
-			{
-				breakpoint: 991,
-				options: {
-					chart: {
-						width: 150,
-					},
-				},
-			},
-		],
-		
-		tooltip: {
-			theme: "dark",
-			fillSeriesColor: false,
-		},
-	};
-
-	const charts = new ApexCharts(document.querySelector("#breakup"), breakup);
-	charts.render();
-
-	// =====================================
-	// Earning
-	// =====================================
-	const earning = {
-		chart: {
-			id: "sparkline3",
-			type: "area",
-			height: 60,
-			sparkline: {
-				enabled: true,
-			},
-			group: "sparklines",
-			fontFamily: "Plus Jakarta Sans', sans-serif",
-			foreColor: "#adb0bb",
-		},
-		series: [
-			{
-				name: "Earnings",
-				color: "#49BEFF",
-				data: [25, 66, 20, 40, 12, 58, 20],
-			},
-		],
-		stroke: {
-			curve: "smooth",
-			width: 2,
-		},
-		fill: {
-			colors: ["#f3feff"],
-			type: "solid",
-			opacity: 0.05,
-		},
-		markers: {
-			size: 0,
-		},
-		tooltip: {
-			theme: "dark",
-			fixed: {
-				enabled: true,
-				position: "right",
-			},
-			x: {
-				show: false,
-			},
-		},
-	};
-
-	new ApexCharts(document.querySelector("#earning"), earning).render();
+	
 })
