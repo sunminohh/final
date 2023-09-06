@@ -88,8 +88,13 @@ public class UserController {
         } else {
             return ResponseEntity.badRequest().body("중복된 이메일 주소입니다.");
         }
-
     }
+
+/*    @PostMapping("/upload")
+    public String updateUploadImg(@AuthenticationPrincipal User user, UserUpdateForm form) {
+        userService.updateUser(user.getId(), form.getImgFile());
+        return "redirect:/mypage/form";
+    }*/
 
     // 비밀번호 변경
     @GetMapping("/update/password")

@@ -32,6 +32,8 @@ public class User implements UserDetails {
     private Date createDate;
     private Date updateDate;
     private Date pwdUpdateDate;
+    private String originName;
+    private String savedName;
     private String kakaoYn;
     private String disabled;
     private String reason;

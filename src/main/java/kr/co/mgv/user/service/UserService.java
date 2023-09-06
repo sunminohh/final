@@ -6,6 +6,7 @@ import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -82,6 +83,4 @@ public class UserService {
         long daysDifference = timeDifference / (1000 * 60 * 60 * 24);
         return daysDifference;
     }
-
-
 }

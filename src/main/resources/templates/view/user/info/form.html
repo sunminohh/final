@@ -4,6 +4,7 @@
 <head th:fragment="extra-head-content">
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script th:src="@{/js/user/form.js}"></script>
+    <!--    <script th:src="@{/js/user/upload.js}"></script>-->
     <script th:src="@{/js/user/post.js}"></script>
 </head>
 
@@ -30,15 +31,32 @@
                             <input type="file" id="userImgFile" name="file" style="display: none;">
                         </form>
                         <div class="profile-img">
-                            <img th:src="@{/images/user/myprofile.png}" alt="기본 이미지">
+                            <img id="profileImage" th:src="@{/images/user/myprofile.png}" data-default-src="/images/user/myprofile.png">
                         </div>
-                        <button type="button" class="button small gray-line" id="btnAddProfileImg">이미지 등록</button>
+                        <button id="btnAddProfileImg" type="button" class="button small gray-line">이미지 등록</button>
+                        <button id="btnDefaultProfileImg" type="button" class="button small gray-line" style="display: none">이미지 삭제</button>
                         <a th:href="@{/mypage/disabled}" class="button small member-out">회원탈퇴</a>
                     </div>
                     <p style="font-size:0.8em; color:#999; margin-top:10px; padding:0; text-align:left; position:absolute; top:22px; left:194px;">
-                        ※ 개인정보가 포함된 이미지 등록은 자제하여 주시기 바랍니다.</p>
+                        ※ 이미지 파일 크기는 10MB 이하만 가능합니다.<br>
+                        ※ 개인정보가 포함된 이미지 등록은 자제하여 주시기 바랍니다.
+                    </p>
                 </td>
             </tr>
+            <div class="alert-popup" style="position: fixed; padding-top: 45px; background: rgb(255, 255, 255); z-index: 5006; top: 151.5px; left: 568px; width: 400px; display: none;">
+                <div class="wrap">
+                    <header class="layer-header">
+                        <h3 class="tit">알림</h3>
+                    </header>
+                    <div class="layer-con" style="height:250px">
+                        <p id="profileImg">프로필 사진이 등록되었습니다.</p>
+                        <div class="btn-group" style="display: block;">
+                            <button type="button" class="button purple confirm">확인</button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-layer-close"></button>
+                </div>
+            </div>
             <tr>
                 <th scope="row">아이디</th>
                 <td><span th:text="${user.id}"></span></td>
