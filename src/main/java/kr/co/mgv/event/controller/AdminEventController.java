@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import kr.co.mgv.event.dto.EventList;
 import kr.co.mgv.event.form.AddEventForm;
 import kr.co.mgv.event.service.EventService;
+import kr.co.mgv.event.vo.Event;
 import kr.co.mgv.event.vo.EventCategory;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
@@ -69,6 +70,14 @@ public class AdminEventController {
     	model.addAttribute("result", eventList);
     	return "view/admin/event/list";
     }
+    
+    @GetMapping("/detail")
+    public String getEventDetail(@RequestParam("no") int eventNo, Model model) {
+    	Event event = eventService.getEventByNo(eventNo);
+    	model.addAttribute("event", event);
+    	
+    	return "view/admin/event/detail";
+    }
 
     @GetMapping("/insertform")
     public String eventInsertForm() {
@@ -79,6 +88,11 @@ public class AdminEventController {
     public String insertEvent(@AuthenticationPrincipal User user, AddEventForm form) {
     	eventService.insertEvent(form, user);
     	return "redirect:/admin/event/list";
+    }
+    
+    @GetMapping("/modifyform")
+    public String eventModifyForm() {
+    	return "view/admin/event/modifyform";
     }
     
     @GetMapping("/getCategory")

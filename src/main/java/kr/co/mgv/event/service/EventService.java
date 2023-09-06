@@ -66,6 +66,10 @@ public class EventService {
 		return result;
 	}
 	
+	public Event getEventByNo(int eventNo) {
+		return eventDao.getEventByNo(eventNo);
+	} 
+	
 	public List<EventCategory> getCategories() {
 		return eventDao.getCategories();
 	}

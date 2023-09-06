@@ -10,6 +10,38 @@
 			(#{title}, #{mainImage}, #{detailImage}, #{startDate}, #{endDate}, #{category.no}, #{user.id})
 	</insert>
 	
+	<update id="updateEventByNo" parameterType="kr.co.mgv.event.vo.Event">
+		UPDATE 
+			MGV_EVENT
+		SET 
+			<if test="title != null">
+				EVENT_TITLE = #{title},
+			</if>
+			<if test="mainImage != null">
+				EVENT_MAIN_IMAGE = #{mainImage},
+			</if>
+			<if test="detailImage != null">
+				EVENT_DETAIL_IMAGE = #{detailImage},
+			</if>
+			<if test="deleted != null">
+				EVENT_DELETED = #{deleted},
+			</if>
+			<if test="startDate != null">
+				EVENT_START_DATE = #{startDate},
+			</if>
+			<if test="endDate != null">
+				EVENT_END_DATE = #{endDate},
+			</if>
+			<if test="updateDate != null">
+				EVENT_UPDATE_DATE = #{updateDate},
+			</if>
+			<if test="category != null">
+				CATEGORY_NO = #{category.no}
+			</if>
+		WHERE 
+			EVENT_NO= #{no} 	
+	</update>
+	
 	<select id="getTotalRows" parameterType="map" resultType="int">
 		select count(*)
 		FROM 
@@ -23,6 +55,27 @@
 			<if test="keyword != null">
 				and A.EVENT_TITLE like  CONCAT('%', #{keyword}, '%')	
 			</if>
+	</select>
+	
+	<select id="getEventByNo" parameterType="int" resultType="kr.co.mgv.event.vo.Event">
+		SELECT 
+			A.EVENT_NO				as no, 
+			A.EVENT_TITLE			as title, 
+			A.EVENT_MAIN_IMAGE		as mainImage, 
+			A.EVENT_DETAIL_IMAGE	as detailImage,
+			A.EVENT_DELETED			as deleted, 
+			A.EVENT_START_DATE		as startDate, 
+			A.EVENT_END_DATE		as endDate, 
+			A.EVENT_UPDATE_DATE		as updateDate, 
+			A.EVENT_CREATE_DATE		as createDate, 
+			A.CATEGORY_NO			as "category.no", 
+			B.CATEGORY_NAME			as "category.name" 
+		FROM 
+			MGV_EVENT A, MGV_EVENT_CATEGORIES B
+		where
+			A.CATEGORY_NO = B.CATEGORY_NO
+			and A.EVENT_DELETED = 'N'
+			and A.EVENT_NO = #{value}
 	</select>
 	
 	<select id="getEventList" parameterType="map" resultType="kr.co.mgv.event.vo.Event">
