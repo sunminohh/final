@@ -60,7 +60,8 @@
             PRODUCT_AMOUNT = #{amount},
             TOTAL_DISCOUNTED_PRICE = #{totalDiscountedPrice},
             TOTAL_ORIGINAL_PRICE = #{totalOriginalPrice},
-            CART_INSERT_DATE = CURRENT_TIMESTAMP
+            CART_INSERT_DATE = CURRENT_TIMESTAMP,
+            CART_PAYMENT_STATUS = #{paymentStatus}
         WHERE
             CART_NO = #{no}
     </update>
@@ -70,5 +71,12 @@
             MGV_CART
         WHERE
             CART_NO = #{value}
+    </delete>
+
+    <delete id="deleteCartByUserId" parameterType="String">
+        DELETE FROM
+            MGV_CART
+        WHERE
+            USER_ID = #{value}
     </delete>
 </mapper>
