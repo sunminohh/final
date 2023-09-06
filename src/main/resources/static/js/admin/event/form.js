@@ -1,4 +1,15 @@
 $(function () {
+	
+	// 카테고리 조회
+	let $selectCategory = $("#eventCat").empty();
+	$selectCategory.append(`<option value="" selected disabled>카테고리 선택</option>`)
+	$.getJSON("/admin/event/getCategory", function(categories) {
+		categories.forEach(function(cat) {
+			let option = `<option value="${cat.no}"> ${cat.name}</option>`;
+				$selectCategory.append(option);
+		})
+	})
+	
     // 폼 사진첨부
     document.getElementById("uploadBtn1").addEventListener("click", function () {
         document.getElementById("fileInput1").click(); // 파일 입력 요소를 클릭

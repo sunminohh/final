@@ -2,6 +2,8 @@ package kr.co.mgv.event.vo;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import kr.co.mgv.user.vo.User;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,9 +20,13 @@ public class Event {
 	private String mainImage;
 	private String detailImage;
 	private String deleted;
+	@JsonFormat(pattern = "yyyy.MM.dd")
 	private Date startDate;
+	@JsonFormat(pattern = "yyyy.MM.dd")
 	private Date endDate;
+	@JsonFormat(pattern = "yyyy.MM.dd")
 	private Date updateDate;
+	@JsonFormat(pattern = "yyyy.MM.dd")
 	private Date createDate;
 	private EventCategory category;
 	private User user;

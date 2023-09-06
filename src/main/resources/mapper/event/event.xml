@@ -7,7 +7,17 @@
 			MGV_EVENT
 		(EVENT_TITLE, EVENT_MAIN_IMAGE, EVENT_DETAIL_IMAGE, EVENT_START_DATE, EVENT_END_DATE, CATEGORY_NO, USER_ID)
 		VALUES
-			(#{title}, #{mainImage}, #{detailImage}, #{startDate}, #{endDate}, #{category.no}, #{user.id});
+			(#{title}, #{mainImage}, #{detailImage}, #{startDate}, #{endDate}, #{category.no}, #{user.id})
 	</insert>
+	
+	<select id="getCategories" parameterType="string" resultType="kr.co.mgv.event.vo.EventCategory">
+		SELECT 
+			CATEGORY_NO		as no, 
+			CATEGORY_NAME	as name
+		FROM 
+			MGV_EVENT_CATEGORIES
+		where
+			CATEGORY_NO != 1
+	</select>
 
 </mapper>
