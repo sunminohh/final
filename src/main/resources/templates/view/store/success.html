@@ -6,7 +6,7 @@
 <body>
 <div layout:fragment="content">
     <th:block th:if="${#strings.equals(isSuccess, 'true')}">
-        <h1>결제 성공</h1>
+        <h1 th:text="${giftTickets}"></h1>
         <p>결과데이터 : <span th:text="${responseStr}"></span></p>
         <p>method : <span th:text="${method}"></span></p>
         <p>orderName : <span th:text="${orderName}"></span></p>

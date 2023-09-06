@@ -39,7 +39,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="cart : ${carts}">
+                            <tr th:each="cart : ${carts}" class="cart-item">
                                 <td class="a-c" th:if="${cart.getProduct()}">
                                     <div class="goods-info" th:if="${cart.getProduct.getImagePath()}">
                                         <p class="img"><a th:href="@{/store/detail/product(productNo=${cart.getProduct().getNo()})}"><img th:src="${cart.getProduct().getImagePath()}" onerror="noImg(this);"></a></p>
@@ -62,7 +62,7 @@
                                         <p class="bundle" th:text="${cart.getPkg().getComposition()}"></p>
                                     </div>
                                 </th>
-                                <td><em id="purcQtyView" th:text="${cart.getAmount()}"></em></td>
+                                <td><em class="cart-quantity" th:text="${cart.getAmount()}"></em></td>
                                 <td>
                                     <div class="goods-info">
                                         <em id="prdtSumAmtView" class="discountedPrice" th:text="${cart.getTotalDiscountedPrice()}"></em>원
