@@ -23,4 +23,7 @@ public interface MypageDao {
                              @Param("endDate") String endDate,
                              @Param("status") String status);
 
+    Purchase getPurchaseByNo(@Param("purchaseNo") int purchaseNo);
+
+    int updatePurchaseByNo(@Param("purchaseNo") int purchaseNo);
 }

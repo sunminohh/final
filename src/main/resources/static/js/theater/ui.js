@@ -12,6 +12,15 @@ $(() => {
 		let keyword 
 		const $noticeList = $(".board-list tbody").empty()
 		$.getJSON("/support/notice/list", {catNo:categoryNo, locationNo:locationNo, theaterNo:theaterNo,page:page,  keyword:keyword}, function(result) {
+			if(result.noticeList.length==0){
+				const htmlcontent = `
+						<tr>
+							<td colspan='4'> 공지사항이 없습니다.</td>
+						</tr>
+				`;
+					$noticeList.append(htmlcontent);
+				}
+			
 			result.noticeList.forEach(function(notice,index){
 				
 				

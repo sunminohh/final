@@ -6,6 +6,7 @@ import kr.co.mgv.user.service.UserService;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
@@ -143,6 +144,14 @@ public class UserController {
         return "view/user/booking/list";
     }
 
+   /* @PostMapping("/bookinglist")
+    public ResponseEntity<HashMap<String, Object>> bookingList() {
+        String userId = getLoggedInUserId();
+
+
+        return ResponseEntity.ok();
+    }*/
+
     @PostMapping("/purchase")
     @ResponseBody
     public ResponseEntity<HashMap<String, Object>> purchaseList(@RequestParam String startDate,
@@ -158,6 +167,17 @@ public class UserController {
         log.info("endDate -> {}", endDate);
         log.info("status -> {}", status);
         return ResponseEntity.ok(purchases);
+    }
+
+    @PostMapping("/purchase/cancel")
+    @ResponseBody
+    public ResponseEntity<String> cancelPurchace(@RequestParam("no") int purchaseNo) {
+        boolean isSuccess = mypageService.cancelPurchase(purchaseNo);
+        if (isSuccess) {
+            return ResponseEntity.ok("결제취소가 완료되었습니다.");
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("구매취소 중 오류가 발생했습니다. 다시 시도해주세요.");
+        }
     }
 
     @GetMapping("/moviestory")

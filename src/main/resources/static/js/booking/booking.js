@@ -22,7 +22,16 @@ $(()=>{
     let maxSeatChoices
     let curSeatChoices
     let prevMouseOverSeat
-    let ticketPrice = 10000
+    let ticketPrice = 8000
+    let adultTickets
+    let underageTickets
+
+    let giftAmount
+    let payAmount
+    let adultPrice
+    let underagePrice
+    let totalPrice
+
     function apiByDate(date){
         fetch('api/booking/'+date).then(res => res.json()).then(item=>{
             let aa= JSON.stringify(item)
@@ -128,7 +137,7 @@ $(()=>{
             createSelectBox(mNo)
         }else
         {
-            alert('영화 3개까지선택가능')
+            insertAlert("영화는 최대 3개까지 선택 가능합니다.")
         }
     })
 
@@ -219,7 +228,7 @@ $(()=>{
             selectedTheaters.add(tName)
             createSelectBox(tName)
         }else{
-            alert('영화3개까지선택가능')
+            insertAlert("극장은 최대 3개까지 선택 가능합니다.")
             return
         }
         if(selectedTheaters.size>0){
@@ -261,25 +270,29 @@ $(()=>{
         })
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
     scheduleDiv.on('click','button',function(){
         screenId=$(this).attr('screen-id')
-        const scheduleId= $(this).attr('schedule-id')
-        const mNo= $(this).attr('movie-no')
-        const url="/api/booking/step0?schedulId="+scheduleId
-        fetch(url).then(res=>console.log(res))
-        $("#step0").hide()
-        $("#step1").show()
-        createSeats(screenRow,screenCol)
-        clearChoice()
-        const movie = $("#mBtn-"+mNo)
-        generateSeatResultByScheduleId(scheduleId)
+        $(this).attr('selected','selected')
+        callStep(1)
     })
 
     function generateSeatResultByScheduleId(id){
         const s=$("#schedule-"+id)
         const mNo=s.attr('movie-no')
         const movie = $("#mBtn-"+mNo)
-        $(".seat-result").children()
+        $("#step1-result").children()
             .children(':first').html(`
                                 <span class="movie-grade small age-${movie.attr('contentRating')}">${movie.attr('contentRatingKr')}</span>
                                 <p class="tit">${movie.attr('movie-nm')}</p>
@@ -302,10 +315,9 @@ $(()=>{
                                     <p class="poster">
                                         <img src="${movie.attr('img-path')}">
                                     </p>`)
-
     }
     function createSeats(screenRow,screenCol){
-        const seatsDiv = $("#seatsDiv")
+        const seatsDiv = $("#seatsDiv").empty()
         fetch("/api/booking/getDisabledSeats?screenId="+screenId).then(res=>res.json()).then(json=>{
             const allEmptySeats = new Set
             $.each(json,(id,disabledSeatNo)=>{
@@ -393,7 +405,6 @@ $(()=>{
     $("#seatsDiv").on('click','button',function() {
         const seatsToPick = maxSeatChoices - curSeatChoices
         if($(this).hasClass('impossible')){
-            alert('해당 좌석은 선택 불가능합니다')
             return
         }
         if($(this).hasClass('choice')){
@@ -402,11 +413,15 @@ $(()=>{
             if(pair){
                 removeCurSeatChoice(pair)
             }
+            checkNextButton()
             singleSeatCheck()
+            calculPrice()
             return
         }
         if (seatsToPick==0){
-            alert('관람인원 선택하쇼')
+            if(curSeatChoices==0){
+                insertAlert("관람하실 인원을 먼저 선택해주세요.")
+            }else insertAlert("좌석 선택이 완료되었습니다.")
             return
         }
         const seats= $(this).parent().children('.on').addClass('choice')
@@ -417,7 +432,9 @@ $(()=>{
         }
         addCurSeatChoice(seat1, seat2)
         singleSeatCheck()
+        calculPrice()
         sequncing()
+
     })
     function addCurSeatChoice(seatNo1, seatNo2){
         const seat1=$("#"+seatNo1).addClass('choice')
@@ -427,21 +444,45 @@ $(()=>{
             seat1.attr('pair',seatNo2)
             $(".my-seat").children(":eq("+curSeatChoices+++")").addClass('choice').removeClass('possible').text(seatNo2)
         }
+        checkNextButton()
+    }
+    function checkNextButton(){
+        if(maxSeatChoices>0 && maxSeatChoices - curSeatChoices==0){
+            $("#pageNext").removeClass('disabled').css("background-color","#329eb1")
+        }else $("#pageNext").addClass('disabled').css("background-color","#434547")
+    }
+    function calculPrice(){
         let ticketsPicked = curSeatChoices
-        let adultTickets=$("#adult-tickets").text()
-        console.log(adultTickets)
-        let underageTickets = $("#underage-tickets").text()
-        let totalPrice = ticketPrice * adultTickets * 1.5
-        if(ticketsPicked >adultTickets){
-            totalPrice+=ticketPrice*underageTickets
+        let adultTicketsMax=$("#adult-tickets").text()
+        let underageTicketsMax = $("#underage-tickets").text()
+
+        adultTickets = ticketsPicked
+        underageTickets = 0
+        if(ticketsPicked>adultTicketsMax){
+            adultTickets=adultTicketsMax
+            underageTickets= ticketsPicked - adultTicketsMax
         }
+        adultPrice=ticketPrice*adultTickets*1.5
+        underagePrice=ticketPrice*underageTickets
+        totalPrice= adultPrice+underagePrice
+        let count=""
+        if(adultTickets>0){
+            count="성인 "+adultTickets
+        }
+        if(underageTickets>0){
+            if(adultTickets>0){
+                count+=" · "
+            }
+            count+="청소년 "+underageTickets
+        }
+        $(".seat-result").find(".count").text(count)
         const regexp = /\B(?=(\d{3})+(?!\d))/g
         $("#tickets-total-price").text(totalPrice.toString().replace(regexp, ','))
-
     }
     function removeCurSeatChoice(seatNo){
         $("#"+seatNo).removeClass('choice')
         $(".my-seat").children(":eq("+--curSeatChoices+")").removeClass('choice').addClass('possible').text('-')
+        $("pageNext").addClass('disabled')
     }
     function incrementMaxSeatChoice(){
         $(".my-seat").children(":eq("+maxSeatChoices+++")").addClass('possible')
@@ -490,13 +531,6 @@ $(()=>{
         $(this).removeClass('on').siblings().removeClass('on')
     })
 
-    function chooseSeats(){
-        const seats=$("#seatsDiv .on")
-        seats.each(function(index,el){
-            $(this).addClass('choice')
-            seatChoices.add($(this).attr('id'))
-        })
-    }
     function clearSeatChoices(){
         const onSeats=$("#seatsDiv .on").removeClass('on')
         const choiceSeats=$("#seatsDiv .choice").removeClass('choice')
@@ -604,6 +638,7 @@ $(()=>{
         maxSeatChoices=0
         curSeatChoices=0
         $("#tickets-total-price").text(0)
+        $(".seat-result").find(".count").text("")
         $("#seatsDiv").find("button").removeClass('on choice impossible view')
         $('.number').children().text(0)
         $(".my-seat").html(`                                            <div class="seat all" title="구매가능 좌석">-</div>
@@ -614,6 +649,8 @@ $(()=>{
                                             <div class="seat all" title="구매가능 좌석">-</div>
                                             <div class="seat all" title="구매가능 좌석">-</div>
                                             <div class="seat all" title="구매가능 좌석">-</div>`)
+        checkNextButton()
+        calculPrice()
     }
     $(".up").on('click',function(){
         if(maxSeatChoices==8){
@@ -621,9 +658,11 @@ $(()=>{
         }
         incrementMaxSeatChoice()
         singleSeatCheck()
+        checkNextButton()
         let count= $(this).siblings('div').children(':first')
         count.text(parseInt(count.text())+1)
         console.log("cur : "+curSeatChoices+" max : "+maxSeatChoices)
+        $(".seat-count-before").removeClass('on').addClass('off')
     })
 
     $(".down").on('click',function(){
@@ -631,14 +670,222 @@ $(()=>{
             return
         }
         if(maxSeatChoices==curSeatChoices){
-            alert('다시 선택')
-            clearChoice()
+            insertAlertWithFn(`<div class="wrap"><header class="layer-header"><h3 class="tit">알림</h3></header><div class="layer-con" style="height:200px"><p class="txt-common">선택하신 좌석을 모두 취소하고 다시 선택하시겠습니까?</p><div class="btn-group"><button type="button" class="button lyclose">취소</button><button id="btn-confirm" type="button" class="button purple confirm">확인</button></div></div><button type="button" class="btn-layer-close">레이어 닫기</button></div>`,clearChoice)
+            alertOn()
+
             return
         }
         decrementMaxSeatChoice()
         singleSeatCheck()
+        checkNextButton()
         let count= $(this).next().children(':first')
         count.text(parseInt(count.text())-1)
         console.log("cur : "+curSeatChoices+" max : "+maxSeatChoices)
+    })
+
+
+    $("#pageNext").on('click',function(){
+        if($(this).hasClass('disabled')){
+            return
+        }
+       callStep(2)
+    })
+
+    function alertOn(){
+        $("#alert").show()
+        $("#alertStyle").show()
+    }
+    function alertOff(){
+        $("#alert").hide()
+        $("#alertStyle").hide()
+    }
+    function insertAlertWithFn(html, fn1){
+        $("#alert").html(html);
+        $("#alert").on('click','button',alertOff)
+        $("#alert").on("click", '.confirm', fn1);
+        alertOn()
+    }
+    function insertAlert(alertMsg){
+        $("#alert").html(`<div class="wrap"><header class="layer-header"><h3 class="tit">알림</h3></header><div class="layer-con" style="height:250px"><p class="txt-common">${alertMsg}</p><div class="btn-group" style="display: flex;justify-content: center;"><button type="button" class="button purple confirm">확인</button></div></div><button type="button" class="btn-layer-close">레이어 닫기</button></div>`);
+        $("#alert").on('click','button',alertOff)
+        alertOn()
+    }
+    function callStep(stage){
+        $("#step0").hide().siblings().hide()
+        const scheduleId=$("#playScheduleList").find('[selected=selected]').attr('schedule-id')
+
+        if(stage===0){
+            $("#step0").show()
+            clearChoice()
+            $("#playScheduleList").find('[selected=selected]').removeAttr('selected')
+        }
+        if(stage===1){
+            $("#step1").show()
+            giftAmount=new Set
+            createSeats(screenRow,screenCol)
+            generateSeatResultByScheduleId(scheduleId)
+            clearChoice()
+        }else if(stage===2){
+            $("#step2").show()
+            generateStep2ResultByScheduleId(scheduleId)
+        }
+    }
+    function generateStep2ResultByScheduleId(id){
+        const s=$("#schedule-"+id)
+        const mNo=s.attr('movie-no')
+        const regexp = /\B(?=(\d{3})+(?!\d))/g
+        const movie = $("#mBtn-"+mNo)
+        let html=`<div class="box">
+                                        <div class="data">
+                        <span class="tit">성인 <em>${adultTickets}</em>
+                        </span>
+                                            <span class="price">${(adultTickets*ticketPrice*1.5).toString().replace(regexp, ',')}</span>
+                                        </div>`
+        if(underageTickets>0){
+            html+=`<div class="data">
+                        <span class="tit">청소년 <em>${underageTickets}</em>
+                        </span>
+                                            <span class="price">${(underageTickets*ticketPrice).toString().replace(regexp, ',')}</span>
+                                        </div>`
+        }
+        html+=`<div class="all">
+                        <span class="tit">금액
+                        </span>
+                                            <span class="price">
+                          <em>${(underageTickets*ticketPrice+adultTickets*ticketPrice*1.5).toString().replace(regexp, ',')}</em>
+                          <span>원
+                          </span>
+                        </span>
+                                        </div>
+                                    </div>
+                                    <div class="box discout-box">
+                                        <div class="all">
+                        <span class="tit">관람권 적용
+                        </span>
+                                            <span class="price">
+                          <em id="gift-amount">0</em> 원
+                        </span>
+                                        </div>
+                                    </div>
+                                </div>`
+        $("#step2-result").children().children(':first').html(`<span class="movie-grade small age-${movie.attr('contentRating')}">${movie.attr('contentRatingKr')}</span>
+                                    <p class="tit">${movie.attr('movie-nm')}</p>
+                                    <p class="cate" >2D</p>
+                                    <p class="theater">${s.attr('theater-name')}/${s.attr('screen-name')}</p>
+                                    <p class="date">
+                                        <span>${selectedDate}</span>
+                                        <em>(${today.format('dd')})</em>
+                                        <span class="time" id="playTime">
+                        <i class="iconset ico-clock-white"></i>${s.attr('start-time')} ~ ${s.attr('end-time')}</span>
+                                    </p>`)
+            .next().html(html).next().html(`<div class="add-thing">
+                                        <p class="tit">추가차액
+                                        </p>
+                                        <div class="money">0</div>
+                                    </div>
+                                    <div class="pay">
+                                        <p class="tit">최종결제금액
+                                        </p>
+                                        <div class="money">
+                                            <em id="final-price">${(underageTickets*ticketPrice+adultTickets*ticketPrice*1.5).toString().replace(regexp, ',')}</em>
+                                            <span>원
+                        </span>`)
+
+    }
+
+    $("#pagePrevious").on('click',()=>{
+        callStep(0)
+    })
+    $("#prevbtnfrom2to1").on('click',()=>{
+        clearStep2()
+        callStep(1)
+    })
+    $("#btn-gift-ticket").on('click',()=>{
+        $("#background-layer").show()
+        $("#gift-ticket-layer").show()
+        $.each(giftAmount,function(i,e){
+            $("#gift-ticket-table").append(`<tr><td>${e}</td><td>몰라</td><td>사용가능</td></tr>`)
+        })
+    })
+    $("#gift-ticket-submit").on('click',function(){
+        if(giftAmount.size >= adultTickets+underageTickets){
+            insertAlert('이미 관람권을 등록하였습니다.')
+            return
+        }
+        const input=$("#gift-ticket-input").val()
+        if(input.length>5){
+            $("#gift-ticket-table").append(`<tr><td>${input}</td><td>몰라</td><td>사용가능</td></tr>`)
+            $("#gift-ticket-input").val('')
+            giftAmount.add(input)
+        }else insertAlert("너무짧음")
+    })
+    $("#btn-gift-confirm").on("click",function(){
+        calculFinalPrice()
+        $("#background-layer").hide()
+        $("#gift-ticket-layer").hide()
+    })
+    function calculFinalPrice(){
+        const regexp = /\B(?=(\d{3})+(?!\d))/g
+        const size=giftAmount.size
+        let subAmount=size*ticketPrice*1.5
+        if(size>adultTickets){
+            subAmount+=(size-adultTickets)*ticketPrice
+        }
+        $("#gift-amount").text(subAmount.toString().replace(regexp,','))
+        $("#final-price").text((totalPrice-subAmount).toString().replace(regexp,','))
+        return totalPrice-subAmount
+    }
+    $("#btn-gift-close, #btn_gift_close_x").on("click",function(){
+        $("#background-layer").hide()
+        $("#gift-ticket-layer").hide()
+        $("#gift-ticket-input").val('')
+        $("#gift-ticket-table").html(`<tr >
+                                        <th scope="col">관람권</th>
+                                        <th scope="col">유효기간</th>
+                                        <th scope="col">사용</th>
+                                    </tr>`)
+    })
+    $("#btn-gift-cancle").on("click",function(){
+        $("#gift-ticket-input").val('')
+        $("#gift-ticket-table").html(`<tr >
+                                        <th scope="col">관람권</th>
+                                        <th scope="col">유효기간</th>
+                                        <th scope="col">사용</th>
+                                    </tr>`)
+    })
+
+    $("#clear-step-2").on('click',()=>{
+        clearStep2()
+    })
+    function clearStep2(){
+        giftAmount.clear()
+        $("#gift-ticket-input").val('')
+        $("#gift-ticket-table").html(`<tr >
+                                        <th scope="col">관람권</th>
+                                        <th scope="col">유효기간</th>
+                                        <th scope="col">사용</th>
+                                    </tr>`)
+        calculFinalPrice()
+    }
+
+    $("#btn-final-pay").on('click',()=>{
+        const finalPrice=calculFinalPrice()
+        const sId=$("#playScheduleList").find('[selected=selected]').attr('schedule-id')
+        const dto={
+           createdDated: selectedDate,
+            finalPrice: finalPrice,
+            adultTickets:adultTickets,
+            underageTickets:underageTickets,
+            scheduleId:sId
+        }
+        if(finalPrice==0){
+            fetch("/api/booking/bookingPay",{
+                method:'post',
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                body:JSON.stringify(dto)
+            }).then(res=>res.text()).then(data=>console.log(data))
+        }
     })
 })

@@ -38,21 +38,6 @@
                                 <select name="selYM" class="selectpicker small" disabled="disabled" tabindex="-98">
 
                                     <option value="202308">2023년 8월</option>
-
-                                    <option value="202307">2023년 7월</option>
-
-                                    <option value="202306">2023년 6월</option>
-
-                                    <option value="202305">2023년 5월</option>
-
-                                    <option value="202304">2023년 4월</option>
-
-                                    <option value="202303">2023년 3월</option>
-
-                                    <option value="202302">2023년 2월</option>
-
-                                    <option value="202301">2023년 1월</option>
-
                                 </select>
                                 <button type="button" class="btn dropdown-toggle disabled btn-default" data-toggle="dropdown" role="button" tabindex="-1" aria-disabled="true" title="2023년 8월">
                                     <div class="filter-option">
@@ -79,8 +64,81 @@
             <!-- 예매 조회 조건 End -->
 
             <!-- 예매 영화 목록 -->
-            <div id="bokdList">
+            <div id="bookingList">
                 <div class="no-history-reservation mt20"> 예매 내역이 없습니다.</div>
+
+                <div id="bokdList">
+                    <div class="board-list-util">
+                        <p class="result-count pt00"><strong>총<b class="font-gblue">1</b>건</strong></p>
+                    </div>
+                    <div class="history-reservation">
+                        <ul>
+                            <li sell-tran-no="00352309050094974336">
+                                <div class="round">
+                                    <a href="/movie-detail?rpstMovieNo=23055700" class="img">
+                                        <img src="https://img.megabox.co.kr/SharedImg/2023/07/27/VLZ7NCAlhfkHLvOaKvgTeXvRGPdaTemN_316.jpg" alt="잠" onerror="noImg(this)">
+                                    </a>
+                                    <table class="table">
+                                        <colgroup>
+                                            <col style="width:75px;">
+                                            <col style="width:230px;">
+                                            <col style="width:80px;">
+                                            <col>
+                                        </colgroup>
+                                        <tbody>
+                                        <tr>
+                                            <th scope="row" class="a-r">예매번호</th>
+                                            <td colspan="3"><em class="num"></em></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row" class="a-r">영화명</th>
+                                            <td colspan="3">
+                                                <p class="tit-movie">
+                                                    <span>잠</span>
+                                                    <span>2D</span>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row" class="a-r">극장/상영관</th>
+                                            <td>금정AK플라자/컴포트 1관</td>
+                                            <th scope="row">관람인원</th>
+                                            <td>성인 1명</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row" class="a-r">관람일시</th>
+                                            <td>2023.09.11 (월) 21:45 (5회차)</td>
+                                            <th scope="row">관람좌석</th>
+                                            <td>D열 3</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="bg-round">
+                                        <table class="table">
+                                            <colgroup>
+                                                <col style="width:75px;">
+                                                <col style="width:230px;">
+                                                <col style="width:100px;">
+                                                <col>
+                                            </colgroup>
+                                            <tbody>
+                                            <tr>
+                                                <th scope="row" class="a-r">결제일시</th>
+                                                <td>2023.09.05
+                                                    <a href="#" class="button gray-line x-small" title="결제정보">결제정보</a>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="btn-group" style="display: block;">
+                                        <a href="" class="button gray" name="btnCancelBokd" title="예매취소">예매취소</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
 
             <h3 class="tit mt70">예매취소내역</h3>
@@ -109,7 +167,7 @@
                         <th scope="col">취소금액</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="bokCancelTableBody">
 
                     </tbody>
                 </table>
@@ -161,6 +219,54 @@
                 </div>
             </div>
             <!-- 예매 안내상황 End -->
+
+            <!-- 결제정보 모달 -->
+            <div id="layer_payment_history" class="modal-layer" style="z-index: 501;">
+                <div class="wrap" id="myBokdPayInfo" style="width: 600px; height: 600px; margin-left: -300px; margin-top: -300px;">
+                    <header class="layer-header">
+                        <h3 class="tit">결제상세내역</h3>
+                    </header>
+                    <div class="layer-con" style="height: 488px;">
+                        <!--// 스토어 선물 내역인 경우 -->
+                        <h4 class="tit">결제정보</h4>
+                        <div class="table-wrap">
+                            <table class="data-table">
+                                <caption>상품금액, 할인금액, 결제금액, 결제일 항목을 가진 결제정보 표</caption>
+                                <colgroup>
+                                    <col style="width:140px;">
+                                    <col>
+                                </colgroup>
+                                <tbody>
+                                <tr>
+                                    <th scope="row" class="bg">상품금액</th>
+                                    <td>15,000원</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="bg">할인금액</th>
+                                    <td> -
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="bg">최종 결제금액</th>
+                                    <td id="myBokdPayInfo_cardNo">
+                                      <span class="font-gblue">15,000원 (토스페이(머니)) </span>/ 일시불
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="bg">결제일시</th>
+                                    <td>2023.09.05 14:29:30</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="btn-group-fixed">
+                        <button type="button" class="button close-layer">닫기</button>
+                    </div>
+                    <button type="button" class="btn-modal-close">레이어 닫기</button>
+                </div>
+            </div>
+            <!-- 결제정보 모달 end -->
         </div>
 
         <!-- 구매내역 영역 -->
