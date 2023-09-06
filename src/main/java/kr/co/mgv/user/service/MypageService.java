@@ -22,7 +22,8 @@ public class MypageService {
         UserPagination pagination = new UserPagination(page, totalRows);
 
         List<Purchase> purchases = mypageDao.getPurchases(userId, startDate, endDate, status, pagination.getBegin(), pagination.getEnd());
-
+        log.info("begin -> {}", pagination.getBegin());
+        log.info("end -> {}", pagination.getEnd());
         HashMap<String, Object> result = new HashMap<>();
         result.put("purchases", purchases);
         result.put("pagination", pagination);
@@ -35,4 +36,9 @@ public class MypageService {
         return mypageDao.getTotalRowsByUserId(userId, startDate, endDate, status);
     }
 
+    public boolean cancelPurchase(int purchaseNo) {
+        int updateRows = mypageDao.updatePurchaseByNo(purchaseNo);
+
+        return updateRows > 0;
+    }
 }

@@ -18,14 +18,15 @@ import kr.co.mgv.support.vo.LostFile;
 import kr.co.mgv.support.vo.SupportPagination;
 import kr.co.mgv.theater.vo.Location;
 import kr.co.mgv.theater.vo.Theater;
+import kr.co.mgv.user.service.EmailService;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
 public class LostService {
 
+	private final EmailService emailService;
 	private final LostDao lostDao;
 	private final FileUtils fileUtils;
 	
@@ -33,15 +34,28 @@ public class LostService {
 		return lostDao.getLostCommentsByLost(lostNo);
 	}
 	
-	public void updateLostComment(int lostNo) {
+	public void insertComment(User user, int lostNo, String content) throws Exception  {
 		Lost lost = lostDao.getLostByNo(lostNo);
-		lost.setAnswered("Y");
 		
-		lostDao.updateLostByNo(lost);
-	}
-	
-	public void insertComment(LostComment comment) {
+		LostComment comment =LostComment.builder().
+							user(user).
+							lost(lost).
+							content(content).build();
+		
+		
 		lostDao.insertComment(comment);
+		
+		lost.setAnswered("Y");
+		lostDao.updateLostByNo(lost);
+		
+		String email = null;
+		if (lost.getUser().getId() != null) {
+			email = lost.getUser().getEmail();
+		} else {
+			email = lost.getGuestEmail();
+		}
+		
+		emailService.sendTempqnaMessage(email);
 	}
 	
 	public void deleteComment(int commentNo) {

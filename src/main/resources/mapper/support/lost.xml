@@ -134,7 +134,8 @@
 			A.THEATER_NO 			as "theater.no",
 			C.theater_name			as "theater.name",
 			A.LOST_GUEST_NAME		as "guestName",
-			A.LOST_GUEST_EMAIL		as "guestEmail"
+			A.LOST_GUEST_EMAIL		as "guestEmail",
+			A.LOST_GUEST_PASSWORD	as "guestPassword"
 		FROM MGV_SUPPORT_LOST A, MGV_LOCATION B , MGV_THEATERS C
 		where 
 			A.LOCATION_NO = B.LOCATION_NO
@@ -148,6 +149,9 @@
 			</if>
 			<if test="guestEmail != null">
 				and A.LOST_GUEST_EMAIL = #{guestEmail}
+			</if>
+			<if test="guestPassword != null">
+				and A.LOST_GUEST_PASSWORD = #{guestPassword}
 			</if>
 			<if test="locationNo != null">
 				and A.LOCATION_NO = #{locationNo}
@@ -181,7 +185,7 @@
 			A.THEATER_NO 			as "theater.no",
 			C.theater_name			as "theater.name",
 			A.user_email			as "user.email",
-			A.user_id			as "user.id",
+			A.user_id				as "user.id",
 			A.LOST_GUEST_EMAIL		as guestEmail
 		FROM 
 			MGV_SUPPORT_LOST A, MGV_LOCATION B , MGV_THEATERS C

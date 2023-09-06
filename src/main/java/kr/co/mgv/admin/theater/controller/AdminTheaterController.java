@@ -1,4 +1,4 @@
-package kr.co.mgv.admin.theater.controler;
+package kr.co.mgv.admin.theater.controller;
 
 import java.util.List;
 import java.util.Map;

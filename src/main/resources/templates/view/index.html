@@ -879,63 +879,136 @@
     <!--// section main-movie : 영화 -->
 
     <!-- section main-benefit : 게시판 -->
-    <div id="main_section02" class="section main-benefit">
+    <div id="main_section02" class="section main-benefit mb-0 pb-0">
         <!-- wrap -->
-        <div class="wrap">
+        <div class="wrap" style="min-height:500px;">
             <!-- 게시판 시작 -->
             <div class="tit-util">
                 <h2 class="tit">게시판</h2>
-                <a href="/board/movie/list" class="btn-more-cross purple">더보기</a>
+                <div class="right">
+                    <a th:href="@{/board/movie/list}" title="게시판 더보기" style="color: black;">
+                        게시판 더보기 <i class="iconset ico-more-corss gray"></i>
+                    </a>
+                </div>
             </div>
+			<div class="row mt-4">
+				<div class="col-6 mb-4">
+					<div  style="padding-bottom: 40px">
+						<p class="float-start" style="font-size:18px;">댓글수 BEST5</p>
+						<a th:href="@{/board/movie/list}" class ="float-end mt-2 text-black text-decoration-none" style="font-size:14px;">더보기 <i class="iconset ico-arr-right-gray m107"></i></a>
+					</div>
+					
+					<table class="table table-borderless border-top  border-dark ">
+						<tbody style="font-size:14px;" >
+							<tr th:if="${#lists.isEmpty(comment)}">
+								<td colspan="5">게시글이 존재하지 않습니다.</td>
+							</tr>	
+							<tr th:if="${not #lists.isEmpty(comment)}" style="cursor: pointer;" th:each="board:${comment}">
+								<td th:text="${board.type}" style="color: #037b94b5"></td>
+								<td>
+									<div class="combined-cell">
+					            		<a class="text-black text-decoration-none" th:if="${#strings.equals(board.type, '영화')}" th:href="@{../../board/movie/detail(no=${board.no})}">
+										    <div class="title-content-2" th:text="${board.name.length() > 13 ? board.name.substring(0, 13) + '...' : board.name}"></div>
+										</a>
+					            		<a class="text-black text-decoration-none" th:if="${#strings.equals(board.type, '극장')}" th:href="@{../../board/theater/detail(no=${board.no})}">
+										    <div class="title-content-2" th:text="${board.name.length() > 13 ? board.name.substring(0, 13) + '...' : board.name}"></div>
+										</a>
+					            		<a class="text-black text-decoration-none" th:if="${#strings.equals(board.type, '스토어')}" th:href="@{../../board/store/detail(no=${board.no})}">
+										    <div class="title-content-2" th:text="${board.name.length() > 13 ? board.name.substring(0, 13) + '...' : board.name}"></div>
+										</a>
+					            		<a class="text-black text-decoration-none" th:if="${#strings.equals(board.type, '파티')}" th:href="@{../../board/party/detail(no=${board.no})}">
+										    <div class="title-content-2" th:text="${board.name.length() > 13 ? board.name.substring(0, 13) + '...' : board.name}"></div>
+										</a>
+					                </div>
+								</td>
+								<td th:text="${#dates.format(board.createDate, 'yyyy-MM-dd')}"></td>
+							</tr>
+						</tbody>
+					</table>
+					<hr style="margin-top:-15px;">
+				</div>
+				
+				<div class="col-6 mb-4">
+					<div  style="padding-bottom: 40px">
+						<p class="float-start" style="font-size:18px;">좋아요수 BEST5</p>
+						<a th:href="@{/board/movie/list}" class ="float-end mt-2 text-black text-decoration-none" style="font-size:14px;">더보기 <i class="iconset ico-arr-right-gray m107"></i></a>
+					</div>
+					<table class="table table-borderless border-top  border-dark pt-2">
+						 <tbody style="font-size:14px;">
+						 	<tr th:if="${#lists.isEmpty(like)}">
+								<td colspan="5">게시글이 존재하지 않습니다.</td>
+							</tr>	
+							<tr th:if="${not #lists.isEmpty(like)}" style="cursor: pointer;" th:each="board:${like}">
+								<td th:text="${board.type}"  style="color: #037b94b5"></td>
+								<td>
+									<div class="combined-cell">
+					            		<a class="text-black text-decoration-none" th:if="${#strings.equals(board.type, '영화')}" th:href="@{../../board/movie/detail(no=${board.no})}">
+										    <div class="title-content-2" th:text="${board.name.length() > 13 ? board.name.substring(0, 13) + '...' : board.name}"></div>
+										</a>
+					            		<a class="text-black text-decoration-none" th:if="${#strings.equals(board.type, '극장')}" th:href="@{../../board/theater/detail(no=${board.no})}">
+										    <div class="title-content-2" th:text="${board.name.length() > 13 ? board.name.substring(0, 13) + '...' : board.name}"></div>
+										</a>
+					            		<a class="text-black text-decoration-none" th:if="${#strings.equals(board.type, '스토어')}" th:href="@{../../board/store/detail(no=${board.no})}">
+										    <div class="title-content-2" th:text="${board.name.length() > 13 ? board.name.substring(0, 13) + '...' : board.name}"></div>
+										</a>
+					            		<a class="text-black text-decoration-none" th:if="${#strings.equals(board.type, '파티')}" th:href="@{../../board/party/detail(no=${board.no})}">
+										    <div class="title-content-2" th:text="${board.name.length() > 13 ? board.name.substring(0, 13) + '...' : board.name}"></div>
+										</a>
+					                </div>
+								</td>
+								<td th:text="${#dates.format(board.createDate, 'yyyy-MM-dd')}"></td>
+							</tr>
+						</tbody> 
+					</table>
+					<hr style="margin-top:-15px;">
+				</div>
+			</div>
 
-            <div class="menu-link">
-                <div class="cell vip"><a href="/benefit/viplounge" title="VIP LOUNGE 페이지로 이동">VIP LOUNGE</a></div>
-                <div class="cell membership"><a href="/benefit/membership" title="멤버십 페이지로 이동">멤버십</a></div>
-                <div class="cell card"><a href="/benefit/discount/guide" title="할인카드안내 페이지로 이동">할인카드안내</a></div>
-                <div class="cell event"><a href="/event" title="이벤트 페이지로 이동">이벤트</a></div>
-                <div class="cell store"><a href="/store" title="스토어 페이지로 이동">스토어</a></div>
-            </div>
         </div>
         <!--// wrap -->
     </div>
     <!--// section main-board : 게시판 -->
 
     <!--// section giftcon_wrap : 게시판 -->
-    <div id="main_section03" class="section giftcon_wrap">
-        <div class="warp">
+    <div id="main_section03 " class="section giftcon_wrap pt-0 main-curation">
+        <div class="wrap">
             <div class="tit-util">
                 <h2 class="tit">스토어</h2>
-                <a href="/store" class="btn-more-cross purple">더보기</a>
+                <div class="right">
+                    <a th:href="@{/store}" title="스토어 더보기">
+                        스토어 더보기 <i class="iconset ico-more-corss gray"></i>
+                    </a>
+                </div>
             </div>
-            <ul class="giftcon_list_wrap">
+            <ul class="giftcon_list_wrap  mt-4">
 
                 <li>
                     <dl class="giftcon_list">
-                        <dt>패키지<a href="/culture-event/popcorn-store/store-category.aspx?CategoryIdx=1" alt="패키지" class="btn_more">더보기</a></dt>
+                        <dt>패키지<a th:href="@{/store/list?catNo=1}" alt="패키지" class="btn_more">더보기</a></dt>
 
                         <dd>
-                            <a href="/culture-event/popcorn-store/product-detail.aspx?GG_NO=100364">
-                                <div class="img_wrap" data-scale="false"><img src="https://img.cgv.co.kr/GiftStore/Product/Pc/List/16915432964910.jpg" alt="<마야3: 숲속왕국의 위기>얼리버드 관람권 세트(2매)"></div>
+                            <a th:href="@{/store/detail/package?packageNo=5}">
+                                <div class="img_wrap" data-scale="false"><img th:src="@{/images/product/패밀리 나초 패키지.png}" alt="패밀리 나초 패키지"></div>
                                 <div class="giftcon_info_wrap">
-                                    <span>&lt;마야3: 숲속왕국의 위기&gt;얼리버드 관람권 세트(2매)</span>
+                                    <span>페밀리 나초 패키지</span>
                                     <strong>14,000원</strong>
                                 </div>
                             </a>
                         </dd>
 
                         <dd>
-                            <a href="/culture-event/popcorn-store/product-detail.aspx?GG_NO=100344">
-                                <div class="img_wrap" data-scale="false"><img src="https://img.cgv.co.kr/GiftStore/Product/Pc/List/16778218049340.jpg" alt="우리 패키지"></div>
+                            <a th:href="@{/store/detail/package?packageNo=4}">
+                                <div class="img_wrap" data-scale="false"><img th:src="@{/images/product/패밀리 패키지.png}" alt="우리 패키지"></div>
                                 <div class="giftcon_info_wrap">
-                                    <span>우리 패키지</span>
+                                    <span>패밀리 패키지</span>
                                     <strong>61,000원</strong>
                                 </div>
                             </a>
                         </dd>
 
                         <dd>
-                            <a href="/culture-event/popcorn-store/product-detail.aspx?GG_NO=100343">
-                                <div class="img_wrap" data-scale="false"><img src="https://img.cgv.co.kr/GiftStore/Product/Pc/List/16778214176450.jpg" alt="나랑 너 패키지"></div>
+                            <a th:href="@{/store/detail/package?packageNo=2}">
+                                <div class="img_wrap" data-scale="false"><img th:src="@{/images/product/너와 나 패키지.png}" alt="나랑 너 패키지"></div>
                                 <div class="giftcon_info_wrap">
                                     <span>나랑 너 패키지</span>
                                     <strong>34,000원</strong>
@@ -947,34 +1020,34 @@
                 </li>
                 <li>
                     <dl class="giftcon_list">
-                        <dt>영화관람권<a href="/culture-event/popcorn-store/store-category.aspx?CategoryIdx=2" alt="영화관람권" class="btn_more">더보기</a></dt>
+                        <dt>팝콘/음료<a th:href="@{/store/list?catNo=2}" alt="팝콘/음료" class="btn_more">더보기</a></dt>
 
                         <dd>
-                            <a href="/culture-event/popcorn-store/product-detail.aspx?GG_NO=100026">
-                                <div class="img_wrap" data-scale="false"><img src="https://img.cgv.co.kr/GiftStore/Product/Pc/List/15458911951520.jpg" alt="CGV 골드클래스"></div>
+                            <a th:href="@{/store/detail/product?productNo=23}">
+                                <div class="img_wrap" data-scale="false"><img th:src="@{/images/product/네가지맛 에이드.png}" alt="CGV 골드클래스"></div>
                                 <div class="giftcon_info_wrap">
-                                    <span>CGV 골드클래스</span>
-                                    <strong>40,000원</strong>
+                                    <span>에이드</span>
+                                    <strong>4,500원</strong>
                                 </div>
                             </a>
                         </dd>
 
                         <dd>
-                            <a href="/culture-event/popcorn-store/product-detail.aspx?GG_NO=100341">
-                                <div class="img_wrap" data-scale="false"><img src="https://img.cgv.co.kr/GiftStore/Product/Pc/List/16777513183750.jpg" alt="CGV 영화관람권"></div>
+                            <a th:href="@{store/detail/product?productNo=25}">
+                                <div class="img_wrap" data-scale="false"><img th:src="@{/images/product/콜라 L사이즈.png}" alt="CGV 영화관람권"></div>
                                 <div class="giftcon_info_wrap">
-                                    <span>CGV 영화관람권</span>
-                                    <strong>13,000원</strong>
+                                    <span>콜라 L사이즈</span>
+                                    <strong>3,000원</strong>
                                 </div>
                             </a>
                         </dd>
 
                         <dd>
-                            <a href="/culture-event/popcorn-store/product-detail.aspx?GG_NO=100255">
-                                <div class="img_wrap" data-scale="false"><img src="https://img.cgv.co.kr/GiftStore/Product/Pc/List/16105061088530.jpg" alt="4DX관람권"></div>
+                            <a th:href="@{store/detail/product?productNo=27}">
+                                <div class="img_wrap" data-scale="false"><img th:src="@{/images/product/팝콘 L사이즈.png}" alt="4DX관람권"></div>
                                 <div class="giftcon_info_wrap">
-                                    <span>4DX관람권</span>
-                                    <strong>19,000원</strong>
+                                    <span>팝콘 L사이즈</span>
+                                    <strong>5,500원</strong>
                                 </div>
                             </a>
                         </dd>
@@ -983,33 +1056,33 @@
                 </li>
                 <li>
                     <dl class="giftcon_list">
-                        <dt>기프트카드<a href="/culture-event/popcorn-store/store-category.aspx?CategoryIdx=3" alt="기프트카드" class="btn_more">더보기</a></dt>
+                        <dt>금액권<a th:href="@{/store/list?catNo=5}" alt="금액권" class="btn_more">더보기</a></dt>
 
                         <dd>
-                            <a href="/culture-event/popcorn-store/product-detail.aspx?GG_NO=100209">
-                                <div class="img_wrap" data-scale="false"><img src="https://img.cgv.co.kr/GiftStore/Product/Pc/List/15940283913270.jpg" alt="파코니야 여름을부탁해"></div>
+                            <a th:href="@{/store/detail/product?productNo=30}">
+                                <div class="img_wrap" data-scale="false"><img th:src="@{/images/product/2만원권.png}" alt="파코니야 여름을부탁해"></div>
                                 <div class="giftcon_info_wrap">
-                                    <span>파코니야 여름을부탁해</span>
+                                    <span>2만원권</span>
                                     <strong>금액충전형</strong>
                                 </div>
                             </a>
                         </dd>
 
                         <dd>
-                            <a href="/culture-event/popcorn-store/product-detail.aspx?GG_NO=100208">
-                                <div class="img_wrap" data-scale="false"><img src="https://img.cgv.co.kr/GiftStore/Product/Pc/List/15936788537310.jpg" alt="파코니의 썸머파티"></div>
+                            <a th:href="@{/store/detail/product?productNo=31}">
+                                <div class="img_wrap" data-scale="false"><img th:src="@{/images/product/3만원권.png}" alt="파코니의 썸머파티"></div>
                                 <div class="giftcon_info_wrap">
-                                    <span>파코니의 썸머파티</span>
+                                    <span>3만원권</span>
                                     <strong>금액충전형</strong>
                                 </div>
                             </a>
                         </dd>
 
                         <dd>
-                            <a href="/culture-event/popcorn-store/product-detail.aspx?GG_NO=100161">
-                                <div class="img_wrap" data-scale="false"><img src="https://img.cgv.co.kr/GiftStore/Product/Pc/List/15814124358590.jpg" alt="PACONNIE A형"></div>
+                            <a th:href="@{/store/detail/product?productNo=32}">
+                                <div class="img_wrap" data-scale="false"><img th:src="@{/images/product/5만원권.png}" alt="PACONNIE A형"></div>
                                 <div class="giftcon_info_wrap">
-                                    <span>PACONNIE A형</span>
+                                    <span>5만원권</span>
                                     <strong>금액충전형</strong>
                                 </div>
                             </a>
@@ -1024,49 +1097,17 @@
 
     <!-- section main-info : 메가박스 안내 -->
     <div id="main_section04" class="section main-info">
-
-        <h2 class="tit">메가박스 안내</h2>
-
-        <div class="swiper-container info-special swiper-container-initialized swiper-container-horizontal">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide special-cell swiper-slide-active" style="width: 170px; margin-right: 16px;">
-                    <a href="/specialtheater/dolby" title="DOLBY CINEMA 페이지로 이동" class="bg-dolby">DOLBY CINEMA</a>
-                </div>
-                <div class="swiper-slide special-cell swiper-slide-next" style="width: 170px; margin-right: 16px;">
-                    <a href="/specialtheater/boutique/private" title="THE BOUTIQUE PRIVATE 페이지로 이동" class="bg-private">THE BOUTIQUE PRIVATE</a>
-                </div>
-                <div class="swiper-slide special-cell" style="width: 170px; margin-right: 16px;">
-                    <a href="/specialtheater/boutique" title="THE BOUTIQUE 페이지로 이동" class="bg-boutique">THE BOUTIQUE</a>
-                </div>
-                <div class="swiper-slide special-cell" style="width: 170px; margin-right: 16px;">
-                    <a href="/specialtheater/mx" title="MX 페이지로 이동" class="bg-mx">MX</a>
-                </div>
-                <div class="swiper-slide special-cell" style="width: 170px; margin-right: 16px;">
-                    <a href="/specialtheater/comfort" title="COMFORT 페이지로 이동" class="bg-comfort">COMFORT</a>
-                </div>
-                <div class="swiper-slide special-cell" style="width: 170px; margin-right: 16px;">
-                    <a href="/specialtheater/puppy" title="PUPPY CINEMA 페이지로 이동" class="bg-puppy new">PUPPY CINEMA</a>
-                </div>
-                <div class="swiper-slide special-cell" style="width: 170px; margin-right: 16px;">
-                    <a href="/specialtheater/megakids" title="MEGABOX KIDS 페이지로 이동" class="bg-kids">MEGABOX KIDS</a>
-                </div>
-            </div>
-            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
-
-        <div class="special-control">
-            <button type="button" class="special-prev swiper-button-disabled" tabindex="0" role="button" aria-label="Previous slide" aria-disabled="true"></button>
-            <button type="button" class="special-next" tabindex="0" role="button" aria-label="Next slide" aria-disabled="false"></button>
-        </div>
+      
         <!-- info-notice -->
         <div class="info-notice">
             <div class="wrap">
                 <p class="tit">지점</p>
                 <p class="link">
-                    <a href="/support/notice/detail?artiNo=10896&amp;bbsNo=9" title="공지사항 상세보기">
+                    <a th:href="@{/support/notice/detail?locationNo=&no=50&catNo=21&page=8&keyword=}" title="공지사항 상세보기">
                         <strong>
-                            [코엑스]
+                            [동대문]
                         </strong>
-                        [코엑스]시사회 진행에 따른 고객 안내 (7월 13일)</a>
+                        [동대문] 태풍 카눈 북상에 따른 주차장 사용 불가 안내(8/10부터~)</a>
                 </p>
 
                 <p class="date">2023.07.07</p>
@@ -1095,12 +1136,7 @@
                     </a>
                 </div>
 
-                <div class="cell">
-                    <a href="/support/notice">
-                        <i class="iconset ico-main-notice"></i>
-                        <span>공지사항</span>
-                    </a>
-                </div>
+               
 
                 <div class="cell">
                     <a href="/support/inquiry">

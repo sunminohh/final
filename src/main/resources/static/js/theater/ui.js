@@ -1,8 +1,46 @@
 $(() => {
 	let saveCnt = 0;
 	refrashtheater();
+	getNoticeList();
 	
-	
+	function getNoticeList() {
+		
+		let categoryNo =23;
+		let page
+		let locationNo
+		let theaterNo=$("p.name").attr("data-theater-no");
+		let keyword 
+		const $noticeList = $(".board-list tbody").empty()
+		$.getJSON("/support/notice/list", {catNo:categoryNo, locationNo:locationNo, theaterNo:theaterNo,page:page,  keyword:keyword}, function(result) {
+			if(result.noticeList.length==0){
+				const htmlcontent = `
+						<tr>
+							<td colspan='4'> 공지사항이 없습니다.</td>
+						</tr>
+				`;
+					$noticeList.append(htmlcontent);
+				}
+			
+			result.noticeList.forEach(function(notice,index){
+				
+				
+				const htmlcontent = `
+						<tr>
+							<td>${notice.theater.name}</td>
+							<th scope="row"><a
+								href="/support/notice/detail?locationNo=&no=${notice.no}&catNo=23&page=1&keyword="
+								title="${notice.title} 상세보기"> ${notice.title} </a></th>
+							<td>${notice.location.name}</td>
+							<td>${dayjs(notice.createDate).format("YYYY.MM.DD")}</td>
+						</tr>
+				`;
+				if(index<5){
+					$noticeList.append(htmlcontent);
+				}
+			})
+			
+		})
+	}
 	// 극장리스트
 	function refrashtheater(){
 		$('#location').val($('#selectBoxId option:first').val());

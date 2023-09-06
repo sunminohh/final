@@ -180,6 +180,7 @@ public class PartyController {
 						   @RequestParam("sort") String sort,
 						   @RequestParam("complete") String complete,
 						   @RequestParam(name = "theaterNo", required = false) Integer theaterNo,
+						   @RequestParam(name = "locationNo", required = false) Integer locationNo,
 						   @RequestParam("opt") String opt,
 						   @RequestParam("keyword") String keyword,
 						   RedirectAttributes redirectAttributes) {
@@ -194,6 +195,7 @@ public class PartyController {
 	        if(rows != null) {
 	        	redirectAttributes.addAttribute("rows", rows);		
 	        }
+	        redirectAttributes.addAttribute("locationNo", locationNo);
 	        redirectAttributes.addAttribute("theaterNo", theaterNo);
 	        redirectAttributes.addAttribute("opt", opt);
 	        redirectAttributes.addAttribute("keyword", keyword);

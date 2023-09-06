@@ -1,9 +1,9 @@
-$(function() {
+$(() => {
 	
 	// 댓글 추가
 	$("#form-comment").submit(function (e) {
 		e.preventDefault();
-		let inputcontent = $("#commentArea").val();
+		let inputcontent = $("#commentArea").val();	
 		
 		if(inputcontent === "") {
 			Swal.fire({
@@ -30,6 +30,10 @@ $(function() {
 					$(".review").remove();
 					$("#reviewBox").append(html);
 					$("#commentArea").val("");
+					Swal.fire({
+						 icon: 'success',
+		                 text: '답변이 등록되었습니다.',
+					});
 				}
 			});
 		}

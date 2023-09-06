@@ -187,12 +187,14 @@
 			A.ONE_UPDATE_DATE		as updateDate, 
 			A.ONE_CREATE_DATE		as createDate, 
 			A.USER_ID 				as "user.id",
+			A.user_email			as "user.email",
 			A.LOCATION_NO			as "location.no", 
 			B.LOCATION_NAME			as "location.name", 
 			A.THEATER_NO			as "theater.no",
 			C.THEATER_NAME			as "theater.name",
 			A.CATEGORY_NO			as "category.no", 
-			D.CATEGORY_NAME			as "category.name" 
+			D.CATEGORY_NAME			as "category.name",
+			A.ONE_GUEST_EMAIL		as guestEmail 
 		FROM 
 			MGV_SUPPORT_ONE A 
 			left outer join MGV_LOCATION B on A.LOCATION_NO = B.LOCATION_NO 

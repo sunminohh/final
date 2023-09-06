@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html layout:decorate="~{ layout/admin }">
+<head th:fragment="extra-head-content">
+    <title>관리자페이지</title>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script th:src="@{/js/admin/home/dashboard.js}"></script>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-fluid">
+    <div style="width: 100%">
+        <!--  Row 1 -->
+        <div class="row">
+            <div class="col-lg-12 d-flex align-items-strech">
+                <div class="card w-100">
+                    <div class="card-body">
+                        <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
+                            <div class="mb-3 mb-sm-0">
+                                <h5 class="card-title fw-semibold">일일 매출표</h5>
+                                <div class="col-12">
+                                	<button class="btn btn-primary">일별 총매출</button>
+                                	<button class="btn btn-primary">일일 영화매출</button>
+                                	<button class="btn btn-primary">일일 상품매출</button>
+                                	
+                                	<button class="btn btn-info">월별 총매출</button>
+                                	<button class="btn btn-info">월간 영화매출</button>
+                                	<button class="btn btn-info">월간 상품매출</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 d-flex align-items-strech">
+                <div class="card w-100">
+                    <div class="card-body">
+                        <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
+                            <div class="mb-3 mb-sm-0">
+                                <h5 class="card-title fw-semibold">일일 매출표</h5>
+                            </div>
+                        </div>
+                        <div id="chart"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+</body>
+</html>

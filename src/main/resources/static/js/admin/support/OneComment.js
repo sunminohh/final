@@ -32,6 +32,10 @@ $(function() {
                      $(".review").remove();
                      $("#reviewBox").append(html);
                      $("#commentArea").val("");
+                     Swal.fire({
+						 icon: 'success',
+		                 text: '답변이 등록되었습니다.',
+					});
                  }
              });
           }   

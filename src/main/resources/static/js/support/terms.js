@@ -1,20 +1,13 @@
 $(function() {
 	
-		/*
-        $("ul#titleLeft li a").on("click", function(e) {
-            var dataNo = $(this).data("no");
+	$('.pull-left li a').click(function() {
 
-            $("ul#titleLeft li a").removeClass("on");
-
-            $(this).addClass("on");
-
-            
-            var targetId = "n" + dataNo;
-            $('html, body').animate({
-                scrollTop: $("#" + targetId).offset().top
-
-        });
-		*/
-        
-});
-    
+	    $(this).removeClass('on')
+		
+		$(this).addClass('on');
+		
+		$(this).closest('li').siblings('li').find('a').removeClass('on')
+		$(this).closest('.pull-left').siblings('.pull-left').find('li a').removeClass('on')
+    });
+	
+})

@@ -63,4 +63,14 @@ public class BookingRestController {
         theaterService.deleteDisabledSeatsByScreenId(screenId);
         return "success";
     }
+    @GetMapping("/getScreenMatrix")
+        public Map<String,Integer> getScreenMatrix(@RequestParam("screenId") int screenId){
+
+            return null;
+        }
+        @PostMapping("/bookingPay")
+    public Object bookingPay(@RequestBody Map<String,String> params){
+        log.info("price ->{}",params.get("finalPrice"));
+        return params.toString();
+        }
 }
