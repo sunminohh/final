@@ -125,6 +125,15 @@ $(function() {
 
     const orderNameInput = document.getElementById("package-name")
 
+
+
+        const bundle=$(".bundle").filter(":first")
+        const bundleText=bundle.text()
+        let a=parseInt(bundleText.charAt(bundleText.indexOf('일반 관람권')+7))
+
+    let giftTickets = a>0? a : 1
+
+
     let tossPayments = TossPayments("test_ck_Lex6BJGQOVDY7zZDAQOrW4w2zNbg");
 
     let orderName = orderNameInput.value;
@@ -143,7 +152,7 @@ $(function() {
             "card": {
                 "amount": amount,
                 "orderId": uuid + orderId,
-                "orderName": orderName,
+                "orderName": giftTickets+" "+orderName,
                 "successUrl": successUrl,
                 "failUrl": failUrl,
                 "cardCompany": null,
@@ -159,7 +168,7 @@ $(function() {
                 "appScheme": null
             }
         }
-
+        console.log(jsons.card)
         pay('카드', jsons.card);
 
     })
