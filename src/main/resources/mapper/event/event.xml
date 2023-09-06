@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="kr.co.mgv.event.dao.EventDao">
+
+	<insert id="insertEvent" parameterType="kr.co.mgv.event.vo.Event">
+		INSERT INTO
+			MGV_EVENT
+		(EVENT_TITLE, EVENT_MAIN_IMAGE, EVENT_DETAIL_IMAGE, EVENT_START_DATE, EVENT_END_DATE, CATEGORY_NO, USER_ID)
+		VALUES
+			(#{title}, #{mainImage}, #{detailImage}, #{startDate}, #{endDate}, #{category.no}, #{user.id});
+	</insert>
+
+</mapper>
