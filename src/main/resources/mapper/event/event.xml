@@ -7,7 +7,127 @@
 			MGV_EVENT
 		(EVENT_TITLE, EVENT_MAIN_IMAGE, EVENT_DETAIL_IMAGE, EVENT_START_DATE, EVENT_END_DATE, CATEGORY_NO, USER_ID)
 		VALUES
-			(#{title}, #{mainImage}, #{detailImage}, #{startDate}, #{endDate}, #{category.no}, #{user.id});
+			(#{title}, #{mainImage}, #{detailImage}, #{startDate}, #{endDate}, #{category.no}, #{user.id})
 	</insert>
+	
+	<update id="updateEventByNo" parameterType="kr.co.mgv.event.vo.Event">
+		UPDATE 
+			MGV_EVENT
+		SET 
+			<if test="title != null">
+				EVENT_TITLE = #{title},
+			</if>
+			<if test="mainImage != null">
+				EVENT_MAIN_IMAGE = #{mainImage},
+			</if>
+			<if test="detailImage != null">
+				EVENT_DETAIL_IMAGE = #{detailImage},
+			</if>
+			<if test="deleted != null">
+				EVENT_DELETED = #{deleted},
+			</if>
+			<if test="startDate != null">
+				EVENT_START_DATE = #{startDate},
+			</if>
+			<if test="endDate != null">
+				EVENT_END_DATE = #{endDate},
+			</if>
+			<if test="updateDate != null">
+				EVENT_UPDATE_DATE = #{updateDate},
+			</if>
+			<if test="category != null">
+				CATEGORY_NO = #{category.no}
+			</if>
+		WHERE 
+			EVENT_NO= #{no} 	
+	</update>
+	
+	<select id="getTotalRows" parameterType="map" resultType="int">
+		select count(*)
+		FROM 
+			MGV_EVENT A, MGV_EVENT_CATEGORIES B
+		where
+			A.CATEGORY_NO = B.CATEGORY_NO
+			and A.EVENT_DELETED = 'N'
+			<if test="catNo != 1">
+				and A.CATEGORY_NO = #{catNo}
+			</if>
+			<if test="keyword != null">
+				and A.EVENT_TITLE like  CONCAT('%', #{keyword}, '%')	
+			</if>
+	</select>
+	
+	<select id="getEventByNo" parameterType="int" resultType="kr.co.mgv.event.vo.Event">
+		SELECT 
+			A.EVENT_NO				as no, 
+			A.EVENT_TITLE			as title, 
+			A.EVENT_MAIN_IMAGE		as mainImage, 
+			A.EVENT_DETAIL_IMAGE	as detailImage,
+			A.EVENT_DELETED			as deleted, 
+			A.EVENT_START_DATE		as startDate, 
+			A.EVENT_END_DATE		as endDate, 
+			A.EVENT_UPDATE_DATE		as updateDate, 
+			A.EVENT_CREATE_DATE		as createDate, 
+			A.CATEGORY_NO			as "category.no", 
+			B.CATEGORY_NAME			as "category.name" 
+		FROM 
+			MGV_EVENT A, MGV_EVENT_CATEGORIES B
+		where
+			A.CATEGORY_NO = B.CATEGORY_NO
+			and A.EVENT_DELETED = 'N'
+			and A.EVENT_NO = #{value}
+	</select>
+	
+	<select id="getEventList" parameterType="map" resultType="kr.co.mgv.event.vo.Event">
+		SELECT 
+			A.EVENT_NO				as no, 
+			A.EVENT_TITLE			as title, 
+			A.EVENT_MAIN_IMAGE		as mainImage, 
+			A.EVENT_DETAIL_IMAGE	as detailImage,
+			A.EVENT_DELETED			as deleted, 
+			A.EVENT_START_DATE		as startDate, 
+			A.EVENT_END_DATE		as endDate, 
+			A.EVENT_UPDATE_DATE		as updateDate, 
+			A.EVENT_CREATE_DATE		as createDate, 
+			A.CATEGORY_NO			as "category.no", 
+			B.CATEGORY_NAME			as "category.name" 
+		FROM 
+			MGV_EVENT A, MGV_EVENT_CATEGORIES B
+		where
+			A.CATEGORY_NO = B.CATEGORY_NO
+			and A.EVENT_DELETED = 'N'
+			<if test="catNo != 1">
+				and A.CATEGORY_NO = #{catNo}
+			</if>
+			<if test="keyword != null">
+				and A.EVENT_TITLE like  CONCAT('%', #{keyword}, '%')	
+			</if>
+			<if test="status != null">
+				<choose>
+					<when test="status == 'wait'">
+						and A.EVENT_START_DATE > NOW()
+					</when>
+					<when test="status == 'run'">
+						and A.EVENT_START_DATE &lt; NOW() and A.EVENT_END_DATE >= NOW()
+					</when>
+					<when test="status == 'finish'">
+						and A.EVENT_END_DATE &lt; NOW()
+					</when>
+				</choose>
+			</if>
+		order by
+			A.EVENT_NO DESC
+		LIMIT 10 OFFSET #{begin}
+	</select>
+	
+	<select id="getCategories" parameterType="string" resultType="kr.co.mgv.event.vo.EventCategory">
+		SELECT 
+			CATEGORY_NO		as no, 
+			CATEGORY_NAME	as name
+		FROM 
+			MGV_EVENT_CATEGORIES
+		where
+			CATEGORY_NO != 1
+	</select>
 
 </mapper>

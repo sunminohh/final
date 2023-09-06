@@ -15,35 +15,38 @@
    		
 	    <div class="tab-list fixed">
 	        <ul>
-	            <li class="on">
+	            <li  data-cat-no="1" th:classappend="${param.catNo == null || #strings.equals(param.catNo, '1') ? 'on' : ''}">
 	                <a title="전체">전체</a>
 	            </li>
-	            <li >
+	            <li data-cat-no="2"  th:classappend="${#strings.equals(param.catNo, '2') ? 'on' : ''}">
 	                <a  title="MGV Pick 탭으로 이동">MGV Pick</a>
 	            </li>
-	            <li >
+	            <li data-cat-no="3"  th:classappend="${#strings.equals(param.catNo, '3') ? 'on' : ''}">
 	                <a  title="영화 탭으로 이동">영화</a>
 	            </li>
-	            <li >
+	            <li data-cat-no="4"  th:classappend="${#strings.equals(param.catNo, '4') ? 'on' : ''}">
 	                <a  title="극장 탭으로 이동">극장</a>
 	            </li>
 	        </ul>
 	    </div>
 	    
 	    <div class="board-list-util">
-	    <p class="result-count"><strong>전체 <span class="font-gblue" id="totalCnt" ></span>건</strong></p>
-		<form method="get"id="actionForm" >    
+	    <p class="result-count"><strong>전체 <span class="font-gblue" id="totalCnt" th:text="${result.pagination.totalRows}"></span>건</strong></p>
+		<form method="get" id="actionForm" th:action="@{list}">    
 		     <div class="ml07 bs3  d-flex justify-content-end">
-		         	<select id="location" title="진행 여부" name="locationNo"
+		         	<select id="location" title="진행 여부" name="status"
 			                                class="form-select form-select-sm  ml06 form-control-sm mb-3"
-			                                style="width: 100px; ">
-			                            <option value="" selected>진행 여부</option>
-			                            <option>진행중</option>
-			                            <option>종료</option>
+			                                style="width: 130px; ">
+			                            <option value="" selected> 진행 여부</option>
+			                            <option value="wait" th:selected="${#strings.equals(param.status , 'wait')}">진행 예정</option>
+			                            <option value="run" th:selected="${#strings.equals(param.status, 'run')}">진행중</option>
+			                            <option value="finish" th:selected="${#strings.equals(param.status, 'finish')}">종료</option>
 		         	</select>
 		       
 			        <div class="board-search">
-			            <input type="search" name="keyword" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text"  autocomplete="off">
+			        	<input type="hidden" name="catNo" th:value="${param.catNo == null ? 1 : param.catNo}" />
+			        	<input type="hidden" name="page" th:value="${param.page == null ? 1 : param.page}" />
+			            <input type="search" name="keyword" title="검색어를 입력해 주세요." th:value="${param.keyword == null ? '' : param.keyword}" placeholder="검색어를 입력해 주세요." class="input-text"  autocomplete="off">
 			            <button type="button" id="searchBtn" class="btn-search-input">검색</button>
 			        </div>
 			 </div>
@@ -55,7 +58,7 @@
 	                <col style="width:72px;">
 	                <col style="width:133px;">
 	                <col>
-	                <col style="width:100px;">
+	                <col style="width:116px;">
 	                <col style="width:116px;">
 	            </colgroup>
 	            <thead>
@@ -63,27 +66,32 @@
 	                <th scope="col">번호</th>
 	                <th scope="col">카테고리</th>
 	                <th scope="col">제목</th>
-	                <th scope="col">진행여부</th>
-	                <th scope="col">등록일</th>
+	                <th scope="col">시작일</th>
+	                <th scope="col">종료일</th>
 	            </tr>
 	            </thead>
-	            <tbody class="noticeList">
-		            <tr >
-		                <td ></td>
-		                <td ></td>
-		                <td></td>
+	            <tbody class="eventList">
+	            	<tr th:if="${#lists.isEmpty(result.eventList)}">
+	            		<td colspan="5">게시글이 존재하지 않습니다.</td>
+	            	</tr>
+		            <tr th:each="event: ${result.eventList}">
+		                <td th:text="${event.no}"></td>
+		                <td th:text="${event.category.name}"></td>
 		                <td style="text-align:left;">
 		                	 <a class="text-black text-decoration-none
 	                      		d-inline-block text-truncate" style="max-width: 400px;"
-		                		>
+	                      		th:href="@{/admin/event/detail(no=${event.no})}"
+		                		th:text="${event.title}">
 		                	 </a>
 		                </td>
-		                <td></td>
+		                <td th:text="${#dates.format(event.startDate, 'yyyy.MM.dd')}"></td>
+		                <td th:text="${#dates.format(event.endDate, 'yyyy.MM.dd')}"></td>
 		            </tr>
 	            </tbody>
 	        </table>
 	    </div>
-	    <!-- pagination 
+	    
+	    <!-- pagination -->
 	    <div class="row mb-3">
 	      	<div class="col-12">
 			    <nav>
@@ -124,7 +132,7 @@
 				</nav>
 			</div>
 		</div>
-    -->
+	    <!--// pagination -->
             
     </div>
 </div>
