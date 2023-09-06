@@ -21,7 +21,6 @@ import kr.co.mgv.theater.vo.Theater;
 import kr.co.mgv.user.service.EmailService;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
@@ -57,7 +56,6 @@ public class LostService {
 		}
 		
 		emailService.sendTempqnaMessage(email);
-		
 	}
 	
 	public void deleteComment(int commentNo) {

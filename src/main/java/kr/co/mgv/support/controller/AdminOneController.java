@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -21,15 +24,20 @@ import kr.co.mgv.support.service.OneService;
 import kr.co.mgv.support.vo.One;
 import kr.co.mgv.support.vo.OneComment;
 import kr.co.mgv.support.vo.OneFile;
+import kr.co.mgv.user.service.EmailService;
+import kr.co.mgv.user.service.EmailServiceImpl;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admin/support/one")
+@Slf4j
 public class AdminOneController {
 
 	private final OneService oneService;
+	private final EmailServiceImpl emailService;
 	
 	@GetMapping 
 	public String one(@RequestParam(name = "categoryNo", required = false, defaultValue = "24") int categoryNo,
@@ -103,21 +111,28 @@ public class AdminOneController {
 	@ResponseBody
 	public ResponseEntity<List<OneComment>> addComment(@AuthenticationPrincipal User user,
 			@RequestParam("no") int oneNo,
-			@RequestParam("content") String content) {
+			@RequestParam("content") String content) throws Exception {
 		
-		One one = One.builder().no(oneNo).build();
-		OneComment comment = OneComment.builder().
-							user(user).
-							one(one).
-							content(content).build();
-		
-		oneService.insertComment(comment);
-		oneService.updateOneComment(oneNo);
-		
+		oneService.insertComment(user, oneNo, content);
 		List<OneComment> inputComments = oneService.getOneCommentByOne(oneNo);
 		
 		return ResponseEntity.ok().body(inputComments);
 	}
+	
+	@PostMapping("/mail")
+    @ResponseBody
+    public ResponseEntity<String> mailConfirm(@RequestParam("email") String email, HttpSession session) {
+        try {
+            String content = emailService.sendTempqnaMessage(email);
+            log.info("메일내용 -> {}", content);
+
+            // 생성한 인증 코드를 세션에 저장
+            return ResponseEntity.ok().body("success");
+        } catch (Exception e) {
+            log.error("Error sending email", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("메일 전송 중 오류가 발생했습니다.");
+        }
+    }
 	
 	@PostMapping("/deleteComment")
 	@ResponseBody

@@ -1,8 +1,8 @@
 $(() => {
+	
 	// 댓글 추가
 	$("#form-comment").submit(function (e) {
 		e.preventDefault();
-		
 		let inputcontent = $("#commentArea").val();	
 		
 		if(inputcontent === "") {

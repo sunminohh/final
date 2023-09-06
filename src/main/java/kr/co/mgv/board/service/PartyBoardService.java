@@ -338,7 +338,7 @@ public class PartyBoardService {
 		}
 		
 		// 내 게시글의 다른 사용자의 댓글에 내가 아닌 사용자가 대댓글을 달았다
-		if(comment.getGreat() != null &&  !comment.getGreat().getUser().getId().equals(fromId) && !writerId.equals(fromId) ) {
+		if(comment.getGreat() != null && !writerId.equals(fromId) ) {
 			log.info("게시글 작성자-> {}",writerId);
 			log.info("현댓글 작성자-> {}",fromId);
 			log.info("모댓글 작성자 -> {}",comment.getGreat().getUser().getId());

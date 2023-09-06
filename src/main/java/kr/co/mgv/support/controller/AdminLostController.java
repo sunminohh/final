@@ -23,7 +23,6 @@ import kr.co.mgv.support.service.LostService;
 import kr.co.mgv.support.vo.Lost;
 import kr.co.mgv.support.vo.LostComment;
 import kr.co.mgv.support.vo.LostFile;
-import kr.co.mgv.user.service.EmailService;
 import kr.co.mgv.user.service.EmailServiceImpl;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
