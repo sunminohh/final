@@ -85,6 +85,14 @@ $(() => {
     function pay(method, requestJson) {
         console.log(requestJson);
         tossPayments.requestPayment(method, requestJson)
+            .then(function(response) {
+                if (response.code === "SUCCESS") {
+                    Swal.fire({
+                        icon: 'success',
+                        text: "구매가 완료되었습니다."
+                    })
+                }
+            })
             .catch(function (error) {
 
                 if (error.code === "USER_CANCEL") {

@@ -2,9 +2,13 @@ package kr.co.mgv.store.controller;
 
 import kr.co.mgv.store.service.CartService;
 import kr.co.mgv.store.service.OrderService;
+import kr.co.mgv.store.service.PackageService;
+import kr.co.mgv.store.service.ProductService;
 import kr.co.mgv.store.vo.Cart;
 import kr.co.mgv.store.vo.Order;
 import kr.co.mgv.store.vo.OrderItem;
+import kr.co.mgv.store.vo.Package;
+import kr.co.mgv.store.vo.Product;
 import kr.co.mgv.user.vo.User;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +37,8 @@ public class OrderController {
 
     private final CartService cartService;
     private final OrderService orderService;
+    private final ProductService productService;
+    private final PackageService packageService;
 
     @GetMapping("/success")
     public String paymentResult(
@@ -41,6 +47,7 @@ public class OrderController {
             @RequestParam(value = "amount") Integer amount,
             @RequestParam(value = "paymentKey") String paymentKey,
             @AuthenticationPrincipal User user) throws Exception {
+
 
         Order order = new Order();
 
@@ -66,8 +73,8 @@ public class OrderController {
                 orderItem.setPackagePrice(item.getTotalDiscountedPrice());
                 orderItem.setCatNo(item.getCatNo());
             }
-
             orderService.insertOrderItem(orderItem);
+            cartService.deleteCart(item.getNo());
         }
 
         String secretKey = "test_sk_ODnyRpQWGrNkGP56g4B8Kwv1M9EN:";
@@ -108,7 +115,36 @@ public class OrderController {
         model.addAttribute("orderName", (String) jsonObject.get("orderName"));
         model.addAttribute("items", items);
 
+        String orderName = jsonObject.get("orderName").toString();
 
+        log.info("orderName - {}", orderName);
+
+        List<Product> products =  productService.getAllProducts();
+
+        for (Product product : products) {
+            OrderItem orderItem = new OrderItem();
+            if (orderName == product.getName()) {
+                orderItem.setOrderId(orderId);
+                orderItem.setProductNo(product.getNo());
+                orderItem.setProductPrice(amount);
+                orderItem.setProductAmount(amount/product.getDiscountedPrice());
+            }
+
+            orderService.insertOrderItem(orderItem);
+        }
+
+        List<Package> packages = packageService.getAllPackages();
+        for (Package pkg : packages) {
+            OrderItem orderItem = new OrderItem();
+            if (orderName == pkg.getName()) {
+                orderItem.setOrderId(orderId);
+                orderItem.setPackageNo(pkg.getNo());
+                orderItem.setPackagePrice(amount);
+                orderItem.setPackageAmount(amount/pkg.getDiscountedPrice());
+            }
+
+            orderService.insertOrderItem(orderItem);
+        }
 
         if (((String) jsonObject.get("method")) != null) {
             if (((String) jsonObject.get("method")).equals("카드")) {
