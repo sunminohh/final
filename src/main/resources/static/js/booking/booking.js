@@ -31,6 +31,7 @@ $(()=>{
     let adultPrice
     let underagePrice
     let totalPrice
+    let payMethod
 
     function apiByDate(date){
         fetch('api/booking/'+date).then(res => res.json()).then(item=>{
@@ -255,7 +256,7 @@ $(()=>{
                     <button type="button" class="btn" id="schedule-${s.id}" schedule-id="${s.id}" start="${s.startTime}" play-de="${selectedDate}" end=""
                             turn="1" movie-no="${s.movieNo}" theater-no="${s.theaterNo}" screen-id="${s.screenId}" screen-name="${s.screenName}"
                             theater-name="${s.theaterName}" netfnl-adopt-at="N" rest-seat-cnt="105" start-time="${s.startTime}" end-time="${s.endTime}"
-                            ctts-ty-div-cd="MVCT01" theab-popup-at="Y" theab-popup-no="2015">
+                            movie-title="${s.movieTitle}" theab-popup-at="Y" theab-popup-no="2015">
                         <div class="legend"><i class="iconset ico-sun" title="">조조</i></div>
                         <span class="time"><strong title="상영 시작">${s.startTime}</strong><em title="상영 종료">~${s.endTime}</em></span><span
                         class="title"><strong title="${s.movieTitle}">${s.movieTitle}</strong><em>2D</em></span>
@@ -726,7 +727,9 @@ $(()=>{
             generateSeatResultByScheduleId(scheduleId)
             clearChoice()
         }else if(stage===2){
+
             $("#step2").show()
+            payMethod='toss'
             generateStep2ResultByScheduleId(scheduleId)
         }
     }
@@ -833,7 +836,7 @@ $(()=>{
         }
         $("#gift-amount").text(subAmount.toString().replace(regexp,','))
         $("#final-price").text((totalPrice-subAmount).toString().replace(regexp,','))
-        return totalPrice-subAmount
+        return subAmount
     }
     $("#btn-gift-close, #btn_gift_close_x").on("click",function(){
         $("#background-layer").hide()
@@ -852,6 +855,7 @@ $(()=>{
                                         <th scope="col">유효기간</th>
                                         <th scope="col">사용</th>
                                     </tr>`)
+        giftAmount.clear()
     })
 
     $("#clear-step-2").on('click',()=>{
@@ -869,16 +873,47 @@ $(()=>{
     }
 
     $("#btn-final-pay").on('click',()=>{
-        const finalPrice=calculFinalPrice()
-        const sId=$("#playScheduleList").find('[selected=selected]').attr('schedule-id')
+        const giftAmount=calculFinalPrice()
+        const schedule = $("#playScheduleList").find('[selected=selected]')
+        const scheduleId=$("#playScheduleList").find('[selected=selected]').attr('schedule-id')
+        const movieNo=schedule.attr('movie-no')
+        const movie=$("#mBtn-"+movieNo)
+        const moviePoster=movie.attr('img-path')
+        const movieContentRating=movie.attr('contentrating')
+        const movieContentRatingKr=movie.attr('contentratingkr')
+        const movieTitle=schedule.attr('movie-title')
+        const startTime=schedule.attr('start-time')
+        const endTime=schedule.attr('end-time')
+        const screenId=schedule.attr('screen-id')
+        const screenName=schedule.attr('screen-name')
+        const theaterNo=schedule.attr('theater-no')
+        const theaterName=schedule.attr('theater-name')
+       const bookedSeats= $(".my-seat").children('.choice').map((i,e)=>e.innerHTML).get().join()
         const dto={
-           createdDated: selectedDate,
-            finalPrice: finalPrice,
-            adultTickets:adultTickets,
-            underageTickets:underageTickets,
-            scheduleId:sId
+            no: Date.now() + Math.floor((Math.random()*100)),
+            bookingDate: selectedDate,
+            movieNo: movieNo,
+            title: movieTitle,
+            poster:moviePoster,
+            contentRating:movieContentRating,
+            contentRatingKr:movieContentRatingKr,
+            startTime: startTime,
+            endTime: endTime,
+            scheduleId: scheduleId,
+            screenId: screenId,
+            screenName: screenName,
+            theaterNo: theaterNo,
+            theaterName: theaterName,
+            totalSeats:adultTickets+underageTickets,
+            bookedSeatsNos: bookedSeats,
+            adultSeats:adultTickets,
+            underageSeats:underageTickets,
+            giftAmount: giftAmount,
+            payAmount: totalPrice-giftAmount,
+            totalPrice: totalPrice,
+            payMethod:payMethod
         }
-        if(finalPrice==0){
+        if(totalPrice-giftAmount==0){
             fetch("/api/booking/bookingPay",{
                 method:'post',
                 headers:{
