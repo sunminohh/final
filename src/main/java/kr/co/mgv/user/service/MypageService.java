@@ -36,6 +36,7 @@ public class MypageService {
         return mypageDao.getTotalRowsByUserId(userId, startDate, endDate, status);
     }
 
+    // 구매내역 취소
     public boolean cancelPurchase(int purchaseNo) {
         int updateRows = mypageDao.updatePurchaseByNo(purchaseNo);
 

@@ -8,10 +8,10 @@ import java.util.Date;
 
 @Data
 @NoArgsConstructor
-@Alias("Rervation")
-public class Rervation {
+@Alias("Reservation")
+public class Reservation {
     private int no;
-    private Date reserveDate;
+    private Date purchaseDate;
     private Date cancelDate;
 
 
