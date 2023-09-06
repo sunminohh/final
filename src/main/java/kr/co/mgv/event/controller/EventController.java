@@ -23,20 +23,20 @@ public class EventController {
         return "view/event/list";
     }
 
-    @GetMapping("/end")
-    public String endList() {
-        return "view/event/end-list";
-    }
-
-    @GetMapping("/winner/list")
-    public String winnerList() {
-        return "view/event/winner-list";
-    }
-
-    @GetMapping("/winner/detail")
-    public String winnerList(@RequestParam String eventNo) {
-        return "view/event/winner-detail";
-    }
+//    @GetMapping("/end")
+//    public String endList() {
+//        return "view/event/end-list";
+//    }
+//
+//    @GetMapping("/winner/list")
+//    public String winnerList() {
+//        return "view/event/winner-list";
+//    }
+//
+//    @GetMapping("/winner/detail")
+//    public String winnerList(@RequestParam String eventNo) {
+//        return "view/event/winner-detail";
+//    }
 
     @GetMapping("/detail/{eventNo}")
     public String detail(@PathVariable String eventNo) {
