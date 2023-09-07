@@ -2,6 +2,8 @@ $(function() {
 
     let productLimit = 10;
 
+    let amount;
+
     $(".line .cont button").click(function () {
         let btn_name = $(this).attr("class");
         let input_d = $(".line .cont input[type='text']");
@@ -17,7 +19,6 @@ $(function() {
             } else if (Number(productLimit) == -1) {
                 input_d.val(input_num + 1);
             }
-
         }
         updateTotalAmount();
 
@@ -26,26 +27,25 @@ $(function() {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
     }
+
     function updateTotalAmount() {
         let input_d = $(".line .cont input[type='text']");
         let input_num = Number(input_d.val());
         let discountedPrice = Number($('#discountedPrice').val());
         let originalPrice = Number($('#originalPrice').val());
 
-        let totalDiscountedPrice = discountedPrice * input_num;
+        amount = discountedPrice * input_num;
         let totalOriginalPrice = originalPrice * input_num;
 
-        $('#prdtSumAmt').html(numberWithCommas(totalDiscountedPrice));
+        $('#prdtSumAmt').html(numberWithCommas(amount));
+
         $('#totalOriginalPrice').val(totalOriginalPrice);
-        $('#totalDiscountedPrice').val(totalDiscountedPrice);
+        $('#totalDiscountedPrice').val(amount);
         $('#packageAmount').val(input_num);
 
     }
 
     updateTotalAmount();
-
-    // 구매 후 취소 및 상품 이용 안내
-
 
     $(".box-pulldown").on("click", function() {
         if ($(this).hasClass("on")) {
@@ -64,13 +64,15 @@ $(function() {
             const userId = $("#userId").val();
             const packageNo = $("#packageNo").val();
             const packageAmount = $("#packageAmount").val();
+            const catNo = $("#catNo").val();
 
             const requestData = {
                 totalDiscountedPrice: totalDiscountedPrice,
                 totalOriginalPrice: totalOriginalPrice,
                 userId: userId,
                 packageNo: packageNo,
-                packageAmount: packageAmount
+                packageAmount: packageAmount,
+                catNo: catNo
             };
 
             $.ajax({
@@ -120,4 +122,97 @@ $(function() {
             }
         });
     });
+
+    const orderNameInput = document.getElementById("package-name")
+
+
+
+        const bundle=$(".bundle").filter(":first")
+        const bundleText=bundle.text()
+        let a=parseInt(bundleText.charAt(bundleText.indexOf('일반 관람권')+7))
+
+    let giftTickets = a>0? a : 1
+
+
+    let tossPayments = TossPayments("test_ck_Lex6BJGQOVDY7zZDAQOrW4w2zNbg");
+
+    let orderName = orderNameInput.value;
+
+    let path = "/order/";
+    let successUrl = window.location.origin + path + "success";
+    let failUrl = window.location.origin + path + "fail";
+    let callbackUrl = window.location.origin + path + "va_callback";
+    let orderId = new Date().getTime();
+
+    $("#btn-tosspay").click(() => {
+
+        const totalDiscountedPrice = $("#totalDiscountedPrice").val();
+        const totalOriginalPrice = $("#totalOriginalPrice").val();
+        const userId = $("#userId").val();
+        const packageNo = $("#packageNo").val();
+        const packageAmount = $("#packageAmount").val();
+        const catNo = $("#catNo").val();
+
+        const requestData = {
+            totalDiscountedPrice: totalDiscountedPrice,
+            totalOriginalPrice: totalOriginalPrice,
+            userId: userId,
+            packageNo: packageNo,
+            packageAmount: packageAmount,
+            catNo: catNo,
+            orderId: orderId
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/order/successPackage",
+            data: requestData
+        })
+
+        let jsons = {
+            "card": {
+                "amount": amount,
+                "orderId": orderId,
+                "orderName": giftTickets+" "+orderName,
+                "successUrl": successUrl,
+                "failUrl": failUrl,
+                "cardCompany": null,
+                "cardInstallmentPlan": null,
+                "maxCardInstallmentPlan": null,
+                "useCardPoint": false,
+                "customerName": "박토스",
+                "customerEmail": null,
+                "customerMobilePhone": null,
+                "useInternationalCardOnly": false,
+                "flowMode": "DEFAULT",
+                "discountCode": null,
+                "appScheme": null
+            }
+        }
+        console.log(jsons.card)
+        pay('카드', jsons.card);
+
+    })
+
+
+    function pay(method, requestJson) {
+        console.log(requestJson);
+        tossPayments.requestPayment(method, requestJson)
+            .catch(function (error) {
+
+                if (error.code === "USER_CANCEL") {
+                    Swal.fire({
+                        icon: 'warning',
+                        text: "사용자가 취소했습니다."
+                    });
+                } else {
+                    alert(error.message);
+                    Swal.fire({
+                        icon: 'error',
+                        text: error.message
+                    });
+                }
+
+            });
+    }
 })

@@ -8,7 +8,27 @@ $(()=>{
     const selectedTheaters = new Set
     let selectedDate=today.format('YYYY-MM-DD')
     apiByDate(selectedDate)
+    function callStep(stage){
+        $("#step0").hide().siblings().hide()
+        const scheduleId=$("#playScheduleList").find('[selected=selected]').attr('schedule-id')
 
+        if(stage===0){
+            $("#step0").show()
+            clearChoice()
+            $("#playScheduleList").find('[selected=selected]').removeAttr('selected')
+        }
+        if(stage===1){
+            $("#step1").show()
+            giftTicketNos=new Set
+            createSeats(screenRow,screenCol)
+            generateSeatResultByScheduleId(scheduleId)
+            clearChoice()
+        }else if(stage===2){
+
+            $("#step2").show()
+            generateStep2ResultByScheduleId(scheduleId)
+        }
+    }
     const selectedTheaterList = $("#selectedTheaterList")
     const selectedMovieList = $("#selectedMovieList")
     const scheduleDiv= $("#mCSB_3_container")
@@ -26,11 +46,12 @@ $(()=>{
     let adultTickets
     let underageTickets
 
-    let giftAmount
+    let giftTicketNos
     let payAmount
     let adultPrice
     let underagePrice
     let totalPrice
+    let payMethod
 
     function apiByDate(date){
         fetch('api/booking/'+date).then(res => res.json()).then(item=>{
@@ -255,7 +276,7 @@ $(()=>{
                     <button type="button" class="btn" id="schedule-${s.id}" schedule-id="${s.id}" start="${s.startTime}" play-de="${selectedDate}" end=""
                             turn="1" movie-no="${s.movieNo}" theater-no="${s.theaterNo}" screen-id="${s.screenId}" screen-name="${s.screenName}"
                             theater-name="${s.theaterName}" netfnl-adopt-at="N" rest-seat-cnt="105" start-time="${s.startTime}" end-time="${s.endTime}"
-                            ctts-ty-div-cd="MVCT01" theab-popup-at="Y" theab-popup-no="2015">
+                            movie-title="${s.movieTitle}" theab-popup-at="Y" theab-popup-no="2015">
                         <div class="legend"><i class="iconset ico-sun" title="">조조</i></div>
                         <span class="time"><strong title="상영 시작">${s.startTime}</strong><em title="상영 종료">~${s.endTime}</em></span><span
                         class="title"><strong title="${s.movieTitle}">${s.movieTitle}</strong><em>2D</em></span>
@@ -319,8 +340,11 @@ $(()=>{
     function createSeats(screenRow,screenCol){
         const seatsDiv = $("#seatsDiv").empty()
         fetch("/api/booking/getDisabledSeats?screenId="+screenId).then(res=>res.json()).then(json=>{
+            const disabledSeats=json.disabledSeats
+            screenRow=json.row
+            screenRow=json.col
             const allEmptySeats = new Set
-            $.each(json,(id,disabledSeatNo)=>{
+            $.each(disabledSeats,(id,disabledSeatNo)=>{
                 allEmptySeats.add(disabledSeatNo)
             })
             for (let i=0; i<screenRow; i++){
@@ -393,7 +417,7 @@ $(()=>{
     }
 
     function createActiveSeat(seatNo,screenRow,screenCol, state){
-        return `<button type="button" title="${seatNo} (스탠다드/일반)" class="jq-tooltip seat-condition ${state}" id=${seatNo} r=${screenRow} c=${screenCol} seatclasscd="GERN_CLS" seatzonecd="GERN_ZONE">
+        return `<button type="button" title="${seatNo} (스탠다드/일반)" class="jq-tooltip seat-condition ${state}" id=${seatNo} r=${screenRow} c=${screenCol}>
                                      <span class="num">${seatNo}</span>
                                     <span class="rank">일반</span>
                                                     </button>`
@@ -710,26 +734,7 @@ $(()=>{
         $("#alert").on('click','button',alertOff)
         alertOn()
     }
-    function callStep(stage){
-        $("#step0").hide().siblings().hide()
-        const scheduleId=$("#playScheduleList").find('[selected=selected]').attr('schedule-id')
 
-        if(stage===0){
-            $("#step0").show()
-            clearChoice()
-            $("#playScheduleList").find('[selected=selected]').removeAttr('selected')
-        }
-        if(stage===1){
-            $("#step1").show()
-            giftAmount=new Set
-            createSeats(screenRow,screenCol)
-            generateSeatResultByScheduleId(scheduleId)
-            clearChoice()
-        }else if(stage===2){
-            $("#step2").show()
-            generateStep2ResultByScheduleId(scheduleId)
-        }
-    }
     function generateStep2ResultByScheduleId(id){
         const s=$("#schedule-"+id)
         const mNo=s.attr('movie-no')
@@ -803,12 +808,13 @@ $(()=>{
     $("#btn-gift-ticket").on('click',()=>{
         $("#background-layer").show()
         $("#gift-ticket-layer").show()
-        $.each(giftAmount,function(i,e){
+        $.each(giftTicketNos,function(i,e){
             $("#gift-ticket-table").append(`<tr><td>${e}</td><td>몰라</td><td>사용가능</td></tr>`)
         })
+        $("#gift-ticket-input").focus()
     })
     $("#gift-ticket-submit").on('click',function(){
-        if(giftAmount.size >= adultTickets+underageTickets){
+        if(giftTicketNos.size >= adultTickets+underageTickets){
             insertAlert('이미 관람권을 등록하였습니다.')
             return
         }
@@ -816,8 +822,20 @@ $(()=>{
         if(input.length>5){
             $("#gift-ticket-table").append(`<tr><td>${input}</td><td>몰라</td><td>사용가능</td></tr>`)
             $("#gift-ticket-input").val('')
-            giftAmount.add(input)
+            giftTicketNos.add(input)
         }else insertAlert("너무짧음")
+    })
+    $("#gift-ticket-layer").on('keyup','input',function(e){
+        if(e.keyCode===27){
+            $("#background-layer").hide()
+            $("#gift-ticket-layer").hide()
+            $("#gift-ticket-input").val('')
+            $("#gift-ticket-table").html(`<tr >
+                                        <th scope="col">관람권</th>
+                                        <th scope="col">유효기간</th>
+                                        <th scope="col">사용</th>
+                                    </tr>`)
+        }
     })
     $("#btn-gift-confirm").on("click",function(){
         calculFinalPrice()
@@ -826,14 +844,14 @@ $(()=>{
     })
     function calculFinalPrice(){
         const regexp = /\B(?=(\d{3})+(?!\d))/g
-        const size=giftAmount.size
+        const size=giftTicketNos.size
         let subAmount=size*ticketPrice*1.5
         if(size>adultTickets){
             subAmount+=(size-adultTickets)*ticketPrice
         }
         $("#gift-amount").text(subAmount.toString().replace(regexp,','))
         $("#final-price").text((totalPrice-subAmount).toString().replace(regexp,','))
-        return totalPrice-subAmount
+        return subAmount
     }
     $("#btn-gift-close, #btn_gift_close_x").on("click",function(){
         $("#background-layer").hide()
@@ -845,6 +863,7 @@ $(()=>{
                                         <th scope="col">사용</th>
                                     </tr>`)
     })
+
     $("#btn-gift-cancle").on("click",function(){
         $("#gift-ticket-input").val('')
         $("#gift-ticket-table").html(`<tr >
@@ -852,13 +871,18 @@ $(()=>{
                                         <th scope="col">유효기간</th>
                                         <th scope="col">사용</th>
                                     </tr>`)
+        giftTicketNos.clear()
     })
 
     $("#clear-step-2").on('click',()=>{
         clearStep2()
     })
     function clearStep2(){
-        giftAmount.clear()
+        giftTicketNos.clear()
+        if(payMethod){
+            $("#pay-info-"+payMethod).hide()
+        }
+        payMethod=undefined
         $("#gift-ticket-input").val('')
         $("#gift-ticket-table").html(`<tr >
                                         <th scope="col">관람권</th>
@@ -869,23 +893,119 @@ $(()=>{
     }
 
     $("#btn-final-pay").on('click',()=>{
-        const finalPrice=calculFinalPrice()
-        const sId=$("#playScheduleList").find('[selected=selected]').attr('schedule-id')
+        const usedGiftTickets = [...giftTicketNos].join()
+        const giftAmount=calculFinalPrice()
+        const schedule = $("#playScheduleList").find('[selected=selected]')
+        const scheduleId=$("#playScheduleList").find('[selected=selected]').attr('schedule-id')
+        const movieNo=schedule.attr('movie-no')
+        const movie=$("#mBtn-"+movieNo)
+        const moviePoster=movie.attr('img-path')
+        const movieContentRating=movie.attr('contentrating')
+        const movieContentRatingKr=movie.attr('contentratingkr')
+        const movieTitle=schedule.attr('movie-title')
+        const startTime=schedule.attr('start-time')
+        const endTime=schedule.attr('end-time')
+        const screenId=schedule.attr('screen-id')
+        const screenName=schedule.attr('screen-name')
+        const theaterNo=schedule.attr('theater-no')
+        const theaterName=schedule.attr('theater-name')
+       const bookedSeats= $(".my-seat").children('.choice').map((i,e)=>e.innerHTML).get().join()
         const dto={
-           createdDated: selectedDate,
-            finalPrice: finalPrice,
-            adultTickets:adultTickets,
-            underageTickets:underageTickets,
-            scheduleId:sId
+            no: Date.now() + Math.floor((Math.random()*100)),
+            bookingDate: selectedDate,
+            movieNo: movieNo,
+            title: movieTitle,
+            poster:moviePoster,
+            contentRating:movieContentRating,
+            contentRatingKr:movieContentRatingKr,
+            startTime: startTime,
+            endTime: endTime,
+            scheduleId: scheduleId,
+            screenId: screenId,
+            screenName: screenName,
+            theaterNo: theaterNo,
+            theaterName: theaterName,
+            totalSeats:adultTickets+underageTickets,
+            bookedSeatsNos: bookedSeats,
+            adultSeats:adultTickets,
+            underageSeats:underageTickets,
+            giftAmount: giftAmount,
+            payAmount: totalPrice-giftAmount,
+            totalPrice: totalPrice,
+            payMethod:payMethod,
+            usedGiftTickets:usedGiftTickets
         }
-        if(finalPrice==0){
             fetch("/api/booking/bookingPay",{
                 method:'post',
                 headers:{
                     'Content-Type': 'application/json'
                 },
                 body:JSON.stringify(dto)
-            }).then(res=>res.text()).then(data=>console.log(data))
-        }
+            }).then(res=>res.json()).then(data=> {
+            if('success' == data.result){
+                window.location.replace("/booking/success?orderId="+data.bookingNo)
+            }else if('pending' == data.result) {
+                let path = "/booking/";
+                let successUrl = window.location.origin + path + "success";
+                let failUrl = window.location.origin + path + "failure";
+                let orderId = data.bookingNo
+                const orderName = movieTitle + " " + (adultTickets + underageTickets) + " 장"
+                let jsons = {
+                    "card": {
+                        "amount": totalPrice-giftAmount,
+                        "orderId": orderId,
+                        "orderName": orderName,
+                        "successUrl": successUrl,
+                        "failUrl": failUrl,
+                        "cardCompany": null,
+                        "cardInstallmentPlan": null,
+                        "maxCardInstallmentPlan": null,
+                        "useCardPoint": false,
+                        "customerName": data.userName,
+                        "customerEmail": null,
+                        "customerMobilePhone": null,
+                        "useInternationalCardOnly": false,
+                        "flowMode": "DEFAULT",
+                        "discountCode": null,
+                        "appScheme": null
+                    }
+                }
+                pay('카드', jsons.card);
+            }
+            })
+
     })
+
+    $("#tosspay").click(function(){
+        payMethod='tosspay'
+        $("#pay-info-tosspay").show()
+        $("#pay-info-kakaopay").hide()
+    })
+    $("#kakaopay").click(function(){
+        payMethod='kakaopay'
+        $("#pay-info-tosspay").hide()
+        $("#pay-info-kakaopay").show()
+    })
+
+    function pay(method, requestJson) {
+        let tossPayments = TossPayments("test_ck_5OWRapdA8dYGaQX9LYB3o1zEqZKL");
+        console.log(requestJson);
+        tossPayments.requestPayment(method, requestJson)
+            .catch(function (error) {
+
+                if (error.code === "USER_CANCEL") {
+                    Swal.fire({
+                        icon: 'warning',
+                        text: "사용자가 취소했습니다."
+                    });
+                } else {
+                    alert(error.message);
+                    Swal.fire({
+                        icon: 'error',
+                        text: error.message
+                    });
+                }
+
+            });
+    }
 })

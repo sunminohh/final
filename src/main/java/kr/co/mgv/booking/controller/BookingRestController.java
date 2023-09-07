@@ -1,6 +1,7 @@
 package kr.co.mgv.booking.controller;
 
 import kr.co.mgv.booking.service.BookingService;
+import kr.co.mgv.booking.vo.Booking;
 import kr.co.mgv.schedule.dto.BookingScheduleDto;
 import kr.co.mgv.theater.dto.SeatsDto;
 import kr.co.mgv.theater.service.TheaterService;
@@ -8,6 +9,7 @@ import kr.co.mgv.theater.vo.DisabledSeat;
 import kr.co.mgv.user.vo.User;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,8 +20,8 @@ import java.util.*;
 @AllArgsConstructor
 @Slf4j
 public class BookingRestController {
-    BookingService bookingService;
-    TheaterService theaterService;
+    private BookingService bookingService;
+    private TheaterService theaterService;
     @RequestMapping("/{date}")
     public Map<String, Integer> scheduleApi(@PathVariable String date){
     return bookingService.isElementClassActive(date);
@@ -37,15 +39,15 @@ public class BookingRestController {
     @GetMapping("/step0")
     public Map<String, Object> xxx(@AuthenticationPrincipal User user, @RequestParam("schedulId") int scheduleId){
         Map<String, Object> map = new HashMap<>();
-//        if (user == null) {
-//            map.put("result", "fail");
-//            map.put("scheduleId", scheduleId);
-//            return map;
-//        } else {
+        if (user == null) {
+            map.put("result", "fail");
+            map.put("scheduleId", scheduleId);
+            return map;
+        } else {
             map.put("result", "success");
 
             return map;
-//        }
+        }
     }
 
     @PostMapping("/updateSeats")
@@ -54,8 +56,10 @@ public class BookingRestController {
         return "sucess";
     }
     @GetMapping("/getDisabledSeats")
-    public List<String> getDisabledSeats(@RequestParam("screenId") int screenId){
-        return theaterService.getDisabledSeatsByScreenID(screenId);
+    public Map<String,Object> getDisabledSeats(@RequestParam("screenId") int screenId){
+        Map<String,Object> map = bookingService.getScreenMatrixByScreenId(screenId);
+        map.put("disabledSeats",theaterService.getDisabledSeatsByScreenID(screenId));
+        return map;
     }
 
     @GetMapping("/deleteDisabledSeats")
@@ -69,8 +73,34 @@ public class BookingRestController {
             return null;
         }
         @PostMapping("/bookingPay")
-    public Object bookingPay(@RequestBody Map<String,String> params){
-        log.info("price ->{}",params.get("finalPrice"));
-        return params.toString();
+    public Map<String,Object> bookingPay(@RequestBody Booking booking, @AuthenticationPrincipal User user){
+        Map<String,Object> map=new HashMap<>();
+        if(user==null){
+            map.put("result","fail");
+            return map;
+        }
+            map.put("userId",user.getId());
+            map.put("userName",user.getName());
+            map.put("bookingNo",booking.getNo());
+            booking.setUserId(user.getId());
+            booking.setUserName(user.getName());
+            if(booking.getPayAmount()==0){
+                map.put("result","success");
+            try{
+                bookingService.insertBooking(booking);
+                return map;
+            }catch (Exception e){
+                log.info(e.getMessage());
+                map.put("result","fail");
+                map.put("error",e.getMessage());
+                return map;
+            }
+        }else{
+            map.put("result","pending");
+            bookingService.insertBooking(booking);
+            return map;
+        }
+
+
         }
 }

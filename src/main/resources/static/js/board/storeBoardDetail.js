@@ -149,7 +149,7 @@ $(function() {
                                      <div id="profile">
                                        <div id="comment-imgbox" class="float-start" >
                                           <a href="/board/user/list?id=${comment.user.id}">
-                                             <img id="profileimg"  src="/images/board/sample.png" alt="프로필사진">
+                                             <img id="profileimg"  src="${comment.user.profileImg != null ? '/images/user/profile/' + comment.user.profileImg : '/images/user/profile/default.png'}" alt="프로필사진">
                                           </a>
                                        </div>
                                        <div class="ps-5">
@@ -204,7 +204,7 @@ $(function() {
 			                            <div id="profile">
 			                              <div id="comment-imgbox" class="float-start" >
 			                                 <a href="/board/user/list?id=${child.user.id}">
-			                                    <img id="profileimg" src="/images/board/sample.png" alt="프로필사진">
+			                                    <img id="profileimg" src="${child.user.profileImg != null ? '/images/user/profile/' + child.user.profileImg : '/images/user/profile/default.png'}" alt="프로필사진">
 			                                 </a>
 			                              </div>
 			                              <div class="ps-5">
@@ -319,7 +319,7 @@ $(function() {
                                      <div id="profile">
                                        <div id="comment-imgbox" class="float-start" >
                                           <a href="/board/user/list?id=${comment.user.id}">
-                                             <img id="profileimg"  src="/images/board/sample.png" alt="프로필사진">
+                                             <img id="profileimg"  src="${comment.user.profileImg != null ? '/images/user/profile/' + comment.user.profileImg : '/images/user/profile/default.png'}" alt="프로필사진">
                                           </a>
                                        </div>
                                        <div class="ps-5">
@@ -374,7 +374,7 @@ $(function() {
 			                            <div id="profile">
 			                              <div id="comment-imgbox" class="float-start" >
 			                                 <a href="/board/user/list?id=${child.user.id}">
-			                                    <img id="profileimg" src="/images/board/sample.png" alt="프로필사진">
+			                                    <img id="profileimg" src="${child.user.profileImg != null ? '/images/user/profile/' + child.user.profileImg : '/images/user/profile/default.png'}" alt="프로필사진">
 			                                 </a>
 			                              </div>
 			                              <div class="ps-5">

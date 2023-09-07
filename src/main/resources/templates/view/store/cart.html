@@ -2,56 +2,9 @@
 <head th:fragment="extra-head-content">
     <title>장바구니</title>
     <script th:src="@{/js/store/cart.js}"></script>
+    <script th:src="@{/js/common/TossPayment.js}"></script>
     <script src="https://js.tosspayments.com/v1"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
-
-    <script>
-        let amount = 50000;
-
-        let tossPayments = TossPayments("test_ck_Lex6BJGQOVDY7zZDAQOrW4w2zNbg");
-
-        function pay(method, requestJson) {
-            console.log(requestJson);
-            tossPayments.requestPayment(method, requestJson)
-                .catch(function (error) {
-
-                    if (error.code === "USER_CANCEL") {
-                        alert('유저가 취소했습니다.');
-                    } else {
-                        alert(error.message);
-                    }
-
-                });
-        }
-
-        let path = "/";
-        let successUrl = window.location.origin + path + "success";
-        let failUrl = window.location.origin + path + "fail";
-        let callbackUrl = window.location.origin + path + "va_callback";
-        let orderId = new Date().getTime();
-
-        let jsons = {
-            "card": {
-                "amount": amount,
-                "orderId": "sample-" + orderId,
-                "orderName": "토스 티셔츠 외 2건",
-                "successUrl": successUrl,
-                "failUrl": failUrl,
-                "cardCompany": null,
-                "cardInstallmentPlan": null,
-                "maxCardInstallmentPlan": null,
-                "useCardPoint": false,
-                "customerName": "박토스",
-                "customerEmail": null,
-                "customerMobilePhone": null,
-                "taxFreeAmount": null,
-                "useInternationalCardOnly": false,
-                "flowMode": "DEFAULT",
-                "discountCode": null,
-                "appScheme": null
-            }
-        }
-    </script>
 </head>
 <body>
 <div layout:fragment="content">
@@ -86,7 +39,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="cart : ${carts}">
+                            <tr th:each="cart : ${carts}" class="cart-item">
                                 <td class="a-c" th:if="${cart.getProduct()}">
                                     <div class="goods-info" th:if="${cart.getProduct.getImagePath()}">
                                         <p class="img"><a th:href="@{/store/detail/product(productNo=${cart.getProduct().getNo()})}"><img th:src="${cart.getProduct().getImagePath()}" onerror="noImg(this);"></a></p>
@@ -94,7 +47,7 @@
                                 </td>
                                 <th scope="row" th:if="${cart.getProduct()}">
                                     <div class="goods-info">
-                                        <p class="name"><a th:href="@{/store/detail/product(productNo=${cart.getProduct().getNo()})}" th:text="${cart.getProduct().getName()}"></a></p>
+                                        <p class="product-name"><a th:href="@{/store/detail/product(productNo=${cart.getProduct().getNo()})}" th:text="${cart.getProduct().getName()}"></a></p>
                                         <p class="bundle" th:text="${cart.getProduct().getDescription()}"></p>
                                     </div>
                                 </th>
@@ -105,11 +58,11 @@
                                 </td>
                                 <th scope="row" th:if="${cart.getPkg()}">
                                     <div class="goods-info">
-                                        <p class="name"><a th:href="@{/store/detail/package(packageNo=${cart.getPkg().getNo()})}" th:text="${cart.getPkg().getName()}"></a></p>
+                                        <p class="package-name"><a th:href="@{/store/detail/package(packageNo=${cart.getPkg().getNo()})}" th:text="${cart.getPkg().getName()}"></a></p>
                                         <p class="bundle" th:text="${cart.getPkg().getComposition()}"></p>
                                     </div>
                                 </th>
-                                <td><em id="purcQtyView" th:text="${cart.getAmount()}"></em></td>
+                                <td><em class="cart-quantity" th:text="${cart.getAmount()}"></em></td>
                                 <td>
                                     <div class="goods-info">
                                         <em id="prdtSumAmtView" class="discountedPrice" th:text="${cart.getTotalDiscountedPrice()}"></em>원
@@ -120,15 +73,19 @@
                                         <i class="bi bi-trash"></i>
                                     </a>
                                 </td>
-                                <div class="product-container">
-                                    <input type="hidden" name="product-no" id="product-no" th:if="${cart.getProduct()}" th:value="${cart.getProduct().getNo()}">
-                                    <input type="hidden" name="product-amount" id="product-amount" th:if="${cart.getProduct()}" th:value="${cart.getAmount()}">
-                                    <input type="hidden" name="product-price" id="product-price" th:if="${cart.getProduct()}" th:value="${cart.getTotalDiscountedPrice()}">
+                                <div class="product-container" th:if="${cart.getProduct()}">
+                                    <input type="hidden" name="product-name" id="product-name" th:value="${cart.getProduct().getName()}"> <!-- 상품 이름 -->
+                                    <input type="hidden" name="product-no" id="product-no" th:value="${cart.getProduct().getNo()}"> <!-- 상품 번호 -->
+                                    <input type="hidden" name="product-amount" id="product-amount" th:value="${cart.getAmount()}"> <!-- 상품 수량 -->
+                                    <input type="hidden" name="product-price" id="product-price" th:value="${cart.getTotalDiscountedPrice()}"> <!-- 총 가격 -->
+                                    <input type="hidden"  name="product-catNo" id="product-catNo" th:value="${cart.getCatNo()}"> <!-- 카테고리 번호 -->
                                 </div>
-                                <div class="package-container">
-                                    <input type="hidden" name="package-no" id="package-no" th:if="${cart.getPkg()}" th:value="${cart.getPkg().getNo()}">
-                                    <input type="hidden" name="package-amount" id="package-amount" th:if="${cart.getPkg()}" th:value="${cart.getAmount()}">
-                                    <input type="hidden" name="package-price" id="package-price" th:if="${cart.getPkg()}" th:value="${cart.getTotalDiscountedPrice()}">
+                                <div class="package-container" th:if="${cart.getPkg()}">
+                                    <input type="hidden" name="package-name" id="package-name" th:value="${cart.getPkg().getName()}"> <!-- 패키지 이름 -->
+                                    <input type="hidden" name="package-no" id="package-no" th:value="${cart.getPkg().getNo()}"> <!-- 패키지 번호 -->
+                                    <input type="hidden" name="package-amount" id="package-amount" th:value="${cart.getAmount()}"> <!-- 패키지 수량 -->
+                                    <input type="hidden" name="package-price" id="package-price" th:value="${cart.getTotalDiscountedPrice()}"> <!-- 총 가격 -->
+                                    <input type="hidden" name="package-catNo" id="package-catNo" th:value="${cart.getCatNo()}"> <!-- 카테고리 번호 -->
                                 </div>
                             </tr>
                                     <input type="hidden" name="order-total-price" id="order-total-price" th:value="${totalDiscountedPrice}">
@@ -166,7 +123,7 @@
                         </div>
                     </div>
                     <div class="btn-group pt40" style="display: block;">
-                        <button type="button" id="btn-tosspay" class="button  purple large w170px btn-order-form" title="구매" onclick="pay('카드', jsons.card)">구매</button>
+                        <button type="button" id="btn-tosspay" class="button  purple large w170px btn-order-form">구매</button>
                     </div>
                 </div>
             </div>

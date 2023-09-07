@@ -1,12 +1,16 @@
 package kr.co.mgv.store.service;
 
-import kr.co.mgv.store.mapper.OrderItemMapper;
-import kr.co.mgv.store.mapper.OrderMapper;
+import kr.co.mgv.store.mapper.*;
 import kr.co.mgv.store.vo.*;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -14,34 +18,66 @@ import org.springframework.stereotype.Service;
 public class OrderService {
 
     private final OrderMapper orderMapper;
-    private final OrderItemMapper orderItemMapper;
+    private final OrderProductMapper orderProductMapper;
+    private final OrderPackageMapper orderPackageMapper;
+    private final GiftTicketMapper giftTicketMapper;
 
-    public void order(OrderForm orderForm, User user) {
+    public void insertOrder(String orderId, int amount, User user) {
+
         Order order = new Order();
+
+        order.setTotalPrice(amount);
+        order.setId(orderId);
         order.setUser(user);
-        order.setTotalPrice(orderForm.getTotalPrice());
 
         orderMapper.insertOrder(order);
 
-        int orderNo = order.getNo();
+    }
 
-        for (OrderData orderData : orderForm.getRequestData()) {
-            OrderItem orderItem = new OrderItem();
-            try {
-                orderItem.setOrderNo(orderNo);
-                orderItem.setProductNo(orderData.getProductNo() != null ? Integer.parseInt(orderData.getProductNo()) : 0);
-                orderItem.setProductAmount(orderData.getProductAmount() != null ? Integer.parseInt(orderData.getProductAmount()) : 0);
-                orderItem.setProductPrice(orderData.getProductPrice() != null ? Integer.parseInt(orderData.getProductPrice()) : 0);
-                orderItem.setPackageNo(orderData.getPackageNo() != null ? Integer.parseInt(orderData.getPackageNo()) : 0);
-                orderItem.setPackageAmount(orderData.getPackageAmount() != null ? Integer.parseInt(orderData.getPackageAmount()) : 0);
-                orderItem.setPackagePrice(orderData.getPackagePrice() != null ? Integer.parseInt(orderData.getPackagePrice()) : 0);
-
-                log.info("주문번호zz: " + orderNo);
-
-                orderItemMapper.insertOrderItem(orderItem);
-            } catch (NumberFormatException e) {
-                log.error("숫자로 변환할 수 없는 데이터: " + orderData.toString());
-            }
+    public void generateGiftTickets(String userId, int quantity){
+        if(quantity==0){
+            return;
         }
+
+        long giftTicketNo;
+
+        Map<String,Object> params= new HashMap<>();
+        params.put("userId",userId);
+        List<Object> nos= new ArrayList<>();
+        for(int i=0; i<quantity; i++){
+            giftTicketNo=(long)(Math.random()*10);
+            for(int j=0; j<15; j++){
+                giftTicketNo*=10;
+                giftTicketNo+=(long)(Math.random()*10);
+            }
+            nos.add(giftTicketNo);
+        }
+        params.put("nos",nos);
+        giftTicketMapper.insertGiftTickets(params);
+
+    }
+
+    public void insertOrderProduct(String orderId, int productNo, int productAmount, int productPrice, int catNo) {
+        OrderProduct orderProduct = new OrderProduct();
+
+        orderProduct.setOrderId(orderId);
+        orderProduct.setProductNo(productNo);
+        orderProduct.setAmount(productAmount);
+        orderProduct.setPrice(productPrice);
+        orderProduct.setCatNo(catNo);
+
+        orderProductMapper.insertOrderProduct(orderProduct);
+    }
+
+    public void insertOrderPackage(String orderId, int packageNo, int packageAmount, int packagePrice, int catNo) {
+        OrderPackage orderPackage = new OrderPackage();
+
+        orderPackage.setOrderId(orderId);
+        orderPackage.setPackageNo(packageNo);
+        orderPackage.setAmount(packageAmount);
+        orderPackage.setPrice(packagePrice);
+        orderPackage.setCatNo(catNo);
+
+        orderPackageMapper.insertOrderPackage(orderPackage);
     }
 }

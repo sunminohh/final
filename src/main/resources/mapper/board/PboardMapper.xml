@@ -278,11 +278,13 @@
 				B.screen_id				as "schedule.screen.id",
 				C.screen_name			as "schedule.screen.name",
 				F.location_no			as "schedule.location.no",
-				F.location_name			as "schedule.location.name"
+				F.location_name			as "schedule.location.name",
+				G.user_profile_img	    as "user.profileImg"
 			from 
-				PARTY_BOARD A, MGV_SCHEDULE B, MGV_THEATER_SCREEN C, MGV_MOVIE D, MGV_THEATERS E, MGV_LOCATION F
+				PARTY_BOARD A, MGV_SCHEDULE B, MGV_THEATER_SCREEN C, MGV_MOVIE D, MGV_THEATERS E, MGV_LOCATION F, MGV_USER G
 			where 
 				A.schedule_id = B.schedule_id
+				and A.user_id = G.user_id
 				and B.screen_id = C.screen_id
 				and C.theater_no = E.theater_no
 			    and B.movie_no = D.movie_no
@@ -394,19 +396,21 @@
 	
 		<select id="getPBoardComments" resultType="kr.co.mgv.board.vo.PBoardComment" parameterType="int">
 		SELECT 
-			COMMENT_NO				as no, 
-			COMMENT_CREATE_dATE		as createDate, 
-			COMMENT_UPDATE_DATE		as updateDate, 
-			COMMENT_CONTENT			as content, 
-			USER_ID					as "user.id", 
-			COMMENT_DELETED			as deleted, 
-			BOARD_NO				as "board.no"
+			A.COMMENT_NO				as no, 
+			A.COMMENT_CREATE_dATE		as createDate, 
+			A.COMMENT_UPDATE_DATE		as updateDate, 
+			A.COMMENT_CONTENT			as content, 
+			A.USER_ID					as "user.id", 
+			A.COMMENT_DELETED			as deleted, 
+			A.BOARD_NO					as "board.no",
+			B.user_profile_img	    	as "user.profileImg"
 		FROM 
-			PARTY_BOARD_COMMENT 
+			PARTY_BOARD_COMMENT A, MGV_USER B
 		WHERE 
-			comment_deleted = 'N'
-			and BOARD_NO = #{value}
-			and great_comment_no is null
+			A.comment_deleted = 'N'
+			and A.user_id = B.user_id
+			and A.BOARD_NO = #{value}
+			and A.great_comment_no is null
 		order by comment_create_date;
 	</select>
 	
@@ -422,11 +426,13 @@
 			A.PARENT_COMMENT_NO			as "parent.no", 
 			A.GREAT_COMMENT_NO			as "great.no",
 			P.USER_ID					as "parent.user.id",
-			G.USER_ID					as "great.user.id"
+			G.USER_ID					as "great.user.id",
+			B.user_profile_img	    	as "user.profileImg"
 		FROM 
-			PARTY_BOARD_COMMENT A, PARTY_BOARD_COMMENT P, PARTY_BOARD_COMMENT G
+			PARTY_BOARD_COMMENT A, PARTY_BOARD_COMMENT P, PARTY_BOARD_COMMENT G, MGV_USER B
 		WHERE 
 			A.parent_comment_no = P.comment_no
+			and A.user_id = B.user_id
 			and A.great_comment_no = G.comment_no
 			and A.comment_deleted = 'N'
 			and A.BOARD_NO = #{value}

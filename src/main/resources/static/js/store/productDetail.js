@@ -1,6 +1,8 @@
 $(function() {
     let productLimit = 10;
 
+    let amount;
+
     $(".line .cont button").click(function () {
         let btn_name = $(this).attr("class");
         let input_d = $(".line .cont input[type='text']");
@@ -31,13 +33,13 @@ $(function() {
         let discountedPrice = Number($('#discountedPrice').val());
         let originalPrice = Number($('#originalPrice').val());
 
-        let totalDiscountedPrice = discountedPrice * input_num;
+        amount = discountedPrice * input_num;
         let totalOriginalPrice = originalPrice * input_num;
 
 
-        $('#prdtSumAmt').html(numberWithCommas(totalDiscountedPrice));
+        $('#prdtSumAmt').html(numberWithCommas(amount));
         $('#totalOriginalPrice').val(totalOriginalPrice);
-        $('#totalDiscountedPrice').val(totalDiscountedPrice);
+        $('#totalDiscountedPrice').val(amount);
         $('#productAmount').val(input_num);
     }
 
@@ -51,7 +53,14 @@ $(function() {
             $(this).addClass("on");
         }
     });
-
+    $.urlParam = function(name) {
+        var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+        if (results==null) {
+            return null;
+        } else {
+            return results[1] || 0;
+        }
+    }
     $(document).ready(function() {
         $('#btnCart-user').click(function(event) {
             event.preventDefault();
@@ -61,13 +70,15 @@ $(function() {
             const userId = $("#userId").val();
             const productNo = $("#productNo").val();
             const productAmount = $("#productAmount").val();
+            const catNo = $("#catNo").val();
 
             const requestData = {
                 totalDiscountedPrice: totalDiscountedPrice,
                 totalOriginalPrice: totalOriginalPrice,
                 userId: userId,
                 productNo: productNo,
-                productAmount: productAmount
+                productAmount: productAmount,
+                catNo: catNo
             };
 
             $.ajax({
@@ -117,4 +128,89 @@ $(function() {
             }
         });
     });
+
+    const orderNameInput = document.getElementById("product-name")
+
+    const pNo=$.urlParam('productNo')
+    let giftTickets = pNo==29? 1 : 0
+    let tossPayments = TossPayments("test_ck_Lex6BJGQOVDY7zZDAQOrW4w2zNbg");
+
+    let orderName = orderNameInput.value;
+
+    let path = "/order/";
+    let successUrl = window.location.origin + path + "success";
+    let failUrl = window.location.origin + path + "fail";
+    let callbackUrl = window.location.origin + path + "va_callback";
+    let orderId = new Date().getTime();
+
+    $("#btn-tosspay").click(() => {
+
+        const totalDiscountedPrice = $("#totalDiscountedPrice").val();
+        const totalOriginalPrice = $("#totalOriginalPrice").val();
+        const userId = $("#userId").val();
+        const productNo = $("#productNo").val();
+        const productAmount = $("#productAmount").val();
+        const catNo = $("#catNo").val();
+
+        const requestData = {
+            totalDiscountedPrice: totalDiscountedPrice,
+            totalOriginalPrice: totalOriginalPrice,
+            userId: userId,
+            productNo: productNo,
+            productAmount: productAmount,
+            catNo: catNo,
+            orderId: orderId
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/order/successProduct",
+            data: requestData
+        })
+
+        let jsons = {
+            "card": {
+                "amount": amount,
+                "orderId": orderId,
+                "orderName": giftTickets +" "+orderName,
+                "successUrl": successUrl,
+                "failUrl": failUrl,
+                "cardCompany": null,
+                "cardInstallmentPlan": null,
+                "maxCardInstallmentPlan": null,
+                "useCardPoint": false,
+                "customerName": "박토스",
+                "customerEmail": null,
+                "customerMobilePhone": null,
+                "useInternationalCardOnly": false,
+                "flowMode": "DEFAULT",
+                "discountCode": null,
+                "appScheme": null
+            }
+        }
+
+        pay('카드', jsons.card);
+
+    })
+
+
+    function pay(method, requestJson) {
+        console.log(requestJson);
+        tossPayments.requestPayment(method, requestJson)
+            .catch(function (error) {
+
+                if (error.code === "USER_CANCEL") {
+                    Swal.fire({
+                        icon: 'warning',
+                        text: "사용자가 취소했습니다."
+                    });
+                } else {
+                    alert(error.message);
+                    Swal.fire({
+                        icon: 'error',
+                        text: error.message
+                    });
+                }
+            });
+    }
 })

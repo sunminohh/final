@@ -55,7 +55,7 @@
 
     <div class="btn-group pt40" style="display: block;">
        	<a id = "modify-btn" class="button large" 
-       		th:href="@{/admin/support/notice/modifyform(no=${param.no})}">수정</a>
+       		th:href="@{/admin/support/notice/modifyform(no=${param.no}, catNo=${param.catNo}, locationNo=${param.locationNo}, theaterNo=${param.theaterNo}, page=${param.page}, keyword=${param.keyword})}">수정</a>
        <a th:href="@{/admin/support/notice/(catNo=${param.catNo}, locationNo=${param.locationNo}, theaterNo=${param.theaterNo}, page=${param.page}, keyword=${param.keyword})}"
            class="button large listBtn" title="목록" >목록</a>
        	<a id = "delete-btn" class="button large" 

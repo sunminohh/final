@@ -16,4 +16,6 @@ public interface CartMapper {
 
     void deleteCart(int cartNo);
 
+    void deleteCartByUserId(String userId);
+
 }

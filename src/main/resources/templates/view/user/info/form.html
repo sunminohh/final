@@ -4,6 +4,7 @@
 <head th:fragment="extra-head-content">
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script th:src="@{/js/user/form.js}"></script>
+    <script th:src="@{/js/user/upload.js}"></script>
     <script th:src="@{/js/user/post.js}"></script>
 </head>
 
@@ -30,13 +31,16 @@
                             <input type="file" id="userImgFile" name="file" style="display: none;">
                         </form>
                         <div class="profile-img">
-                            <img th:src="@{/images/user/myprofile.png}" alt="기본 이미지">
+                            <img id="profileImage" th:src="${user.profileImg != null ? '/images/user/profile/' + user.profileImg : '/images/user/profile/default.png'}" data-default-src="/images/user/profile/default.png">
                         </div>
-                        <button type="button" class="button small gray-line" id="btnAddProfileImg">이미지 등록</button>
+                        <button id="btnAddProfileImg" type="button" class="button small gray-line">이미지 등록</button>
+                        <button id="btnDefaultProfileImg" type="button" class="button small gray-line" style="display: none">이미지 삭제</button>
                         <a th:href="@{/mypage/disabled}" class="button small member-out">회원탈퇴</a>
                     </div>
                     <p style="font-size:0.8em; color:#999; margin-top:10px; padding:0; text-align:left; position:absolute; top:22px; left:194px;">
-                        ※ 개인정보가 포함된 이미지 등록은 자제하여 주시기 바랍니다.</p>
+                        ※ 이미지 파일 크기는 10MB 이하만 가능합니다.<br>
+                        ※ 개인정보가 포함된 이미지 등록은 자제하여 주시기 바랍니다.
+                    </p>
                 </td>
             </tr>
             <tr>
@@ -66,7 +70,7 @@
 
         <input type="hidden" name="zipcode" th:value="${user.zipcode}">
         <input type="hidden" name="address" th:value="${user.address}">
-        <input type="hidden" name="mbProfilFileNo" value="">
+<!--        <input type="hidden" name="file" th:value="${user.profileImg}">-->
         <input type="hidden" id="userBirth" th:value="${user.birth}">
 
         <div class="table-wrap mb40">

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.mgv.support.dto.FaqList;
 import kr.co.mgv.support.form.AddFaqForm;
@@ -96,9 +97,19 @@ public class AdminFaqController {
 	}
 	
 	@PostMapping("/modify")
-	public String modifyFaq(@RequestParam("no") int faqNo, ModifyFaqForm form) {
+	public String modifyFaq(@RequestParam("no") int faqNo, ModifyFaqForm form,
+			@RequestParam(name = "catNo", required = false, defaultValue = "1") int catNo,
+			@RequestParam(name = "page", required = false, defaultValue = "1") int page,
+			@RequestParam(name = "keyword", required = false) String keyword,
+			RedirectAttributes redirectAttributes) {
+		
 		faqService.modifyFaq(form, faqNo);
-		return "redirect:/admin/support/faq/detail?no=" + faqNo;
+		
+		redirectAttributes.addAttribute("no", faqNo);
+		redirectAttributes.addAttribute("catNo", catNo);
+		redirectAttributes.addAttribute("page", page);
+		redirectAttributes.addAttribute("keyword", keyword);
+		return "redirect:/admin/support/faq/detail";
 	}
 	
 	@GetMapping("/delete")

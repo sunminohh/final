@@ -10,10 +10,11 @@
          PRODUCT_AMOUNT,
          TOTAL_DISCOUNTED_PRICE,
          TOTAL_ORIGINAL_PRICE,
-         PACKAGE_NO
+         PACKAGE_NO,
+         CAT_NO
         )
         VALUES
-            (#{product.no}, #{user.id}, #{amount},#{totalDiscountedPrice}, #{totalOriginalPrice} ,#{pkg.no})
+            (#{product.no}, #{user.id}, #{amount},#{totalDiscountedPrice}, #{totalOriginalPrice} ,#{pkg.no}, #{catNo})
 
     </insert>
 
@@ -34,11 +35,14 @@
             D.PACKAGE_NO                as "pkg.no",
             D.PACKAGE_NAME              as "pkg.name",
             D.PACKAGE_COMPOSITION       as "pkg.composition",
-            D.PACKAGE_IMAGE             as "pkg.imagePath"
+            D.PACKAGE_IMAGE             as "pkg.imagePath",
+            E.CAT_NO                    as "catNo"
         FROM
             MGV_USER C
         JOIN
             MGV_CART A ON A.USER_ID = C.USER_ID
+        JOIN
+            MGV_PRODUCT_CATEGORY E ON E.CAT_NO = A.CAT_NO
         LEFT JOIN
             MGV_PRODUCT B ON A.PRODUCT_NO = B.PRODUCT_NO
         LEFT JOIN
@@ -56,7 +60,8 @@
             PRODUCT_AMOUNT = #{amount},
             TOTAL_DISCOUNTED_PRICE = #{totalDiscountedPrice},
             TOTAL_ORIGINAL_PRICE = #{totalOriginalPrice},
-            CART_INSERT_DATE = CURRENT_TIMESTAMP
+            CART_INSERT_DATE = CURRENT_TIMESTAMP,
+            CART_PAYMENT_STATUS = #{paymentStatus}
         WHERE
             CART_NO = #{no}
     </update>
@@ -66,5 +71,12 @@
             MGV_CART
         WHERE
             CART_NO = #{value}
+    </delete>
+
+    <delete id="deleteCartByUserId" parameterType="String">
+        DELETE FROM
+            MGV_CART
+        WHERE
+            USER_ID = #{value}
     </delete>
 </mapper>

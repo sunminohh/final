@@ -15,7 +15,7 @@ import java.util.Date;
 @Alias("Order")
 public class Order {
 
-    private int no;
+    private String id;
     private User user;
     private int totalPrice;
     private Date orderDate;

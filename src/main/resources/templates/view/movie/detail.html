@@ -346,7 +346,7 @@
                     <li class="type01 oneContentTag" sec:authorize="isAuthenticated()">
                         <div class="story-area">
                             <div class="user-prof"  >
-                                <div class="prof-img"><img th:src="@{/images/user/myprofile.png}" alt="프로필 사진"
+                                <div class="prof-img"><img th:src="@{default.png}" alt="프로필 사진"
                                                            title="프로필 사진" onerror="noImg(this, 'human')"></div>
                                 <p class="user-id" th:text="${#authentication.principal.id}"></p></div>
                             <div class="story-box">
@@ -370,7 +370,7 @@
                     <li class="type01 oneContentTag" sec:authorize="!isAuthenticated()">
                         <div class="story-area">
                             <div class="user-prof" >
-                                <div class="prof-img"><img th:src="@{/images/user/myprofile.png}" alt="프로필 사진"
+                                <div class="prof-img"><img th:src="@{default.png}" alt="프로필 사진"
                                                            title="프로필 사진" onerror="noImg(this, 'human')"></div>
                                 <p class="user-id" >로그인 필요</p></div>
                             <div class="story-box">

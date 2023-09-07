@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.mgv.booking.dao.BookingDao">
+    <insert id="insertBooking" parameterType="Booking">
+            insert into
+                MGV_BOOKING
+                (BOOKING_NO,BOOKING_DATE, USER_ID,USER_NAME,MOVIE_NO,MOVIE_TITLE,
+                 MOVIE_POSTER,MOVIE_CONTENT_RATING,MOVIE_CONTENT_RATING_KR,START_TIME,END_TIME,
+                 SCHEDULE_ID,SCREEN_ID,SCREEN_NAME,THEATER_NO,THEATER_NAME,TOTAL_SEATS,BOOKED_SEATS_NOS,ADULT_SEATS,UNDERAGE_SEATS,
+                 GIFT_AMOUNT,PAY_AMOUNT,TOTAL_PRICE,PAY_METHOD,USED_GIFT_TICKETS
+#                  ,CREATE_DATE,UPDATE_DATE,  BOOKING_STATE
+                 )
+            VALUES
+                (
+                 #{no}, #{bookingDate},#{userId},#{userName},#{movieNo},#{title},#{poster},#{contentRating},#{contentRatingKr},#{startTime},#{endTime},#{scheduleId},#{screenId},#{screenName},
+                 #{theaterNo},#{theaterName},#{totalSeats},#{bookedSeatsNos},#{adultSeats},#{underageSeats},#{giftAmount},#{payAmount},#{totalPrice},#{payMethod},#{usedGiftTickets}
+                )
+    </insert>
+
+    <select id="getBookingByBookingNo" parameterType="long" resultType="Booking">
+        select
+            BOOKING_NO                      as no,
+            BOOKING_DATE                    as bookingDate,
+            USER_ID                         as userId,
+            USER_NAME                       as username,
+            MOVIE_NO                        as movieNo,
+            MOVIE_TITLE                     as title,
+            MOVIE_POSTER                    as poster,
+            MOVIE_CONTENT_RATING            as contentRating,
+            MOVIE_CONTENT_RATING_KR         as contentRatingKr,
+            START_TIME                      as startTime,
+            END_TIME                        as endTime,
+            SCHEDULE_ID                     as scheduleId,
+            SCREEN_ID                       as screenId,
+            THEATER_NO                      as theaterNo,
+            THEATER_NAME                    as theaterName,
+            TOTAL_SEATS                     as totalSeats,
+            BOOKED_SEATS_NOS                as bookedSeatsNos,
+            ADULT_SEATS                     as adultSeats,
+            UNDERAGE_SEATS                  as underageSeats,
+            GIFT_AMOUNT                     as giftAmount,
+            PAY_AMOUNT                      as payAmount,
+            TOTAL_PRICE                     as totalPrice,
+            PAY_METHOD                      as payMethod,
+            TOTAL_PRICE                     as totalPrice,
+            CREATE_DATE                     as createDate,
+            UPDATE_DATE                     as updateDate,
+            BOOKING_STATE                   as bookingState,
+            USED_GIFT_TICKETS               as usedGiftTickets,
+            PAYMENT_KEY                     as paymentKey
+        from
+            MGV_BOOKING
+        WHERE
+            BOOKING_NO = #{VALUE}
+    </select>
+
+    <update id="updateBooking" parameterType="Booking">
+        update MGV_BOOKING
+        set
+            BOOKING_STATE       = #{bookingState},
+            UPDATE_DATE         = SYSDATE(),
+            PAYMENT_KEY         = #{paymentKey}
+        where BOOKING_NO = #{no}
+    </update>
+</mapper>

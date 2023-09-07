@@ -4,10 +4,11 @@
     <insert id="insertOrder" parameterType="Order" useGeneratedKeys="true" keyProperty="no">
         INSERT INTO MGV_ORDER
         (
+         ORDER_ID,
          ORDER_TOTAL_PRICE,
          USER_ID
         )
         VALUES
-            (#{totalPrice}, #{user.id})
+            (#{id}, #{totalPrice}, #{user.id})
     </insert>
 </mapper>

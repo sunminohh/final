@@ -159,4 +159,5 @@ public class TheaterService {
 		map.put("disabledSeats", seatList);
 		theaterDao.insertDisabledSeat(map);
 	}
+
 }

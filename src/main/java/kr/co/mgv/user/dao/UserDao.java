@@ -10,12 +10,14 @@ public interface UserDao {
     User getUserById(String id);
     User getUserByEmail(String email);
 
-    // 개인정보수정, 회원탈퇴
+    // 개인정보수정
     void updateUser(User user);
+    void updateUploadProfile(User user);
     // 비밀번호 변경
     void updatePassword(User user);
 
     // 탈퇴처리
     void disabledUser(User user);
 
+    void deleteProfileImage(User user);
 }

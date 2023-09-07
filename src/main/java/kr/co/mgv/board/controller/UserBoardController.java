@@ -60,6 +60,8 @@ public class UserBoardController {
 		MyBoardList result = myBoardService.getBoardList(param);
 		model.addAttribute("result", result);
 		
+		String profileImg = myBoardService.getProfileImg(id);
+		model.addAttribute("profileImg", profileImg);
 		
 		return "view/user/board/list";
 	}
@@ -95,6 +97,9 @@ public class UserBoardController {
 		MyBoardList result = myBoardService.getBoardListByComment(param);
 		model.addAttribute("result", result);
 		
+		String profileImg = myBoardService.getProfileImg(id);
+		model.addAttribute("profileImg", profileImg);
+		
 		return "view/user/board/commentList";
 	}
 
@@ -129,6 +134,9 @@ public class UserBoardController {
 		MyBoardList result = myBoardService.getBoardListByLike(param);
 		model.addAttribute("result", result);
 		
+		String profileImg = myBoardService.getProfileImg(id);
+		model.addAttribute("profileImg", profileImg);
+		
 		return "view/user/board/likeList";
 	}
 
@@ -162,6 +170,9 @@ public class UserBoardController {
 		
 		MyBoardList result = myBoardService.getBoardListByJoin(param);
 		model.addAttribute("result", result);
+		
+		String profileImg = myBoardService.getProfileImg(id);
+		model.addAttribute("profileImg", profileImg);
 		
 		return "view/user/board/joinList";
 	}

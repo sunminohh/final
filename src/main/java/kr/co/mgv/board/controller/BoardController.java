@@ -53,6 +53,9 @@ public class BoardController {
 		MyBoardList result = myBoardService.getBoardList(param);
 		model.addAttribute("result", result);
 		
+		String profileImg = myBoardService.getProfileImg(id);
+		model.addAttribute("profileImg", profileImg);
+		
 		return "view/board/user/list";
 	}
 	

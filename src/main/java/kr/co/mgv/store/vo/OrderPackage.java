@@ -5,18 +5,18 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.apache.ibatis.type.Alias;
-@Getter
+
 @Setter
+@Getter
 @ToString
 @NoArgsConstructor
-@Alias("OrderItem")
-public class OrderItem {
+@Alias("OrderPackage")
+public class OrderPackage {
+
     private int no;
-    private int productNo;
-    private int productAmount;
-    private int productPrice;
+    private String orderId;
     private int packageNo;
-    private int packageAmount;
-    private int packagePrice;
-    private int orderNo;
+    private int amount;
+    private int price;
+    private int catNo;
 }
