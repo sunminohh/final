@@ -13,10 +13,6 @@ $(() => {
         $("#btnDefaultProfileImg").hide();
     }
 
-    $("#btnAddProfileImg").on('click', function () {
-        $("#userImgFile").click();
-    })
-
     $("#userImgFile").on('change', function () {
         const file = $("#userImgFile")[0].files[0];
         if (file.size > 10 * 1024 * 1024) { // 10MB를 초과하는 경우
