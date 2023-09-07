@@ -67,12 +67,11 @@ $(() => {
     let failUrl = window.location.origin + path + "fail";
     let callbackUrl = window.location.origin + path + "va_callback";
     let orderId = new Date().getTime();
-    let uuid = self.crypto.randomUUID();
 
     let jsons = {
         "card": {
             "amount": amount,
-            "orderId": uuid + orderId,
+            "orderId": orderId,
             "orderName": giftTickets +" "+orderName,
             "successUrl": successUrl,
             "failUrl": failUrl,

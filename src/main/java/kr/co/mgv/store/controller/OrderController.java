@@ -118,32 +118,7 @@ public class OrderController {
        String orderName = jsonObject.get("orderName").toString();
         orderService.generateGiftTickets(user.getId(),Integer.parseInt(orderName.split(" ")[0]));
         log.info("orderName - {}", orderName);
-        List<Product> products =  productService.getAllProducts();
 
-        for (Product product : products) {
-            OrderItem orderItem = new OrderItem();
-            if (orderName == product.getName()) {
-                orderItem.setOrderId(orderId);
-                orderItem.setProductNo(product.getNo());
-                orderItem.setProductPrice(amount);
-                orderItem.setProductAmount(amount/product.getDiscountedPrice());
-            }
-
-            orderService.insertOrderItem(orderItem);
-        }
-
-        List<Package> packages = packageService.getAllPackages();
-        for (Package pkg : packages) {
-            OrderItem orderItem = new OrderItem();
-            if (orderName == pkg.getName()) {
-                orderItem.setOrderId(orderId);
-                orderItem.setPackageNo(pkg.getNo());
-                orderItem.setPackagePrice(amount);
-                orderItem.setPackageAmount(amount/pkg.getDiscountedPrice());
-            }
-
-            orderService.insertOrderItem(orderItem);
-        }
         if (((String) jsonObject.get("method")) != null) {
             if (((String) jsonObject.get("method")).equals("카드")) {
                 model.addAttribute("cardNumber", (String) ((JSONObject) jsonObject.get("card")).get("number"));
