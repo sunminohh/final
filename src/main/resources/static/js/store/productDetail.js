@@ -190,7 +190,6 @@ $(function() {
                         text: error.message
                     });
                 }
-
             });
     }
 })

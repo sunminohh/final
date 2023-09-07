@@ -38,5 +38,7 @@ public class BookingService {
         public void insertBooking(Booking booking){
             bookingDao.insertBooking(booking);
         }
-
+        public Booking getBookingByBookingNo(long no){
+           return bookingDao.getBookingByBookingNo(no);
+        }
 }
