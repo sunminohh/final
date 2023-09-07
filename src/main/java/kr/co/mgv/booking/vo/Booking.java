@@ -41,4 +41,5 @@ public class Booking {
     private Date          createDate;
     private Date          updateDate;
     private String        bookingState;
+    private String        usedGiftTickets;
 }

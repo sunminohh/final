@@ -1,0 +1,28 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default}">
+<head th:fragment="extra-head-content">
+
+</head>
+<div layout:fragment="content">
+
+    <div class="container" style="padding-bottom:240px;">
+        <input type="hidden" name="playDe" value="">
+        <div class="page-util" style="">
+            <div class="inner-wrap">
+                <div class="location">
+                    <span>Home</span>
+                    <a href="/booking" title="예매 페이지로 이동">예매</a>
+                    <a href="/booking" title="빠른예매 페이지로 이동">결제 완료</a>
+                </div>
+            </div>
+        </div>
+        <!-- loading -->
+        <div >
+            <h1  th:text="|결제성공 ${booking.title} ${booking.userName}|">
+                결제 성공
+            </h1>
+        </div>
+
+    </div>
+</div>
+</div>
+</html>
