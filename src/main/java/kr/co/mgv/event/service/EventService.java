@@ -9,6 +9,7 @@ import kr.co.mgv.common.file.FileUtils;
 import kr.co.mgv.event.dao.EventDao;
 import kr.co.mgv.event.dto.EventList;
 import kr.co.mgv.event.form.AddEventForm;
+import kr.co.mgv.event.form.ModifyEventForm;
 import kr.co.mgv.event.vo.Event;
 import kr.co.mgv.event.vo.EventCategory;
 import kr.co.mgv.support.vo.SupportPagination;
@@ -21,6 +22,30 @@ public class EventService {
 
 	private final EventDao eventDao;
 	private final FileUtils fileUtils;
+	
+	public void modifyEvent(ModifyEventForm form, int eventNo) {
+		
+		Event event = eventDao.getEventByNo(eventNo);
+		
+		String saveMainImageFilename = fileUtils.saveFile("static/images/event", form.getFile1());
+		String saveDetailImageFilename = fileUtils.saveFile("static/images/event", form.getFile2());
+		
+		event.setTitle(form.getTitle());
+		event.setStartDate(form.getStartDate());
+		event.setEndDate(form.getEndDate());
+		event.getCategory().setNo(form.getCategoryNo());
+		event.setMainImage(saveMainImageFilename);
+		event.setDetailImage(saveDetailImageFilename);
+		
+		eventDao.updateEventByNo(event);
+	}
+	
+	public void deleteEvent(int eventNo) {
+		Event event = eventDao.getEventByNo(eventNo);
+		event.setDeleted("Y");
+		
+		eventDao.updateEventByNo(event);
+	}
 	
 	public void insertEvent(AddEventForm form, User user) {
 		
