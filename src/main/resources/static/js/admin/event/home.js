@@ -16,8 +16,8 @@ $(document).ready(function() {
        let catNo = $(this).attr("data-cat-no");
        $("#actionForm input[name=catNo]").val(catNo);
        $("#actionForm input[name=page]").val(1);
-       $("#actionForm input[name=keyword]").val("");
-       $("#actionForm select[name=status]").val("");
+       $("#actionForm input[name=keyword]").val();
+       $("#actionForm select[name=status]").val();
        
        $("#actionForm").trigger("submit");
     });
