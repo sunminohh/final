@@ -18,6 +18,8 @@ target/
 *.iws
 *.iml
 *.ipr
+/src/main/resources/static/images/user/profile/*.jpg
+/src/main/resources/static/images/user/profile/*.png
 
 ### NetBeans ###
 /nbproject/private/
