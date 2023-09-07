@@ -15,7 +15,8 @@
             user_disabled           as disabled,
             user_create_date        as createDate,
             user_update_date        as updateDate,
-            user_pwd_update_date    as pwdUpdateDate
+            user_pwd_update_date    as pwdUpdateDate,
+            user_profile_img        as profileImg
         from
             MGV_USER
         where
@@ -35,7 +36,8 @@
             user_kakao_yn           as kakaoYn,
             user_create_date        as createDate,
             user_update_date        as updateDate,
-            user_pwd_update_date    as pwdUpdateDate
+            user_pwd_update_date    as pwdUpdateDate,
+            user_profile_img        as profileImg
         from
             MGV_USER
         where
@@ -90,5 +92,26 @@
         </set>
         where user_id = #{id}
     </update>
+
+    <update id="updateUploadProfile" parameterType="User">
+        update MGV_USER
+        <set>
+            <if test="profileImg != null">
+                USER_PROFILE_IMG = #{profileImg},
+            </if>
+            <if test="updateDate != null">
+                user_update_date = CURRENT_TIMESTAMP,
+            </if>
+        </set>
+        where
+            user_id = #{id}
+    </update>
+
+    <update id="deleteProfileImage" parameterType="User">
+        UPDATE MGV_USER
+        SET USER_PROFILE_IMG = NULL
+        WHERE USER_ID = #{id}
+    </update>
+
 
 </mapper>

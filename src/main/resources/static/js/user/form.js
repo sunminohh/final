@@ -12,20 +12,11 @@ $(() => {
         return false;
     })
 
-    // todo 프로필 사진
-    $("#btnAddProfileImg").click(function () {
-        Swal.fire({
-            icon: 'warning',
-            text: "서비스 준비 중입니다."
-        })
-    })
-
     $("#action-form").submit(function (e) {
         e.preventDefault();
 
-        const form = $(this);
-
         const emailValue = $email.val();
+        const form = $(this);
 
         if (!emailValue) {
             errorAlert($email, "E-mail을 입력해주세요.");

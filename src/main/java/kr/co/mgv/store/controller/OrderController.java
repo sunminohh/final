@@ -115,10 +115,9 @@ public class OrderController {
         model.addAttribute("orderName", (String) jsonObject.get("orderName"));
         model.addAttribute("items", items);
 
-        String orderName = jsonObject.get("orderName").toString();
-
+       String orderName = jsonObject.get("orderName").toString();
+        orderService.generateGiftTickets(user.getId(),Integer.parseInt(orderName.split(" ")[0]));
         log.info("orderName - {}", orderName);
-
         List<Product> products =  productService.getAllProducts();
 
         for (Product product : products) {
@@ -145,7 +144,6 @@ public class OrderController {
 
             orderService.insertOrderItem(orderItem);
         }
-
         if (((String) jsonObject.get("method")) != null) {
             if (((String) jsonObject.get("method")).equals("카드")) {
                 model.addAttribute("cardNumber", (String) ((JSONObject) jsonObject.get("card")).get("number"));
