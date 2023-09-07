@@ -1,8 +1,6 @@
 package kr.co.mgv.store.service;
 
-import kr.co.mgv.store.mapper.GiftTicketMapper;
-import kr.co.mgv.store.mapper.OrderItemMapper;
-import kr.co.mgv.store.mapper.OrderMapper;
+import kr.co.mgv.store.mapper.*;
 import kr.co.mgv.store.vo.*;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
@@ -20,11 +18,22 @@ import java.util.Map;
 public class OrderService {
 
     private final OrderMapper orderMapper;
-    private final OrderItemMapper orderItemMapper;
+    private final OrderProductMapper orderProductMapper;
+    private final OrderPackageMapper orderPackageMapper;
     private final GiftTicketMapper giftTicketMapper;
-    public void insertOrder(Order order) {
+
+    public void insertOrder(String orderId, int amount, User user) {
+
+        Order order = new Order();
+
+        order.setTotalPrice(amount);
+        order.setId(orderId);
+        order.setUser(user);
+
         orderMapper.insertOrder(order);
+
     }
+
     public void generateGiftTickets(String userId, int quantity){
         if(quantity==0){
             return;
@@ -47,7 +56,28 @@ public class OrderService {
         giftTicketMapper.insertGiftTickets(params);
 
     }
-    public void insertOrderItem(OrderItem orderItem) {
-        orderItemMapper.insertOrderItem(orderItem);
+
+    public void insertOrderProduct(String orderId, int productNo, int productAmount, int productPrice, int catNo) {
+        OrderProduct orderProduct = new OrderProduct();
+
+        orderProduct.setOrderId(orderId);
+        orderProduct.setProductNo(productNo);
+        orderProduct.setAmount(productAmount);
+        orderProduct.setPrice(productPrice);
+        orderProduct.setCatNo(catNo);
+
+        orderProductMapper.insertOrderProduct(orderProduct);
+    }
+
+    public void insertOrderPackage(String orderId, int packageNo, int packageAmount, int packagePrice, int catNo) {
+        OrderPackage orderPackage = new OrderPackage();
+
+        orderPackage.setOrderId(orderId);
+        orderPackage.setPackageNo(packageNo);
+        orderPackage.setAmount(packageAmount);
+        orderPackage.setPrice(packagePrice);
+        orderPackage.setCatNo(catNo);
+
+        orderPackageMapper.insertOrderPackage(orderPackage);
     }
 }
