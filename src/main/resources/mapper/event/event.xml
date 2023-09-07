@@ -55,6 +55,19 @@
 			<if test="keyword != null">
 				and A.EVENT_TITLE like  CONCAT('%', #{keyword}, '%')	
 			</if>
+			<if test="status != null">
+				<choose>
+					<when test="status == 'wait'">
+						and A.EVENT_START_DATE > NOW()
+					</when>
+					<when test="status == 'run'">
+						and A.EVENT_START_DATE &lt; NOW() and A.EVENT_END_DATE >= NOW()
+					</when>
+					<when test="status == 'finish'">
+						and A.EVENT_END_DATE &lt; NOW()
+					</when>
+				</choose>
+			</if>
 	</select>
 	
 	<select id="getEventByNo" parameterType="int" resultType="kr.co.mgv.event.vo.Event">
