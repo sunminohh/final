@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.mgv.support.dto.NoticeList;
 import kr.co.mgv.support.form.AddNoticeForm;
@@ -124,9 +125,24 @@ public class AdminNoticeController {
     }
     
     @PostMapping("/modify")
-    public String modifyNotice(@RequestParam("no") int noticeNo, ModifyNoticeForm form) {
+    public String modifyNotice(@RequestParam("no") int noticeNo, ModifyNoticeForm form,
+				    		@RequestParam(name = "catNo", required = false, defaultValue = "21") int catNo,
+				    		@RequestParam(name = "page", required = false, defaultValue = "1") int page,
+				    		@RequestParam(name = "locationNo", required = false, defaultValue = "0") int locationNo,
+							@RequestParam(name = "theaterNo", required = false, defaultValue = "0") int theaterNo,
+							@RequestParam(name ="keyword", required = false) String keyword,
+							RedirectAttributes redirectAttributes) {
+    	
     	noticeService.modifyNotice(form, noticeNo);
-    	return "redirect:/admin/support/notice/detail?no=" + noticeNo;
+    	
+    	redirectAttributes.addAttribute("no", noticeNo);
+		redirectAttributes.addAttribute("catNo", catNo);
+		redirectAttributes.addAttribute("page", page);
+		redirectAttributes.addAttribute("locationNo", locationNo);
+		redirectAttributes.addAttribute("theaterNo", theaterNo);
+		redirectAttributes.addAttribute("keyword", keyword);
+    	
+    	return "redirect:/admin/support/notice/detail";
     }
     
     @GetMapping("/delete")

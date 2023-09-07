@@ -1,14 +1,13 @@
 package kr.co.mgv.store.controller;
 
+import kr.co.mgv.store.mapper.OrderPackageMapper;
+import kr.co.mgv.store.mapper.OrderProductMapper;
 import kr.co.mgv.store.service.CartService;
 import kr.co.mgv.store.service.OrderService;
 import kr.co.mgv.store.service.PackageService;
 import kr.co.mgv.store.service.ProductService;
-import kr.co.mgv.store.vo.Cart;
-import kr.co.mgv.store.vo.Order;
-import kr.co.mgv.store.vo.OrderItem;
+import kr.co.mgv.store.vo.*;
 import kr.co.mgv.store.vo.Package;
-import kr.co.mgv.store.vo.Product;
 import kr.co.mgv.user.vo.User;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,51 +38,31 @@ public class OrderController {
 
     private final CartService cartService;
     private final OrderService orderService;
+    private final OrderProductMapper orderProductMapper;
+    private final OrderPackageMapper orderPackageMapper;
 
     @PostMapping("/successPackage")
     public String insertPackageOrderItem(HttpServletRequest request) {
-        int totalDiscountedPrice = Integer.parseInt(request.getParameter("totalDiscountedPrice"));
+        int packagePrice = Integer.parseInt(request.getParameter("totalDiscountedPrice"));
         int packageNo = Integer.parseInt(request.getParameter("packageNo"));
         int packageAmount = Integer.parseInt(request.getParameter("packageAmount"));
         int catNo = Integer.parseInt(request.getParameter("catNo"));
         String orderId = request.getParameter("orderId");
 
-        log.info("packageNo의 값 - {}", packageNo);
-        log.info("orderId의 값 - {}", orderId);
-
-        OrderItem orderItem = new OrderItem();
-
-            orderItem.setOrderId(orderId);
-            orderItem.setPackageNo(packageNo);
-            orderItem.setPackageAmount(packageAmount);
-            orderItem.setPackagePrice(totalDiscountedPrice);
-            orderItem.setCatNo(catNo);
-
-        orderService.insertOrderItem(orderItem);
+        orderService.insertOrderPackage(orderId, packageNo, packageAmount, packagePrice, catNo);
 
         return "view/store/success";
     }
 
     @PostMapping("/successProduct")
     public String insertProductOrderItem(HttpServletRequest request) {
-        int totalDiscountedPrice = Integer.parseInt(request.getParameter("totalDiscountedPrice"));
+        int productPrice = Integer.parseInt(request.getParameter("totalDiscountedPrice"));
         int productNo = Integer.parseInt(request.getParameter("productNo"));
         int productAmount = Integer.parseInt(request.getParameter("productAmount"));
         int catNo = Integer.parseInt(request.getParameter("catNo"));
         String orderId = request.getParameter("orderId");
 
-        log.info("productNo의 값 - {}", productNo);
-        log.info("orderId의 값 - {}", orderId);
-
-        OrderItem orderItem = new OrderItem();
-
-        orderItem.setOrderId(orderId);
-        orderItem.setProductNo(productNo);
-        orderItem.setProductAmount(productAmount);
-        orderItem.setProductPrice(totalDiscountedPrice);
-        orderItem.setCatNo(catNo);
-
-        orderService.insertOrderItem(orderItem);
+        orderService.insertOrderProduct(orderId, productNo, productAmount, productPrice, catNo);
 
         return "view/store/success";
     }
@@ -96,33 +75,33 @@ public class OrderController {
             @RequestParam(value = "paymentKey") String paymentKey,
             @AuthenticationPrincipal User user) throws Exception {
 
-        Order order = new Order();
-
-        order.setTotalPrice(amount);
-        order.setId(orderId);
-        order.setUser(user);
-
-        orderService.insertOrder(order);
-
         List<Cart> items = cartService.getCartItemsByUserId(user.getId());
 
-        for (Cart item : items) {
-            OrderItem orderItem = new OrderItem();
-            orderItem.setOrderId(orderId);
-            if (item.getProduct() != null) {
-                orderItem.setProductNo(item.getProduct().getNo());
-                orderItem.setProductAmount(item.getAmount());
-                orderItem.setProductPrice(item.getTotalDiscountedPrice());
-                orderItem.setCatNo(item.getCatNo());
-            } else if (item.getPkg() != null) {
-                orderItem.setPackageNo(item.getPkg().getNo());
-                orderItem.setPackageAmount(item.getAmount());
-                orderItem.setPackagePrice(item.getTotalDiscountedPrice());
-                orderItem.setCatNo(item.getCatNo());
+        for (Cart cart : items) {
+            if (cart.getProduct() != null) {
+                OrderProduct orderProduct = new OrderProduct();
+
+                orderProduct.setOrderId(orderId);
+                orderProduct.setProductNo(cart.getProduct().getNo());
+                orderProduct.setAmount(cart.getAmount());
+                orderProduct.setPrice(cart.getTotalDiscountedPrice());
+                orderProduct.setCatNo(cart.getCatNo());
+
+                orderProductMapper.insertOrderProduct(orderProduct);
+            } else if (cart.getPkg() != null) {
+                OrderPackage orderPackage = new OrderPackage();
+
+                orderPackage.setOrderId(orderId);
+                orderPackage.setPackageNo(cart.getPkg().getNo());
+                orderPackage.setAmount(cart.getAmount());
+                orderPackage.setPrice(cart.getTotalDiscountedPrice());
+                orderPackage.setCatNo(cart.getCatNo());
+
+                orderPackageMapper.insertOrderPackage(orderPackage);
             }
-            orderService.insertOrderItem(orderItem);
-            cartService.deleteCart(item.getNo());
         }
+
+        cartService.deleteCartByUserId(user.getId());
 
         String secretKey = "test_sk_ODnyRpQWGrNkGP56g4B8Kwv1M9EN:";
 
@@ -163,17 +142,10 @@ public class OrderController {
         model.addAttribute("items", items);
 
        String orderName = jsonObject.get("orderName").toString();
-        orderService.generateGiftTickets(user.getId(),Integer.parseInt(orderName.split(" ")[0]));
-        log.info("orderName - {}", orderName);
 
-        if (((String) jsonObject.get("method")) != null) {
-            if (((String) jsonObject.get("method")).equals("카드")) {
-                model.addAttribute("cardNumber", (String) ((JSONObject) jsonObject.get("card")).get("number"));
-            }
-        } else {
-            model.addAttribute("code", (String) jsonObject.get("code"));
-            model.addAttribute("message", (String) jsonObject.get("message"));
-        }
+        orderService.generateGiftTickets(user.getId(),Integer.parseInt(orderName.split(" ")[0]));
+
+        orderService.insertOrder(orderId, amount, user);
 
         return "view/store/success";
     }
