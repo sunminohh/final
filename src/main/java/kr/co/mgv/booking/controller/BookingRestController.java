@@ -20,8 +20,8 @@ import java.util.*;
 @AllArgsConstructor
 @Slf4j
 public class BookingRestController {
-    BookingService bookingService;
-    TheaterService theaterService;
+    private BookingService bookingService;
+    private TheaterService theaterService;
     @RequestMapping("/{date}")
     public Map<String, Integer> scheduleApi(@PathVariable String date){
     return bookingService.isElementClassActive(date);
@@ -39,15 +39,15 @@ public class BookingRestController {
     @GetMapping("/step0")
     public Map<String, Object> xxx(@AuthenticationPrincipal User user, @RequestParam("schedulId") int scheduleId){
         Map<String, Object> map = new HashMap<>();
-//        if (user == null) {
-//            map.put("result", "fail");
-//            map.put("scheduleId", scheduleId);
-//            return map;
-//        } else {
+        if (user == null) {
+            map.put("result", "fail");
+            map.put("scheduleId", scheduleId);
+            return map;
+        } else {
             map.put("result", "success");
 
             return map;
-//        }
+        }
     }
 
     @PostMapping("/updateSeats")
@@ -56,8 +56,10 @@ public class BookingRestController {
         return "sucess";
     }
     @GetMapping("/getDisabledSeats")
-    public List<String> getDisabledSeats(@RequestParam("screenId") int screenId){
-        return theaterService.getDisabledSeatsByScreenID(screenId);
+    public Map<String,Object> getDisabledSeats(@RequestParam("screenId") int screenId){
+        Map<String,Object> map = bookingService.getScreenMatrixByScreenId(screenId);
+        map.put("disabledSeats",theaterService.getDisabledSeatsByScreenID(screenId));
+        return map;
     }
 
     @GetMapping("/deleteDisabledSeats")
@@ -71,16 +73,34 @@ public class BookingRestController {
             return null;
         }
         @PostMapping("/bookingPay")
-    public ResponseEntity<Booking> bookingPay(@RequestBody Booking booking, @AuthenticationPrincipal User user){
-        booking.setUserId(user.getId());
-        booking.setUserName(user.getName());
-        try{
-            bookingService.insertBooking(booking);
-            return ResponseEntity.ok(booking);
-        }catch (Exception e){
-            log.info(e.getMessage());
-            return (ResponseEntity<Booking>) ResponseEntity.badRequest();
+    public Map<String,Object> bookingPay(@RequestBody Booking booking, @AuthenticationPrincipal User user){
+        Map<String,Object> map=new HashMap<>();
+        if(user==null){
+            map.put("result","fail");
+            return map;
         }
+            map.put("userId",user.getId());
+            map.put("userName",user.getName());
+            map.put("bookingNo",booking.getNo());
+            booking.setUserId(user.getId());
+            booking.setUserName(user.getName());
+            if(booking.getPayAmount()==0){
+                map.put("result","success");
+            try{
+                bookingService.insertBooking(booking);
+                return map;
+            }catch (Exception e){
+                log.info(e.getMessage());
+                map.put("result","fail");
+                map.put("error",e.getMessage());
+                return map;
+            }
+        }else{
+            map.put("result","pending");
+            bookingService.insertBooking(booking);
+            return map;
+        }
+
 
         }
 }

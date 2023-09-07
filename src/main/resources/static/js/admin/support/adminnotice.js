@@ -9,6 +9,14 @@ $(function() {
 	      $(this).addClass('current');
 	      $(this).find('button.btn').addClass('current');
     });
+    
+    const urlParams = new URLSearchParams(window.location.search);
+	const locationNo = urlParams.get('locationNo');
+	const theaterNo = urlParams.get('theaterNo');
+	
+	if (locationNo && theaterNo) {
+		 selectTheater(locationNo, theaterNo);
+	}
 	
 	// 지역조회
 	$("#theater").prop("disabled", true);
@@ -18,7 +26,7 @@ $(function() {
 	
 	$.getJSON("/support/lost/getLocation", function(locations) {
 		locations.forEach(function(loc) {
-			let option = `<option value="${loc.no}"> ${loc.name}</option>`;
+			let option = `<option value="${loc.no}" ${locationNo == loc.no ? 'selected' : ''}> ${loc.name}</option>`;
 			$selectLocation.append(option);
 		})
 	})
@@ -34,12 +42,25 @@ $(function() {
 		
 		$.getJSON("/support/lost/getTheaterByLocationNo?locationNo="+ locationNo, function(theaters){
 			theaters.forEach(function(thr) {
-				let option = `<option value="${thr.no}"> ${thr.name}</option>`;
+				let option = `<option value="${thr.no}" ${theaterNo == thr.no ? 'selected' : ''}> ${thr.name}</option>`;
 				$selectTheater.append(option);
 			})
 		})
-		
 	});
+	
+	function selectTheater(locationNo, theaterNo) {
+		let $selectTheater = $("#theater").empty();
+		
+		$selectTheater.append(`<option value="" selected disabled>극장선택</option>`)
+		
+		$.getJSON("/support/lost/getTheaterByLocationNo?locationNo="+ locationNo, function(theaters){
+			theaters.forEach(function(thr) {
+				let option = `<option value="${thr.no}" ${theaterNo == thr.no ? 'selected' : ''}> ${thr.name}</option>`;
+				$selectTheater.append(option);
+			})
+			$("#theater").prop("disabled", false);
+		})
+	}
 	
 	// 수정폼에서 MGV공지가 checked일때
 	$("#mgvNotice").change(function() {

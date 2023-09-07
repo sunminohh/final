@@ -23,4 +23,6 @@ public interface MyBoardDao {
 	int getTotalRowsByJoin (Map<String, Object> param);
 	
 	List<BoardList> getBest5(Map<String , Object> param);
+	
+	String getUserProfileImg(String id);
 }

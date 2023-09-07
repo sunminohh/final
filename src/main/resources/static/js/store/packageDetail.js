@@ -143,15 +143,36 @@ $(function() {
     let failUrl = window.location.origin + path + "fail";
     let callbackUrl = window.location.origin + path + "va_callback";
     let orderId = new Date().getTime();
-    let uuid = self.crypto.randomUUID();
-
 
     $("#btn-tosspay").click(() => {
+
+        const totalDiscountedPrice = $("#totalDiscountedPrice").val();
+        const totalOriginalPrice = $("#totalOriginalPrice").val();
+        const userId = $("#userId").val();
+        const packageNo = $("#packageNo").val();
+        const packageAmount = $("#packageAmount").val();
+        const catNo = $("#catNo").val();
+
+        const requestData = {
+            totalDiscountedPrice: totalDiscountedPrice,
+            totalOriginalPrice: totalOriginalPrice,
+            userId: userId,
+            packageNo: packageNo,
+            packageAmount: packageAmount,
+            catNo: catNo,
+            orderId: orderId
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/order/successPackage",
+            data: requestData
+        })
 
         let jsons = {
             "card": {
                 "amount": amount,
-                "orderId": uuid + orderId,
+                "orderId": orderId,
                 "orderName": giftTickets+" "+orderName,
                 "successUrl": successUrl,
                 "failUrl": failUrl,

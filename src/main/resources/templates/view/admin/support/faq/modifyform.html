@@ -17,7 +17,7 @@
 <div id="contents" layout:fragment="content" style="margin-top: -40px;">
     <h2 class="tit">자주 묻는 질문</h2>
 
-    <form id="modifyform" name="regFrm" method="post" th:action="@{/admin/support/faq/modify(no=${faq.no})}" enctype="multipart/form-data">
+    <form id="modifyform" name="regFrm" method="post" th:action="@{/admin/support/faq/modify(no=${faq.no}, catNo=${param.catNo}, page=${param.page}, keyword=${param.keyword})}" enctype="multipart/form-data">
         <div class="table-wrap mt10">
             <table class="board-form va-m">
                 <colgroup> 

@@ -67,12 +67,11 @@ $(() => {
     let failUrl = window.location.origin + path + "fail";
     let callbackUrl = window.location.origin + path + "va_callback";
     let orderId = new Date().getTime();
-    let uuid = self.crypto.randomUUID();
 
     let jsons = {
         "card": {
             "amount": amount,
-            "orderId": uuid + orderId,
+            "orderId": orderId,
             "orderName": giftTickets +" "+orderName,
             "successUrl": successUrl,
             "failUrl": failUrl,
@@ -101,7 +100,6 @@ $(() => {
         tossPayments.requestPayment(method, requestJson)
             .then(function(response) {
                 if (response.code === "SUCCESS") {
-
                     Swal.fire({
                         icon: 'success',
                         text: "구매가 완료되었습니다."
@@ -109,7 +107,6 @@ $(() => {
                 }
             })
             .catch(function (error) {
-
                 if (error.code === "USER_CANCEL") {
                     Swal.fire({
                         icon: 'warning',
@@ -122,7 +119,6 @@ $(() => {
                         text: error.message
                     });
                 }
-
             });
     }
 })

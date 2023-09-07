@@ -107,7 +107,9 @@
 	select 
 		screen_id	as id,
 		screen_name	as name,
-		screen_seats as seats
+		screen_seats as seats,
+		screen_row   as screenRow,
+		screen_col   as screenCol
 	from MGV_THEATER_SCREEN
 	where screen_id = #{value}
 	</select>
