@@ -19,7 +19,7 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.9/dayjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.9/locale/ko.min.js"></script>
-
+    <script src="https://js.tosspayments.com/v1"></script>
 </head>
 <div layout:fragment="content">
 
@@ -1163,13 +1163,13 @@
                       <label for="kakaopay">카카오페이(구현필요)</label>
                     </span>
                                 </div>
-                                <div class="select-toss-info" style="display:block">
+                                <div id="pay-info-tosspay"class="select-toss-info" style="display:none">
                                     <ul class="dash-list">
                                         <li>토스에 등록된 계좌와 신용/체크카드로 쉽고 편리하게 결제하세요.</li>
                                         <li>토스페이 결제 시 토스에서 제공하는 카드사 별 무이자, 청구할인, 결제 이벤트만 제공됩니다.</li>
                                     </ul>
                                 </div>
-                                <div class="select-kakao-info" style="display:none">
+                                <div id="pay-info-kakaopay" class="select-kakao-info" style="display:none">
                                     <ul class="dash-list">
                                         <li>즉시할인 신용카드 적용이 불가합니다.</li>
                                     </ul>

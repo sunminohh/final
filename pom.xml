@@ -52,13 +52,13 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.oracle.database.jdbc</groupId>
 			<artifactId>ojdbc8</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		
+
 		<!-- lombok -->
 		<dependency>
 		    <groupId>org.projectlombok</groupId>
@@ -91,7 +91,7 @@
 			<artifactId>jquery</artifactId>
 			<version>3.6.4</version>
 		</dependency>
-		
+
 		<!-- mysql -->
 		<dependency>
 			<groupId>com.mysql</groupId>
@@ -126,7 +126,7 @@
 			<artifactId>bootstrap</artifactId>
 			<version>5.3.0</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
@@ -138,7 +138,7 @@
 			<artifactId>jasypt-spring-boot-starter</artifactId>
 			<version>3.0.5</version>
 		</dependency>
-		
+
 		<!-- security -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

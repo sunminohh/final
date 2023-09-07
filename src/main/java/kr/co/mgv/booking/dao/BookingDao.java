@@ -6,4 +6,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface BookingDao {
     public void insertBooking(Booking booking);
+    public Booking getBookingByBookingNo(long no);
 }

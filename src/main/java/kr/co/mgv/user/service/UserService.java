@@ -1,12 +1,16 @@
 package kr.co.mgv.user.service;
 
+import kr.co.mgv.common.file.FileUtils;
 import kr.co.mgv.user.dao.UserDao;
 import kr.co.mgv.user.dao.UserRoleDao;
+import kr.co.mgv.user.form.UserUpdateForm;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +22,7 @@ public class UserService {
 
     private final UserDao userDao;
     private final UserRoleDao userRoleDao;
+    private final FileUtils fileUtils;
 
     public User getUserById(String id) {
         return userDao.getUserById(id);
@@ -39,15 +44,43 @@ public class UserService {
 
     // 회원 정보 수정
     public void updateUser(String id, String email, String zipcode, String address) {
-        // todo 로직
-        User user = userDao.getUserById(id);
-
-        user.setEmail(email);
-        user.setZipcode(zipcode);
-        user.setAddress(address);
-        user.setUpdateDate(new Date());
+        User user = User.builder()
+                .id(id)
+                .email(email)
+                .zipcode(zipcode)
+                .address(address)
+                .updateDate(new Date())
+                .build();
 
         userDao.updateUser(user);
+    }
+
+    // 이미지 등록
+    public void updateUploadProfile(String id, MultipartFile file) {
+        // 이미지 처리
+        String savedProfileImgFileName = fileUtils.saveFile("static/images/user/profile", file);
+        log.info("이미지 파일명 -> {}", file);
+        User user = User.builder()
+                .id(id)
+                .profileImg(savedProfileImgFileName)
+                .build();
+
+        userDao.updateUploadProfile(user);
+    }
+
+    // 이미지 삭제
+    public void deleteProfileImg(String id, String imgUrl) {
+        User user = userDao.getUserById(id);
+
+        if (imgUrl != null && !imgUrl.isEmpty()) {
+            File file = new File(imgUrl);
+            log.info("file 경로 -> {}", file);
+            // 삭제 전 파일 존재 확인
+            if (file.exists()) {
+                file.delete();
+            }
+        }
+        userDao.deleteProfileImage(user);
     }
 
     // 회원탈퇴
@@ -68,6 +101,16 @@ public class UserService {
 
     }
 
+    /*private String saveUploadFile(MultipartFile file) throws IOException {
+        String originalFileName = file.getOriginalFilename();
+        assert originalFileName != null;
+        String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
+        String savedFileName = UUID.randomUUID() + extension;
+        File destination = new File(UPLOAD_DIR + savedFileName);
+        file.transferTo(destination);
+        return savedFileName;
+    }*/
+
     // 수정일자 계산
     public long getMinDate(Date updateDate) {
         Date currentDate = new Date();
@@ -82,6 +125,4 @@ public class UserService {
         long daysDifference = timeDifference / (1000 * 60 * 60 * 24);
         return daysDifference;
     }
-
-
 }
