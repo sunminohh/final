@@ -210,9 +210,9 @@
 		WHERE 
 			comment_deleted = 'N'
 			and A.user_id = B.user_id
-			and board_no = #{value}
-			and great_comment_no is null
-		order by comment_create_date;
+			and A.board_no = #{value}
+			and A.great_comment_no is null
+		order by A.comment_create_date;
 	</select>
 	
 	<select id="getMBoardChildComments" resultType="kr.co.mgv.board.vo.MBoardComment" parameterType="int">

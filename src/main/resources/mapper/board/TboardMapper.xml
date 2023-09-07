@@ -118,17 +118,19 @@
             A.board_read_cnt        as readCount,
             A.report_count			as reportCount,
             A.board_comment_cnt     as commentCount,
-            A.user_id             as "user.id",
+            A.user_id               as "user.id",
             A.BOARD_FILENAME		as fileName,
 			A.board_like_count		as likeCount,
 			A.theater_no			as "theater.no",
 			B.theater_name			as "theater.name",
 			A.location_no			as "location.no",
-			C.LOCATION_NAME		as "location.name"
+			C.LOCATION_NAME			as "location.name",
+			D.user_profile_img		as "user.profileImg"
 	    from
-	        MGV_THEATER_BOARD A, MGV_THEATERS B, MGV_LOCATION C
+	        MGV_THEATER_BOARD A, MGV_THEATERS B, MGV_LOCATION C, MGV_USER D
 	    where 
 	    	A.theater_no = B.theater_no
+	    	and A.user_id = D.user_id
 	    	and A.LOCATION_NO = C.LOCATION_NO
 	    	and A.board_no = #{value}
 	</select>
@@ -215,20 +217,22 @@
 	
 	<select id="geTBoardComments" resultType="kr.co.mgv.board.vo.TBoardComment" parameterType="int">
 		SELECT 
-			COMMENT_NO				as no, 
-			COMMENT_CREATE_dATE		as createDate, 
-			COMMENT_UPDATE_DATE		as updateDate, 
-			COMMENT_CONTENT			as content, 
-			USER_ID					as "user.id", 
-			COMMENT_DELETED			as deleted, 
-			BOARD_NO				as "board.no"
+			A.COMMENT_NO				as no, 
+			A.COMMENT_CREATE_dATE		as createDate, 
+			A.COMMENT_UPDATE_DATE		as updateDate, 
+			A.COMMENT_CONTENT			as content, 
+			A.USER_ID					as "user.id", 
+			A.COMMENT_DELETED			as deleted, 
+			A.BOARD_NO					as "board.no",
+			B.user_profile_img	    	as "user.profileImg"
 		FROM 
-			MGV_TBOARD_COMMENT 
+			MGV_TBOARD_COMMENT A, MGV_USER B
 		WHERE 
-			comment_deleted = 'N'
-			and board_no = #{value}
-			and great_comment_no is null
-		order by comment_create_date;
+			A.comment_deleted = 'N'
+			and A.user_id = B.user_id
+			and A.board_no = #{value}
+			and A.great_comment_no is null
+		order by A.comment_create_date;
 	</select>
 	
 	<select id="getTBoardChildComments" resultType="kr.co.mgv.board.vo.TBoardComment" parameterType="int">
@@ -243,11 +247,13 @@
 			A.PARENT_COMMENT_NO			as "parent.no", 
 			A.GREAT_COMMENT_NO			as "great.no",
 			P.USER_ID					as "parent.user.id",
-			G.USER_ID					as "great.user.id"
+			G.USER_ID					as "great.user.id",
+			B.user_profile_img			as "user.profileImg"
 		FROM 
-			MGV_TBOARD_COMMENT A, MGV_TBOARD_COMMENT P, MGV_TBOARD_COMMENT G
+			MGV_TBOARD_COMMENT A, MGV_TBOARD_COMMENT P, MGV_TBOARD_COMMENT G, MGV_USER B
 		WHERE 
 			A.parent_comment_no = P.comment_no
+			and A.user_id = B.user_id
 			and A.great_comment_no = G.comment_no
 			and A.comment_deleted = 'N'
 			and A.board_no = #{value}
