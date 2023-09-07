@@ -1,18 +1,114 @@
 $(() => {
-	
 
-	// =====================================
-	// Profit
-	// =====================================
 	const API_URLS = {
 		DAILY_TOTAL_SALES: "/admin/sales/dailyTotalSales",
+		GETSALES:"/admin/sales/getSales"
 	}
+	const $btnSelect = $("#btnSelect")
+	const $period = $(":radio[name='period']")
+	const $inputFirstDate = $("#firsttDay")
+	const $inputLastDate = $("#lastDay")
+	
+	const currentDate = dayjs().format("YYYY-MM-DD");
+	const oneWeekAgo = dayjs().subtract(7, 'day').format("YYYY-MM-DD");
+	$inputFirstDate.val(oneWeekAgo);
+	$inputLastDate.val(currentDate);
+	const reqData = {};
+	$btnSelect.on("click",handlerClickBtnSelect)
+	$btnSelect.click();
+	
+	function handlerClickBtnSelect(){
+		const periodVal = $period.filter(":checked").val()
+		const firstDate = $inputFirstDate.val()
+		const lastDate = $inputLastDate.val()
+		reqData.period=periodVal
+		reqData.firstDate=firstDate
+		reqData.lastDate=lastDate
+		console.log(reqData)
+		getSales();
+	}	
+
+	function getSales(){
+		$.ajax({
+			url: API_URLS.GETSALES, // 데이터를 가져올 API 엔드포인트
+			method: 'post',
+			data: JSON.stringify(reqData), // JSON 형태로 변환하여 보냄
+		    contentType: "application/json", // JSON 데이터임을 명시
+			success: function(response) {
+				updateChartWithSelectData(response);
+			},
+			error: function(error) {
+				Swal.fire({
+					icon:"error",
+					text:"네트워크 요청 오류, 잠시후에 다시 시도 하세요."
+				})
+				// 에러 처리: 사용자에게 메시지를 표시하거나 적절한 조치를 취하세요.
+			}
+		});
+	}
+	
+	function updateChartWithSelectData(data) {
+		const days = [];
+		const movieNames = [];
+		const productNames = [];
+		const totalSales = [];
+		const movieTotalSales = [];
+		const productTotalSales = [];
+		const movieSales = [];
+		const productSales = [];
+		console.log(data)
+		data.totalSales.forEach(item => {
+			// 날짜 데이터를 dayjs로 파싱
+			const parsedDate = dayjs(item.date);
+
+			// 월과 일을 가져와서 두 자리로 포맷팅
+			const formattedDate = parsedDate.format("MM/DD");
+
+			// 카테고리 배열에 추가
+			days.push(formattedDate);
+
+			// 시리즈 데이터 배열에 해당 값 추가
+			totalSales.push(item.totalSales);
+		});
+		data.movieTotalSales.forEach(item => {movieTotalSales.push(item.totalSales);})
+		data.productTotalSales.forEach(item => {productTotalSales.push(item.totalSales);})
+		
+		data.movieSales.forEach(item => {
+			movieNames.push(item.name);
+			movieSales.push(item.totalSales);
+		})
+		
+		data.productSales.forEach(item => {
+			productNames.push(item.name);
+			productSales.push(item.totalSales);
+		})
+		
+		chart.updateOptions({
+			xaxis: {
+				categories: days,
+			},
+			series: [
+				{
+					data: totalSales,
+				},
+				{
+					 name: "영화", data: movieTotalSales,
+				},
+				{
+					 name: "상품", data: productTotalSales,
+				},
+			],
+		});
+	}
+	// =====================================
+	// 차트
+	// =====================================
 	// 차트 옵션
 	const chartOption = {
 		series: [
-			{ name: "매출", data: [180, 355, 390] },
-			{ name: "영화매출", data: [180, 355, 390] },
-			{ name: "상품매출", data: [180, 355, 390] },
+			{ name: "총매출", data: [180, 355, 390] },
+			{ name: "영화", data: [180, 355, 390] },
+			{ name: "상품", data: [180, 355, 390] },
 		],
 		chart: {
 			type: "bar",
@@ -31,6 +127,8 @@ $(() => {
 					const categories = chartContext.w.globals.labels[dataPointIndex]; // 카테고리 값 얻기
 					const seriesName = chartContext.w.config.series[seriesIndex].name; // 시리즈 이름 얻기
 					console.log(`클릭한 데이터 포인트: ${dataPointIndex}, 시리즈: ${seriesName}, 카테고리: ${categories}, 값: ${value}`);
+					reqData.category=seriesName;
+					reqData.targetDate=categories;
 		    },
 		},
 		},
@@ -49,7 +147,7 @@ $(() => {
 			enabled: false,
 		},
 		legend: {
-			show: false,
+			show: true,
 		},
 		grid: {
 			borderColor: "rgba(0,0,0,0.1)",
@@ -106,7 +204,7 @@ $(() => {
 	function updateChartWithData(data) {
 		const categories = []
 		const seriesData = []
-		
+		console.log(data)
 		data.forEach(item => {
 			// 날짜 데이터를 dayjs로 파싱
 			const parsedDate = dayjs(item.date);
@@ -129,17 +227,11 @@ $(() => {
 				{
 					data: seriesData,
 				},
-				{
-					data: seriesData,
-				},
-				{
-					data: seriesData,
-				},
 			],
 		});
 	}
 
-	$.ajax({
+/*	$.ajax({
 		url: API_URLS.DAILY_TOTAL_SALES, // 데이터를 가져올 API 엔드포인트
 		method: 'GET',
 		dataType: 'json',
@@ -153,7 +245,9 @@ $(() => {
 			})
 			// 에러 처리: 사용자에게 메시지를 표시하거나 적절한 조치를 취하세요.
 		}
-	});
+	});*/
 
+
+	
 	
 })

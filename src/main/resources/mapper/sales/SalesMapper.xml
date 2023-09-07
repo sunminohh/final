@@ -13,7 +13,127 @@
 		order by date;	
 	</select>
 	
+	<select id="getDailySalesbyDate" parameterType="salesDto" resultType="totalSales">
+		SELECT
+			date,
+			daily_total_sales as totalSales
+		FROM
+			MGV_DAILY_SALES
+		WHERE
+			date BETWEEN #{firstDate} AND #{lastDate}
+		order by date;	
+	</select>
 	
+	<select id="getDailyMovieSalesbyDate" parameterType="salesDto" resultType="totalSales">
+		SELECT
+		    date,
+		    MOVIE_NAME as name,
+		    TOTAL_SALES as totalSales
+		FROM
+		    MGV_DAILY_MOVIE_SALES
+		WHERE
+		    date BETWEEN #{firstDate} AND #{lastDate}
+		order by date;    
+	</select>
+	
+	<select id="getDailyProductSalesbyDate" parameterType="salesDto" resultType="totalSales">
+		SELECT
+		    date,
+		    PRODUCT_NAME as name,
+		    TOTAL_SALES as totalSales
+		FROM
+		    MGV_DAILY_PRODUCT_SALES
+		WHERE
+		    date BETWEEN #{firstDate} AND #{lastDate}
+		order by date;    
+	</select>
+	
+	<select id="getDailyMovieTotalSalesbyDate" parameterType="salesDto" resultType="totalSales">
+		SELECT
+		    date,
+		    SUM(TOTAL_SALES) as totalSales
+		FROM
+		    MGV_DAILY_MOVIE_SALES
+		WHERE
+		    date BETWEEN #{firstDate} AND #{lastDate}
+		GROUP BY
+		    date    
+		order by date;    
+	</select>
+	
+	<select id="getDailyProductTotalSalesbyDate" parameterType="salesDto" resultType="totalSales">
+		SELECT
+		    date,
+		    SUM(TOTAL_SALES) as totalSales
+		FROM
+		    MGV_DAILY_PRODUCT_SALES
+		WHERE
+		    date BETWEEN #{firstDate} AND #{lastDate}
+		GROUP BY
+		    date    
+		order by date;    
+	</select>
+	
+	<select id="getMonthlySalesbyDate" parameterType="salesDto" resultType="totalSales">
+		SELECT
+			FISCAL_MONTH as date,
+			MONTHLY_TOTALSALES as totalSales
+		FROM
+			MGV_MONTHLY_SALES 
+		WHERE
+			FISCAL_MONTH BETWEEN DATE_FORMAT(#{firstDate}, '%Y-%m') AND DATE_FORMAT(#{lastDate}, '%Y-%m')
+		order by FISCAL_MONTH;	
+	</select>
+	
+	<select id="getMonthlyMovieSalesbyDate" parameterType="salesDto" resultType="totalSales">
+		SELECT
+		    date,
+		    MOVIE_NAME as name,
+		    TOTAL_SALES as totalSales
+		FROM
+		    MGV_DAILY_MOVIE_SALES
+		WHERE
+		    date BETWEEN #{firstDate} AND #{lastDate}
+		order by date;    
+	</select>
+	
+	<select id="getMonthlyProductSalesbyDate" parameterType="salesDto" resultType="totalSales">
+		SELECT
+		    date,
+		    PRODUCT_NAME as name,
+		    TOTAL_SALES as totalSales
+		FROM
+		    MGV_DAILY_PRODUCT_SALES
+		WHERE
+		    date BETWEEN #{firstDate} AND #{lastDate}
+		order by date;    
+	</select>
+	
+	<select id="getMonthlyMovieTotalSalesbyDate" parameterType="salesDto" resultType="totalSales">
+		SELECT
+		    date,
+		    SUM(TOTAL_SALES) as totalSales
+		FROM
+		    MGV_DAILY_MOVIE_SALES
+		WHERE
+		    date BETWEEN #{firstDate} AND #{lastDate}
+		GROUP BY
+		    date    
+		order by date;    
+	</select>
+	
+	<select id="getMonthlyProductTotalSalesbyDate" parameterType="salesDto" resultType="totalSales">
+		SELECT
+		    date,
+		    SUM(TOTAL_SALES) as totalSales
+		FROM
+		    MGV_DAILY_PRODUCT_SALES
+		WHERE
+		    date BETWEEN #{firstDate} AND #{lastDate}
+		GROUP BY
+		    date    
+		order by date;    
+	</select>
 	
 	<insert id="insertMonthlySales" >
 		INSERT INTO
@@ -52,10 +172,10 @@
 
 	<insert id="insertMonthlyProductSales" >
 	INSERT INTO MGV_MONTHLY_PRODUCT_SALES 
-		(MONTH, PRODUCT_NO, AMOUNT, TOTAL_SALES)
+		(MONTH, PRODUCT_NAME, AMOUNT, TOTAL_SALES)
 	SELECT
 		DATE_FORMAT(DATE, '%Y-%m') AS MONTH,
-		PRODUCT_NO,
+		PRODUCT_NAME,
 		SUM(AMOUNT),
 		SUM(TOTAL_SALES) AS TOTAL_SALES
 	FROM
@@ -64,7 +184,7 @@
 	    DATE_FORMAT(date, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m');
 	GROUP BY
 		DATE_FORMAT(DATE, '%Y-%m'),
-		PRODUCT_NO
+		PRODUCT_NAME
 	ON DUPLICATE KEY UPDATE
 		TOTAL_SALES = VALUES(TOTAL_SALES);
 	</insert>
@@ -106,10 +226,10 @@
 	
 	<insert id="insertYearlyProductSales">
 	INSERT INTO MGV_YEARLY_PRODUCT_SALES 
-		(YEAR, PRODUCT_NO, AMOUNT, TOTAL_SALES)
+		(YEAR, PRODUCT_NAME, AMOUNT, TOTAL_SALES)
 	SELECT
 	    SUBSTRING(MONTH, 1, 4) AS YEAR,
-	    PRODUCT_NO,
+	    PRODUCT_NAME,
 	    SUM(AMOUNT), 
 	    SUM(TOTAL_SALES) AS TOTAL_SALES
 	FROM
@@ -118,7 +238,7 @@
 		SUBSTRING(FISCAL_MONTH, 1, 4) = DATE_FORMAT(CURDATE(), '%Y');    
 	GROUP BY
 	    SUBSTRING(MONTH, 1, 4),
-	    PRODUCT_NO 
+	    PRODUCT_NAME 
 	ON DUPLICATE KEY UPDATE
 		TOTAL_SALES = VALUES(TOTAL_SALES);
 	</insert>

@@ -16,6 +16,8 @@
                     <div class="card-body">
                             <div class="mb-3 mb-sm-0">
                                 <h5 class="card-title fw-semibold">매출표 설정</h5>
+                                	<form>
+                                
                                 	<table class="table">
                                 	<colgroup>
                                 		<col style="width:15%;">
@@ -30,7 +32,7 @@
                                 					<span>주기 선택</span>
                                 				</th>
                                 				<td class="text-center">
-													<input name="date-type"  type="radio" value="daily" id="dailySales"></select>
+													<input name="period"  type="radio" value="daily" id="dailySales" checked></select>
                                 					<label  for="dailySales">일별</label>
                                 				</td>
                                 				<th class="text-center align-middle" rowspan="2">
@@ -44,16 +46,17 @@
 													<input type="date" class="form-control" name="lastDay" id="lastDay"><span class="input-group-text py-1 px-2">까지</span>
 													</div>
                                 				</td>
-                                				<td class="text-center align-middle"  rowspan="2"><button class="btn btn-info" type="button">선택</button></td>
+                                				<td class="text-center align-middle"  rowspan="2"><button class="btn btn-info" type="button" id="btnSelect">선택</button></td>
                                 			</tr>
                                 			<tr>
                                 			<td class="text-center">
-                                			<input name="date-type" type="radio" value="monthly" id="monthlySales"></select>
+                                			<input name="period" type="radio" value="monthly" id="monthlySales"></select>
                                 					<label  for="monthlySales">월별</label>
                                 			</td>
                                 			</tr>
                                 		</tbody>
                                 	</table>
+                                		</form>
 
                         </div>
                     </div>

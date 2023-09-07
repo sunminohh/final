@@ -13,6 +13,7 @@ import lombok.Setter;
 public class TotalSales {
 
 	private Integer id;
+	private String name;
 	private String date;
 	private Integer totalSales;
 }
