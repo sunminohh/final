@@ -18,6 +18,10 @@ public class MyBoardService {
 
 	private final MyBoardDao myBoardDao;
 	
+	public String getProfileImg(String id) {
+		return myBoardDao.getUserProfileImg(id);
+	}
+	
 	public  MyBoardList getBoardList(Map<String, Object> param) {
 		
 		int totalRows = myBoardDao.getListTotalRows(param);
@@ -34,6 +38,8 @@ public class MyBoardService {
 		
 		result.setList(boards);
 		result.setPagination(pagination);
+		
+		
 		
 		return result;
 	}
