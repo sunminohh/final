@@ -21,6 +21,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -82,4 +83,35 @@ public class BookingService {
         public void updateBooking(Booking booking){
             bookingDao.updateBooking(booking);
         }
+        public List<String> getBookedSeatsByScheduleId(int scheduleId){
+            return bookingDao.getBookedSeatsByScheduleId(scheduleId);
+        }
+        public void insertBookedSeats(List<String> seatNos){
+            int scheduleId=Integer.parseInt(seatNos.get(0));
+            seatNos.remove(0);
+            Map<String,Object> params=new HashMap<>();
+            params.put("scheduleId",scheduleId);
+            params.put("seatNos",seatNos);
+            bookingDao.insertBookedSeats(params);
+        }
+    public void deleteBookedSeats(List<String> seatNos){
+        int scheduleId=Integer.parseInt(seatNos.get(0));
+        seatNos.remove(0);
+        Map<String,Object> params=new HashMap<>();
+        params.put("scheduleId",scheduleId);
+        params.put("seatNos",seatNos);
+        bookingDao.deleteBookedSeats(params);
+    }
+
+        public void completeBookedSeats(Booking  booking){
+            Map<String,Object> params=new HashMap<>();
+            params.put("bookingNo",booking.getNo());
+            params.put("scheduleId",booking.getScheduleId());
+            for(String seatNo : booking.getBookedSeatsNos().split(",")){
+                params.put("seatNo",seatNo);
+                bookingDao.completeBookedSeats(params);
+            }
+
+        }
+
 }
