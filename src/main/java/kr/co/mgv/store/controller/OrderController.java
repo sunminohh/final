@@ -19,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -27,6 +28,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -37,8 +39,54 @@ public class OrderController {
 
     private final CartService cartService;
     private final OrderService orderService;
-    private final ProductService productService;
-    private final PackageService packageService;
+
+    @PostMapping("/successPackage")
+    public String insertPackageOrderItem(HttpServletRequest request) {
+        int totalDiscountedPrice = Integer.parseInt(request.getParameter("totalDiscountedPrice"));
+        int packageNo = Integer.parseInt(request.getParameter("packageNo"));
+        int packageAmount = Integer.parseInt(request.getParameter("packageAmount"));
+        int catNo = Integer.parseInt(request.getParameter("catNo"));
+        String orderId = request.getParameter("orderId");
+
+        log.info("packageNo의 값 - {}", packageNo);
+        log.info("orderId의 값 - {}", orderId);
+
+        OrderItem orderItem = new OrderItem();
+
+            orderItem.setOrderId(orderId);
+            orderItem.setPackageNo(packageNo);
+            orderItem.setPackageAmount(packageAmount);
+            orderItem.setPackagePrice(totalDiscountedPrice);
+            orderItem.setCatNo(catNo);
+
+        orderService.insertOrderItem(orderItem);
+
+        return "view/store/success";
+    }
+
+    @PostMapping("/successProduct")
+    public String insertProductOrderItem(HttpServletRequest request) {
+        int totalDiscountedPrice = Integer.parseInt(request.getParameter("totalDiscountedPrice"));
+        int productNo = Integer.parseInt(request.getParameter("productNo"));
+        int productAmount = Integer.parseInt(request.getParameter("productAmount"));
+        int catNo = Integer.parseInt(request.getParameter("catNo"));
+        String orderId = request.getParameter("orderId");
+
+        log.info("productNo의 값 - {}", productNo);
+        log.info("orderId의 값 - {}", orderId);
+
+        OrderItem orderItem = new OrderItem();
+
+        orderItem.setOrderId(orderId);
+        orderItem.setProductNo(productNo);
+        orderItem.setProductAmount(productAmount);
+        orderItem.setProductPrice(totalDiscountedPrice);
+        orderItem.setCatNo(catNo);
+
+        orderService.insertOrderItem(orderItem);
+
+        return "view/store/success";
+    }
 
     @GetMapping("/success")
     public String paymentResult(
@@ -47,7 +95,6 @@ public class OrderController {
             @RequestParam(value = "amount") Integer amount,
             @RequestParam(value = "paymentKey") String paymentKey,
             @AuthenticationPrincipal User user) throws Exception {
-
 
         Order order = new Order();
 
