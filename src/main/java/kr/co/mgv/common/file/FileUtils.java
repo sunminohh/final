@@ -45,6 +45,32 @@ public class FileUtils {
     }
 
     /**
+     * 이미지 파일 삭제
+     * @param path 이미지 파일 경로
+     * @param filename 이미지 파일 이름
+     * @return DB에 저장한 파일 이름
+     */
+    public boolean deleteFile(String path, String filename) {
+
+        if (filename == null || filename.isEmpty()) {
+            return false;
+        }
+
+        try {
+            String directory = new ClassPathResource(path).getFile().getAbsolutePath().replace("target\\classes", "src\\main\\resources");
+            File fileToDelete = new File(directory, filename);
+
+            if (fileToDelete.exists()) {
+                return fileToDelete.delete();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return false;
+    }
+
+    /**
      * 저장 파일명 생성
      * @param filename 원본 파일명
      * @return 디스크에 저장할 파일명

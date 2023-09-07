@@ -3,14 +3,12 @@ package kr.co.mgv.user.service;
 import kr.co.mgv.common.file.FileUtils;
 import kr.co.mgv.user.dao.UserDao;
 import kr.co.mgv.user.dao.UserRoleDao;
-import kr.co.mgv.user.form.UserUpdateForm;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -56,7 +54,7 @@ public class UserService {
     }
 
     // 이미지 등록
-    public void updateUploadProfile(String id, MultipartFile file) {
+    public String updateUploadProfile(String id, MultipartFile file) {
         // 이미지 처리
         String savedProfileImgFileName = fileUtils.saveFile("static/images/user/profile", file);
         log.info("이미지 파일명 -> {}", file);
@@ -66,19 +64,18 @@ public class UserService {
                 .build();
 
         userDao.updateUploadProfile(user);
+        return savedProfileImgFileName;
     }
 
     // 이미지 삭제
     public void deleteProfileImg(String id, String imgUrl) {
         User user = userDao.getUserById(id);
 
-        if (imgUrl != null && !imgUrl.isEmpty()) {
-            File file = new File(imgUrl);
-            log.info("file 경로 -> {}", file);
-            // 삭제 전 파일 존재 확인
-            if (file.exists()) {
-                file.delete();
-            }
+        String directory = "static/images/user/profile"; // 이미지가 저장된 폴더의 경로
+        String filename = extractFilenameFromUrl(imgUrl); // imgUrl로부터 실제 파일 이름을 추출하는 로직
+        if (!fileUtils.deleteFile(directory, filename)) {
+            log.error("Failed to delete the image file: {}", imgUrl);
+            throw new RuntimeException("Failed to delete the image file.");
         }
         userDao.deleteProfileImage(user);
     }
@@ -101,15 +98,11 @@ public class UserService {
 
     }
 
-    /*private String saveUploadFile(MultipartFile file) throws IOException {
-        String originalFileName = file.getOriginalFilename();
-        assert originalFileName != null;
-        String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
-        String savedFileName = UUID.randomUUID() + extension;
-        File destination = new File(UPLOAD_DIR + savedFileName);
-        file.transferTo(destination);
-        return savedFileName;
-    }*/
+    private String extractFilenameFromUrl(String url) {
+        // URL에서 파일명을 추출하는 로직을 구현합니다.
+        // 예: "/images/user/profile/image.jpg" -> "image.jpg"
+        return url.substring(url.lastIndexOf('/') + 1);
+    }
 
     // 수정일자 계산
     public long getMinDate(Date updateDate) {

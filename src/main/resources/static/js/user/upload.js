@@ -13,6 +13,19 @@ $(() => {
         $("#btnDefaultProfileImg").hide();
     }
 
+    $("#btnAddProfileImg").on('click', function () {
+        $("#userImgFile").click();
+    })
+
+    const $profileImg = $("#profileImage");
+    if ($profileImg.attr("src") !== "/images/user/profile/default.png") {
+        $("#btnAddProfileImg").hide();
+        $("#btnDefaultProfileImg").show();
+    } else {
+        $("#btnAddProfileImg").show();
+        $("#btnDefaultProfileImg").hide();
+    }
+
     $("#userImgFile").on('change', function () {
         const file = $("#userImgFile")[0].files[0];
         if (file.size > 10 * 1024 * 1024) { // 10MB를 초과하는 경우
@@ -29,44 +42,37 @@ $(() => {
         for (let pair of formData.entries()) {
             console.log(pair[0] + ',' + pair[1]);
         }
+        $.ajax({
+            url: "/mypage/upload",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (newImgPath) {
+                Swal.fire({
+                    icon: 'success',
+                    text: "이미지 등록이 완료되었습니다.",
+                    confirmButtonText: '확인',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        console.log("filename -> ", newImgPath)
+                        $("#profileImage").attr("src", "/images/user/profile/" + newImgPath);
 
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            $.ajax({
-                url: "/mypage/upload",
-                type: "POST",
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function () {
-                    Swal.fire({
-                        icon: 'success',
-                        text: "이미지 등록이 완료되었습니다.",
-                        confirmButtonText: '확인',
-                    }).then((result) => {
-                        console.log("ajax pass");
-                        if (result.isConfirmed) {
-                            $("#profileImage").attr("src", e.target.result);
-                            $("#btnAddProfileImg").hide();
-                            $("#btnDefaultProfileImg").show();
-                        }
-                    })
-                },
-                error: function (e) {
-                    errorAlert("이미지 등록 중 오류 발생", e);
-                    return false;
-                }
-            });
-        }
-        reader.readAsDataURL(file);
-
-        console.log("file -> ", file);
+                        location.reload();
+                    }
+                })
+            },
+            error: function (e) {
+                errorAlert("이미지 등록 중 오류 발생", e);
+                return false;
+            }
+        });
     });
 
     // 이미지 삭제
     $("#btnDefaultProfileImg").click(function () {
         let profileImageUrl = $('#profileImage').attr('src');
-        console.log(profileImageUrl);
+        console.log("등록된 이미지 -> ", profileImageUrl);
 
         Swal.fire({
             icon: 'warning',
@@ -80,7 +86,7 @@ $(() => {
                 $.ajax({
                     url: '/mypage/deleteImg',
                     type: 'POST',
-                    data: JSON.stringify({ file: profileImageUrl }),
+                    data: {"file": profileImageUrl},
                     success: function () {
                         let defaultImagePath = $("#profileImage").attr("data-default-src");
                         $("#profileImage").attr("src", defaultImagePath);
@@ -88,9 +94,9 @@ $(() => {
                             icon: 'success',
                             text: "이미지가 삭제되었습니다.",
                         }).then((result) => {
-                            $("#btnDefaultProfileImg").hide();
-                            $("#btnAddProfileImg").show();
-                            location.reload();
+                            if (result.isConfirmed) {
+                                location.reload();
+                            }
                         });
                     },
                     error: function (error) {
@@ -101,13 +107,6 @@ $(() => {
             }
         })
     })
-
-    function successAlert(text) {
-        Swal.fire({
-            icon: 'success',
-            text: text
-        });
-    }
 
     function errorAlert(text) {
         Swal.fire({
