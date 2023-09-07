@@ -14,6 +14,7 @@
     </div>
     <div id="contents">
         <div th:replace="~{ fragments/event/sub-header :: sub-header }"></div>
+        <!--
         <div id="divTopArea" class="event-slider">
             <div class="inner-wrap">
                 <p class="name">추천 이벤트</p>
@@ -74,7 +75,7 @@
                             </div>
                         </a>
                     </div>
-                    <!-- 반복 -->
+                    
                     <div class="cell swiper-slide swiper-slide-prev" data-swiper-slide-index="0" style="width: 530px; margin-right: 40px;">
                         <a th:href="@{/event/detail/1}" data-no="13656" data-netfunnel="N" class="eventBtn" title="[클래식 라이브] 2023 썸머 클래식 페스티벌 중계  상세보기">
                             <p class="img">
@@ -297,10 +298,12 @@
                 </div>
             </div>
         </div>
+        -->
+        
         <div id="event-list-wrap">
             <div class="inner-wrap">
                 <div class="tit-util mt70">
-                    <h3 class="tit">메가Pick</h3>
+                    <h3 class="tit">MGV Pick</h3>
                     <div class="right">
                         <a href="javascript:fn_chgEventTab('CED03')" title="더보기">더보기 <i class="iconset ico-arr-right-gray ml05"></i>
                         </a>
@@ -452,108 +455,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="tit-util mt70">
-                    <h3 class="tit">제휴/할인</h3>
-                    <div class="right">
-                        <a href="javascript:fn_chgEventTab('CED05')" title="더보기">더보기 <i class="iconset ico-arr-right-gray ml05"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="event-list mt15">
-                    <ul>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="13721" data-netfunnel="N" class="eventBtn" title="[메가박스X컬리] 컬리 할인쿠폰 받아가자! 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/21/7oT7KCsvvnLrYoCnCE8fCpTmMRboSyFE.jpg" alt="[메가박스X컬리] 컬리 할인쿠폰 받아가자!" onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> [메가박스X컬리] 컬리 할인쿠폰 받아가자! </p>
-                                <p class="date"> 2023.07.24 ~ 2023.08.06 </p>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="13680" data-netfunnel="N" class="eventBtn" title="[메가박스XKT멤버십] 한여름 달.달.혜택! 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/17/ehQJXqHc7rRzAWcsfOTkIpOff1mhixjZ.jpg" alt="[메가박스XKT멤버십] 한여름 달.달.혜택!" onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> [메가박스XKT멤버십] 한여름 달.달.혜택! </p>
-                                <p class="date"> 2023.07.17 ~ 2023.07.31 </p>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="13601" data-netfunnel="N" class="eventBtn" title="강원지역 삼성카드 영화할인 프로모션 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/03/UbL1WCVjCyK2jl0JMcHbvPfsK5tZEg2d.jpg" alt="강원지역 삼성카드 영화할인 프로모션" onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> 강원지역 삼성카드 영화할인 프로모션 </p>
-                                <p class="date"> 2023.07.03 ~ 2023.07.31 </p>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="12761" data-netfunnel="N" class="eventBtn" title="[메가박스X더쎈카드] 할인카드 조회하고 혜택받자! 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/03/14/p4hU1SbKDHKHJ6MntGSYdtOhbifBfryD.jpg" alt="[메가박스X더쎈카드] 할인카드 조회하고 혜택받자!" onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> [메가박스X더쎈카드] 할인카드 조회하고 혜택받자! </p>
-                                <p class="date"> 2023.03.10 ~ 2023.12.31 </p>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="tit-util mt70">
-                    <h3 class="tit">시사회/무대인사</h3>
-                    <div class="right">
-                        <a href="javascript:fn_chgEventTab('CED04')" title="더보기">더보기 <i class="iconset ico-arr-right-gray ml05"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="event-list mt15">
-                    <ul>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="13726" data-netfunnel="N" class="eventBtn" title="<콘크리트 유토피아> 개봉 전 대구 무대인사 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/21/xElEeI1Ox0Xo2EoSQF1E5HINGtmRSK8q.jpg" alt="<콘크리트 유토피아> 개봉 전 대구 무대인사" onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> &lt;콘크리트 유토피아&gt; 개봉 전 대구 무대인사 </p>
-                                <p class="date"> 2023.08.06 ~ 2023.08.06 </p>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="13725" data-netfunnel="N" class="eventBtn" title="<비공식작전> 개봉주 무대인사 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/21/hsVxjLYlRHlnV3u2QpQAusjl9ljxTZiy.jpg" alt="<비공식작전> 개봉주 무대인사" onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> &lt;비공식작전&gt; 개봉주 무대인사 </p>
-                                <p class="date"> 2023.08.05 ~ 2023.08.06 </p>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="13723" data-netfunnel="N" class="eventBtn" title="<더 문> 개봉주 무대인사 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/21/c15fdmNqVpRYHaqQDdcz4nT4ohi8bfbZ.jpg" alt="<더 문> 개봉주 무대인사" onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> &lt;더 문&gt; 개봉주 무대인사 </p>
-                                <p class="date"> 2023.08.05 ~ 2023.08.06 </p>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="13720" data-netfunnel="N" class="eventBtn" title="<더 문> 개봉일 무대인사 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/21/97ohGhh3zppIeZN8wsH3Z17WLQbaFiIf.jpg" alt="<더 문> 개봉일 무대인사" onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> &lt;더 문&gt; 개봉일 무대인사 </p>
-                                <p class="date"> 2023.08.02 ~ 2023.08.02 </p>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+               
             </div>
         </div>
     </div>
