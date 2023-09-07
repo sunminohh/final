@@ -132,6 +132,7 @@ public class AdminNoticeController {
 							@RequestParam(name = "theaterNo", required = false, defaultValue = "0") int theaterNo,
 							@RequestParam(name ="keyword", required = false) String keyword,
 							RedirectAttributes redirectAttributes) {
+    	
     	noticeService.modifyNotice(form, noticeNo);
     	
     	redirectAttributes.addAttribute("no", noticeNo);
