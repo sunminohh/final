@@ -29,7 +29,9 @@ public class OrderService {
         if(quantity==0){
             return;
         }
+
         long giftTicketNo;
+
         Map<String,Object> params= new HashMap<>();
         params.put("userId",userId);
         List<Object> nos= new ArrayList<>();

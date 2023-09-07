@@ -143,15 +143,55 @@ $(function() {
     let failUrl = window.location.origin + path + "fail";
     let callbackUrl = window.location.origin + path + "va_callback";
     let orderId = new Date().getTime();
-    let uuid = self.crypto.randomUUID();
-
 
     $("#btn-tosspay").click(() => {
+
+        const totalDiscountedPrice = $("#totalDiscountedPrice").val();
+        const totalOriginalPrice = $("#totalOriginalPrice").val();
+        const userId = $("#userId").val();
+        const packageNo = $("#packageNo").val();
+        const packageAmount = $("#packageAmount").val();
+        const catNo = $("#catNo").val();
+
+        const requestData = {
+            totalDiscountedPrice: totalDiscountedPrice,
+            totalOriginalPrice: totalOriginalPrice,
+            userId: userId,
+            packageNo: packageNo,
+            packageAmount: packageAmount,
+            catNo: catNo,
+            orderId: orderId
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/order/successPackage",
+            data: requestData,
+            success: function success() {
+                Swal.fire({
+                    icon: 'success',
+                    text: "상품이 장바구니에 담겼습니다.",
+                    confirmButtonText: '확인'
+                }).then((result) => {
+                    if (result.value) {
+                        console.log("정보가 성공적으로 서버에 전달되었습니다.");
+                        window.location.href = "http://localhost/store";
+                    }
+                })
+            },
+            error: function error() {
+                Swal.fire({
+                    icon: 'error',
+                    text: "오류가 발생하였습니다. 잠시 후 다시 시도해 주세요."
+                })
+                console.log("정보가 서버에 전달되지 않았습니다.");
+            }
+        })
 
         let jsons = {
             "card": {
                 "amount": amount,
-                "orderId": uuid + orderId,
+                "orderId": orderId,
                 "orderName": giftTickets+" "+orderName,
                 "successUrl": successUrl,
                 "failUrl": failUrl,
