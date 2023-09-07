@@ -8,7 +8,27 @@ $(()=>{
     const selectedTheaters = new Set
     let selectedDate=today.format('YYYY-MM-DD')
     apiByDate(selectedDate)
+    function callStep(stage){
+        $("#step0").hide().siblings().hide()
+        const scheduleId=$("#playScheduleList").find('[selected=selected]').attr('schedule-id')
 
+        if(stage===0){
+            $("#step0").show()
+            clearChoice()
+            $("#playScheduleList").find('[selected=selected]').removeAttr('selected')
+        }
+        if(stage===1){
+            $("#step1").show()
+            giftTicketNos=new Set
+            createSeats(screenRow,screenCol)
+            generateSeatResultByScheduleId(scheduleId)
+            clearChoice()
+        }else if(stage===2){
+
+            $("#step2").show()
+            generateStep2ResultByScheduleId(scheduleId)
+        }
+    }
     const selectedTheaterList = $("#selectedTheaterList")
     const selectedMovieList = $("#selectedMovieList")
     const scheduleDiv= $("#mCSB_3_container")
@@ -320,8 +340,11 @@ $(()=>{
     function createSeats(screenRow,screenCol){
         const seatsDiv = $("#seatsDiv").empty()
         fetch("/api/booking/getDisabledSeats?screenId="+screenId).then(res=>res.json()).then(json=>{
+            const disabledSeats=json.disabledSeats
+            screenRow=json.row
+            screenRow=json.col
             const allEmptySeats = new Set
-            $.each(json,(id,disabledSeatNo)=>{
+            $.each(disabledSeats,(id,disabledSeatNo)=>{
                 allEmptySeats.add(disabledSeatNo)
             })
             for (let i=0; i<screenRow; i++){
@@ -394,7 +417,7 @@ $(()=>{
     }
 
     function createActiveSeat(seatNo,screenRow,screenCol, state){
-        return `<button type="button" title="${seatNo} (스탠다드/일반)" class="jq-tooltip seat-condition ${state}" id=${seatNo} r=${screenRow} c=${screenCol} seatclasscd="GERN_CLS" seatzonecd="GERN_ZONE">
+        return `<button type="button" title="${seatNo} (스탠다드/일반)" class="jq-tooltip seat-condition ${state}" id=${seatNo} r=${screenRow} c=${screenCol}>
                                      <span class="num">${seatNo}</span>
                                     <span class="rank">일반</span>
                                                     </button>`
@@ -711,28 +734,7 @@ $(()=>{
         $("#alert").on('click','button',alertOff)
         alertOn()
     }
-    function callStep(stage){
-        $("#step0").hide().siblings().hide()
-        const scheduleId=$("#playScheduleList").find('[selected=selected]').attr('schedule-id')
 
-        if(stage===0){
-            $("#step0").show()
-            clearChoice()
-            $("#playScheduleList").find('[selected=selected]').removeAttr('selected')
-        }
-        if(stage===1){
-            $("#step1").show()
-            giftTicketNos=new Set
-            createSeats(screenRow,screenCol)
-            generateSeatResultByScheduleId(scheduleId)
-            clearChoice()
-        }else if(stage===2){
-
-            $("#step2").show()
-            payMethod='toss'
-            generateStep2ResultByScheduleId(scheduleId)
-        }
-    }
     function generateStep2ResultByScheduleId(id){
         const s=$("#schedule-"+id)
         const mNo=s.attr('movie-no')
@@ -806,7 +808,7 @@ $(()=>{
     $("#btn-gift-ticket").on('click',()=>{
         $("#background-layer").show()
         $("#gift-ticket-layer").show()
-        $.each(giftAmount,function(i,e){
+        $.each(giftTicketNos,function(i,e){
             $("#gift-ticket-table").append(`<tr><td>${e}</td><td>몰라</td><td>사용가능</td></tr>`)
         })
         $("#gift-ticket-input").focus()
@@ -950,7 +952,7 @@ $(()=>{
                 const orderName = movieTitle + " " + (adultTickets + underageTickets) + " 장"
                 let jsons = {
                     "card": {
-                        "amount": totalPrice,
+                        "amount": totalPrice-giftAmount,
                         "orderId": orderId,
                         "orderName": orderName,
                         "successUrl": successUrl,
@@ -986,7 +988,7 @@ $(()=>{
     })
 
     function pay(method, requestJson) {
-        let tossPayments = TossPayments("test_ck_Lex6BJGQOVDY7zZDAQOrW4w2zNbg");
+        let tossPayments = TossPayments("test_ck_5OWRapdA8dYGaQX9LYB3o1zEqZKL");
         console.log(requestJson);
         tossPayments.requestPayment(method, requestJson)
             .catch(function (error) {

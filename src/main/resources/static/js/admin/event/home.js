@@ -23,7 +23,7 @@ $(document).ready(function() {
     });
     
     // 검색 버튼을 큭릭
-    $("#actionForm searchBtn").click(function() {
+    $("#actionForm #searchBtn").click(function() {
 		$("#actionForm input[name=page]").val(1);
 		
 		$("#actionForm").trigger("submit");

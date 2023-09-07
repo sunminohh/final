@@ -46,11 +46,20 @@
             CREATE_DATE                     as createDate,
             UPDATE_DATE                     as updateDate,
             BOOKING_STATE                   as bookingState,
-            USED_GIFT_TICKETS               as usedGiftTickets
+            USED_GIFT_TICKETS               as usedGiftTickets,
+            PAYMENT_KEY                     as paymentKey
         from
             MGV_BOOKING
         WHERE
             BOOKING_NO = #{VALUE}
-
     </select>
+
+    <update id="updateBooking" parameterType="Booking">
+        update MGV_BOOKING
+        set
+            BOOKING_STATE       = #{bookingState},
+            UPDATE_DATE         = SYSDATE(),
+            PAYMENT_KEY         = #{paymentKey}
+        where BOOKING_NO = #{no}
+    </update>
 </mapper>
