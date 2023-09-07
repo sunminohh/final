@@ -6,21 +6,17 @@ import lombok.Setter;
 import lombok.ToString;
 import org.apache.ibatis.type.Alias;
 
-import java.util.List;
-
-@Getter
 @Setter
+@Getter
 @ToString
 @NoArgsConstructor
-@Alias("OrderItem")
-public class OrderItem {
+@Alias("OrderPackage")
+public class OrderPackage {
+
     private int no;
     private String orderId;
-    private int catNo;
-    private int productNo;
-    private int productAmount;
-    private int productPrice;
     private int packageNo;
-    private int packageAmount;
-    private int packagePrice;
+    private int amount;
+    private int price;
+    private int catNo;
 }
