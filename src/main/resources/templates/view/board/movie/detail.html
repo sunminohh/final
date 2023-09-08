@@ -7,7 +7,19 @@
     <script type="text/javascript" th:src="@{/js/board/movieBoardDetail.js}"></script>    
 </head>
 
-   <div layout:fragment="content" class="container my-3 pt-5">
+   <div layout:fragment="content" >
+   <div class="page-util" >
+        <div class="inner-wrap">
+            <div class="location">
+                <span>Home</span>
+                <a href="/board/movie/list" >게시판</a>
+                <a href="/board/movie/list" >영화</a>
+                <a th:href="@{/board/movie/detail(no=${board.no}, page=${param.page},rows=${param.rows}, sort=${param.sort}, opt=${param.opt}, keyword=${param.keyword})}" 
+                 th:text="${board.name.length() > 43 ? board.name.substring(0, 43) + '...' : board.name}"></a>
+            </div>
+        </div>
+  </div>
+  <div class="container pt-4" style="width: 1150px;">
    <div class="row mb-3">
       <div class="col-12 d-flex justify-content-between">
          <div>
@@ -276,6 +288,7 @@
                </div>
           </div>
         </div>
+   </div>
    </div>
 </div>         
 </html>
