@@ -84,16 +84,16 @@
 }
 
 .tab-block-myboard ul li.current {
-    border-color: rgb(192, 192, 192);
+    border-color: #555;
 }
 
 .tab-block-myboard ul li.current .btn {
     color: #fff;
-    background-color: rgb(192, 192, 192);
+    background-color: #555;
 }
 
 .tab-block-myboard ul li.current:first-child {
-    border-color: rgb(192, 192, 192);
+    border-color: #555;
 }
 
 /* 탭 메뉴 작은 버전 스타일 */
@@ -105,5 +105,5 @@
 /* 탭 메뉴 포커스 스타일 */
 .tab-block-myboard ul li .btn:focus {
     color: #fff;
-    background-color: rgb(192, 192, 192);;
+    background-color: #555;
 }
