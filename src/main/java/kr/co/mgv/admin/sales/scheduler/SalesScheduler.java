@@ -11,12 +11,12 @@ import lombok.RequiredArgsConstructor;
 public class SalesScheduler {
 	private final SalesService salesService;
 	
-	@Scheduled(cron="0 0 0 * * *")
+	@Scheduled(cron="0 0 23 * * *")
 	public void DailySalesScheduler() {
 		salesService.insertDailySales();
 	}
 	
-	@Scheduled(cron="0 0 0 L * ?")
+	@Scheduled(cron="0 30 23 L * ?")
 	public void MonthlySalesScheduler() {
 		salesService.insertMonthlySales();
 	}
