@@ -144,18 +144,10 @@
                         <div class="movie-list-info">
                             <p class="rank" style="" th:text="${i.count}"> <span class="ir">위</span>
                             </p>
-                            <img th:src="${movie.getMainPoster()}" alt="밀수" class="poster lozad" onerror="noImg(this)">
+                            <img th:src="${movie.getMainPoster()}" >
                             <div class="curation">
                                 <p class="film" style="display: none">필름 소사이어티</p>
                                 <p class="classic" style="display: none">클래식 소사이어티</p>
-                            </div>
-                            <div class="screen-type2">
-                                <p name="dbcScrean" style="">
-                                    <img src="https://www.megabox.co.kr/static/pc/images/common/btn/mov_top_tag_db.png" alt="dolby">
-                                </p>
-                                <p name="mxScreen" style="">
-                                    <img src="https://www.megabox.co.kr/static/pc/images/common/btn/mov_top_tag_mx.png" alt="mx">
-                                </p>
                             </div>
                             <div class="movie-score">
                                 <a th:href="@{/movie/detail(movieNo=${movie.no})}" class="wrap movieBtn" data-no="23029300" th:title="|${movie.title} 상세보기|">

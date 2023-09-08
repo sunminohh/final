@@ -60,4 +60,19 @@ $(() => {
         $("#login-modal").addClass('is-open')
         $("#login-modal").find('#id').focus()
     })
+
+    $("#comment-input").on("keydown",function(e){
+        let text= $(this).val()
+        if(e.keyCode===29){
+            console.log(e.key)
+            $(this).blur()
+        }else if(text && e.keyCode===13){
+            uploadComment()
+        }
+    })
+
+    function uploadComment(){
+        const text= $("#comment-input").val()
+        console.log(text)
+    }
 })
