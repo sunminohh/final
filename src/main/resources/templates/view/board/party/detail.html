@@ -6,8 +6,19 @@
     <link th:href="@{/css/board/detail.css}" rel="stylesheet" />
     <script type="text/javascript" th:src="@{/js/board/partyBoardDetail.js}"></script>    
 </head>
-
-   <div layout:fragment="content" class="container my-3 pt-5">
+   <div layout:fragment="content">
+   <div class="page-util" >
+        <div class="inner-wrap">
+            <div class="location">
+                <span>Home</span>
+                <a href="/board/party/list" >게시판</a>
+                <a href="/board/party/list" >파티</a>
+                <a th:href="@{/board/party/detail(no=${board.no},page=${param.page}, rows=${param.rows}, complete=${param.complete}, sort=${param.sort}, locationNo=${param.locationNo}, theaterNo=${param.theaterNo}, opt=${param.opt}, keyword=${param.keyword})}" 
+                    th:text="${board.name.length() > 43 ? board.name.substring(0, 43) + '...' : board.name}"></a>
+            </div>
+        </div>
+   </div>
+   <div class="container pt-3" style="width: 1150px;">
 	 <div class="row mb-3">
 		 <div class="col-12 d-flex justify-content-between">
          	<div>
@@ -16,347 +27,344 @@
 			</div>
 		 </div>
    	</div>
-   
-   <div class="row mb-3">
-      <div class="col-12">
-         <div id="profile" class="pb-1 ">
-            <div id="imgbox" class="float-start" >
-               <a th:href="@{/board/user/list(id=${board.user.id})}">
-                  <img id="profileimg" th:src="${board.user.profileImg != null ? '/images/user/profile/' + board.user.profileImg : '/images/user/profile/default.png'}" data-default-src="/images/user/profile/default.png">
-               </a>
-            </div>
-            
-            <div class="boardinfo ps-5">
-               <div>
-                  <p ><strong th:text="${board.user.id}">작성자아이디</strong></p>
-                  <p class="float-start" style="font-size: 12px; line-height: 15%; color: gray" th:utext="|${#dates.format(board.createDate, 'yyyy-MM-dd HH:mm')} / 조회 ${board.readCount}|">등록일자 | 조회 조회수&nbsp;</p>
-               </div>
-
-
-               <div class="d-flex justify-content-end " style="position: relative; bottom:10px;">
-                  <p  style="font-size : 12px; "><img alt="댓글이미지" th:src="@{/images/board/comment.png}" width="15px" height="15px;" > <strong id="ajax-comment-count" th:utext="${board.commentCount}">3</strong></p>
-               </div>
-            </div>
-         </div>
-         <div class="txc-textbox pt-0 " style=" padding: 20px;">
-            <p th:utext="${board.content}">파이널 화이팅~~</p>
-         </div>
-         
-         <div class="reload-box d-flex justify-content-center pt-5">
-	         <form class=" pe-4 me-3" 
-	              th:if="${#authentication.principal.id != board.user.id}"
-	              th:action="@{/board/party/changeRequest}"   
-	              method="post"
-	              sec:authorize="isAuthenticated()"
-	              id="request-btn-form"
-	             >
-	            <input type="hidden" name="request" >
-	            <input type="hidden" name="no" th:value="${board.no}" />
-	            <input type="hidden" name="id" th:value="${#authentication.principal.id}" />
-	            <input type="hidden" name="writerId" th:value="${board.user.id}">
-	        	<button th:if="${join == null || (join != null && #strings.equals(join.request, 'N') && #strings.equals(board.complete, 'N'))}" class="btn btn-outline-success btn-sm " type="button" id="request-button" data-button-type="plus">파티신청</button>
-	            <button th:if="${join != null && #strings.equals(join.request, 'Y') && #strings.equals(board.complete, 'N')}" class="btn btn-success btn-sm" type="button" id="request-button"  data-button-type="minus">신청취소</button>
-	         </form>
-       		 <button type="button"
-       		 		 class="btn btn-sm btn-light me-1"
-       		 		 id="party-join-btn"
-       		 		 th:if="${#authentication.principal.id == board.user.id}"
-       		 		 sec:authorize="isAuthenticated()"
-       		 		 >
-       		 		 신청확인
-       		 </button>
-       		 <button type="button"
-       		 		 class="btn btn-sm btn-outline-secondary"
-       		 		 id="party-complete-btn"
-       		 		 th:if="${(#authentication.principal.id == board.user.id)&& #strings.equals(board.complete, 'N')}"
-       		 		 sec:authorize="isAuthenticated()"
-       		 		 >
-       		 		 파티마감
-       		 </button>
-         </div>
-         
-         <div class="text-end mt-1 pt-5" id="board-function">
-            <a class="pe-1" 
-               id="modify-btn"
-               th:href="@{/board/party/modify(no=${param.no})}"
-               sec:authorize="isAuthenticated()"
-               th:if="${(#authentication.principal.id == board.user.id)&&#strings.equals(board.complete, 'N')}">수정</a>
-            <a class="pe-1" 
-               id = "delete-btn"
-               th:href="@{/board/party/delete(no=${param.no})}" 
-               sec:authorize="isAuthenticated()"
-               th:if="${#authentication.principal.id == board.user.id}">삭제</a>
-            <a class="pe-1" th:href="@{/board/party/list(page=${param.page}, rows=${param.rows}, complete=${param.complete}, sort=${param.sort}, locationNo=${param.locationNo}, theaterNo=${param.theaterNo}, opt=${param.opt}, keyword=${param.keyword})}" >목록</a>
-         </div>
-
-      </div>
-   </div>
-   
-
-
-    <div class="comment-like pt-5 d-flex justify-content-between">
-       	<div class="d-flex justify-content-start">
-          <p class="me-3" style="font-size : 12px;"><img class=" me-1" alt="댓글이미지" th:src="@{/images/board/comment.png}" width="15px" height="15px">댓글 <strong id="ajax-comment-count-2" th:utext="${board.commentCount}">3</strong></p>
- 		</div>
-	    <div class="d-flex justify-content-end ">
-	          <button class="btn btn-outline-white btn-sm mb-2" id="link-btn" style="border: none; font-size: 12px" 
-	                data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="URL이 클립보드에 복사되었습니다."
-	                >공유</button>
-	          <button class="btn btn-outline-white btn-sm mb-2"  style="border: none; font-size: 12px" id="btn-report" 
-	                  data-bs-toggle="modal" data-bs-target="#reportModal"
-	                  sec:authorize="isAuthenticated()"
-	                  th:if="${#authentication.principal.id != board.user.id}"
-	                  >신고</button>
+	   <div class="row mb-3">
+	      <div class="col-12">
+	         <div id="profile" class="pb-1 ">
+	            <div id="imgbox" class="float-start ms-2" >
+	               <a th:href="@{/board/user/list(id=${board.user.id})}">
+	                  <img id="profileimg" th:src="${board.user.profileImg != null ? '/images/user/profile/' + board.user.profileImg : '/images/user/profile/default.png'}" data-default-src="/images/user/profile/default.png">
+	               </a>
+	            </div>
+	            
+	            <div class="boardinfo ps-5">
+	               <div class="ms-2">
+	                  <p ><strong th:text="${board.user.id}">작성자아이디</strong></p>
+	                  <p class="float-start" style="font-size: 12px; line-height: 15%; color: gray" th:utext="|${#dates.format(board.createDate, 'yyyy-MM-dd HH:mm')} / 조회 ${board.readCount}|">등록일자 | 조회 조회수&nbsp;</p>
+	               </div>
+	
+	
+	               <div class="d-flex justify-content-end " style="position: relative; bottom:10px;">
+	                  <p  style="font-size : 12px; "><img alt="댓글이미지" th:src="@{/images/board/comment.png}" width="15px" height="15px;" > <strong id="ajax-comment-count" th:utext="${board.commentCount}">3</strong></p>
+	               </div>
+	            </div>
+	         </div>
+	         <div class="txc-textbox pt-0 " style=" padding: 20px;">
+	            <p th:utext="${board.content}">파이널 화이팅~~</p>
+	         </div>
+	         
+	         <div class="reload-box d-flex justify-content-center pt-5">
+		         <form class=" pe-4 me-3" 
+		              th:if="${#authentication.principal.id != board.user.id}"
+		              th:action="@{/board/party/changeRequest}"   
+		              method="post"
+		              sec:authorize="isAuthenticated()"
+		              id="request-btn-form"
+		             >
+		            <input type="hidden" name="request" >
+		            <input type="hidden" name="no" th:value="${board.no}" />
+		            <input type="hidden" name="id" th:value="${#authentication.principal.id}" />
+		            <input type="hidden" name="writerId" th:value="${board.user.id}">
+		        	<button th:if="${join == null || (join != null && #strings.equals(join.request, 'N') && #strings.equals(board.complete, 'N'))}" class="btn btn-outline-success btn-sm " type="button" id="request-button" data-button-type="plus">파티신청</button>
+		            <button th:if="${join != null && #strings.equals(join.request, 'Y') && #strings.equals(board.complete, 'N')}" class="btn btn-success btn-sm" type="button" id="request-button"  data-button-type="minus">신청취소</button>
+		         </form>
+	       		 <button type="button"
+	       		 		 class="btn btn-sm btn-light me-1"
+	       		 		 id="party-join-btn"
+	       		 		 th:if="${#authentication.principal.id == board.user.id}"
+	       		 		 sec:authorize="isAuthenticated()"
+	       		 		 >
+	       		 		 신청확인
+	       		 </button>
+	       		 <button type="button"
+	       		 		 class="btn btn-sm btn-outline-secondary"
+	       		 		 id="party-complete-btn"
+	       		 		 th:if="${(#authentication.principal.id == board.user.id)&& #strings.equals(board.complete, 'N')}"
+	       		 		 sec:authorize="isAuthenticated()"
+	       		 		 >
+	       		 		 파티마감
+	       		 </button>
+	         </div>
+	         
+	         <div class="text-end mt-1 pt-5" id="board-function">
+	            <a class="pe-1" 
+	               id="modify-btn"
+	               th:href="@{/board/party/modify(no=${param.no})}"
+	               sec:authorize="isAuthenticated()"
+	               th:if="${(#authentication.principal.id == board.user.id)&&#strings.equals(board.complete, 'N')}">수정</a>
+	            <a class="pe-1" 
+	               id = "delete-btn"
+	               th:href="@{/board/party/delete(no=${param.no})}" 
+	               sec:authorize="isAuthenticated()"
+	               th:if="${#authentication.principal.id == board.user.id}">삭제</a>
+	            <a class="pe-1" th:href="@{/board/party/list(page=${param.page}, rows=${param.rows}, complete=${param.complete}, sort=${param.sort}, locationNo=${param.locationNo}, theaterNo=${param.theaterNo}, opt=${param.opt}, keyword=${param.keyword})}" >목록</a>
+	         </div>
+	
+	      </div>
+	   </div>
+	   
+	
+	
+	    <div class="comment-like pt-5 d-flex justify-content-between">
+	       	<div class="d-flex justify-content-start">
+	          <p class="me-3" style="font-size : 12px;"><img class=" me-1" alt="댓글이미지" th:src="@{/images/board/comment.png}" width="15px" height="15px">댓글 <strong id="ajax-comment-count-2" th:utext="${board.commentCount}">3</strong></p>
+	 		</div>
+		    <div class="d-flex justify-content-end ">
+		          <button class="btn btn-outline-white btn-sm mb-2" id="link-btn" style="border: none; font-size: 12px" 
+		                data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="URL이 클립보드에 복사되었습니다."
+		                >공유</button>
+		          <button class="btn btn-outline-white btn-sm mb-2"  style="border: none; font-size: 12px" id="btn-report" 
+		                  data-bs-toggle="modal" data-bs-target="#reportModal"
+		                  sec:authorize="isAuthenticated()"
+		                  th:if="${#authentication.principal.id != board.user.id}"
+		                  >신고</button>
+		    </div>
 	    </div>
-    </div>
-            <hr class="mt-0 pt-0"/>
-
-      <!-- 댓글 등록창 -->   
-   <div class="row pb-2 pt-1">
-         <div class="col-12 CommentWriter" sec:authorize="isAuthenticated()">
-         <div class="comment-inbox border p-2 rounded" > 
-
-            <em class="comment_inbox_name" th:text="${#authentication.principal.id}"
-               th:value="${#authentication.principal.id}"
-               id="login-id">로그인된 아이디</em>
-            
-            <form id="form-comment" method="post" th:action="@{/board/party/addComment}" >
-               <input type="hidden" name="no" th:value="${board.no}" />
-               <input type="hidden" name="id" th:value="${#authentication.principal.id}" />
-               <input type="hidden" name="writerId" th:value="${board.user.id}">
-                <div class="row">
-                  <div id="content-box">
-                     <textarea rows="2" class="comment_inbox_text" name="content" style="border: none; overflow: hidden; overflow-wrap: break-word; " 
-                     placeholder="댓글을 남겨보세요"></textarea>
-                  </div>
-                  <div class="register-box">
-                  <!-- 등록 버튼 -->
-                     <button class="btn btn-outline-white btn-sm float-end" id="btn-comment" style="border: none" type="button">등록</button>
-                  </div>
-               </div>
-            </form>      
-         </div>
-         </div>
-      </div>
-      
-      
-  <div class="quick-menu" id="quick-scroll">위로</div>
-      
-   <div class="row mb-3">
-         <div class="col-12">
-            <div class="comment-sort mb-5">
-               <p class="fs-5 fw-semibold float-start me-2">댓글</p>
-               <a href="#" class="comment-tab float-start fw-light me-2" aria-selected ="true" role="button" >등록순</a>
-               <a href="" class="comment-tab float-start fw-light" role="button" aria-selected ="true"  >최신순</a>
-            </div>
-         </div>
-   </div>
-   
-     <div class="quick-menu" id="quick-scroll">위로</div>
-
-   <!-- 댓글 표시 부분 -->
-      <div id="all-comment-box">
-      <div class="comment-box" 
-             th:each="comment : ${comments}">
-         <div class="great-box pt-1">
-         <div class="row great-comment-box ms-1" >
-               <div class="p-1 col-12" id="comment-box">
-                  <div class="d-flex justify-content-between">
-                   <div class="col-sm-11">
-                      <div id="profile">
-                        <div id="comment-imgbox" class="float-start" >
-                           <a th:href="@{/board/user/list(id=${comment.user.id})}">
-                  				<img id="profileimg" th:src="${comment.user.profileImg != null ? '/images/user/profile/' + comment.user.profileImg : '/images/user/profile/default.png'}" data-default-src="/images/user/profile/default.png">
-                           </a>
-                        </div>
-                        <div class="ps-5">
-                           <p><strong th:text="${comment.user.id}" id="greatCommentId" >작성자아이디</strong></p>
-                           <input type="hidden" name="greatCommentNo" th:value="${comment.no}" />
-                        </div>
-                     </div>
-                     <div class="commentUserInfo ps-5" >
-                              <p th:text="${comment.content}"></p>
-                              <div id="comment-info" class="d-flex justify-content-start">
-                                 <p class="float-start me-2" style="font-size: 12px; color: gray" th:text="${#dates.format(comment.createDate, 'yyyy/MM/dd HH:mm')}">1998/06/24 07:00:00</p>
-                                 <a id="btn-a-reply-" th:attrappend="id=${comment.no}" th:attr="data-comment-no=${comment.no}" href="" class="reply-btn float-satrt" style="text-decoration:none; font-size: 12px; color: gray" sec:authorize="isAuthenticated()">답글쓰기</a>
-                              </div>
-                        
-                     </div>
-                  </div>
-                     <div class="col-sm-1 d-flex justify-content-end pt-0" sec:authorize="isAuthenticated()">
-                        
-                        <a th:href="@{/board/party/deleteGreatComment}"
-                           class="btn btn-link btn-sm text-danger text-decoration-none"
-                           sec:authorize="isAuthenticated()"
-                             th:if="${#authentication.principal.id == comment.user.id}"
-                             id="delete-comment-btn">삭제</a>
-      
-                     </div>            
-               </div>
-            </div>   
-            <hr style="width: 1080px;">
-               <div class="new-register-box row mb-3 pt-2" id="reply-comment-box-" th:attrappend="id=${comment.no}" >
-               </div>         
-         </div>
-         </div>
-            <div class="re-comment-box-loop" th:each="child : ${childComments}" id="re-comment-box-" th:attrappend="id=${comment.no}" >
-               <div class=" row child-comment-box" th:if="${not #lists.isEmpty(childComments)} and ${comment.no == child.great.no}">
-                  <div class="p-1 offset-1 col-11" id="comment-box" >
-                        <div class="d-flex justify-content-between" id="child-comment-here">
-                         <div class="col-sm-11">
-                            <div id="profile">
-                              <div id="comment-imgbox" class="float-start" >
-                                 <a th:href="@{/board/user/list(id=${child.user.id})}">
-                  					<img id="profileimg" th:src="${child.user.profileImg != null ? '/images/user/profile/' + child.user.profileImg : '/images/user/profile/default.png'}" data-default-src="/images/user/profile/default.png">
-                                 </a>
-                              </div>
-                              <div class="ps-5">
-                                 <p ><strong class="fs-6" th:text="${child.user.id}">작성자아이디</strong></p>
-                                 <input type="hidden" name="commentNo" th:value="${child.no}" />
-                              </div>
-                           </div>
-                           <div class="re-commentUserInfo ps-5" >
-                                    <p><strong th:text="${child.parent.user.id}">답글달린아이디 </strong> <span th:text="${child.content}"></span></p>
-                                    <div id="comment-info" class="d-flex justify-content-start">
-                                       <p class="float-start me-2" style="font-size: 12px; color: gray" th:text="${#dates.format(child.createDate, 'yyyy/MM/dd HH:mm')}">1998/06/24 07:00:00</p>
-                                       <!-- 
-                                       <a id="a-re-reply" href="" class="float-satrt" style="text-decoration:none; font-size: 12px; color: gray" sec:authorize="isAuthenticated()">답글쓰기</a>
-                                       -->
-                                    </div>
-                              
-                           </div>
-                        </div>
-                           <div class="col-sm-1 d-flex justify-content-end pt-0 pe-3" sec:authorize="isAuthenticated()">
-                              <input type="hidden" name="userId" th:value="${#authentication.principal.id}">
-                              <a th:href="@{/board/party/deleteReComment}" 
-                                 class="btn btn-link btn-sm text-danger text-decoration-none"
-                                 sec:authorize="isAuthenticated()"
-                                 id="delete-reComment-btn"
-                                   th:if="${#authentication.principal.id == child.user.id}">삭제</a>
-            
-                           </div>            
-                        <div class="row mb-3 pt-2" id="re-reply-comment-box" >
-                        </div>
-                     </div>
-                     <hr>
-                  </div>   
-               </div>
-            </div>
-               <div class="child-comment-box">                  
-                  <div class="re-comment-here" id="re-comment-here-" th:attrappend="id=${comment.no}">
-                  </div>
-               </div>
-         </div>
-         <div class="great-box-2">
-            <div id="comment-here">
-            </div>
-	        <div class="child-comment-box2">
-			</div>
-         </div>
-         </div>
-   
-   
-      
-   <!-- 신고 모달 -->
-   <div class="modal fade" id="reportModal"  aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-          <div class="modal-content">
-               <div class="modal-header">
-                 <h1 class="modal-title fs-5" id="exampleModalLabel">게시물 신고</h1>
-                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
-               </div>
-               
-               <div class="modal-body">
-                   <div class="row mb-3">
-	                  <div class="col-12">
-	                     <p style="font-size : 18px;"><strong>이 게시물을 신고하는 이유</strong></p>
-	                     <p style="font-size : 15px;">지식재산권 침해를 신고하는 경우를 제외하고 회원님의 신고는익명으로 처리됩니다. 누군가 위급한 상황에 있다고 생각된다면 즉시 현지 응급 서비스 기관에 연락하시기 바랍니다.</p>
-	                     
-	                        <form class="border bg-light p-3" method="post" th:action="@{/board/party/report(boardNo=${param.no})}" id="report-form">
-	                           <input type="hidden" name="boardNo" value="${param.no}">
-	                           <div class="form-group mb-2" style="width: 33%; padding:5px;">
-	                              <label class="form-label">신고이유</label>
-	                                  <select class="form-select" name="reasonNo" id="report-select" onchange="toggleContentField()">
-	                                      <option value="" id="reason" selected disabled>신고이유</option>
-	                                      <option th:each="reason : ${reasons}" 
-	                                              th:text="${reason.name}" 
-	                                              th:value="${reason.no}" >신고 이유</option>
-	                                  </select>
+	            <hr class="mt-0 pt-0"/>
+	
+	      <!-- 댓글 등록창 -->   
+	   <div class="row pb-2 pt-1">
+	         <div class="col-12 CommentWriter" sec:authorize="isAuthenticated()">
+	         <div class="comment-inbox border p-2 rounded" > 
+	
+	            <em class="comment_inbox_name" th:text="${#authentication.principal.id}"
+	               th:value="${#authentication.principal.id}"
+	               id="login-id">로그인된 아이디</em>
+	            
+	            <form id="form-comment" method="post" th:action="@{/board/party/addComment}" >
+	               <input type="hidden" name="no" th:value="${board.no}" />
+	               <input type="hidden" name="id" th:value="${#authentication.principal.id}" />
+	               <input type="hidden" name="writerId" th:value="${board.user.id}">
+	                <div class="row">
+	                  <div id="content-box">
+	                     <textarea rows="2" class="comment_inbox_text" name="content" style="border: none; overflow: hidden; overflow-wrap: break-word; " 
+	                     placeholder="댓글을 남겨보세요"></textarea>
+	                  </div>
+	                  <div class="register-box">
+	                  <!-- 등록 버튼 -->
+	                     <button class="btn btn-outline-white btn-sm float-end" id="btn-comment" style="border: none" type="button">등록</button>
+	                  </div>
+	               </div>
+	            </form>      
+	         </div>
+	         </div>
+	      </div>
+	      
+	      
+	  <div class="quick-menu" id="quick-scroll">위로</div>
+	      
+	   <div class="row">
+	         <div class="col-12">
+	            <div class="comment-sort mb-5">
+	               <p class="fs-5 fw-semibold float-start me-2">댓글</p>
+	            </div>
+	         </div>
+	   </div>
+	   
+	     <div class="quick-menu" id="quick-scroll">위로</div>
+	
+	   <!-- 댓글 표시 부분 -->
+	      <div id="all-comment-box">
+	      <div class="comment-box" 
+	             th:each="comment : ${comments}">
+	         <div class="great-box pt-1">
+	         <div class="row great-comment-box ms-1" >
+	               <div class="p-1 col-12" id="comment-box">
+	                  <div class="d-flex justify-content-between">
+	                   <div class="col-sm-11">
+	                      <div id="profile">
+	                        <div id="comment-imgbox" class="float-start" >
+	                           <a th:href="@{/board/user/list(id=${comment.user.id})}">
+	                  				<img id="profileimg" th:src="${comment.user.profileImg != null ? '/images/user/profile/' + comment.user.profileImg : '/images/user/profile/default.png'}" data-default-src="/images/user/profile/default.png">
+	                           </a>
+	                        </div>
+	                        <div class="ps-5">
+	                           <p><strong th:text="${comment.user.id}" id="greatCommentId" >작성자아이디</strong></p>
+	                           <input type="hidden" name="greatCommentNo" th:value="${comment.no}" />
+	                        </div>
+	                     </div>
+	                     <div class="commentUserInfo ps-5" >
+	                              <p th:text="${comment.content}"></p>
+	                              <div id="comment-info" class="d-flex justify-content-start">
+	                                 <p class="float-start me-2" style="font-size: 12px; color: gray" th:text="${#dates.format(comment.createDate, 'yyyy/MM/dd HH:mm')}">1998/06/24 07:00:00</p>
+	                                 <a id="btn-a-reply-" th:attrappend="id=${comment.no}" th:attr="data-comment-no=${comment.no}" href="" class="reply-btn float-satrt" style="text-decoration:none; font-size: 12px; color: gray" sec:authorize="isAuthenticated()">답글쓰기</a>
+	                              </div>
+	                        
+	                     </div>
+	                  </div>
+	                     <div class="col-sm-1 d-flex justify-content-end pt-0" sec:authorize="isAuthenticated()">
+	                        
+	                        <a th:href="@{/board/party/deleteGreatComment}"
+	                           class="btn btn-link btn-sm text-danger text-decoration-none"
+	                           sec:authorize="isAuthenticated()"
+	                             th:if="${#authentication.principal.id == comment.user.id}"
+	                             id="delete-comment-btn">삭제</a>
+	      
+	                     </div>            
+	               </div>
+	            </div>   
+	            <hr style="width: 1080px;">
+	               <div class="new-register-box row mb-3 pt-2" id="reply-comment-box-" th:attrappend="id=${comment.no}" >
+	               </div>         
+	         </div>
+	         </div>
+	            <div class="re-comment-box-loop" th:each="child : ${childComments}" id="re-comment-box-" th:attrappend="id=${comment.no}" >
+	               <div class=" row child-comment-box" th:if="${not #lists.isEmpty(childComments)} and ${comment.no == child.great.no}">
+	                  <div class="p-1 offset-1 col-11" id="comment-box" >
+	                        <div class="d-flex justify-content-between" id="child-comment-here">
+	                         <div class="col-sm-11">
+	                            <div id="profile">
+	                              <div id="comment-imgbox" class="float-start" >
+	                                 <a th:href="@{/board/user/list(id=${child.user.id})}">
+	                  					<img id="profileimg" th:src="${child.user.profileImg != null ? '/images/user/profile/' + child.user.profileImg : '/images/user/profile/default.png'}" data-default-src="/images/user/profile/default.png">
+	                                 </a>
+	                              </div>
+	                              <div class="ps-5">
+	                                 <p ><strong class="fs-6" th:text="${child.user.id}">작성자아이디</strong></p>
+	                                 <input type="hidden" name="commentNo" th:value="${child.no}" />
+	                              </div>
 	                           </div>
-	                           <div class="form-group mb-2">
-	                              <label class="form-label">상세내용</label>
-	                              <textarea rows="5" class="form-control" name="reasonContent" disabled></textarea>
+	                           <div class="re-commentUserInfo ps-5" >
+	                                    <p><strong th:text="${child.parent.user.id}">답글달린아이디 </strong> <span th:text="${child.content}"></span></p>
+	                                    <div id="comment-info" class="d-flex justify-content-start">
+	                                       <p class="float-start me-2" style="font-size: 12px; color: gray" th:text="${#dates.format(child.createDate, 'yyyy/MM/dd HH:mm')}">1998/06/24 07:00:00</p>
+	                                       <!-- 
+	                                       <a id="a-re-reply" href="" class="float-satrt" style="text-decoration:none; font-size: 12px; color: gray" sec:authorize="isAuthenticated()">답글쓰기</a>
+	                                       -->
+	                                    </div>
+	                              
 	                           </div>
-	                           <div class="text-end">
-	                              <button type="reset" class="btn btn-secondary btn-sm" >취소</button>
-	                              <button type="submit" id="report-submit-btn" class="btn btn-primary btn-sm" >신고</button>
-	                           </div>
-	                        </form>
-	                   </div>
-               		</div>
-               </div>
-          </div>
-      </div>
-   </div>
-   
-   <!-- 신청자 확인 모달 -->
-   <div class="modal fade" id="join-modal"  aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-          <div class="modal-content">
-               <div class="modal-header" style="background-color: #A06E8D;">
-                 <h1 class="modal-title fs-5 fw-semibold" id="exampleModalLabel" style="color: white;">신청자 확인</h1>
-                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
-               </div>
-               <div class="modal-body">
-                   <div class="row mb-3">
-                   	  <p class="ms-3">※이 파티의 신청자는 <strong th:text="${board.headCount}"></strong>명만 선택하실 수 있습니다.</p>
-	                  <div class="col-12 d-flex justify-content-center">
-	                  		<input type="hidden" name="headCount" th:value="${board.headCount}">
-	                  		<input type="hidden" name="acceptCount" th:value="${board.acceptCount}">
-	                  		<div class="join-box pe-1">
-	                            <p class="text-center me-3 fs-6 fw-semibold" >신청자 목록</p>
-		                           <div class="form-group mb-2 border" id="ready-to-join">
-			                        	<form class="p-3 me-3" method="post" th:action="@{/board/movie/join(boardNo=${param.no})}" id="join-form" >
-			                            	<div class="d-flex justify-content-between" id="join-box"  th:each="notAccept:${notAccepts}"
-			                            		 th:if="${not #lists.isEmpty(notAccepts)}">
-		                            			<p class="me-1" th:text="${notAccept.user.id}">신청자 아이디</p>
-		                            			<button type="button" class="btn btn-sm btn-outline-dark" 
-		                            					id="join-btn" style="height: 23px; font-size: 10px"
-		                            					th:if="${#strings.equals(board.complete, 'N')}">수락</button>
-		                            			<input type="hidden" name="partyId" th:value="${notAccept.user.id}">
-					                           	<input type="hidden" name="boardNo" th:value="${param.no}">
-			                            	</div>
-			                            	<div class="text-center" th:if="${#lists.isEmpty(notAccepts)}" >
-			                            		<p>신청자가 없습니다.</p>
-			                            	</div>  
-			                        	</form>
+	                        </div>
+	                           <div class="col-sm-1 d-flex justify-content-end pt-0 pe-3" sec:authorize="isAuthenticated()">
+	                              <input type="hidden" name="userId" th:value="${#authentication.principal.id}">
+	                              <a th:href="@{/board/party/deleteReComment}" 
+	                                 class="btn btn-link btn-sm text-danger text-decoration-none"
+	                                 sec:authorize="isAuthenticated()"
+	                                 id="delete-reComment-btn"
+	                                   th:if="${#authentication.principal.id == child.user.id}">삭제</a>
+	            
+	                           </div>            
+	                        <div class="row mb-3 pt-2" id="re-reply-comment-box" >
+	                        </div>
+	                     </div>
+	                     <hr>
+	                  </div>   
+	               </div>
+	            </div>
+	               <div class="child-comment-box">                  
+	                  <div class="re-comment-here" id="re-comment-here-" th:attrappend="id=${comment.no}">
+	                  </div>
+	               </div>
+	         </div>
+	         <div class="great-box-2">
+	            <div id="comment-here">
+	            </div>
+		        <div class="child-comment-box2">
+				</div>
+	         </div>
+	         </div>
+	   
+	   
+	      
+	   <!-- 신고 모달 -->
+	   <div class="modal fade" id="reportModal"  aria-labelledby="exampleModalLabel" aria-hidden="true">
+	      <div class="modal-dialog">
+	          <div class="modal-content">
+	               <div class="modal-header">
+	                 <h1 class="modal-title fs-5" id="exampleModalLabel">게시물 신고</h1>
+	                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+	               </div>
+	               
+	               <div class="modal-body">
+	                   <div class="row mb-3">
+		                  <div class="col-12">
+		                     <p style="font-size : 18px;"><strong>이 게시물을 신고하는 이유</strong></p>
+		                     <p style="font-size : 15px;">지식재산권 침해를 신고하는 경우를 제외하고 회원님의 신고는익명으로 처리됩니다. 누군가 위급한 상황에 있다고 생각된다면 즉시 현지 응급 서비스 기관에 연락하시기 바랍니다.</p>
+		                     
+		                        <form class="border bg-light p-3" method="post" th:action="@{/board/party/report(boardNo=${param.no})}" id="report-form">
+		                           <input type="hidden" name="boardNo" value="${param.no}">
+		                           <div class="form-group mb-2" style="width: 33%; padding:5px;">
+		                              <label class="form-label">신고이유</label>
+		                                  <select class="form-select" name="reasonNo" id="report-select" onchange="toggleContentField()">
+		                                      <option value="" id="reason" selected disabled>신고이유</option>
+		                                      <option th:each="reason : ${reasons}" 
+		                                              th:text="${reason.name}" 
+		                                              th:value="${reason.no}" >신고 이유</option>
+		                                  </select>
 		                           </div>
-	                  		</div>
-	                  		<div class="reject-box">
-		                        <p class="text-center fs-6 fw-semibold" >수락된 신청자 목록</p>
-		                        	<div class="form-group mb-2 border" id="ready-to-reject">
-				                        <form class="p-3" method="post" th:action="@{/board/movie/resetJoin(boardNo=${param.no})}" id="resetJoin-form" >
-			                              	<div class="d-flex justify-content-between" id="resetJoin-box"  th:each="accept:${accepts}"
-			                              		 th:if="${not #lists.isEmpty(accepts)}">
-			                            		<p id="accepted-id" th:text="${accept.user.id}">신청자 아이디</p>
-			                            		<button type="button" class="btn btn-sm btn-outline-secondary" 
-			                            				id="reset-join-btn" style="height: 23px; font-size: 10px"
-			                            				th:if="${#strings.equals(board.complete, 'N')}">취소</button>
-				                           		<input type="hidden" name="partyId" th:value="${accept.user.id}">
-						                        <input type="hidden" name="boardNo" th:value="${param.no}">
-			                            	</div>
-			                            	<div class="text-center" th:if="${#lists.isEmpty(accepts)}">
-			                            		<p>수락된 신청자가 없습니다.</p>
-			                            	</div>   
-				                        </form>
+		                           <div class="form-group mb-2">
+		                              <label class="form-label">상세내용</label>
+		                              <textarea rows="5" class="form-control" name="reasonContent" disabled></textarea>
 		                           </div>
-	                  		</div>
-	                   </div>
-               		</div>
-               </div>
-          </div>
-      </div>
+		                           <div class="text-end">
+		                              <button type="reset" class="btn btn-secondary btn-sm" >취소</button>
+		                              <button type="submit" id="report-submit-btn" class="btn btn-primary btn-sm" >신고</button>
+		                           </div>
+		                        </form>
+		                   </div>
+	               		</div>
+	               </div>
+	          </div>
+	      </div>
+	   </div>
+	   
+	   <!-- 신청자 확인 모달 -->
+	   <div class="modal fade" id="join-modal"  aria-labelledby="exampleModalLabel" aria-hidden="true">
+	      <div class="modal-dialog">
+	          <div class="modal-content">
+	               <div class="modal-header" style="background-color: #A06E8D;">
+	                 <h1 class="modal-title fs-5 fw-semibold" id="exampleModalLabel" style="color: white;">신청자 확인</h1>
+	                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+	               </div>
+	               <div class="modal-body">
+	                   <div class="row mb-3">
+	                   	  <p class="ms-3">※이 파티의 신청자는 <strong th:text="${board.headCount}"></strong>명만 선택하실 수 있습니다.</p>
+		                  <div class="col-12 d-flex justify-content-center">
+		                  		<input type="hidden" name="headCount" th:value="${board.headCount}">
+		                  		<input type="hidden" name="acceptCount" th:value="${board.acceptCount}">
+		                  		<div class="join-box pe-1">
+		                            <p class="text-center me-3 fs-6 fw-semibold" >신청자 목록</p>
+			                           <div class="form-group mb-2 border" id="ready-to-join">
+				                        	<form class="p-3 me-3" method="post" th:action="@{/board/movie/join(boardNo=${param.no})}" id="join-form" >
+				                            	<div class="d-flex justify-content-between" id="join-box"  th:each="notAccept:${notAccepts}"
+				                            		 th:if="${not #lists.isEmpty(notAccepts)}">
+			                            			<p class="me-1" th:text="${notAccept.user.id}">신청자 아이디</p>
+			                            			<button type="button" class="btn btn-sm btn-outline-dark" 
+			                            					id="join-btn" style="height: 23px; font-size: 10px"
+			                            					th:if="${#strings.equals(board.complete, 'N')}">수락</button>
+			                            			<input type="hidden" name="partyId" th:value="${notAccept.user.id}">
+						                           	<input type="hidden" name="boardNo" th:value="${param.no}">
+				                            	</div>
+				                            	<div class="text-center" th:if="${#lists.isEmpty(notAccepts)}" >
+				                            		<p>신청자가 없습니다.</p>
+				                            	</div>  
+				                        	</form>
+			                           </div>
+		                  		</div>
+		                  		<div class="reject-box">
+			                        <p class="text-center fs-6 fw-semibold" >수락된 신청자 목록</p>
+			                        	<div class="form-group mb-2 border" id="ready-to-reject">
+					                        <form class="p-3" method="post" th:action="@{/board/movie/resetJoin(boardNo=${param.no})}" id="resetJoin-form" >
+				                              	<div class="d-flex justify-content-between" id="resetJoin-box"  th:each="accept:${accepts}"
+				                              		 th:if="${not #lists.isEmpty(accepts)}">
+				                            		<p id="accepted-id" th:text="${accept.user.id}">신청자 아이디</p>
+				                            		<button type="button" class="btn btn-sm btn-outline-secondary" 
+				                            				id="reset-join-btn" style="height: 23px; font-size: 10px"
+				                            				th:if="${#strings.equals(board.complete, 'N')}">취소</button>
+					                           		<input type="hidden" name="partyId" th:value="${accept.user.id}">
+							                        <input type="hidden" name="boardNo" th:value="${param.no}">
+				                            	</div>
+				                            	<div class="text-center" th:if="${#lists.isEmpty(accepts)}">
+				                            		<p>수락된 신청자가 없습니다.</p>
+				                            	</div>   
+					                        </form>
+			                           </div>
+		                  		</div>
+		                   </div>
+	               		</div>
+	               </div>
+	          </div>
+	      </div>
+	   </div>
    </div>
-   
 </div>         
 </html>

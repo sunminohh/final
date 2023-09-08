@@ -1,4 +1,28 @@
-<nav th:fragment="navbar-fragment" class="container pb-4 pt-3">
+<nav th:fragment="navbar-fragment" class=" pb-4" style="width:100%;">
+  <div class="page-util" >
+        <div class="inner-wrap">
+            <div class="location" th:if="${#strings.equals(menu, '영화')}">
+                <span>Home</span>
+                <a href="/board/movie/list" title="이벤트 메인 페이지로 이동">게시판</a>
+                <a href="/board/movie/list" title="진행중 이벤트 페이지로 이동" th:text="${menu}"></a>
+            </div>
+            <div class="location" th:if="${#strings.equals(menu, '극장')}">
+                <span>Home</span>
+                <a href="/board/theater/list" title="이벤트 메인 페이지로 이동">게시판</a>
+                <a href="/board/theater/list" title="진행중 이벤트 페이지로 이동" th:text="${menu}"></a>
+            </div>
+            <div class="location" th:if="${#strings.equals(menu, '스토어')}">
+                <span>Home</span>
+                <a href="/board/store/list" title="이벤트 메인 페이지로 이동">게시판</a>
+                <a href="/board/store/list" title="진행중 이벤트 페이지로 이동" th:text="${menu}"></a>
+            </div>
+            <div class="location" th:if="${#strings.equals(menu, '파티')}">
+                <span>Home</span>
+                <a href="/board/party/list" title="이벤트 메인 페이지로 이동">게시판</a>
+                <a href="/board/party/list" title="진행중 이벤트 페이지로 이동" th:text="${menu}"></a>
+            </div>
+        </div>
+  </div>
   <div class="row mb-3 text-center">
   	<p class="fs-3 fw-bold mt-4" style="text-decoration: underline; text-underline-offset : 23px" th:text="${menu}"></p>
   </div>

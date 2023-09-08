@@ -4,6 +4,7 @@ package kr.co.mgv.support.service;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,6 +31,9 @@ public class LostService {
 	private final LostDao lostDao;
 	private final FileUtils fileUtils;
 	
+	@Value("${resources.images.lost-folder}")
+	private String lostImageDirectory;
+	
 	public List<LostComment> getLostCommentsByLost(int lostNo) {
 		return lostDao.getLostCommentsByLost(lostNo);
 	}
@@ -55,7 +59,7 @@ public class LostService {
 			email = lost.getGuestEmail();
 		}
 		
-		emailService.sendTempqnaMessage(email);
+		emailService.sendTempqnaMessage(email, lost.getContent(), content);
 	}
 	
 	public void deleteComment(int commentNo) {
@@ -103,7 +107,7 @@ public class LostService {
 		for (MultipartFile multipartFile : multipartFiles) {
 			String originalFilename = multipartFile.getOriginalFilename();
 			if (StringUtils.hasText(originalFilename)) {
-				String saveFilename = fileUtils.saveFile("static/images/support/lost", multipartFile);
+				String saveFilename = fileUtils.saveFile(lostImageDirectory, multipartFile);
 				
 				LostFile lostFile = new LostFile();
 				lostFile.setLost(lost);
