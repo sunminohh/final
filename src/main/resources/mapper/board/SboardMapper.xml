@@ -126,11 +126,13 @@
 			A.product_no			as "product.no",
 			B.product_name			as "product.name",
 			A.cat_no				as "category.no",
-			C.cat_NAME				as "category.name"
+			C.cat_NAME				as "category.name",
+			D.user_profile_img	    as "user.profileImg"
 	    from
-	        MGV_PRODUCT_BOARD A, MGV_PRODUCT B, MGV_PRODUCT_CATEGORY C
+	        MGV_PRODUCT_BOARD A, MGV_PRODUCT B, MGV_PRODUCT_CATEGORY C, MGV_USER D
 	    where 
 	    	A.product_no = B.product_no
+	    	and A.user_id = D.user_id
 	    	and A.cat_no = C.cat_NO
 	    	and A.board_no = #{value}
 	</select>
@@ -219,20 +221,22 @@
 	
 	<select id="getSBoardComments" resultType="kr.co.mgv.board.vo.SBoardComment" parameterType="int">
 		SELECT 
-			COMMENT_NO				as no, 
-			COMMENT_CREATE_dATE		as createDate, 
-			COMMENT_UPDATE_DATE		as updateDate, 
-			COMMENT_CONTENT			as content, 
-			USER_ID					as "user.id", 
-			COMMENT_DELETED			as deleted, 
-			BOARD_NO				as "board.no"
+			A.COMMENT_NO				as no, 
+			A.COMMENT_CREATE_dATE		as createDate, 
+			A.COMMENT_UPDATE_DATE		as updateDate, 
+			A.COMMENT_CONTENT			as content, 
+			A.USER_ID					as "user.id", 
+			A.COMMENT_DELETED			as deleted, 
+			A.BOARD_NO					as "board.no",
+			B.user_profile_img	    	as "user.profileImg"
 		FROM 
-			MGV_PBOARD_COMMENT 
+			MGV_PBOARD_COMMENT A, MGV_USER B
 		WHERE 
-			comment_deleted = 'N'
-			and board_no = #{value}
-			and great_comment_no is null
-		order by comment_create_date;
+			A.comment_deleted = 'N'
+			and A.user_id = B.user_id
+			and A.board_no = #{value}
+			and A.great_comment_no is null
+		order by A.comment_create_date;
 	</select>
 	
 	<select id="getSBoardChildComments" resultType="kr.co.mgv.board.vo.SBoardComment" parameterType="int">
@@ -247,11 +251,13 @@
 			A.PARENT_COMMENT_NO			as "parent.no", 
 			A.GREAT_COMMENT_NO			as "great.no",
 			P.USER_ID					as "parent.user.id",
-			G.USER_ID					as "great.user.id"
+			G.USER_ID					as "great.user.id",
+			B.user_profile_img			as "user.profileImg"
 		FROM 
-			MGV_PBOARD_COMMENT A, MGV_PBOARD_COMMENT P, MGV_PBOARD_COMMENT G
+			MGV_PBOARD_COMMENT A, MGV_PBOARD_COMMENT P, MGV_PBOARD_COMMENT G, MGV_USER B
 		WHERE 
 			A.parent_comment_no = P.comment_no
+			and A.user_id = B.user_id
 			and A.great_comment_no = G.comment_no
 			and A.comment_deleted = 'N'
 			and A.board_no = #{value}

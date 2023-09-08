@@ -9,6 +9,20 @@ $(() => {
     // 상품명과 패키지명을 저장할 배열을 만듬
     const productNames = [];
     const packageNames = [];
+    let giftTickets = 0
+
+
+    $(".cart-item").each(function(i,e){
+        const bundle=$(this).find(".bundle")
+        const s=bundle.text()
+        console.log(s)
+        const q=parseInt($(this).find(".cart-quantity").text())
+        if(s.includes('일반 관람권')){
+                let a=parseInt(s.charAt(s.indexOf('일반 관람권')+7))
+            giftTickets+= a>0? a*q : q
+            }
+
+    })
 
     // 각 상품과 패키지의 이름을 가져와서 각 배열에 추가
     const productNameElements = document.querySelectorAll(".product-name");
@@ -53,13 +67,12 @@ $(() => {
     let failUrl = window.location.origin + path + "fail";
     let callbackUrl = window.location.origin + path + "va_callback";
     let orderId = new Date().getTime();
-    let uuid = self.crypto.randomUUID();
 
     let jsons = {
         "card": {
             "amount": amount,
-            "orderId": uuid + orderId,
-            "orderName": orderName,
+            "orderId": orderId,
+            "orderName": giftTickets +" "+orderName,
             "successUrl": successUrl,
             "failUrl": failUrl,
             "cardCompany": null,
@@ -94,7 +107,6 @@ $(() => {
                 }
             })
             .catch(function (error) {
-
                 if (error.code === "USER_CANCEL") {
                     Swal.fire({
                         icon: 'warning',
@@ -107,7 +119,6 @@ $(() => {
                         text: error.message
                     });
                 }
-
             });
     }
 })

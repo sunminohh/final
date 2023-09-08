@@ -2,6 +2,7 @@ package kr.co.mgv.user.form;
 
 import lombok.Data;
 import org.apache.ibatis.type.Alias;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -12,6 +13,7 @@ import java.util.List;
 @Data
 public class UserUpdateForm {
 
+    private MultipartFile file;
     private String checkPassword;
     private String newPassword;
 
@@ -22,4 +24,14 @@ public class UserUpdateForm {
     private String zipcode;
     private String address;
     private String reason;
+
+    public UserUpdateForm(MultipartFile file, String checkPassword, String newPassword, String email, String zipcode, String address, String reason) {
+        this.file = file;
+        this.checkPassword = checkPassword;
+        this.newPassword = newPassword;
+        this.email = email;
+        this.zipcode = zipcode;
+        this.address = address;
+        this.reason = reason;
+    }
 }

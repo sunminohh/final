@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.mgv.store.mapper.GiftTicketMapper">
+    <insert id="insertGiftTickets" parameterType="map">
+        INSERT INTO
+            MGV_GIFT_TICKET
+        (
+         GIFT_TICKET_NO,
+         USER_ID
+        )
+        VALUES
+        <foreach collection="nos" item="no" index="index" separator=",">
+            (#{no},#{userId})
+        </foreach>
+    </insert>
+
+</mapper>

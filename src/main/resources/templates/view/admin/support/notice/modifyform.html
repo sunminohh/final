@@ -15,7 +15,7 @@
 <div id="contents" layout:fragment="content" style="margin-top: -40px;">
     <h2 class="tit">공지사항</h2>
 
-    <form id="modifyform" method="post" name="regFrm" th:action="@{/admin/support/notice/modify(no=${notice.no})}" enctype="multipart/form-data">
+    <form id="modifyform" method="post" name="regFrm" th:action="@{/admin/support/notice/modify(no=${notice.no}, catNo=${param.catNo}, locationNo=${param.locationNo}, theaterNo=${param.theaterNo}, page=${param.page}, keyword=${param.keyword})}" enctype="multipart/form-data">
         <div class="table-wrap mt10">
             <table class="board-form va-m">
                 <colgroup> 

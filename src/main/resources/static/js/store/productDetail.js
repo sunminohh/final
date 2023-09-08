@@ -53,7 +53,14 @@ $(function() {
             $(this).addClass("on");
         }
     });
-
+    $.urlParam = function(name) {
+        var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+        if (results==null) {
+            return null;
+        } else {
+            return results[1] || 0;
+        }
+    }
     $(document).ready(function() {
         $('#btnCart-user').click(function(event) {
             event.preventDefault();
@@ -124,6 +131,8 @@ $(function() {
 
     const orderNameInput = document.getElementById("product-name")
 
+    const pNo=$.urlParam('productNo')
+    let giftTickets = pNo==29? 1 : 0
     let tossPayments = TossPayments("test_ck_Lex6BJGQOVDY7zZDAQOrW4w2zNbg");
 
     let orderName = orderNameInput.value;
@@ -133,16 +142,37 @@ $(function() {
     let failUrl = window.location.origin + path + "fail";
     let callbackUrl = window.location.origin + path + "va_callback";
     let orderId = new Date().getTime();
-    let uuid = self.crypto.randomUUID();
-
 
     $("#btn-tosspay").click(() => {
+
+        const totalDiscountedPrice = $("#totalDiscountedPrice").val();
+        const totalOriginalPrice = $("#totalOriginalPrice").val();
+        const userId = $("#userId").val();
+        const productNo = $("#productNo").val();
+        const productAmount = $("#productAmount").val();
+        const catNo = $("#catNo").val();
+
+        const requestData = {
+            totalDiscountedPrice: totalDiscountedPrice,
+            totalOriginalPrice: totalOriginalPrice,
+            userId: userId,
+            productNo: productNo,
+            productAmount: productAmount,
+            catNo: catNo,
+            orderId: orderId
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/order/successProduct",
+            data: requestData
+        })
 
         let jsons = {
             "card": {
                 "amount": amount,
-                "orderId": uuid + orderId,
-                "orderName": orderName,
+                "orderId": orderId,
+                "orderName": giftTickets +" "+orderName,
                 "successUrl": successUrl,
                 "failUrl": failUrl,
                 "cardCompany": null,
@@ -181,7 +211,6 @@ $(function() {
                         text: error.message
                     });
                 }
-
             });
     }
 })
