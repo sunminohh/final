@@ -87,52 +87,52 @@
 	
 	<select id="getMonthlyMovieSalesbyDate" parameterType="salesDto" resultType="totalSales">
 		SELECT
-		    date,
 		    MOVIE_TITLE as name,
-		    TOTAL_SALES as totalSales
+		    SUM(TOTAL_SALES) as totalSales
 		FROM
-		    MGV_DAILY_MOVIE_SALES
+		    MGV_MONTHLY_MOVIE_SALES
 		WHERE
-		    date BETWEEN #{firstDate} AND #{lastDate}
-		order by date;    
+		    MONTH BETWEEN DATE_FORMAT(#{firstDate}, '%Y-%m') AND DATE_FORMAT(#{lastDate}, '%Y-%m')
+		GROUP BY
+		    name;    
 	</select>
 	
 	<select id="getMonthlyProductSalesbyDate" parameterType="salesDto" resultType="totalSales">
 		SELECT
-		    date,
 		    PRODUCT_NAME as name,
-		    TOTAL_SALES as totalSales
+		    sum(TOTAL_SALES) as totalSales
 		FROM
-		    MGV_DAILY_PRODUCT_SALES
+		    MGV_MONTHLY_PRODUCT_SALES
 		WHERE
-		    date BETWEEN #{firstDate} AND #{lastDate}
-		order by date;    
+		    MONTH BETWEEN DATE_FORMAT(#{firstDate}, '%Y-%m') AND DATE_FORMAT(#{lastDate}, '%Y-%m')
+		GROUP BY
+		    PRODUCT_NAME     
 	</select>
 	
 	<select id="getMonthlyMovieTotalSalesbyDate" parameterType="salesDto" resultType="totalSales">
 		SELECT
-		    date,
+		    MONTH,
 		    SUM(TOTAL_SALES) as totalSales
 		FROM
-		    MGV_DAILY_MOVIE_SALES
+		    MGV_MONTHLY_MOVIE_SALES
 		WHERE
-		    date BETWEEN #{firstDate} AND #{lastDate}
+		    MONTH BETWEEN DATE_FORMAT(#{firstDate}, '%Y-%m') AND DATE_FORMAT(#{lastDate}, '%Y-%m')
 		GROUP BY
-		    date    
-		order by date;    
+		    MONTH    
+		order by MONTH;    
 	</select>
 	
 	<select id="getMonthlyProductTotalSalesbyDate" parameterType="salesDto" resultType="totalSales">
 		SELECT
-		    date,
+		    MONTH,
 		    SUM(TOTAL_SALES) as totalSales
 		FROM
-		    MGV_DAILY_PRODUCT_SALES
+		    MGV_MONTHLY_PRODUCT_SALES
 		WHERE
-		    date BETWEEN #{firstDate} AND #{lastDate}
+		    MONTH BETWEEN DATE_FORMAT(#{firstDate}, '%Y-%m') AND DATE_FORMAT(#{lastDate}, '%Y-%m')
 		GROUP BY
-		    date    
-		order by date;    
+		    MONTH    
+		order by MONTH;  
 	</select>
 	<insert id="insertDailyMovieSales">
 		INSERT INTO MGV_DAILY_MOVIE_SALES 
@@ -187,7 +187,7 @@
 		FROM
 		    MGV_DAILY_SALES 
 		WHERE
-		    DATE_FORMAT(date, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m');
+		    DATE_FORMAT(date, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')
 		GROUP BY
 		    DATE_FORMAT(date, '%Y-%m')
 		ON DUPLICATE KEY UPDATE  
@@ -196,16 +196,17 @@
 	
 	<insert id="insertMonthlyMovieSales" >
 	INSERT INTO MGV_MONTHLY_MOVIE_SALES 
-		(MONTH, MOVIE_NO, AUDIENCE, TOTAL_SALES)
+		(MONTH, MOVIE_NO, MOVIE_TITLE, AUDIENCE, TOTAL_SALES)
 	SELECT
 		DATE_FORMAT(DATE, '%Y-%m') AS MONTH,
 		MOVIE_NO,
+		MOVIE_TITLE,
 		SUM(AUDIENCE),
 		SUM(TOTAL_SALES) AS TOTAL_SALES
 	FROM
 		MGV_DAILY_MOVIE_SALES
 	WHERE
-	    DATE_FORMAT(date, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m');
+	    DATE_FORMAT(date, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')
 	GROUP BY
 		DATE_FORMAT(DATE, '%Y-%m'),
 		MOVIE_NO
@@ -222,9 +223,9 @@
 		SUM(AMOUNT),
 		SUM(TOTAL_SALES) AS TOTAL_SALES
 	FROM
-		MGV_DAILY_MOVIE_SALES
+		MGV_DAILY_PRODUCT_SALES
 	WHERE
-	    DATE_FORMAT(date, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m');
+	    DATE_FORMAT(date, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')
 	GROUP BY
 		DATE_FORMAT(DATE, '%Y-%m'),
 		PRODUCT_NAME
@@ -241,7 +242,7 @@
 	FROM 
 		MGV_MONTHLY_SALES
 	WHERE 
-		SUBSTRING(FISCAL_MONTH, 1, 4) = DATE_FORMAT(CURDATE(), '%Y');
+		SUBSTRING(FISCAL_MONTH, 1, 4) = DATE_FORMAT(CURDATE(), '%Y')
 	GROUP BY 
 		SUBSTRING(FISCAL_MONTH, 1, 4)
 	ON DUPLICATE KEY UPDATE  
@@ -259,7 +260,7 @@
 	FROM
 	    MGV_MONTHLY_MOVIE_SALES
     WHERE 
-		SUBSTRING(FISCAL_MONTH, 1, 4) = DATE_FORMAT(CURDATE(), '%Y');
+		SUBSTRING(FISCAL_MONTH, 1, 4) = DATE_FORMAT(CURDATE(), '%Y')
 	GROUP BY
 	    SUBSTRING(MONTH, 1, 4),
 	    MOVIE_NO 
@@ -278,7 +279,7 @@
 	FROM
 	    MGV_MONTHLY_PRODUCT_SALES 
 	WHERE 
-		SUBSTRING(FISCAL_MONTH, 1, 4) = DATE_FORMAT(CURDATE(), '%Y');    
+		SUBSTRING(FISCAL_MONTH, 1, 4) = DATE_FORMAT(CURDATE(), '%Y')   
 	GROUP BY
 	    SUBSTRING(MONTH, 1, 4),
 	    PRODUCT_NAME 
