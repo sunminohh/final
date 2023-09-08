@@ -274,13 +274,11 @@ public class TheaterBoardService {
 	    try {
 	    	BoardTheater theater = BoardTheater.builder().no(form.getTheaterNo()).build();
 			BoardLocation location = BoardLocation.builder().no(form.getLocationNo()).build();
-			TheaterBoard board = TheaterBoard.builder()
-								.no(no)
-								.theater(theater)
-								.location(location)
-								.name(form.getName())
-								.content(form.getContent())
-								.build();
+			TheaterBoard board = theaterBoardDao.getTBoardByNo(no);
+		        board.setContent(form.getContent());
+		        board.setName(form.getName());
+		        board.setTheater(theater);
+		        board.setLocation(location);
 
 	        theaterBoardDao.updateTBoardByNo(board);         
 	    } catch (Exception e) {
