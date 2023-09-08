@@ -52,4 +52,12 @@ $(() => {
         $(".oneContent").hide()
         $(".infoContent").show()
     })
+
+    $("#to-party-form").on('click',function(){
+        location.href="/board/party/add?movieTitle="+$("#movieTitle").text()
+    })
+    $("#to-party-form-disabled").on('click',function(){
+        $("#login-modal").addClass('is-open')
+        $("#login-modal").find('#id').focus()
+    })
 })

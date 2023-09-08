@@ -46,7 +46,7 @@ public class BookingController {
 
         bookingService.completeBookedSeats(booking);
         model.addAttribute("booking", booking);
-        booking.setBookingState("결제 완료");
+        booking.setBookingState("결제완료");
         bookingService.updateBooking(booking);
         return "view/booking/success";
     }

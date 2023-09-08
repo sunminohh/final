@@ -411,24 +411,17 @@ $(()=>{
         $("#step1-result").children()
             .children(':first').html(`
                                 <span class="movie-grade small age-${movie.attr('contentRating')}">${movie.attr('contentRatingKr')}</span>
-                                <p class="tit">${movie.attr('movie-nm')}</p>
+                                <p class="tit" style="margin-bottom:6px;">${movie.attr('movie-nm')}</p>
                                 <p class="cate">2D</p>`)
-            .next().html(`<p class="theater">${s.attr('theater-name')}</p>
-                                    <p class="special">${s.attr('screen-name')}</p>
-                                    <p class="date">
+            .next().html(`<p class="theater" style="margin-bottom:4px;">${s.attr('theater-name')}</p>
+                                    <p class="special" style="margin-bottom:4px;">${s.attr('screen-name')}</p>
+                                    <p class="date" style="margin-bottom:4px;">
                                         <span>${selectedDate}</span>
                                         <em>(${today.format('dd')})</em>
                                     </p>
-                                    <div class="other-time">
-                                        <button type="button" class="now">${s.attr('start-time')} ~ ${s.attr('end-time')} <i class="arr"></i>
-                                        </button>
-                                        <ul class="other">
-                                            <li>
-                                                <button type="button" choicnt="90" playschdlno="2307311372034" class="btn on ">08:55~10:54</button>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <p class="poster">
+                                         <p  class="now" style="margin-bottom:4px;">${s.attr('start-time')} ~ ${s.attr('end-time')}
+                                        </p>
+                                    <p class="poster" style="margin-bottom:4px;">
                                         <img src="${movie.attr('img-path')}">
                                     </p>`)
     }
@@ -547,6 +540,7 @@ $(()=>{
             checkNextButton()
             singleSeatCheck()
             calculPrice()
+            sequncing()
             return
         }
         if (seatsToPick==0){

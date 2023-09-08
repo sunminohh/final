@@ -5,9 +5,11 @@ import kr.co.mgv.movie.dao.MovieLikeDao;
 import kr.co.mgv.movie.service.MovieService;
 import kr.co.mgv.movie.vo.Movie;
 import kr.co.mgv.movie.vo.MovieLike;
+import kr.co.mgv.user.service.UserService;
 import kr.co.mgv.user.vo.User;
 import kr.co.mgv.web.view.DownloadView;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -23,10 +25,12 @@ import java.util.List;
 @Controller
 @RequestMapping("/movie")
 @AllArgsConstructor
+@Slf4j
 public class MovieController {
 
     @Autowired
     private final MovieService movieService;
+    private UserService userService;
     @RequestMapping({"/", ""})
     public String home(Model model,  @AuthenticationPrincipal User user ) {
         List<Movie> movies = movieService.getMovieChart();
@@ -40,7 +44,10 @@ public class MovieController {
     @GetMapping("/detail")
     public String detail(@RequestParam("movieNo") int movieNo, Model model, @AuthenticationPrincipal User user) {
         model.addAttribute("movie",movieService.getMovieByMovieNo(movieNo));
+
+
         if(user!=null){
+            model.addAttribute("user",userService.getUserById(user.getId()));
             model.addAttribute("isLiked",movieService.isMovieLikedByUser(new MovieLike(user.getId(),movieNo)));
         }else model.addAttribute("isLiked",false);
         return "view/movie/detail";

@@ -90,7 +90,6 @@ public class BookingRestController {
                 booking.setPayMethod("관람권");
             try{
                 bookingService.insertBooking(booking);
-                bookingService.completeBookedSeats(booking);
                 return map;
             }catch (Exception e){
                 log.info(e.getMessage());

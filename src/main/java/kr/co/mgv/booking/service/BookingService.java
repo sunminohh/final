@@ -111,7 +111,6 @@ public class BookingService {
                 params.put("seatNo",seatNo);
                 bookingDao.completeBookedSeats(params);
             }
-
         }
 
 }
