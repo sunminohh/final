@@ -304,13 +304,10 @@ public class MovieBoardService {
 	    	Movie movie = Movie.builder()
 	    					.no(form.getMovieNo())
 	    					.build();
-	        MovieBoard board = MovieBoard.builder()
-	        					.no(no)
-	        					.movie(movie)
-	        					.name(form.getName())
-	        					.fileName(form.getFileName())
-	        					.content(form.getContent())
-	        					.build();
+	        MovieBoard board = movieBoardDao.getMBoardByNo(no);
+	        board.setContent(form.getContent());
+	        board.setName(form.getName());
+	        board.setMovie(movie);
 
 	        movieBoardDao.updateMBoardByNo(board);         
 	    } catch (Exception e) {

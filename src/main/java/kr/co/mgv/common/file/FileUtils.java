@@ -21,7 +21,7 @@ public class FileUtils {
      * @param multipartFile - 파일 객체
      * @return DB에 저장할 파일 정보
      */
-    public String saveFile(String path, final MultipartFile multipartFile) {
+    public String saveFile(String directory, final MultipartFile multipartFile) {
 
         if (multipartFile.isEmpty()) {
             return null;
@@ -30,7 +30,7 @@ public class FileUtils {
         String saveName = generateSaveFilename(multipartFile.getOriginalFilename());
 
         try {
-        	String directory = new ClassPathResource(path).getFile().getAbsolutePath().replace("target\\classes", "src\\main\\resources");
+        	//String directory = new ClassPathResource(path).getFile().getAbsolutePath().replace("target\\classes", "src\\main\\resources");
         	File saveFile = new File(directory, saveName);
         	
         	InputStream in = multipartFile.getInputStream();

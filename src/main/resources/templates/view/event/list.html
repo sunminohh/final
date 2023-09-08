@@ -1,5 +1,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default}">
 <head th:fragment="extra-head-content">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script th:src="@{/js/event/list.js}"></script>
     <title>이벤트</title>
 </head>
 <div layout:fragment="content">
@@ -7,277 +9,55 @@
         <div class="inner-wrap">
             <div class="location">
                 <span>Home</span>
-                <a href="/event" title="이벤트 메인 페이지로 이동">이벤트</a>
-                <a href="/event" title="진행중 이벤트 페이지로 이동">진행중 이벤트</a>
+                <a th:href="@{/event}" title="이벤트 메인 페이지로 이동">이벤트</a>
             </div>
         </div>
     </div>
     <div id="contents">
-        <div th:replace="~{ fragments/event/sub-header :: sub-header }"></div>
-        <div id="boardSearch" class="inner-wrap" style="">
-            <div class="board-list-util mt40">
-                <p class="result-count">
-                    <strong>전체 <b>25</b>건 </strong>
-                </p>
+    <div class="inner-wrap">
+    	<h2 class="tit">이벤트</h2>
+	    <div class="tab-list fixed">
+	        <ul>
+	            <li data-cat-no="1" th:classappend="${param.catNo == null || #strings.equals(param.catNo, '1') ? 'on' : ''}">
+	                <a th:href="@{/event}" title="전체">전체</a>
+	            </li>
+	            <li data-cat-no="2" th:classappend="${#strings.equals(param.catNo, '2') ? 'on' : ''}">
+	                <a th:href="@{/event/list(catNo=2)}" title="MGV Pick 탭으로 이동">MGV Pick</a>
+	            </li>
+	            <li data-cat-no="3" th:classappend="${#strings.equals(param.catNo, '3') ? 'on' : ''}">
+	                <a th:href="@{/event/list(catNo=3)}" title="영화 탭으로 이동">영화</a>
+	            </li>
+	            <li data-cat-no="4" th:classappend="${#strings.equals(param.catNo, '4') ? 'on' : ''}">
+	                <a th:href="@{/event/list(catNo=4)}" title="극장 탭으로 이동">극장</a>
+	            </li>
+	        </ul>
+	    </div>
+	 </div>
+	 
+     <div id="boardSearch" class="inner-wrap" style="">
+     <div class="board-list-util mt40">
+     <p class="result-count"><strong>전체 <span class="font-gblue" id="totalCnt" th:text="${result.pagination.totalRows}"></span>건</strong></p>
+		<form method="get" id="actionForm" th:action="@{list}">
                 <div class="board-search">
-                    <input type="text" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text">
+                	<input type="hidden" name="catNo" th:value="${param.catNo == null ? 1 : param.catNo}" />
+                    <input type="search" name="keyword" th:value="${param.keyword == null ? '' : param.keyword}" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" autocomplete="off">
                     <button type="button" class="btn-search-input">검색</button>
                 </div>
-            </div>
+        </form>
+        </div>
         </div>
         <div id="event-list-wrap">
             <div class="inner-wrap">
                 <div class="event-list ">
                     <input type="hidden" id="totCount" name="totCount" value="25">
                     <ul>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="13750" data-netfunnel="N" class="eventBtn" title="[디즈니 100주년 기념] NO.2 월E 콤보 런칭 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
+                        <li th:each="event : ${result.eventList}">
+                            <a th:href="@{/event/detail(no=${event.no},page=${param.page}, status=${param.status}, catNo=${param.catNo}, keyword=${param.keyword})}" class="eventBtn">
                                 <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/26/QJ7659v9b8HC6j7frPOP4Gqemhu5CqSp.jpg" alt="[디즈니 100주년 기념] NO.2 월E 콤보 런칭" onerror="noImg(this);">
+                                    <img th:src="@{|/images/event/${event.mainImage}|}" onerror="noImg(this);">
                                 </p>
-                                <p class="tit"> [디즈니 100주년 기념] NO.2 월E 콤보 런칭 </p>
-                                <p class="date"> 2023.07.28 ~ 2023.08.25 </p>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="13733" data-netfunnel="N" class="eventBtn" title="메가박스 오리지널 티켓 No.85 <밀수> 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/24/8kLSdvQNS088J1XownX9X1z65s0XlFuU.jpg" alt="메가박스 오리지널 티켓 No.85 <밀수>" onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> 메가박스 오리지널 티켓 No.85 &lt;밀수&gt; </p>
-                                <p class="date"> 2023.07.24 ~ 2023.08.31 </p>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="13742" data-netfunnel="N" class="eventBtn" title="[수원AK플라자] 그랜드 오픈 페스타 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/25/RNps5kd9tZ7NEKW8sebuofKvGkVzuDOV.jpg" alt="[수원AK플라자] 그랜드 오픈 페스타" onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> [수원AK플라자] 그랜드 오픈 페스타 </p>
-                                <p class="date"> 2023.07.21 ~ 2023.08.31 </p>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="13700" data-netfunnel="N" class="eventBtn" title="떠나자 영화 바캉스! 릴레이 개봉 러쉬🌊 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/18/c7XfKnxvnEEFUohZWJv1G7tpRaLhThKP.jpg" alt="떠나자 영화 바캉스! 릴레이 개봉 러쉬🌊" onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> 떠나자 영화 바캉스! 릴레이 개봉 러쉬🌊 </p>
-                                <p class="date"> 2023.07.19 ~ 2023.08.31 </p>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="13689" data-netfunnel="N" class="eventBtn" title="메가박스 오리지널 티켓 No.84 <바비> 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/17/AQyXcYHojECb6saGhw8rhrifuoSK0Hhf.jpg" alt="메가박스 오리지널 티켓 No.84 <바비>" onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> 메가박스 오리지널 티켓 No.84 &lt;바비&gt; </p>
-                                <p class="date"> 2023.07.19 ~ 2023.08.31 </p>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="13691" data-netfunnel="N" class="eventBtn" title="[미니 시네마 무비칩 NO.1] 미션 임파서블: 데드 레코닝 PART ONE 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/17/kzSc5OKVJKP3icQjPnUsqovBdpfeeoww.jpg" alt="[미니 시네마 무비칩 NO.1] 미션 임파서블: 데드 레코닝 PART ONE" onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> [미니 시네마 무비칩 NO.1] 미션 임파서블: 데드 레코닝 PART ONE </p>
-                                <p class="date"> 2023.07.19 ~ 2023.08.06 </p>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="13675" data-netfunnel="N" class="eventBtn" title="<바비> 굿즈패키지 출시 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/16/ot5Lwr5inQolRrQGZU6VR3pLmPlcuJqv.jpg" alt="<바비> 굿즈패키지 출시" onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> &lt;바비&gt; 굿즈패키지 출시 </p>
-                                <p class="date"> 2023.07.17 ~ 2023.07.31 </p>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="13674" data-netfunnel="N" class="eventBtn" title="<명탐정코난 : 흑철의 어영> 콤보 런칭 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/14/d5cK76CRnmsFNehnTZbcx0EdmevmrLUW.jpg" alt="<명탐정코난 : 흑철의 어영> 콤보 런칭" onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> &lt;명탐정코난 : 흑철의 어영&gt; 콤보 런칭 </p>
-                                <p class="date"> 2023.07.14 ~ 2023.07.31 </p>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="13665" data-netfunnel="N" class="eventBtn" title="메가박스 미니 시네마 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/13/gmfeRq3WBNAAqc2G69vQwMHmxS2mvaBH.jpg" alt="메가박스 미니 시네마" onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> 메가박스 미니 시네마 </p>
-                                <p class="date"> 2023.07.13 ~ 2023.12.31 </p>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="13645" data-netfunnel="N" class="eventBtn" title="코카-콜라 마시고 슈퍼팝 가자! 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/10/fjKkbuPDwEBNv1eoEVpMLPmu6FERu8fU.png" alt="코카-콜라 마시고 슈퍼팝 가자!" onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> 코카-콜라 마시고 슈퍼팝 가자! </p>
-                                <p class="date"> 2023.07.12 ~ 2023.08.15 </p>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="13653" data-netfunnel="N" class="eventBtn" title="톰 크루즈 <미션 임파서블: 데드 레코닝 PART ONE> 1PICK 이벤트 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/12/KSONWueE7qOKoNJhbDc58dLqXIpdvK36.jpg" alt="톰 크루즈 <미션 임파서블: 데드 레코닝 PART ONE> 1PICK 이벤트" onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> 톰 크루즈 &lt;미션 임파서블: 데드 레코닝 PART ONE&gt; 1PICK 이벤트 </p>
-                                <p class="date"> 2023.07.12 ~ 2023.07.30 </p>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="13644" data-netfunnel="N" class="eventBtn" title="<미션 임파서블: 데드 레코닝 PART ONE> 굿즈패키지 출시 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/10/UvtYgEuMzQpnPNLMZ7HViaiDx2U9KFAJ.jpg" alt="<미션 임파서블: 데드 레코닝 PART ONE> 굿즈패키지 출시" onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> &lt;미션 임파서블: 데드 레코닝 PART ONE&gt; 굿즈패키지 출시 </p>
-                                <p class="date"> 2023.07.10 ~ 2023.07.31 </p>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="13638" data-netfunnel="N" class="eventBtn" title="[디즈니 100주년 기념] NO.1 스티치콤보 런칭 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/07/85wU6nYIXAm60AyC05kd5kRjSpyAWOXo.jpg" alt="[디즈니 100주년 기념] NO.1 스티치콤보 런칭" onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> [디즈니 100주년 기념] NO.1 스티치콤보 런칭 </p>
-                                <p class="date"> 2023.07.07 ~ 2023.12.31 </p>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="13591" data-netfunnel="N" class="eventBtn" title="메가박스x스타벅스 리유저블컵 세트  상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/02/segLG9bQxzz6H8FUCIMqTlKyz2SdnJXT.jpg" alt="메가박스x스타벅스 리유저블컵 세트 " onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> 메가박스x스타벅스 리유저블컵 세트 </p>
-                                <p class="date"> 2023.07.03 ~ 2023.08.31 </p>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="13610" data-netfunnel="N" class="eventBtn" title="메가박스 오리지널 티켓 No.83 <보 이즈 어프레이드> 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/03/hYjRKTxErlEvssiY0GrS5NQe0vVYvqq4.jpg" alt="메가박스 오리지널 티켓 No.83 <보 이즈 어프레이드>" onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> 메가박스 오리지널 티켓 No.83 &lt;보 이즈 어프레이드&gt; </p>
-                                <p class="date"> 2023.07.03 ~ 2023.08.03 </p>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="13581" data-netfunnel="N" class="eventBtn" title="[밀크x메가박스] LUCKY POINT 7 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/06/28/kFOZ7n0JvOiXRmb8soo8ZFfkeQ7AqImh.jpg" alt="[밀크x메가박스] LUCKY POINT 7" onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> [밀크x메가박스] LUCKY POINT 7 </p>
-                                <p class="date"> 2023.07.03 ~ 2023.07.31 </p>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="13595" data-netfunnel="N" class="eventBtn" title="PHYDITAL POPUP <메타그라운드 성수> GRAND OPEN 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/06/30/mQwDnNU57aaoXDcgvTQFztPm72kqNIJK.jpg" alt="PHYDITAL POPUP <메타그라운드 성수> GRAND OPEN" onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> PHYDITAL POPUP &lt;메타그라운드 성수&gt; GRAND OPEN </p>
-                                <p class="date"> 2023.06.30 ~ 2024.05.31 </p>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="13547" data-netfunnel="N" class="eventBtn" title="굿즈는 이제 모바일 티켓으로 받아보세요! 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/06/26/2nuCXCJFiIYYUe73t0g4m4nqTt8hlNZM.jpg" alt="굿즈는 이제 모바일 티켓으로 받아보세요!" onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> 굿즈는 이제 모바일 티켓으로 받아보세요! </p>
-                                <p class="date"> 2023.06.26 ~ 2023.09.30 </p>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="13382" data-netfunnel="N" class="eventBtn" title="FRIENDS 회원 스탬프 이벤트  상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/05/30/Hflfpd02hHfmGXhfCVMVjilveIiPU5EZ.jpg" alt="FRIENDS 회원 스탬프 이벤트 " onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> FRIENDS 회원 스탬프 이벤트 </p>
-                                <p class="date"> 2023.06.01 ~ 2023.08.31 </p>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="12822" data-netfunnel="N" class="eventBtn" title="모바일오더로 주문하고 할인 받으세요! 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/03/06/qo3sZvhN7rf8nQtpmau70IKV8FRCGM4S.jpg" alt="모바일오더로 주문하고 할인 받으세요!" onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> 모바일오더로 주문하고 할인 받으세요! </p>
-                                <p class="date"> 2023.03.06 ~ 2023.12.31 </p>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="13419" data-netfunnel="N" class="eventBtn" title="군인, 경찰 특별 혜택 안내 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/06/05/jYiWLpUeaLHdaVAmpx2Ugnvd8EX9QMvD.jpg" alt="군인, 경찰 특별 혜택 안내" onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> 군인, 경찰 특별 혜택 안내 </p>
-                                <p class="date"> 2023.01.01 ~ 2023.12.31 </p>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="12642" data-netfunnel="N" class="eventBtn" title="메가박스 VIP 혜택 안내 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/02/07/zX9ge6IdUnjLR8PGfdNH78cYbPYzY5ls.jpg" alt="메가박스 VIP 혜택 안내" onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> 메가박스 VIP 혜택 안내 </p>
-                                <p class="date"> 2023.03.02 ~ 2024.02.29 </p>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="12419" data-netfunnel="N" class="eventBtn" title="2023 VIP 선정 기준 안내 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2022/12/28/nDlTsuZe13OXYChTIpdm4fHeocaGHzst.jpg" alt="2023 VIP 선정 기준 안내" onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> 2023 VIP 선정 기준 안내 </p>
-                                <p class="date"> 2022.12.28 ~ 2023.07.31 </p>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="12408" data-netfunnel="N" class="eventBtn" title="나도 영화 평론가! 관람평 작성하면 50P 적립! 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2022/12/27/Ykqi480SGT8ZwXY9QEZJr3vLenlaaZIf.jpg" alt="나도 영화 평론가! 관람평 작성하면 50P 적립!" onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> 나도 영화 평론가! 관람평 작성하면 50P 적립! </p>
-                                <p class="date"> 2023.01.01 ~ 2023.12.31 </p>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="11983" data-netfunnel="N" class="eventBtn" title="[예지미인X메가박스] 그날에 당황하지 말고 PINK BOX 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2022/10/07/aVPaBWnnV3du3eA0WwccH3xMWqCszU8k.jpg" alt="[예지미인X메가박스] 그날에 당황하지 말고 PINK BOX" onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> [예지미인X메가박스] 그날에 당황하지 말고 PINK BOX </p>
-                                <p class="date"> 2022.10.07 ~ 2023.09.30 </p>
+                                <p class="tit" th:text="${event.title}"></p>
+                                <p class="date" th:text="${#dates.format(event.startDate, 'yyyy.MM.dd') + ' ~ ' + #dates.format(event.endDate, 'yyyy.MM.dd')}"></p>
                             </a>
                         </li>
                     </ul>

@@ -4,6 +4,9 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+/src/main/resources/static/images/event/*.png
+/src/main/resources/static/images/event/*.jpg
+
 ### STS ###
 .apt_generated
 .classpath

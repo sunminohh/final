@@ -1,63 +1,37 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default}">
 <head th:fragment="extra-head-content">
-    <title>이벤트</title>
+   	<title>이벤트</title>
+    <script type="text/javascript" th:src="@{/js/event/detail.js}"></script>    
 </head>
 <div layout:fragment="content" id="schdlContainer">
     <div class="page-util">
         <div class="inner-wrap">
-            <div class="location">
-                <span>Home</span>
-                <a href="/event" title="진행중 이벤트 페이지로 이동">이벤트</a>
-                <a href="javascript:void(0)" title="이벤트 상세">이벤트 상세</a>
-            </div>
-            <div class="sns-share">
-                <a href="#" class="btn btn-common-share" title="공유하기"> 공유하기
-                    <!-- 공유하기 -->
-                    <i class="iconset ico-share-toggle"></i>
-                </a>
-                <div class="btn-sns-share-wrap">
-                    <div class="cont-area">
-                        <div class="btn-sns-share-group">
-                            <!-- <button type="button" title="카카오톡 공유하기" class="btn btnSns kakao">카카오톡 </button> 카카오톡 -->
-                            <button type="button" title="페이스북 공유하기" class="btn btnSns face">페이스북
-                                <!-- 페이스북 -->
-                            </button>
-                            <button type="button" title="밴드 공유하기" class="btn btnSns band">밴드
-                                <!-- 밴드 -->
-                            </button>
-                            <button type="button" title="트위터 공유하기" class="btn btnSns twitter">트위터
-                                <!-- 트위터 -->
-                            </button>
-                            <button type="button" title="링크 공유하기" class="btn btnSns link">링크공유
-                                <!-- 링크공유 -->
-                            </button>
-                        </div>
-                    </div>
-                </div>
+            <div class="d-flex justify-content-between ">
+            	<div class="location">
+	                <span>Home</span>
+	                <a th:href="@{/event}" title="이벤트 메인 페이지로 이동">이벤트</a>
+	                <a title="이벤트 상세">이벤트 상세</a>
+            	</div>
+	            <div class="sns-share">
+	                <button class="btn btn-outline-white btn-sm mb-2" id="link-btn" style="border: none; " 
+                    data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="URL이 클립보드에 복사되었습니다."
+                    >공유하기<i class="iconset ico-share-toggle"></i></button>
+	            </div>
             </div>
         </div>
     </div>
     <div id="contents">
         <!-- event-detail -->
         <div class="event-detail">
-            <h2 class="tit">[디즈니 100주년 기념] NO.2 월E 콤보 런칭</h2>
+            <h2 class="tit" th:text="${event.title}"></h2>
             <p class="event-detail-date">
                 <span>기간</span>
-                <em>2023.07.28 ~ 2023.08.25</em>
+                <em th:text="${#dates.format(event.startDate, 'yyyy.MM.dd') + ' ~ ' + #dates.format(event.endDate, 'yyyy.MM.dd')}"></em>
             </p>
-            <!--
-                    가로가 100% 일때
-                    <div class="event-html full">
-
-                    가로가 1100px 일때
-                    <div class="event-html">
-                -->
             <div class="event-html">
-                <img alt="" src="https://www.megabox.co.kr/SharedImg\editorImg\2023\07\26\q1JTQb8voPU3orQhbPZTVe35crxUYveb.jpg" style="height:5452px; width:1100px">
+                <img th:src="@{|/images/event/${event.detailImage}|}">
             </div>
-            <!--// iframe 아닐 때  -->
         </div>
-        <!--// event-detail -->
     </div>
 </div>
 </html>

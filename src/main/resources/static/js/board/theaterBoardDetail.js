@@ -4,7 +4,7 @@
  * 좋아요 버튼 관련 코드
  */
 $(function() {
-      let like = document.querySelector("input[name=likeCount]").value;
+      let like = $("input[name=likeCount]").val();
       
       $("#like-button").click(function(event) {
           event.preventDefault();
@@ -95,7 +95,7 @@ $(function() {
 	  
       
    	  
-      let no = document.querySelector("input[name=no]").value;
+      let no = $("input[name=no]").val();
       let loginId = $("#login-id").attr("value");
       let commentNo = $(this).attr("data-cancel-comment");
       
