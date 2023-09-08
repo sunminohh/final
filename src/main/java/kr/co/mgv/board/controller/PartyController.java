@@ -121,17 +121,16 @@ public class PartyController {
 			return theaters;
 		}
 	    
-	    @GetMapping("/add")
-	    public String theaterForm(Model model) {
-	    	List<BoardLocation> locations = theaterBoardService.getLocations();
-	    	model.addAttribute("locations", locations);
-	    	
-	    	List<Movie> movies = movieBoardService.getMovieTitle();
-	    	model.addAttribute("movies", movies);
-	    	
-	        return "view/board/party/form";
-	    }
-	    
+       @GetMapping("/add")
+       public String theaterForm(Model model, @RequestParam(value="movieTitle", required = false) String inputMovieTitle) {
+          List<BoardLocation> locations = theaterBoardService.getLocations();
+          model.addAttribute("locations", locations);
+          model.addAttribute("inputMovieTitle", inputMovieTitle);
+          List<Movie> movies = movieBoardService.getMovieTitle();
+          model.addAttribute("movies", movies);
+          
+           return "view/board/party/form";
+       }
 	    
 	    @GetMapping("/scheduleBydateAndMNoAndTno")
 	    @ResponseBody
