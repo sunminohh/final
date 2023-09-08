@@ -57,6 +57,13 @@ $(() => {
 		const movieSales = [];
 		const productSales = [];
 		console.log(data)
+		if(data.totalSales.length==0){
+			Swal.fire({
+				icon:"warning",
+				text:"매출내역이 없습니다."
+			})
+			return;
+		}
 		data.totalSales.forEach(item => {
 			// 날짜 데이터를 dayjs로 파싱
 			const parsedDate = dayjs(item.date);
@@ -97,6 +104,32 @@ $(() => {
 				{
 					 name: "상품", data: productTotalSales,
 				},
+			],
+		});
+		
+		detailmovieChart.updateOptions({
+			xaxis: {
+				categories: movieNames,
+			},
+			series: [
+				
+				{
+					 data: movieSales,
+				},
+			
+			],
+		});
+		
+		detailProductChart.updateOptions({
+			xaxis: {
+				categories: productNames,
+			},
+			series: [
+				
+				{
+					 data: productSales,
+				},
+			
 			],
 		});
 	}
@@ -170,6 +203,9 @@ $(() => {
 			min: 0,
 			tickAmount: 4,
 			labels: {
+				formatter: (val) => {
+					return val / 1000000 + 'M'
+				},
 				style: {
 					cssClass: "grey--text lighten-2--text fill-color",
 				},
@@ -231,21 +267,64 @@ $(() => {
 		});
 	}
 
-/*	$.ajax({
-		url: API_URLS.DAILY_TOTAL_SALES, // 데이터를 가져올 API 엔드포인트
-		method: 'GET',
-		dataType: 'json',
-		success: function(data) {
-			updateChartWithData(data);
+	const options = {
+		series: [
+			{
+				name: '매출',
+				data: [44000, 55000, 41000, 67000, 22000]
+			},
+			
+		],
+		chart: {
+			type: 'bar',
+			height: 350,
+			stacked: true,
 		},
-		error: function(error) {
-			Swal.fire({
-				icon:"error",
-				text:"네트워크 요청 오류, 잠시후에 다시 시도 하세요."
-			})
-			// 에러 처리: 사용자에게 메시지를 표시하거나 적절한 조치를 취하세요.
+		stroke: {
+			width: 1,
+			colors: ['#fff']
+		},
+		dataLabels: {
+			formatter: (val) => {
+				return val / 1000 + 'K'
+			}
+		},
+		plotOptions: {
+			bar: {
+				horizontal: true
+			}
+		},
+		xaxis: {
+			categories: [
+				'Online advertising',
+				'Sales Training',
+				'Print advertising',
+				'Catalogs',
+				'Meetings'
+			],
+			labels: {
+				formatter: (val) => {
+					return val / 1000 + 'K'
+				}
+			}
+		},
+		fill: {
+			opacity: 1,
+		},
+		colors: ['#80c7fd', '#008FFB', '#80f1cb', '#00E396'],
+		legend: {
+			position: 'top',
+			horizontalAlign: 'left'
 		}
-	});*/
+	};
+
+	const detailmovieChart = new ApexCharts(document.querySelector("#detailmoviechart"), options);
+	detailmovieChart.render();
+
+	const detailProductChart = new ApexCharts(document.querySelector("#detailproductchart"), options);
+	detailProductChart.render();
+
+
 
 
 	

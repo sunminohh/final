@@ -26,26 +26,26 @@
 	
 	<select id="getDailyMovieSalesbyDate" parameterType="salesDto" resultType="totalSales">
 		SELECT
-		    date,
-		    MOVIE_NAME as name,
-		    TOTAL_SALES as totalSales
+		    MOVIE_TITLE as name,
+		    sum(TOTAL_SALES) as totalSales
 		FROM
 		    MGV_DAILY_MOVIE_SALES
 		WHERE
 		    date BETWEEN #{firstDate} AND #{lastDate}
-		order by date;    
+		GROUP BY
+		    MOVIE_TITLE 
 	</select>
 	
 	<select id="getDailyProductSalesbyDate" parameterType="salesDto" resultType="totalSales">
 		SELECT
-		    date,
 		    PRODUCT_NAME as name,
-		    TOTAL_SALES as totalSales
+		    sum(TOTAL_SALES) as totalSales
 		FROM
 		    MGV_DAILY_PRODUCT_SALES
 		WHERE
 		    date BETWEEN #{firstDate} AND #{lastDate}
-		order by date;    
+		GROUP BY
+		    PRODUCT_NAME  
 	</select>
 	
 	<select id="getDailyMovieTotalSalesbyDate" parameterType="salesDto" resultType="totalSales">
@@ -88,7 +88,7 @@
 	<select id="getMonthlyMovieSalesbyDate" parameterType="salesDto" resultType="totalSales">
 		SELECT
 		    date,
-		    MOVIE_NAME as name,
+		    MOVIE_TITLE as name,
 		    TOTAL_SALES as totalSales
 		FROM
 		    MGV_DAILY_MOVIE_SALES
@@ -134,6 +134,49 @@
 		    date    
 		order by date;    
 	</select>
+	<insert id="insertDailyMovieSales">
+		INSERT INTO MGV_DAILY_MOVIE_SALES 
+			(DATE, MOVIE_NO, MOVIE_TITLE, AUDIENCE,TOTAL_SALES) 
+		SELECT 
+			DATE_FORMAT(BOOKING_DATE,'%Y-%m-%d')as DATE, MOVIE_NO,MOVIE_TITLE  ,SUM(TOTAL_SEATS) as AUDIENCE, SUM(TOTAL_PRICE) AS TOTAL_SALES 
+		FROM MGV_BOOKING
+		WHERE BOOKING_STATE LIKE '%완료'  
+		group by DATE_FORMAT(BOOKING_DATE,'%Y-%m-%d'), MOVIE_NO ,MOVIE_TITLE;   
+	</insert>
+	
+	<insert id="insertDailyProductSales">
+	INSERT INTO MGV_DAILY_PRODUCT_SALES (DATE, PRODUCT_NAME, AMOUNT, TOTAL_SALES)INSERT INTO MGV_DAILY_PRODUCT_SALES (DATE, PRODUCT_NAME, AMOUNT, TOTAL_SALES)		
+	SELECT
+	    ORDER_DATE,
+	    PRODUCT_NAME,
+	    SUM(ORDER_AMOUNT) AS AMOUNT,
+	    SUM(ORDER_PRICE) AS TOTAL_SALES
+	FROM (
+	    SELECT 
+	        DATE_FORMAT(mo.ORDER_DATE, '%Y-%m-%d') AS ORDER_DATE,
+	        mp.PRODUCT_NAME, 
+	        mop.ORDER_AMOUNT, 
+	        mop.ORDER_PRICE
+	    FROM MGV_ORDER mo
+	    JOIN MGV_ORDER_PRODUCT mop ON mo.order_id = mop.order_id
+	    JOIN MGV_PRODUCT mp ON mop.PRODUCT_NO = mp.PRODUCT_NO
+	    WHERE mo.ORDER_STATUS LIKE '%완료'
+	    UNION ALL
+	    SELECT 
+	        DATE_FORMAT(mo.ORDER_DATE, '%Y-%m-%d') AS ORDER_DATE, 
+	        mp2.PACKAGE_NAME AS PRODUCT_NAME, 
+	        mop2.ORDER_AMOUNT, 
+	        mop2.ORDER_PRICE
+	    FROM MGV_ORDER mo
+	    JOIN MGV_ORDER_PACKAGE mop2 ON mo.order_id = mop2.order_id
+	    JOIN MGV_PACKAGE mp2 ON mop2.PACKAGE_NO = mp2.PACKAGE_NO
+	    WHERE mo.ORDER_STATUS LIKE '%완료'
+	) AS subquery
+	GROUP BY ORDER_DATE, PRODUCT_NAME
+	ON DUPLICATE KEY UPDATE
+		TOTAL_SALES = VALUES(TOTAL_SALES),
+		AMOUNT = VALUES(AMOUNT);
+	</insert>
 	
 	<insert id="insertMonthlySales" >
 		INSERT INTO
