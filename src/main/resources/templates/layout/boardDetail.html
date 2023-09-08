@@ -9,8 +9,7 @@
 <body>
     <nav th:replace="~{ fragments/common/header :: header }"></nav>
     <div th:replace="~{ fragments/common/login-modal :: modal }"></div>
-    <div class="container mb-5" style="width: 1150px;"
-         th:classappend="${#httpServletRequest.requestURI.equals('/') ? 'main-container' : ''}">
+    <div th:classappend="${#httpServletRequest.requestURI.equals('/') ? 'main-container' : ''}">
         <div layout:fragment="content"></div>
     </div>
     <div th:replace="~{ fragments/common/footer :: footer }"></div>
