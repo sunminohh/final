@@ -13,9 +13,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/booking")
@@ -26,7 +28,8 @@ public class BookingController {
    private TheaterService theaterService;
    private BookingService bookingService;
     @RequestMapping({"/", ""})
-    public String home(Model model) {
+    public String home(@RequestParam(value="fail",required = false)String fail, Model model) {
+        model.addAttribute("fail",fail);
         model.addAttribute("movies", movieService.getAllMovies());
         model.addAttribute("locations", theaterService.getTheaters());
 
@@ -41,8 +44,9 @@ public class BookingController {
             booking.setPaymentKey(paymentKey);
         }
 
+        bookingService.completeBookedSeats(booking);
         model.addAttribute("booking", booking);
-        booking.setBookingState("결제 완료");
+        booking.setBookingState("결제완료");
         bookingService.updateBooking(booking);
         return "view/booking/success";
     }
@@ -52,4 +56,6 @@ public class BookingController {
         model.addAttribute("booking", booking);
         return "view/booking/failure";
     }
+
+
 }

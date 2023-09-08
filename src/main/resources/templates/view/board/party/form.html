@@ -39,7 +39,9 @@
 			           	<div class="d-flex justify-content-between" >
 			           		<div class="selectbox-box d-flex justify-content-start">
 								<div class="movie-search-select mb-3" >
-								    <input type="text" class="movie-search-input"  placeholder="영화제목검색">
+								<input th:if="${inputMovieTitle == null} " type="text" class="movie-search-input"  placeholder="영화제목검색">
+                           		<input class="movie-search-input" placeholder="영화제목검색" th:if="${inputMovieTitle != null} "
+                                 type="text" th:value="${inputMovieTitle}">
 								    <button class="movie-search-button btn-sm me-2" id="btn-select-movie" type="button" >선택</button>
 								    <div id="selectd-movie-title-box">									
 									</div>

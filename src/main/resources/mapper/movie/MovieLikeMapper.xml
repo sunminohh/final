@@ -24,4 +24,5 @@
         where
             USER_ID =#{userId} and Movie_no = #{movieNo}
     </select>
+
 </mapper>
