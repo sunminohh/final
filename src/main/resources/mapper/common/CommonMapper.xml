@@ -1,7 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.co.mgv.board.TboardMapper">
-    <select id="getTest" resultType="int">
-        
+<mapper namespace="kr.co.mgv.common.dao.CommonDao">
+
+    <insert id="insertMgvFile" useGeneratedKeys="true" keyProperty="fileId">
+        INSERT INTO MGV_FILE_INFO(ORIGIN_NAME
+                                , STORED_NAME
+                                , FILE_EXTENSION
+                                , FILE_SIZE
+                                , UPLOAD_PATH
+                                , REG_DATE)
+        VALUES (#{originName},
+                #{storedName},
+                #{fileExtension},
+                #{fileSize},
+                #{uploadPath},
+                NOW())
+    </insert>
+
+    <select id="getMgvFile" resultType="kr.co.mgv.common.vo.MgvFile">
+        SELECT FILE_ID
+             , ORIGIN_NAME
+             , STORED_NAME
+             , FILE_EXTENSION
+             , FILE_SIZE
+             , UPLOAD_PATH
+             , REG_DATE
+        FROM MGV_FILE_INFO
+        WHERE FILE_ID = #{value}
     </select>
+
 </mapper>

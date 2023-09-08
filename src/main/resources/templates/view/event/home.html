@@ -335,7 +335,7 @@
                         <li th:each="event, iterStat : ${mgvResult.eventList}"  >
                             <a th:href="@{/event/detail(no=${event.no},page=${param.page}, status=${param.status}, catNo=${param.catNo}, keyword=${param.keyword})}" class="eventBtn">
                                 <p class="img">
-                                    <img th:src="@{|/images/event/${event.mainImage}|}" onerror="noImg(this);">
+                                    <img th:src="@{|/common/image/${event.mainImageFile.fileId}|}">
                                 </p>
                                 <p class="tit" th:text="${event.title}"></p>
                                 <p class="date" th:text="${#dates.format(event.startDate, 'yyyy.MM.dd') + ' ~ ' + #dates.format(event.endDate, 'yyyy.MM.dd')}"></p>
@@ -355,7 +355,7 @@
                         <li th:each="event, iterStat: ${theatorResult.eventList}">
                             <a th:href="@{/event/detail(no=${event.no},page=${param.page}, status=${param.status}, catNo=${param.catNo}, keyword=${param.keyword})}" class="eventBtn">
                                 <p class="img">
-                                    <img th:src="@{|/images/event/${event.mainImage}|}" onerror="noImg(this);">
+                                    <img th:src="@{|/common/image/${event.mainImageFile.fileId}|}">
                                 </p>
                                 <p class="tit" th:text="${event.title}"></p>
                                 <p class="date" th:text="${#dates.format(event.startDate, 'yyyy.MM.dd') + ' ~ ' + #dates.format(event.endDate, 'yyyy.MM.dd')}"></p>
@@ -375,7 +375,7 @@
                         <li th:each="event, iterStat: ${movieResult.eventList}" >
                             <a th:href="@{/event/detail(no=${event.no},page=${param.page}, status=${param.status}, catNo=${param.catNo}, keyword=${param.keyword})}" class="eventBtn">
                                 <p class="img">
-                                    <img th:src="@{|/images/event/${event.mainImage}|}" onerror="noImg(this);">
+                                    <img th:src="@{|/common/image/${event.mainImageFile.fileId}|}">
                                 </p>
                                 <p class="tit" th:text="${event.title}"></p>
                                 <p class="date" th:text="${#dates.format(event.startDate, 'yyyy.MM.dd') + ' ~ ' + #dates.format(event.endDate, 'yyyy.MM.dd')}"></p>

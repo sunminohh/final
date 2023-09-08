@@ -64,15 +64,16 @@
 	
 	<insert id="insertOneFile" parameterType="kr.co.mgv.support.vo.OneFile">
 		INSERT INTO MGV_ONE_FILE
-		(ONE_NO, ORIGINAL_NAME, SAVE_NAME)
-		VALUES(#{one.no}, #{originalName}, #{saveName})
+		(ONE_NO, ORIGINAL_NAME, SAVE_NAME, UPLOAD_PATH)
+		VALUES(#{one.no}, #{originalName}, #{saveName}, #{uploadPath})
 	</insert>
 	
 	<select id="getOneFileByOneNo" parameterType="int" resultType="kr.co.mgv.support.vo.OneFile">
 		SELECT 
 			FILE_NO			as no,
 			ORIGINAL_NAME	as originalName, 
-			SAVE_NAME		as saveName
+			SAVE_NAME		as saveName,
+			UPLOAD_PATH		as uploadPath
 		FROM 
 			MGV_ONE_FILE
 		where ONE_NO = #{value}
@@ -82,8 +83,9 @@
 		SELECT
 			FILE_NO			as no, 
 			ORIGINAL_NAME	as originalName, 
-			SAVE_NAME		as saveName
-		FROM 
+			SAVE_NAME		as saveName,
+			UPLOAD_PATH		as uploadPath
+		FROM
 			MGV_ONE_FILE
 		where FILE_NO = #{value}
 	</select>

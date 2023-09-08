@@ -29,7 +29,7 @@
                 <em th:text="${#dates.format(event.startDate, 'yyyy.MM.dd') + ' ~ ' + #dates.format(event.endDate, 'yyyy.MM.dd')}"></em>
             </p>
             <div class="event-html">
-                <img th:src="@{|/images/event/${event.detailImage}|}">
+                <img th:src="@{|/common/image/${event.detailImageFile.fileId}|}">
             </div>
         </div>
     </div>
