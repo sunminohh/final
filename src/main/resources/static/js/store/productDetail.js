@@ -164,7 +164,7 @@ $(function() {
 
         $.ajax({
             type: "POST",
-            url: "/order/successProduct",
+            url: "/order/success",
             data: requestData
         })
 
