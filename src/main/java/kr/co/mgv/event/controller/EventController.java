@@ -26,24 +26,25 @@ public class EventController {
 	private final EventService eventService;
 	
     @GetMapping({"/", ""})
-    public String home(@RequestParam(name = "catNo", required = false, defaultValue= "1") int catNo,
-    		@RequestParam(name = "status", required = false, defaultValue = "") String status,
-    		@RequestParam(name = "page", required = false, defaultValue = "1") int page,
-    		@RequestParam(name = "keyword", required = false) String keyword,
-    		Model model) {
+    public String home(Model model) {
     	
     	Map<String, Object> param = new HashMap<>();
-    	param.put("catNo", catNo);
-    	param.put("page", page);
+    	param.put("end", 4);
+    	param.put("page", 1);
     	
     	param.put("status", "run");
+    	param.put("catNo", 2);
+    	EventList mgvEventList = eventService.search(param);
+    	model.addAttribute("mgvResult", mgvEventList);
     	
-    	if (StringUtils.hasText(keyword)) {
-    		param.put("keyword", keyword);
-    	}
+    	param.put("catNo", 3);
+    	EventList theatorEventList = eventService.search(param);
+    	model.addAttribute("theatorResult", theatorEventList);
     	
-    	EventList eventList = eventService.search(param);
-    	model.addAttribute("result", eventList);
+    	param.put("catNo", 4);
+    	EventList movieEventList = eventService.search(param);
+    	model.addAttribute("movieResult", movieEventList);
+    	
         return "view/event/home";
     }
 

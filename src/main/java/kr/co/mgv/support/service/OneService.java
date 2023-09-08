@@ -4,7 +4,7 @@ import java.util.List;
 
 import java.util.Map;
 
-
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,6 +31,9 @@ public class OneService {
 	private final EmailService emailService;
 	private final OneDao oneDao;
 	private final FileUtils fileUtils;
+	
+	@Value("${resources.images.one-folder}")
+	private String oneImageDiretory;
 	
 	public List<OneComment> getOneCommentByOne(int oneNo) {
 		return oneDao.getOneCommentsByOne(oneNo);
@@ -115,7 +118,7 @@ public class OneService {
 		for (MultipartFile multipartFile : multipartFiles) {
 			String originalFilename = multipartFile.getOriginalFilename();
 			if (StringUtils.hasText(originalFilename)) {
-				String saveFilename = fileUtils.saveFile("static/images/support/one", multipartFile);
+				String saveFilename = fileUtils.saveFile(oneImageDiretory, multipartFile);
 				
 				OneFile oneFile = new OneFile();
 				oneFile.setOne(one);

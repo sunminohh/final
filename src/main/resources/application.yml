@@ -51,6 +51,7 @@ logging:
     '[kr.co.mgv.theater.dao]': trace
     '[kr.co.mgv.user.dao]': trace
     '[kr.co.mgv.schedule.dao]': trace
+    '[kr.co.mgv.event.dao]': trace
 ---
 ## thymeleaf
 spring:
@@ -59,3 +60,15 @@ spring:
 
 upload:
   directory: /images/product/
+  
+  
+# 이벤트, 고객센터 이미지 저장경로
+resources:
+  images:
+    event-folder: C:\\workspace\\final\\src\\main\\resources\\static\\images\\event
+    lost-folder: C:\\workspace\\final\\src\\main\\resources\\static\\images\\support\\lost
+    one-folder: C:\\workspace\\final\\src\\main\\resources\\static\\images\\support\\one
+
+  
+  
+  

@@ -59,6 +59,7 @@ public class AdminEventController {
     	Map<String, Object> param = new HashMap<>();
     	param.put("catNo", catNo);
     	param.put("page", page);
+    	param.put("end", 10);
     	
     	if (StringUtils.hasText(status)) {
     		param.put("status", status);
