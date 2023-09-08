@@ -31,14 +31,14 @@
 	   <div class="row mb-3">
 	      <div class="col-12">
 	         <div id="profile" class="pb-1 ">
-	            <div id="imgbox" class="float-start" >
+	            <div id="imgbox" class="float-start ms-2" >
 	               <a th:href="@{/board/user/list(id=${board.user.id})}">
 	                  <img id="profileimg" th:src="${board.user.profileImg != null ? '/images/user/profile/' + board.user.profileImg : '/images/user/profile/default.png'}" data-default-src="/images/user/profile/default.png">
 	               </a>
 	            </div>
 	            
 	            <div class="boardinfo ps-5">
-	               <div>
+	               <div class="ms-2">
 	                  <p ><strong th:text="${board.user.id}">작성자아이디</strong></p>
 	                  <p class="float-start" style="font-size: 12px; line-height: 15%; color: gray" th:utext="|${#dates.format(board.createDate, 'yyyy-MM-dd HH:mm')} / 조회 ${board.readCount}|">등록일자 | 조회 조회수&nbsp;</p>
 	               </div>
@@ -137,7 +137,7 @@
 	      
 	  <div class="quick-menu" id="quick-scroll">위로</div>
 	      
-	   <div class="row mb-3">
+	   <div class="row">
 	         <div class="col-12">
 	            <div class="comment-sort mb-5">
 	               <p class="fs-5 fw-semibold float-start me-2">댓글</p>
