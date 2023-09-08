@@ -35,4 +35,6 @@ build/
 !**/src/test/**/build/
 ### VS Code ###
 .vscode/
+
 /images
+!/images/no-image.jpg

@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -33,46 +34,53 @@ import javax.annotation.Resource;
 @Controller
 @RequiredArgsConstructor
 public class HomeController {
-	
-	private final MyBoardService myBoardService;
-	private final CommonDao commonDao;
 
-	@GetMapping("/")
-	public String home(@AuthenticationPrincipal User user, Model model) {
-		log.info("[HOME] - User: {}", user != null ? user.getUsername() : "Anonymous");
-		
-		List<BoardList> commentList = myBoardService.getBest5("comment");
-		List<BoardList> likeList = myBoardService.getBest5("like");
-		
-		model.addAttribute("like", likeList);
-		model.addAttribute("comment", commentList);
-		return "view/index";
-	}
+    private final MyBoardService myBoardService;
+    private final CommonDao commonDao;
 
-	@GetMapping("/common/image/{fileId}")
-	public ResponseEntity<UrlResource> downloadFile(@PathVariable Long fileId) {
-		MgvFile mgvFile = commonDao.getMgvFile(fileId);
-		if (mgvFile == null) {
-			return ResponseEntity.badRequest().build();
-		}
+    @Value("${default-file-path}")
+    private String defaultFilePath;
 
-		Path filePath = Paths.get(mgvFile.getUploadPath(), File.separator, mgvFile.getStoredName());
-		UrlResource resource;
-		try {
-			resource = new UrlResource(filePath.toUri());
-		} catch (MalformedURLException e) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+    @GetMapping("/")
+    public String home(@AuthenticationPrincipal User user, Model model) {
+        log.info("[HOME] - User: {}", user != null ? user.getUsername() : "Anonymous");
 
-		String contentType;
-		try {
-			contentType = Files.probeContentType(filePath);
-		} catch (IOException e) {
-			contentType = "application/octet-stream";
-		}
+        List<BoardList> commentList = myBoardService.getBest5("comment");
+        List<BoardList> likeList = myBoardService.getBest5("like");
 
-		return ResponseEntity.ok()
-			.contentType(MediaType.parseMediaType(contentType))
-			.body(resource);
-	}
+        model.addAttribute("like", likeList);
+        model.addAttribute("comment", commentList);
+        return "view/index";
+    }
+
+    @GetMapping("/common/image/{fileId}")
+    public ResponseEntity<UrlResource> downloadFile(@PathVariable Long fileId) {
+        MgvFile mgvFile = commonDao.getMgvFile(fileId);
+        if (mgvFile == null) {
+            return noImage();
+        }
+        try {
+            Path filePath = Paths.get(mgvFile.getUploadPath(), File.separator, mgvFile.getStoredName());
+            if(!new File(filePath.toUri()).exists()) return noImage();
+            UrlResource resource = new UrlResource(filePath.toUri());
+            String contentType = Files.probeContentType(filePath);
+            return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .body(resource);
+        } catch (IOException e) {
+            return noImage();
+        }
+    }
+
+    public ResponseEntity<UrlResource> noImage() {
+        Path filePath = Paths.get(defaultFilePath, File.separator, "no-image.jpg");
+        try {
+            UrlResource resource = new UrlResource(filePath.toUri());
+            return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType("image/jpeg"))
+                .body(resource);
+        } catch (MalformedURLException e) {
+            return ResponseEntity.noContent().build();
+        }
+    }
 }
