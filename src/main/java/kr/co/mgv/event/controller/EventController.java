@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.co.mgv.event.dto.EventList;
 import kr.co.mgv.event.service.EventService;
+import kr.co.mgv.event.vo.Event;
 
 @Slf4j
 @Controller
@@ -49,30 +50,53 @@ public class EventController {
     }
 
     @GetMapping("/list")
-    public String list(@RequestParam(defaultValue = "1") String catNo) {
+    public String list(@RequestParam(name = "catNo", required = false, defaultValue= "1") int catNo,
+    				@RequestParam(name = "status", required = false, defaultValue = "") String status,
+    				@RequestParam(name = "keyword", required = false) String keyword,
+    				Model model) {
+    	
+    	Map<String, Object> param = new HashMap<>();
+    	param.put("catNo", catNo);
+    	param.put("status", "run");
+    	param.put("page", 1);
+    	
+    	
+    	if (StringUtils.hasText(keyword)) {
+    		param.put("keyword", keyword);
+    	}
+    	
+    	EventList eventList = eventService.search(param);
+    	model.addAttribute("result", eventList);
+    	
         log.info("[Event] - list: {}", catNo);
         return "view/event/list";
     }
 
-//    @GetMapping("/end")
-//    public String endList() {
-//        return "view/event/end-list";
+//    @GetMapping("/detail/{eventNo}")
+//    public String detail(@PathVariable String eventNo) {
+//        log.info("[Event] - Detail: {}", eventNo);
+//        return "view/event/detail";
 //    }
-//
-//    @GetMapping("/winner/list")
-//    public String winnerList() {
-//        return "view/event/winner-list";
-//    }
-//
-//    @GetMapping("/winner/detail")
-//    public String winnerList(@RequestParam String eventNo) {
-//        return "view/event/winner-detail";
-//    }
-
-    @GetMapping("/detail/{eventNo}")
-    public String detail(@PathVariable String eventNo) {
-        log.info("[Event] - Detail: {}", eventNo);
-        return "view/event/detail";
+    
+    @GetMapping("/detail")
+    public String getEventDetail(@RequestParam("no") int eventNo, Model model) {
+    	Event event = eventService.getEventByNo(eventNo);
+    	model.addAttribute("event", event);
+    	
+    	return "/view/event/detail";
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
