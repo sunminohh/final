@@ -14,6 +14,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/booking")
@@ -36,8 +37,8 @@ public class BookingRestController {
     }
 
 
-    @GetMapping("/step0")
-    public Map<String, Object> xxx(@AuthenticationPrincipal User user, @RequestParam("schedulId") int scheduleId){
+    @GetMapping("/fromStep0toStep1")
+    public Map<String, Object> fromStep0toStep1(@AuthenticationPrincipal User user, @RequestParam("schedulId") int scheduleId){
         Map<String, Object> map = new HashMap<>();
         if (user == null) {
             map.put("result", "fail");
@@ -86,6 +87,7 @@ public class BookingRestController {
             booking.setUserName(user.getName());
             if(booking.getPayAmount()==0){
                 map.put("result","success");
+                booking.setPayMethod("관람권");
             try{
                 bookingService.insertBooking(booking);
                 return map;
@@ -96,6 +98,9 @@ public class BookingRestController {
                 return map;
             }
         }else{
+                if(booking.getGiftAmount()>0){
+                    booking.setPayMethod(booking.getPayMethod()+", 관람권");
+                }
             map.put("result","pending");
             bookingService.insertBooking(booking);
             return map;
@@ -103,4 +108,23 @@ public class BookingRestController {
 
 
         }
+
+        @GetMapping("/getBookedSeats")
+        public List<String> getBookedSeats(@RequestParam("scheduleId") int scheduleId){
+            return bookingService.getBookedSeatsByScheduleId(scheduleId);
+        }
+        @GetMapping("insertBookedSeats")
+        public String insertBookedSeats(@RequestParam("seatNos") String seatNos, @RequestParam("scheduleId") int scheduleId){
+            List<String> params= Arrays.stream(seatNos.split(",")).collect(Collectors.toList());
+            params.add(0, scheduleId+"");
+            bookingService.insertBookedSeats(params);
+            return "success";
+        }
+    @GetMapping("deleteBookedSeats")
+    public String deleteBookedSeats(@RequestParam("seatNos") String seatNos, @RequestParam("scheduleId") int scheduleId){
+        List<String> params= Arrays.stream(seatNos.split(",")).collect(Collectors.toList());
+        params.add(0, scheduleId+"");
+        bookingService.deleteBookedSeats(params);
+        return "success";
+    }
 }
