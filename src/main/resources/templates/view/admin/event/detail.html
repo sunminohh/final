@@ -49,6 +49,12 @@
           <a id ="modify-btn" class="button large"
           		th:href="@{/admin/event/modifyform(no=${param.no},page=${param.page}, status=${param.status}, catNo=${param.catNo}, keyword=${param.keyword})}">수정
 		  </a>
+<<<<<<< HEAD
+		  <a class="button large listBtn" title="목록"
+		  		th:href="@{/admin/event/list}">목록</a>
+          <a id = "delete-btn"
+          	 class="button large"
+=======
 		  
 		  <a class="button large listBtn" title="목록"
 		  	th:href="@{/admin/event/list(page=${param.page}, status=${param.status}, catNo=${param.catNo}, keyword=${param.keyword})}"
@@ -56,6 +62,7 @@
            
           <a id = "delete-btn" class="button large"
           	th:href="@{/admin/event/delete(no=${param.no})}"
+>>>>>>> develop
           	>삭제
 		  </a>
         </div>
