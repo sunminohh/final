@@ -92,10 +92,16 @@ public class UserController {
     }
 
     @PostMapping("/upload")
-    public String updateUploadImg(@AuthenticationPrincipal User user, UserUpdateForm form) {
-        userService.updateUploadProfile(user.getId(), form.getFile());
-        log.info("Controller - inputFileName -> {}", form.getFile());
-        return "redirect:/mypage/form";
+    public ResponseEntity<?> updateUploadImg(@AuthenticationPrincipal User user, UserUpdateForm form) {
+        try {
+            String newImgPath = userService.updateUploadProfile(user.getId(), form.getFile());
+            log.info("Controller - inputFileName -> {}", newImgPath);
+            return ResponseEntity.ok(newImgPath);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping("/deleteImg")

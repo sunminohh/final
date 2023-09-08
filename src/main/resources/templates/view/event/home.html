@@ -13,7 +13,25 @@
         </div>
     </div>
     <div id="contents">
-        <div th:replace="~{ fragments/event/sub-header :: sub-header }"></div>
+    <div class="inner-wrap">
+	    <h2 class="tit">이벤트</h2>
+	    <div class="tab-list fixed">
+	        <ul>
+	            <li th:classappend="${#strings.equals(param.catNo, null)} ? 'on' : ''">
+	                <a th:href="@{/event}" title="전체">전체</a>
+	            </li>
+	            <li th:classappend="${#strings.equals(param.catNo, '2')} ? 'on' : ''">
+	                <a th:href="@{/event/list(catNo=2)}" title="MGV Pick 탭으로 이동">MGV Pick</a>
+	            </li>
+	            <li th:classappend="${#strings.equals(param.catNo, '3')} ? 'on' : ''">
+	                <a th:href="@{/event/list(catNo=3)}" title="영화 탭으로 이동">영화</a>
+	            </li>
+	            <li th:classappend="${#strings.equals(param.catNo, '4')} ? 'on' : ''">
+	                <a th:href="@{/event/list(catNo=4)}" title="극장 탭으로 이동">극장</a>
+	            </li>
+	        </ul>
+	    </div>
+	</div>
         <!--
         <div id="divTopArea" class="event-slider">
             <div class="inner-wrap">
@@ -311,44 +329,13 @@
                 </div>
                 <div class="event-list mt15">
                     <ul>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="13733" data-netfunnel="N" class="eventBtn" title="메가박스 오리지널 티켓 No.85 <밀수> 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
+                        <li th:each="event, iterStat : ${result.eventList}" th:if="${event.category.no == 2 && iterStat.index <= 7}" >
+                            <a th:href="@{/event/detail/1}" class="eventBtn">
                                 <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/24/8kLSdvQNS088J1XownX9X1z65s0XlFuU.jpg" alt="메가박스 오리지널 티켓 No.85 <밀수>" onerror="noImg(this);">
+                                    <img th:src="@{|/images/event/${event.mainImage}|}" onerror="noImg(this);">
                                 </p>
-                                <p class="tit"> 메가박스 오리지널 티켓 No.85 &lt;밀수&gt; </p>
-                                <p class="date"> 2023.07.24 ~ 2023.08.31 </p>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="13742" data-netfunnel="N" class="eventBtn" title="[수원AK플라자] 그랜드 오픈 페스타 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/25/RNps5kd9tZ7NEKW8sebuofKvGkVzuDOV.jpg" alt="[수원AK플라자] 그랜드 오픈 페스타" onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> [수원AK플라자] 그랜드 오픈 페스타 </p>
-                                <p class="date"> 2023.07.21 ~ 2023.08.31 </p>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="13700" data-netfunnel="N" class="eventBtn" title="떠나자 영화 바캉스! 릴레이 개봉 러쉬🌊 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/18/c7XfKnxvnEEFUohZWJv1G7tpRaLhThKP.jpg" alt="떠나자 영화 바캉스! 릴레이 개봉 러쉬🌊" onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> 떠나자 영화 바캉스! 릴레이 개봉 러쉬🌊 </p>
-                                <p class="date"> 2023.07.19 ~ 2023.08.31 </p>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="13689" data-netfunnel="N" class="eventBtn" title="메가박스 오리지널 티켓 No.84 <바비> 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/17/AQyXcYHojECb6saGhw8rhrifuoSK0Hhf.jpg" alt="메가박스 오리지널 티켓 No.84 <바비>" onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> 메가박스 오리지널 티켓 No.84 &lt;바비&gt; </p>
-                                <p class="date"> 2023.07.19 ~ 2023.08.31 </p>
+                                <p class="tit" th:text="${event.title}"></p>
+                                <p class="date" th:text="${#dates.format(event.startDate, 'yyyy.MM.dd') + ' ~ ' + #dates.format(event.endDate, 'yyyy.MM.dd')}"></p>
                             </a>
                         </li>
                     </ul>
@@ -362,44 +349,13 @@
                 </div>
                 <div class="event-list mt15">
                     <ul>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="13676" data-netfunnel="N" class="eventBtn" title="[고대 이집트의 발견] 강연 안내 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
+                        <li th:each="event, iterStat: ${result.eventList}" th:if="${event.category.no == 3 && iterStat.index <= 7}">
+                            <a th:href="@{/event/detail/1}" class="eventBtn">
                                 <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/17/DhzbGxgXNQJIFZ9r9wCtqrLtNyJfDUHw.jpg" alt="[고대 이집트의 발견] 강연 안내" onerror="noImg(this);">
+                                    <img th:src="@{|/images/event/${event.mainImage}|}" onerror="noImg(this);">
                                 </p>
-                                <p class="tit"> [고대 이집트의 발견] 강연 안내 </p>
-                                <p class="date"> 2023.08.21 ~ 2023.09.23 </p>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="13699" data-netfunnel="N" class="eventBtn" title="[2023 사건 읽는 영화관] 9월의 사건 : ep07. 암수살인 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/18/X5fYj81iocuFaNXFh4vOEmFJGBMxzA9f.jpg" alt="[2023 사건 읽는 영화관] 9월의 사건 : ep07. 암수살인" onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> [2023 사건 읽는 영화관] 9월의 사건 : ep07. 암수살인 </p>
-                                <p class="date"> 2023.08.20 ~ 2023.08.20 </p>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="13743" data-netfunnel="N" class="eventBtn" title="<밀수> 메가토크 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/25/qSAzqjwS95bzF3OL3iKqFrl2uEowqEYi.jpg" alt="<밀수> 메가토크" onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> &lt;밀수&gt; 메가토크 </p>
-                                <p class="date"> 2023.08.08 ~ 2023.08.08 </p>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="13754" data-netfunnel="N" class="eventBtn" title="<비공식작전> 개봉주 현장 증정 이벤트 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/27/nc9tyZzM3b616DeBGLkQVsnW9nSbaMCk.jpg" alt="<비공식작전> 개봉주 현장 증정 이벤트" onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> &lt;비공식작전&gt; 개봉주 현장 증정 이벤트 </p>
-                                <p class="date"> 2023.08.02 ~ 2023.08.16 </p>
+                                <p class="tit" th:text="${event.title}"></p>
+                                <p class="date" th:text="${#dates.format(event.startDate, 'yyyy.MM.dd') + ' ~ ' + #dates.format(event.endDate, 'yyyy.MM.dd')}"></p>
                             </a>
                         </li>
                     </ul>
@@ -413,49 +369,18 @@
                 </div>
                 <div class="event-list mt15">
                     <ul>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="13594" data-netfunnel="N" class="eventBtn" title="[목동] 리뉴얼 오픈 기념 이벤트 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
+                        <li th:each="event, iterStat: ${result.eventList}" th:if="${event.category.no == 4 && iterStat.index <= 7}">
+                            <a th:href="@{/event/detail/1}" class="eventBtn">
                                 <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/06/30/8Wn3auNq9MoN128Dy5j6074n1dfktnDk.jpg" alt="[목동] 리뉴얼 오픈 기념 이벤트" onerror="noImg(this);">
+                                    <img th:src="@{|/images/event/${event.mainImage}|}" onerror="noImg(this);">
                                 </p>
-                                <p class="tit"> [목동] 리뉴얼 오픈 기념 이벤트 </p>
-                                <p class="date"> 2023.07.01 ~ 2023.07.31 </p>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="13755" data-netfunnel="N" class="eventBtn" title="[세종(조치원)] 포대팝콘이 떴다! 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/27/qO8EgyQALuEXlk4Z9j12iJWMCGVSTyrc.jpg" alt="[세종(조치원)] 포대팝콘이 떴다!" onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> [세종(조치원)] 포대팝콘이 떴다! </p>
-                                <p class="date"> 2023.07.27 ~ 2023.08.31 </p>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="13753" data-netfunnel="N" class="eventBtn" title="[영통] 일반요금으로 MX관에서 관람하자! 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/27/QIig99cIps6kAkVRpP8h4JpMEk5mUEdt.jpg" alt="[영통] 일반요금으로 MX관에서 관람하자!" onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> [영통] 일반요금으로 MX관에서 관람하자! </p>
-                                <p class="date"> 2023.07.26 ~ 2023.08.31 </p>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/event/detail/1}" data-no="13716" data-netfunnel="N" class="eventBtn" title="[춘천석사] 멤버십가입하고 매일할인받자! 상세보기">
-                                <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-                                <p class="img">
-                                    <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/21/4tyISgcKiQH4YxeDhb3MnNJWR7adq4bW.jpg" alt="[춘천석사] 멤버십가입하고 매일할인받자!" onerror="noImg(this);">
-                                </p>
-                                <p class="tit"> [춘천석사] 멤버십가입하고 매일할인받자! </p>
-                                <p class="date"> 2023.07.21 ~ 2023.12.31 </p>
+                                <p class="tit" th:text="${event.title}"></p>
+                                <p class="date" th:text="${#dates.format(event.startDate, 'yyyy.MM.dd') + ' ~ ' + #dates.format(event.endDate, 'yyyy.MM.dd')}"></p>
                             </a>
                         </li>
                     </ul>
                 </div>
-               
+                
             </div>
         </div>
     </div>
