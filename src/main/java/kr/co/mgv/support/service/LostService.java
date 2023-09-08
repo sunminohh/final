@@ -59,7 +59,7 @@ public class LostService {
 			email = lost.getGuestEmail();
 		}
 		
-		emailService.sendTempqnaMessage(email);
+		emailService.sendTempqnaMessage(email, lost.getContent(), content);
 	}
 	
 	public void deleteComment(int commentNo) {

@@ -9,8 +9,7 @@
         <div class="inner-wrap">
             <div class="location">
                 <span>Home</span>
-                <a href="/event" title="이벤트 메인 페이지로 이동">이벤트</a>
-                <a href="/event" title="진행중 이벤트 페이지로 이동">진행중 이벤트</a>
+                <a th:href="@{/event}" title="이벤트 메인 페이지로 이동">이벤트</a>
             </div>
         </div>
     </div>
@@ -334,7 +333,7 @@
                 <div class="event-list mt15">
                     <ul>
                         <li th:each="event, iterStat : ${mgvResult.eventList}"  >
-                            <a th:href="@{/event/detail/1}" class="eventBtn">
+                            <a th:href="@{/event/detail(no=${event.no},page=${param.page}, status=${param.status}, catNo=${param.catNo}, keyword=${param.keyword})}" class="eventBtn">
                                 <p class="img">
                                     <img th:src="@{|/images/event/${event.mainImage}|}" onerror="noImg(this);">
                                 </p>
@@ -354,7 +353,7 @@
                 <div class="event-list mt15">
                     <ul>
                         <li th:each="event, iterStat: ${theatorResult.eventList}">
-                            <a th:href="@{/event/detail/1}" class="eventBtn">
+                            <a th:href="@{/event/detail(no=${event.no},page=${param.page}, status=${param.status}, catNo=${param.catNo}, keyword=${param.keyword})}" class="eventBtn">
                                 <p class="img">
                                     <img th:src="@{|/images/event/${event.mainImage}|}" onerror="noImg(this);">
                                 </p>
@@ -374,7 +373,7 @@
                 <div class="event-list mt15">
                     <ul>
                         <li th:each="event, iterStat: ${movieResult.eventList}" >
-                            <a th:href="@{/event/detail/1}" class="eventBtn">
+                            <a th:href="@{/event/detail(no=${event.no},page=${param.page}, status=${param.status}, catNo=${param.catNo}, keyword=${param.keyword})}" class="eventBtn">
                                 <p class="img">
                                     <img th:src="@{|/images/event/${event.mainImage}|}" onerror="noImg(this);">
                                 </p>

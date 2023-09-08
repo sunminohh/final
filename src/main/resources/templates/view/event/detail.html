@@ -1,33 +1,23 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default}">
 <head th:fragment="extra-head-content">
-    <title>이벤트</title>
+   	<title>이벤트</title>
+    <script type="text/javascript" th:src="@{/js/event/detail.js}"></script>    
 </head>
 <div layout:fragment="content" id="schdlContainer">
     <div class="page-util">
         <div class="inner-wrap">
-            <div class="location">
-                <span>Home</span>
-                <a href="/event" title="진행중 이벤트 페이지로 이동">이벤트</a>
-                <a href="javascript:void(0)" title="이벤트 상세">이벤트 상세</a>
+            <div class="d-flex justify-content-between ">
+            	<div class="location">
+	                <span>Home</span>
+	                <a th:href="@{/event}" title="이벤트 메인 페이지로 이동">이벤트</a>
+	                <a title="이벤트 상세">이벤트 상세</a>
+            	</div>
+	            <div class="sns-share">
+	                <button class="btn btn-outline-white btn-sm mb-2" id="link-btn" style="border: none; " 
+                    data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="URL이 클립보드에 복사되었습니다."
+                    >공유하기<i class="iconset ico-share-toggle"></i></button>
+	            </div>
             </div>
-            <!--  
-            <div class="sns-share">
-                <div class="btn-sns-share-wrap">
-                    <div class="cont-area">
-                        <div class="btn-sns-share-group">
-                            <button type="button" title="페이스북 공유하기" class="btn btnSns face">페이스북
-                            </button>
-                            <button type="button" title="밴드 공유하기" class="btn btnSns band">밴드
-                            </button>
-                            <button type="button" title="트위터 공유하기" class="btn btnSns twitter">트위터
-                            </button>
-                            <button type="button" title="링크 공유하기" class="btn btnSns link">링크공유
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            -->
         </div>
     </div>
     <div id="contents">
