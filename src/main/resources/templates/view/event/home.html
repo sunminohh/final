@@ -1,5 +1,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default}">
 <head th:fragment="extra-head-content">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script th:src="@{/js/event/home.js}"></script>
     <title>이벤트</title>
 </head>
 <div layout:fragment="content">
@@ -7,30 +9,31 @@
         <div class="inner-wrap">
             <div class="location">
                 <span>Home</span>
-                <a href="/event" title="이벤트 메인 페이지로 이동">이벤트</a>
-                <a href="/event" title="진행중 이벤트 페이지로 이동">진행중 이벤트</a>
+                <a th:href="@{/event}" title="이벤트 메인 페이지로 이동">이벤트</a>
             </div>
         </div>
     </div>
     <div id="contents">
     <div class="inner-wrap">
 	    <h2 class="tit">이벤트</h2>
+	    <form method="get" id="actionForm" th:action="@{list}">
 	    <div class="tab-list fixed">
 	        <ul>
-	            <li th:classappend="${#strings.equals(param.catNo, null)} ? 'on' : ''">
+	            <li data-cat-no="1" th:classappend="${param.catNo == null || #strings.equals(param.catNo, '1') ? 'on' : ''}">
 	                <a th:href="@{/event}" title="전체">전체</a>
 	            </li>
-	            <li th:classappend="${#strings.equals(param.catNo, '2')} ? 'on' : ''">
+	            <li data-cat-no="2" th:classappend="${#strings.equals(param.catNo, '2') ? 'on' : ''}">
 	                <a th:href="@{/event/list(catNo=2)}" title="MGV Pick 탭으로 이동">MGV Pick</a>
 	            </li>
-	            <li th:classappend="${#strings.equals(param.catNo, '3')} ? 'on' : ''">
+	            <li data-cat-no="3" th:classappend="${#strings.equals(param.catNo, '3') ? 'on' : ''}">
 	                <a th:href="@{/event/list(catNo=3)}" title="영화 탭으로 이동">영화</a>
 	            </li>
-	            <li th:classappend="${#strings.equals(param.catNo, '4')} ? 'on' : ''">
+	            <li data-cat-no="4" th:classappend="${#strings.equals(param.catNo, '4') ? 'on' : ''}">
 	                <a th:href="@{/event/list(catNo=4)}" title="극장 탭으로 이동">극장</a>
 	            </li>
 	        </ul>
 	    </div>
+	    </form>
 	</div>
         <!--
         <div id="divTopArea" class="event-slider">
@@ -323,14 +326,14 @@
                 <div class="tit-util mt70">
                     <h3 class="tit">MGV Pick</h3>
                     <div class="right">
-                        <a href="javascript:fn_chgEventTab('CED03')" title="더보기">더보기 <i class="iconset ico-arr-right-gray ml05"></i>
+                        <a th:href="@{/event/list(catNo=2)}" title="더보기">더보기 <i class="iconset ico-arr-right-gray ml05"></i>
                         </a>
                     </div>
                 </div>
                 <div class="event-list mt15">
                     <ul>
-                        <li th:each="event, iterStat : ${result.eventList}" th:if="${event.category.no == 2 && iterStat.index <= 7}" >
-                            <a th:href="@{/event/detail/1}" class="eventBtn">
+                        <li th:each="event, iterStat : ${mgvResult.eventList}"  >
+                            <a th:href="@{/event/detail(no=${event.no},page=${param.page}, status=${param.status}, catNo=${param.catNo}, keyword=${param.keyword})}" class="eventBtn">
                                 <p class="img">
                                     <img th:src="@{|/images/event/${event.mainImage}|}" onerror="noImg(this);">
                                 </p>
@@ -343,14 +346,14 @@
                 <div class="tit-util mt70">
                     <h3 class="tit">영화</h3>
                     <div class="right">
-                        <a href="javascript:fn_chgEventTab('CED01')" title="더보기">더보기 <i class="iconset ico-arr-right-gray ml05"></i>
+                        <a th:href="@{/event/list(catNo=3)}" title="더보기">더보기 <i class="iconset ico-arr-right-gray ml05"></i>
                         </a>
                     </div>
                 </div>
                 <div class="event-list mt15">
                     <ul>
-                        <li th:each="event, iterStat: ${result.eventList}" th:if="${event.category.no == 3 && iterStat.index <= 7}">
-                            <a th:href="@{/event/detail/1}" class="eventBtn">
+                        <li th:each="event, iterStat: ${theatorResult.eventList}">
+                            <a th:href="@{/event/detail(no=${event.no},page=${param.page}, status=${param.status}, catNo=${param.catNo}, keyword=${param.keyword})}" class="eventBtn">
                                 <p class="img">
                                     <img th:src="@{|/images/event/${event.mainImage}|}" onerror="noImg(this);">
                                 </p>
@@ -363,14 +366,14 @@
                 <div class="tit-util mt70">
                     <h3 class="tit">극장</h3>
                     <div class="right">
-                        <a href="javascript:fn_chgEventTab('CED02')" title="더보기">더보기 <i class="iconset ico-arr-right-gray ml05"></i>
+                        <a th:href="@{/event/list(catNo=4)}" title="더보기">더보기 <i class="iconset ico-arr-right-gray ml05"></i>
                         </a>
                     </div>
                 </div>
                 <div class="event-list mt15">
                     <ul>
-                        <li th:each="event, iterStat: ${result.eventList}" th:if="${event.category.no == 4 && iterStat.index <= 7}">
-                            <a th:href="@{/event/detail/1}" class="eventBtn">
+                        <li th:each="event, iterStat: ${movieResult.eventList}" >
+                            <a th:href="@{/event/detail(no=${event.no},page=${param.page}, status=${param.status}, catNo=${param.catNo}, keyword=${param.keyword})}" class="eventBtn">
                                 <p class="img">
                                     <img th:src="@{|/images/event/${event.mainImage}|}" onerror="noImg(this);">
                                 </p>

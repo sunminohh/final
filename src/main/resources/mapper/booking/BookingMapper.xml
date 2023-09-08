@@ -62,4 +62,39 @@
             PAYMENT_KEY         = #{paymentKey}
         where BOOKING_NO = #{no}
     </update>
+
+    <insert id="insertBookedSeats" parameterType="map">
+        insert into MGV_BOOKED_SEATS (SCHEDULE_ID,SEAT_NO)
+        values
+        <foreach collection="seatNos" item="item" index="index" separator=",">
+            (#{scheduleId},#{item})
+        </foreach>
+    </insert>
+    <delete id="deleteBookedSeats" parameterType="map">
+        delete
+            from MGV_BOOKED_SEATS
+        WHERE SCHEDULE_ID =#{scheduleId} and SEAT_NO IN
+        <foreach collection="seatNos" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+
+    </delete>
+
+    <select id="getBookedSeatsByScheduleId" parameterType="int" resultType="string">
+        select SEAT_NO as seatNo
+        from MGV_BOOKED_SEATS
+        where SCHEDULE_ID=#{VALUE}
+    </select>
+    <update id="completeBookedSeats" parameterType="map">
+            update MGV_BOOKED_SEATS
+            SET
+            IS_COMPLETE = 1,
+            BOOKING_NO  = #{bookingNo}
+            where
+            SCHEDULE_ID =#{scheduleId} and SEAT_NO =#{seatNo}
+    </update>
+    <delete id="clearTimeOutBookedSeats">
+        delete from MGV_BOOKED_SEATS
+        WHERE IS_COMPLETE = 0 AND TIMESTAMPDIFF(SECOND,CREATE_DATE,CURRENT_TIMESTAMP)>60;
+    </delete>
 </mapper>

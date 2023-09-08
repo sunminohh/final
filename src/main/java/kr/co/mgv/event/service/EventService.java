@@ -3,6 +3,7 @@ package kr.co.mgv.event.service;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import kr.co.mgv.common.file.FileUtils;
@@ -20,6 +21,9 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class EventService {
 
+	@Value("${resources.images.event-folder}")
+	private String eventImageDirectory;
+	
 	private final EventDao eventDao;
 	private final FileUtils fileUtils;
 	
@@ -27,8 +31,8 @@ public class EventService {
 		
 		Event event = eventDao.getEventByNo(eventNo);
 		
-		String saveMainImageFilename = fileUtils.saveFile("static/images/event", form.getFile1());
-		String saveDetailImageFilename = fileUtils.saveFile("static/images/event", form.getFile2());
+		String saveMainImageFilename = fileUtils.saveFile(eventImageDirectory, form.getFile1());
+		String saveDetailImageFilename = fileUtils.saveFile(eventImageDirectory, form.getFile2());
 		
 		event.setTitle(form.getTitle());
 		event.setStartDate(form.getStartDate());
@@ -53,8 +57,8 @@ public class EventService {
 								.no(form.getCategoryNo())
 								.build();
 
-		String saveMainImageFilename = fileUtils.saveFile("static/images/event", form.getFile1());
-		String saveDetailImageFilename = fileUtils.saveFile("static/images/event", form.getFile2());
+		String saveMainImageFilename = fileUtils.saveFile(eventImageDirectory, form.getFile1());
+		String saveDetailImageFilename = fileUtils.saveFile(eventImageDirectory, form.getFile2());
 				
 		
 		Event event = Event.builder()
@@ -78,10 +82,8 @@ public class EventService {
 		SupportPagination pagination = new SupportPagination(page, totalRows);
 		
 		int begin = pagination.getBegin();
-		int end = pagination.getEnd();
 		
 		param.put("begin", begin);
-		param.put("end", end);
 		List<Event> eventList = eventDao.getEventList(param);
 		EventList result = new EventList();
 		

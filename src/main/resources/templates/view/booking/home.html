@@ -1041,15 +1041,8 @@
                                         <span>2023.07.31</span>
                                         <em>(월)</em>
                                     </p>
-                                    <div class="other-time">
-                                        <button type="button" class="now">08:55~10:54 <i class="arr"></i>
-                                        </button>
-                                        <ul class="other">
-                                            <li>
-                                                <button type="button" choicnt="90" playschdlno="2307311372034" class="btn on ">08:55~10:54</button>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                    <p type="button" class="now">08:55~10:54
+                                    </p>
                                     <p class="poster">
                                     </p>
                                 </div>
@@ -1364,6 +1357,24 @@
                         <button type="button" class="btn-modal-close" id="btn_gift_close_x">레이어 닫기<!-- 레이어 닫기 --></button>
                     </div>
                 </section>
+
+                <th:block th:if="${'login' == fail}">
+                    <div id="login-fail-alert-style" class="alertStyle" style="display:block; position: fixed; top: 0px; left: 0px; background: rgb(0, 0, 0); opacity: 0.7; width: 100%; height: 100%; z-index: 5005;"></div>
+                    <section id="login-fail-alert" class="alert-popup" style="display:block;position: fixed; padding-top: 45px; background: rgb(255, 255, 255); z-index: 5006; top: 288.5px; left: 482.5px; width: 400px; opacity: 1;">
+                        <div class="wrap">
+                            <header class="layer-header"><h3 class="tit">알림</h3></header>
+                            <div class="layer-con" style="height:250px"><p class="txt-common">로그인 세션이 만료되었습니다.</p>
+                                <div class="btn-group" style="display: flex;justify-content: center;">
+                                    <button type="button" class="button purple confirm">확인</button>
+                                </div>
+                            </div>
+                            <button type="button" class="btn-layer-close">레이어 닫기</button>
+                        </div>
+                    </section>
+
+                </th:block>
+
+
             </div>
 
         </div>

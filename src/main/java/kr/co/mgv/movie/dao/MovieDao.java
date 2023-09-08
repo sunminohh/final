@@ -20,4 +20,5 @@ public interface MovieDao {
     public void incrementMovieLikes(int movieNo);
     public void decrementMovieLikes(int movieNo);
     public void insertMovieCollect(List<MovieCollect> movieCollects);
+    public void saveMovie(Movie movie);
 }

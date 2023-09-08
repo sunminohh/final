@@ -130,7 +130,9 @@
 			</if>
 		order by
 			A.EVENT_NO DESC
-		LIMIT 10 OFFSET #{begin}
+		<if test="begin != null and end != null">
+		LIMIT #{end} OFFSET #{begin}
+		</if>
 	</select>
 	
 	<select id="getCategories" parameterType="string" resultType="kr.co.mgv.event.vo.EventCategory">

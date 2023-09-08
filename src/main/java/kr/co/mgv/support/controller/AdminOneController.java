@@ -119,21 +119,6 @@ public class AdminOneController {
 		return ResponseEntity.ok().body(inputComments);
 	}
 	
-	@PostMapping("/mail")
-    @ResponseBody
-    public ResponseEntity<String> mailConfirm(@RequestParam("email") String email, HttpSession session) {
-        try {
-            String content = emailService.sendTempqnaMessage(email);
-            log.info("메일내용 -> {}", content);
-
-            // 생성한 인증 코드를 세션에 저장
-            return ResponseEntity.ok().body("success");
-        } catch (Exception e) {
-            log.error("Error sending email", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("메일 전송 중 오류가 발생했습니다.");
-        }
-    }
-	
 	@PostMapping("/deleteComment")
 	@ResponseBody
 	public ResponseEntity<Integer> deleteComment(@AuthenticationPrincipal User user,
