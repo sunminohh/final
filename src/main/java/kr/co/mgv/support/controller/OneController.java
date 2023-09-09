@@ -1,10 +1,18 @@
 package kr.co.mgv.support.controller;
 
 
+import java.io.File;
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +28,6 @@ import kr.co.mgv.support.dto.OneList;
 import kr.co.mgv.support.form.AddOneForm;
 import kr.co.mgv.support.service.LostService;
 import kr.co.mgv.support.service.OneService;
-import kr.co.mgv.support.view.SupportFileDownloadView;
 import kr.co.mgv.support.vo.Lost;
 import kr.co.mgv.support.vo.LostComment;
 import kr.co.mgv.support.vo.LostFile;
@@ -38,7 +45,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class OneController {
 
-	private final SupportFileDownloadView supportFileDownloadView;
 	private final OneService oneService;
 	private final LostService lostService;
 	
@@ -121,18 +127,25 @@ public class OneController {
 	}
 	
 	@RequestMapping("/myinquery/download")
-	public ModelAndView download(@RequestParam("no") int fileNo) {
-		
+	public ResponseEntity<UrlResource> download(@RequestParam("no") int fileNo) {
 		OneFile oneFile = oneService.getOneFileByFileNo(fileNo);
-		ModelAndView mav = new ModelAndView();
-		
-		mav.setView(supportFileDownloadView);
-		
-		mav.addObject("directory", "static/images/support/one");
-		mav.addObject("saveName", oneFile.getSaveName());
-		mav.addObject("originalName", oneFile.getOriginalName());
-		
-		return mav;
+
+		if (oneFile == null) {
+			return ResponseEntity.badRequest().build();
+		}
+
+		Path filePath = Paths.get(oneFile.getUploadPath(), File.separator, oneFile.getSaveName());
+		UrlResource resource;
+		try {
+			resource = new UrlResource(filePath.toUri());
+		} catch (MalformedURLException e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		return ResponseEntity.ok()
+			.contentType(MediaType.parseMediaType("application/octet-stream"))
+			.header("content-disposition", "attachment;filename=" + oneFile.getOriginalName())
+			.body(resource);
 	}
 	
 	@GetMapping("/mylost/detail")

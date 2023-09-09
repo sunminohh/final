@@ -165,7 +165,7 @@ $(function() {
 
         $.ajax({
             type: "POST",
-            url: "/order/successPackage",
+            url: "/order/success",
             data: requestData
         })
 

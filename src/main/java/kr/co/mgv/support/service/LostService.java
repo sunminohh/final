@@ -4,6 +4,7 @@ package kr.co.mgv.support.service;
 import java.util.List;
 import java.util.Map;
 
+import kr.co.mgv.common.vo.MgvFile;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -31,8 +32,7 @@ public class LostService {
 	private final LostDao lostDao;
 	private final FileUtils fileUtils;
 	
-	@Value("${resources.images.lost-folder}")
-	private String lostImageDirectory;
+	private final static String LOST_IMAGE_DIRECTORY = "lost";
 	
 	public List<LostComment> getLostCommentsByLost(int lostNo) {
 		return lostDao.getLostCommentsByLost(lostNo);
@@ -107,13 +107,12 @@ public class LostService {
 		for (MultipartFile multipartFile : multipartFiles) {
 			String originalFilename = multipartFile.getOriginalFilename();
 			if (StringUtils.hasText(originalFilename)) {
-				String saveFilename = fileUtils.saveFile(lostImageDirectory, multipartFile);
-				
+				MgvFile saveFile = fileUtils.saveFile(LOST_IMAGE_DIRECTORY, multipartFile);
 				LostFile lostFile = new LostFile();
 				lostFile.setLost(lost);
 				lostFile.setOriginalName(originalFilename);
-				lostFile.setSaveName(saveFilename);
-				
+				lostFile.setSaveName(saveFile.getStoredName());
+				lostFile.setUploadPath(saveFile.getUploadPath());
 				lostDao.insertLostFile(lostFile);
 			}
 		}

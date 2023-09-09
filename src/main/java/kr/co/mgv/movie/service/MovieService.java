@@ -270,12 +270,12 @@ public class MovieService {
                     sb.append(poster[i]+" ");
                 }
                 posters=sb.toString();
+
+
                 JSONObject directorResult = (JSONObject)result.get("directors");
                 JSONArray directorResultArray = (JSONArray)directorResult.get("director");
                 directorResult=(JSONObject)directorResultArray.get(0);
                 String directorName=(String)directorResult.get("directorNm");
-
-
                 JSONObject plotResult = (JSONObject)result.get("plots");
                 JSONArray descriptionResultArray = (JSONArray)plotResult.get("plot");
                 plotResult=(JSONObject)descriptionResultArray.get(0);

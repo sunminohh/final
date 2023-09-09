@@ -1,25 +1,31 @@
 package kr.co.mgv.support.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import kr.co.mgv.common.vo.MgvFile;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.mgv.support.dao.LostDao;
 import kr.co.mgv.support.dto.LostList;
 import kr.co.mgv.support.form.AddLostForm;
 import kr.co.mgv.support.service.LostService;
-import kr.co.mgv.support.view.SupportFileDownloadView;
 import kr.co.mgv.support.vo.Lost;
 import kr.co.mgv.support.vo.LostComment;
 import kr.co.mgv.support.vo.LostFile;
@@ -35,7 +41,6 @@ import lombok.ToString;
 @ToString
 public class LostController {
 	
-	private final SupportFileDownloadView supportFileDownloadView;
 	private final LostService lostService;
 
 	@GetMapping
@@ -186,24 +191,29 @@ public class LostController {
 		
 		return "view/support/lost/detail";
 	}
-	
-	@RequestMapping("/download")
-	public ModelAndView download(@RequestParam("no") int fileNo) {
-		
+
+	@GetMapping("/download")
+	public ResponseEntity<UrlResource> download(@RequestParam("no") int fileNo) {
 		LostFile lostFile = lostService.getLostFileByFileNo(fileNo);
-		ModelAndView mav = new ModelAndView();
-		
-		mav.setView(supportFileDownloadView);
-		
-		mav.addObject("directory", "static/images/support/lost");
-		mav.addObject("saveName", lostFile.getSaveName());
-		mav.addObject("originalName", lostFile.getOriginalName());
-		
-		return mav;
+
+		if (lostFile == null) {
+			return ResponseEntity.badRequest().build();
+		}
+
+		Path filePath = Paths.get(lostFile.getUploadPath(), File.separator, lostFile.getSaveName());
+		UrlResource resource;
+		try {
+			resource = new UrlResource(filePath.toUri());
+		} catch (MalformedURLException e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		return ResponseEntity.ok()
+			.contentType(MediaType.parseMediaType("application/octet-stream"))
+			.header("content-disposition", "attachment;filename=" + lostFile.getOriginalName())
+			.body(resource);
 	}
-	
-	
-	
+
 	@GetMapping("/getLocation")
 	@ResponseBody
 	public List<Location> getLocations() {

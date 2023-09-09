@@ -16,18 +16,18 @@ import lombok.ToString;
 @Alias("Product")
 public class Product {
 
-	private int no;
+	private Integer no;
 	private String name;
-	private int originalPrice;
-	private int stock;
+	private Integer originalPrice;
+	private Integer stock;
 	private String soldOut;
 	private String description;
 	private Date createDate;
 	private Date updateDate;
-	private int discountedPrice;
+	private Integer discountedPrice;
 	private Category category;
 	private String imagePath;
-
+	private String packageInfo;
 	public Product(int no) {
 		this.no = no;
 	}

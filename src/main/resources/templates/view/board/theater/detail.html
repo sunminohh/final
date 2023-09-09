@@ -18,7 +18,7 @@
             </div>
         </div>
    </div>
-   <div class="container pt-4" style="width: 1150px;">
+   <div class="container pt-3" style="width: 1150px;">
 	   <div class="row mb-3">
 	      <div class="col-12 d-flex justify-content-between">
 	         <div>
@@ -31,27 +31,25 @@
 	   <div class="row mb-3">
 	      <div class="col-12">
 	         <div id="profile" class="pb-1 ">
-	            <div id="imgbox" class="float-start" >
+	            <div id="imgbox" class="float-start ms-2" >
 	               <a th:href="@{/board/user/list(id=${board.user.id})}">
 	                  <img id="profileimg" th:src="${board.user.profileImg != null ? '/images/user/profile/' + board.user.profileImg : '/images/user/profile/default.png'}" data-default-src="/images/user/profile/default.png">
 	               </a>
 	            </div>
 	            
 	            <div class="boardinfo ps-5">
-	               <div>
+	               <div class="ms-2">
 	                  <p ><strong th:text="${board.user.id}">작성자아이디</strong></p>
 	                  <p class="float-start" style="font-size: 12px; line-height: 15%; color: gray" th:utext="|${#dates.format(board.createDate, 'yyyy-MM-dd HH:mm')} / 조회 ${board.readCount}|">등록일자 | 조회 조회수&nbsp;</p>
 	               </div>
 	
-	
-	               <div class="d-flex justify-content-end me-5" style="position: relative; bottom:10px;">
-	                  <p  style="font-size : 12px; "><img alt="댓글이미지" th:src="@{/images/board/comment.png}" width="15px" height="15px;" > <strong id="ajax-comment-count" th:utext="${board.commentCount}">3</strong></p>
+	               <div class="d-flex justify-content-end" style="position: relative; bottom:10px;">
 	                  <div id="reload-box">
 	                  <form class="d-flex justify-content-end pe-4 me-3" 
-	                       th:action="@{/board/movie/changelike}"   
+	                       th:action="@{/board/theater/changelike}"   
 	                       method="post"
 	                       sec:authorize="isAuthenticated()"
-	                       style="position: absolute; bottom: 5px;"
+	                       style="position: absolute; bottom: 5px; right: -5px;"
 	                       id="like-btn-form"
 	                      >
 	                     <input type="hidden" name="no" th:value="${board.no}" />
@@ -60,10 +58,10 @@
 	                     <input type="hidden" name="writerId" th:value="${board.user.id}">
 	                     <button  th:if="${like == null || (like != null && #strings.equals(like.cancel, 'Y'))}" class="btn btn-ligth pe-1" type="button" id="like-button" style="color:red; border-color: white; font-size:16px" data-button-type="plus">♡</button>
 	                     <button  th:if="${like != null && #strings.equals(like.cancel, 'N')}" class="btn btn-ligth pe-1" type="button" id="like-button" style="color:red; border-color: white; font-size:16px"  data-button-type="minus">♥</button>
-	                     <p class="mt-3 pt-1" th:text="${board.likeCount}"></p>
+	                     <p class="mt-3 pt-1 fw-semibold" th:text="${board.likeCount}"></p>
 	                  </form>
-	                  
 	                  </div>
+	                  <p class="ms-1" style="font-size : 12px; "><img alt="댓글이미지" th:src="@{/images/board/comment.png}" width="15px" height="15px;" > <strong id="ajax-comment-count" th:utext="${board.commentCount}">3</strong></p>
 	               </div>
 	            </div>
 	         </div>
@@ -139,7 +137,7 @@
 	      
 	  <div class="quick-menu" id="quick-scroll">위로</div>
 	      
-	   <div class="row mb-3">
+	   <div class="row">
 	         <div class="col-12">
 	            <div class="comment-sort mb-5">
 	               <p class="fs-5 fw-semibold float-start me-2">댓글</p>

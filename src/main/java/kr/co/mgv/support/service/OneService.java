@@ -4,6 +4,7 @@ import java.util.List;
 
 import java.util.Map;
 
+import kr.co.mgv.common.vo.MgvFile;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -32,8 +33,7 @@ public class OneService {
 	private final OneDao oneDao;
 	private final FileUtils fileUtils;
 	
-	@Value("${resources.images.one-folder}")
-	private String oneImageDiretory;
+	private String ONE_IMAGE_DIRETORY = "one";
 	
 	public List<OneComment> getOneCommentByOne(int oneNo) {
 		return oneDao.getOneCommentsByOne(oneNo);
@@ -118,13 +118,12 @@ public class OneService {
 		for (MultipartFile multipartFile : multipartFiles) {
 			String originalFilename = multipartFile.getOriginalFilename();
 			if (StringUtils.hasText(originalFilename)) {
-				String saveFilename = fileUtils.saveFile(oneImageDiretory, multipartFile);
-				
+				MgvFile saveFile = fileUtils.saveFile(ONE_IMAGE_DIRETORY, multipartFile);
 				OneFile oneFile = new OneFile();
 				oneFile.setOne(one);
 				oneFile.setOriginalName(originalFilename);
-				oneFile.setSaveName(saveFilename);
-				
+				oneFile.setSaveName(saveFile.getStoredName());
+				oneFile.setUploadPath(saveFile.getUploadPath());
 				oneDao.insertOneFile(oneFile);
 			}
 		}

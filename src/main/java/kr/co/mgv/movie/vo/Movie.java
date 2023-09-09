@@ -1,11 +1,7 @@
 package kr.co.mgv.movie.vo;
 
 import kr.co.mgv.movie.util.DateUtils;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.apache.ibatis.type.Alias;
 
 import java.util.Arrays;
@@ -18,6 +14,7 @@ import java.util.stream.Collectors;
 @Getter
 @ToString
 @NoArgsConstructor
+@Builder
 @Alias("Movie")
 public class Movie {
 

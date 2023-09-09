@@ -16,4 +16,8 @@ public class Category {
 
 	private int no;
 	private String name;
+
+	public Category(int no){
+		this.no=no;
+	}
 }
