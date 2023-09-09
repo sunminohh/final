@@ -265,20 +265,28 @@ $(() => {
 						}
 
 					})
-				} else {
+				} 
+				if (data == 'success') {
 
 					Swal.fire({
 						icon: 'success',
 						text: '등록 되었습니다.',
 					})
-					$(this).toggleClass("on");
+					$("#favorBrch").addClass("on");
+				}
+				if (data == 'delete') {
+
+					Swal.fire({
+						icon: 'warning',
+						text: '취소 되었습니다.',
+					})
+					$("#favorBrch").removeClass("on");
 				}
 			}
 			}).fail(handleAjaxError);
 		
 		
 	})
-	
 	
 
 
