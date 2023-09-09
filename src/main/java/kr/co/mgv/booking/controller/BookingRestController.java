@@ -38,7 +38,7 @@ public class BookingRestController {
 
 
     @GetMapping("/fromStep0toStep1")
-    public Map<String, Object> fromStep0toStep1(@AuthenticationPrincipal User user, @RequestParam("schedulId") int scheduleId){
+    public Map<String, Object> fromStep0toStep1(@AuthenticationPrincipal User user, @RequestParam("scheduleId") int scheduleId){
         Map<String, Object> map = new HashMap<>();
         if (user == null) {
             map.put("result", "fail");

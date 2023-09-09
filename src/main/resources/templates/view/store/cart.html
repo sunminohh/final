@@ -8,6 +8,7 @@
 </head>
 <body>
 <div layout:fragment="content">
+    <script th:src="@{/js/store/payment.js}"></script>
         <div id="contents">
             <div class="inner-wrap">
                 <!-- store-payment -->
@@ -41,7 +42,7 @@
                             <tbody>
                             <tr th:each="cart : ${carts}" class="cart-item">
                                 <td class="a-c" th:if="${cart.getProduct()}">
-                                    <div class="goods-info" th:if="${cart.getProduct.getImagePath()}">
+                                    <div class="goods-info" th:if="${cart.getProduct.getImagePath()}" th:data="${cart.product.packageInfo}">
                                         <p class="img"><a th:href="@{/store/detail/product(productNo=${cart.getProduct().getNo()})}"><img th:src="${cart.getProduct().getImagePath()}" onerror="noImg(this);"></a></p>
                                     </div>
                                 </td>

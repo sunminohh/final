@@ -14,12 +14,24 @@
         </foreach>
     </insert>
 
-    <select id="getGiftTicketByNo" parameterType="Double" resultType="String">
+    <select id="checkGiftTicketByNo" parameterType="double" resultType="GiftTicketDto">
         SELECT
-            IS_USED
+            IS_USED as isUsed,
+            TIMESTAMPDIFF  (day,create_date,now())>365 as isExpired
         FROM
             MGV_GIFT_TICKET
         WHERE
-            GIFT_TICKET_NO = #{value}
+            GIFT_TICKET_NO = #{no}
     </select>
+
+    <update id="updateGiftTicket" parameterType="map">
+        update
+            MGV_GIFT_TICKET
+        SET
+            IS_USED = #{isUsed},
+            UPDATE_DATE = CURRENT_TIMESTAMP,
+            BOOKING_NO = #{bookingNo}
+        WHERE
+            GIFT_TICEKT_NO = #{giftTicketNo}
+    </update>
 </mapper>

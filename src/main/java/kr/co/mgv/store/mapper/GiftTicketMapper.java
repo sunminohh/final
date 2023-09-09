@@ -1,5 +1,6 @@
 package kr.co.mgv.store.mapper;
 
+import kr.co.mgv.store.dto.GiftTicketDto;
 import kr.co.mgv.store.vo.GiftTicket;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -9,5 +10,7 @@ import java.util.Map;
 public interface GiftTicketMapper {
 
     void insertGiftTickets(Map<String, Object> params);
-    Character getGiftticketByNo(int no);
+    GiftTicketDto checkGiftTicketByNo(long no);
+
+    void updateGiftTicket(Map<String,Object> params);
 }

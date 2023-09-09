@@ -5,6 +5,7 @@ import kr.co.mgv.store.service.OrderService;
 import kr.co.mgv.store.vo.*;
 import kr.co.mgv.user.vo.User;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -23,7 +24,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/order")
@@ -33,6 +36,21 @@ public class OrderController {
 
     private final CartService cartService;
     private final OrderService orderService;
+
+    @ResponseBody
+    @GetMapping("/requestPayment")
+    public Map<String,String> payRequest(@RequestBody Order order,@AuthenticationPrincipal User user){
+      Map<String,String> map = new HashMap<>();
+
+        if(user!=null){
+          map.put("result","success");
+            map.put("userId",user.getId());
+          map.put("userName",user.getName());
+          return map;
+      }
+        map.put("result","fail");
+        return map;
+    }
 
     @GetMapping("/success")
     public String paymentResult(

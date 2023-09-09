@@ -23,6 +23,7 @@
             A.CART_NO                   as no,
             B.PRODUCT_NO                as "product.no",
             B.PRODUCT_NAME              as "product.name",
+            B.PACKAGE_INFO              as "product.packageInfo",
             B.PRODUCT_DESCRIPTION       as "product.description",
             C.USER_ID                   as "user.id",
             C.USER_NAME                 as "user.name",

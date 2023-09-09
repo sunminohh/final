@@ -29,8 +29,6 @@ public class OrderService {
         Order order = new Order();
 
         order.setTotalPrice(amount);
-        order.setId(orderId);
-        order.setUser(user);
 
         orderMapper.insertOrder(order);
     }
@@ -46,10 +44,10 @@ public class OrderService {
         params.put("userId",userId);
         List<Object> nos= new ArrayList<>();
         for(int i=0; i<quantity; i++){
-            giftTicketNo=(long)(Math.random()*10);
+            giftTicketNo=(long)Math.max((Math.random()*10),1);
             for(int j=0; j<15; j++){
                 giftTicketNo*=10;
-                giftTicketNo+=(long)(Math.random()*10);
+                giftTicketNo+=(long)Math.max((Math.random()*10),1);
             }
             nos.add(giftTicketNo);
         }
