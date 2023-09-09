@@ -15,17 +15,17 @@
    		
 	    <div class="tab-list fixed">
 	        <ul>
-	            <li  data-cat-no="1" th:classappend="${param.catNo == null || #strings.equals(param.catNo, '1') ? 'on' : ''}">
+	            <li data-cat-no="1" th:classappend="${param.catNo == null || #strings.equals(param.catNo, '1') ? 'on' : ''}">
 	                <a title="전체">전체</a>
 	            </li>
 	            <li data-cat-no="2"  th:classappend="${#strings.equals(param.catNo, '2') ? 'on' : ''}">
-	                <a  title="MGV Pick 탭으로 이동">MGV Pick</a>
+	                <a title="MGV Pick 탭으로 이동">MGV Pick</a>
 	            </li>
 	            <li data-cat-no="3"  th:classappend="${#strings.equals(param.catNo, '3') ? 'on' : ''}">
-	                <a  title="영화 탭으로 이동">영화</a>
+	                <a title="영화 탭으로 이동">영화</a>
 	            </li>
 	            <li data-cat-no="4"  th:classappend="${#strings.equals(param.catNo, '4') ? 'on' : ''}">
-	                <a  title="극장 탭으로 이동">극장</a>
+	                <a title="극장 탭으로 이동">극장</a>
 	            </li>
 	        </ul>
 	    </div>

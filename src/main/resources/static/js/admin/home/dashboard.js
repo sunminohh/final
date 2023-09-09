@@ -20,6 +20,7 @@ $(() => {
 			foreColor: "#adb0bb",
 			fontFamily: 'inherit',
 			sparkline: { enabled: false },
+			
 		},
 		colors: ["#5D87FF", "#49BEFF"],
 		plotOptions: {
@@ -28,7 +29,7 @@ $(() => {
 				columnWidth: "35%",
 				borderRadius: [6],
 				borderRadiusApplication: 'end',
-				borderRadiusWhenStacked: 'all'
+				borderRadiusWhenStacked: 'all',
 			},
 		},
 		markers: { size: 0 },
@@ -64,6 +65,8 @@ $(() => {
 				},
 			},
 		},
+		
+
 		stroke: {
 			show: true,
 			width: 3,
@@ -176,6 +179,7 @@ $(() => {
 				},
 			},
 		],
+		
 		tooltip: {
 			theme: "dark",
 			fillSeriesColor: false,

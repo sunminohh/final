@@ -157,34 +157,46 @@ public class EmailServiceImpl implements EmailService {
     
     // 고객센터 내용 작성
     @Override
-    public MimeMessage qnaMessage(String to) throws MessagingException, UnsupportedEncodingException {
+    public MimeMessage qnaMessage(String to, String question, String answer) throws MessagingException, UnsupportedEncodingException {
     	
     	MimeMessage message = javaMailSender.createMimeMessage();
     	
     	message.addRecipients(MimeMessage.RecipientType.TO, to);// 보내는 대상
     	message.setSubject("MGV \"고객의 문의\" 답변 메일입니다. ");// 제목
     	
-    	String msgg = "";
+    	String msgg = ""; 
     	msgg += "<div style='margin:100px;'>";
     	msgg += "<h1> 안녕하세요</h1>";
     	msgg += "<h1> 즐거움을 드리는 MGV 입니다</h1>";
     	msgg += "<br>";
-    	msgg += "<p>고객님께서 보내주신 글 잘 받아보았습니다.<p>";
+    	msgg += "<h2>Q. 고객님께서 문의하신 내용입니다.</h2>";
+    	msgg += "<div style='background-color:#eee; padding:10px;'>"
+    			+ question
+    			+ "</div>"
+    			+ "<br>";
+    	
     	msgg += "<br>";
-    	msgg += "<p>먼저 저희 MGV를 이용해주셔서 감사드립니다.<p>";
-    	msgg += "<br>";
-    	msgg += "<p>고객님의 문의내역에서 답변 내용 확인 부탁드립니다.<p>";
-    	msgg += "<br>";
-    	msgg += "<p>문의주신 내용에 적절한 답변이 되었길 바라며,<p>";
-    	msgg += "<br>";
-    	msgg += "<p>추후 문의사항은 홈페이지 & 어플 내 1:1문의 또는 상담톡(운영시간 10:00~19:00)을<p>";
-    	msgg += "<br>";
-    	msgg += "<p>통해 문의주시면 안내 도와드리겠습니다.<p>";
-    	msgg += "<br>";
-    	msgg += "<p>즐거운 하루되세요. 감사합니다!<p>";
-    	msgg += "<br>";
-    	msgg += "<p>MGV 고객센터 드림.<p>";
-    	msgg += "<br>";
+    	msgg += "<h2>A. MGV의 답변 내용입니다.</h2>";
+    	msgg += "<div style='background-color:#eee; padding:10px;'>"
+    			+ "<p>안녕하세요.<p>"
+    			+ "<p>MGV 드림센터입니다.<p>"
+    			+ "<br>"
+    			+ "<p>고객님께서 보내주신 글 잘 받아보았습니다.<p>"
+    			+ "<p>먼저 저희 MGV를 이용해주셔서 감사드립니다.<p>"
+    			+ "<br>"
+    			+ answer
+    			+ "<br><br>"
+    			+ "<p>문의주신 내용에 적절한 답변이 되었길 바라며,<p>"
+    			+ "<p>추후 문의사항은 홈페이지 & 어플 내 1:1문의 또는 상담톡(운영시간 10:00~19:00)을<p>"
+    			+ "<p>통해 문의주시면 안내 도와드리겠습니다.<p>"
+    			+ "<br/>"
+    			+ "<p>감사합니다.<p>"
+    			+ "<p>MGV 고객센터 드림.<p>"
+    			+ "</div>";
+    	
+    	
+    	
+
 
     	message.setText(msgg, "utf-8", "html");// 내용, charset 타입, subtype
     	// 보내는 사람의 이메일 주소, 보내는 사람 이름
@@ -195,9 +207,9 @@ public class EmailServiceImpl implements EmailService {
     
     // 고객센터 답변완료 메일 발송
     @Override
-    public String sendTempqnaMessage(String to) throws Exception {
+    public String sendTempqnaMessage(String to, String question, String answer) throws Exception {
     	
-    	MimeMessage message = qnaMessage(to); // 메일 발송
+    	MimeMessage message = qnaMessage(to, question, answer); // 메일 발송
     	try {
     		javaMailSender.send(message);
     	} catch (MailException es) {

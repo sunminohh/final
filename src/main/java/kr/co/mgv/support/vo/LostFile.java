@@ -16,15 +16,17 @@ public class LostFile {
 	private Lost lost;
 	private String originalName;
 	private String saveName;
+	private String uploadPath;
 	private Date createDate;
-	
+
 	@Builder
-	public LostFile(int no, Lost lost, String originalName, String saveName, Date createDate) {
+	public LostFile(int no, Lost lost, String originalName, String saveName, String uploadPath, Date createDate) {
 		super();
 		this.no = no;
 		this.lost = lost;
 		this.originalName = originalName;
 		this.saveName = saveName;
+		this.uploadPath = uploadPath;
 		this.createDate = createDate;
 	}
 	

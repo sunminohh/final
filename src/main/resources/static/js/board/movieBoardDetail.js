@@ -5,7 +5,7 @@
  */
 $(function() { 
 	
-      let like = document.querySelector("input[name=likeCount]").value;
+      let like = $("input[name=likeCount]").val();
       
       $("#like-button").click(function(event) {
           event.preventDefault();
@@ -99,11 +99,7 @@ $(function() {
 	        $("#btn-a-re-reply-" + commentNo).attr('id', 'btn-a-reply-' + commentNo).text('답글쓰기');
 	    });
 	    
-	    
-	  
-      
-   	  
-      let no = document.querySelector("input[name=no]").value;
+      let no = $("input[name=no]").val();
       let loginId = $("#login-id").attr("value");
       let commentNo = $(this).attr("data-cancel-comment");
       
