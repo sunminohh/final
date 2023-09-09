@@ -11,4 +11,25 @@
         VALUES
             (#{id}, #{totalPrice}, #{user.id})
     </insert>
+    <select id="getOrderList" resultType="Order">
+    	SELECT
+	    	ORDER_ID	AS orderId,	
+			USER_ID		AS userId,
+			USER_NAME	AS userName,
+			ORDER_NAME	AS orderName,
+			TOTAL_PRICE	AS totalPrice,
+			CREATE_DATE	AS createDate,
+			UPDATE_DATE	AS updateDate,
+			ORDER_STATE	AS orderState
+    	FROM
+    		MGV_ORDER
+    	WHERE
+    	    ORDER_STATE LIKE '%완료'
+		    OR
+		    ORDER_STATE LIKE '%취소'
+		ORDER BY
+		    CREATE_DATE DESC 
+		LIMIT
+		    6;
+    </select>
 </mapper>

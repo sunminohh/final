@@ -79,4 +79,9 @@ public class OrderService {
 
         orderPackageMapper.insertOrderPackage(orderPackage);
     }
+
+	public List<Order> getOrderList() {
+		// TODO Auto-generated method stub
+		return orderMapper.getOrderList();
+	}
 }

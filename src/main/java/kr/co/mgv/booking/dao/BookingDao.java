@@ -10,6 +10,7 @@ import java.util.Map;
 public interface BookingDao {
     public void insertBooking(Booking booking);
     public Booking getBookingByBookingNo(long no);
+    public List<Booking> getBookings();
     public void updateBooking(Booking Booking);
     void insertBookedSeats(Map<String,Object> params);
     List<String> getBookedSeatsByScheduleId(int scheduleId);

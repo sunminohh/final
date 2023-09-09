@@ -127,4 +127,9 @@ public class BookingRestController {
         bookingService.deleteBookedSeats(params);
         return "success";
     }
+    
+    @GetMapping("/getBookingList")
+    public List<Booking> getBookingList(){
+    	return bookingService.getBookingList();
+    }
 }

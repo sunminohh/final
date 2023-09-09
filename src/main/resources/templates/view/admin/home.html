@@ -27,10 +27,11 @@
             <div class="col-lg-6 d-flex align-items-stretch">
                 <div class="card w-100">
                     <div class="card-body p-4">
-                        <div class="mb-4">
-                            <h5 class="card-title fw-semibold">예매 내역</h5>
+                        <div class="mb-4 row">
+                            <h5 class="card-title fw-semibold col-11 p-1 m-0">예매 내역</h5>
+                            <button type="button" class="btn col-1 p-1" id="btn-refresh-booking"><i class="ti ti-refresh"></i></button>
                         </div>
-                        <ul class="timeline-widget mb-0 position-relative mb-n5">
+                        <ul class="timeline-widget mb-0 position-relative mb-n5" id="bookingList">
                             <li class="timeline-item d-flex position-relative overflow-hidden">
                                 <div class="timeline-time text-dark flex-shrink-0 text-end">09:30</div>
                                 <div class="timeline-badge-wrap d-flex flex-column align-items-center">
@@ -90,10 +91,11 @@
             <div class="col-lg-6 d-flex align-items-stretch">
                 <div class="card w-100">
                     <div class="card-body p-4">
-                        <div class="mb-4">
-                            <h5 class="card-title fw-semibold">상품 구매 내역</h5>
+                        <div class="mb-4 row">
+                        	<h5 class="card-title fw-semibold col-11 p-1 m-0">상품 구매 내역</h5>
+                            <button type="button" class="btn col-1 p-1" id="btn-refresh-order"><i class="ti ti-refresh"></i></button>
                         </div>
-                        <ul class="timeline-widget mb-0 position-relative mb-n5">
+                        <ul class="timeline-widget mb-0 position-relative mb-n5" id="orderList">
                             <li class="timeline-item d-flex position-relative overflow-hidden">
                                 <div class="timeline-time text-dark flex-shrink-0 text-end">09:30</div>
                                 <div class="timeline-badge-wrap d-flex flex-column align-items-center">
