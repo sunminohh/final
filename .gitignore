@@ -36,5 +36,5 @@ build/
 ### VS Code ###
 .vscode/
 
-/images
+/images/*
 !/images/no-image.jpg
