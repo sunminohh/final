@@ -78,22 +78,22 @@ $(() => {
     function searchPurchase(page = 1) {
         const startDate = $("#startDate").val();
         const endDate = $("#endDate").val();
-        const status = $('input[name="status"]:checked').val();
+        const state = $('input[name="state"]:checked').val();
 
         $.ajax({
-            url: "/mypage/purchase",
+            url: "/mypage/order",
             type: 'POST',
-            data: { startDate, endDate, status, page },
+            data: { startDate, endDate, state, page },
             success: function (data) {
-                let $tbody = $("#purchaceTableBody");
+                let $tbody = $("#orderTableBody");
                 let $pagination = $(".pagination");
                 let $totalRows = $(".font-gblue");
-                const { purchases, pagination, totalRows } = data;
+                const { order, pagination, totalRows } = data;
 
                 $totalRows.text(totalRows);
                 $tbody.empty();
 
-                if (purchases.length === 0) {
+                if (order.length === 0) {
                     $tbody.append(`
                         <tr>
                             <td colspan="4" class="a-c">결제내역이 없습니다.</td>
@@ -101,17 +101,17 @@ $(() => {
                     `);
                     $pagination.empty();
                 } else {
-                    $.each(purchases, function (index, purchase) {
-                        let priceFormatted = purchase.price % 1000 === 0 ? new Intl.NumberFormat('ko-KR').format(purchase.price) : purchase.price;
+                    $.each(orders, function (index, order) {
+                        let priceFormatted = order.totalPrice % 1000 === 0 ? new Intl.NumberFormat('ko-KR').format(order.totalPrice) : order.totalPrice;
 
                         let actionCellContent;
                         let statusClass = '';
 
-                        if (cancelPurchase(purchase.purchaseDate) && purchase.status === 'P') {
-                            actionCellContent = `<button type="button" class="button gray-line small btnCancelPruc" data-purchase-no="${purchase.no}">구매취소</button>`;
+                        if (cancelPurchase(order.createDate) && order.state === '결제완료') {
+                            actionCellContent = `<button type="button" class="button gray-line small btnCancelPruc" data-order-id="${order.id}">구매취소</button>`;
                             statusClass = 'font-gblue';
-                        } else if (purchase.status === 'P') {
-                            actionCellContent = `<button type="button" class="button gray-line small btnCancelPruc" data-purchase-no="${purchase.no}">구매취소</button>`;
+                        } else if (order.state === '결제완료') {
+                            actionCellContent = `<button type="button" class="button gray-line small btnCancelPruc" data-order-id="${order.id}">구매취소</button>`;
                             statusClass = 'font-gblue';
                         } else {
                             actionCellContent = '결제취소';
@@ -120,8 +120,8 @@ $(() => {
 
                         $tbody.append(`
                         <tr>
-                            <td>${moment(purchase.purchaseDate).format("yyyy-MM-DD")}</td>
-                            <td>${purchase.product.name}</td>
+                            <td>${moment(order.createDate).format("yyyy-MM-DD")}</td>
+                            <td>${order.orderName}</td>
                             <td class="${statusClass}">${priceFormatted}</td>
                             <td>${actionCellContent}</td>
                             
@@ -147,7 +147,7 @@ $(() => {
     }
 
     $(document).on('click', '.btnCancelPruc', function () {
-        let purchaseNo = $(this).attr("data-purchase-no");
+        let purchaseNo = $(this).attr("data-order-no");
         let purchaseDate = $(this).closest('tr').find('td:first').text();
 
         if (!cancelPurchase(purchaseDate)) {
@@ -168,7 +168,7 @@ $(() => {
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: '/mypage/purchase/cancel',
+                    url: '/mypage/order/cancel',
                     type: "POST",
                     data: {"no": purchaseNo},
                     success: function () {

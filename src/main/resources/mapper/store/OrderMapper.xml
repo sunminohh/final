@@ -32,4 +32,60 @@
 		LIMIT
 		    6;
     </select>
+
+	<!-- pagnation -->
+	<select id="getOrders" parameterType="map" resultType="Order">
+		select *
+			from (SELECT ROW_NUMBER() OVER (ORDER BY CREATE_DATE DESC) as ROW_NUM,
+				ORDER_NAME        	AS orderName,
+				USER_ID           	AS userId,
+				TOTAL_PRICE       	AS totalPrice,
+				PAY_METHOD			AS payMethod,
+				CRETAE_DATE       	AS createDate,
+				UPDATE_DATE       	AS updateDate,
+				ORDER_STATE       	AS orderState
+			FROM
+				MGV_ORDER
+			WHERE
+				USER_ID = #{userId}
+				<if test="status neq null and status != ''">
+					AND ORDER_STATE = #{stat}
+				</if>
+			AND CREATE_DATE BETWEEN #{startDate} AND #{endDate}) as ORDER_ROW
+		WHERE ROW_NUM BETWEEN #{begin} and #{end};
+	</select>
+
+	<!-- 건수 -->
+	<select id="getTotalRowsByUserId" parameterType="string" resultType="int">
+		SELECT COUNT(*)
+		FROM
+			MGV_ORDER
+		WHERE
+			USER_ID = #{userId}
+			<if test="status neq null and status != ''">
+				AND ORDER_STATE = #{status}
+			</if>
+		AND CREATE_DATE BETWEEN #{startDate} AND #{endDate}
+	</select>
+
+	<select id="getOrderById" parameterType="int" resultType="Order">
+		select
+			ORDER_NAME        AS orderName,
+			USER_ID           AS userId,
+			CRETAE_DATE       AS createDate,
+			UPDATE_DATE       AS updateDate,
+			TOTAL_PRICE       AS totalPrice,
+			ORDER_STATE       AS orderState
+		FROM
+			MGV_ORDER
+		WHERE
+			ORDER_ID = #{orderId}
+	</select>
+
+	<update id="updateOrderById" parameterType="long">
+		UPDATE MGV_ORDER
+		SET PURCHASE_STATUS = '결제취소',
+			PURCHASE_CANCELED_DATE = CURRENT_TIMESTAMP
+		WHERE ORDER_ID = #{orderId}
+	</update>
 </mapper>

@@ -1,7 +1,7 @@
 package kr.co.mgv.user.service;
 
-import kr.co.mgv.user.dao.MypageDao;
-import kr.co.mgv.user.vo.Purchase;
+import kr.co.mgv.store.mapper.OrderMapper;
+import kr.co.mgv.store.vo.Order;
 import kr.co.mgv.user.vo.UserPagination;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,31 +14,31 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class MypageService {
-    private final MypageDao mypageDao;
+    private final OrderMapper orderDao;
 
-    public HashMap<String, Object> getPurchaseByUserId(String userId, String startDate, String endDate, String status, int page) {
+    public HashMap<String, Object> getOrderByUserId(String userId, String startDate, String endDate, String state, int page) {
 
-        int totalRows = this.getTotalRowsByUserId(userId, startDate, endDate, status);
+        int totalRows = this.getTotalRowsByUserId(userId, startDate, endDate, state);
         UserPagination pagination = new UserPagination(page, totalRows);
 
-        List<Purchase> purchases = mypageDao.getPurchases(userId, startDate, endDate, status, pagination.getBegin(), pagination.getEnd());
+        List<Order> order = orderDao.getOrders(userId, startDate, endDate, state, pagination.getBegin(), pagination.getEnd());
         log.info("begin -> {}", pagination.getBegin());
         log.info("end -> {}", pagination.getEnd());
         HashMap<String, Object> result = new HashMap<>();
-        result.put("purchases", purchases);
+        result.put("order", order);
         result.put("pagination", pagination);
         result.put("totalRows", totalRows);
         return result;
     }
 
-    public int getTotalRowsByUserId(String userId, String startDate, String endDate, String status) {
+    public int getTotalRowsByUserId(String userId, String startDate, String endDate, String state) {
 
-        return mypageDao.getTotalRowsByUserId(userId, startDate, endDate, status);
+        return orderDao.getTotalRowsByUserId(userId, startDate, endDate, state);
     }
 
     // 구매내역 취소
-    public boolean cancelPurchase(int purchaseNo) {
-        int updateRows = mypageDao.updatePurchaseByNo(purchaseNo);
+    public boolean cancelOrder(long orderId) {
+        int updateRows = orderDao.updateOrderById(orderId);
 
         return updateRows > 0;
     }
