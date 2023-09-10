@@ -7,4 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface OrderMapper {
 
     void insertOrder(Order order);
+    Order getOrderById(long id);
+
+    void updateOrder(Order order);
 }

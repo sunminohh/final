@@ -5,10 +5,9 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <th:block th:if="${#strings.equals(isSuccess, 'true')}">
-        <h1 th:text="${giftTickets}"></h1>
-        <p>결과데이터 : <span th:text="${responseStr}"></span></p>
-        <p>method : <span th:text="${method}"></span></p>
+        <h1 th:text="${orderName}"></h1>
+        <p>결과데이터 : <span th:text="${order}"></span></p>
+        <p>method : <span th:text="${payMethod}"></span></p>
         <p>orderName : <span th:text="${orderName}"></span></p>
         <table>
             <thead>
@@ -31,12 +30,6 @@
                 </tr>
             </tbody>
         </table>
-    </th:block>
-    <th:block th:if="${#strings.equals(isSuccess, 'false')}">
-        <h1>결제 실패</h1>
-        <p>에러메시지 : <span th:text="${message}"></span></p>
-        <p>에러코드 : <span th:text="${code}"></span></p>
-    </th:block>
 </div>
 </body>
 </html>

@@ -23,16 +23,15 @@ public class OrderService {
     private final OrderProductMapper orderProductMapper;
     private final OrderPackageMapper orderPackageMapper;
     private final GiftTicketMapper giftTicketMapper;
+    private final ProductMapper productMapper;
 
-    public void insertOrder(String orderId, int amount, User user) {
-
-        Order order = new Order();
-
-        order.setTotalPrice(amount);
-
+    public void insertOrder(Order order) {
         orderMapper.insertOrder(order);
     }
-
+    public Order getOrderById(long id){return orderMapper.getOrderById(id);}
+    public void updateOrder(Order order){
+        orderMapper.updateOrder(order);
+    }
     public void generateGiftTickets(String userId, int quantity){
         if(quantity==0){
             return;
@@ -56,27 +55,77 @@ public class OrderService {
 
     }
 
-    public void insertOrderProduct(String orderId, int productNo, int productAmount, int productPrice, int catNo) {
-        OrderProduct orderProduct = new OrderProduct();
+//    public void insertOrderProduct(String orderId, int productNo, int productAmount, int productPrice, int catNo) {
+//        OrderProduct orderProduct = new OrderProduct();
+//
+//        orderProduct.setOrderId(orderId);
+//        orderProduct.setProductNo(productNo);
+//        orderProduct.setAmount(productAmount);
+//        orderProduct.setPrice(productPrice);
+//        orderProduct.setCatNo(catNo);
+//
+//        orderProductMapper.insertOrderProduct(orderProduct);
+//    }
+//
+//    public void insertOrderPackage(String orderId, int packageNo, int packageAmount, int packagePrice, int catNo) {
+//        OrderPackage orderPackage = new OrderPackage();
+//
+//        orderPackage.setOrderId(orderId);
+//        orderPackage.setPackageNo(packageNo);
+//        orderPackage.setAmount(packageAmount);
+//        orderPackage.setPrice(packagePrice);
+//        orderPackage.setCatNo(catNo);
+//
+//        orderPackageMapper.insertOrderPackage(orderPackage);
+//    }
 
-        orderProduct.setOrderId(orderId);
-        orderProduct.setProductNo(productNo);
-        orderProduct.setAmount(productAmount);
-        orderProduct.setPrice(productPrice);
-        orderProduct.setCatNo(catNo);
+//    public List<OrderProduct> getOrderProducts(Order order){
+//        String orderProductsString = order.getOrderProducts();
+//
+//        List<OrderProduct> products = new ArrayList<>();
+//        String[] ops = orderProductsString.split("\\+");
+//
+//        for (String p : ops){
+//            OrderProduct orderProduct = new OrderProduct();
+//
+//
+//            String[] op = p.split(",");
+//            int productNo= Integer.parseInt(op[0]);
+//            String name = op[1];
+//            orderProduct.setProductNo(productNo);
+//            orderProduct.setName(op[1]);
+//            orderProduct.setUnitPrice(Integer.parseInt(op[2]));
+//            orderProduct.setAmount(Integer.parseInt(op[3]));
+//            List<Product> productList = new ArrayList<>();
+//            if(productNo>100){
+//                Product Product = productMapper.getProductByNo(productNo);
+//
+//
+//            }
+//
+//        }
+//    }
 
-        orderProductMapper.insertOrderProduct(orderProduct);
-    }
 
-    public void insertOrderPackage(String orderId, int packageNo, int packageAmount, int packagePrice, int catNo) {
-        OrderPackage orderPackage = new OrderPackage();
+//    public List<OrderSpecificProduct> getProductListByNo(int no, int amount){
+//        List<OrderSpecificProduct> productList = new ArrayList<>();
+//        if(no>100){
+//            Product product = productMapper.getProductByNo(no);
+//            String x=product.getPackageInfo();
+//
+//            String[] xx= x.split("\\+");
+//
+//            for(String eachProduct : xx){
+//
+//            }
+//
+//
+//        }else{
+//            productList.add(OrderSpecificProduct(productMapper.getProductByNo(no),amount));
+//        }
+//        return productList;
+//    }
 
-        orderPackage.setOrderId(orderId);
-        orderPackage.setPackageNo(packageNo);
-        orderPackage.setAmount(packageAmount);
-        orderPackage.setPrice(packagePrice);
-        orderPackage.setCatNo(catNo);
 
-        orderPackageMapper.insertOrderPackage(orderPackage);
-    }
+
 }

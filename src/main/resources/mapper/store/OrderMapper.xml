@@ -1,14 +1,49 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.mgv.store.mapper.OrderMapper">
-    <insert id="insertOrder" parameterType="Order" useGeneratedKeys="true" keyProperty="no">
+    <insert id="insertOrder" parameterType="Order">
         INSERT INTO MGV_ORDER
         (
-         ORDER_ID,
-         ORDER_TOTAL_PRICE,
-         USER_ID
+            ORDER_ID,
+            ORDER_NAME,
+            ORDER_PRODUCTS,
+            ORDER_SPECIFIC_PRODUCTS,
+            TOTAL_PRICE,
+            USER_ID,
+            USER_NAME
         )
         VALUES
-            (#{id}, #{totalPrice}, #{user.id})
+            (#{orderId},#{orderName},#{orderProducts},#{orderSpecificProducts},#{totalPrice},#{userId},#{userName})
     </insert>
+
+
+    <select id="getOrderById" resultType="Order" parameterType="long">
+         SELECT
+             USER_ID                        as userId,
+             USER_NAME                      as userName,
+             ORDER_NAME                     as orderName,
+             ORDER_PRODUCTS                 as orderProducts,
+             TOTAL_PRICE                    as totalPrice,
+             PAY_METHOD                     as payMethod,
+             PAYMENT_KEY                    as paymentKey,
+             CREATE_DATE                    as createDate,
+             UPDATE_DATE                    as updateDate,
+             ORDER_SPECIFIC_PRODUCTS        as orderSpecificProducts,
+             ORDER_STATE                    as orderState
+         FROM
+             MGV_ORDER
+         WHERE
+             ORDER_ID = #{value}
+
+    </select>
+
+    <update id="updateOrder" parameterType="order">
+        update MGV_ORDER
+        SET
+            ORDER_STATE = #{orderState},
+            PAYMENT_KEY = #{paymentKey}
+        where ORDER_ID=${orderId}
+    </update>
+
+
 </mapper>

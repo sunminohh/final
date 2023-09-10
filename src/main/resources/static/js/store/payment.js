@@ -1,83 +1,133 @@
 $(()=>{
-    const map = new Map
-    let totalPrice =0
-    let i=1
-    const map2 = new Map
-    $(".goods-info").each(function(){
-        if($(this).attr('data')){
-            const q= parseInt($(this).parent().parent().find(".cart-quantity").text())
-            const items=$(this).attr('data').split('+')
+
+    function setOrder(){
+        const map = new Map
+        const map2 = new Map
+        const products= $(".cart-item")
+        products.each(function(){
+            orderName=$(this).attr('productName')
+            if(orderName.includes('패키지')){
+                packageName=orderName
+            }
+            let amount= $(this).find('.cart-amount').text()
+            amount= amount ? amount : $(this).find('.cart-amount').val()
+            amount=parseInt(amount)
+            orderProducts.push( $(this).attr('productNo')+','+$(this).attr('productName')+','+$(this).attr('unitPrice')+','+amount)
+
+            const packageInfo = $(this).attr('packageInfo')
+            const items= packageInfo.split('+')
             for (const item of items){
                 let arr= item.split(',')
                 let no=arr[0]
                 let qtt=parseInt(arr[3])
                 if(!map.has(no)){
-                    map.set(no,qtt*q)
+                    map.set(no,qtt*amount)
                 }else{
-                    map.set(no,parseInt(map.get(no))+qtt*q)
+                    map.set(no,parseInt(map.get(no))+qtt*amount)
                 }
-                console.log(i++ + "번째 상품 "+arr[2]+"번호: "+arr[0]+" 단위가격 : " +arr[2]+" 금액 :" + arr[2]*arr[3])
-                map2.set(arr[0],arr[1])
-                totalPrice+=arr[2]*arr[3]*q
+                map2.set(arr[0],','+arr[1]+','+arr[2]+',')
+                totalPrice+=arr[2]*arr[3]*amount
             }
+        })
+        map.forEach((value, key) => {
+            orderSpecificProducts.push(key+map2.get(key)+map.get(key))
+        });
 
+        if(packageName){
+            orderName=packageName
         }
+        if(products.length>1){
+            orderName += " 외 " + (products.length-1) + "건"
+        }
+    }
+    let totalPrice =0
+
+
+    let orderName
+    let packageName
+    let orderProducts=[]
+    let orderSpecificProducts=[]
+    setOrder()
+
+    console.log("오더네임 => "+orderName)
+    console.log("오더프러덕츠 => "+ orderProducts.join('+'))
+    console.log("스페시픽프러덕츠 => "+ orderSpecificProducts.join('+'))
+
+
+    $(".btn.plus").on('click',function(){
+        setOrder()
+        console.log("오더네임 => "+orderName)
+        console.log("오더프러덕츠 => "+ orderProducts.join('+'))
+        console.log("스페시픽프러덕츠 => "+ orderSpecificProducts.join('+'))
     })
-    console.log(totalPrice)
-    map.forEach((value, key) => {
-        console.log("상품번호: " + key + ", 상품명: " + map2.get(key)+ ", 상품갯수: " +value);
-    });
-    console.log([...map])
+
+    $("#request-payment").on('click',requestPayment)
 
     function requestPayment(){
-        const giftAmount=calculFinalPrice()
-        const schedule = $("#playScheduleList").find('[selected=selected]')
-        const scheduleId=$("#playScheduleList").find('[selected=selected]').attr('schedule-id')
-        const movieNo=schedule.attr('movie-no')
-        const movie=$("#mBtn-"+movieNo)
-        const moviePoster=movie.attr('img-path')
-        const movieContentRating=movie.attr('contentrating')
-        const movieContentRatingKr=movie.attr('contentratingkr')
-        const movieTitle=schedule.attr('movie-title')
-        const startTime=schedule.attr('start-time')
-        const endTime=schedule.attr('end-time')
-        const screenId=schedule.attr('screen-id')
-        const screenName=schedule.attr('screen-name')
-        const theaterNo=schedule.attr('theater-no')
-        const theaterName=schedule.attr('theater-name')
-        const bookedSeats= $(".my-seat").children('.choice').map((i,e)=>e.innerHTML).get().join()
-        const dto={
-            no: Date.now() + Math.floor((Math.random()*100)),
-            bookingDate: selectedDate,
-            movieNo: movieNo,
-            title: movieTitle,
-            poster:moviePoster,
-            contentRating:movieContentRating,
-            contentRatingKr:movieContentRatingKr,
-            startTime: startTime,
-            endTime: endTime,
-            scheduleId: scheduleId,
-            screenId: screenId,
-            screenName: screenName,
-            theaterNo: theaterNo,
-            theaterName: theaterName,
-            totalSeats:adultTickets+underageTickets,
-            bookedSeatsNos: bookedSeats,
-            adultSeats:adultTickets,
-            underageSeats:underageTickets,
-            giftAmount: giftAmount,
-            payAmount: totalPrice-giftAmount,
-            totalPrice: totalPrice,
-            payMethod:payMethod,
-            usedGiftTickets:usedGiftTickets
-        }
-        fetch("/api/booking/bookingPay",{
+        setOrder()
+        const order={
+            orderId: Date.now() + Math.floor((Math.random()*100)),
+            totalPrice:totalPrice,
+            orderName:orderName,
+            orderProducts:orderProducts.join('+'),
+            orderSpecificProducts:orderSpecificProducts.join('+')}
+
+        fetch("/api/order/requestPayment",{
             method:'post',
             headers:{
                 'Content-Type': 'application/json'
             },
-            body:JSON.stringify(dto)
-        }).then(res=>res.json()).then(data=> {
+            body:JSON.stringify(order)
+        }).then(res=>res.json()).then(order => {
+                let path = "/order/";
+                let successUrl = window.location.origin + path + "success";
+                let failUrl = window.location.origin + path + "failure";
+                let jsons = {
+                    "card": {
+                        "amount": order.amount,
+                        "orderId": order.orderId,
+                        "orderName": order.orderName,
+                        "successUrl": successUrl,
+                        "failUrl": failUrl,
+                        "cardCompany": null,
+                        "cardInstallmentPlan": null,
+                        "maxCardInstallmentPlan": null,
+                        "useCardPoint": false,
+                        "customerName": order.userName,
+                        "customerEmail": null,
+                        "customerMobilePhone": null,
+                        "useInternationalCardOnly": false,
+                        "flowMode": "DEFAULT",
+                        "discountCode": null,
+                        "appScheme": null
+                    }
+                }
+                pay('카드', jsons.card);
+            })
+
+        function pay(method, requestJson) {
+            let tossPayments = TossPayments("test_ck_5OWRapdA8dYGaQX9LYB3o1zEqZKL");
+            console.log(requestJson);
+            tossPayments.requestPayment(method, requestJson)
+                .catch(function (error) {
+
+                    if (error.code === "USER_CANCEL") {
+                        Swal.fire({
+                            icon: 'warning',
+                            text: "사용자가 취소했습니다."
+                        });
+                    } else {
+                        alert(error.message);
+                        Swal.fire({
+                            icon: 'error',
+                            text: error.message
+                        });
+                    }
+
+                });
+        }
+
+  /*      then(res=>res.json()).then(data=> {
             if('success' == data.result){
                 window.location.replace("/booking/success?orderId="+data.bookingNo)
             }else if('fail'== data.result){
@@ -111,7 +161,7 @@ $(()=>{
                 }
                 pay('카드', jsons.card);
             }
-        })
+        }*/
 
     }
 })

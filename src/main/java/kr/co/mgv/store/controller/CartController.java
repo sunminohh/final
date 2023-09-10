@@ -43,8 +43,7 @@ public class CartController {
 
         for (Cart cart : carts) {
             if(cart!=null){
-                Product product=  cart.getProduct();
-                product.setPackageInfo(productService.getProductByNo(product.getNo()).getPackageInfo());
+                cart.setProduct(productService.getProductByNo(cart.getProduct().getNo()));
             }
             totalOriginalPrice += cart.getTotalOriginalPrice();
             totalDiscountedPrice += cart.getTotalDiscountedPrice();
