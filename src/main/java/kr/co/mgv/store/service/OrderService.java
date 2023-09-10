@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import java.net.http.HttpRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,11 +29,8 @@ public class OrderService {
         Order order = new Order();
 
         order.setTotalPrice(amount);
-        order.setId(orderId);
-        order.setUser(user);
 
         orderMapper.insertOrder(order);
-
     }
 
     public void generateGiftTickets(String userId, int quantity){
@@ -45,10 +44,10 @@ public class OrderService {
         params.put("userId",userId);
         List<Object> nos= new ArrayList<>();
         for(int i=0; i<quantity; i++){
-            giftTicketNo=(long)(Math.random()*10);
+            giftTicketNo=(long)Math.max((Math.random()*10),1);
             for(int j=0; j<15; j++){
                 giftTicketNo*=10;
-                giftTicketNo+=(long)(Math.random()*10);
+                giftTicketNo+=(long)Math.max((Math.random()*10),1);
             }
             nos.add(giftTicketNo);
         }
@@ -80,4 +79,9 @@ public class OrderService {
 
         orderPackageMapper.insertOrderPackage(orderPackage);
     }
+
+	public List<Order> getOrderList() {
+		// TODO Auto-generated method stub
+		return orderMapper.getOrderList();
+	}
 }

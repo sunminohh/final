@@ -8,7 +8,9 @@
     <script src="https://js.tosspayments.com/v1"></script>
 </head>
     <body>
+
         <div layout:fragment="content" id="content">
+            <script th:src="@{/js/store/payment.js}"></script>
             <div class="container">
                 <div class="page-util">
                     <div class="inner-wrap">
@@ -40,7 +42,7 @@
                                         <p class="origin"></p>
                                     </div>
                                     <div class="right">
-                                        <div class="goods-info">
+                                        <div class="goods-info" th:data="${product.packageInfo}">
                                             <div class="line">
                                                 <p class="tit">
                                                     <span class="line32">상품구성</span>

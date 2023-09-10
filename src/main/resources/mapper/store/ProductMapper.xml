@@ -6,7 +6,7 @@
             MGV_PRODUCT
         (
          PRODUCT_NAME,
-         PRODUCT_PRICE,
+         PRODUCT_ORIGINAL_PRICE,
          PRODUCT_STOCK,
          PRODUCT_DISCOUNTED_PRICE,
          PRODUCT_DESCRIPTION,
@@ -14,7 +14,7 @@
          PRODUCT_IMAGE
          )
         VALUES
-            (#{name}, #{price}, #{stock}, #{discountedPrice}, #{description}, #{category.no}, #{imagePath})
+            (#{name}, #{originalPrice}, #{stock}, #{discountedPrice}, #{description}, 1, #{imagePath})
     </insert>
 
     <select id="getProducts" resultType="Product">
@@ -29,7 +29,8 @@
             A.PRODUCT_UPDATE_DATE           as updateDate,
             B.CAT_NO                        as "category.no",
             A.PRODUCT_DISCOUNTED_PRICE      as discountedPrice,
-            A.PRODUCT_IMAGE                 as imagePath
+            A.PRODUCT_IMAGE                 as imagePath,
+         A.PACKAGE_INFO                  as packageInfo
         from
             MGV_PRODUCT A, MGV_PRODUCT_CATEGORY B
         where
@@ -50,13 +51,53 @@
             A.PRODUCT_UPDATE_DATE           as updateDate,
             B.CAT_NO                        as "category.no",
             A.PRODUCT_DISCOUNTED_PRICE      as discountedPrice,
-            A.PRODUCT_IMAGE                 as imagePath
+            A.PRODUCT_IMAGE                 as imagePath,
+         A.PACKAGE_INFO                  as packageInfo
         from
             MGV_PRODUCT A, MGV_PRODUCT_CATEGORY B
         where
             A.PRODUCT_NO = #{value}
         and
             A.CAT_NO = B.CAT_NO
+    </select>
+
+    <select id="getProductByNoType2" resultType="Product" parameterType="int">
+select
+        PRODUCT_NO                    as no,
+            PRODUCT_NAME                  as name,
+            PRODUCT_ORIGINAL_PRICE        as originalPrice,
+            PRODUCT_STOCK                 as stock,
+            PRODUCT_SOLD_OUT              as soldOut,
+            PRODUCT_DESCRIPTION           as description,
+            PRODUCT_CREATE_DATE           as createDate,
+            PRODUCT_UPDATE_DATE           as updateDate,
+            CAT_NO                        as "category.no",
+            PRODUCT_DISCOUNTED_PRICE      as discountedPrice,
+            PRODUCT_IMAGE                 as imagePath,
+            PACKAGE_INFO                  as packageInfo
+        from
+            MGV_PRODUCT
+        where
+            PRODUCT_NO = #{value}
+    </select>
+    <select id="getProductByName" parameterType="string" resultType="Product">
+        PRODUCT_NO                    as no,
+            PRODUCT_NAME                  as name,
+            PRODUCT_ORIGINAL_PRICE        as originalPrice,
+            PRODUCT_STOCK                 as stock,
+            PRODUCT_SOLD_OUT              as soldOut,
+            PRODUCT_DESCRIPTION           as description,
+            PRODUCT_CREATE_DATE           as createDate,
+            PRODUCT_UPDATE_DATE           as updateDate,
+            CAT_NO                        as "category.no",
+            PRODUCT_DISCOUNTED_PRICE      as discountedPrice,
+            PRODUCT_IMAGE                 as imagePath,
+            PACKAGE_INFO                  as packageInfo
+        from
+            MGV_PRODUCT
+        where
+            PRODUCT_NAME = #{value}
+
     </select>
 
     <select id="getProductByCatNo" parameterType="int" resultType="Product">
@@ -71,7 +112,8 @@
             A.PRODUCT_UPDATE_DATE           as updateDate,
             B.CAT_NO                        as "category.no",
             A.PRODUCT_DISCOUNTED_PRICE      as discountedPrice,
-            A.PRODUCT_IMAGE                 as imagePath
+            A.PRODUCT_IMAGE                 as imagePath,
+            A.PACKAGE_INFO                  as packageInfo
         from
             MGV_PRODUCT A, MGV_PRODUCT_CATEGORY B
         where
@@ -79,4 +121,10 @@
         and
             A.CAT_NO = B.CAT_NO
     </select>
+    <update id="packageUpdateProduct"  parameterType="map">
+    update MGV_PRODUCT
+    set
+        PACKAGE_INFO = #{packageInfo}
+    where PRODUCT_NO = #{productNo}
+    </update>
 </mapper>

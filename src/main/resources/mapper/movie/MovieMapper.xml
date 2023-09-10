@@ -187,4 +187,92 @@
 
                   ]]>
     </select>
+
+    <insert id="insertMovieCollect" parameterType="list">
+        INSERT IGNORE MGV_MOVIE_COLLECT (
+              MOVIE_NO
+            , TARGET_DT
+            , TITLE
+            , OPEN_DT
+            , `RANK`
+            , RANK_INTEN
+            , RANK_OLD_AND_NEW
+            , SCRN_CNT
+            , SHOW_CNT
+            , SALES_INTEN
+            , SALES_CHANGE
+            , SALES_ACC
+            , SALES_AMT
+            , AUDI_CNT
+            , AUDI_INTEN
+            , AUDI_CHANGE
+            , AUDI_ACC
+            , COLLECT_DT)
+       VALUES
+        <foreach item="movie" index="index" collection="list" separator=",">
+            (
+              #{movie.movieNo}
+            , #{movie.targetDt}
+            , #{movie.title}
+            , #{movie.openDt}
+            , #{movie.rank}
+            , #{movie.rankInten}
+            , #{movie.rankOldAndNew}
+            , #{movie.scrnCnt}
+            , #{movie.showCnt}
+            , #{movie.salesInten}
+            , #{movie.salesChange}
+            , #{movie.salesAcc}
+            , #{movie.salesAmt}
+            , #{movie.audiCnt}
+            , #{movie.audiInten}
+            , #{movie.audiChange}
+            , #{movie.audiAcc}
+            , #{movie.collectDt}
+            )
+        </foreach>
+    </insert>
+
+    <update id="saveMovie">
+        INSERT INTO MGV_MOVIE(
+               MOVIE_NO
+              , MOVIE_CHART_RANK
+              , MOVIE_TITLE
+              , MOVIE_TITLE_ENG
+              , MOVIE_GENRE
+              , MOVIE_CONTENT_RATING
+              , MOVIE_DIRECTOR
+              , MOVIE_CAST
+              , MOVIE_PLOT
+              , MOVIE_ISPLAYING
+              , MOVIE_RUNTIME
+              , MOVIE_RANKINTEN
+              , MOVIE_AUDICNT
+              , MOVIE_POSTERURL
+              , MOVIE_RANKOLDANDNEW
+              , MOVIE_RELEASE_DATE)
+        VALUES (
+                 #{no}
+               , #{chartRank}
+               , #{title}
+               , #{titleEng}
+               , #{genre}
+               , #{contentRating}
+               , #{director}
+               , #{cast}
+               , #{plot}
+               , #{isPlaying}
+               , #{runtime}
+               , #{rankInten}
+               , #{audiCnt}
+               , #{posterUrl}
+               , #{rankOldAndNew}
+               , #{releaseDate}
+               )
+            ON DUPLICATE KEY UPDATE
+                 MOVIE_CHART_RANK = #{chartRank}
+               , MOVIE_RANKINTEN = #{rankInten}
+               , MOVIE_AUDICNT = #{audiCnt}
+               , MOVIE_RANKOLDANDNEW = #{rankOldAndNew}
+    </update>
 </mapper>

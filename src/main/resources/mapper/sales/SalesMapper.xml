@@ -3,13 +3,311 @@
 <mapper namespace="kr.co.mgv.admin.sales.dao.SalesDao">
 
 	<select id="getDailyTotalSales" resultType="totalSales">
-	SELECT
-		date,
-		daily_total_sales as totalSales
-	FROM
-		MGV_DAILY_SALES
-	WHERE
-		date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
-	order by date;	
+		SELECT
+			date,
+			daily_total_sales as totalSales
+		FROM
+			MGV_DAILY_SALES
+		WHERE
+			date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+		order by date;	
 	</select>
+	
+	<select id="getDailySalesbyDate" parameterType="salesDto" resultType="totalSales">
+		SELECT
+			date,
+			daily_total_sales as totalSales
+		FROM
+			MGV_DAILY_SALES
+		WHERE
+			date BETWEEN #{firstDate} AND #{lastDate}
+		order by date;	
+	</select>
+	
+	<select id="getDailyMovieSalesbyDate" parameterType="salesDto" resultType="totalSales">
+		SELECT
+		    MOVIE_TITLE as name,
+		    sum(TOTAL_SALES) as totalSales
+		FROM
+		    MGV_DAILY_MOVIE_SALES
+		WHERE
+		    date BETWEEN #{firstDate} AND #{lastDate}
+		GROUP BY
+		    MOVIE_TITLE 
+	</select>
+	
+	<select id="getDailyProductSalesbyDate" parameterType="salesDto" resultType="totalSales">
+		SELECT
+		    PRODUCT_NAME as name,
+		    sum(TOTAL_SALES) as totalSales
+		FROM
+		    MGV_DAILY_PRODUCT_SALES
+		WHERE
+		    date BETWEEN #{firstDate} AND #{lastDate}
+		GROUP BY
+		    PRODUCT_NAME  
+	</select>
+	
+	<select id="getDailyMovieTotalSalesbyDate" parameterType="salesDto" resultType="totalSales">
+		SELECT
+		    date,
+		    SUM(TOTAL_SALES) as totalSales
+		FROM
+		    MGV_DAILY_MOVIE_SALES
+		WHERE
+		    date BETWEEN #{firstDate} AND #{lastDate}
+		GROUP BY
+		    date    
+		order by date;    
+	</select>
+	
+	<select id="getDailyProductTotalSalesbyDate" parameterType="salesDto" resultType="totalSales">
+		SELECT
+		    date,
+		    SUM(TOTAL_SALES) as totalSales
+		FROM
+		    MGV_DAILY_PRODUCT_SALES
+		WHERE
+		    date BETWEEN #{firstDate} AND #{lastDate}
+		GROUP BY
+		    date    
+		order by date;    
+	</select>
+	
+	<select id="getMonthlySalesbyDate" parameterType="salesDto" resultType="totalSales">
+		SELECT
+			FISCAL_MONTH as date,
+			MONTHLY_TOTALSALES as totalSales
+		FROM
+			MGV_MONTHLY_SALES 
+		WHERE
+			FISCAL_MONTH BETWEEN DATE_FORMAT(#{firstDate}, '%Y-%m') AND DATE_FORMAT(#{lastDate}, '%Y-%m')
+		order by FISCAL_MONTH;	
+	</select>
+	
+	<select id="getMonthlyMovieSalesbyDate" parameterType="salesDto" resultType="totalSales">
+		SELECT
+		    MOVIE_TITLE as name,
+		    SUM(TOTAL_SALES) as totalSales
+		FROM
+		    MGV_MONTHLY_MOVIE_SALES
+		WHERE
+		    MONTH BETWEEN DATE_FORMAT(#{firstDate}, '%Y-%m') AND DATE_FORMAT(#{lastDate}, '%Y-%m')
+		GROUP BY
+		    name;    
+	</select>
+	
+	<select id="getMonthlyProductSalesbyDate" parameterType="salesDto" resultType="totalSales">
+		SELECT
+		    PRODUCT_NAME as name,
+		    sum(TOTAL_SALES) as totalSales
+		FROM
+		    MGV_MONTHLY_PRODUCT_SALES
+		WHERE
+		    MONTH BETWEEN DATE_FORMAT(#{firstDate}, '%Y-%m') AND DATE_FORMAT(#{lastDate}, '%Y-%m')
+		GROUP BY
+		    PRODUCT_NAME     
+	</select>
+	
+	<select id="getMonthlyMovieTotalSalesbyDate" parameterType="salesDto" resultType="totalSales">
+		SELECT
+		    MONTH,
+		    SUM(TOTAL_SALES) as totalSales
+		FROM
+		    MGV_MONTHLY_MOVIE_SALES
+		WHERE
+		    MONTH BETWEEN DATE_FORMAT(#{firstDate}, '%Y-%m') AND DATE_FORMAT(#{lastDate}, '%Y-%m')
+		GROUP BY
+		    MONTH    
+		order by MONTH;    
+	</select>
+	
+	<select id="getMonthlyProductTotalSalesbyDate" parameterType="salesDto" resultType="totalSales">
+		SELECT
+		    MONTH,
+		    SUM(TOTAL_SALES) as totalSales
+		FROM
+		    MGV_MONTHLY_PRODUCT_SALES
+		WHERE
+		    MONTH BETWEEN DATE_FORMAT(#{firstDate}, '%Y-%m') AND DATE_FORMAT(#{lastDate}, '%Y-%m')
+		GROUP BY
+		    MONTH    
+		order by MONTH;  
+	</select>
+	<insert id="insertDailySales">
+	INSERT INTO MGV_DAILY_SALES (`DATE`, DAILY_TOTAL_SALES)
+	select
+		`DATE` ,sum(TOTAL_SALES) as DAILY_TOTAL_SALES
+	from
+		(select
+			`DATE` ,sum(TOTAL_SALES)as TOTAL_SALES
+		FROM MGV_DAILY_MOVIE_SALES
+		group by
+			`DATE`
+		UNION ALL
+		select
+			`DATE` ,sum(TOTAL_SALES) as TOTAL_SALES
+		FROM MGV_DAILY_PRODUCT_SALES
+		group by
+			`DATE`) as subquery
+	group by `DATE`
+	ON DUPLICATE KEY UPDATE
+		DAILY_TOTAL_SALES = VALUES(DAILY_TOTAL_SALES);
+	</insert>
+	<insert id="insertDailyMovieSales">
+		INSERT INTO MGV_DAILY_MOVIE_SALES 
+			(DATE, MOVIE_NO, MOVIE_TITLE, AUDIENCE,TOTAL_SALES) 
+		SELECT 
+			DATE_FORMAT(BOOKING_DATE,'%Y-%m-%d')as DATE, MOVIE_NO,MOVIE_TITLE  ,SUM(TOTAL_SEATS) as AUDIENCE, SUM(TOTAL_PRICE) AS TOTAL_SALES 
+		FROM MGV_BOOKING
+		WHERE BOOKING_STATE LIKE '%완료'  
+		group by DATE_FORMAT(BOOKING_DATE,'%Y-%m-%d'), MOVIE_NO ,MOVIE_TITLE
+		ON DUPLICATE KEY UPDATE
+		TOTAL_SALES = VALUES(TOTAL_SALES),
+		AUDIENCE = VALUES(AUDIENCE);   
+	</insert>
+	
+	<insert id="insertDailyProductSales">
+	INSERT INTO MGV_DAILY_PRODUCT_SALES (DATE, PRODUCT_NAME, AMOUNT, TOTAL_SALES)		
+	SELECT
+	    ORDER_DATE,
+	    PRODUCT_NAME,
+	    SUM(ORDER_AMOUNT) AS AMOUNT,
+	    SUM(ORDER_PRICE) AS TOTAL_SALES
+	FROM (
+	    SELECT 
+	        DATE_FORMAT(mo.ORDER_DATE, '%Y-%m-%d') AS ORDER_DATE,
+	        mp.PRODUCT_NAME, 
+	        mop.ORDER_AMOUNT, 
+	        mop.ORDER_PRICE
+	    FROM MGV_ORDER mo
+	    JOIN MGV_ORDER_PRODUCT mop ON mo.order_id = mop.order_id
+	    JOIN MGV_PRODUCT mp ON mop.PRODUCT_NO = mp.PRODUCT_NO
+	    WHERE mo.ORDER_STATUS LIKE '%완료'
+	    UNION ALL
+	    SELECT 
+	        DATE_FORMAT(mo.ORDER_DATE, '%Y-%m-%d') AS ORDER_DATE, 
+	        mp2.PACKAGE_NAME AS PRODUCT_NAME, 
+	        mop2.ORDER_AMOUNT, 
+	        mop2.ORDER_PRICE
+	    FROM MGV_ORDER mo
+	    JOIN MGV_ORDER_PACKAGE mop2 ON mo.order_id = mop2.order_id
+	    JOIN MGV_PACKAGE mp2 ON mop2.PACKAGE_NO = mp2.PACKAGE_NO
+	    WHERE mo.ORDER_STATUS LIKE '%완료'
+	) AS subquery
+	GROUP BY ORDER_DATE, PRODUCT_NAME
+	ON DUPLICATE KEY UPDATE
+		TOTAL_SALES = VALUES(TOTAL_SALES),
+		AMOUNT = VALUES(AMOUNT);
+	</insert>
+	
+	<insert id="insertMonthlySales" >
+		INSERT INTO
+		    MGV_MONTHLY_SALES  (FISCAL_MONTH, MONTHLY_TOTALSALES)
+		SELECT
+		    DATE_FORMAT(date, '%Y-%m') AS FISCAL_MONTH,
+		    SUM(daily_total_sales) AS MONTHLY_TOTALSALES
+		FROM
+		    MGV_DAILY_SALES 
+		WHERE
+		    DATE_FORMAT(date, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')
+		GROUP BY
+		    DATE_FORMAT(date, '%Y-%m')
+		ON DUPLICATE KEY UPDATE  
+		    MONTHLY_TOTALSALES = VALUES(MONTHLY_TOTALSALES);
+	</insert>
+	
+	<insert id="insertMonthlyMovieSales" >
+	INSERT INTO MGV_MONTHLY_MOVIE_SALES 
+		(MONTH, MOVIE_NO, MOVIE_TITLE, AUDIENCE, TOTAL_SALES)
+	SELECT
+		DATE_FORMAT(DATE, '%Y-%m') AS MONTH,
+		MOVIE_NO,
+		MOVIE_TITLE,
+		SUM(AUDIENCE),
+		SUM(TOTAL_SALES) AS TOTAL_SALES
+	FROM
+		MGV_DAILY_MOVIE_SALES
+	WHERE
+	    DATE_FORMAT(date, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')
+	GROUP BY
+		DATE_FORMAT(DATE, '%Y-%m'),
+		MOVIE_NO
+	ON DUPLICATE KEY UPDATE
+		TOTAL_SALES = VALUES(TOTAL_SALES);
+	</insert>
+
+	<insert id="insertMonthlyProductSales" >
+	INSERT INTO MGV_MONTHLY_PRODUCT_SALES 
+		(MONTH, PRODUCT_NAME, AMOUNT, TOTAL_SALES)
+	SELECT
+		DATE_FORMAT(DATE, '%Y-%m') AS MONTH,
+		PRODUCT_NAME,
+		SUM(AMOUNT),
+		SUM(TOTAL_SALES) AS TOTAL_SALES
+	FROM
+		MGV_DAILY_PRODUCT_SALES
+	WHERE
+	    DATE_FORMAT(date, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')
+	GROUP BY
+		DATE_FORMAT(DATE, '%Y-%m'),
+		PRODUCT_NAME
+	ON DUPLICATE KEY UPDATE
+		TOTAL_SALES = VALUES(TOTAL_SALES);
+	</insert>
+	
+	<insert id="insertYearlySales" parameterType="String">
+	INSERT INTO
+		MGV_YEARLY_SALES (FISCAL_YEAR, YEARLY_TOTALSALES)
+	SELECT 
+		SUBSTRING(FISCAL_MONTH, 1, 4) AS FISCAL_YEAR,
+		SUM(MONTHLY_TOTALSALES) AS YEARLY_TOTALSALES
+	FROM 
+		MGV_MONTHLY_SALES
+	WHERE 
+		SUBSTRING(FISCAL_MONTH, 1, 4) = DATE_FORMAT(CURDATE(), '%Y')
+	GROUP BY 
+		SUBSTRING(FISCAL_MONTH, 1, 4)
+	ON DUPLICATE KEY UPDATE  
+		YEARLY_TOTALSALES = VALUES(YEARLY_TOTALSALES);
+	</insert>
+	
+	<insert id="insertYearlyMovieSales" >
+	INSERT INTO MGV_YEARLY_MOVIE_SALES 
+		(YEAR, MOVIE_NO, AUDIENCE, TOTAL_SALES)
+	SELECT
+	    SUBSTRING(MONTH, 1, 4) AS YEAR,
+	    MOVIE_NO,
+	    SUM(AUDIENCE), 
+	    SUM(TOTAL_SALES) AS TOTAL_SALES
+	FROM
+	    MGV_MONTHLY_MOVIE_SALES
+    WHERE 
+		SUBSTRING(FISCAL_MONTH, 1, 4) = DATE_FORMAT(CURDATE(), '%Y')
+	GROUP BY
+	    SUBSTRING(MONTH, 1, 4),
+	    MOVIE_NO 
+	ON DUPLICATE KEY UPDATE
+		TOTAL_SALES = VALUES(TOTAL_SALES);
+	</insert>
+	
+	<insert id="insertYearlyProductSales">
+	INSERT INTO MGV_YEARLY_PRODUCT_SALES 
+		(YEAR, PRODUCT_NAME, AMOUNT, TOTAL_SALES)
+	SELECT
+	    SUBSTRING(MONTH, 1, 4) AS YEAR,
+	    PRODUCT_NAME,
+	    SUM(AMOUNT), 
+	    SUM(TOTAL_SALES) AS TOTAL_SALES
+	FROM
+	    MGV_MONTHLY_PRODUCT_SALES 
+	WHERE 
+		SUBSTRING(FISCAL_MONTH, 1, 4) = DATE_FORMAT(CURDATE(), '%Y')   
+	GROUP BY
+	    SUBSTRING(MONTH, 1, 4),
+	    PRODUCT_NAME 
+	ON DUPLICATE KEY UPDATE
+		TOTAL_SALES = VALUES(TOTAL_SALES);
+	</insert>
+
 </mapper>

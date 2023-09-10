@@ -65,15 +65,16 @@
 	
 	<insert id="insertLostFile" parameterType="kr.co.mgv.support.vo.LostFile">
 		INSERT INTO MGV_LOST_FILE
-		(LOST_NO, ORIGINAL_NAME, SAVE_NAME)
-		VALUES(#{lost.no}, #{originalName}, #{saveName})
+		(LOST_NO, ORIGINAL_NAME, SAVE_NAME, UPLOAD_PATH)
+		VALUES(#{lost.no}, #{originalName}, #{saveName}, #{uploadPath})
 	</insert>
 	
 	<select id="getLostFilesByLostNo" parameterType="int" resultType="kr.co.mgv.support.vo.LostFile">
 		SELECT 
 			FILE_NO			as no, 
 			ORIGINAL_NAME	as originalName,
-			SAVE_NAME 		AS saveName
+			SAVE_NAME 		AS saveName,
+			UPLOAD_PATH		AS uploadPath
 		FROM 
 			MGV_LOST_FILE
 		where lost_no = #{value}
@@ -83,8 +84,9 @@
 		SELECT 
 			FILE_NO			as no, 
 			ORIGINAL_NAME	as originalName,
-			SAVE_NAME 		as saveName
-		FROM 
+			SAVE_NAME 		as saveName,
+			UPLOAD_PATH		AS uploadPath
+		FROM
 			MGV_LOST_FILE
 		where FILE_NO = #{value}
 	</select>

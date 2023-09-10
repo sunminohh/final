@@ -2,12 +2,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="kr.co.mgv.event.dao.EventDao">
 
+	<resultMap id="eventMap" type="kr.co.mgv.event.vo.Event">
+		<result column="EVENT_NO" property="no" />
+		<result column="EVENT_TITLE" property="title" />
+		<result column="EVENT_MAIN_IMAGE" property="mainImage" />
+		<result column="EVENT_DETAIL_IMAGE" property="detailImage" />
+		<result column="EVENT_DELETED" property="deleted" />
+		<result column="EVENT_START_DATE" property="startDate" />
+		<result column="EVENT_END_DATE" property="endDate" />
+		<result column="EVENT_UPDATE_DATE" property="updateDate" />
+		<result column="EVENT_CREATE_DATE" property="createDate" />
+		<association property="category" javaType="kr.co.mgv.event.vo.EventCategory">
+			<result column="CATEGORY_NO" property="no" />
+			<result column="CATEGORY_NAME" property="name" />
+		</association>
+		<association column="EVENT_MAIN_FILE_ID" property="mainImageFile" select="kr.co.mgv.common.dao.CommonDao.getMgvFile" />
+		<association column="EVENT_DETAIL_FILE_ID" property="detailImageFile" select="kr.co.mgv.common.dao.CommonDao.getMgvFile" />
+	</resultMap>
+
 	<insert id="insertEvent" parameterType="kr.co.mgv.event.vo.Event">
 		INSERT INTO
 			MGV_EVENT
-		(EVENT_TITLE, EVENT_MAIN_IMAGE, EVENT_DETAIL_IMAGE, EVENT_START_DATE, EVENT_END_DATE, CATEGORY_NO, USER_ID)
+		(EVENT_TITLE, EVENT_MAIN_IMAGE, EVENT_DETAIL_IMAGE, EVENT_START_DATE, EVENT_END_DATE, CATEGORY_NO, USER_ID, EVENT_MAIN_FILE_ID, EVENT_DETAIL_FILE_ID)
 		VALUES
-			(#{title}, #{mainImage}, #{detailImage}, #{startDate}, #{endDate}, #{category.no}, #{user.id})
+			(#{title}, #{mainImage}, #{detailImage}, #{startDate}, #{endDate}, #{category.no}, #{user.id}, #{mainImageFile.fileId}, #{detailImageFile.fileId})
 	</insert>
 	
 	<update id="updateEventByNo" parameterType="kr.co.mgv.event.vo.Event">
@@ -36,7 +54,13 @@
 				EVENT_UPDATE_DATE = #{updateDate},
 			</if>
 			<if test="category != null">
-				CATEGORY_NO = #{category.no}
+				CATEGORY_NO = #{category.no},
+			</if>
+			<if test="mainImageFile != null">
+				EVENT_MAIN_FILE_ID = #{mainImageFile.fileId},
+			</if>
+			<if test="detailImageFile != null">
+				EVENT_DETAIL_FILE_ID = #{detailImageFile.fileId}
 			</if>
 		WHERE 
 			EVENT_NO= #{no} 	
@@ -70,19 +94,21 @@
 			</if>
 	</select>
 	
-	<select id="getEventByNo" parameterType="int" resultType="kr.co.mgv.event.vo.Event">
+	<select id="getEventByNo" parameterType="int" resultMap="eventMap">
 		SELECT 
-			A.EVENT_NO				as no, 
-			A.EVENT_TITLE			as title, 
-			A.EVENT_MAIN_IMAGE		as mainImage, 
-			A.EVENT_DETAIL_IMAGE	as detailImage,
-			A.EVENT_DELETED			as deleted, 
-			A.EVENT_START_DATE		as startDate, 
-			A.EVENT_END_DATE		as endDate, 
-			A.EVENT_UPDATE_DATE		as updateDate, 
-			A.EVENT_CREATE_DATE		as createDate, 
-			A.CATEGORY_NO			as "category.no", 
-			B.CATEGORY_NAME			as "category.name" 
+			A.EVENT_NO
+		  , A.EVENT_TITLE
+		  , A.EVENT_MAIN_IMAGE
+		  , A.EVENT_DETAIL_IMAGE
+		  , A.EVENT_DELETED
+		  , A.EVENT_START_DATE
+		  , A.EVENT_END_DATE
+		  , A.EVENT_UPDATE_DATE
+		  , A.EVENT_CREATE_DATE
+		  , A.CATEGORY_NO
+		  , B.CATEGORY_NAME
+		  , A.EVENT_MAIN_FILE_ID
+		  , A.EVENT_DETAIL_FILE_ID
 		FROM 
 			MGV_EVENT A, MGV_EVENT_CATEGORIES B
 		where
@@ -91,19 +117,21 @@
 			and A.EVENT_NO = #{value}
 	</select>
 	
-	<select id="getEventList" parameterType="map" resultType="kr.co.mgv.event.vo.Event">
+	<select id="getEventList" parameterType="map" resultMap="eventMap">
 		SELECT 
-			A.EVENT_NO				as no, 
-			A.EVENT_TITLE			as title, 
-			A.EVENT_MAIN_IMAGE		as mainImage, 
-			A.EVENT_DETAIL_IMAGE	as detailImage,
-			A.EVENT_DELETED			as deleted, 
-			A.EVENT_START_DATE		as startDate, 
-			A.EVENT_END_DATE		as endDate, 
-			A.EVENT_UPDATE_DATE		as updateDate, 
-			A.EVENT_CREATE_DATE		as createDate, 
-			A.CATEGORY_NO			as "category.no", 
-			B.CATEGORY_NAME			as "category.name" 
+			A.EVENT_NO,
+			A.EVENT_TITLE,
+			A.EVENT_MAIN_IMAGE,
+			A.EVENT_DETAIL_IMAGE,
+			A.EVENT_DELETED,
+			A.EVENT_START_DATE,
+			A.EVENT_END_DATE,
+			A.EVENT_UPDATE_DATE,
+			A.EVENT_CREATE_DATE,
+			A.CATEGORY_NO,
+			B.CATEGORY_NAME,
+			A.EVENT_MAIN_FILE_ID,
+			A.EVENT_DETAIL_FILE_ID
 		FROM 
 			MGV_EVENT A, MGV_EVENT_CATEGORIES B
 		where
@@ -130,7 +158,9 @@
 			</if>
 		order by
 			A.EVENT_NO DESC
-		LIMIT 10 OFFSET #{begin}
+		<if test="begin != null and end != null">
+		LIMIT #{end} OFFSET #{begin}
+		</if>
 	</select>
 	
 	<select id="getCategories" parameterType="string" resultType="kr.co.mgv.event.vo.EventCategory">

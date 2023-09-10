@@ -51,6 +51,7 @@ logging:
     '[kr.co.mgv.theater.dao]': trace
     '[kr.co.mgv.user.dao]': trace
     '[kr.co.mgv.schedule.dao]': trace
+    '[kr.co.mgv.event.dao]': trace
 ---
 ## thymeleaf
 spring:
@@ -59,3 +60,17 @@ spring:
 
 upload:
   directory: /images/product/
+
+movie:
+  kobis:
+    url: www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json
+    key: 45ac471b35ca42c983d971a438b31d25
+  kmdb:
+    url: api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp
+    key: Y40OV2CFS1I2MTV081VG
+
+  
+  
+# 이벤트, 고객센터 이미지 저장경로
+default-file-path: C:\\workspace\\final\\images
+#default-file-path: C:\\Users\\sqptm\\source\\spring-mgv\\images

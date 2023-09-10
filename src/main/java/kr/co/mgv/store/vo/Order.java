@@ -15,10 +15,15 @@ import java.util.Date;
 @Alias("Order")
 public class Order {
 
-    private String id;
-    private User user;
+    private long orderId;
+    private String userId;
+    private String userName;
     private int totalPrice;
-    private Date orderDate;
-    private Date cancelDate;
-    private String status;
+    private String orderName;
+    private String packageInfo;
+    private String payMethod;
+    private String paymentKey;
+    private Date createDate;
+    private Date updateDate;
+    private String orderState;
 }

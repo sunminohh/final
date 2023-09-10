@@ -38,24 +38,24 @@
                             </div>
                             <!-- store-list -->
                             <div class="store-list">
-                                <ul class="list" th:each="package : ${packages}" th:if="${package.category.no == 1}">
+                                <ul class="list" th:each="product : ${products}" th:if="${product.category.no == 1}">
                                     <li class="">
-                                        <a th:href="@{/store/detail/package(packageNo=${package.getNo()})}" title="패키지 상세페이지">
+                                        <a th:href="@{/store/detail/product(productNo=${product.getNo()})}" title="패키지 상세페이지">
                                             <div class="soldout">SOLD OUT</div>
                                             <div class="label event">EVENT</div>
                                             <div class="img">
-                                                <img th:src="${package.getImagePath()}" onerror="noImg(this);">
+                                                <img th:src="${product.getImagePath()}" onerror="noImg(this);">
                                             </div>
                                             <div class="info">
                                                 <div class="tit">
                                                     <!-- 제품명 최대 2줄 -->
-                                                    <p class="name" th:text="${package.getName()}"></p>
+                                                    <p class="name" th:text="${product.getName()}"></p>
                                                     <!-- 제품구성 최대 2줄 -->
-                                                    <p class="description" th:text="${package.getComposition()}"></p>
+                                                    <p class="description" th:text="${product.getDescription()}"></p>
                                                 </div>
                                                 <div class="price">
                                                     <p class="sale">
-                                                        <em class="price-detail" th:text="${package.getDiscountedPrice()}"></em>
+                                                        <em class="price-detail" th:text="${product.getDiscountedPrice()}"></em>
                                                         <span>원</span>
                                                     </p>
                                                 </div>

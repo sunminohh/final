@@ -1,4 +1,5 @@
 $(()=>{
+
     //초기 변수 설정
     dayjs.locale('ko-kr')
     const today= dayjs()
@@ -18,24 +19,118 @@ $(()=>{
             $("#playScheduleList").find('[selected=selected]').removeAttr('selected')
         }
         if(stage===1){
-            $("#step1").show()
-            giftTicketNos=new Set
-            createSeats(screenRow,screenCol)
-            generateSeatResultByScheduleId(scheduleId)
-            clearChoice()
+            fetch("/api/booking/fromStep0toStep1?scheduleId="+scheduleId).then(res=>res.json()).then(json=>{
+                if("fail" == json.result){
+                    $("#step0").show()
+                    $("#login-modal").addClass('is-open').find('#id').focus()
+                    return
+                }else if("success" == json.result){
+                    const screenId=$("#schedule-"+scheduleId).attr('screen-id')
+                    $("#step1").show()
+                    giftTicketNos=new Set
+                    createSeats(scheduleId,screenId)
+                    generateSeatResultByScheduleId(scheduleId)
+                    clearChoice()
+                }
+            })
         }else if(stage===2){
 
             $("#step2").show()
             generateStep2ResultByScheduleId(scheduleId)
+            insertBookedSeats(scheduleId)
         }
     }
+
+    function finalPay(){
+        const usedGiftTickets = [...giftTicketNos].join()
+        const giftAmount=calculFinalPrice()
+        const schedule = $("#playScheduleList").find('[selected=selected]')
+        const scheduleId=$("#playScheduleList").find('[selected=selected]').attr('schedule-id')
+        const movieNo=schedule.attr('movie-no')
+        const movie=$("#mBtn-"+movieNo)
+        const moviePoster=movie.attr('img-path')
+        const movieContentRating=movie.attr('contentrating')
+        const movieContentRatingKr=movie.attr('contentratingkr')
+        const movieTitle=schedule.attr('movie-title')
+        const startTime=schedule.attr('start-time')
+        const endTime=schedule.attr('end-time')
+        const screenId=schedule.attr('screen-id')
+        const screenName=schedule.attr('screen-name')
+        const theaterNo=schedule.attr('theater-no')
+        const theaterName=schedule.attr('theater-name')
+        const bookedSeats= $(".my-seat").children('.choice').map((i,e)=>e.innerHTML).get().join()
+        const dto={
+            no: Date.now() + Math.floor((Math.random()*100)),
+            bookingDate: selectedDate,
+            movieNo: movieNo,
+            title: movieTitle,
+            poster:moviePoster,
+            contentRating:movieContentRating,
+            contentRatingKr:movieContentRatingKr,
+            startTime: startTime,
+            endTime: endTime,
+            scheduleId: scheduleId,
+            screenId: screenId,
+            screenName: screenName,
+            theaterNo: theaterNo,
+            theaterName: theaterName,
+            totalSeats:adultTickets+underageTickets,
+            bookedSeatsNos: bookedSeats,
+            adultSeats:adultTickets,
+            underageSeats:underageTickets,
+            giftAmount: giftAmount,
+            payAmount: totalPrice-giftAmount,
+            totalPrice: totalPrice,
+            payMethod:payMethod,
+            usedGiftTickets:usedGiftTickets
+        }
+        fetch("/api/booking/bookingPay",{
+            method:'post',
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(dto)
+        }).then(res=>res.json()).then(data=> {
+            if('success' == data.result){
+                window.location.replace("/booking/success?orderId="+data.bookingNo)
+            }else if('fail'== data.result){
+                    window.location.replace("/booking?fail=login")
+
+            }else if('pending' == data.result) {
+                let path = "/booking/";
+                let successUrl = window.location.origin + path + "success";
+                let failUrl = window.location.origin + path + "failure";
+                let orderId = data.bookingNo
+                const orderName = movieTitle + " " + (adultTickets + underageTickets) + " 장"
+                let jsons = {
+                    "card": {
+                        "amount": totalPrice-giftAmount,
+                        "orderId": orderId,
+                        "orderName": orderName,
+                        "successUrl": successUrl,
+                        "failUrl": failUrl,
+                        "cardCompany": null,
+                        "cardInstallmentPlan": null,
+                        "maxCardInstallmentPlan": null,
+                        "useCardPoint": false,
+                        "customerName": data.userName,
+                        "customerEmail": null,
+                        "customerMobilePhone": null,
+                        "useInternationalCardOnly": false,
+                        "flowMode": "DEFAULT",
+                        "discountCode": null,
+                        "appScheme": null
+                    }
+                }
+                pay('카드', jsons.card);
+            }
+        })
+
+    }
+
     const selectedTheaterList = $("#selectedTheaterList")
     const selectedMovieList = $("#selectedMovieList")
     const scheduleDiv= $("#mCSB_3_container")
-    let selectedScreen
-    let mouseoverSeat
-    let selectedSeat
-    const seatChoices = new Set
     let screenId
     let screenRow=14
     let screenCol=20+1
@@ -54,7 +149,7 @@ $(()=>{
     let payMethod
 
     function apiByDate(date){
-        fetch('api/booking/'+date).then(res => res.json()).then(item=>{
+        fetch('/api/booking/'+date).then(res => res.json()).then(item=>{
             let aa= JSON.stringify(item)
             let json = JSON.parse(aa)
             let ml= $("#mCSB_1_container123").children().children()
@@ -316,33 +411,26 @@ $(()=>{
         $("#step1-result").children()
             .children(':first').html(`
                                 <span class="movie-grade small age-${movie.attr('contentRating')}">${movie.attr('contentRatingKr')}</span>
-                                <p class="tit">${movie.attr('movie-nm')}</p>
+                                <p class="tit" style="margin-bottom:6px;">${movie.attr('movie-nm')}</p>
                                 <p class="cate">2D</p>`)
-            .next().html(`<p class="theater">${s.attr('theater-name')}</p>
-                                    <p class="special">${s.attr('screen-name')}</p>
-                                    <p class="date">
+            .next().html(`<p class="theater" style="margin-bottom:4px;">${s.attr('theater-name')}</p>
+                                    <p class="special" style="margin-bottom:4px;">${s.attr('screen-name')}</p>
+                                    <p class="date" style="margin-bottom:4px;">
                                         <span>${selectedDate}</span>
                                         <em>(${today.format('dd')})</em>
                                     </p>
-                                    <div class="other-time">
-                                        <button type="button" class="now">${s.attr('start-time')} ~ ${s.attr('end-time')} <i class="arr"></i>
-                                        </button>
-                                        <ul class="other">
-                                            <li>
-                                                <button type="button" choicnt="90" playschdlno="2307311372034" class="btn on ">08:55~10:54</button>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <p class="poster">
+                                         <p  class="now" style="margin-bottom:4px;">${s.attr('start-time')} ~ ${s.attr('end-time')}
+                                        </p>
+                                    <p class="poster" style="margin-bottom:4px;">
                                         <img src="${movie.attr('img-path')}">
                                     </p>`)
     }
-    function createSeats(screenRow,screenCol){
+    function createSeats(scheduleId,screenId){
         const seatsDiv = $("#seatsDiv").empty()
         fetch("/api/booking/getDisabledSeats?screenId="+screenId).then(res=>res.json()).then(json=>{
             const disabledSeats=json.disabledSeats
             screenRow=json.row
-            screenRow=json.col
+            screenCol=json.col
             const allEmptySeats = new Set
             $.each(disabledSeats,(id,disabledSeatNo)=>{
                 allEmptySeats.add(disabledSeatNo)
@@ -360,11 +448,22 @@ $(()=>{
                     }else row.append(createActiveSeat(seatNo,i,j,"standard common"))
                 }
             }
+            checkBookedSeats(scheduleId)
             seatNumbering(screenRow,screenCol)
-        })
+        }).then()
 
     }
-
+    function checkBookedSeats(scheduleId){
+        if(!scheduleId){
+            scheduleId=$("#playScheduleList").find('[selected=selected]').attr('schedule-id')
+        }
+            fetch("/api/booking/getBookedSeats?scheduleId="+scheduleId).then(res=>res.json()).then(bookedSeatNos=>{
+                $.each(bookedSeatNos, (id, seatNo)=>{
+                    $("#"+seatNo).addClass('finish')
+                    console.log(seatNo)
+                })
+            })
+    }
     function initDefaultSeats(screenRow,screenCol){
         const seatsDiv = $("#seatsDiv")
         for (let i=0; i<screenRow; i++){
@@ -428,9 +527,10 @@ $(()=>{
 
     $("#seatsDiv").on('click','button',function() {
         const seatsToPick = maxSeatChoices - curSeatChoices
-        if($(this).hasClass('impossible')){
+        if($(this).hasClass('impossible') || $(this).hasClass('finish')){
             return
         }
+
         if($(this).hasClass('choice')){
             removeCurSeatChoice($(this).attr('id'))
             const pair = $(this).attr('pair')
@@ -440,6 +540,7 @@ $(()=>{
             checkNextButton()
             singleSeatCheck()
             calculPrice()
+            sequncing()
             return
         }
         if (seatsToPick==0){
@@ -448,7 +549,9 @@ $(()=>{
             }else insertAlert("좌석 선택이 완료되었습니다.")
             return
         }
+
         const seats= $(this).parent().children('.on').addClass('choice')
+
         const seat1=$(seats[0]).attr('id')
         let seat2=undefined
         if (seats.length==2){
@@ -516,7 +619,7 @@ $(()=>{
     }
     $("#seatsDiv").on('mouseover','button',function() {
         const seatsToPick = maxSeatChoices - curSeatChoices
-        if(seatsToPick==0 || $(this).hasClass('choice')){
+        if(seatsToPick==0 || $(this).hasClass('choice') || $(this).hasClass('finish')){
             return
         }else if(seatsToPick==1){
             $(this).toggleClass('on')
@@ -555,13 +658,6 @@ $(()=>{
         $(this).removeClass('on').siblings().removeClass('on')
     })
 
-    function clearSeatChoices(){
-        const onSeats=$("#seatsDiv .on").removeClass('on')
-        const choiceSeats=$("#seatsDiv .choice").removeClass('choice')
-        selectedSeat=undefined
-        seatChoices.clear()
-    }
-    // $(this).replaceWith(`<div class="empty" style="width:18px; height:18x; padding:0px;"></div>`)
 
     $("#emptySeat").on('click',()=>{
         const seats=$("#seatsDiv .choice")
@@ -685,7 +781,6 @@ $(()=>{
         checkNextButton()
         let count= $(this).siblings('div').children(':first')
         count.text(parseInt(count.text())+1)
-        console.log("cur : "+curSeatChoices+" max : "+maxSeatChoices)
         $(".seat-count-before").removeClass('on').addClass('off')
     })
 
@@ -712,7 +807,22 @@ $(()=>{
         if($(this).hasClass('disabled')){
             return
         }
-       callStep(2)
+        const scheduleId=$("#playScheduleList").find('[selected=selected]').attr('schedule-id')
+        fetch("/api/booking/getBookedSeats?scheduleId="+scheduleId).then(res=>res.json()).then(bookedSeatNos=>{
+            let flag=true
+            $.each(bookedSeatNos, (id, seatNo)=>{
+               if($("#"+seatNo).hasClass('choice')){
+                   flag=false
+               }
+            })
+            if(flag){
+                callStep(2)
+            }else{
+                insertAlert("선택하신 좌석은 이미 예약중인 좌석입니다.")
+                clearChoice()
+            }
+        })
+
     })
 
     function alertOn(){
@@ -735,6 +845,25 @@ $(()=>{
         alertOn()
     }
 
+    function insertBookedSeats(scheduleId){
+        const seatNos=[]
+        $("#seatsDiv").find('.choice').each(function(){
+            seatNos.push($(this).attr('id'))
+        })
+      fetch("/api/booking/insertBookedSeats?scheduleId="+scheduleId+"&seatNos="+seatNos).then(res=>console.log(res))
+    }
+    function deleteBookedSeats(){
+        const scheduleId=$("#playScheduleList").find('[selected=selected]').attr('schedule-id')
+        if(scheduleId) {
+
+
+            const seatNos = []
+            $("#seatsDiv").find('.choice').each(function () {
+                seatNos.push($(this).attr('id'))
+            })
+            fetch("/api/booking/deleteBookedSeats?scheduleId=" + scheduleId + "&seatNos=" + seatNos).then(res => console.log(res))
+        }
+    }
     function generateStep2ResultByScheduleId(id){
         const s=$("#schedule-"+id)
         const mNo=s.attr('movie-no')
@@ -802,6 +931,7 @@ $(()=>{
         callStep(0)
     })
     $("#prevbtnfrom2to1").on('click',()=>{
+        deleteBookedSeats()
         clearStep2()
         callStep(1)
     })
@@ -893,87 +1023,7 @@ $(()=>{
     }
 
     $("#btn-final-pay").on('click',()=>{
-        const usedGiftTickets = [...giftTicketNos].join()
-        const giftAmount=calculFinalPrice()
-        const schedule = $("#playScheduleList").find('[selected=selected]')
-        const scheduleId=$("#playScheduleList").find('[selected=selected]').attr('schedule-id')
-        const movieNo=schedule.attr('movie-no')
-        const movie=$("#mBtn-"+movieNo)
-        const moviePoster=movie.attr('img-path')
-        const movieContentRating=movie.attr('contentrating')
-        const movieContentRatingKr=movie.attr('contentratingkr')
-        const movieTitle=schedule.attr('movie-title')
-        const startTime=schedule.attr('start-time')
-        const endTime=schedule.attr('end-time')
-        const screenId=schedule.attr('screen-id')
-        const screenName=schedule.attr('screen-name')
-        const theaterNo=schedule.attr('theater-no')
-        const theaterName=schedule.attr('theater-name')
-       const bookedSeats= $(".my-seat").children('.choice').map((i,e)=>e.innerHTML).get().join()
-        const dto={
-            no: Date.now() + Math.floor((Math.random()*100)),
-            bookingDate: selectedDate,
-            movieNo: movieNo,
-            title: movieTitle,
-            poster:moviePoster,
-            contentRating:movieContentRating,
-            contentRatingKr:movieContentRatingKr,
-            startTime: startTime,
-            endTime: endTime,
-            scheduleId: scheduleId,
-            screenId: screenId,
-            screenName: screenName,
-            theaterNo: theaterNo,
-            theaterName: theaterName,
-            totalSeats:adultTickets+underageTickets,
-            bookedSeatsNos: bookedSeats,
-            adultSeats:adultTickets,
-            underageSeats:underageTickets,
-            giftAmount: giftAmount,
-            payAmount: totalPrice-giftAmount,
-            totalPrice: totalPrice,
-            payMethod:payMethod,
-            usedGiftTickets:usedGiftTickets
-        }
-            fetch("/api/booking/bookingPay",{
-                method:'post',
-                headers:{
-                    'Content-Type': 'application/json'
-                },
-                body:JSON.stringify(dto)
-            }).then(res=>res.json()).then(data=> {
-            if('success' == data.result){
-                window.location.replace("/booking/success?orderId="+data.bookingNo)
-            }else if('pending' == data.result) {
-                let path = "/booking/";
-                let successUrl = window.location.origin + path + "success";
-                let failUrl = window.location.origin + path + "failure";
-                let orderId = data.bookingNo
-                const orderName = movieTitle + " " + (adultTickets + underageTickets) + " 장"
-                let jsons = {
-                    "card": {
-                        "amount": totalPrice-giftAmount,
-                        "orderId": orderId,
-                        "orderName": orderName,
-                        "successUrl": successUrl,
-                        "failUrl": failUrl,
-                        "cardCompany": null,
-                        "cardInstallmentPlan": null,
-                        "maxCardInstallmentPlan": null,
-                        "useCardPoint": false,
-                        "customerName": data.userName,
-                        "customerEmail": null,
-                        "customerMobilePhone": null,
-                        "useInternationalCardOnly": false,
-                        "flowMode": "DEFAULT",
-                        "discountCode": null,
-                        "appScheme": null
-                    }
-                }
-                pay('카드', jsons.card);
-            }
-            })
-
+        finalPay()
     })
 
     $("#tosspay").click(function(){
@@ -1008,4 +1058,9 @@ $(()=>{
 
             });
     }
+
+    $("#login-fail-alert").on("click",'button',()=>{
+        $("#login-fail-alert-style").remove()
+        $("#login-fail-alert").remove()
+    })
 })

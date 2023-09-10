@@ -53,6 +53,49 @@
         WHERE
             BOOKING_NO = #{VALUE}
     </select>
+    
+    <select id="getBookings" resultType="Booking">
+        select
+            BOOKING_NO                      as no,
+            BOOKING_DATE                    as bookingDate,
+            USER_ID                         as userId,
+            USER_NAME                       as username,
+            MOVIE_NO                        as movieNo,
+            MOVIE_TITLE                     as title,
+            MOVIE_POSTER                    as poster,
+            MOVIE_CONTENT_RATING            as contentRating,
+            MOVIE_CONTENT_RATING_KR         as contentRatingKr,
+            START_TIME                      as startTime,
+            END_TIME                        as endTime,
+            SCHEDULE_ID                     as scheduleId,
+            SCREEN_ID                       as screenId,
+            THEATER_NO                      as theaterNo,
+            THEATER_NAME                    as theaterName,
+            TOTAL_SEATS                     as totalSeats,
+            BOOKED_SEATS_NOS                as bookedSeatsNos,
+            ADULT_SEATS                     as adultSeats,
+            UNDERAGE_SEATS                  as underageSeats,
+            GIFT_AMOUNT                     as giftAmount,
+            PAY_AMOUNT                      as payAmount,
+            TOTAL_PRICE                     as totalPrice,
+            PAY_METHOD                      as payMethod,
+            TOTAL_PRICE                     as totalPrice,
+            CREATE_DATE                     as createDate,
+            UPDATE_DATE                     as updateDate,
+            BOOKING_STATE                   as bookingState,
+            USED_GIFT_TICKETS               as usedGiftTickets,
+            PAYMENT_KEY                     as paymentKey
+        from
+            MGV_BOOKING
+        WHERE
+		    BOOKING_STATE LIKE '%완료'
+		    OR
+		    BOOKING_STATE LIKE '%취소'
+		ORDER BY
+		    CREATE_DATE DESC 
+		LIMIT
+		    6;  
+    </select>
 
     <update id="updateBooking" parameterType="Booking">
         update MGV_BOOKING
@@ -62,4 +105,39 @@
             PAYMENT_KEY         = #{paymentKey}
         where BOOKING_NO = #{no}
     </update>
+
+    <insert id="insertBookedSeats" parameterType="map">
+        insert into MGV_BOOKED_SEATS (SCHEDULE_ID,SEAT_NO)
+        values
+        <foreach collection="seatNos" item="item" index="index" separator=",">
+            (#{scheduleId},#{item})
+        </foreach>
+    </insert>
+    <delete id="deleteBookedSeats" parameterType="map">
+        delete
+            from MGV_BOOKED_SEATS
+        WHERE SCHEDULE_ID =#{scheduleId} and SEAT_NO IN
+        <foreach collection="seatNos" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+
+    </delete>
+
+    <select id="getBookedSeatsByScheduleId" parameterType="int" resultType="string">
+        select SEAT_NO as seatNo
+        from MGV_BOOKED_SEATS
+        where SCHEDULE_ID=#{VALUE}
+    </select>
+    <update id="completeBookedSeats" parameterType="map">
+            update MGV_BOOKED_SEATS
+            SET
+            IS_COMPLETE = 1,
+            BOOKING_NO  = #{bookingNo}
+            where
+            SCHEDULE_ID =#{scheduleId} and SEAT_NO =#{seatNo}
+    </update>
+    <delete id="clearTimeOutBookedSeats">
+        delete from MGV_BOOKED_SEATS
+        WHERE IS_COMPLETE = 0 AND TIMESTAMPDIFF(SECOND,CREATE_DATE,CURRENT_TIMESTAMP)>60;
+    </delete>
 </mapper>

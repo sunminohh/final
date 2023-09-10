@@ -80,8 +80,7 @@ public class TheaterController {
     		return "undefined";
     	}else {
     		String userId = user.getId();
-    		theaterService.registFavoriteTheater(userId, favoriteTheater);
-    		return "success";
+    		return theaterService.registFavoriteTheater(userId, favoriteTheater);
     		
     	}
     	

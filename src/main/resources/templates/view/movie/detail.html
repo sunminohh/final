@@ -18,7 +18,7 @@
         <div class="movie-detail-cont">
 
             <p class="contents-type"></p>
-            <p class="title" th:text="${movie.title}">영화제목</p>
+            <p class="title"  id="movieTitle" th:text="${movie.title}">영화제목</p>
             <p class="title-eng" th:text="${movie.titleEng}"></p>
 
             <div class="btn-util">
@@ -121,9 +121,12 @@
 
 
                     <a href="javascript:fn_bookingForm('23029300','basic');" class="btn reserve" title="영화 예매하기">예매</a>
-                    <a href="javascript:fn_bookingForm('23029300','DBC');" class="btn dolby">
-                        <img src="/static/pc/images/common/btn/mov_detail_db_btn.png" alt="dolby 버튼">
-                    </a>
+
+
+                    <button th:if="${user != null}" id="to-party-form" class="btn reserve" style="background-color:#00586a;">파티 신청
+                    </button>
+                    <button th:if="${user == null}" id="to-party-form-disabled" class="btn reserve" style="background-color:#00586a;">파티 신청
+                    </button>
                 </div>
             </div>
         </div>
@@ -346,7 +349,7 @@
                     <li class="type01 oneContentTag" sec:authorize="isAuthenticated()">
                         <div class="story-area">
                             <div class="user-prof"  >
-                                <div class="prof-img"><img th:src="@{default.png}" alt="프로필 사진"
+                                <div class="prof-img"><img th:src="${user.profileImg !=null } ? ${'/images/user/profile/'+user.profileImg} : '/images/user/profile/default.png'" alt="프로필 사진"
                                                            title="프로필 사진" onerror="noImg(this, 'human')"></div>
                                 <p class="user-id" th:text="${#authentication.principal.id}"></p></div>
                             <div class="story-box">
@@ -355,7 +358,7 @@
                                         <div class="story-point">    <label for="rating">평점 선택:</label>
                                             <input type="range" id="rating" name="rating" min="1" max="10" step="1">
                                             <output for="rating" id="ratingValue">5</output></div>
-                                        <div class="story-txt"><input class="input-text"type="text"></input></div>
+                                        <div class="story-txt"><input id="comment-input" class="input-text"type="text"></input></div>
                                         <div class="story-point" style="width:100px;">
                                             <button class="btn-modal-open oneWrtBtn" title="관람평쓰기"><i class="iconset ico-story-write"></i> 한줄평 쓰기</button>
                                         </div>
@@ -363,14 +366,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="story-date">
-                            <div class="review on"><span>9 분전</span></div>
-                        </div>
                     </li>
                     <li class="type01 oneContentTag" sec:authorize="!isAuthenticated()">
                         <div class="story-area">
                             <div class="user-prof" >
-                                <div class="prof-img"><img th:src="@{default.png}" alt="프로필 사진"
+                                <div class="prof-img"><img th:src="@{/images/user/profile/default.png}" alt="프로필 사진"
                                                            title="프로필 사진" onerror="noImg(this, 'human')"></div>
                                 <p class="user-id" >로그인 필요</p></div>
                             <div class="story-box">

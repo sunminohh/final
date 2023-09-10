@@ -266,13 +266,13 @@ public class StoreBoardService {
 		try {
 			BoardCategory category = BoardCategory.builder().no(form.getCatNo()).build();
 			BoardProduct product = BoardProduct.builder().no(form.getProductNo()).build();
-			StoreBoard board = StoreBoard.builder()
-								.no(no)
-								.category(category)
-								.product(product)
-								.name(form.getName())
-								.content(form.getContent())
-								.build();
+			
+			StoreBoard board = storeBoardDao.getSBoardByNo(no);
+				board.setContent(form.getContent());
+				board.setName(form.getName());
+				board.setCategory(category);
+				board.setProduct(product);
+			
 			storeBoardDao.updateSBoardByNo(board);
 		} catch (Exception e) {
 			e.printStackTrace();
