@@ -80,6 +80,12 @@ public class OrderController {
         orderService.updateOrder(order);
         return "view/store/success";
     }
+    
+    @GetMapping("/list")
+    @ResponseBody
+    public List<Order> getOrderList(){
+    	return orderService.getOrderList();
+    }
 }
 
 

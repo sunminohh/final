@@ -60,6 +60,7 @@ $(() => {
 						</div>	
             		`
             		let $movieBox = $theaterListBox.find(".movie-" + movie.movieNo).append(screenContents);
+            		let $screenBox = $movieBox.find("tr");
             		screen.scheduleList.forEach(function(schedule) {
 						let scheduleStartTime = dayjs(date+schedule.start);
             			// schedule 객체를 반복문으로 처리
@@ -85,9 +86,15 @@ $(() => {
 									</div>
 								</td>
 	            			`
-            			$movieBox.find("tr").append(scheduleContents);
+            			$screenBox = $movieBox.find("tr").append(scheduleContents);
 	            		}
         			});
+					if (!$screenBox.find('td').length) {
+				    	$screenBox.remove(); // $screenBox 삭제
+				    	}
+				    if (!$movieBox.find('tr').length) {
+				    	$movieBox.remove(); // $movieBox 삭제
+				    	}
         		});
         	});
 		}).fail(function(jqxhr, textStatus, error) {

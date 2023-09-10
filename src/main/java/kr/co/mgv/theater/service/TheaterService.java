@@ -45,14 +45,16 @@ public class TheaterService {
 		}
 	}
 
-	public void registFavoriteTheater(String userId, FavoriteTheater favoriteTheater) {
+	public String registFavoriteTheater(String userId, FavoriteTheater favoriteTheater) {
 		favoriteTheater.setUserId(userId);
 		
 		FavoriteTheater theater = favoriteDao.getFavoriteTheater(favoriteTheater);
 		if(theater != null) {
 			favoriteDao.deleteFavoriteTheater(favoriteTheater);
+			return "delete";
 		}else {
 			favoriteDao.insertFavoriteTheaters(favoriteTheater);
+			return "success";
 		}
 		
 	}
