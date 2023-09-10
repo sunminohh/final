@@ -2,11 +2,15 @@ package kr.co.mgv.movie.controller;
 
 import kr.co.mgv.movie.service.MovieService;
 import kr.co.mgv.movie.vo.Movie;
+import kr.co.mgv.movie.vo.MovieComment;
+import kr.co.mgv.movie.vo.MovieCommentLike;
 import kr.co.mgv.movie.vo.MovieLike;
+import kr.co.mgv.user.vo.User;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -51,5 +55,52 @@ public class MovieRestController {
     @GetMapping("/search")
     public List<String> movieSearch(@RequestParam("keyword") String keyword){
         return movieService.searchWord(keyword);
+    }
+
+    @PostMapping("/comment/insertComment")
+    public MovieComment insertComment(@RequestBody MovieComment comment, @AuthenticationPrincipal User user){
+        comment.setUserId(user.getId());
+        if (user != null) {
+            comment.setProfileImage(user.getProfileImg()==null ? "/images/user/profile/default.png" : user.getProfileImg());
+        }
+        movieService.insertMovieComment(comment);
+        return comment;
+    }
+
+    @GetMapping("/commentLike/insert")
+    public String insertCommentLike(@RequestParam("commentNo") long commentNo, @AuthenticationPrincipal User user){
+
+        if (user == null) {
+            return "false";
+
+        }
+        MovieCommentLike movieCommentLike = new MovieCommentLike();
+        movieCommentLike.setCommentNo(commentNo);
+        movieCommentLike.setUserId(user.getId());
+        movieService.insertMovieCommentLike(movieCommentLike);
+        return "success";
+    }
+    @GetMapping("/commentLike/delete")
+    public String deleteCommentLike(@RequestParam("commentNo") long commentNo, @AuthenticationPrincipal User user){
+
+        if (user == null) {
+            return "false";
+
+        }
+        MovieCommentLike movieCommentLike = new MovieCommentLike();
+        movieCommentLike.setCommentNo(commentNo);
+        movieCommentLike.setUserId(user.getId());
+        movieService.deleteMovieCommentLike(movieCommentLike);
+        return "success";
+    }
+    @GetMapping("/comment/delete")
+    public String deleteComment(@RequestParam("commentNo") long commentNo, @AuthenticationPrincipal User user){
+
+        if (user == null) {
+            return "false";
+
+        }
+        movieService.deleteMovieComment(commentNo);
+        return "success";
     }
 }

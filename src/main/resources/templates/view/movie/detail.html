@@ -1,7 +1,9 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default}">
 <head th:fragment="extra-head-content">
-    <title>극장</title>
-    <style></style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.9/dayjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.9/locale/ko.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.9/plugin/relativeTime.min.js"></script>
+
 </head>
 <div layout:fragment="content">
     <form id="movieForm"></form>
@@ -48,12 +50,12 @@
 
             <div class="info">
                 <div class="score">
-                    <p class="tit">실관람 평점</p>
+                    <p class="tit">MGV 평점</p>
                     <div class="number gt" id="mainMegaScore">
                         <!--  <div class="number lt" id="mainMegaScore">
                             <p title="관람 전 점수" class="before"><em>0</em><span class="ir">점</span></p>
                             <p title="관람 후 점수" class="after"><em>8.6</em><span class="ir">점</span></p> -->
-                        <p title="실관람 평점" class="before"><em th:text="${movie.score}"></em><span class="ir"></span></p>
+                        <p title="실관람 평점" class="before"><em th:text="${movie.getAverageScore()}"></em><span class="ir"></span></p>
                     </div>
                 </div>
 
@@ -138,10 +140,10 @@
         <div class="inner-wrap">
             <div class="tab-list movie">
                 <ul>
-                    <li class="on" id="to-info"><a href="" title="주요정보 탭으로 이동">주요정보</a></li>
-                    <li id="to-comment"><a href="" title="실관람평 탭으로 이동">실관람평</a></li>
+                    <li class="tabtab on" id="to-info"><a href="" title="주요정보 탭으로 이동">주요정보</a></li>
+                    <li class="tabtab" id="to-comment"><a href="" title="실관람평 탭으로 이동">실관람평</a></li>
                     <!--<li><a href="" title="무비포스트 탭으로 이동">무비포스트</a></li>-->
-                    <li><a href="" title="예고편/스틸컷 탭으로 이동">예고편/스틸컷</a></li>
+                    <li class="tabtab"><a href="" title="예고편/스틸컷 탭으로 이동">예고편/스틸컷</a></li>
                 </ul>
             </div>
 
@@ -187,7 +189,7 @@
 
                 <div class="col" id="subMegaScore">
                     <dl>
-                        <dt>실관람 평점</dt>
+                        <dt>MGV 평점</dt>
                     </dl>
                     <!--
 
@@ -295,7 +297,9 @@
             <!--// 레이어  : 본 영화 등록 -->
 
             <div class="movie-idv-story oneContent">
-
+                <div class="movie-sorting">
+                    <span><button type="button" class="btn sortBtn on" data-cd="">전체 <em class="font-gblue" id="movie-comment-count" th:text="${movieComment.size()}">13,246</em> 건</button></span>
+                </div>
 
                 <!-- 로그인 시 -->
 
@@ -349,18 +353,18 @@
                     <li class="type01 oneContentTag" sec:authorize="isAuthenticated()">
                         <div class="story-area">
                             <div class="user-prof"  >
-                                <div class="prof-img"><img th:src="${user.profileImg !=null } ? ${'/images/user/profile/'+user.profileImg} : '/images/user/profile/default.png'" alt="프로필 사진"
-                                                           title="프로필 사진" onerror="noImg(this, 'human')"></div>
+                                <div class="prof-img"><img id="userProfileImage" th:src="${user.profileImg !=null } ? ${'/images/user/profile/'+user.profileImg} : '/images/user/profile/default.png'" alt="프로필 사진"
+                                                           title="프로필 사진" ></div>
                                 <p class="user-id" th:text="${#authentication.principal.id}"></p></div>
                             <div class="story-box">
                                 <div class="story-wrap review">
                                     <div class="story-cont">
                                         <div class="story-point">    <label for="rating">평점 선택:</label>
                                             <input type="range" id="rating" name="rating" min="1" max="10" step="1">
-                                            <output for="rating" id="ratingValue">5</output></div>
-                                        <div class="story-txt"><input id="comment-input" class="input-text"type="text"></input></div>
+                                            <output for="rating" id="ratingValue">6</output></div>
+                                        <div class="story-txt"><input id="comment-input" class="input-text"type="text" autocomplete="off" ></input></div>
                                         <div class="story-point" style="width:100px;">
-                                            <button class="btn-modal-open oneWrtBtn" title="관람평쓰기"><i class="iconset ico-story-write"></i> 한줄평 쓰기</button>
+                                            <button id="comment-enter" class="btn-modal-open oneWrtBtn" title="관람평쓰기"><i class="iconset ico-story-write"></i> 쓰기</button>
                                         </div>
                                     </div>
                                 </div>
@@ -371,17 +375,17 @@
                         <div class="story-area">
                             <div class="user-prof" >
                                 <div class="prof-img"><img th:src="@{/images/user/profile/default.png}" alt="프로필 사진"
-                                                           title="프로필 사진" onerror="noImg(this, 'human')"></div>
+                                                           title="프로필 사진" ></div>
                                 <p class="user-id" >로그인 필요</p></div>
                             <div class="story-box">
                                 <div class="story-wrap review">
                                     <div class="story-cont">
                                         <div class="story-point">    <label for="rating">평점 선택:</label>
                                             <input type="range" id="rating-guest" name="rating" min="1" max="10" step="1" disabled>
-                                            <output for="rating" id="ratingValue-guest">5</output></div>
+                                            <output for="rating" id="ratingValue-guest">6</output></div>
                                         <div class="story-txt"><input class="input-text"type="text" disabled></input></div>
                                         <div class="story-point" style="width:100px;">
-                                            <button class="btn-modal-open oneWrtBtn" w-data="500" h-data="680" data-cd="PREV" title="로그인 필요" disabled><i class="iconset ico-story-write"></i> 로그인 필요</button>
+                                            <button class="btn-modal-open oneWrtBtn" w-data="500" h-data="680" data-cd="PREV" title="로그인 필요" disabled><i class="iconset ico-story-write"></i> 로그인필요</button>
                                         </div>
                                     </div>
                                 </div>
@@ -391,8 +395,36 @@
                             <div class="review on"><span>9 분전</span></div>
                         </div>
                     </li>
-
-
+                    <li class="type01 oneContentTag" th:each="comment, i : ${movieComment}" th:id="${comment.no}" >
+                        <div class="story-area">
+                            <div class="user-prof">
+                                <div class="prof-img"><img
+                                        th:src="${comment.profileImage}"
+                                        alt="프로필 사진" title="프로필 사진"></div>
+                                <p class="user-id" th:text="${comment.userId}" ></p></div>
+                            <div class="story-box">
+                                <div class="story-wrap review">
+                                    <div class="story-cont">
+                                        <div class="story-point"><span th:text="${comment.commentRating}"></span></div>
+                                        <div class="story-txt"  th:text="${comment.commentContent}"></div>
+                                        <div class="story-like">
+                                            <button type="button" class="oneLikeBtn" title="댓글 추천"
+                                                    data-is="N" data-cd="PREV" th:commentNo="${comment.no}"><i class="iconset ico-like"></i>
+                                                <span th:text="${comment.commentLikes}"></span></button>
+                                        </div>
+                                        <div class="story-util" th:if="${user!=null}">
+                                            <button th:if="${user.id == comment.userId}" type="button" class="delete-comment" th:commentNo="${comment.no}" title="댓글 삭제"
+                                                     ><i class="bi bi-trash"></i>
+                                                <span>삭제</span></button>
+                                        </div>
+                                        <div class="story-util" style="width:60px;">
+                                            <div class="review on"><span class="time-diff" th:date="${#dates.format(comment.createDate, 'YYYY-MM-dd HH:mm:ss')}"></span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
             </div>
         </div>
         <!--// inner-wrap -->

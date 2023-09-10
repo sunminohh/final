@@ -1,17 +1,20 @@
 package kr.co.mgv.movie.service;
 
+import kr.co.mgv.movie.dao.MovieCommentDao;
 import kr.co.mgv.movie.dao.MovieDao;
 import kr.co.mgv.movie.dao.MovieLikeDao;
 import kr.co.mgv.movie.util.DateUtils;
 import kr.co.mgv.movie.vo.Movie;
+import kr.co.mgv.movie.vo.MovieComment;
+import kr.co.mgv.movie.vo.MovieCommentLike;
 import kr.co.mgv.movie.vo.MovieLike;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.DefaultUriBuilderFactory;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -46,9 +49,10 @@ public class MovieService {
 
     private Node trie;
 
-    public MovieService(MovieDao movieDao, MovieLikeDao movieLikesDao) {
+    public MovieService(MovieDao movieDao, MovieLikeDao movieLikesDao,MovieCommentDao movieCommentDao) {
         this.movieDao = movieDao;
         this.movieLikeDao = movieLikesDao;
+        this.movieCommentDao=movieCommentDao;
     }
 
     public String getJamo(String inputWord){
@@ -181,6 +185,7 @@ public class MovieService {
     }
     private final MovieDao movieDao;
     private final MovieLikeDao movieLikeDao;
+    private final MovieCommentDao movieCommentDao;
     private static final String KOBIS_API_URL = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json";
     private static final String KOBIS_API_KEY = "45ac471b35ca42c983d971a438b31d25";
     private static final String KMDB_API_URL = "http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&detail=Y&ServiceKey=Y40OV2CFS1I2MTV081VG";
@@ -456,4 +461,30 @@ public class MovieService {
     public HashSet<Integer> getAllLikedMovieNos(String userId){
         return movieLikeDao.getLikedMovieNosByUserId(userId);
     }
+    public void insertMovieComment(MovieComment movieComment){
+        movieCommentDao.insertMovieComment(movieComment);
+        Movie movie = movieDao.getMovieByMovieNo(movieComment.getMovieNo());
+        movie.setScore(movie.getScore()+ movieComment.getCommentRating());
+        movie.setScoreGiver(movie.getScoreGiver()+1);
+        movieDao.updateMovie(movie);
+    }
+
+    public List<MovieComment> getMovieCommentsByMovieNo(int movieNo){return movieCommentDao.getMovieCommentsByMovieNo(movieNo);}
+    public void deleteMovieCommentLike(MovieCommentLike movieCommentLike){
+        movieCommentDao.decrementMovieCommentLike(movieCommentLike.getCommentNo());
+        movieCommentDao.deleteMovieCommentLike(movieCommentLike );}
+    public void insertMovieCommentLike(MovieCommentLike movieCommentLike){
+        movieCommentDao.incrementMovieCommentLike(movieCommentLike.getCommentNo());
+        movieCommentDao.insertMovieCommentLike(movieCommentLike );}
+
+    public void deleteMovieComment(long no){
+        MovieComment movieComment= movieCommentDao.getMovieCommentByCommentNo(no);
+        Movie movie = movieDao.getMovieByMovieNo(movieComment.getMovieNo());
+        movie.setScore(movie.getScore()-movieComment.getCommentRating());
+        movie.setScoreGiver(movie.getScoreGiver()-1);
+        movieDao.updateMovie(movie);
+        movieCommentDao.deleteMovieCommentByNo(no);
+        movieCommentDao.deleteMovieCommentLikeByCommentNo(no);
+    }
+
 }
