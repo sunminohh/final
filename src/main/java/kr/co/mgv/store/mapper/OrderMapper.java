@@ -10,12 +10,12 @@ import org.apache.ibatis.annotations.Mapper;
 public interface OrderMapper {
 
     void insertOrder(Order order);
-<<<<<<< HEAD
+
     Order getOrderById(long id);
 
     void updateOrder(Order order);
-=======
+
 
 	List<Order> getOrderList();
->>>>>>> develop
+
 }
