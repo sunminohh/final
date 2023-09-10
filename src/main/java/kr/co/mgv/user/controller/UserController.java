@@ -1,5 +1,6 @@
 package kr.co.mgv.user.controller;
 
+import kr.co.mgv.store.mapper.OrderMapper;
 import kr.co.mgv.user.form.UserUpdateForm;
 import kr.co.mgv.user.service.MypageService;
 import kr.co.mgv.user.service.UserService;
@@ -177,27 +178,27 @@ public class UserController {
         return ResponseEntity.ok();
     }*/
 
-    @PostMapping("/purchase")
+    @PostMapping("/order")
     @ResponseBody
-    public ResponseEntity<HashMap<String, Object>> purchaseList(@RequestParam String startDate,
-                                                                @RequestParam String endDate,
-                                                                @RequestParam String status,
-                                                                @RequestParam(name = "page", defaultValue = "1") int page) {
+    public ResponseEntity<HashMap<String, Object>> OrderList(@RequestParam String startDate,
+                                                             @RequestParam String endDate,
+                                                             @RequestParam String state,
+                                                             @RequestParam(name = "page", defaultValue = "1") int page) {
         String userId = getLoggedInUserId();
         log.info("loginId -> {}", userId);
 
-        HashMap<String, Object> purchases = mypageService.getPurchaseByUserId(userId, startDate, endDate, status, page);
+        HashMap<String, Object> orders = mypageService.getOrderByUserId(userId, startDate, endDate, state, page);
         log.info("page -> {}", page);
         log.info("startDate -> {}", startDate);
         log.info("endDate -> {}", endDate);
-        log.info("status -> {}", status);
-        return ResponseEntity.ok(purchases);
+        log.info("state -> {}", state);
+        return ResponseEntity.ok(orders);
     }
 
-    @PostMapping("/purchase/cancel")
+    @PostMapping("/order/cancel")
     @ResponseBody
-    public ResponseEntity<String> cancelPurchace(@RequestParam("no") int purchaseNo) {
-        boolean isSuccess = mypageService.cancelPurchase(purchaseNo);
+    public ResponseEntity<String> cancelPurchace(@RequestParam("id") long orderId) {
+        boolean isSuccess = mypageService.cancelOrder(orderId);
         if (isSuccess) {
             return ResponseEntity.ok("결제취소가 완료되었습니다.");
         } else {
