@@ -1,5 +1,6 @@
 package kr.co.mgv.user.service;
 
+import kr.co.mgv.common.dao.CommonDao;
 import kr.co.mgv.common.file.FileUtils;
 import kr.co.mgv.common.vo.MgvFile;
 import kr.co.mgv.user.dao.UserDao;
@@ -20,6 +21,7 @@ import java.util.Map;
 @Slf4j
 public class UserService {
 
+    private final CommonDao commonDao;
     private final UserDao userDao;
     private final UserRoleDao userRoleDao;
     private final FileUtils fileUtils;
@@ -61,12 +63,14 @@ public class UserService {
     public String updateUploadProfile(String id, MultipartFile file) {
         // 이미지 처리
         MgvFile savedProfileImgFile = fileUtils.saveFile(USER_IMAGE_PATH, file);
+        commonDao.insertMgvFile(savedProfileImgFile);
         log.info("이미지 파일명 -> {}", file);
         User user = User.builder()
                 .id(id)
                 .profileImg(savedProfileImgFile.getUploadPath() + File.separator + savedProfileImgFile.getStoredName())
                 .build();
 
+        user.setProfileImg(String.valueOf(savedProfileImgFile.getFileId()));
         userDao.updateUploadProfile(user);
         return user.getProfileImg();
     }
@@ -74,12 +78,6 @@ public class UserService {
     // 이미지 삭제
     public void deleteProfileImg(String id, String imgUrl) {
         User user = userDao.getUserById(id);
-
-        String filename = extractFilenameFromUrl(imgUrl); // imgUrl로부터 실제 파일 이름을 추출하는 로직
-        if (!fileUtils.deleteFile(USER_IMAGE_PATH, filename)) {
-            log.error("Failed to delete the image file: {}", imgUrl);
-            throw new RuntimeException("Failed to delete the image file.");
-        }
         userDao.deleteProfileImage(user);
     }
 

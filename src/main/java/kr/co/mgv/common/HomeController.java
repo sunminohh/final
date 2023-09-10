@@ -56,6 +56,7 @@ public class HomeController {
     @GetMapping("/common/image/{fileId}")
     public ResponseEntity<UrlResource> downloadFile(@PathVariable Long fileId) {
         MgvFile mgvFile = commonDao.getMgvFile(fileId);
+        log.info("[IMAGE]: {}", mgvFile);
         if (mgvFile == null) {
             return noImage();
         }
@@ -68,6 +69,7 @@ public class HomeController {
                 .contentType(MediaType.parseMediaType(contentType))
                 .body(resource);
         } catch (IOException e) {
+            log.info("[IMAGE]: {}", e.getMessage());
             return noImage();
         }
     }

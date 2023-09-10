@@ -83,7 +83,7 @@ public class EventController {
     	Event event = eventService.getEventByNo(eventNo);
     	model.addAttribute("event", event);
     	
-    	return "/view/event/detail";
+    	return "view/event/detail";
     }
 
 }

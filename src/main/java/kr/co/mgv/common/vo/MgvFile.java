@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class MgvFile {
     private long fileId;
     private String originName;

@@ -42,16 +42,7 @@ mybatis:
 logging:
   level:
     root: info
-    '[org.springframework-security]': trace
-    '[kr.co.mgv.dao]': trace
-    '[kr.co.mgv.board.mapper]': trace
-    '[kr.co.mgv.movie.dao]': trace
-    '[kr.co.mgv.store.mapper]': trace
-    '[kr.co.mgv.support.dao]': trace
-    '[kr.co.mgv.theater.dao]': trace
-    '[kr.co.mgv.user.dao]': trace
-    '[kr.co.mgv.schedule.dao]': trace
-    '[kr.co.mgv.event.dao]': trace
+    '[org.springframework-security]': warn
 ---
 ## thymeleaf
 spring:

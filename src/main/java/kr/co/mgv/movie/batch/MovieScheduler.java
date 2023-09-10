@@ -64,7 +64,7 @@ public class MovieScheduler {
 
     // 어제 데이터 수집, 매일 0시 0분 0초 실행
     @Scheduled(cron = "0 0 0 * * ?")
-    private void collectYesterdayBoxOffice() throws Exception {
+    public void collectYesterdayBoxOffice() throws Exception {
         String targetDt = LocalDate.now().minusDays(1).format(formatter);
         List<MovieCollect> movieCollects = this.collectBoxOffice(targetDt);
         movieCollects.forEach(this::syncMovies);
@@ -72,7 +72,7 @@ public class MovieScheduler {
 
     // 지난 한달간 데이터 수집, 테스트용
 //    @Scheduled(fixedDelay = 1000 * 60 * 60 * 24, initialDelay = 1000 * 3)
-    private void collectOneMonthBoxOffice() {
+    public void collectOneMonthBoxOffice() {
         LocalDate start = LocalDate.now().minusMonths(12);
         LocalDate end = LocalDate.now();
 
