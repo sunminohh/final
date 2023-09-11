@@ -1,5 +1,7 @@
 package kr.co.mgv.user.controller;
 
+import kr.co.mgv.booking.service.BookingService;
+import kr.co.mgv.booking.vo.Booking;
 import kr.co.mgv.store.mapper.OrderMapper;
 import kr.co.mgv.store.service.OrderService;
 import kr.co.mgv.store.vo.GiftTicket;
@@ -35,7 +37,7 @@ public class UserController {
     private final MypageService mypageService;
     private final PasswordEncoder passwordEncoder;
     private final OrderService orderService;
-
+    private final BookingService bookingService;
     private String getLoggedInUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getName();
@@ -169,8 +171,8 @@ public class UserController {
     }
 
     @GetMapping("/booking")
-    public String bookinghome() {
-
+    public String bookinghome(@AuthenticationPrincipal User user, Model model) {
+            model.addAttribute("bookings", bookingService.getBookingsByUserId(user.getId()));
         return "view/user/booking/list";
     }
 

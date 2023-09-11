@@ -56,6 +56,6 @@
             UPDATE_DATE = CURRENT_TIMESTAMP,
             BOOKING_NO = #{bookingNo}
         WHERE
-            GIFT_TICEKT_NO = #{giftTicketNo}
+            GIFT_TICKET_NO = #{giftTicketNo}
     </update>
 </mapper>

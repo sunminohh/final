@@ -132,4 +132,10 @@ public class BookingRestController {
     public List<Booking> getBookingList(){
     	return bookingService.getBookingList();
     }
+
+    @GetMapping("/deleteBooking")
+    public String deleteBookingByBookingNo(@AuthenticationPrincipal User user, @RequestParam("bookingNo") long bookingNo){
+        bookingService.deleteBookingByBookingNo(bookingNo);
+        return bookingNo+"";
+    }
 }

@@ -8,6 +8,8 @@ import kr.co.mgv.movie.vo.Movie;
 import kr.co.mgv.schedule.dao.ScheduleDao;
 import kr.co.mgv.schedule.dto.BookingScheduleDto;
 import kr.co.mgv.schedule.dto.DailyScheduleDto;
+import kr.co.mgv.store.mapper.GiftTicketMapper;
+import kr.co.mgv.store.service.OrderService;
 import kr.co.mgv.theater.dao.TheaterDao;
 import kr.co.mgv.theater.service.TheaterService;
 import kr.co.mgv.theater.vo.Screen;
@@ -31,12 +33,13 @@ import java.util.stream.Collectors;
 @Slf4j
 public class BookingService {
 
-       private TheaterDao theaterDao;
-       private ScheduleDao scheduleDao;
-       private TheaterService theaterService;
-       private BookingDao bookingDao;
-       private MovieService movieService;
-       private MovieDao movieDao;
+       private final TheaterDao theaterDao;
+       private final ScheduleDao scheduleDao;
+       private final TheaterService theaterService;
+       private final BookingDao bookingDao;
+       private final MovieService movieService;
+       private final MovieDao movieDao;
+       private final GiftTicketMapper giftTicketMapper;
     private static final JSONParser JSON_PARSER = new JSONParser();
         public Map<String, Integer> isElementClassActive(String date){
             Map<String,Integer> map= new HashMap<>();
@@ -121,18 +124,53 @@ public class BookingService {
                 bookingDao.completeBookedSeats(params);
             }
         }
-
+        public List<Booking> getBookingsByUserId(String userId){return bookingDao.getBookingsByUserId(userId);}
         public void completeBooking(Booking booking){
             Movie movie = movieService.getMovieByMovieNo(booking.getMovieNo());
-            movie.setSeatsBooked(booking.getTotalSeats());
+            movie.setSeatsBooked(movie.getSeatsBooked()+booking.getTotalSeats());
             movieDao.updateMovie(movie);
            completeBookedSeats(booking);
            updateBooking(booking);
            scheduleDao.decrementScheduleRemainingSeats(new HashMap<>(){{
                put("scheduleId",booking.getScheduleId());
                put("seatCount",booking.getTotalSeats());
+
            }});
 
         }
 
+        public void deleteBookingByBookingNo(long bookingNo){
+            Booking booking= bookingDao.getBookingByBookingNo(bookingNo);
+            Movie movie = movieService.getMovieByMovieNo(booking.getMovieNo());
+            movie.setSeatsBooked(Math.min(movie.getSeatsBooked()-booking.getTotalSeats(),0));
+            movieDao.updateMovie(movie);
+            Map<String,Object> params=new HashMap<>();
+            String[] seats = booking.getBookedSeatsNos().split(",");
+            List<String> seatNos= new ArrayList<>();
+            Collections.addAll(seatNos, seats);
+            params.put("scheduleId",booking.getScheduleId());
+            params.put("seatNos",seatNos);
+            bookingDao.deleteBookedSeats(params);
+           scheduleDao.incrementScheduleRemainingSeats(new HashMap<>(){{
+                put("scheduleId",booking.getScheduleId());
+                put("seatCount",booking.getTotalSeats());
+            }});
+            booking.setBookingState("예매취소");
+
+            String giftTicket= booking.getUsedGiftTickets();
+
+            if(!giftTicket.isEmpty()){
+                String[] t= giftTicket.split(",");
+                for(String a: t){
+                    giftTicketMapper.updateGiftTicket(new HashMap<>(){{
+                        put("isUsed","N");
+                        put("bookingNo",booking.getNo());
+                        put("giftTicketNo",Long.parseLong(a));
+                    }});
+                }
+            }
+            bookingDao.updateBooking(booking);
+
+
+        }
 }

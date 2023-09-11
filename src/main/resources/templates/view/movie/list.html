@@ -167,7 +167,7 @@
                             <p th:title="${movie.title}" class="tit" th:text="${movie.title}"></p>
                         </div>
                         <div class="rate-date">
-                            <span class="rate"  th:text="|예매율 ${movie.seatsOpen != 0 ? movie.seatsBooked / movie.seatsOpen : 0} %|" ></span>
+                            <span class="rate"  th:text="|예매율 ${movie.getBookingRate()} %|" ></span>
                             <span class="date" th:text=" ${'Y'== movie.isPlaying ? '상영중' :  '상영예정'}"></span>
                         </div>
 
