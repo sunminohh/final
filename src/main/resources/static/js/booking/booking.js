@@ -655,7 +655,7 @@ $(()=>{
             }
             const k=$(this).attr('seq')
             let left
-            if(l>2 && k==l-1){
+            if(l>=2 && k==l-1){
                 if(l%2==1 && prevMouseOverSeat)
                     if(prevMouseOverSeat==$(this).next().attr('id')){
                         left=true
