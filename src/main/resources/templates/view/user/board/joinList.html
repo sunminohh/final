@@ -6,9 +6,9 @@
 	<script type="text/javascript" th:src="@{/js/board/myboard.js}"></script>
 </head>
 <div id="contents" layout:fragment="content">
-  <div class="sub_tit_profile d-flex justify-content-start pb-3">
-  	<span class="thumb">
-  		<img th:src="${profileImg != null ? '/images/user/profile/' + profileImg : '/images/user/profile/default.png'}" data-default-src="/images/user/profile/default.png" width="80" height="80" alt="프로필사진" class="border-sub">
+   <div class="sub_tit_profile d-flex justify-content-start pb-3" id="profile">
+  	<span class="thumb" id="imgbox">
+  		<img id="profileimg" th:src="${profileImg != null ? '/common/image/' + profileImg : '/images/user/profile/default.png'}" data-default-src="/images/user/profile/default.png"  alt="프로필사진" class="border-sub">
   	</span>
   	<div class="text ps-4  pt-2">
   		<div class="nick_area fs-3 fw-semibold" th:text="${#authentication.principal.name}" >

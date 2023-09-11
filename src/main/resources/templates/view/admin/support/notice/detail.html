@@ -53,6 +53,7 @@
         </div>
     </div>
 
+	<input type="hidden" name="no" th:value="${param.no}" />
     <div class="btn-group pt40" style="display: block;">
        	<a id = "modify-btn" class="button large" 
        		th:href="@{/admin/support/notice/modifyform(no=${param.no}, catNo=${param.catNo}, locationNo=${param.locationNo}, theaterNo=${param.theaterNo}, page=${param.page}, keyword=${param.keyword})}">수정</a>
