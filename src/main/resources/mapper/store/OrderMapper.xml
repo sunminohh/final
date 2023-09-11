@@ -47,7 +47,7 @@
 				PAY_METHOD			AS payMethod,
 				CREATE_DATE       	AS createDate,
 				UPDATE_DATE       	AS updateDate,
-				ORDER_STATE       	AS orderState
+				ORDER_STATE       	AS state
 			FROM
 				MGV_ORDER
 			WHERE
@@ -84,7 +84,7 @@
 			CREATE_DATE       			AS createDate,
 			UPDATE_DATE       			AS updateDate,
 			TOTAL_PRICE       			AS totalPrice,
-			ORDER_STATE       			AS orderState
+			ORDER_STATE       			AS state
 		FROM
 			MGV_ORDER
 		WHERE
@@ -93,7 +93,7 @@
 	<update id="updateOrder" parameterType="Order">
 		update MGV_ORDER
 		SET
-		    ORDER_STATE = #{orderState},
+		    ORDER_STATE = #{state},
 		    PAYMENT_KEY = #{paymentKey},
 		    UPDATE_DATE = CURRENT_TIMESTAMP
 

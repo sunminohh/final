@@ -15,7 +15,7 @@ $(() => {
     getProductList();
 
     $categoryButton.on("click",toggleButton);
-    $theaters.on("click", "button", toggleTheaterButton);
+    $products.on("click", "button", toggleProductButton);
     $theaters.on("click", "button", refrashBoard);
     $btnSchedule.on("click",handlerBtnSchedule);
     $btnRegSchedule.on("click",handlerBtnRegSchedule);
@@ -27,21 +27,21 @@ $(() => {
         $(this).addClass("active");
     }
 
-    function toggleTheaterButton(){
+    function toggleProductButton(){
         $theaters.find("button").removeClass("active");
         $(this).addClass("active");
     }
 
 
     function refrashBoard(){
-        let theaterNo = $theaters.find(".active").attr("data-theater-no");
+        let productNo = $products.find(".active").attr("data-product-no");
         $board.find("#disabled").addClass("d-none");
         $board.find("#abled").removeClass("d-none");
-        $.getJSON(API_URLS.THEATER,{"theaterNo":theaterNo}, function(data){
+        $.getJSON(API_URLS.THEATER,{"productNo": productNo}, function(data){
             console.log(data)
             let $abled = $board.find("#abled");
-            $abled.find("[name=location]").text(data.location.name)
-            $abled.find("[name=theater-name]").text(data.name)
+            $abled.find("[name=category]").text(data.category.name)
+            $abled.find("[name=product-name]").text(data.name)
             $abled.find("[name=address]").text(data.address)
             $abled.find("[name=tel]").text(data.tel)
             $abled.find("[name=facility]").text(data.facilities[0].name)
@@ -81,13 +81,13 @@ $(() => {
     }
 
     function handlerBtnSchedule(){
-        let theaterNo = $theaters.find(".active").attr("data-theater-no");
-        if(theaterNo){
-            window.location.href=API_URLS.SCHEDULE+"?theaterNo="+theaterNo;
+        let productNo = $products.find(".active").attr("data-product-no");
+        if(productNo){
+            window.location.href=API_URLS.SCHEDULE+"?productNo="+productNo;
         }else{
             Swal.fire({
                 icon:"error",
-                text:"지역과 극장을 선택해주세요.",
+                text:"카테고리와 상품을 선택해주세요.",
             })
         }
     }
