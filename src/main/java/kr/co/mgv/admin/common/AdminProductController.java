@@ -25,10 +25,7 @@ public class AdminProductController {
 	private final ProductService productService;
 	private final CategoryService categoryService;
 
-	@GetMapping("/package-list")
-	public String packageList() {
-		return "view/admin/product/package-list";
-	}
+
 
 	@GetMapping("/product-list")
 	public String productList(Model model) {

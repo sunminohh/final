@@ -1,0 +1,70 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/user}">
+<head th:fragment="extra-head-content">
+    <script th:src="@{/js/user/pagination.js}"></script>
+    <script th:src="@{/js/user/booking.js}"></script>
+</head>
+<div id="contents" layout:fragment="content">
+    <div id="contents" class="">
+        <h2 class="tit">영화관람권</h2>
+
+        <!-- input-search-area -->
+        <div class="mypage-infomation v1 mb20">
+
+            <ul class="dot-list">
+                <li>보유하신 영화관람권/예매권 내역입니다. </li>
+            </ul>
+
+        </div>
+
+
+        <div class="board-list-util">
+            <p class="result-count">
+                <strong>
+                    총 <b class="font-gblue"th:text="${giftTickets.size}"></b>매
+                </strong>
+            </p>
+
+<!--
+            <div class="dropdown bootstrap-select bs3"><select title="관람권명 선택" class="selectpicker" tabindex="-98"><option class="bs-title-option" value=""></option>
+                <option value="CSC03">사용가능</option>
+                <option value="CSC04">사용완료</option>
+                <option value="CSC06">기간만료</option>
+            </select><button type="button" class="btn dropdown-toggle btn-default" data-toggle="dropdown" role="button" title="사용가능"><div class="filter-option"><div class="filter-option-inner"><div class="filter-option-inner-inner">사용가능</div></div> </div><span class="bs-caret"><span class="caret"></span></span></button><div class="dropdown-menu open" role="combobox"><div class="inner open" role="listbox" aria-expanded="false" tabindex="-1"><ul class="dropdown-menu inner "></ul></div></div></div>
+-->
+        </div>
+
+        <div class="table-wrap">
+            <table class="board-list">
+                <caption>관람권명, 유효기간, 사용상태, 관람권정보 항목을 가진 영화관람권 목록 표</caption>
+                <colgroup>
+                    <col>
+                    <col style="width:200px;">
+                    <col style="width:120px;">
+                    <col style="width:160px;">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th scope="col">관람권번호</th>
+                    <th scope="col">만료일시</th>
+                    <th scope="col">사용여부</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody th:if="${giftTickets.size==0}"><tr><td colspan="4" class="a-c">조회된 관람권 내역이 없습니다.</td></tr></tbody>
+                <tbody th:if="${giftTickets.size==0}">
+                <tr>
+                    <td >1515151515</td>
+                    <td >24-01-01</td>
+                    <td >미사용</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+
+    </div>
+</div>
+</html>

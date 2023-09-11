@@ -13,7 +13,13 @@ $(() => {
     //        }
     //     })
     // }
+    dayjs.extend(dayjs_plugin_relativeTime)
+    dayjs.locale('ko')
+    let day= dayjs().locale('ko')
+    day.format()
+
     $(".btn-like").click(function (e){
+
         const no=$(this).attr('data')
         const userId=$(this).attr('data2')
         if(userId === 'anonymousUser' ){
@@ -39,12 +45,12 @@ $(() => {
         $("#ratingValue").text($(this).val())
     })
 
-    $(".oneContent").hide()
+        $(".oneContent").hide()
     $("#to-comment").on('click',function(e){
         e.preventDefault()
-        $(this).addClass('on').siblings().removeClass('on')
-        $(".infoContent").hide()
-        $(".oneContent").show()
+        toComment()
+        const offset = $("#to-comment").offset()
+        $('html,body').animate({scrollTop : offset.top}, 0);
     })
     $("#to-info").on('click',function(e){
         e.preventDefault()
@@ -61,6 +67,21 @@ $(() => {
         $("#login-modal").find('#id').focus()
     })
 
+ $(".time-diff").each(function(i,e){
+     $(this).text(dayjs($(this).attr('date')).fromNow())
+ })
+    function toComment(){
+        $(".tabtab").removeClass('on')
+        $("#to-comment").toggleClass('on')
+        $(".infoContent").hide()
+        $(".oneContent").show()
+        const offset = $("#to-comment").offset()
+        $('html,body').animate({scrollTop : offset.top}, 0);
+    }
+    $("#comment-enter").on('click',function(){
+        let text= $("#comment-input").val()
+        text && uploadComment()
+        })
     $("#comment-input").on("keydown",function(e){
         let text= $(this).val()
         if(e.keyCode===29){
@@ -70,9 +91,64 @@ $(() => {
             uploadComment()
         }
     })
-
+    const urlParams = new URL(location.href).searchParams;
+    const movieNo = urlParams.get('movieNo');
+    const tab = urlParams.get('tab')
+    if(tab){
+        toComment()
+    }
     function uploadComment(){
         const text= $("#comment-input").val()
-        console.log(text)
+        const movieComment={
+            no: Date.now(),
+            commentContent : text,
+            movieNo: movieNo,
+            commentRating : $("#rating").val()
+    }
+        fetch("/api/movie/comment/insertComment",{
+            method:'post',
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(movieComment)
+        }).then(res=>res.json()).then(data=>{
+            if(tab){
+                location.reload()
+            }else {
+                location.href=location.href+"&tab=1"
+            }
+        })
+
+    }
+    $(".delete-comment").on('click',function(){
+        fetch("/api/movie/comment/delete?commentNo="+$(this).attr('commentNo')).then(res=>{
+            if(tab){
+                location.reload()
+            }else {
+                location.href=location.href+"&tab=1"
+            }
+        })
+    })
+    $(".oneLikeBtn").on('click',function (){
+        const icon= $(this).children(":first")
+        if(icon.hasClass('ico-like-blue')){
+            icon.removeClass('ico-like-blue')
+            icon.addClass('ico-like')
+            fetch("/api/movie/commentLike/delete?commentNo="+$(this).attr('commentNo')).then(res=>{
+               let likes= icon.next()
+                likes.text(parseInt(likes.text())-1)
+            })
+
+        }else{
+            icon.removeClass('ico-like')
+            icon.addClass('ico-like-blue')
+            fetch("/api/movie/commentLike/insert?commentNo="+$(this).attr('commentNo')).then(res=>console.log(res))
+            let likes= icon.next()
+            likes.text(parseInt(likes.text())+1)
+        }
+
+    })
+    function fetchMovieCommnetsByMovieNo(movieNo){
+        location.href("")
     }
 })

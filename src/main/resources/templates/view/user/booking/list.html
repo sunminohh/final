@@ -6,6 +6,7 @@
     <script th:src="@{/js/user/booking.js}"></script>
 </head>
 <div id="contents" layout:fragment="content">
+    <script th:src="@{/js/user/list.js}"></script>
     <h2 class="tit">예매/구매 내역</h2>
     <div class="tab-block">
         <ul>
@@ -65,18 +66,20 @@
 
             <!-- 예매 영화 목록 -->
             <div id="bookingList">
-                <div class="no-history-reservation mt20"> 예매 내역이 없습니다.</div>
 
                 <div id="bokdList">
                     <div class="board-list-util">
-                        <p class="result-count pt00"><strong>총<b class="font-gblue">1</b>건</strong></p>
+                        <p class="result-count pt00"><strong>총<b class="font-gblue" th:text="${totalRows != null ? totalRows : 0}"></b>건</strong></p>
                     </div>
                     <div class="history-reservation">
+
+                        <div class="no-history-reservation mt20" th:if="${#lists.isEmpty(bookings)}">예매 내역이 없습니다.</div>
+
                         <ul>
-                            <li sell-tran-no="00352309050094974336">
+                            <li th:id="${booking.no}" th:each="booking, i : ${bookings}">
                                 <div class="round">
-                                    <a href="/movie-detail?rpstMovieNo=23055700" class="img">
-                                        <img src="https://img.megabox.co.kr/SharedImg/2023/07/27/VLZ7NCAlhfkHLvOaKvgTeXvRGPdaTemN_316.jpg" alt="잠" onerror="noImg(this)">
+                                    <a th:href="@{/movie/detail?movieNo=booking.movieNo}" class="img">
+                                        <img th:src="${booking.poster}" >
                                     </a>
                                     <table class="table">
                                         <colgroup>
@@ -88,51 +91,40 @@
                                         <tbody>
                                         <tr>
                                             <th scope="row" class="a-r">예매번호</th>
-                                            <td colspan="3"><em class="num"></em></td>
+                                            <td colspan="3"><em class="num" th:text="${booking.no}"></em></td>
                                         </tr>
                                         <tr>
                                             <th scope="row" class="a-r">영화명</th>
                                             <td colspan="3">
                                                 <p class="tit-movie">
-                                                    <span>잠</span>
-                                                    <span>2D</span>
+                                                    <span th:text="${booking.title}"></span>
                                                 </p>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th scope="row" class="a-r">극장/상영관</th>
-                                            <td>금정AK플라자/컴포트 1관</td>
+                                            <td th:text="|${booking.theaterName} / ${booking.screenName}|"></td>
                                             <th scope="row">관람인원</th>
-                                            <td>성인 1명</td>
+                                            <td th:text="|성인 ${booking.adultSeats} 명, 청소년 ${booking.underageSeats} 명, 총 ${booking.totalSeats} 명|"></td>
                                         </tr>
                                         <tr>
                                             <th scope="row" class="a-r">관람일시</th>
-                                            <td>2023.09.11 (월) 21:45 (5회차)</td>
+                                            <td th:text="${#dates.format(booking.bookingDate,'yyyy-MM-dd')}"></td>
                                             <th scope="row">관람좌석</th>
-                                            <td>D열 3</td>
+                                            <td th:text="${booking.bookedSeatsNos}"></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row" class="a-r">관람시간</th>
+                                            <td th:text="${booking.startTime} +  '~' + ${booking.endTime} "></td>
+                                            <th scope="row" class="a-r">결제일시</th>
+                                            <td th:text="${#dates.format(booking.createDate,'yyyy-MM-dd')}">
+                                                <a href="#" class="button gray-line x-small" title="결제정보">결제정보</a>
+                                            </td>
                                         </tr>
                                         </tbody>
                                     </table>
-                                    <div class="bg-round">
-                                        <table class="table">
-                                            <colgroup>
-                                                <col style="width:75px;">
-                                                <col style="width:230px;">
-                                                <col style="width:100px;">
-                                                <col>
-                                            </colgroup>
-                                            <tbody>
-                                            <tr>
-                                                <th scope="row" class="a-r">결제일시</th>
-                                                <td>2023.09.05
-                                                    <a href="#" class="button gray-line x-small" title="결제정보">결제정보</a>
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
                                     <div class="btn-group" style="display: block;">
-                                        <a href="" class="button gray" name="btnCancelBokd" title="예매취소">예매취소</a>
+                                        <button class="button gray booking-cancel" th:booking-no="${booking.no}" title="예매취소">예매취소</button>
                                     </div>
                                 </div>
                             </li>
@@ -283,11 +275,11 @@
                     <tr>
                         <th scope="row">구분</th>
                         <td>
-                            <input type="radio" name="status" id="radPurc01" value="" checked>
+                            <input type="radio" name="state" id="radPurc01" value="" checked>
                             <label for="radPurc01">전체</label>
-                            <input type="radio" name="status" id="radPurc02" value="P">
+                            <input type="radio" name="state" id="radPurc02" value="결제완료">
                             <label for="radPurc02">구매내역</label>
-                            <input type="radio" name="status" id="radPurc03" value="C">
+                            <input type="radio" name="state" id="radPurc03" value="결제취소">
                             <label for="radPurc03">취소내역</label>
                         </td>
                     </tr>
@@ -301,9 +293,9 @@
                                 <button type="button" class="btn" value="M6">6개월</button>
                             </div>
                             <div class="date">
-                                <input type="text" title="조회기간 시작 날짜 입력" name="purchaseDate" placeholder="yyyy.mm.dd" class="date-calendar v2 datepicker" id="startDate">
+                                <input type="text" title="조회기간 시작 날짜 입력" name="createDate" placeholder="yyyy.mm.dd" class="date-calendar v2 datepicker" id="startDate">
                                 <span>~</span>
-                                <input type="text" title="조회기간 마지막 날짜 입력" name="purchaseDate" placeholder="yyyy.mm.dd" class="date-calendar v2 datepicker" id="endDate">
+                                <input type="text" title="조회기간 마지막 날짜 입력" name="createDate" placeholder="yyyy.mm.dd" class="date-calendar v2 datepicker" id="endDate">
                                 <button type="button" class="button gray-line" id="btnCheck">
                                     <i class="iconset ico-search-gray"></i> 조회
                                 </button>
@@ -339,7 +331,7 @@
                         <th scope="col">상태</th>
                     </tr>
                     </thead>
-                    <tbody id="purchaceTableBody">
+                    <tbody id="orderTableBody">
 
                     </tbody>
                 </table>

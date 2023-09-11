@@ -2,4 +2,82 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.mgv.movie.dao.MovieCommentDao">
 
+    <insert id="insertMovieComment" parameterType="MovieComment">
+        insert into MGV_MOVIE_COMMENT
+        (COMMENT_NO,
+        USER_ID,
+        PROFILE_IMAGE,
+        MOVIE_NO,
+        COMMENT_RATING,
+        COMMENT_CONTENT)
+        VALUES
+            ( #{no},#{userId},#{profileImage},#{movieNo},#{commentRating},#{commentContent} )
+    </insert>
+    <select id="getMovieCommentsByMovieNo" parameterType="int">
+    select
+        COMMENT_NO as 'no',
+        USER_ID    as 'userId',
+        PROFILE_IMAGE   as 'profileImage',
+         MOVIE_NO       as 'movieNo',
+        COMMENT_RATING      as 'commentRating',
+         COMMENT_CONTENT    as 'commentContent',
+          COMMENT_LIKES     as 'commentLikes',
+           CREATE_DATE      as 'createDate'
+    from
+        MGV_MOVIE_COMMENT
+    where
+        MOVIE_NO = #{value}
+    ORDER BY CREATE_DATE DESC
+    </select>
+    <select id="getMovieCommentByCommentNo" parameterType="long">
+        select
+            COMMENT_NO as 'no',
+                USER_ID    as 'userId',
+                PROFILE_IMAGE   as 'profileImage',
+                MOVIE_NO       as 'movieNo',
+                COMMENT_RATING      as 'commentRating',
+                COMMENT_CONTENT    as 'commentContent',
+                COMMENT_LIKES     as 'commentLikes',
+                CREATE_DATE      as 'createDate'
+        from
+            MGV_MOVIE_COMMENT
+        where
+            COMMENT_NO = #{value}
+    </select>
+    <select id="getMovieCommentLikeByUserId" parameterType="string"  resultType="long">
+        select
+            COMMENT_NO as commentNo
+            from MGV_COMMENT_LIKE
+        where USER_ID = #{value}
+    </select>
+
+    <insert id="insertMovieCommentLike" parameterType="MovieCommentLike">
+        insert into MGV_COMMENT_LIKE
+        (USER_ID, COMMENT_NO)
+        VALUES (#{userId},#{commentNo})
+    </insert>
+    <delete id="deleteMovieCommentLike" parameterType="MovieCommentLike">
+        delete from MGV_COMMENT_LIKE
+        where USER_ID = #{userId} and COMMENT_NO = #{commentNo}
+    </delete>
+    <update id="incrementMovieCommentLike" parameterType="long">
+        update MGV_MOVIE_COMMENT
+        set
+            COMMENT_LIKES=COMMENT_LIKES+1
+        WHERE COMMENT_NO= #{VALUE}
+    </update>
+    <update id="decrementMovieCommentLike" parameterType="long">
+        update MGV_MOVIE_COMMENT
+        set
+            COMMENT_LIKES=COMMENT_LIKES-1
+        WHERE COMMENT_NO= #{VALUE}
+    </update>
+    <delete id="deleteMovieCommentLikeByCommentNo" parameterType="long">
+        delete from MGV_MOVIE_COMMENT
+        where COMMENT_NO= #{value}
+    </delete>
+    <delete id="deleteMovieCommentByNo" parameterType="long">
+        delete from MGV_COMMENT_LIKE
+        where COMMENT_NO= #{value}
+    </delete>
 </mapper>

@@ -44,7 +44,7 @@ public class Movie {
     private Date closeDate;
     private int seatsOpen;
     private int seatsBooked;
-
+    private boolean isLiked;
     public String getStringFormattedDate() {
         return DateUtils.toText(releaseDate);
     }
@@ -65,18 +65,13 @@ public class Movie {
         }
         return poster[0];
     }
-    public double getBookingRate(){
-        if(seatsOpen==0){
-            return 0;
-        }
-        return (double) seatsBooked/seatsOpen;
-    }
+
 
     public double getAverageScore(){
         if (score == 0){
             return 0;
         }
-        return (double) score/scoreGiver;
+        return  Math.round((double) score/scoreGiver*10)/10.0;
     }
     public List<String> getActors(){
         return Arrays.stream(cast.split(", ")).collect(Collectors.toList());
@@ -85,7 +80,7 @@ public class Movie {
 	public Movie(int no, double rating, int chartRank, int rankInten, int audiCnt, String title, String titleEng,
 			String genre, String contentRating, String director, String cast, String plot, String posterUrl,
 			String isPlaying, int runtime, String rankOldAndNew, Date releaseDate, Date updateDate, int score,
-			int scoreGiver, int likes, Date openDate, Date closeDate, int seatsOpen, int seatsBooked) {
+			int scoreGiver, int likes, Date openDate, Date closeDate, int seatsOpen, int seatsBooked, boolean isLiked) {
 		super();
 		this.no = no;
 		this.rating = rating;
@@ -112,8 +107,15 @@ public class Movie {
 		this.closeDate = closeDate;
 		this.seatsOpen = seatsOpen;
 		this.seatsBooked = seatsBooked;
+        this.isLiked = isLiked;
 	}
-    
+
+    public double getBookingRate(){
+        if(seatsOpen==0){
+            return 0.0;
+        }
+        return Math.round(((double) seatsBooked / seatsOpen)*10000.0)/100.0;
+    }
     public String getContentRatingKr(){
         if ("12".equals(contentRating)){
             return "12세이용가";

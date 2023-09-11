@@ -1,13 +1,13 @@
 package kr.co.mgv.movie.controller;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
-import kr.co.mgv.movie.dao.MovieLikeDao;
+import kr.co.mgv.movie.dao.MovieCommentDao;
 import kr.co.mgv.movie.service.MovieService;
 import kr.co.mgv.movie.vo.Movie;
+import kr.co.mgv.movie.vo.MovieComment;
+import kr.co.mgv.movie.vo.MovieCommentLike;
 import kr.co.mgv.movie.vo.MovieLike;
 import kr.co.mgv.user.service.UserService;
 import kr.co.mgv.user.vo.User;
-import kr.co.mgv.web.view.DownloadView;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.HashSet;
-import java.util.List;
+import javax.xml.stream.events.Comment;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toCollection;
 
 @Controller
 @RequestMapping("/movie")
@@ -37,6 +40,7 @@ public class MovieController {
         model.addAttribute("movies", movies);
         if(user!=null) {
             model.addAttribute("likedMovies", movieService.getAllLikedMovieNos(user.getId()));
+
         }
         return "view/movie/list";
     }
@@ -44,12 +48,20 @@ public class MovieController {
     @GetMapping("/detail")
     public String detail(@RequestParam("movieNo") int movieNo, Model model, @AuthenticationPrincipal User user) {
         model.addAttribute("movie",movieService.getMovieByMovieNo(movieNo));
+        List<MovieComment> movieComments = movieService.getMovieCommentsByMovieNo(movieNo);
+        movieComments.forEach(c->c.setProfileImage(userService.getUserById(c.getUserId()).getProfileImg()));
+
 
 
         if(user!=null){
             model.addAttribute("user",userService.getUserById(user.getId()));
             model.addAttribute("isLiked",movieService.isMovieLikedByUser(new MovieLike(user.getId(),movieNo)));
+            Set<Long> set = movieService.getMovieCommentLikeByUserId(user.getId());
+            for (MovieComment movieComment : movieComments) {
+                movieComment.setLiked(set.contains(movieComment.getNo()));
+            }
         }else model.addAttribute("isLiked",false);
+        model.addAttribute("movieComment",movieComments);
         return "view/movie/detail";
     }
 
@@ -71,6 +83,16 @@ public class MovieController {
     return new ModelAndView("downloadFileView");
 }
 
+@GetMapping("/favorite")
+public String movieFavorite (Model model, @AuthenticationPrincipal User user){
+    if(user!= null){
+        model.addAttribute("favoriteMovies",movieService.getFavoriteMoviesByUserId(user.getId()));
+        }else{
+            model.addAttribute("favoriteMovies",new ArrayList<>());
+
+        }
+        return "view/movie/favorite";
+}
 @GetMapping("/movieall")
 public String movieAll(Model model, @AuthenticationPrincipal User user){
     model.addAttribute("movies",movieService.getAllMovies());

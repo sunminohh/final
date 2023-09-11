@@ -4,6 +4,7 @@
    layout:decorate="~{layout/admin}">
 <head th:fragment="extra-head-content">
    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+   <script th:src="@{/js/admin/event/form-alert.js}"></script>
 </head>
 <div id="contents" layout:fragment="content" style="margin-top: -40px;">
     <h2 class="tit">이벤트</h2>
@@ -45,6 +46,7 @@
         </div>
         </div>
 
+		<input type="hidden" name="no" th:value="${param.no}" />
         <div class="btn-group pt40" style="display: block;">
           <a id ="modify-btn" class="button large"
                 th:href="@{/admin/event/modifyform(no=${param.no},page=${param.page}, status=${param.status}, catNo=${param.catNo}, keyword=${param.keyword})}">수정
@@ -54,7 +56,7 @@
            th:href="@{/admin/event/list(page=${param.page}, status=${param.status}, catNo=${param.catNo}, keyword=${param.keyword})}"
         >목록</a>
            
-          <a id = "delete-btn" class="button large"
+          <a id ="delete-btn" class="button large"
              th:href="@{/admin/event/delete(no=${param.no})}"
              >삭제
         </a>

@@ -46,20 +46,19 @@ public class LostService {
 							lost(lost).
 							content(content).build();
 		
-		
 		lostDao.insertComment(comment);
 		
 		lost.setAnswered("Y");
 		lostDao.updateLostByNo(lost);
 		
 		String email = null;
-		if (lost.getUser().getId() != null) {
+		if (lost.getUser() != null) {
 			email = lost.getUser().getEmail();
 		} else {
 			email = lost.getGuestEmail();
 		}
 		
-		emailService.sendTempqnaMessage(email, lost.getContent(), content);
+		emailService.sendTempqnaMessage(email, lost.getHtmlContent(), comment.getHtmlContent());
 	}
 	
 	public void deleteComment(int commentNo) {

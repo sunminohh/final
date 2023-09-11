@@ -1,5 +1,10 @@
 package kr.co.mgv.user.controller;
 
+import kr.co.mgv.booking.service.BookingService;
+import kr.co.mgv.booking.vo.Booking;
+import kr.co.mgv.store.mapper.OrderMapper;
+import kr.co.mgv.store.service.OrderService;
+import kr.co.mgv.store.vo.GiftTicket;
 import kr.co.mgv.user.form.UserUpdateForm;
 import kr.co.mgv.user.service.MypageService;
 import kr.co.mgv.user.service.UserService;
@@ -19,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 @Controller
 @Secured({"ROLE_USER", "ROLE_ADMIN"})
@@ -30,7 +36,8 @@ public class UserController {
     private final UserService userService;
     private final MypageService mypageService;
     private final PasswordEncoder passwordEncoder;
-
+    private final OrderService orderService;
+    private final BookingService bookingService;
     private String getLoggedInUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getName();
@@ -164,45 +171,45 @@ public class UserController {
     }
 
     @GetMapping("/booking")
-    public String bookinghome() {
-
+    public String bookinghome(@AuthenticationPrincipal User user, Model model) {
+            model.addAttribute("bookings", bookingService.getBookingsByUserId(user.getId()));
+        model.addAttribute("totalRows", bookingService.getTotalRows(user.getId()));
         return "view/user/booking/list";
     }
 
-   /* @PostMapping("/bookinglist")
-    public ResponseEntity<HashMap<String, Object>> bookingList() {
-        String userId = getLoggedInUserId();
-
-
-        return ResponseEntity.ok();
-    }*/
-
-    @PostMapping("/purchase")
+    @PostMapping("/order")
     @ResponseBody
-    public ResponseEntity<HashMap<String, Object>> purchaseList(@RequestParam String startDate,
-                                                                @RequestParam String endDate,
-                                                                @RequestParam String status,
-                                                                @RequestParam(name = "page", defaultValue = "1") int page) {
+    public ResponseEntity<HashMap<String, Object>> OrderList(@RequestParam String startDate,
+                                                             @RequestParam String endDate,
+                                                             @RequestParam String state,
+                                                             @RequestParam(name = "page", defaultValue = "1") int page) {
         String userId = getLoggedInUserId();
         log.info("loginId -> {}", userId);
 
-        HashMap<String, Object> purchases = mypageService.getPurchaseByUserId(userId, startDate, endDate, status, page);
+        HashMap<String, Object> orders = mypageService.getOrderByUserId(userId, startDate, endDate, state, page);
         log.info("page -> {}", page);
         log.info("startDate -> {}", startDate);
         log.info("endDate -> {}", endDate);
-        log.info("status -> {}", status);
-        return ResponseEntity.ok(purchases);
+        log.info("state -> {}", state);
+        return ResponseEntity.ok(orders);
     }
 
-    @PostMapping("/purchase/cancel")
+    @PostMapping("/order/cancel")
     @ResponseBody
-    public ResponseEntity<String> cancelPurchace(@RequestParam("no") int purchaseNo) {
-        boolean isSuccess = mypageService.cancelPurchase(purchaseNo);
+    public ResponseEntity<String> cancelPurchace(@RequestParam("id") long orderId) {
+        boolean isSuccess = mypageService.cancelOrder(orderId);
+        log.info("orderId -> {}", orderId);
         if (isSuccess) {
             return ResponseEntity.ok("결제취소가 완료되었습니다.");
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("구매취소 중 오류가 발생했습니다. 다시 시도해주세요.");
         }
+    }
+
+    @GetMapping("/ticket")
+    public String ticketList(@AuthenticationPrincipal User user,Model model) {
+        model.addAttribute("giftTickets",orderService.getGiftTicketsByUserId(user.getId()));
+        return "view/user/ticket/list";
     }
 
     @GetMapping("/moviestory")

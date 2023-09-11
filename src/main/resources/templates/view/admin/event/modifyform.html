@@ -5,6 +5,7 @@
 	<link th:href=@{/css/event/form.css} rel="stylesheet">
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script th:src="@{/js/admin/event/form.js}"></script>
+	<script th:src="@{/js/admin/event/form-alert.js}"></script>
 </head>
 <title>관리자페이지</title>
 <div layout:fragment="content" style="margin-top: -40px;">
@@ -40,10 +41,12 @@
                     <td colspan="3"><input type="text" name="title" class="input-text" th:value="${event.title}"></td>
                 </tr>
                 <tr>
+                	<input type="hidden" name="originalstartDate" th:value="${event.startDate}" />
                     <th scope="row"><label for="eventStartDate">시작일</label> <em class="font-orange">*</em></th>
                     <td>
                         <input type="date" id="eventStartDate" name="startDate" class="input-text w150px" th:value="${event.startDate}" maxlength="30">
                     </td>
+                	<input type="hidden" name="endDate" th:value="${event.endDate}" />
                     <th scope="row"><label for="eventEndDate">종료일</label> <em class="font-orange">*</em></th>
                     <td>
                         <input type="date" id="eventEndDate" name="endDate" class="input-text w150px" th:value="${event.endDate}" maxlength="30">
@@ -58,10 +61,10 @@
                                 <p>* JPEG, PNG 형식의 5M 이하의 파일만 첨부 가능합니다.</p>
                                 <button type="button" id="uploadBtn1" class="btn-image-add float-end">
 								  <span>파일선택</span>
-								  <input type="file" name="file1" id="fileInput1" style="display: none;" accept="image/png, image/jpeg" th:value="${event.mainImage}">
+								  <input type="file" name="file1" id="fileInput1" style="display: none;" accept="image/png, image/jpeg" th:value="${event.mainImageFile.fileId}">
 								</button>
                             </div>
-                            <div id="imgList1"><div><p th:text="${'선택된 파일:' + event.mainImage}"></p></div></div>
+                            <div id="imgList1"></div>
                         </div>
                     </td>
                 </tr>
@@ -73,10 +76,10 @@
                                 <p>* JPEG, PNG 형식의 5M 이하의 파일만 첨부 가능합니다.</p>
                                 <button type="button" id="uploadBtn2" class="btn-image-add float-end">
 								  <span>파일선택</span>
-								  <input type="file" name="file2" id="fileInput2" style="display: none;" accept="image/png, image/jpeg" th:value="${event.mainImage}">
+								  <input type="file" name="file2" id="fileInput2" style="display: none;" accept="image/png, image/jpeg" th:value="${event.detailImageFile.fileId}">
 								</button>
                             </div>
-                            <div id="imgList2"><div><p th:text="${'선택된 파일:' + event.detailImage}"></p></div></div>
+                            <div id="imgList2"></div>
                         </div>
                     </td>
                 </tr>
@@ -86,7 +89,7 @@
         </div>
 
         <div class="btn-group pt40" style="display: block;">
-            <button id="btn-submit" type="submit" class="button purple large">수정</button>
+            <button id="modify-btn-submit" type="submit" class="button purple large">수정</button>
         </div>
     </form>
             
