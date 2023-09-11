@@ -3,6 +3,12 @@ $(() => {
 	const $orderList=$("#orderList")
 	const $btnRefreshOrder=$("#btn-refresh-order")
 	const $btnRefreshBooking=$("#btn-refresh-booking")
+	const currentDate = dayjs().format("YYYY-MM-DD");
+	const oneWeekAgo = dayjs().subtract(7, 'day').format("YYYY-MM-DD");
+	const reqData={
+		lastDate:currentDate,
+		firstDate:oneWeekAgo
+	}
 	const API_URLS = {
 		DAILY_TOTAL_SALES: "/admin/sales/dailyTotalSales",
 		BOOKINGLIST:"/api/booking/getBookingList",
@@ -132,9 +138,11 @@ $(() => {
 
 	$.ajax({
 		url: API_URLS.DAILY_TOTAL_SALES, // 데이터를 가져올 API 엔드포인트
-		method: 'GET',
-		dataType: 'json',
+		method: 'post',
+		data: JSON.stringify(reqData), // JSON 형태로 변환하여 보냄
+		contentType: "application/json", // JSON 데이터임을 명시
 		success: function(data) {
+			console.log(data)
 			updateChartWithData(data);
 		},
 		error: function(error) {
