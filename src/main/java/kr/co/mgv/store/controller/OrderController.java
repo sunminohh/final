@@ -1,15 +1,13 @@
 package kr.co.mgv.store.controller;
 
-import kr.co.mgv.booking.vo.Booking;
 import kr.co.mgv.store.service.CartService;
 import kr.co.mgv.store.service.OrderService;
-import kr.co.mgv.store.vo.*;
+import kr.co.mgv.store.vo.Order;
+import kr.co.mgv.store.vo.OrderProduct;
 import kr.co.mgv.user.vo.User;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -20,14 +18,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.Reader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
@@ -58,9 +48,9 @@ public class OrderController {
 
 
     @GetMapping({"/success"})
-    public String success(@RequestParam("orderId") long orderId, @RequestParam(required = false, value="amount") Long amount, @RequestParam(required = false, value="paymentKey") String paymentKey, Model model) {
-        Order order= orderService.getOrderById(orderId);
-
+    public String success(@RequestParam("orderId") String orderId, @RequestParam(required = true, value="amount") int amount, @RequestParam(required = false, value="paymentKey") String paymentKey, Model model) {
+        Order order= orderService.getOrderById(Long.parseLong(orderId));
+        List<OrderProduct> products= orderService.getOrderProducts(order);
 
         String testSK="test_sk_E92LAa5PVbpv4lOOMGJ87YmpXyJj:";
         RestTemplate rest= new RestTemplate();
@@ -76,16 +66,19 @@ public class OrderController {
         log.info("토스페이먼츠 api 응답 -> {}",entity);
         ResponseEntity<String> result=rest.postForEntity("https://api.tosspayments.com/v1/payments/"+paymentKey,entity,String.class);
         order.setOrderState("결제완료");
+        order.setPaymentKey(paymentKey);
         model.addAttribute("order", order);
+        model.addAttribute("products",products);
+
         orderService.updateOrder(order);
         return "view/store/success";
     }
     
-    @GetMapping("/list")
-    @ResponseBody
-    public List<Order> getOrderList(){
-    	return orderService.getOrderList();
-    }
+//    @GetMapping("/list")
+//    @ResponseBody
+//    public List<Order> getOrderList(){
+//    	return orderService.getOrderList();
+//    }
 }
 
 

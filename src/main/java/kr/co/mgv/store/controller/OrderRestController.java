@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
-
 @RestController
 @RequestMapping("/api/order")
 @AllArgsConstructor
@@ -25,6 +23,8 @@ public class OrderRestController {
 
         order.setUserId(user.getId());
         order.setUserName(user.getName());
+
+        log.info("order - {}", order);
         orderService.insertOrder(order);
         return order;
     }

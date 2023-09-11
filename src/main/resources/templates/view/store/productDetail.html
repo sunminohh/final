@@ -4,7 +4,6 @@
       layout:decorate="~{layout/default}">
 <head th:fragment="extra-head-content">
     <title>스토어</title>
-    <script src="/js/store/productDetail.js"></script>
     <script src="https://js.tosspayments.com/v1"></script>
 </head>
     <body>
@@ -114,7 +113,7 @@
                                             </form>
                                             <a sec:authorize="isAuthenticated()" href="/cart" id="btnCart-user" class="button large btnCart-user" w-data="500" h-data="410"
                                                title="장바구니" style="padding-left: 110px; padding-right: 110px;" type="submit">장바구니</a>
-                                            <button sec:authorize="isAuthenticated()" id="btn-tosspay" class="button purple large btnPurchase-user" w-data="500" h-data="410"
+                                            <button sec:authorize="isAuthenticated()" id="request-payment" class="button purple large btnPurchase-user" w-data="500" h-data="410"
                                                style="padding-left: 130px; padding-right: 130px;" type="button">구매</button>
                                         </div>
                                     </div>

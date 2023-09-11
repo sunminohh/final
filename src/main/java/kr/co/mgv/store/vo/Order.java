@@ -6,9 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.apache.ibatis.type.Alias;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Getter
 @Setter
@@ -30,7 +28,6 @@ public class Order {
     private Date createDate;
     private Date updateDate;
     private String orderState;
-
 
 
 }

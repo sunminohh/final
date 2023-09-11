@@ -1,14 +1,15 @@
 package kr.co.mgv.store.service;
 
-import kr.co.mgv.store.mapper.*;
-import kr.co.mgv.store.vo.*;
-import kr.co.mgv.user.vo.User;
+import kr.co.mgv.store.mapper.GiftTicketMapper;
+import kr.co.mgv.store.mapper.OrderMapper;
+import kr.co.mgv.store.mapper.ProductMapper;
+import kr.co.mgv.store.vo.Order;
+import kr.co.mgv.store.vo.OrderProduct;
+import kr.co.mgv.store.vo.Product;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
-import java.net.http.HttpRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,18 +21,21 @@ import java.util.Map;
 public class OrderService {
 
     private final OrderMapper orderMapper;
-    private final OrderProductMapper orderProductMapper;
-    private final OrderPackageMapper orderPackageMapper;
     private final GiftTicketMapper giftTicketMapper;
     private final ProductMapper productMapper;
+
 
     public void insertOrder(Order order) {
         orderMapper.insertOrder(order);
     }
-    public Order getOrderById(long id){return orderMapper.getOrderById(id);}
+    public Order getOrderById(long id){
+        return orderMapper.getOrderById(id);
+    }
+
     public void updateOrder(Order order){
         orderMapper.updateOrder(order);
     }
+
     public void generateGiftTickets(String userId, int quantity){
         if(quantity==0){
             return;
@@ -55,6 +59,61 @@ public class OrderService {
 
     }
 
+    public List<OrderProduct> getOrderProducts(Order order) {
+        List<OrderProduct> list = new ArrayList<>();
+        String orderProductsString = order.getOrderProducts();
+        String[] ops = orderProductsString.split("\\+");
+
+        for (String p : ops) {
+            OrderProduct orderProduct= new OrderProduct();
+            String[] op = p.split(",");
+            Product product = productMapper.getProductByNo(Integer.parseInt(op[0]));
+            int orderAmount = Integer.parseInt(op[3]);
+
+            orderProduct.setProductNo(product.getNo());
+            orderProduct.setAmount(orderAmount);
+            orderProduct.setUnitPrice(product.getOriginalPrice());
+            orderProduct.setImagePath(product.getImagePath());
+            orderProduct.setName(product.getName());
+            orderProduct.setOrderDate(order.getCreateDate());
+
+
+            Map<Product,Integer> map = new HashMap<>();
+            boolean isPackage= product.getNo()>100;
+
+//            if (isPackage){
+//                String packageInfo = product.getPackageInfo();
+//                String[] eachItem = packageInfo.split("\\+");
+//
+//                for(String each : eachItem){
+//                    String[] e = each.split(",");
+//                    Product innerProduct = productMapper.getProductByNo(Integer.parseInt(e[0]));
+//                    map.put(innerProduct,Integer.parseInt(e[3])*orderAmount);
+//                    orderProduct.setPkg(map);
+//                    orderProduct.setPackage(true);
+//                }
+//            }else {
+//                map.put(product,orderAmount);
+//                orderProduct.setPackage(false);
+//                orderProduct.setPkg(map);
+//            }
+            list.add(orderProduct);
+        }
+        return list;
+/*
+            int productNo= Integer.parseInt(op[0]);
+            String name = op[1];
+            orderProduct.setProductNo(productNo);
+            orderProduct.setName(op[1]);
+            orderProduct.setUnitPrice(Integer.parseInt(op[2]));
+            orderProduct.setAmount(Integer.parseInt(op[3]));
+            List<Product> productList = new ArrayList<>();
+            if(productNo>100){
+                Product Product = productMapper.getProductByNo(productNo);
+*/
+
+
+        }
 //    public void insertOrderProduct(String orderId, int productNo, int productAmount, int productPrice, int catNo) {
 //        OrderProduct orderProduct = new OrderProduct();
 //
@@ -126,16 +185,8 @@ public class OrderService {
 //        return productList;
 //    }
 
-
-
-<<<<<<< HEAD
-=======
-        orderPackageMapper.insertOrderPackage(orderPackage);
+//	public List<Order> getOrderList() {
+//		// TODO Auto-generated method stub
+//		return orderMapper.getOrderList();
+//	}
     }
-
-	public List<Order> getOrderList() {
-		// TODO Auto-generated method stub
-		return orderMapper.getOrderList();
-	}
->>>>>>> develop
-}
