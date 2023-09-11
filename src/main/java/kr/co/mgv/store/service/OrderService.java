@@ -3,6 +3,7 @@ package kr.co.mgv.store.service;
 import kr.co.mgv.store.mapper.GiftTicketMapper;
 import kr.co.mgv.store.mapper.OrderMapper;
 import kr.co.mgv.store.mapper.ProductMapper;
+import kr.co.mgv.store.vo.GiftTicket;
 import kr.co.mgv.store.vo.Order;
 import kr.co.mgv.store.vo.OrderProduct;
 import kr.co.mgv.store.vo.Product;
@@ -91,6 +92,7 @@ public class OrderService {
 
     }
 
+    public List<GiftTicket> getGiftTicketsByUserId(String userId){return giftTicketMapper.getGiftTicketsByUserId(userId);}
 	public List<Order> getOrderList() {
 		// TODO Auto-generated method stub
 		return orderMapper.getOrderList();

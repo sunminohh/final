@@ -20,5 +20,6 @@ public class MovieComment {
     private Date createDate;
     private int commentLikes;
     private String commentContent;
+    private boolean isLiked;
 
 }

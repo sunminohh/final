@@ -223,7 +223,7 @@
                     <dl>
                         <dt>예매율</dt>
                         <dd class="font-roboto regular">
-                            <span id="rkTag" th:text="${movie.getBookingRate()}">30.1%</span>
+                            <span id="rkTag" th:text="|${movie.getBookingRate()}%|"></span>
                         </dd>
                     </dl>
                 </div>
@@ -295,31 +295,6 @@
                 <div class="movie-sorting">
                     <span><button type="button" class="btn sortBtn on" data-cd="">전체 <em class="font-gblue" id="movie-comment-count" th:text="${movieComment.size()}">13,246</em> 건</button></span>
                 </div>
-
-                <!-- 로그인 시 -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                <!-- 본 영화가 아닌경우 -->
-
-
-
-
                 <ul>
 
                     <!-- 로그인 시 -->
@@ -402,7 +377,8 @@
                                         <div class="story-txt"  th:text="${comment.commentContent}"></div>
                                         <div class="story-like">
                                             <button type="button" class="oneLikeBtn" title="댓글 추천"
-                                                    data-is="N" data-cd="PREV" th:commentNo="${comment.no}"><i class="iconset ico-like"></i>
+                                                    data-is="N" data-cd="PREV" th:commentNo="${comment.no}"><i th:if="${comment.liked}" class="iconset ico-like-blue"></i>
+                                                <i th:if="${!comment.liked}" class="iconset ico-like"></i>
                                                 <span th:text="${comment.commentLikes}"></span></button>
                                         </div>
                                         <div class="story-util" th:if="${user!=null}">

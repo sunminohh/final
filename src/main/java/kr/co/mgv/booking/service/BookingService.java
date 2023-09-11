@@ -2,6 +2,9 @@ package kr.co.mgv.booking.service;
 
 import kr.co.mgv.booking.dao.BookingDao;
 import kr.co.mgv.booking.vo.Booking;
+import kr.co.mgv.movie.dao.MovieDao;
+import kr.co.mgv.movie.service.MovieService;
+import kr.co.mgv.movie.vo.Movie;
 import kr.co.mgv.schedule.dao.ScheduleDao;
 import kr.co.mgv.schedule.dto.BookingScheduleDto;
 import kr.co.mgv.schedule.dto.DailyScheduleDto;
@@ -32,6 +35,8 @@ public class BookingService {
        private ScheduleDao scheduleDao;
        private TheaterService theaterService;
        private BookingDao bookingDao;
+       private MovieService movieService;
+       private MovieDao movieDao;
     private static final JSONParser JSON_PARSER = new JSONParser();
         public Map<String, Integer> isElementClassActive(String date){
             Map<String,Integer> map= new HashMap<>();
@@ -115,6 +120,19 @@ public class BookingService {
                 params.put("seatNo",seatNo);
                 bookingDao.completeBookedSeats(params);
             }
+        }
+
+        public void completeBooking(Booking booking){
+            Movie movie = movieService.getMovieByMovieNo(booking.getMovieNo());
+            movie.setSeatsBooked(booking.getTotalSeats());
+            movieDao.updateMovie(movie);
+           completeBookedSeats(booking);
+           updateBooking(booking);
+           scheduleDao.decrementScheduleRemainingSeats(new HashMap<>(){{
+               put("scheduleId",booking.getScheduleId());
+               put("seatCount",booking.getTotalSeats());
+           }});
+
         }
 
 }

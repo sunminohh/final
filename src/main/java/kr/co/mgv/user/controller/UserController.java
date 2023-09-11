@@ -1,6 +1,8 @@
 package kr.co.mgv.user.controller;
 
 import kr.co.mgv.store.mapper.OrderMapper;
+import kr.co.mgv.store.service.OrderService;
+import kr.co.mgv.store.vo.GiftTicket;
 import kr.co.mgv.user.form.UserUpdateForm;
 import kr.co.mgv.user.service.MypageService;
 import kr.co.mgv.user.service.UserService;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 @Controller
 @Secured({"ROLE_USER", "ROLE_ADMIN"})
@@ -31,6 +34,7 @@ public class UserController {
     private final UserService userService;
     private final MypageService mypageService;
     private final PasswordEncoder passwordEncoder;
+    private final OrderService orderService;
 
     private String getLoggedInUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -207,8 +211,8 @@ public class UserController {
     }
 
     @GetMapping("/ticket")
-    public String ticketList() {
-
+    public String ticketList(@AuthenticationPrincipal User user,Model model) {
+        model.addAttribute("giftTickets",orderService.getGiftTicketsByUserId(user.getId()));
         return "view/user/ticket/list";
     }
 

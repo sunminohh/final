@@ -47,17 +47,15 @@ public class BookingController {
     @GetMapping({"/success"})
     public String success(@RequestParam("orderId") long bookingNo, @RequestParam(required = false, value="amount") Long amount, @RequestParam(required = false, value="paymentKey") String paymentKey, Model model) {
         Booking booking = bookingService.getBookingByBookingNo(bookingNo);
+        booking.setBookingState("결제완료");
+
         if(paymentKey!=null){
             ResponseEntity<String> tossResponseEntity= bookingService.requestTossFinalPayment(bookingNo+"",paymentKey,amount);
             booking.setPaymentKey(paymentKey);
         }
-        Movie movie = movieService.getMovieByMovieNo(booking.getMovieNo());
-        movie.setSeatsBooked(booking.getTotalSeats());
-        movieDao.updateMovie(movie);
-        bookingService.completeBookedSeats(booking);
+        bookingService.completeBooking(booking);
         model.addAttribute("booking", booking);
-        booking.setBookingState("결제완료");
-        bookingService.updateBooking(booking);
+
         return "view/booking/success";
     }
     @GetMapping({"/failure"})
