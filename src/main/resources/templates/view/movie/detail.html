@@ -144,9 +144,8 @@
 
             <div class="movie-summary infoContent" id="info">
 
-                <div class="txt" th:text="${movie.plot}"><br><br> <br><br>평화롭던 바닷가 마을 군천에 화학 공장이 들어서면서 하루아침에 일자리를 잃은 해녀들.<br><br>먹고 살기 위한 방법을 찾던 승부사 '춘자'(김혜수)는<br><br>바다 속에 던진 물건을 건져 올리기만 하면 큰돈을 벌 수 있다는<br><br>밀수의 세계를 알게 되고 해녀들의 리더 '진숙'(염정아)에게 솔깃한 제안을 한다.<br><br>위험한 일임을 알면서도 생계를 위해 과감히 결단을 내린 해녀 '진숙'은<br><br>전국구 밀수왕 '권 상사'를 만나게 되면서 확 커진 밀수판에 본격적으로 빠지게 된다.<br><br>그러던 어느 날, 일확천금을 얻을 수 있는 일생일대의 기회가 찾아오고<br><br>사람들은 서로를 속고 속이며 거대한 밀수판 속으로 휩쓸려 들어가기 시작하는데...<br><br> <br><br>물길을 아는 자가 돈길의 주인이 된다!</div>
-                <div class="btn-more toggle">
-                    <button type="button" class="btn"><span>더보기</span> <i class="iconset ico-btn-more-arr"></i></button>
+                <div class="txt" >줄거리
+                    <div class="text" th:text="${movie.plot}">
                 </div>
             </div>
 
@@ -250,6 +249,7 @@
             <!--// movie-graph -->
 
             <!-- 한줄평 있을 때 -->
+        </div>
             <div class="tit-util mt70 mb15 oneContent">
                 <h2 class="tit small"th:text="|영화 < ${movie.title} > 에 대한 평점과 한줄평|"> <span class="font-gblue">0</span></h2>
             </div>
@@ -348,7 +348,7 @@
                     <li class="type01 oneContentTag" sec:authorize="isAuthenticated()">
                         <div class="story-area">
                             <div class="user-prof"  >
-                                <div class="prof-img"><img id="userProfileImage" th:src="${user.profileImg !=null } ? ${'/images/user/profile/'+user.profileImg} : '/images/user/profile/default.png'" alt="프로필 사진"
+                                <div class="prof-img"><img id="userProfileImage" th:src="@{/images/user/profile/default.png}" alt="프로필 사진"
                                                            title="프로필 사진" ></div>
                                 <p class="user-id" th:text="${#authentication.principal.id}"></p></div>
                             <div class="story-box">
@@ -392,7 +392,7 @@
                         <div class="story-area">
                             <div class="user-prof">
                                 <div class="prof-img"><img
-                                        th:src="${comment.profileImage}"
+                                        th:src="@{/images/user/profile/default.png}"
                                         alt="프로필 사진" title="프로필 사진"></div>
                                 <p class="user-id" th:text="${comment.userId}" ></p></div>
                             <div class="story-box">
@@ -407,7 +407,7 @@
                                         </div>
                                         <div class="story-util" th:if="${user!=null}">
                                             <button th:if="${user.id == comment.userId}" type="button" class="delete-comment" th:commentNo="${comment.no}" title="댓글 삭제"
-                                                     ><i class="bi bi-trash"></i>
+                                            ><i class="bi bi-trash"></i>
                                                 <span>삭제</span></button>
                                         </div>
                                         <div class="story-util" style="width:60px;">
@@ -419,8 +419,7 @@
                         </div>
                     </li>
             </div>
-        </div>
-        <!--// inner-wrap -->
+            <!--// inner-wrap -->
 
         <!-- movie-detail-poster -->
 
@@ -527,7 +526,7 @@
                             </p>
 
                             <div class="direct-link">
-                                <a id="bokdLinkBtn" data-no="" th:href="/booking" style="display: none;" title="">예매하기</a>
+                                <a id="bokdLinkBtn" data-no="" th:href="@{/booking}" style="display: none;" title="">예매하기</a>
                             </div>
                         </div>
 
@@ -650,9 +649,6 @@
         <!-- //무비포스트 상세 레이어팝업 -->
 
         <!--// 레이어 : 관람평 등록 -->
-    </div>
-
-    <div class="add-area infoContent" id="boxoInfoContent" style="">
     </div>
 
 

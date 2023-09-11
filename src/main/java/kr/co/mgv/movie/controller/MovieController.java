@@ -2,6 +2,7 @@ package kr.co.mgv.movie.controller;
 
 import kr.co.mgv.movie.service.MovieService;
 import kr.co.mgv.movie.vo.Movie;
+import kr.co.mgv.movie.vo.MovieComment;
 import kr.co.mgv.movie.vo.MovieLike;
 import kr.co.mgv.user.service.UserService;
 import kr.co.mgv.user.vo.User;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.xml.stream.events.Comment;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -43,7 +45,9 @@ public class MovieController {
     @GetMapping("/detail")
     public String detail(@RequestParam("movieNo") int movieNo, Model model, @AuthenticationPrincipal User user) {
         model.addAttribute("movie",movieService.getMovieByMovieNo(movieNo));
-        model.addAttribute("movieComment",movieService.getMovieCommentsByMovieNo(movieNo));
+        List<MovieComment> movieComments = movieService.getMovieCommentsByMovieNo(movieNo);
+        movieComments.forEach(c->c.setProfileImage(userService.getUserById(c.getUserId()).getProfileImg()));
+        model.addAttribute("movieComment",movieComments);
 
         if(user!=null){
             model.addAttribute("user",userService.getUserById(user.getId()));
