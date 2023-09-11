@@ -18,7 +18,7 @@ $(() => {
 				success: function(comments) {
 					const html = comments.map(({content, no}, i) => 
 						  `<div class="cont review">
-	                        <p>${content}</p>
+	                         <p>${content.replace(/\n/g, '<br>')}</p>
 	                         <div class="col-sm-1 d-flex justify-content-end pt-0 float-end" ">
 	                      		<a class="btn btn-link btn-sm text-danger text-decoration-none delete-comment-btn"
 	                      		href="/admin/support/lost/deleteComment"

@@ -46,7 +46,6 @@ public class LostService {
 							lost(lost).
 							content(content).build();
 		
-		
 		lostDao.insertComment(comment);
 		
 		lost.setAnswered("Y");
@@ -59,7 +58,7 @@ public class LostService {
 			email = lost.getGuestEmail();
 		}
 		
-		emailService.sendTempqnaMessage(email, lost.getContent(), content);
+		emailService.sendTempqnaMessage(email, lost.getHtmlContent(), comment.getHtmlContent());
 	}
 	
 	public void deleteComment(int commentNo) {

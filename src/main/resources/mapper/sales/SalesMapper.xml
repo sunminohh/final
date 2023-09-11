@@ -14,14 +14,38 @@
 	</select>
 	
 	<select id="getDailySalesbyDate" parameterType="salesDto" resultType="totalSales">
+			
 		SELECT
-			date,
-			daily_total_sales as totalSales
+			D.date,
+			IFNULL(M.totalSales, 0) as totalSales
 		FROM
-			MGV_DAILY_SALES
-		WHERE
-			date BETWEEN #{firstDate} AND #{lastDate}
-		order by date;	
+			(
+				SELECT DATE_FORMAT(DATE_ADD(#{firstDate}, INTERVAL seq - 1 DAY), '%Y-%m-%d')
+				AS date
+				FROM (
+					SELECT @num := @num + 1 AS seq
+					FROM information_schema.tables a
+					, information_schema.tables b
+					, (SELECT @num := 0) c
+					) T
+				WHERE <![CDATA[ seq <=  DATEDIFF(#{lastDate}, #{firstDate}) + 1]]>
+				) D
+		LEFT JOIN
+			(
+			SELECT
+				date,
+				SUM(DAILY_TOTAL_SALES) as totalSales
+			FROM
+				MGV_DAILY_SALES
+			WHERE
+				date BETWEEN #{firstDate} AND #{lastDate}
+			GROUP BY
+				date
+			) M
+		ON
+			D.date = M.date
+		ORDER BY
+			D.date;
 	</select>
 	
 	<select id="getDailyMovieSalesbyDate" parameterType="salesDto" resultType="totalSales">
@@ -33,7 +57,7 @@
 		WHERE
 		    date BETWEEN #{firstDate} AND #{lastDate}
 		GROUP BY
-		    MOVIE_TITLE 
+		    MOVIE_TITLE
 	</select>
 	
 	<select id="getDailyProductSalesbyDate" parameterType="salesDto" resultType="totalSales">
@@ -49,29 +73,73 @@
 	</select>
 	
 	<select id="getDailyMovieTotalSalesbyDate" parameterType="salesDto" resultType="totalSales">
+	SELECT
+		D.date,
+		IFNULL(M.totalSales, 0) as totalSales
+	FROM
+		(
+			SELECT DATE_FORMAT(DATE_ADD(#{firstDate}, INTERVAL seq - 1 DAY), '%Y-%m-%d')
+			AS date
+			FROM (
+				SELECT @num := @num + 1 AS seq
+				FROM information_schema.tables a
+				, information_schema.tables b
+				, (SELECT @num := 0) c
+				) T
+			WHERE <![CDATA[ seq <=  DATEDIFF(#{lastDate}, #{firstDate}) + 1]]>
+			) D
+	LEFT JOIN
+		(
 		SELECT
-		    date,
-		    SUM(TOTAL_SALES) as totalSales
+			date,
+			SUM(TOTAL_SALES) as totalSales
 		FROM
-		    MGV_DAILY_MOVIE_SALES
+			MGV_DAILY_MOVIE_SALES
 		WHERE
-		    date BETWEEN #{firstDate} AND #{lastDate}
+			date BETWEEN #{firstDate} AND #{lastDate}
 		GROUP BY
-		    date    
-		order by date;    
+			date
+		) M
+	ON
+		D.date = M.date
+	ORDER BY
+		D.date;
+    
 	</select>
 	
 	<select id="getDailyProductTotalSalesbyDate" parameterType="salesDto" resultType="totalSales">
 		SELECT
-		    date,
-		    SUM(TOTAL_SALES) as totalSales
+		D.date,
+		IFNULL(M.totalSales, 0) as totalSales
+	FROM
+		(
+			SELECT DATE_FORMAT(DATE_ADD(#{firstDate}, INTERVAL seq - 1 DAY), '%Y-%m-%d')
+			AS date
+			FROM (
+				SELECT @num := @num + 1 AS seq
+				FROM information_schema.tables a
+				, information_schema.tables b
+				, (SELECT @num := 0) c
+				) T
+			WHERE <![CDATA[ seq <=  DATEDIFF(#{lastDate}, #{firstDate}) + 1]]>
+			) D
+	LEFT JOIN
+		(
+		SELECT
+			date,
+			SUM(TOTAL_SALES) as totalSales
 		FROM
-		    MGV_DAILY_PRODUCT_SALES
+			MGV_DAILY_PRODUCT_SALES
 		WHERE
-		    date BETWEEN #{firstDate} AND #{lastDate}
+			date BETWEEN #{firstDate} AND #{lastDate}
 		GROUP BY
-		    date    
-		order by date;    
+			date
+		) M
+	ON
+		D.date = M.date
+	ORDER BY
+		D.date;
+   
 	</select>
 	
 	<select id="getMonthlySalesbyDate" parameterType="salesDto" resultType="totalSales">
