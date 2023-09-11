@@ -102,16 +102,17 @@ $(() => {
                     $pagination.empty();
                 } else {
                     $.each(orders, function (index, order) {
-                        let priceFormatted = order.totalPrice % 1000 === 0 ? new Intl.NumberFormat('ko-KR').format(order.totalPrice) : order.totalPrice;
+                        let priceFormatted = new Intl.NumberFormat('ko-KR').format(order.totalPrice);
 
                         let actionCellContent;
                         let statusClass = '';
 
                         if (cancelOrder(order.createDate) && order.state === '결제완료') {
-                            actionCellContent = `<button type="button" class="button gray-line small btnCancelPruc" data-order-id="${order.id}">구매취소</button>`;
+                            actionCellContent = `<button type="button" class="button gray-line small btnCancelPruc" data-order-id="${order.orderId}">구매취소</button>`;
+                            console.log("버튼 생성 : orderId -> ", order.orderId);
                             statusClass = 'font-gblue';
                         } else if (order.state === '결제완료') {
-                            actionCellContent = `<button type="button" class="button gray-line small btnCancelPruc" data-order-id="${order.id}">결제취소</button>`;
+                            actionCellContent = '결제완료';
                             statusClass = 'font-gblue';
                         } else {
                             actionCellContent = '결제취소';
@@ -169,7 +170,7 @@ $(() => {
                 $.ajax({
                     url: '/mypage/order/cancel',
                     type: "POST",
-                    data: {"id": orderId},
+                    data: {"orderId": orderId},
                     success: function () {
                         Swal.fire({
                             icon: 'success',

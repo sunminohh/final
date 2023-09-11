@@ -22,9 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 
 @Controller
 @Secured({"ROLE_USER", "ROLE_ADMIN"})
@@ -38,6 +36,7 @@ public class UserController {
     private final PasswordEncoder passwordEncoder;
     private final OrderService orderService;
     private final BookingService bookingService;
+
     private String getLoggedInUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getName();
@@ -172,7 +171,7 @@ public class UserController {
 
     @GetMapping("/booking")
     public String bookinghome(@AuthenticationPrincipal User user, Model model) {
-            model.addAttribute("bookings", bookingService.getBookingsByUserId(user.getId()));
+        model.addAttribute("bookings", bookingService.getBookingsByUserId(user.getId()));
         model.addAttribute("totalRows", bookingService.getTotalRows(user.getId()));
         return "view/user/booking/list";
     }
@@ -196,7 +195,7 @@ public class UserController {
 
     @PostMapping("/order/cancel")
     @ResponseBody
-    public ResponseEntity<String> cancelPurchace(@RequestParam("id") long orderId) {
+    public ResponseEntity<String> cancelPurchace(@RequestParam("orderId") long orderId) {
         boolean isSuccess = mypageService.cancelOrder(orderId);
         log.info("orderId -> {}", orderId);
         if (isSuccess) {
@@ -207,8 +206,8 @@ public class UserController {
     }
 
     @GetMapping("/ticket")
-    public String ticketList(@AuthenticationPrincipal User user,Model model) {
-        model.addAttribute("giftTickets",orderService.getGiftTicketsByUserId(user.getId()));
+    public String ticketList(@AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("giftTickets", orderService.getGiftTicketsByUserId(user.getId()));
         return "view/user/ticket/list";
     }
 

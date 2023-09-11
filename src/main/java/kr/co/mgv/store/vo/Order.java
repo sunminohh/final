@@ -1,15 +1,11 @@
 package kr.co.mgv.store.vo;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.apache.ibatis.type.Alias;
 
 import java.util.Date;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @ToString
 @Alias("Order")

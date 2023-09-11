@@ -41,6 +41,7 @@
 	<select id="getOrders" parameterType="string" resultType="Order">
 		select *
 			from (SELECT ROW_NUMBER() OVER (ORDER BY CREATE_DATE DESC) as ROW_NUM,
+				ORDER_ID			AS orderId,
 				ORDER_NAME        	AS orderName,
 				USER_ID           	AS userId,
 				TOTAL_PRICE       	AS totalPrice,
@@ -52,7 +53,7 @@
 				MGV_ORDER
 			WHERE
 				USER_ID = #{userId}
-				<if test="state != null and state != ''">
+				<if test="state != ''">
 					AND ORDER_STATE = #{state}
 				</if>
 			AND CREATE_DATE BETWEEN #{startDate} AND #{endDate}) as ORDER_ROW
@@ -100,10 +101,10 @@
 		where ORDER_ID = #{orderId}
 	</update>
 
-	<update id="updateOrderById" parameterType="int">
+	<update id="updateOrderById" parameterType="long">
 		UPDATE MGV_ORDER
-		SET PURCHASE_STATUS = '결제취소',
-			PURCHASE_CANCELED_DATE = CURRENT_TIMESTAMP
+		SET ORDER_STATE = '결제취소',
+			UPDATE_DATE = CURRENT_TIMESTAMP
 		WHERE ORDER_ID = #{orderId}
 	</update>
 
