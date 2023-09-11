@@ -163,8 +163,18 @@ $(function() {
                 text: '내용을 입력 해주세요.'
             });
         } else {
-            $(".insertform").submit();
-        }
+		        event.preventDefault(); 
+			    Swal.fire({
+			        icon: 'success',
+			        text: '답변이 등록되었습니다.',
+			        showConfirmButton: true // 확인 버튼을 표시
+			    }).then((result) => {
+			        if (result.isConfirmed) {
+			            $("#insertform").submit();
+			        }
+			    });
+			}
+
     });
     
    

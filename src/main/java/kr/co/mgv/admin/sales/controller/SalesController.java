@@ -22,10 +22,10 @@ public class SalesController {
 
 	private final SalesService salesService;
 	
-	@GetMapping("/dailyTotalSales")
+	@PostMapping("/dailyTotalSales")
 	@ResponseBody
-	public List<TotalSales> getDailytTotalSales(){
-		return salesService.getDailyTotalSales();
+	public List<TotalSales> getDailytTotalSales(@RequestBody SalesDTO dto){
+		return salesService.getDailyTotalSales(dto);
 	}
 	
 	@GetMapping("/management")
