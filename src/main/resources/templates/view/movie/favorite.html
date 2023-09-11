@@ -10,16 +10,16 @@
             <div class="location">
                 <span>Home</span>
                 <a href="/movie" title="영화 페이지로 이동">영화</a>
-                <a href="/movie" title="전체영화 페이지로 이동">박스오피스</a>
+                <a href="/movie/favorite" title="선호영화 페이지로 이동">선호영화</a>
             </div>
         </div>
     </div>
     <!-- contents -->
     <div id="contents">
-        <script th:src="@{/js/movie/list.js}"></script>
+        <script th:src="@{/js/movie/favorite.js}"></script>
         <!-- inner-wrap -->
         <div class="inner-wrap">
-            <h2 class="tit">박스오피스</h2>
+            <h2 class="tit">선호영화</h2>
    <!--         <div class="movie-search">
                 <input type="text" title="영화명을 입력하세요" id="ibxMovieNmSearch" name="ibxMovieNmSearch" placeholder="영화제목/배우/감독으로 검색" class="input-text">
                 <button type="button" class="btn-search-input" id="btnSearch">검색</button>
@@ -39,13 +39,13 @@
 
             <div class="tab-list fixed">
                 <ul id="topMenu">
+                    <li >
+                        <a th:href="@{/movie}" title="박스오피스 탭으로 이동">박스오피스</a>
+                    </li>
+                    <li >
+                        <a th:href="@{/movie/movieall}" title="전체영화 탭으로 이동">전체영화</a>
+                    </li>
                     <li class="on">
-                        <a th:href="@{movie}" title="박스오피스 탭으로 이동">박스오피스</a>
-                    </li>
-                    <li>
-                        <a th:href="@{movie/movieall}" title="전체영화 탭으로 이동">전체영화</a>
-                    </li>
-                    <li>
                         <a th:href="@{/movie/favorite}" title="선호영화 탭으로 이동">선호영화</a>
                     </li>
                 </ul>
@@ -59,9 +59,9 @@
                         <!-- 						<span><button type="button" class="btn" sort-type="accmAdnc">누적관객순</button></span> -->
                         <!-- 						<span><button type="button" class="btn" sort-type="megaScore">메가스코어순</button></span> -->
                     </div>
-<!--                    <div class="onair-condition">-->
-<!--                        <button type="button" title="개봉작만 보기" class="btn-onair btnOnAir">개봉작만</button>-->
-<!--                    </div>-->
+                    <div class="onair-condition">
+                        <button type="button"  id="only-playing" title="개봉작만 보기" class="btn-onair btnOnAir">개봉작만</button>
+                    </div>
                 </div>
                 <!--// 박스오피스 -->
                 <!-- 상영예정작 -->
@@ -121,15 +121,19 @@
               </span>
                     </div>
                     <div class="onair-condition">
-                        <button type="button" title="개봉작만 보기" class="btn-onair btnOnAir">개봉작만</button>
+                        <button type="button"  title="개봉작만 보기" class="btn-onair btnOnAir">개봉작만</button>
                     </div>
                 </div>
                 <!--// 장르모아보기 -->
                 <!-- 검색결과 없을 때 -->
                 <p class="no-result-count">
-                    박스오피스<strong id="totCnt" th:text="| Top ${movies.size()}|"></strong> 영화 목록
+                    <strong id="totCnt" th:text="${favoriteMovies.size()}"></strong>개의 선호영화가 조회되었습니다.
                 </p>
                 <!--// 검색결과 없을 때 -->
+                <div class="movie-search">
+                    <input type="text" title="영화명을 입력하세요" id="movieSearch" name="ibxMovieNmSearch" placeholder="영화제목/배우/감독으로 검색" class="input-text">
+                    <button type="button" class="btn-search-input" id="btnSearch">검색</button>
+                </div>
             </div>
             <!--// movie-list-util -->
             <div class="bg-loading" style="display: none;">
@@ -138,40 +142,44 @@
                 </div>
             </div>
             <!-- movie-list -->
-            <div class="movie-list">
-                <ol class="list" id="movieList">
-                    <li tabindex="0" class="no-img" th:each="movie, i : ${movies}">
-                        <div class="movie-list-info">
-                            <p class="rank" style="" th:text="${i.count}"> <span class="ir">위</span>
-                            </p>
-                            <img th:src="${movie.getMainPoster()}" >
-                            <div class="curation">
-                                <p class="film" style="display: none">필름 소사이어티</p>
-                                <p class="classic" style="display: none">클래식 소사이어티</p>
-                            </div>
-                            <div class="movie-score">
-                                <a th:href="@{/movie/detail(movieNo=${movie.no})}" class="wrap movieBtn" data-no="23029300" th:title="|${movie.title} 상세보기|">
-                                    <div class="summary" th:text="${movie.plot}"></div>
-                                    <div class="my-score big">
-                                        <div class="preview">
-                                            <p class="tit">관람평</p>
-                                            <p class="number" th:text="${movie.getAverageScore()}"> <span class="ir">점</span>
-                                            </p>
+                <div class="movie-list"  th:if="${#authorization.expr('isAuthenticated()') and favoriteMovies.size()>0}">
+                    <ol class="list" id="movieList">
+                        <li tabindex="0" th:isPlaying="${movie.isPlaying}" class="no-img" th:each="movie, i : ${favoriteMovies}" th:movie-no="${movie.no}" th:movie-title="${movie.title}">
+                            <div class="movie-list-info">
+                                <img th:src="${movie.getMainPoster()}" class="poster lozad" onerror="noImg(this)">
+                                <div class="curation">
+                                    <p class="film" style="display: none">필름 소사이어티</p>
+                                    <p class="classic" style="display: none">클래식 소사이어티</p>
+                                </div>
+                                <div class="movie-score">
+                                    <a th:href="@{/movie/detail(movieNo=${movie.no})}" class="wrap movieBtn" data-no="23029300" th:title="|${movie.title} 상세보기|">
+                                        <div class="summary" th:text="${movie.plot}"></div>
+                                        <div class="my-score big">
+                                            <div class="preview">
+                                                <p class="tit">관람평</p>
+                                                <p class="number" th:text="${movie.getAverageScore()}"> <span class="ir">점</span>
+                                                </p>
+                                            </div>
                                         </div>
-                                    </div>
-                                </a>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="tit-area">
-                            <p th:class="|movie-grade age-${movie.contentRating}|">,</p>
-                            <p th:title="${movie.title}" class="tit" th:text="${movie.title}"></p>
-                        </div>
-                        <div class="rate-date">
-                            <span class="rate"  th:text="|예매율 ${movie.seatsOpen != 0 ? movie.seatsBooked / movie.seatsOpen : 0} %|" ></span>
-                            <span class="date" th:text=" ${'Y'== movie.isPlaying ? '상영중' :  '상영예정'}"></span>
-                        </div>
+                            <div class="tit-area">
+                                <p th:class="|movie-grade age-${movie.contentRating}|">,</p>
+                                <p th:title="${movie.title}" th:class="|tit movie-title|" th:text="${movie.title}"></p>
+                            </div>
+                            <div class="rate-date">
+                                <span class="rate"  th:text="|예매율 ${movie.seatsOpen != 0 ? movie.seatsBooked / movie.seatsOpen : 0} %|" ></span>
+                                <span class="date" th:text=" ${'Y'== movie.isPlaying ? '상영중' :  '상영예정'}"></span>
+                            </div>
+                </div>
 
-        </div>
+            <div class="movie-list-no-result" th:if="${#authorization.expr('isAuthenticated()') and favoriteMovies.size()==0}">
+                <p>등록된 선호영화가 없습니다.</p>
+            </div>
+            <div class="movie-list-no-result" th:if="${#authorization.expr('!isAuthenticated()')}" id="noDataDiv" style="">
+                <p>선호영화를 고르기 위해 로그인을 해 주세요.</p>
+            </div>
     </div>
 </div>
 </html>

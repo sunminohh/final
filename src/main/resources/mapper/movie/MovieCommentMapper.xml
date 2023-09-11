@@ -27,6 +27,7 @@
         MGV_MOVIE_COMMENT
     where
         MOVIE_NO = #{value}
+    ORDER BY CREATE_DATE DESC
     </select>
     <select id="getMovieCommentByCommentNo" parameterType="long">
         select

@@ -29,23 +29,23 @@
                         <span title="보고싶어 한 명수" id="likesCnt" th:text="${movie.likes}">
 				</span>
                     </button>
-                <div class="sns-share">
+           <!--     <div class="sns-share">
                     <a href="#" class="btn btn-common-share" title="공유하기">
-                        <i class="iconset ico-sns-line"></i> 공유하기 <!-- 공유하기 -->
+                        <i class="iconset ico-sns-line"></i> 공유하기 &lt;!&ndash; 공유하기 &ndash;&gt;
                     </a>
 
                     <div class="btn-sns-share-wrap">
                         <div class="cont-area">
                             <div class="btn-sns-share-group">
-                                <!-- <button type="button" title="카카오톡 공유하기" class="btn btnSns kakao">카카오톡 </button> 카카오톡 -->
-                                <button type="button" title="페이스북 공유하기" class="btn btnSns face">페이스북 <!-- 페이스북 --></button>
-                                <button type="button" title="밴드 공유하기" class="btn btnSns band">밴드 <!-- 밴드 --></button>
-                                <button type="button" title="트위터 공유하기" class="btn btnSns twitter">트위터 <!-- 트위터 --></button>
-                                <button type="button" title="링크 공유하기" class="btn btnSns link">링크공유 <!-- 링크공유 --></button>
+                                &lt;!&ndash; <button type="button" title="카카오톡 공유하기" class="btn btnSns kakao">카카오톡 </button> 카카오톡 &ndash;&gt;
+                                <button type="button" title="페이스북 공유하기" class="btn btnSns face">페이스북 &lt;!&ndash; 페이스북 &ndash;&gt;</button>
+                                <button type="button" title="밴드 공유하기" class="btn btnSns band">밴드 &lt;!&ndash; 밴드 &ndash;&gt;</button>
+                                <button type="button" title="트위터 공유하기" class="btn btnSns twitter">트위터 &lt;!&ndash; 트위터 &ndash;&gt;</button>
+                                <button type="button" title="링크 공유하기" class="btn btnSns link">링크공유 &lt;!&ndash; 링크공유 &ndash;&gt;</button>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>-->
             </div>
 
             <div class="info">
@@ -61,14 +61,9 @@
 
                 <div class="rate">
                     <p class="tit">예매율</p>
-
-
-
-
-                    <p class="cont" th:text="|위 (${movie.getBookingRate()}%)|"><em th:text="${movie.chartRank}"></em></p>
-
-
-
+                    <div class="number gt" >
+                    <p class="cont" ><em th:text="|${movie.getBookingRate()}%|"></em></p>
+                    </div>
                 </div>
 
                 <div class="audience ">
@@ -122,7 +117,7 @@
                 <div class="reserve">
 
 
-                    <a href="javascript:fn_bookingForm('23029300','basic');" class="btn reserve" title="영화 예매하기">예매</a>
+                    <a th:href="@{/booking}" class="btn reserve" title="영화 예매하기">예매</a>
 
 
                     <button th:if="${user != null}" id="to-party-form" class="btn reserve" style="background-color:#00586a;">파티 신청
@@ -391,9 +386,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="story-date">
-                            <div class="review on"><span>9 분전</span></div>
-                        </div>
+
                     </li>
                     <li class="type01 oneContentTag" th:each="comment, i : ${movieComment}" th:id="${comment.no}" >
                         <div class="story-area">
@@ -534,7 +527,7 @@
                             </p>
 
                             <div class="direct-link">
-                                <a id="bokdLinkBtn" data-no="" href="" style="display: none;" title="">예매하기</a>
+                                <a id="bokdLinkBtn" data-no="" th:href="/booking" style="display: none;" title="">예매하기</a>
                             </div>
                         </div>
 

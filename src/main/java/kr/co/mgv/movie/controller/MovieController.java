@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toCollection;
 
 @Controller
 @RequestMapping("/movie")
@@ -68,6 +71,16 @@ public class MovieController {
     return new ModelAndView("downloadFileView");
 }
 
+@GetMapping("/favorite")
+public String movieFavorite (Model model, @AuthenticationPrincipal User user){
+    if(user!= null){
+        model.addAttribute("favoriteMovies",movieService.getFavoriteMoviesByUserId(user.getId()));
+        }else{
+            model.addAttribute("favoriteMovies",new ArrayList<>());
+
+        }
+        return "view/movie/favorite";
+}
 @GetMapping("/movieall")
 public String movieAll(Model model, @AuthenticationPrincipal User user){
     model.addAttribute("movies",movieService.getAllMovies());
