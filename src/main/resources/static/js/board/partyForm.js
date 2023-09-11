@@ -193,7 +193,7 @@ $(function() {
                icon: 'error',
                text: '게시글의 제목을 입력해주세요.',
            });
-       } else if (content === '') {
+       } else if (content === '' || content === '<p><br></p>') {
            Swal.fire({
                icon: 'error',
                text: '게시글의 내용을 입력해주세요.',
