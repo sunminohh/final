@@ -35,12 +35,12 @@
             
             <div class="cont">
             <p class="tit">메인 이미지</p>
-            <img th:src="@{|/images/event/${event.mainImage}|}">
+            <img th:src="@{|/common/image/${event.mainImageFile.fileId}|}">
                
             </div>
             <div class="cont">
             <p class="tit">상세 이미지</p>
-            <img th:src="@{|/images/event/${event.detailImage}|}">
+            <img th:src="@{|/common/image/${event.detailImageFile.fileId}|}">
             </div>
         </div>
         </div>

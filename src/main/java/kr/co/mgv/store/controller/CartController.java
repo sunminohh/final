@@ -1,6 +1,7 @@
 package kr.co.mgv.store.controller;
 
 import kr.co.mgv.store.service.CartService;
+import kr.co.mgv.store.service.ProductService;
 import kr.co.mgv.store.vo.Cart;
 import kr.co.mgv.store.vo.Package;
 import kr.co.mgv.store.vo.Product;
@@ -28,7 +29,7 @@ import java.util.Map;
 public class CartController {
 
     private final CartService cartService;
-
+    private final ProductService productService;
     @GetMapping({"/", ""})
     public String cart(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -41,6 +42,9 @@ public class CartController {
         int totalDiscountedPrice = 0;
 
         for (Cart cart : carts) {
+            if(cart!=null){
+                cart.setProduct(productService.getProductByNo(cart.getProduct().getNo()));
+            }
             totalOriginalPrice += cart.getTotalOriginalPrice();
             totalDiscountedPrice += cart.getTotalDiscountedPrice();
 

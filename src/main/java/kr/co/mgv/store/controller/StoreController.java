@@ -1,6 +1,7 @@
 package kr.co.mgv.store.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import kr.co.mgv.store.service.CategoryService;
 import kr.co.mgv.store.service.PackageService;
@@ -29,11 +30,11 @@ public class StoreController {
     @GetMapping({"/", ""})
     public String home(Model model) {
     	List<Category> categories = categoryService.getCategories();
-        List<Product> products = productService.getAllProducts();
-        List<Package> packages = packageService.getAllPackages();
+       List<Product> products = productService.getAllProducts();
+        List<Product> packages = products.stream().filter(p->p.getNo()>99).collect(Collectors.toList());
     	model.addAttribute("categories", categories);
-        model.addAttribute("products", products);
-        model.addAttribute("packages", packages);
+       model.addAttribute("products", products);
+       model.addAttribute("packages", packages);
         return "view/store/home";
     }
 
@@ -49,9 +50,9 @@ public class StoreController {
     @GetMapping("/detail/package")
     public String packageDetail(@RequestParam(defaultValue = "1") int packageNo, Model model) {
         Package productPackage = packageService.getPackageByNo(packageNo);
-
+        Product product= productService.getProductByName(productPackage.getName());
         model.addAttribute("package", productPackage);
-
+        model.addAttribute("product", product);
         return "view/store/packageDetail";
     }
 
@@ -59,9 +60,7 @@ public class StoreController {
     public String list(@RequestParam(name = "catNo", defaultValue = "1") int catNo, Model model) {
 
         List<Product> productList = productService.getProductByCatNo(catNo);
-        List<Package> packageList = packageService.getPackagesByCatNo(catNo);
         List<Category> categories = categoryService.getCategories();
-        model.addAttribute("packages", packageList);
         model.addAttribute("categories", categories);
         model.addAttribute("products", productList);
 

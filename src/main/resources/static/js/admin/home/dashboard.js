@@ -1,12 +1,21 @@
 $(() => {
+	const $bookingList=$("#bookingList")
+	const $orderList=$("#orderList")
+	const $btnRefreshOrder=$("#btn-refresh-order")
+	const $btnRefreshBooking=$("#btn-refresh-booking")
+	const API_URLS = {
+		DAILY_TOTAL_SALES: "/admin/sales/dailyTotalSales",
+		BOOKINGLIST:"/api/booking/getBookingList",
+		ORDERLIST:"/api/order/orderList"
+	}
 	
-
+	$btnRefreshBooking.click(handlerBtnRefreshBookingList);
+	$btnRefreshOrder.click(handlerBtnRefreshOrderList);
+	$btnRefreshBooking.click();
+	$btnRefreshOrder.click();
 	// =====================================
 	// Profit
 	// =====================================
-	const API_URLS = {
-		DAILY_TOTAL_SALES: "/admin/sales/dailyTotalSales",
-	}
 	// 차트 옵션
 	const chartOption = {
 		series: [
@@ -20,6 +29,7 @@ $(() => {
 			foreColor: "#adb0bb",
 			fontFamily: 'inherit',
 			sparkline: { enabled: false },
+			
 		},
 		colors: ["#5D87FF", "#49BEFF"],
 		plotOptions: {
@@ -28,7 +38,7 @@ $(() => {
 				columnWidth: "35%",
 				borderRadius: [6],
 				borderRadiusApplication: 'end',
-				borderRadiusWhenStacked: 'all'
+				borderRadiusWhenStacked: 'all',
 			},
 		},
 		markers: { size: 0 },
@@ -64,6 +74,8 @@ $(() => {
 				},
 			},
 		},
+		
+
 		stroke: {
 			show: true,
 			width: 3,
@@ -133,103 +145,69 @@ $(() => {
 			// 에러 처리: 사용자에게 메시지를 표시하거나 적절한 조치를 취하세요.
 		}
 	});
+	function handlerBtnRefreshBookingList(){
+		$.ajax({
+			url: API_URLS.BOOKINGLIST, // 데이터를 가져올 API 엔드포인트
+			method: 'GET',
+			dataType: 'json',
+			success: function(data) {
+				console.log(data)
+				refreshBookingList(data)
+			},
+			error: function(error) {
+				Swal.fire({
+					icon:"error",
+					text:"네트워크 요청 오류, 잠시후에 다시 시도 하세요."
+				})
+				// 에러 처리: 사용자에게 메시지를 표시하거나 적절한 조치를 취하세요.
+			}
+		});
+	}
+	function handlerBtnRefreshOrderList(){
+		$.ajax({
+			url: API_URLS.ORDERLIST, // 데이터를 가져올 API 엔드포인트
+			method: 'GET',
+			dataType: 'json',
+			success: function(data) {
+				console.log(data)
+				refreshOrderList(data)
+			},
+			error: function(error) {
+				Swal.fire({
+					icon:"error",
+					text:"네트워크 요청 오류, 잠시후에 다시 시도 하세요."
+				})
+				// 에러 처리: 사용자에게 메시지를 표시하거나 적절한 조치를 취하세요.
+			}
+		});
+	}
+	function refreshBookingList(data){
+		$bookingList.empty();
+		data.forEach(function(item){
+			
+			const timelineItem=`<li class="timeline-item d-flex position-relative overflow-hidden">
+	                                <div class="timeline-time text-dark flex-shrink-0 text-end">${dayjs(item.updateDate).format('DD일 HH:mm')}</div>
+	                                <div class="timeline-badge-wrap d-flex flex-column align-items-center">
+	                                    <span class="timeline-badge border-2 border ${item.bookingState.endsWith('완료') ? 'border-primary':'border-danger'} flex-shrink-0 my-8"></span>
+	                                </div>
+	                                <div class="timeline-desc fs-3 text-dark mt-n1">${item.title} ${item.payAmount}원 ${item.bookingState}</div>
+	                            </li>`
+			$bookingList.append(timelineItem);
+		})
+	}
+	function refreshOrderList(data){
+		$orderList.empty();
+		data.forEach(function(item){
+			
+			const timelineItem=`<li class="timeline-item d-flex position-relative overflow-hidden">
+	                                <div class="timeline-time text-dark flex-shrink-0 text-end">${dayjs(item.updateDate).format('DD일 HH:mm')}</div>
+	                                <div class="timeline-badge-wrap d-flex flex-column align-items-center">
+	                                    <span class="timeline-badge border-2 border ${item.orderState.endsWith('완료') ? 'border-primary':'border-danger'} flex-shrink-0 my-8"></span>
+	                                </div>
+	                                <div class="timeline-desc fs-3 text-dark mt-n1">${item.orderName} ${item.totalPrice}원 ${item.orderState}</div>
+	                            </li>`
+			$orderList.append(timelineItem);
+		})
+	}
 
-	// =====================================
-	// Breakup
-	// =====================================
-	const breakup = {
-		color: "#adb5bd",
-		series: [38, 40, 25],
-		labels: ["2022", "2021", "2020"],
-		chart: {
-			width: 180,
-			type: "donut",
-			fontFamily: "Plus Jakarta Sans', sans-serif",
-			foreColor: "#adb0bb",
-		},
-		plotOptions: {
-			pie: {
-				startAngle: 0,
-				endAngle: 360,
-				donut: {
-					size: '75%',
-				},
-			},
-		},
-		stroke: {
-			show: false,
-		},
-		dataLabels: {
-			enabled: false,
-		},
-		legend: {
-			show: false,
-		},
-		colors: ["#5D87FF", "#ecf2ff", "#F9F9FD"],
-		responsive: [
-			{
-				breakpoint: 991,
-				options: {
-					chart: {
-						width: 150,
-					},
-				},
-			},
-		],
-		tooltip: {
-			theme: "dark",
-			fillSeriesColor: false,
-		},
-	};
-
-	const charts = new ApexCharts(document.querySelector("#breakup"), breakup);
-	charts.render();
-
-	// =====================================
-	// Earning
-	// =====================================
-	const earning = {
-		chart: {
-			id: "sparkline3",
-			type: "area",
-			height: 60,
-			sparkline: {
-				enabled: true,
-			},
-			group: "sparklines",
-			fontFamily: "Plus Jakarta Sans', sans-serif",
-			foreColor: "#adb0bb",
-		},
-		series: [
-			{
-				name: "Earnings",
-				color: "#49BEFF",
-				data: [25, 66, 20, 40, 12, 58, 20],
-			},
-		],
-		stroke: {
-			curve: "smooth",
-			width: 2,
-		},
-		fill: {
-			colors: ["#f3feff"],
-			type: "solid",
-			opacity: 0.05,
-		},
-		markers: {
-			size: 0,
-		},
-		tooltip: {
-			theme: "dark",
-			fixed: {
-				enabled: true,
-				position: "right",
-			},
-			x: {
-				show: false,
-			},
-		},
-	};
-
-	new ApexCharts(document.querySelector("#earning"), earning).render();
 })

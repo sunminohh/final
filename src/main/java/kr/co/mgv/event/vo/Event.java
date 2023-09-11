@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import kr.co.mgv.common.vo.MgvFile;
 import kr.co.mgv.user.vo.User;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,10 +31,15 @@ public class Event {
 	private Date createDate;
 	private EventCategory category;
 	private User user;
-	
+
+	private MgvFile mainImageFile;
+	private MgvFile detailImageFile;
+
+
 	@Builder
 	public Event(int no, String title, String mainImage, String detailImage, String deleted, Date startDate,
-			Date endDate, Date updateDate, Date createDate, EventCategory category, User user) {
+			Date endDate, Date updateDate, Date createDate, EventCategory category, User user,
+			MgvFile mainImageFile, MgvFile detailImageFile) {
 		super();
 		this.no = no;
 		this.title = title;
@@ -46,6 +52,8 @@ public class Event {
 		this.createDate = createDate;
 		this.category = category;
 		this.user = user;
+		this.mainImageFile = mainImageFile;
+		this.detailImageFile = detailImageFile;
 	}
 	
 	

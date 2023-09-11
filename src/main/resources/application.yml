@@ -60,15 +60,17 @@ spring:
 
 upload:
   directory: /images/product/
-  
-  
-# 이벤트, 고객센터 이미지 저장경로
-resources:
-  images:
-    event-folder: C:\\workspace\\final\\src\\main\\resources\\static\\images\\event
-    lost-folder: C:\\workspace\\final\\src\\main\\resources\\static\\images\\support\\lost
-    one-folder: C:\\workspace\\final\\src\\main\\resources\\static\\images\\support\\one
+
+movie:
+  kobis:
+    url: www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json
+    key: 45ac471b35ca42c983d971a438b31d25
+  kmdb:
+    url: api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp
+    key: Y40OV2CFS1I2MTV081VG
 
   
   
-  
+# event, support img save root
+default-file-path: C:\\workspace\\final\\images
+#default-file-path: C:\\Users\\sqptm\\source\\spring-mgv\\images

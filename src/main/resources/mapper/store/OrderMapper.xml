@@ -1,14 +1,109 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.mgv.store.mapper.OrderMapper">
-    <insert id="insertOrder" parameterType="Order" useGeneratedKeys="true" keyProperty="no">
+    <insert id="insertOrder" parameterType="Order" >
         INSERT INTO MGV_ORDER
         (
          ORDER_ID,
-         ORDER_TOTAL_PRICE,
-         USER_ID
-        )
+         ORDER_NAME,
+         USER_ID,
+		 USER_NAME,
+         ORDER_PRODUCTS,
+         TOTAL_PRICE,
+         ORDER_SPECIFIC_PRODUCTS
+         )
         VALUES
-            (#{id}, #{totalPrice}, #{user.id})
+            (#{orderId}, #{orderName},#{userId}, #{userName},#{orderProducts},#{totalPrice},#{orderSpecificProducts})
     </insert>
+    <select id="getOrderList" resultType="Order">
+    	SELECT
+	    	ORDER_ID	AS orderId,	
+			USER_ID		AS userId,
+			USER_NAME	AS userName,
+			ORDER_NAME	AS orderName,
+			TOTAL_PRICE	AS totalPrice,
+			CREATE_DATE	AS createDate,
+			UPDATE_DATE	AS updateDate,
+			ORDER_STATE	AS orderState
+    	FROM
+    		MGV_ORDER
+    	WHERE
+    	    ORDER_STATE LIKE '%완료'
+		    OR
+		    ORDER_STATE LIKE '%취소'
+		ORDER BY
+		    CREATE_DATE DESC 
+		LIMIT
+		    6;
+    </select>
+
+	<!-- pagnation -->
+	<select id="getOrders" parameterType="map" resultType="Order">
+		select *
+			from (SELECT ROW_NUMBER() OVER (ORDER BY CREATE_DATE DESC) as ROW_NUM,
+				ORDER_NAME        	AS orderName,
+				USER_ID           	AS userId,
+				TOTAL_PRICE       	AS totalPrice,
+				PAY_METHOD			AS payMethod,
+				CRETAE_DATE       	AS createDate,
+				UPDATE_DATE       	AS updateDate,
+				ORDER_STATE       	AS orderState
+			FROM
+				MGV_ORDER
+			WHERE
+				USER_ID = #{userId}
+				<if test="status neq null and status != ''">
+					AND ORDER_STATE = #{stat}
+				</if>
+			AND CREATE_DATE BETWEEN #{startDate} AND #{endDate}) as ORDER_ROW
+		WHERE ROW_NUM BETWEEN #{begin} and #{end};
+	</select>
+
+	<!-- 건수 -->
+	<select id="getTotalRowsByUserId" parameterType="string" resultType="int">
+		SELECT COUNT(*)
+		FROM
+			MGV_ORDER
+		WHERE
+			USER_ID = #{userId}
+			<if test="status neq null and status != ''">
+				AND ORDER_STATE = #{status}
+			</if>
+		AND CREATE_DATE BETWEEN #{startDate} AND #{endDate}
+	</select>
+
+	<select id="getOrderById" parameterType="long" resultType="Order">
+		select
+		    ORDER_ID		as orderId,
+			ORDER_NAME        AS orderName,
+			USER_ID           AS userId,
+			ORDER_PRODUCTS		as orderProducts,
+			PAY_METHOD			as payMethod,
+			PAYMENT_KEY 		as paymentKey,
+			ORDER_SPECIFIC_PRODUCTS 	as orderSpecificProducts,
+			CREATE_DATE       AS createDate,
+			UPDATE_DATE       AS updateDate,
+			TOTAL_PRICE       AS totalPrice,
+			ORDER_STATE       AS orderState
+		FROM
+			MGV_ORDER
+		WHERE
+			ORDER_ID = #{value}
+	</select>
+	<update id="updateOrder" parameterType="Order">
+		update MGV_ORDER
+		SET
+		    ORDER_STATE = #{orderState},
+		    PAYMENT_KEY = #{paymentKey},
+		    UPDATE_DATE = CURRENT_TIMESTAMP
+
+		where ORDER_ID = #{orderId}
+	</update>
+
+	<update id="updateOrderById" parameterType="long">
+		UPDATE MGV_ORDER
+		SET PURCHASE_STATUS = '결제취소',
+			PURCHASE_CANCELED_DATE = CURRENT_TIMESTAMP
+		WHERE ORDER_ID = #{orderId}
+	</update>
 </mapper>

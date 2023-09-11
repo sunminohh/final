@@ -3,7 +3,7 @@
 <head th:fragment="extra-head-content">
     <title>관리자페이지</title>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    <script th:src="@{/js/admin/home/dashboard.js}"></script>
+    <script th:src="@{/js/admin/sales/salesmanagement.js}"></script>
 </head>
 <body>
 <div layout:fragment="content">
@@ -14,19 +14,50 @@
             <div class="col-lg-12 d-flex align-items-strech">
                 <div class="card w-100">
                     <div class="card-body">
-                        <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
                             <div class="mb-3 mb-sm-0">
-                                <h5 class="card-title fw-semibold">일일 매출표</h5>
-                                <div class="col-12">
-                                	<button class="btn btn-primary">일별 총매출</button>
-                                	<button class="btn btn-primary">일일 영화매출</button>
-                                	<button class="btn btn-primary">일일 상품매출</button>
-                                	
-                                	<button class="btn btn-info">월별 총매출</button>
-                                	<button class="btn btn-info">월간 영화매출</button>
-                                	<button class="btn btn-info">월간 상품매출</button>
-                                </div>
-                            </div>
+                                <h5 class="card-title fw-semibold">매출표 설정</h5>
+                                	<form>
+                                
+                                	<table class="table">
+                                	<colgroup>
+                                		<col style="width:15%;">
+                                		<col style="width:15%;">
+                                		<col style="width:20%;">
+                                		<col style="width:25%;">
+                                		<col style="width:20%;">
+                                	</colgroup>
+                                		<tbody>
+                                			<tr>
+                                				<th class="text-center align-middle" rowspan="2">
+                                					<span>주기 선택</span>
+                                				</th>
+                                				<td class="text-center">
+													<input name="period"  type="radio" value="daily" id="dailySales" checked></select>
+                                					<label  for="dailySales">일별</label>
+                                				</td>
+                                				<th class="text-center align-middle" rowspan="2">
+                                					<span>기간</span>
+                                				</th>
+                                				<td rowspan="2">
+                                					<div class="input-group">
+													<input type="date" class="form-control" name="firsttDay" id="firsttDay"><span class="input-group-text py-1 px-2">부터</span>
+													</div></br>
+													<div class="input-group">
+													<input type="date" class="form-control" name="lastDay" id="lastDay"><span class="input-group-text py-1 px-2">까지</span>
+													</div>
+                                				</td>
+                                				<td class="text-center align-middle"  rowspan="2"><button class="btn btn-info" type="button" id="btnSelect">선택</button></td>
+                                			</tr>
+                                			<tr>
+                                			<td class="text-center">
+                                			<input name="period" type="radio" value="monthly" id="monthlySales"></select>
+                                					<label  for="monthlySales">월별</label>
+                                			</td>
+                                			</tr>
+                                		</tbody>
+                                	</table>
+                                		</form>
+
                         </div>
                     </div>
                 </div>
@@ -36,10 +67,34 @@
                     <div class="card-body">
                         <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
                             <div class="mb-3 mb-sm-0">
-                                <h5 class="card-title fw-semibold">일일 매출표</h5>
+                                <h5 class="card-title fw-semibold">매출표</h5>
                             </div>
                         </div>
                         <div id="chart"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 d-flex align-items-strech">
+                <div class="card w-100">
+                    <div class="card-body">
+                        <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
+                            <div class="mb-3 mb-sm-0">
+                                <h5 class="card-title fw-semibold">영화상세 매출표</h5>
+                            </div>
+                        </div>
+                        <div id="detailmoviechart"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 d-flex align-items-strech">
+                <div class="card w-100">
+                    <div class="card-body">
+                        <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
+                            <div class="mb-3 mb-sm-0">
+                                <h5 class="card-title fw-semibold">상품상세 매출표</h5>
+                            </div>
+                        </div>
+                        <div id="detailproductchart"></div>
                     </div>
                 </div>
             </div>

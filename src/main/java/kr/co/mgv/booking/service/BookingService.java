@@ -62,6 +62,10 @@ public class BookingService {
         public Booking getBookingByBookingNo(long no){
            return bookingDao.getBookingByBookingNo(no);
         }
+        
+        public  List<Booking> getBookingList(){
+        	return bookingDao.getBookings();
+        }
 
         public  ResponseEntity<String> requestTossFinalPayment(String orderId, String paymentKey, Long amount){
             String testSK="test_sk_E92LAa5PVbpv4lOOMGJ87YmpXyJj:";

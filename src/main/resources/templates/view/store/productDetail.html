@@ -4,11 +4,12 @@
       layout:decorate="~{layout/default}">
 <head th:fragment="extra-head-content">
     <title>스토어</title>
-    <script src="/js/store/productDetail.js"></script>
     <script src="https://js.tosspayments.com/v1"></script>
 </head>
     <body>
+
         <div layout:fragment="content" id="content">
+            <script th:src="@{/js/store/payment.js}"></script>
             <div class="container">
                 <div class="page-util">
                     <div class="inner-wrap">
@@ -24,8 +25,9 @@
                     <input type="hidden" name="originalPrice" id="originalPrice" th:value="${product.getOriginalPrice()}">
                     <div id="contents">
                         <div class="inner-wrap">
-                            <div class="store-view">
-                                <h2 class="tit" th:text="${product.getName()}"></h2>
+                            <div class="store-view cart-item" th:packageInfo="${product.packageInfo}"
+                                 th:productNo="${product.no}" th:unitPrice="${product.originalPrice}" th:productName="${product.name}">
+                                <h2 class="tit " th:text="${product.getName()}" ></h2>
                                 <div class="sub-info">
                                     <p class="bundle" th:text="${product.getDescription()}"></p>
                                 </div>
@@ -40,7 +42,7 @@
                                         <p class="origin"></p>
                                     </div>
                                     <div class="right">
-                                        <div class="goods-info">
+                                        <div class="goods-info" th:data="${product.packageInfo}">
                                             <div class="line">
                                                 <p class="tit">
                                                     <span class="line32">상품구성</span>
@@ -78,8 +80,8 @@
                                                         <button type="button" class="btn minus" title="수량감소">
                                                             <i class="iconset ico-minus"></i>
                                                         </button>
-                                                        <input type="text" title="수량 입력" class="input-text" readonly="readonly"
-                                                               value="1">
+                                                        <input type="text" title="수량 입력" class="input-text cart-amount" readonly="readonly"
+                                                               value="1" >
                                                         <button type="button" class="btn plus" title="수량증가">
                                                             <i class="iconset ico-plus"></i>
                                                         </button>
@@ -111,7 +113,7 @@
                                             </form>
                                             <a sec:authorize="isAuthenticated()" href="/cart" id="btnCart-user" class="button large btnCart-user" w-data="500" h-data="410"
                                                title="장바구니" style="padding-left: 110px; padding-right: 110px;" type="submit">장바구니</a>
-                                            <button sec:authorize="isAuthenticated()" id="btn-tosspay" class="button purple large btnPurchase-user" w-data="500" h-data="410"
+                                            <button sec:authorize="isAuthenticated()" id="request-payment" class="button purple large btnPurchase-user" w-data="500" h-data="410"
                                                style="padding-left: 130px; padding-right: 130px;" type="button">구매</button>
                                         </div>
                                     </div>

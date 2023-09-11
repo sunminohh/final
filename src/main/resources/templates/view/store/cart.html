@@ -2,12 +2,12 @@
 <head th:fragment="extra-head-content">
     <title>장바구니</title>
     <script th:src="@{/js/store/cart.js}"></script>
-    <script th:src="@{/js/common/TossPayment.js}"></script>
     <script src="https://js.tosspayments.com/v1"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
 </head>
 <body>
 <div layout:fragment="content">
+    <script th:src="@{/js/store/payment.js}"></script>
         <div id="contents">
             <div class="inner-wrap">
                 <!-- store-payment -->
@@ -39,9 +39,10 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="cart : ${carts}" class="cart-item">
+                            <tr th:each="cart : ${carts}" class="cart-item"  th:packageInfo="${cart.product.packageInfo}"
+                                th:productNo="${cart.product.no}" th:unitPrice="${cart.product.originalPrice}" th:productName="${cart.product.name}">
                                 <td class="a-c" th:if="${cart.getProduct()}">
-                                    <div class="goods-info" th:if="${cart.getProduct.getImagePath()}">
+                                    <div class="goods-info" th:if="${cart.getProduct.getImagePath()}" th:data="${cart.product.packageInfo}">
                                         <p class="img"><a th:href="@{/store/detail/product(productNo=${cart.getProduct().getNo()})}"><img th:src="${cart.getProduct().getImagePath()}" onerror="noImg(this);"></a></p>
                                     </div>
                                 </td>
@@ -62,7 +63,7 @@
                                         <p class="bundle" th:text="${cart.getPkg().getComposition()}"></p>
                                     </div>
                                 </th>
-                                <td><em class="cart-quantity" th:text="${cart.getAmount()}"></em></td>
+                                <td><em class="cart-amount" th:text="${cart.getAmount()}"></em></td>
                                 <td>
                                     <div class="goods-info">
                                         <em id="prdtSumAmtView" class="discountedPrice" th:text="${cart.getTotalDiscountedPrice()}"></em>원
@@ -74,11 +75,11 @@
                                     </a>
                                 </td>
                                 <div class="product-container" th:if="${cart.getProduct()}">
-                                    <input type="hidden" name="product-name" id="product-name" th:value="${cart.getProduct().getName()}"> <!-- 상품 이름 -->
-                                    <input type="hidden" name="product-no" id="product-no" th:value="${cart.getProduct().getNo()}"> <!-- 상품 번호 -->
-                                    <input type="hidden" name="product-amount" id="product-amount" th:value="${cart.getAmount()}"> <!-- 상품 수량 -->
-                                    <input type="hidden" name="product-price" id="product-price" th:value="${cart.getTotalDiscountedPrice()}"> <!-- 총 가격 -->
-                                    <input type="hidden"  name="product-catNo" id="product-catNo" th:value="${cart.getCatNo()}"> <!-- 카테고리 번호 -->
+                                    <input type="hidden" name="product-name" th:value="${cart.getProduct().getName()}"> <!-- 상품 이름 -->
+                                    <input type="hidden" name="product-no" th:value="${cart.getProduct().getNo()}"> <!-- 상품 번호 -->
+                                    <input type="hidden" name="product-amount"  th:value="${cart.getAmount()}"> <!-- 상품 수량 -->
+                                    <input type="hidden" name="product-price" th:value="${cart.getTotalDiscountedPrice()}"> <!-- 총 가격 -->
+                                    <input type="hidden"  name="product-catNo"  th:value="${cart.getCatNo()}"> <!-- 카테고리 번호 -->
                                 </div>
                                 <div class="package-container" th:if="${cart.getPkg()}">
                                     <input type="hidden" name="package-name" id="package-name" th:value="${cart.getPkg().getName()}"> <!-- 패키지 이름 -->
@@ -123,7 +124,7 @@
                         </div>
                     </div>
                     <div class="btn-group pt40" style="display: block;">
-                        <button type="button" id="btn-tosspay" class="button  purple large w170px btn-order-form">구매</button>
+                        <button type="button" id="request-payment" class="button  purple large w170px btn-order-form">구매</button>
                     </div>
                 </div>
             </div>

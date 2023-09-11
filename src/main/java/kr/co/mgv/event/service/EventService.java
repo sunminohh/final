@@ -3,6 +3,8 @@ package kr.co.mgv.event.service;
 import java.util.List;
 import java.util.Map;
 
+import kr.co.mgv.common.dao.CommonDao;
+import kr.co.mgv.common.vo.MgvFile;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -21,9 +23,9 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class EventService {
 
-	@Value("${resources.images.event-folder}")
-	private String eventImageDirectory;
-	
+	private final static String EVENT_IMAGE_DIRECTORY = "event";
+
+	private final CommonDao commonDao;
 	private final EventDao eventDao;
 	private final FileUtils fileUtils;
 	
@@ -31,16 +33,18 @@ public class EventService {
 		
 		Event event = eventDao.getEventByNo(eventNo);
 		
-		String saveMainImageFilename = fileUtils.saveFile(eventImageDirectory, form.getFile1());
-		String saveDetailImageFilename = fileUtils.saveFile(eventImageDirectory, form.getFile2());
+		MgvFile mainImage = fileUtils.saveFile(EVENT_IMAGE_DIRECTORY, form.getFile1());
+		MgvFile detailImage = fileUtils.saveFile(EVENT_IMAGE_DIRECTORY, form.getFile2());
+		commonDao.insertMgvFile(mainImage);
+		commonDao.insertMgvFile(detailImage);
 		
 		event.setTitle(form.getTitle());
 		event.setStartDate(form.getStartDate());
 		event.setEndDate(form.getEndDate());
 		event.getCategory().setNo(form.getCategoryNo());
-		event.setMainImage(saveMainImageFilename);
-		event.setDetailImage(saveDetailImageFilename);
-		
+		event.setMainImageFile(mainImage);
+		event.setDetailImageFile(detailImage);
+
 		eventDao.updateEventByNo(event);
 	}
 	
@@ -57,20 +61,22 @@ public class EventService {
 								.no(form.getCategoryNo())
 								.build();
 
-		String saveMainImageFilename = fileUtils.saveFile(eventImageDirectory, form.getFile1());
-		String saveDetailImageFilename = fileUtils.saveFile(eventImageDirectory, form.getFile2());
-				
-		
+		MgvFile mainImage = fileUtils.saveFile(EVENT_IMAGE_DIRECTORY, form.getFile1());
+		MgvFile detailImage = fileUtils.saveFile(EVENT_IMAGE_DIRECTORY, form.getFile2());
+		commonDao.insertMgvFile(mainImage);
+		commonDao.insertMgvFile(detailImage);
+
 		Event event = Event.builder()
 						.user(user)
 						.category(category)
 						.title(form.getTitle())
 						.startDate(form.getStartDate())
 						.endDate(form.getEndDate())
-						.mainImage(saveMainImageFilename)
-						.detailImage(saveDetailImageFilename)
+						.mainImage("")
+						.detailImage("")
+						.mainImageFile(mainImage)
+						.detailImageFile(detailImage)
 						.build();
-		
 		eventDao.insertEvent(event);
 	}
 	

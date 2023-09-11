@@ -1,47 +1,55 @@
 package kr.co.mgv.common.file;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.UUID;
-
-import org.springframework.core.io.ClassPathResource;
+import kr.co.mgv.common.vo.MgvFile;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.UUID;
+
+@Slf4j
 @Component
+@RequiredArgsConstructor
 public class FileUtils {
+
+    @Value("${default-file-path}")
+    private String defaultFilePath;
 
     /**
      * 단일 파일 업로드
-     * @param multipartFile - 파일 객체
+     * @param file - 파일 객체
      * @return DB에 저장할 파일 정보
      */
-    public String saveFile(String directory, final MultipartFile multipartFile) {
+    public MgvFile saveFile(String subPath, final MultipartFile file) {
 
-        if (multipartFile.isEmpty()) {
+        if (file.isEmpty()) {
             return null;
         }
-
-        String saveName = generateSaveFilename(multipartFile.getOriginalFilename());
+        String originalFileName = file.getOriginalFilename();
+        String fullPath = makeDir(defaultFilePath + File.separator + subPath);
+        String saveName = generateSaveFilename(file.getOriginalFilename());
+        File saveFile = new File(fullPath, saveName);
 
         try {
-        	//String directory = new ClassPathResource(path).getFile().getAbsolutePath().replace("target\\classes", "src\\main\\resources");
-        	File saveFile = new File(directory, saveName);
-        	
-        	InputStream in = multipartFile.getInputStream();
-        	OutputStream out = new FileOutputStream(saveFile);
-        	
-        	FileCopyUtils.copy(in, out);
+            file.transferTo(saveFile);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        return saveName;
+        return MgvFile.builder()
+            .fileSize(file.getSize())
+            .originName(originalFileName)
+            .fileExtension(file.getContentType())
+            .storedName(saveName)
+            .uploadPath(fullPath)
+            .build();
     }
 
     /**
@@ -56,15 +64,9 @@ public class FileUtils {
             return false;
         }
 
-        try {
-            String directory = new ClassPathResource(path).getFile().getAbsolutePath().replace("target\\classes", "src\\main\\resources");
-            File fileToDelete = new File(directory, filename);
-
-            if (fileToDelete.exists()) {
-                return fileToDelete.delete();
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        File fileToDelete = new File(path, filename);
+        if (fileToDelete.exists()) {
+            return fileToDelete.delete();
         }
 
         return false;
@@ -81,5 +83,15 @@ public class FileUtils {
         return uuid + "." + extension;
     }
 
-   
+    private String makeDir(String uploadPath) {
+        String path = (uploadPath + LocalDateTime.now()
+            .format(DateTimeFormatter.ofPattern("/yyyy/MM/dd/")))
+            .replace("/", File.separator);
+        File uploadDir = new File(path);
+        if (!uploadDir.exists()) {
+            log.info("[UPLOAD_FILE] : {} - {}", path, uploadDir.mkdirs() ? "디렉토리 생성" : "디렉토리 존재");
+        }
+        return path;
+    }
+
 }

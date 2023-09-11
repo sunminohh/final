@@ -19,10 +19,10 @@ $(()=>{
             $("#playScheduleList").find('[selected=selected]').removeAttr('selected')
         }
         if(stage===1){
-            fetch("/api/booking/fromStep0toStep1?schedulId="+scheduleId).then(res=>res.json()).then(json=>{
+            fetch("/api/booking/fromStep0toStep1?scheduleId="+scheduleId).then(res=>res.json()).then(json=>{
                 if("fail" == json.result){
                     $("#step0").show()
-                    $("#login-modal").addClass('is-open')
+                    $("#login-modal").addClass('is-open').find('#id').focus()
                     return
                 }else if("success" == json.result){
                     const screenId=$("#schedule-"+scheduleId).attr('screen-id')

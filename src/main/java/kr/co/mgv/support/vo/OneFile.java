@@ -16,16 +16,18 @@ public class OneFile {
 	private One one;
 	private String originalName;
 	private String saveName;
+	private String uploadPath;
 	private Date createDate;
 	
 	@Builder
-	public OneFile(int no, One one, String originalName, String saveName, Date createDate) {
+	public OneFile(int no, One one, String originalName, String saveName, String uploadPath, Date createDate) {
 		super();
 		this.no = no;
 		this.one = one;
 		this.originalName = originalName;
 		this.saveName = saveName;
 		this.createDate = createDate;
+		this.uploadPath = uploadPath;
 	}
 	
 	

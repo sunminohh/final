@@ -1,6 +1,7 @@
 package kr.co.mgv.movie.dao;
 
 import kr.co.mgv.movie.vo.Movie;
+import kr.co.mgv.movie.vo.MovieCollect;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.HashSet;
@@ -18,4 +19,6 @@ public interface MovieDao {
     public void syncMovie(Movie movie);
     public void incrementMovieLikes(int movieNo);
     public void decrementMovieLikes(int movieNo);
+    public void insertMovieCollect(List<MovieCollect> movieCollects);
+    public void saveMovie(Movie movie);
 }
