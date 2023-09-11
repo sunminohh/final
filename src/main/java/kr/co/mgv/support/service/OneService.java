@@ -53,7 +53,7 @@ public class OneService {
 		oneDao.updateOneByNo(one);;
 		
 		String email = null;
-		if (one.getUser().getId() != null) {
+		if (one.getUser() != null) {
 			email = one.getUser().getEmail();
 		} else {
 			email = one.getGuestEmail();

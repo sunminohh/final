@@ -206,6 +206,12 @@ public class UserController {
         }
     }
 
+    @GetMapping("/ticket")
+    public String ticketList() {
+
+        return "view/user/ticket/list";
+    }
+
     @GetMapping("/moviestory")
     public String moviestory() {
         return "view/user/moviestory/list";
