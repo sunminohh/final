@@ -494,4 +494,6 @@ public class MovieService {
         movieCommentDao.deleteMovieCommentLikeByCommentNo(no);
     }
 
+    public HashSet<Long> getMovieCommentLikeByUserId(String userId){return movieCommentDao.getMovieCommentLikeByUserId(userId);}
+
 }

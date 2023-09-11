@@ -1,8 +1,10 @@
 package kr.co.mgv.movie.controller;
 
+import kr.co.mgv.movie.dao.MovieCommentDao;
 import kr.co.mgv.movie.service.MovieService;
 import kr.co.mgv.movie.vo.Movie;
 import kr.co.mgv.movie.vo.MovieComment;
+import kr.co.mgv.movie.vo.MovieCommentLike;
 import kr.co.mgv.movie.vo.MovieLike;
 import kr.co.mgv.user.service.UserService;
 import kr.co.mgv.user.vo.User;
@@ -38,6 +40,7 @@ public class MovieController {
         model.addAttribute("movies", movies);
         if(user!=null) {
             model.addAttribute("likedMovies", movieService.getAllLikedMovieNos(user.getId()));
+
         }
         return "view/movie/list";
     }
@@ -47,13 +50,18 @@ public class MovieController {
         model.addAttribute("movie",movieService.getMovieByMovieNo(movieNo));
         List<MovieComment> movieComments = movieService.getMovieCommentsByMovieNo(movieNo);
         movieComments.forEach(c->c.setProfileImage(userService.getUserById(c.getUserId()).getProfileImg()));
-        model.addAttribute("movieComment",movieComments);
+
+
 
         if(user!=null){
             model.addAttribute("user",userService.getUserById(user.getId()));
             model.addAttribute("isLiked",movieService.isMovieLikedByUser(new MovieLike(user.getId(),movieNo)));
+            Set<Long> set = movieService.getMovieCommentLikeByUserId(user.getId());
+            for (MovieComment movieComment : movieComments) {
+                movieComment.setLiked(set.contains(movieComment.getNo()));
+            }
         }else model.addAttribute("isLiked",false);
-
+        model.addAttribute("movieComment",movieComments);
         return "view/movie/detail";
     }
 

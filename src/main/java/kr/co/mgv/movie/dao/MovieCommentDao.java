@@ -4,6 +4,7 @@ import kr.co.mgv.movie.vo.MovieComment;
 import kr.co.mgv.movie.vo.MovieCommentLike;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.HashSet;
 import java.util.List;
 
 @Mapper
@@ -17,4 +18,5 @@ public interface MovieCommentDao {
     public void deleteMovieCommentLike(MovieCommentLike movieCommentLike);
     public void deleteMovieCommentByNo(long no);
     public void deleteMovieCommentLikeByCommentNo(long no);
+    public HashSet<Long> getMovieCommentLikeByUserId(String userId);
 }

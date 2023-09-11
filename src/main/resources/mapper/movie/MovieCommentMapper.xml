@@ -44,6 +44,12 @@
         where
             COMMENT_NO = #{value}
     </select>
+    <select id="getMovieCommentLikeByUserId" parameterType="string"  resultType="long">
+        select
+            COMMENT_NO as commentNo
+            from MGV_COMMENT_LIKE
+        where USER_ID = #{value}
+    </select>
 
     <insert id="insertMovieCommentLike" parameterType="MovieCommentLike">
         insert into MGV_COMMENT_LIKE

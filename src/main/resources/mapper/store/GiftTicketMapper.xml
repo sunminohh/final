@@ -14,6 +14,30 @@
         </foreach>
     </insert>
 
+    <select id="getGiftTicketsByUserId" parameterType="string" resultType="GiftTicket">
+        select
+            GIFT_TICKET_NO  as no,
+            USER_ID         as userId,
+            BOOKING_NO      as bookingNo,
+            IS_USED         as isUsed,
+            CREATE_DATE     as createDate,
+            UPDATE_DATE     as updateDate
+            FROM MGV_GIFT_TICKET
+        where
+            USER_ID=#{VALUE}
+    </select>
+    <select id="getGiftTicketsByBookingNo" parameterType="long" resultType="GiftTicket">
+        select
+            GIFT_TICKET_NO  as no,
+            USER_ID         as userId,
+            BOOKING_NO      as bookingNo,
+            IS_USED         as isUsed,
+            CREATE_DATE     as createDate,
+            UPDATE_DATE     as updateDate
+        FROM MGV_GIFT_TICKET
+        where
+            BOOKING_NO=#{VALUE}
+    </select>
     <select id="checkGiftTicketByNo" parameterType="double" resultType="GiftTicketDto">
         SELECT
             IS_USED as isUsed,
