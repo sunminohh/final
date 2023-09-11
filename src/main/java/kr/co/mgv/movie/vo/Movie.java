@@ -76,7 +76,7 @@ public class Movie {
         if (score == 0){
             return 0;
         }
-        return (double) score/scoreGiver;
+        return  Math.round((double) score/scoreGiver*10)/10.0;
     }
     public List<String> getActors(){
         return Arrays.stream(cast.split(", ")).collect(Collectors.toList());

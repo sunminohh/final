@@ -1,13 +1,10 @@
 package kr.co.mgv.movie.controller;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
-import kr.co.mgv.movie.dao.MovieLikeDao;
 import kr.co.mgv.movie.service.MovieService;
 import kr.co.mgv.movie.vo.Movie;
 import kr.co.mgv.movie.vo.MovieLike;
 import kr.co.mgv.user.service.UserService;
 import kr.co.mgv.user.vo.User;
-import kr.co.mgv.web.view.DownloadView;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.HashSet;
 import java.util.List;
 
 @Controller
@@ -44,12 +40,13 @@ public class MovieController {
     @GetMapping("/detail")
     public String detail(@RequestParam("movieNo") int movieNo, Model model, @AuthenticationPrincipal User user) {
         model.addAttribute("movie",movieService.getMovieByMovieNo(movieNo));
-
+        model.addAttribute("movieComment",movieService.getMovieCommentsByMovieNo(movieNo));
 
         if(user!=null){
             model.addAttribute("user",userService.getUserById(user.getId()));
             model.addAttribute("isLiked",movieService.isMovieLikedByUser(new MovieLike(user.getId(),movieNo)));
         }else model.addAttribute("isLiked",false);
+
         return "view/movie/detail";
     }
 
