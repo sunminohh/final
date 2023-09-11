@@ -3,7 +3,7 @@
       layout:decorate="~{layout/user}">
 <head th:fragment="extra-head-content">
     <script th:src="@{/js/user/pagination.js}"></script>
-   <!-- <script th:src="@{/js/user/booking.js}"></script>-->
+    <script th:src="@{/js/user/booking.js}"></script>
 </head>
 <div id="contents" layout:fragment="content">
     <script th:src="@{/js/user/list.js}"></script>
@@ -307,9 +307,9 @@
                                 <button type="button" class="btn" value="M6">6개월</button>
                             </div>
                             <div class="date">
-                                <input type="text" title="조회기간 시작 날짜 입력" name="purchaseDate" placeholder="yyyy.mm.dd" class="date-calendar v2 datepicker" id="startDate">
+                                <input type="text" title="조회기간 시작 날짜 입력" name="createDate" placeholder="yyyy.mm.dd" class="date-calendar v2 datepicker" id="startDate">
                                 <span>~</span>
-                                <input type="text" title="조회기간 마지막 날짜 입력" name="purchaseDate" placeholder="yyyy.mm.dd" class="date-calendar v2 datepicker" id="endDate">
+                                <input type="text" title="조회기간 마지막 날짜 입력" name="createDate" placeholder="yyyy.mm.dd" class="date-calendar v2 datepicker" id="endDate">
                                 <button type="button" class="button gray-line" id="btnCheck">
                                     <i class="iconset ico-search-gray"></i> 조회
                                 </button>

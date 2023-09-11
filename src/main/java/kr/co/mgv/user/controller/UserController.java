@@ -205,6 +205,7 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<String> cancelPurchace(@RequestParam("id") long orderId) {
         boolean isSuccess = mypageService.cancelOrder(orderId);
+        log.info("orderId -> {}", orderId);
         if (isSuccess) {
             return ResponseEntity.ok("결제취소가 완료되었습니다.");
         } else {

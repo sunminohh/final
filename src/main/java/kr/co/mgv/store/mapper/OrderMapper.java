@@ -25,11 +25,13 @@ public interface OrderMapper {
                              @Param("endDate") String endDate,
                              @Param("state") String state);
 
-    int updateOrderById(@Param("orderId") long orderId);
+    long updateOrderById(@Param("orderId") long orderId);
 
     void updateOrder(Order order);
 
     Order getOrderById(long id);
 
     void deleteOrder(long orderId);
+
+    Order getOrderById(String id);
 }

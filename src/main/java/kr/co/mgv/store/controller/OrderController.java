@@ -71,7 +71,7 @@ public class OrderController {
         HttpEntity entity= new HttpEntity<>(params,headers);
         log.info("토스페이먼츠 api 응답 -> {}",entity);
         ResponseEntity<String> result=rest.postForEntity("https://api.tosspayments.com/v1/payments/"+paymentKey,entity,String.class);
-        order.setOrderState("결제완료");
+        order.setState("결제완료");
         order.setPaymentKey(paymentKey);
         model.addAttribute("order", order);
         model.addAttribute("products",products);
