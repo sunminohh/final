@@ -19,9 +19,9 @@ public class SalesService {
 	
 	private final SalesDao salesDao;
 	
-	public List<TotalSales> getDailyTotalSales() {
-
-		return salesDao.getDailyTotalSales();
+	public List<TotalSales> getDailyTotalSales(SalesDTO dto) {
+		log.info("salesDao.getDailySalesbyDate(dto);->{}",dto);
+		return salesDao.getDailySalesbyDate(dto);
 	}
 
 	
