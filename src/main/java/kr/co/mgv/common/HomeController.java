@@ -27,6 +27,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 
@@ -40,6 +41,12 @@ public class HomeController {
 
     @Value("${default-file-path}")
     private String defaultFilePath;
+
+    @GetMapping("/topMovieImage")
+    @ResponseBody
+    public String selectTopMovieImageUrl() {
+        return commonDao.selectTopMovieImageUrl();
+    }
 
     @GetMapping("/")
     public String home(@AuthenticationPrincipal User user, Model model) {
