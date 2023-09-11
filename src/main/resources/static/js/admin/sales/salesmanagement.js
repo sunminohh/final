@@ -67,9 +67,16 @@ $(() => {
 		data.totalSales.forEach(item => {
 			// 날짜 데이터를 dayjs로 파싱
 			const parsedDate = dayjs(item.date);
-
 			// 월과 일을 가져와서 두 자리로 포맷팅
-			const formattedDate = parsedDate.format("MM/DD");
+			console.log(item.date.length)
+			let formattedDate
+			if(item.date.length<9){
+				 formattedDate = parsedDate.format("YYYY/MM");
+				
+			}else{
+				
+				 formattedDate = parsedDate.format("MM/DD");
+			} 
 
 			// 카테고리 배열에 추가
 			days.push(formattedDate);
