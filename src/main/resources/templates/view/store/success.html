@@ -1,39 +1,18 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default}">
 <head th:fragment="extra-head-content">
     <title>결제 성공</title>
-    <style></style>
+    <link rel="stylesheet" href="/static/css/product/success.css">
 </head>
 <body>
 <div layout:fragment="content">
-        <h1 th:text="${order.orderName}"></h1>
-        <p>결과데이터 : <span th:text="${order.totalPrice}"></span></p>
-        <p>method : <span th:text="${payMethod}"></span></p>
-        <p>orderName : <span th:text="${orderName}"></span></p>
-        <table>
-            <thead>
-                <tr>
-                    <th>상품번호</th>
-                    <th>상품이미지</th>
-                    <th>상품명</th>
-                    <th>구매수량</th>
-                    <th>상품가격</th>
-                </tr>
-            </thead>
-            <tbody th:each="p : ${products}">
-                <tr >
-                    <td th:text="${p.productNo}"></td>
-                    <image th:src="${p.imagePath}"></image>
-                    <td th:text="${p.name}"></td>
-                    <td th:text="${p.amount}"></td>
-                    <td th:text="${p.unitPrice }"></td>
-                </tr>
-<!--                <tr th:if="${item.getPkg()}">
-                    <td th:text="${item.getCatNo()}"></td>
-                    <td th:text="${item.getPkg().getName()}"></td>
-                    <td th:text="${item.getTotalDiscountedPrice()}"></td>
-                </tr>-->
-            </tbody>
-        </table>
+    <div style="padding-bottom: 15px;"></div>
+    <div>
+        <img th:src="@{/images/success/상품 구매완료.png}">
+    </div>
+    <div class="frame">
+        <button type="button" class="custom-btn btn-8" onclick="location.href='http://localhost/'"><span>구매내역</span></button>
+        <button type="button" class="custom-btn btn-8" onclick="location.href='http://localhost/'"><span>홈</span></button>
+    </div>
 </div>
 </body>
 </html>
