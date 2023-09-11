@@ -69,13 +69,13 @@
 
                 <div id="bokdList">
                     <div class="board-list-util">
-                        <p class="result-count pt00"><strong>총<b class="font-gblue">1</b>건</strong></p>
+                        <p class="result-count pt00"><strong>총<b class="font-gblue" th:text="${totalRows != null ? totalRows : 0}"></b>건</strong></p>
                     </div>
                     <div class="history-reservation">
 
-                        <div class="no-history-reservation mt20"> 예매 내역이 없습니다.</div>
+                        <div class="no-history-reservation mt20" th:if="${#lists.isEmpty(bookings)}">예매 내역이 없습니다.</div>
+
                         <ul>
-                       
                             <li th:id="${booking.no}" th:each="booking, i : ${bookings}">
                                 <div class="round">
                                     <a th:href="@{/movie/detail?movieNo=booking.movieNo}" class="img">
