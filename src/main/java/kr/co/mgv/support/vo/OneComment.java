@@ -33,4 +33,11 @@ public class OneComment {
 		this.user = user;
 	} 
 	
+	public String getHtmlContent() {
+		if (content == null) {
+			return null;
+		}
+		return content.replace(System.lineSeparator(), "<br />");
+	}
+	
 }

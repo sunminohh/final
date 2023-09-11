@@ -49,7 +49,7 @@
             </div>
 
             <div class="cont" style="margin-bottom:200px;">
-				<p th:text="${lost.content}">
+				<p th:utext="${lost.htmlContent}">
                 </p>
             </div>
             
@@ -62,7 +62,7 @@
 		               <input type="hidden" name="no" th:value="${lost.no}"/>
 		                <div class="row">
 		                  <div id="content-box">
-		                     <textarea id="commentArea" rows="2" class="comment_inbox_text" name="content" style="border: none; overflow: hidden; overflow-wrap: break-word; " 
+		                     <textarea id="commentArea" rows="2" wrap="hard" class="comment_inbox_text" name="content" style="border: none; overflow: hidden; overflow-wrap: break-word; " 
 		                     placeholder="답변을 남겨보세요"></textarea>
 		                  </div>
 		                  <div id="regBox" class="register-box">
@@ -77,7 +77,7 @@
             
            <div id="reviewBox">
 	            <div class="cont review" th:each="comment : ${lostComments}" th:if="${lostComments != null}">
-					<p th:text="${comment.content}"></p>
+					<p th:utext="${comment.htmlContent}"></p>
 					
 					 <div id="delBox" class="col-sm-1 d-flex justify-content-end pt-0 float-end" sec:authorize="isAuthenticated()">
                           <input type="hidden" name="userId" th:value="${#authentication.principal.id}">

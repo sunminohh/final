@@ -59,7 +59,7 @@ public class OneService {
 			email = one.getGuestEmail();
 		}
 		
-		emailService.sendTempqnaMessage(email, one.getContent(), content);
+		emailService.sendTempqnaMessage(email, one.getHtmlContent(), comment.getHtmlContent());
 	}
 	
 	public void deleteComment(int commentNo) {

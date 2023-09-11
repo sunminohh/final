@@ -46,7 +46,7 @@
 	            </div>
 	
 	            <div class="cont">
-					<p th:text="${one.content}"></p>
+					<p th:utext="${one.htmlContent}"></p>
 	            </div>
 	            
                 <hr class="mt-0 pt-0"/>
@@ -73,7 +73,7 @@
 	            
 	            <div id="reviewBox">
 		            <div class="cont review" th:each="comment : ${oneComment}" th:if="${oneComment != null}">
-						<p th:text="${comment.content}"></p>
+						<p th:utext="${comment.htmlContent}"></p>
 						
 						 <div id="delBox" class="col-sm-1 d-flex justify-content-end pt-0 float-end" sec:authorize="isAuthenticated()">
 	                          <input type="hidden" name="userId" th:value="${#authentication.principal.id}">
