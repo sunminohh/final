@@ -36,6 +36,10 @@ public class OrderService {
         orderMapper.updateOrder(order);
     }
 
+    public void deleteOrderByOrderId(long orderId) {
+        orderMapper.deleteOrder(orderId);
+    }
+
     public void generateGiftTickets(String userId, int quantity){
         if(quantity==0){
             return;

@@ -106,4 +106,9 @@
 			PURCHASE_CANCELED_DATE = CURRENT_TIMESTAMP
 		WHERE ORDER_ID = #{orderId}
 	</update>
+
+	<delete id="deleteOrder" parameterType="long">
+		DELETE FROM MGV_ORDER
+		WHERE ORDER_ID = #{value}
+	</delete>
 </mapper>

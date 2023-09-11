@@ -1,11 +1,10 @@
 package kr.co.mgv.store.mapper;
 
 import kr.co.mgv.store.vo.Order;
-
-import java.util.List;
-
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 @Mapper
 public interface OrderMapper {
@@ -31,4 +30,6 @@ public interface OrderMapper {
     void updateOrder(Order order);
 
     Order getOrderById(long id);
+
+    void deleteOrder(long orderId);
 }

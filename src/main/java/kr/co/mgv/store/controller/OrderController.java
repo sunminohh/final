@@ -45,10 +45,16 @@ public class OrderController {
         return map;
     }
 
+    @GetMapping("/deleteOrder")
+    public String deleteOrder(@RequestParam("orderId") String orderId) {
+        orderService.deleteOrderByOrderId(Long.parseLong(orderId));
+        return null;
+    }
+
 
 
     @GetMapping({"/success"})
-    public String success(@RequestParam("orderId") String orderId, @RequestParam(required = true, value="amount") int amount, @RequestParam(required = false, value="paymentKey") String paymentKey, Model model) {
+    public String success(@AuthenticationPrincipal User user, @RequestParam("orderId") String orderId, @RequestParam(required = true, value="amount") int amount, @RequestParam(required = false, value="paymentKey") String paymentKey, Model model) {
         Order order= orderService.getOrderById(Long.parseLong(orderId));
         List<OrderProduct> products= orderService.getOrderProducts(order);
 
@@ -71,6 +77,7 @@ public class OrderController {
         model.addAttribute("products",products);
 
         orderService.updateOrder(order);
+        cartService.deleteCartByUserId(user.getId());
         return "view/store/success";
     }
     
