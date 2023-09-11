@@ -46,7 +46,7 @@
                         <a th:href="@{/movie/movieall}" title="전체영화 탭으로 이동">전체영화</a>
                     </li>
                     <li>
-                        <a href="/movie/special" title="특별상영 탭으로 이동">특별상영</a>
+                        <a th:href="@{/movie/favorite}" title="선호영화 탭으로 이동">선호영화</a>
                     </li>
                 </ul>
             </div>
@@ -60,7 +60,7 @@
                         <!-- 						<span><button type="button" class="btn" sort-type="megaScore">메가스코어순</button></span> -->
                     </div>
                     <div class="onair-condition">
-                        <button type="button" title="개봉작만 보기" class="btn-onair btnOnAir">개봉작만</button>
+                        <button type="button" id="only-playing" title="개봉작만 보기" class="btn-onair btnOnAir">개봉작만</button>
                     </div>
                 </div>
                 <!--// 박스오피스 -->
@@ -144,7 +144,7 @@
             <!-- movie-list -->
             <div class="movie-list">
                 <ol class="list" id="movieList">
-                    <li tabindex="0" class="no-img" th:each="movie, i : ${movies}" th:movie-no="${movie.no}" th:movie-title="${movie.title}">
+                    <li tabindex="0" th:isPlaying="${movie.isPlaying}" class="no-img" th:each="movie, i : ${movies}" th:movie-no="${movie.no}" th:movie-title="${movie.title}">
                         <div class="movie-list-info">
                             <img th:src="${movie.getMainPoster()}" class="poster lozad" onerror="noImg(this)">
                             <div class="curation">
@@ -170,9 +170,12 @@
                         </div>
                         <div class="rate-date">
                             <span class="rate"  th:text="|예매율 ${movie.seatsOpen != 0 ? movie.seatsBooked / movie.seatsOpen : 0} %|" ></span>
-                            <span class="date" th:text="|개봉일 ${movie.openDate != null ? movie.openDate :  '미정'}|"></span>
+                            <span class="date" th:text=" ${'Y'== movie.isPlaying ? '상영중' :  '상영예정'}"></span>
                         </div>
         </div>
+            <div class="movie-list-no-result" id="noDataDiv" style="">
+                <p>검색된 영화가 없습니다.</p>
+            </div>
     </div>
 </div>
 </html>

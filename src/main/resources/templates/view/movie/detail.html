@@ -29,23 +29,23 @@
                         <span title="보고싶어 한 명수" id="likesCnt" th:text="${movie.likes}">
 				</span>
                     </button>
-                <div class="sns-share">
+           <!--     <div class="sns-share">
                     <a href="#" class="btn btn-common-share" title="공유하기">
-                        <i class="iconset ico-sns-line"></i> 공유하기 <!-- 공유하기 -->
+                        <i class="iconset ico-sns-line"></i> 공유하기 &lt;!&ndash; 공유하기 &ndash;&gt;
                     </a>
 
                     <div class="btn-sns-share-wrap">
                         <div class="cont-area">
                             <div class="btn-sns-share-group">
-                                <!-- <button type="button" title="카카오톡 공유하기" class="btn btnSns kakao">카카오톡 </button> 카카오톡 -->
-                                <button type="button" title="페이스북 공유하기" class="btn btnSns face">페이스북 <!-- 페이스북 --></button>
-                                <button type="button" title="밴드 공유하기" class="btn btnSns band">밴드 <!-- 밴드 --></button>
-                                <button type="button" title="트위터 공유하기" class="btn btnSns twitter">트위터 <!-- 트위터 --></button>
-                                <button type="button" title="링크 공유하기" class="btn btnSns link">링크공유 <!-- 링크공유 --></button>
+                                &lt;!&ndash; <button type="button" title="카카오톡 공유하기" class="btn btnSns kakao">카카오톡 </button> 카카오톡 &ndash;&gt;
+                                <button type="button" title="페이스북 공유하기" class="btn btnSns face">페이스북 &lt;!&ndash; 페이스북 &ndash;&gt;</button>
+                                <button type="button" title="밴드 공유하기" class="btn btnSns band">밴드 &lt;!&ndash; 밴드 &ndash;&gt;</button>
+                                <button type="button" title="트위터 공유하기" class="btn btnSns twitter">트위터 &lt;!&ndash; 트위터 &ndash;&gt;</button>
+                                <button type="button" title="링크 공유하기" class="btn btnSns link">링크공유 &lt;!&ndash; 링크공유 &ndash;&gt;</button>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>-->
             </div>
 
             <div class="info">
@@ -61,14 +61,9 @@
 
                 <div class="rate">
                     <p class="tit">예매율</p>
-
-
-
-
-                    <p class="cont" th:text="|위 (${movie.getBookingRate()}%)|"><em th:text="${movie.chartRank}"></em></p>
-
-
-
+                    <div class="number gt" >
+                    <p class="cont" ><em th:text="|${movie.getBookingRate()}%|"></em></p>
+                    </div>
                 </div>
 
                 <div class="audience ">
@@ -122,7 +117,7 @@
                 <div class="reserve">
 
 
-                    <a href="javascript:fn_bookingForm('23029300','basic');" class="btn reserve" title="영화 예매하기">예매</a>
+                    <a th:href="@{/booking}" class="btn reserve" title="영화 예매하기">예매</a>
 
 
                     <button th:if="${user != null}" id="to-party-form" class="btn reserve" style="background-color:#00586a;">파티 신청
@@ -149,9 +144,8 @@
 
             <div class="movie-summary infoContent" id="info">
 
-                <div class="txt" th:text="${movie.plot}"><br><br> <br><br>평화롭던 바닷가 마을 군천에 화학 공장이 들어서면서 하루아침에 일자리를 잃은 해녀들.<br><br>먹고 살기 위한 방법을 찾던 승부사 '춘자'(김혜수)는<br><br>바다 속에 던진 물건을 건져 올리기만 하면 큰돈을 벌 수 있다는<br><br>밀수의 세계를 알게 되고 해녀들의 리더 '진숙'(염정아)에게 솔깃한 제안을 한다.<br><br>위험한 일임을 알면서도 생계를 위해 과감히 결단을 내린 해녀 '진숙'은<br><br>전국구 밀수왕 '권 상사'를 만나게 되면서 확 커진 밀수판에 본격적으로 빠지게 된다.<br><br>그러던 어느 날, 일확천금을 얻을 수 있는 일생일대의 기회가 찾아오고<br><br>사람들은 서로를 속고 속이며 거대한 밀수판 속으로 휩쓸려 들어가기 시작하는데...<br><br> <br><br>물길을 아는 자가 돈길의 주인이 된다!</div>
-                <div class="btn-more toggle">
-                    <button type="button" class="btn"><span>더보기</span> <i class="iconset ico-btn-more-arr"></i></button>
+                <div class="txt" >줄거리
+                    <div class="text" th:text="${movie.plot}">
                 </div>
             </div>
 
@@ -255,6 +249,7 @@
             <!--// movie-graph -->
 
             <!-- 한줄평 있을 때 -->
+        </div>
             <div class="tit-util mt70 mb15 oneContent">
                 <h2 class="tit small"th:text="|영화 < ${movie.title} > 에 대한 평점과 한줄평|"> <span class="font-gblue">0</span></h2>
             </div>
@@ -353,7 +348,7 @@
                     <li class="type01 oneContentTag" sec:authorize="isAuthenticated()">
                         <div class="story-area">
                             <div class="user-prof"  >
-                                <div class="prof-img"><img id="userProfileImage" th:src="${user.profileImg !=null } ? ${'/images/user/profile/'+user.profileImg} : '/images/user/profile/default.png'" alt="프로필 사진"
+                                <div class="prof-img"><img id="userProfileImage" th:src="@{/images/user/profile/default.png}" alt="프로필 사진"
                                                            title="프로필 사진" ></div>
                                 <p class="user-id" th:text="${#authentication.principal.id}"></p></div>
                             <div class="story-box">
@@ -391,15 +386,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="story-date">
-                            <div class="review on"><span>9 분전</span></div>
-                        </div>
+
                     </li>
                     <li class="type01 oneContentTag" th:each="comment, i : ${movieComment}" th:id="${comment.no}" >
                         <div class="story-area">
                             <div class="user-prof">
                                 <div class="prof-img"><img
-                                        th:src="${comment.profileImage}"
+                                        th:src="@{/images/user/profile/default.png}"
                                         alt="프로필 사진" title="프로필 사진"></div>
                                 <p class="user-id" th:text="${comment.userId}" ></p></div>
                             <div class="story-box">
@@ -414,7 +407,7 @@
                                         </div>
                                         <div class="story-util" th:if="${user!=null}">
                                             <button th:if="${user.id == comment.userId}" type="button" class="delete-comment" th:commentNo="${comment.no}" title="댓글 삭제"
-                                                     ><i class="bi bi-trash"></i>
+                                            ><i class="bi bi-trash"></i>
                                                 <span>삭제</span></button>
                                         </div>
                                         <div class="story-util" style="width:60px;">
@@ -426,8 +419,7 @@
                         </div>
                     </li>
             </div>
-        </div>
-        <!--// inner-wrap -->
+            <!--// inner-wrap -->
 
         <!-- movie-detail-poster -->
 
@@ -534,7 +526,7 @@
                             </p>
 
                             <div class="direct-link">
-                                <a id="bokdLinkBtn" data-no="" href="" style="display: none;" title="">예매하기</a>
+                                <a id="bokdLinkBtn" data-no="" th:href="@{/booking}" style="display: none;" title="">예매하기</a>
                             </div>
                         </div>
 
@@ -657,9 +649,6 @@
         <!-- //무비포스트 상세 레이어팝업 -->
 
         <!--// 레이어 : 관람평 등록 -->
-    </div>
-
-    <div class="add-area infoContent" id="boxoInfoContent" style="">
     </div>
 
 

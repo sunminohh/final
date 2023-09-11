@@ -6,7 +6,7 @@
         values
         (#{userId}, #{movieNo})
     </insert>
-    <select id="getLikedMovieNosByUserId" resultType="String">
+    <select id="getLikedMovieNosByUserId" resultType="int">
         select MOVIE_NO
         from MGV_MOVIE_LIKES
         WHERE USER_ID = #{value}
