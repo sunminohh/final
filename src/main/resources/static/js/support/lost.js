@@ -56,7 +56,6 @@ $(function() {
 	}
 	
 	// 폼 비번 4자리
-
     $(".pwnew").on("input", function() {
         // 입력값에서 숫자 이외의 문자 제거
         let numericValue = $(this).val().replace(/[^0-9]/g, '');
