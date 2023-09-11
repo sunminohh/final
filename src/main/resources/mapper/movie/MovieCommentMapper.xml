@@ -50,6 +50,7 @@
             from MGV_COMMENT_LIKE
         where USER_ID = #{value}
     </select>
+
     <insert id="insertMovieCommentLike" parameterType="MovieCommentLike">
         insert into MGV_COMMENT_LIKE
         (USER_ID, COMMENT_NO)

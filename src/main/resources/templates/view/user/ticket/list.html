@@ -14,71 +14,25 @@
 
             <ul class="dot-list">
                 <li>보유하신 영화관람권/예매권 내역입니다. </li>
-                <li>소지하신 지류(종이)관람권은 등록 후 이용하실 수 있습니다.</li>
             </ul>
 
-            <div class="btn-group right">
-                <a href="#layer_coupon_regi" class="button btn-modal-open" w-data="600" h-data="600" title="관람권등록">관람권등록</a>
-            </div>
         </div>
 
-        <section id="layer_coupon_regi" class="modal-layer"><a href="" class="focus">레이어로 포커스 이동 됨</a>
-            <a href="" class="focus" title="레이어로 포커스 이동 됨">레이어로 포커스 이동 됨</a>
-            <div class="wrap">
-                <header class="layer-header">
-                    <h3 class="tit">영화관람권 등록</h3>
-                </header>
-
-                <div class="layer-con">
-                    <p class="reset">보유하신 영화관람권 12자리 또는 16자리를 입력해주세요.</p>
-
-                    <div class="popup-gray mid-info-box mb30">
-                        <div class="pop-search-area">
-                            <p class="sh-txt reset"><label for="movieTicket">관람권번호</label></p>
-
-                            <div class="sh-input">
-                                <input type="text" placeholder="12자리 또는 16자리 입력" id="movieTicket" class="input-text a-c w250px" maxlength="16">
-                                <button type="button" class="button gray">등록</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="img-how-ticket-number">
-                        <img src="https://img.megabox.co.kr/static/pc/images/mypage/img-how-ticket-number.png" alt="관람권 등록 방법">
-                        <div class="ir">
-                            관람권 뒷면 왼쪽 하단의 앞 12자리를 입력해주세요.<br>
-                            마지막 4자리는 관람권의 스크래치 부분을 긁어 해당 숫자를 입력해 주세요.
-                        </div>
-                    </div>
-
-                    <ul class="dash-list mt20">
-                        <li>보유하신 관람권 뒷면의 하단 스크래치 부분을 긁어 관람권 번호를 입력해주세요.</li>
-                        <li>제휴예매권은 관람권 뒷면 왼쪽 하단의 12자리(앞 8자리+스크래치 4자리)를 입력해주세요.</li>
-                        <li>스크래치 개봉후에는 현장(극장)사용이 불가합니다.</li>
-                        <li>2021년도 라이프다이어리 내에 관람권은 '메가박스포인트/쿠폰'&gt;'메가박스할인쿠폰'에서 등록 후 사용 가능합니다.</li>
-                    </ul>
-                </div>
-
-                <div class="btn-group-fixed">
-                    <button type="button" class="button purple close-layer">닫기</button>
-                </div>
-
-                <button type="button" class="btn-modal-close">레이어 닫기</button>
-            </div>
-        </section>
 
         <div class="board-list-util">
             <p class="result-count">
                 <strong>
-                    총 <b class="font-gblue">0</b>매
+                    총 <b class="font-gblue"th:text="${giftTickets.size}"></b>매
                 </strong>
             </p>
 
+<!--
             <div class="dropdown bootstrap-select bs3"><select title="관람권명 선택" class="selectpicker" tabindex="-98"><option class="bs-title-option" value=""></option>
                 <option value="CSC03">사용가능</option>
                 <option value="CSC04">사용완료</option>
                 <option value="CSC06">기간만료</option>
             </select><button type="button" class="btn dropdown-toggle btn-default" data-toggle="dropdown" role="button" title="사용가능"><div class="filter-option"><div class="filter-option-inner"><div class="filter-option-inner-inner">사용가능</div></div> </div><span class="bs-caret"><span class="caret"></span></span></button><div class="dropdown-menu open" role="combobox"><div class="inner open" role="listbox" aria-expanded="false" tabindex="-1"><ul class="dropdown-menu inner "></ul></div></div></div>
+-->
         </div>
 
         <div class="table-wrap">
@@ -92,35 +46,24 @@
                 </colgroup>
                 <thead>
                 <tr>
-                    <th scope="col">관람권명</th>
-                    <th scope="col">유효기간</th>
-                    <th scope="col">사용상태</th>
+                    <th scope="col">관람권번호</th>
+                    <th scope="col">만료일시</th>
+                    <th scope="col">사용여부</th>
                     <th scope="col"></th>
                 </tr>
                 </thead>
-                <tbody><tr><td colspan="4" class="a-c">조회된 관람권 내역이 없습니다.</td></tr></tbody>
+                <tbody th:if="${giftTickets.size==0}"><tr><td colspan="4" class="a-c">조회된 관람권 내역이 없습니다.</td></tr></tbody>
+                <tbody th:if="${giftTickets.size==0}">
+                <tr>
+                    <td >1515151515</td>
+                    <td >24-01-01</td>
+                    <td >미사용</td>
+                </tr>
+                </tbody>
             </table>
         </div>
 
-        <nav class="pagination"></nav>
 
-        <div class="box-pulldown mt30">
-            <div class="tit">
-                <button type="button" class="btn-toggle">이용안내 <i class="iconset ico-arr-toggle-down"></i></button>
-            </div>
-
-            <div class="cont">
-                <ul class="dot-list">
-                    <li>등록된 관람권은 홈페이지/모바일 예매 시 사용하실 수 있으며, 스크래치가 개봉된 지류(종이)관람권은 현장사용이 불가합니다.</li>
-                    <li>관람권으로 예매 후 취소한 경우, 사용하신 관람권은 유효기간 내 재사용할 수 있습니다.</li>
-                    <li>유효기간이 지난 관람권은 사용이 불가합니다. (관람일 기준)</li>
-                    <li>관람권은 금액권이 아니므로 관람하시는 영화의 티켓 가격 대비 차액은 환급되지 않습니다.</li>
-                    <li>(조조/청소년 등 할인가격 영화 관람 시 차액 환불 불가)</li>
-                    <li>관람권 종류에 따라 규정된 사용정책이 다르니, 사용전 관람권정보를 확인바랍니다.</li>
-                    <li>관람권 사용 시, 관람권별로 규정된 멤버십 포인트가 적립됩니다.</li>
-                </ul>
-            </div>
-        </div>
 
     </div>
 </div>
