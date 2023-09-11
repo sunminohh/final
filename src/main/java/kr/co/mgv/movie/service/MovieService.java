@@ -25,6 +25,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.stream.Collectors;
+
 class Node {
 
     Map<Character, Node> children;
@@ -469,6 +471,11 @@ public class MovieService {
         movieDao.updateMovie(movie);
     }
 
+    public List<Movie> getFavoriteMoviesByUserId(String id){
+        HashSet<Integer> fav=getAllLikedMovieNos(id);
+
+        return getAllMovies().stream().filter(movie->fav.contains(movie.getNo())).collect(Collectors.toList());
+    }
     public List<MovieComment> getMovieCommentsByMovieNo(int movieNo){return movieCommentDao.getMovieCommentsByMovieNo(movieNo);}
     public void deleteMovieCommentLike(MovieCommentLike movieCommentLike){
         movieCommentDao.decrementMovieCommentLike(movieCommentLike.getCommentNo());

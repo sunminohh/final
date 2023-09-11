@@ -23,7 +23,7 @@ $(() => {
         let count=0
         $("#movieList").children().each(function(i, li){
             if( $(this).is(":visible")){
-               count++
+                count++
             }
         })
         $("#totCnt").text(count)
@@ -88,16 +88,16 @@ $(() => {
     }
 
     $("#movieSearch").on('input',search)
-function highlightTitle(keyword, title){
+    function highlightTitle(keyword, title){
         if(title.indexOf(keyword)>=0){
             return title.replace(keyword,`<span style="background-color:yellow">${keyword}</span>`)
         }
-    return title.replace(keyword,`<span style="background-color:yellow">${keyword.substring(0,keyword.length-1)}</span>`)
+        return title.replace(keyword,`<span style="background-color:yellow">${keyword.substring(0,keyword.length-1)}</span>`)
 
 
-}
+    }
     function initList(){
-      $("#movieList").children().show()
+        $("#movieList").children().show()
         $(".movie-title").each(function(i){
             $(this).text($(this).attr('title'))
         })
@@ -107,5 +107,5 @@ function highlightTitle(keyword, title){
     }
 
 
-$(".modal-layer").show()
+    $(".modal-layer").show()
 })

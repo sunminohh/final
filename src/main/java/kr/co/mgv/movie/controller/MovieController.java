@@ -2,6 +2,7 @@ package kr.co.mgv.movie.controller;
 
 import kr.co.mgv.movie.service.MovieService;
 import kr.co.mgv.movie.vo.Movie;
+import kr.co.mgv.movie.vo.MovieComment;
 import kr.co.mgv.movie.vo.MovieLike;
 import kr.co.mgv.user.service.UserService;
 import kr.co.mgv.user.vo.User;
@@ -16,7 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
+import javax.xml.stream.events.Comment;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toCollection;
 
 @Controller
 @RequestMapping("/movie")
@@ -40,7 +45,9 @@ public class MovieController {
     @GetMapping("/detail")
     public String detail(@RequestParam("movieNo") int movieNo, Model model, @AuthenticationPrincipal User user) {
         model.addAttribute("movie",movieService.getMovieByMovieNo(movieNo));
-        model.addAttribute("movieComment",movieService.getMovieCommentsByMovieNo(movieNo));
+        List<MovieComment> movieComments = movieService.getMovieCommentsByMovieNo(movieNo);
+        movieComments.forEach(c->c.setProfileImage(userService.getUserById(c.getUserId()).getProfileImg()));
+        model.addAttribute("movieComment",movieComments);
 
         if(user!=null){
             model.addAttribute("user",userService.getUserById(user.getId()));
@@ -68,6 +75,16 @@ public class MovieController {
     return new ModelAndView("downloadFileView");
 }
 
+@GetMapping("/favorite")
+public String movieFavorite (Model model, @AuthenticationPrincipal User user){
+    if(user!= null){
+        model.addAttribute("favoriteMovies",movieService.getFavoriteMoviesByUserId(user.getId()));
+        }else{
+            model.addAttribute("favoriteMovies",new ArrayList<>());
+
+        }
+        return "view/movie/favorite";
+}
 @GetMapping("/movieall")
 public String movieAll(Model model, @AuthenticationPrincipal User user){
     model.addAttribute("movies",movieService.getAllMovies());

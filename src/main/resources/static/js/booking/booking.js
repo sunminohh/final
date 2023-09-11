@@ -167,7 +167,7 @@ $(()=>{
                 }else $(this).addClass('disabled')
             })
             $(".locations").each(function(){
-                let sz=  $(this).find("li button[class='']").length
+                let sz=  $(this).find("li button[class='btn-theater']").length
                 let region = $(this).attr('id')
                 $(this).find('span').text(region+"("+sz+")")
             })
@@ -248,6 +248,7 @@ $(()=>{
         let len = selectedMovies.size
         if (selectedMovies.has(mNo)) {
             deleteSelectBox(mNo)
+
         }else if(len<3) {
             selectedMovies.add(mNo)
             createSelectBox(mNo)
@@ -255,8 +256,28 @@ $(()=>{
         {
             insertAlert("영화는 최대 3개까지 선택 가능합니다.")
         }
+        if(selectedTheaters.size>0){
+
+            bookingScheudlesApi()
+        }
     })
 
+    function checkSchedule(){
+        const scheudles= $(".btn-schedule")
+        const mbtn= $(".btn-movie").addClass('disabled')
+        const tbtn = $(".btn-theater").addClass('disabled')
+
+        scheudles.each(function(){
+            const mno=$(this).attr('movie-no')
+            $("#mBtn-"+mno).removeClass('disabled')
+            const tname = $(this).attr('theater-name')
+            $("#tBtn-"+tname).removeClass('disabled')
+        })
+        $(".locations").each(function(){
+            const x= $(this).find('.btn-theater').not('.disabled').length
+            $(this).find('span').text($(this).attr('id')+"("+x+")")
+        })
+    }
     //선택영화목록창에서 x버튼눌렀을시 선택영화제거
     $('.choice-list').on("click",'button[class=del]',function() {
         deleteSelectBox($(this).attr('box-id'))
@@ -352,6 +373,7 @@ $(()=>{
             $("#playScheduleNonList").hide()
             $("#playScheduleList").show()
         } else{
+            apiByDate(selectedDate)
             $("#playScheduleNonList").show()
             $("#playScheduleList").hide()
             $("#mCSB_3_container").children().empty()
@@ -368,11 +390,11 @@ $(()=>{
         fetch(url).then(res=>res.json()).then(data=> {
             $.each(data,(index,s) => {
                 const scheduleHtml=`<li>
-                    <button type="button" class="btn" id="schedule-${s.id}" schedule-id="${s.id}" start="${s.startTime}" play-de="${selectedDate}" end=""
+                    <button type="button" class="btn btn-schedule" id="schedule-${s.id}" schedule-id="${s.id}" start="${s.startTime}" play-de="${selectedDate}" end=""
                             turn="1" movie-no="${s.movieNo}" theater-no="${s.theaterNo}" screen-id="${s.screenId}" screen-name="${s.screenName}"
                             theater-name="${s.theaterName}" netfnl-adopt-at="N" rest-seat-cnt="105" start-time="${s.startTime}" end-time="${s.endTime}"
                             movie-title="${s.movieTitle}" theab-popup-at="Y" theab-popup-no="2015">
-                        <div class="legend"><i class="iconset ico-sun" title="">조조</i></div>
+                        <div class="legend"><i class="iconset ico" title="">조조</i></div>
                         <span class="time"><strong title="상영 시작">${s.startTime}</strong><em title="상영 종료">~${s.endTime}</em></span><span
                         class="title"><strong title="${s.movieTitle}">${s.movieTitle}</strong><em>2D</em></span>
                         <div class="info"><span class="theater" title="${s.theaterName}">${s.theaterName}<br>${s.screenName}</span><span
@@ -382,6 +404,7 @@ $(()=>{
                     </button>
                 </li>`
                 container.append(scheduleHtml)
+                    checkSchedule()
             })
         })
     }
