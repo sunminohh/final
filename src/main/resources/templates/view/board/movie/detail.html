@@ -33,7 +33,7 @@
          <div id="profile" class="pb-1 ">
             <div id="imgbox" class="float-start ms-2" >
                <a th:href="@{/board/user/list(id=${board.user.id})}">
-                  <img id="profileimg" th:src="${board.user.profileImg != null ? '/images/user/profile/' + board.user.profileImg : '/images/user/profile/default.png'}" data-default-src="/images/user/profile/default.png">
+                  <img id="profileimg" th:src="${board.user.profileImg != null ? '/common/image/' + board.user.profileImg : '/images/user/profile/default.png'}" data-default-src="/images/user/profile/default.png">
                </a>
             </div>
             
@@ -157,7 +157,7 @@
                       <div id="profile">
                         <div id="comment-imgbox" class="float-start" >
                            <a th:href="@{/board/user/list(id=${comment.user.id})}">
-                              <img id="profileimg" th:src="${comment.user.profileImg != null ? '/images/user/profile/' + comment.user.profileImg : '/images/user/profile/default.png'}" data-default-src="/images/user/profile/default.png">
+                              <img id="profileimg" th:src="${comment.user.profileImg != null ? '/common/image/' + comment.user.profileImg : '/images/user/profile/default.png'}" data-default-src="/images/user/profile/default.png">
                            </a>
                         </div>
                         <div class="ps-5">
@@ -199,7 +199,7 @@
                             <div id="profile">
                               <div id="comment-imgbox" class="float-start" >
                                  <a th:href="@{/board/user/list(id=${child.user.id})}">
-                                    <img id="profileimg" th:src="${child.user.profileImg != null ? '/images/user/profile/' + child.user.profileImg : '/images/user/profile/default.png'}" data-default-src="/images/user/profile/default.png">
+                                    <img id="profileimg" th:src="${child.user.profileImg != null ? '/common/image/' + child.user.profileImg : '/images/user/profile/default.png'}" data-default-src="/images/user/profile/default.png">
                                  </a>
                               </div>
                               <div class="ps-5">
