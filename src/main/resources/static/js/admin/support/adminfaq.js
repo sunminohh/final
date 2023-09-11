@@ -35,22 +35,28 @@ $(document).ready(function() {
                 text: '내용을 입력 해주세요.'
          	 });
 		 } else {
-			
-			event.preventDefault(); 
-            Swal.fire({
-                icon: 'warning',
-                title: '게시글을 등록 하시겠습니까?',
-                showCancelButton: true,
-                confirmButtonText: '네',
-                cancelButtonText: '아니오',
-            }).then((result) => {
+			if (content.length > 10485760) { // 1048576 바이트 = 1MB 
+	            Swal.fire({
+	                icon: 'warning',
+	                text: '첨부파일의 크기가 너무 큽니다. 최대 허용 크기: 10MB',
+	            });
+	        } else {
+				event.preventDefault(); 
+	            Swal.fire({
+	                icon: 'warning',
+	                title: '게시글을 등록 하시겠습니까?',
+	                showCancelButton: true,
+	                confirmButtonText: '네',
+	                cancelButtonText: '아니오',
+	            }).then((result) => {
 	                if (result.isConfirmed) {
 	                    $("#insertform").submit();
 	                } else if (result.dismiss === Swal.DismissReason.cancel) {
 	
 	                }
 	            });
-	       }
+			}
+	    }
 	})
 	
 	$('#modify-btn-submit').on("click", function(event) {
@@ -77,21 +83,28 @@ $(document).ready(function() {
                 text: '내용을 입력 해주세요.'
          	 });
 		 } else {
-			event.preventDefault(); 
-            Swal.fire({
-                icon: 'warning',
-                title: '게시글을 수정 하시겠습니까?',
-                showCancelButton: true,
-                confirmButtonText: '네',
-                cancelButtonText: '아니오',
-            }).then((result) => {
-	                if (result.isConfirmed) {
-	                    $("#modifyform").submit();
-	                } else if (result.dismiss === Swal.DismissReason.cancel) {
-	
-	                }
+			 if (content.length > 10485760) { // 1048576 바이트 = 1MB 
+	            Swal.fire({
+	                icon: 'warning',
+	                text: '첨부파일의 크기가 너무 큽니다. 최대 허용 크기: 10MB',
 	            });
-	       }
+	        } else {
+				event.preventDefault(); 
+	            Swal.fire({
+	                icon: 'warning',
+	                title: '게시글을 수정 하시겠습니까?',
+	                showCancelButton: true,
+	                confirmButtonText: '네',
+	                cancelButtonText: '아니오',
+	            }).then((result) => {
+		                if (result.isConfirmed) {
+		                    $("#modifyform").submit();
+		                } else if (result.dismiss === Swal.DismissReason.cancel) {
+		
+		                }
+		            });
+	         }
+	     }
 	})
 	
 	// 삭제버튼 띄우기
