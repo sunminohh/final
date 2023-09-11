@@ -139,6 +139,7 @@ $(()=>{
     let orderSpecificProducts=[]
 
     function setOrder(){
+        totalPrice = 0;
         const map = new Map
         const map2 = new Map
         const products= $(".cart-item")
@@ -151,6 +152,7 @@ $(()=>{
             amount= amount ? amount : $(this).find('.cart-amount').val()
             amount=parseInt(amount)
             orderProducts.push( $(this).attr('productNo')+','+$(this).attr('productName')+','+$(this).attr('unitPrice')+','+amount)
+
 
             const packageInfo = $(this).attr('packageInfo')
             const items= packageInfo.split('+')
@@ -165,6 +167,7 @@ $(()=>{
                 }
                 map2.set(arr[0],','+arr[1]+','+arr[2]+',')
                 totalPrice += arr[2]*arr[3]*amount
+                console.log("arr[0]", arr[0]);
             }
         })
         map.forEach((value, key) => {
@@ -179,15 +182,12 @@ $(()=>{
         }
     }
 
-    setOrder();
-
     console.log("orderName => "+orderName)
     console.log("orderProducts => "+ orderProducts.join('+'))
     console.log("orderSpecificProducts => "+ orderSpecificProducts.join('+'))
 
 
     $(".btn.plus").on('click',function(){
-        setOrder()
         console.log("orderName => "+orderName)
         console.log("orderProducts => "+ orderProducts.join('+'))
         console.log("orderSpecificProducts => ", orderSpecificProducts.join('+'))
