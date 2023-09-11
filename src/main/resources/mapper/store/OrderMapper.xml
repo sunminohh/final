@@ -95,7 +95,7 @@
 		SET
 		    ORDER_STATE = #{orderState},
 		    PAYMENT_KEY = #{paymentKey},
-		    UPDATE_DATE = SYSDATE
+		    UPDATE_DATE = CURRENT_TIMESTAMP
 
 		where ORDER_ID = #{orderId}
 	</update>
