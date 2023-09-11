@@ -176,7 +176,12 @@
 	 <script type="text/javascript">
 		$("#btn-open-chat").click(function(event) {
 			event.preventDefault();
-			window.open("/admin/support/chat", "chat-window", "width=750,height=650,status=no,toolbar=no,left=1200,top=200");
+			let chatWindow = window.open("/admin/support/chat", "chat-window", "width=750,height=670,status=no,toolbar=no,left=1200,top=200");
+			
+			chatWindow.addEventListener('resize', function() {
+				chatWindow.resizeTo(750, 750);
+			})
+			 
 		});
 	</script>
 
