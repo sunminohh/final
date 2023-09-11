@@ -5,38 +5,35 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <th:block th:if="${#strings.equals(isSuccess, 'true')}">
-        <h1 th:text="${giftTickets}"></h1>
-        <p>결과데이터 : <span th:text="${responseStr}"></span></p>
-        <p>method : <span th:text="${method}"></span></p>
+        <h1 th:text="${order.orderName}"></h1>
+        <p>결과데이터 : <span th:text="${order.totalPrice}"></span></p>
+        <p>method : <span th:text="${payMethod}"></span></p>
         <p>orderName : <span th:text="${orderName}"></span></p>
         <table>
             <thead>
                 <tr>
-                    <th>카테고리 번호</th>
+                    <th>상품번호</th>
+                    <th>상품이미지</th>
                     <th>상품명</th>
+                    <th>구매수량</th>
                     <th>상품가격</th>
                 </tr>
             </thead>
-            <tbody th:each="item : ${items}">
-                <tr th:if="${item.getProduct()}">
-                    <td th:text="${item.getCatNo()}"></td>
-                    <td th:text="${item.getProduct().getName()}"></td>
-                    <td th:text="${item.getTotalDiscountedPrice()}"></td>
+            <tbody th:each="p : ${products}">
+                <tr >
+                    <td th:text="${p.productNo}"></td>
+                    <image th:src="${p.imagePath}"></image>
+                    <td th:text="${p.name}"></td>
+                    <td th:text="${p.amount}"></td>
+                    <td th:text="${p.unitPrice }"></td>
                 </tr>
-                <tr th:if="${item.getPkg()}">
+<!--                <tr th:if="${item.getPkg()}">
                     <td th:text="${item.getCatNo()}"></td>
                     <td th:text="${item.getPkg().getName()}"></td>
                     <td th:text="${item.getTotalDiscountedPrice()}"></td>
-                </tr>
+                </tr>-->
             </tbody>
         </table>
-    </th:block>
-    <th:block th:if="${#strings.equals(isSuccess, 'false')}">
-        <h1>결제 실패</h1>
-        <p>에러메시지 : <span th:text="${message}"></span></p>
-        <p>에러코드 : <span th:text="${code}"></span></p>
-    </th:block>
 </div>
 </body>
 </html>

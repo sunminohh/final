@@ -27,4 +27,8 @@ public interface OrderMapper {
                              @Param("state") String state);
 
     int updateOrderById(@Param("orderId") long orderId);
+
+    void updateOrder(Order order);
+
+    Order getOrderById(long id);
 }

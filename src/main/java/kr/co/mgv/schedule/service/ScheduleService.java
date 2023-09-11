@@ -1,11 +1,7 @@
 package kr.co.mgv.schedule.service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.stereotype.Service;
-
+import kr.co.mgv.movie.dao.MovieDao;
+import kr.co.mgv.movie.vo.Movie;
 import kr.co.mgv.schedule.dao.ScheduleDao;
 import kr.co.mgv.schedule.dto.CheckScheduleDto;
 import kr.co.mgv.schedule.dto.DateWithMovieDto;
@@ -15,6 +11,11 @@ import kr.co.mgv.theater.dao.TheaterDao;
 import kr.co.mgv.theater.dto.TheaterAndDateDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -22,7 +23,8 @@ import lombok.extern.slf4j.Slf4j;
 public class ScheduleService {
 	private final ScheduleDao scheduleDao;
 	private final TheaterDao theaterDao;
-	
+	private final MovieDao movieDao;
+
 
 	public DateWithMovieDto getScheduleList(TheaterAndDateDto dto) {
 		return scheduleDao.getScheduleWithDate(dto);
@@ -49,7 +51,10 @@ public class ScheduleService {
 				return "timeduplicated";
 			}
 			scheduleDao.insertSchedule(dto);
-			
+			Movie movie= movieDao.getMovieByMovieNo(dto.getMovieNo());
+			movie.setIsPlaying("Y");
+			movie.setSeatsOpen(dto.getSeats()+movie.getSeatsOpen());
+			movieDao.updateMovie(movie);
 		}catch (Exception e) {
 			return "fail";
 		}
