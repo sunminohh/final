@@ -1,49 +1,169 @@
 <!DOCTYPE html>
-<html layout:decorate="~{ layout/admin }" xmlns:layout="http://www.w3.org/1999/xhtml">
+<html layout:decorate="~{ layout/admin }"
+	  xmlns:layout="http://www.w3.org/1999/xhtml">
 <head th:fragment="extra-head-content">
-<title>관리자페이지</title>
-<style>
-	.add {
-		background-color: forestgreen;
-		float: right;
+	<script type="text/javascript" th:src="@{/js/admin/product/productList.js}"></script>
+	<title>관리자페이지</title>
+	<style type="text/css">
+		.btn-group-lg button {
+			min-width: 100px;
+		}
+		textarea{
+			resize: none;
+		}
+	#collapseparent {
+		text-align: center;
 	}
-</style>
+
+	</style>
 </head>
 <body>
-	<div layout:fragment="content" >
-		<div class="container-fluid" >
+<div layout:fragment="content">
+	<div class="container-fluid">
+		<div style="width: 100%">
 			<!--  Row 1 -->
 			<div class="row mb-3">
+				<div class="col-12" id="collapseparent">
+
+					<div class="btn-group btn-group-lg" role="group"
+						 aria-label="Basic outlined example" id="categoryBtn">
+						<button type="button" class="btn btn-outline-primary" product-category="1"
+								data-bs-toggle="collapse" data-bs-target="#category-1"
+								aria-expanded="false" aria-controls="category-1">패키지
+						</button>
+
+						<button type="button" class="btn btn-outline-primary" product-category="2"
+								data-bs-toggle="collapse" data-bs-target="#category-2"
+								aria-expanded="false" aria-controls="category-2">팝콘/음료
+						</button>
+
+						<button type="button" class="btn btn-outline-primary" product-category="3"
+								data-bs-toggle="collapse" data-bs-target="#category-3"
+								aria-expanded="false" aria-controls="category-3">MGV티켓
+						</button>
+
+						<button type="button" class="btn btn-outline-primary" product-category="4"
+								data-bs-toggle="collapse" data-bs-target="#category-4"
+								aria-expanded="false" aria-controls="category-4">스낵
+						</button>
+
+						<button type="button" class="btn btn-outline-primary" product-category="5"
+								data-bs-toggle="collapse" data-bs-target="#category-5"
+								aria-expanded="false" aria-controls="category-5">금액권
+						</button>
+					</div>
+					<div id="div-products">
+						<div class="collapse" id="products-1"
+							 data-bs-parent="#collapseparent">
+							<div class="card card-body">
+								<div class="col-12">
+									<button type="button" class="btn btn-outline-primary" data-product-no="1"
+											style="width: 100px;">강남</button>
+								</div>
+							</div>
+						</div>
+						<div class="collapse" id="products-2"
+							 data-bs-parent="#collapseparent">
+							<div class="card card-body">
+								<div class="col-12">
+								</div>
+							</div>
+
+						</div>
+						<div class="collapse" id="products-3"
+							 data-bs-parent="#collapseparent">
+							<div class="card card-body">
+								<div class="col-12">
+								</div>
+							</div>
+						</div>
+						<div class="collapse" id="products-4"
+							 data-bs-parent="#collapseparent">
+							<div class="card card-body">
+								<div class="col-12">
+								</div>
+							</div>
+						</div>
+						<div class="collapse" id="products-5"
+							 data-bs-parent="#collapseparent">
+							<div class="card card-body">
+								<div class="col-12">
+								</div>
+							</div>
+						</div>
+						<div class="collapse" id="products-6"
+							 data-bs-parent="#collapseparent">
+							<div class="card card-body">
+								<div class="col-12">
+								</div>
+							</div>
+						</div>
+						<div class="collapse" id="products-7"
+							 data-bs-parent="#collapseparent">
+							<div class="card card-body">
+								<div class="col-12">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--  Row 2 -->
+			<div class="row mb-3" id="board">
 				<div class="col-12">
-					<div class="card" >
+					<div class="card">
 						<div class="card-body">
-							<h5 class="card-title fw-semi-bold mb-4">상품관리</h5>
+							<h5 class="card-title fw-semibold mb-4">상품 정보</h5>
 							<table class="table">
-								<thead>
-									<tr>
-										<th></th>
-										<th>상품번호</th>
-										<th>상품명</th>
-										<th>상품가격</th>
-										<th>상품판매여부</th>
-										<th>상품카테고리</th>
-										<th>등록일</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr th:each="product : ${products}">
-										<td></td>
-										<td th:text="${product.getNo()}"></td>
-										<td th:text="${product.getName()}"></td>
-										<td th:text="${product.getDiscountedPrice()}"></td>
-										<td th:text="${product.getSoldOut()}"></td>
-										<td th:text="${product.getCategory().getNo()}"></td>
-										<td th:text="${product.getCreateDate()}"></td>
-									</tr>
+								<colgroup>
+									<col style="width: 150px;">
+									<col>
+									<col style="width: 150px;">
+									<col>
+								</colgroup>
+								<tbody class="d-none" id="abled">
+								<tr>
+									<th>상품번호</th><td name="product-no"></td>
+									<th>상품이름</th><td name="product-name"></td>
+								</tr>
+								<tr>
+									<th>상품 재고</th><td colspan="3" name="product-stock"></td>
+								</tr>
+								<tr>
+									<th>상품 가격</th><td name="product-price"></td>
+									<th >구성품</th>
+									<td colspan="3" name="product-"> </td>
+								</tr>
+								<tr>
+									<th >판매여부</th>
+									<td colspan="3" name="product-sold-out"></td>
+								</tr>
+								<tr>
+									<th >주차안내</th>
+									<td colspan="3"><textarea rows="5" style="width: 100%;" name="parkinginfo"></textarea> </td>
+								</tr>
+								<tr>
+									<th >주차확인</th>
+									<td colspan="3"><textarea rows="5" style="width: 100%; " name="parkingconfirm"></textarea> </td>
+								</tr>
+								<tr>
+									<th >주차요금</th>
+									<td colspan="3"><textarea rows="5" style="width: 100%; " name="parkingcash"></textarea> </td>
+								</tr>
+								<tr>
+									<th >소개,설명</th>
+									<td colspan="3"><textarea rows="5" style="width: 100%; " name="info"></textarea> </td>
+								</tr>
+								</tbody>
+								<tbody id="disabled">
+								<tr>
+									<td class="text-center" colspan="5"><strong>카테고리와 상품을 선택해주세요</strong></td>
+								</tr>
 								</tbody>
 							</table>
-							<div class="util-button">
-								<button class="btn btn-primary add" onclick="location.href='/admin/product/add-form'">등록</a></button>
+							<div class="btn-group pt40 " style="display: block;">
+								<button id="btn-update" type="button" class="button purple large">수정</button>
+								<button id="btn-register" type="button" class="button purple large">등록</button>
 							</div>
 						</div>
 					</div>
@@ -51,8 +171,6 @@
 			</div>
 		</div>
 	</div>
+</div>
 </body>
-<script>
-	
-</script>
 </html>
