@@ -132,6 +132,12 @@ $(()=>{
 
     // <-- 여기까지 productDetail JS에서 가져옴
 
+    let totalPrice =0
+    let orderName
+    let packageName
+    let orderProducts=[]
+    let orderSpecificProducts=[]
+
     function setOrder(){
         const map = new Map
         const map2 = new Map
@@ -172,25 +178,19 @@ $(()=>{
             orderName += " 외 " + (products.length-1) + "건"
         }
     }
-    let totalPrice =0
 
-
-    let orderName
-    let packageName
-    let orderProducts=[]
-    let orderSpecificProducts=[]
     setOrder()
 
-    console.log("오더네임 => "+orderName)
-    console.log("오더프러덕츠 => "+ orderProducts.join('+'))
-    console.log("스페시픽프러덕츠 => "+ orderSpecificProducts.join('+'))
+    console.log("orderName => "+orderName)
+    console.log("orderProducts => "+ orderProducts.join('+'))
+    console.log("orderSpecificProducts => "+ orderSpecificProducts.join('+'))
 
 
     $(".btn.plus").on('click',function(){
         setOrder()
-        console.log("오더네임 => "+orderName)
-        console.log("오더프러덕츠 => "+ orderProducts.join('+'))
-        console.log("스페시픽프러덕츠 => "+ orderSpecificProducts.join('+'))
+        console.log("orderName => "+orderName)
+        console.log("orderProducts => "+ orderProducts.join('+'))
+        console.log("orderSpecificProducts => ", orderSpecificProducts.join('+'))
     })
 
     $("#request-payment").on('click',requestPayment)
@@ -235,7 +235,9 @@ $(()=>{
                     }
                 }
                 pay('카드', jsons.card);
-            })
+        })
+
+        console.log("order", order);
 
         function pay(method, requestJson) {
             let tossPayments = TossPayments("test_ck_5OWRapdA8dYGaQX9LYB3o1zEqZKL");
