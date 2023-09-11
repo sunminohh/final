@@ -6,7 +6,7 @@ $(() => {
 	const API_URLS = {
 		DAILY_TOTAL_SALES: "/admin/sales/dailyTotalSales",
 		BOOKINGLIST:"/api/booking/getBookingList",
-		ORDERLIST:"/order/list"
+		ORDERLIST:"/api/order/orderList"
 	}
 	
 	$btnRefreshBooking.click(handlerBtnRefreshBookingList);

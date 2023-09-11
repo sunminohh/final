@@ -185,8 +185,7 @@ public class OrderService {
 //        return productList;
 //    }
 
-//	public List<Order> getOrderList() {
-//		// TODO Auto-generated method stub
-//		return orderMapper.getOrderList();
-//	}
+	public List<Order> getOrderList() {
+		return orderMapper.getOrderList();
+	}
     }
