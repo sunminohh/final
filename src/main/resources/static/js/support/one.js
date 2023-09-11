@@ -166,7 +166,7 @@ $(function() {
 		        event.preventDefault(); 
 			    Swal.fire({
 			        icon: 'success',
-			        text: '답변이 등록되었습니다.',
+			        text: '게시글이 등록되었습니다.',
 			        showConfirmButton: true // 확인 버튼을 표시
 			    }).then((result) => {
 			        if (result.isConfirmed) {
