@@ -31,4 +31,7 @@ public interface ScheduleDao {
 	void insertSchedule(ScheduleRegistFormDto dto);
 	Schedule getSchedule(ScheduleRegistFormDto dto);
 	void deleteSchedule(int id);
+
+	void incrementScheduleRemainingSeats(Map<String,Object> params);
+	void decrementScheduleRemainingSeats(Map<String,Object> params);
 }

@@ -156,6 +156,16 @@
 		(#{date},#{turn},#{startTime},#{endTime},#{screenInfo},#{seats},#{seats},#{movieNo},#{screenId})
 	</insert>
 
+	<update id="incrementScheduleRemainingSeats" parameterType="map">
+		update MGV_SCHEDULE
+			SET REMAINING_SEATS = REMAINING_SEATS + #{seatCount}
+		where SCHEDULE_ID  =#{scheduleId}
+	</update>
+	<update id="decrementScheduleRemainingSeats" parameterType="map">
+		update MGV_SCHEDULE
+		SET REMAINING_SEATS = REMAINING_SEATS - #{seatCount}
+		where SCHEDULE_ID  =#{scheduleId}
+	</update>
 	<delete id="deleteSchedule" parameterType="int">
 		delete from
 		MGV_SCHEDULE
