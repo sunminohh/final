@@ -173,16 +173,9 @@ public class UserController {
     @GetMapping("/booking")
     public String bookinghome(@AuthenticationPrincipal User user, Model model) {
             model.addAttribute("bookings", bookingService.getBookingsByUserId(user.getId()));
+        model.addAttribute("totalRows", bookingService.getTotalRows(user.getId()));
         return "view/user/booking/list";
     }
-
-   /* @PostMapping("/bookinglist")
-    public ResponseEntity<HashMap<String, Object>> bookingList() {
-        String userId = getLoggedInUserId();
-
-
-        return ResponseEntity.ok();
-    }*/
 
     @PostMapping("/order")
     @ResponseBody

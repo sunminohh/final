@@ -66,15 +66,16 @@
 
             <!-- 예매 영화 목록 -->
             <div id="bookingList">
-                <div class="no-history-reservation mt20"> 예매 내역이 없습니다.</div>
 
                 <div id="bokdList">
                     <div class="board-list-util">
-                        <p class="result-count pt00"><strong>총<b class="font-gblue">1</b>건</strong></p>
+                        <p class="result-count pt00"><strong>총<b class="font-gblue" th:text="${totalRows != null ? totalRows : 0}"></b>건</strong></p>
                     </div>
                     <div class="history-reservation">
+
+                        <div class="no-history-reservation mt20" th:if="${#lists.isEmpty(bookings)}">예매 내역이 없습니다.</div>
+
                         <ul>
-                       
                             <li th:id="${booking.no}" th:each="booking, i : ${bookings}">
                                 <div class="round">
                                     <a th:href="@{/movie/detail?movieNo=booking.movieNo}" class="img">
@@ -97,7 +98,6 @@
                                             <td colspan="3">
                                                 <p class="tit-movie">
                                                     <span th:text="${booking.title}"></span>
-                                                    <span>2D</span>
                                                 </p>
                                             </td>
                                         </tr>
@@ -105,38 +105,24 @@
                                             <th scope="row" class="a-r">극장/상영관</th>
                                             <td th:text="|${booking.theaterName} / ${booking.screenName}|"></td>
                                             <th scope="row">관람인원</th>
-                                            <td th:text="|성인 ${booking.adultSeats} 명, 청소년 ${booking.underageSeats} 명, 총 ${booking.totalSeats} 명|">성인 1명</td>
+                                            <td th:text="|성인 ${booking.adultSeats} 명, 청소년 ${booking.underageSeats} 명, 총 ${booking.totalSeats} 명|"></td>
                                         </tr>
                                         <tr>
                                             <th scope="row" class="a-r">관람일시</th>
-                                            <td th:text="${#dates.format(booking.bookingDate,'yyyy-MM-dd')}">2023.09.11 (월) 21:45 (5회차)</td>
+                                            <td th:text="${#dates.format(booking.bookingDate,'yyyy-MM-dd')}"></td>
                                             <th scope="row">관람좌석</th>
                                             <td th:text="${booking.bookedSeatsNos}"></td>
                                         </tr>
                                         <tr>
                                             <th scope="row" class="a-r">관람시간</th>
-                                            <td th:text="|${booking.startTime} ~ ${booking.endTime} |">2023.09.11 (월) 21:45 (5회차)</td>
+                                            <td th:text="${booking.startTime} +  '~' + ${booking.endTime} "></td>
+                                            <th scope="row" class="a-r">결제일시</th>
+                                            <td th:text="${#dates.format(booking.createDate,'yyyy-MM-dd')}">
+                                                <a href="#" class="button gray-line x-small" title="결제정보">결제정보</a>
+                                            </td>
                                         </tr>
                                         </tbody>
                                     </table>
-                                    <div class="bg-round">
-                                        <table class="table">
-                                            <colgroup>
-                                                <col style="width:75px;">
-                                                <col style="width:230px;">
-                                                <col style="width:100px;">
-                                                <col>
-                                            </colgroup>
-                                            <tbody>
-                                            <tr>
-                                                <th scope="row" class="a-r">결제일시</th>
-                                                <td th:text="${#dates.format(booking.createDate,'yyyy-MM-dd')}">
-                                                    <a href="#" class="button gray-line x-small" title="결제정보">결제정보</a>
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
                                     <div class="btn-group" style="display: block;">
                                         <button class="button gray booking-cancel" th:booking-no="${booking.no}" title="예매취소">예매취소</button>
                                     </div>

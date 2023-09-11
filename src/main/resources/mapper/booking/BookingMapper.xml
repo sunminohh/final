@@ -58,6 +58,14 @@
         WHERE
             BOOKING_NO = #{VALUE}
     </select>
+    <select id="getTotalRows" parameterType="string" resultType="int">
+        SELECT COUNT(*)
+        FROM MGV_BOOKING
+        WHERE
+            USER_ID = #{userId}
+            AND BOOKING_STATE = '결제완료'
+
+    </select>
     <select id="getBookingsByUserId" parameterType="string" resultType="Booking">
         select
             BOOKING_NO                      as no,

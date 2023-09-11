@@ -19,4 +19,6 @@ public interface BookingDao {
     void deleteBookedSeats(Map<String,Object> params);
     void clearTimeOutBookedSeats();
     void deleteBookingByBookingNo(long bookingNo);
+
+    int getTotalRows(String userId);
 }
