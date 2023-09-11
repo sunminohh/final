@@ -146,9 +146,9 @@ $(() => {
 	// 차트 옵션
 	const chartOption = {
 		series: [
-			{ name: "총매출", data: [180, 355, 390] },
-			{ name: "영화", data: [180, 355, 390] },
-			{ name: "상품", data: [180, 355, 390] },
+			{ name: "총매출", data: [] },
+			{ name: "영화", data: [] },
+			{ name: "상품", data: [] },
 		],
 		chart: {
 			type: "bar",
