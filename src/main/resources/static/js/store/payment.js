@@ -258,42 +258,5 @@ $(()=>{
 
                 });
         }
-
-  /*      then(res=>res.json()).then(data=> {
-            if('success' == data.result){
-                window.location.replace("/booking/success?orderId="+data.bookingNo)
-            }else if('fail'== data.result){
-                window.location.replace("/booking?fail=login")
-
-            }else if('pending' == data.result) {
-                let path = "/booking/";
-                let successUrl = window.location.origin + path + "success";
-                let failUrl = window.location.origin + path + "failure";
-                let orderId = data.bookingNo
-                const orderName = movieTitle + " " + (adultTickets + underageTickets) + " 장"
-                let jsons = {
-                    "card": {
-                        "amount": totalPrice-giftAmount,
-                        "orderId": orderId,
-                        "orderName": orderName,
-                        "successUrl": successUrl,
-                        "failUrl": failUrl,
-                        "cardCompany": null,
-                        "cardInstallmentPlan": null,
-                        "maxCardInstallmentPlan": null,
-                        "useCardPoint": false,
-                        "customerName": data.userName,
-                        "customerEmail": null,
-                        "customerMobilePhone": null,
-                        "useInternationalCardOnly": false,
-                        "flowMode": "DEFAULT",
-                        "discountCode": null,
-                        "appScheme": null
-                    }
-                }
-                pay('카드', jsons.card);
-            }
-        }*/
-
     }
 })

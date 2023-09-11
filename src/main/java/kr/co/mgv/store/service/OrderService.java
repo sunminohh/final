@@ -81,112 +81,14 @@ public class OrderService {
             Map<Product,Integer> map = new HashMap<>();
             boolean isPackage= product.getNo()>100;
 
-//            if (isPackage){
-//                String packageInfo = product.getPackageInfo();
-//                String[] eachItem = packageInfo.split("\\+");
-//
-//                for(String each : eachItem){
-//                    String[] e = each.split(",");
-//                    Product innerProduct = productMapper.getProductByNo(Integer.parseInt(e[0]));
-//                    map.put(innerProduct,Integer.parseInt(e[3])*orderAmount);
-//                    orderProduct.setPkg(map);
-//                    orderProduct.setPackage(true);
-//                }
-//            }else {
-//                map.put(product,orderAmount);
-//                orderProduct.setPackage(false);
-//                orderProduct.setPkg(map);
-//            }
             list.add(orderProduct);
         }
         return list;
-/*
-            int productNo= Integer.parseInt(op[0]);
-            String name = op[1];
-            orderProduct.setProductNo(productNo);
-            orderProduct.setName(op[1]);
-            orderProduct.setUnitPrice(Integer.parseInt(op[2]));
-            orderProduct.setAmount(Integer.parseInt(op[3]));
-            List<Product> productList = new ArrayList<>();
-            if(productNo>100){
-                Product Product = productMapper.getProductByNo(productNo);
-*/
 
-
-        }
-//    public void insertOrderProduct(String orderId, int productNo, int productAmount, int productPrice, int catNo) {
-//        OrderProduct orderProduct = new OrderProduct();
-//
-//        orderProduct.setOrderId(orderId);
-//        orderProduct.setProductNo(productNo);
-//        orderProduct.setAmount(productAmount);
-//        orderProduct.setPrice(productPrice);
-//        orderProduct.setCatNo(catNo);
-//
-//        orderProductMapper.insertOrderProduct(orderProduct);
-//    }
-//
-//    public void insertOrderPackage(String orderId, int packageNo, int packageAmount, int packagePrice, int catNo) {
-//        OrderPackage orderPackage = new OrderPackage();
-//
-//        orderPackage.setOrderId(orderId);
-//        orderPackage.setPackageNo(packageNo);
-//        orderPackage.setAmount(packageAmount);
-//        orderPackage.setPrice(packagePrice);
-//        orderPackage.setCatNo(catNo);
-//
-//        orderPackageMapper.insertOrderPackage(orderPackage);
-//    }
-
-//    public List<OrderProduct> getOrderProducts(Order order){
-//        String orderProductsString = order.getOrderProducts();
-//
-//        List<OrderProduct> products = new ArrayList<>();
-//        String[] ops = orderProductsString.split("\\+");
-//
-//        for (String p : ops){
-//            OrderProduct orderProduct = new OrderProduct();
-//
-//
-//            String[] op = p.split(",");
-//            int productNo= Integer.parseInt(op[0]);
-//            String name = op[1];
-//            orderProduct.setProductNo(productNo);
-//            orderProduct.setName(op[1]);
-//            orderProduct.setUnitPrice(Integer.parseInt(op[2]));
-//            orderProduct.setAmount(Integer.parseInt(op[3]));
-//            List<Product> productList = new ArrayList<>();
-//            if(productNo>100){
-//                Product Product = productMapper.getProductByNo(productNo);
-//
-//
-//            }
-//
-//        }
-//    }
-
-
-//    public List<OrderSpecificProduct> getProductListByNo(int no, int amount){
-//        List<OrderSpecificProduct> productList = new ArrayList<>();
-//        if(no>100){
-//            Product product = productMapper.getProductByNo(no);
-//            String x=product.getPackageInfo();
-//
-//            String[] xx= x.split("\\+");
-//
-//            for(String eachProduct : xx){
-//
-//            }
-//
-//
-//        }else{
-//            productList.add(OrderSpecificProduct(productMapper.getProductByNo(no),amount));
-//        }
-//        return productList;
-//    }
-
-//	public List<Order> getOrderList() {
-//		// TODO Auto-generated method stub
-//		return orderMapper.getOrderList();
-//	}
     }
+
+	public List<Order> getOrderList() {
+		// TODO Auto-generated method stub
+		return orderMapper.getOrderList();
+	}
+}

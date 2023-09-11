@@ -74,11 +74,11 @@ public class OrderController {
         return "view/store/success";
     }
     
-//    @GetMapping("/list")
-//    @ResponseBody
-//    public List<Order> getOrderList(){
-//    	return orderService.getOrderList();
-//    }
+    @GetMapping("/list")
+    @ResponseBody
+    public List<Order> getOrderList(){
+    	return orderService.getOrderList();
+    }
 }
 
 
