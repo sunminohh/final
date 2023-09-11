@@ -27,7 +27,7 @@ public class Order {
     private String paymentKey;
     private Date createDate;
     private Date updateDate;
-    private String orderState;
+    private String state;
 
 
 }
