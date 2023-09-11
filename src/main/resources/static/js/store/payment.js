@@ -179,7 +179,7 @@ $(()=>{
         }
     }
 
-    setOrder()
+    setOrder();
 
     console.log("orderName => "+orderName)
     console.log("orderProducts => "+ orderProducts.join('+'))
