@@ -53,6 +53,11 @@ public class Lost {
 		this.theater = theater;
 	}
 	
-	
+	public String getHtmlContent() {
+		if (content == null) {
+			return null;
+		}
+		return content.replace(System.lineSeparator(), "<br />");
+	}
 	
 }

@@ -57,7 +57,12 @@ public class One {
 		this.category = category;
 	}
 	
-
+	public String getHtmlContent() {
+		if (content == null) {
+			return null;
+		}
+		return content.replace(System.lineSeparator(), "<br />");
+	}
 	
 	
 }
