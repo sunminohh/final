@@ -208,7 +208,7 @@ $(function() {
                icon: 'error',
                text: '성별을 선택해주세요.',
            });
-       } else if (content.length > 1048576) {
+       } else if (content.length > 10485760) {
            Swal.fire({
                icon: 'error',
                text: '내용이 너무 큽니다. 최대 허용 크기: 1MB',
