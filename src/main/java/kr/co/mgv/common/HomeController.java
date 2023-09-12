@@ -4,13 +4,10 @@ import kr.co.mgv.board.list.BoardList;
 import kr.co.mgv.board.service.MyBoardService;
 import kr.co.mgv.common.dao.CommonDao;
 import kr.co.mgv.common.vo.MgvFile;
-<<<<<<< HEAD
 import kr.co.mgv.support.service.NoticeService;
 import kr.co.mgv.support.vo.Notice;
-=======
 import kr.co.mgv.movie.service.MovieService;
 import kr.co.mgv.movie.vo.Movie;
->>>>>>> develop
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -64,18 +61,15 @@ public class HomeController {
 
         List<BoardList> commentList = myBoardService.getBest5("comment");
         List<BoardList> likeList = myBoardService.getBest5("like");
-<<<<<<< HEAD
         
         List<Notice> notice = noticeService.getNoticeList();
     	
     	model.addAttribute("notice", notice);
-=======
         List<Movie> topMovies = movieService.getMovieChart(4);
         if(user!=null){
             HashSet<Integer> favMovieNos = movieService.getAllLikedMovieNos(user.getId());
             topMovies.forEach(movie -> movie.setLiked(favMovieNos.contains(movie.getNo())));
         }
->>>>>>> develop
         model.addAttribute("like", likeList);
         model.addAttribute("comment", commentList);
         model.addAttribute("topMovies",topMovies);
