@@ -116,8 +116,8 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td colspan="6" lass="a-c" th:if="${#lists.isEmpty(bookingCancel)}">예매 내역이 없습니다.</td>
+                    <tr th:if="${#lists.isEmpty(bookingCancels)}">
+                        <td colspan="6" class="a-c">예매 내역이 없습니다.</td>
                     </tr>
                     <tr th:each="bookingCancel, k : ${bookingCancels}" th:bookingNo="${bookingCancel.no}">
                         <td th:text="${#dates.format(bookingCancel.updateDate,'yyyy-MM-dd hh:mm:ss')}"></td>
