@@ -107,7 +107,7 @@
                             예매 내역이 없습니다.
                         </div>
                     </li>
-                    <li class="no-result" th:if="${bookings.size>0}" th:each="booking,i : ${bookings}">
+                    <li class="no-result" th:if="${bookings.size>0}">
                         <!--todo if문 -->
                         <div class="no-history-reservation" th:text="|${bookings.size} 건의 예매 내역이 있습니다.|">
 
