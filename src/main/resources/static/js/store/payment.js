@@ -251,6 +251,11 @@ $(()=>{
                         });
                         deleteOrder(requestJson);
 
+                    } else if (order.orderName == null) {
+                        Swal.fire({
+                            icon: 'warning',
+                            text: "장바구니가 비어있습니다."
+                        });
                     } else {
                         alert(error.message);
                         Swal.fire({
