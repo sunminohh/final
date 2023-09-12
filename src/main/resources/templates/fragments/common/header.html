@@ -13,8 +13,9 @@
     <!-- 2019-04-15 마크업 수정 : 고객요청  -->
     <div class="util-area">
         <div class="left-link">
-            <a href="#" id="vip">VIP ROUNGE</a>
-            <a th:href="@{/benefit}">멤버십</a>
+<!--            <a href="#" id="vip">VIP ROUNGE</a>
+            <a th:href="@{/benefit}">멤버십</a>-->
+            <a th:href="@{/booking}">빠른예매</a>
             <a th:href="@{/support}">고객센터</a>
         </div>
 
@@ -78,7 +79,6 @@
 
             </div>
 
-            <a href="">빠른예매</a>
             <a sec:authorize="isAuthenticated()" th:href="@{/cart}">장바구니</a>
         </div>
     </div>
@@ -87,10 +87,9 @@
     <div class="link-area">
 <!--        <a href="" class="header-open-layer btn-layer-sitemap" title="사이트맵">사이트맵</a>-->
 <!--        <a href="" class="header-open-layer btn-layer-search" title="검색">검색</a>-->
-<!--        <a href="" class="link-ticket" title="상영시간표">상영시간표</a>-->
+        <a th:href="@{/theater/detail?brchNo=1#tab02}" class="link-ticket">상영시간표</a>
         <a sec:authorize="isAuthenticated()" th:href="@{/mypage}" class="btn-layer-mymgv" title="나의 MGV">나의 MGV</a>
         <a sec:authorize="isAnonymous()" href="#" class="btn-layer-mymgv btn-my-anonymous" title="나의 MGV">나의 MGV</a>
-        <!-- todo 탈퇴 로그인 -->
     </div>
 
     <!-- gnb -->
@@ -106,12 +105,12 @@
                 </div>-->
             </li>
             <li><a th:href="@{/booking}" class="gnb-txt-reserve">예매</a>
-                <!--<div class="gnb-depth2">
+                <div class="gnb-depth2">
                     <ul>
                         <li><a th:href="@{/booking}" title="빠른예매">빠른예매</a></li>
-                        <li><a th:href="@{/booking}" title="상영시간표">상영시간표</a></li>
+                        <li><a th:href="@{/theater/detail?brchNo=1#tab02}" title="상영시간표">상영시간표</a></li>
                     </ul>
-                </div>-->
+                </div>
             </li>
             <li><a th:href="@{/theater}" class="gnb-txt-theater">극장</a></li>
             <li><a th:href="@{/board/movie/list}" class="gnb-txt-board">게시판</a>
@@ -133,8 +132,8 @@
         </ul>
     </nav>
 
-    <div id="layer_sitemap" class="header-layer layer-sitemap">
-        <!-- wrap -->
+    <!--<div id="layer_sitemap" class="header-layer layer-sitemap">
+        &lt;!&ndash; wrap &ndash;&gt;
         <div class="wrap">
             <a href="" class="link-acc" title="사이트맵 레이어 입니다.">사이트맵 레이어 입니다.</a>
 
@@ -174,8 +173,8 @@
 
                 <ul class="list-depth">
                     <li><a href="" title="진행중 이벤트">진행중 이벤트</a></li>
-                    <!--                    <li><a href="" title="지난 이벤트">지난 이벤트</a></li>-->
-                    <!--                    <li><a href="" title="당첨자발표">당첨자발표</a></li>-->
+                    &lt;!&ndash;                    <li><a href="" title="지난 이벤트">지난 이벤트</a></li>&ndash;&gt;
+                    &lt;!&ndash;                    <li><a href="" title="당첨자발표">당첨자발표</a></li>&ndash;&gt;
                 </ul>
             </div>
 
@@ -244,8 +243,8 @@
                 <a href="" class="layer-close" title="레이어닫기">레이어닫기</a>
             </div>
         </div>
-        <!--// wrap -->
-    </div>
+        &lt;!&ndash;// wrap &ndash;&gt;
+    </div>-->
     <!--// 레이어 : 사이트맵 -->
 
     <!-- 레이어 : 검색 -->

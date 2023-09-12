@@ -13,6 +13,10 @@ public interface OrderMapper {
 
     List<Order> getOrderList();
 
+    Order getOrderById(long id);
+    void updateOrder(Order order);
+    void deleteOrder(long orderId);
+
     List<Order> getOrders(@Param("userId") String userId,
                           @Param("startDate") String startDate,
                           @Param("endDate") String endDate,
@@ -25,13 +29,7 @@ public interface OrderMapper {
                              @Param("endDate") String endDate,
                              @Param("state") String state);
 
+    List<Order> getOrderByUesrId(String userId);
     long updateOrderById(@Param("orderId") long orderId);
 
-    void updateOrder(Order order);
-
-    Order getOrderById(long id);
-
-    void deleteOrder(long orderId);
-
-    Order getOrderById(String id);
 }

@@ -106,16 +106,12 @@
             <div class="my-reserve-history">
                 <ul>
                     <li class="no-result" th:if="${bookings.size==0}">
-                        <!--todo if문 -->
                         <div class="no-history-reservation">
                             예매 내역이 없습니다.
                         </div>
                     </li>
                     <li class="no-result" th:if="${bookings.size>0}">
-                        <!--todo if문 -->
-                        <div class="no-history-reservation" th:text="|${bookings.size} 건의 예매 내역이 있습니다.|">
-
-                        </div>
+                        <div class="no-history-reservation"><strong style="color: #0a53be" th:text="${bookings.size}"></strong> 건의 예매 내역이 있습니다.</div>
                     </li>
                 </ul>
             </div>
@@ -125,34 +121,27 @@
         <div id="myPurc">
             <div class="tit-util mt70">
                 <h2 class="tit small">나의 구매내역</h2>
-
                 <a th:href="@{/mypage/booking}" class="more">더보기 <i class="iconset ico-arr-right-gray"></i></a>
             </div>
 
-            <div class="table-wrap">
-                <table class="board-list line">
-                    <caption>나의 구매내역 요약 표</caption>
-                    <colgroup>
-                        <col style="width:160px;">
-                        <col style="width:140px;">
-                        <col>
-                        <col style="width:120px;">
-                        <col style="width:80px;">
-                    </colgroup>
-                    <tbody>
-                    <tr>
-                        <!--todo if 문-->
-                        <td colspan="5" class="a-c">구매내역이 없습니다.</td>
-                    </tr>
-                    </tbody>
-                </table>
+            <div class="my-purchase-history">
+                <ul>
+                    <li class="no-result" th:if="${orders.size==0}">
+                        <div class="no-history-reservation">
+                            구매 내역이 없습니다.
+                        </div>
+                    </li>
+                    <li class="no-result" th:if="${orders.size>0}">
+                        <div class="no-history-reservation"><strong style="color: #0a53be" th:text="${orders.size}"></strong> 건의 구매 내역이 있습니다.</div>
+                    </li>
+                </ul>
             </div>
         </div>
 
         <!-- column -->
-        <div class="tit-util mt70">
-            <!-- left -->
-            <!--<div class="col left" id="mySbsc">
+        <!--<div class="tit-util mt70">
+            &lt;!&ndash; left &ndash;&gt;
+            &lt;!&ndash;<div class="col left" id="mySbsc">
                 <div class="tit-util">
                     <h2 class="tit small">참여이벤트</h2>
                     <a href="#" class="more" title="참여이벤트 더보기">더보기 <i class="iconset ico-arr-right-gray"></i></a>
@@ -166,26 +155,31 @@
                         </li>
                     </ul>
                 </div>
-            </div>-->
-            <!--// left -->
+            </div>&ndash;&gt;
+            &lt;!&ndash;// left &ndash;&gt;
 
-            <!-- right -->
-            <div class="col" id="myInq">
+            &lt;!&ndash; right &ndash;&gt;
+            &lt;!&ndash;<div class="col" id="myInq">
                 <div class="tit-util">
                     <h2 class="tit small">문의내역</h2>
                     <a href="/mypage/inquiry" class="more" title="문의내역 더보기">더보기 <i class="iconset ico-arr-right-gray"></i></a>
                 </div>
 
-                <div class="brd-list">
+                <div class="my-inquiry-history">
                     <ul>
-                        <li class="no-result">
-                            문의내역이 없습니다.
+                        <li class="no-result" th:if="${orders.size==0}">
+                            <div class="no-history-reservation">
+                                구매 내역이 없습니다.
+                            </div>
+                        </li>
+                        <li class="no-result" th:if="${orders.size>0}">
+                            <div class="no-history-reservation"><strong style="color: #0a53be" th:text="|${orders.size}|"></strong>건의 구매 내역이 있습니다.</div>
                         </li>
                     </ul>
                 </div>
-            </div>
-            <!--// right -->
-        </div>
+            </div>&ndash;&gt;
+            &lt;!&ndash;// right &ndash;&gt;
+        </div>-->
         <!--// column -->
     </div>
     <!--// my-mgv-main -->

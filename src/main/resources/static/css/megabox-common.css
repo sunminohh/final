@@ -32833,6 +32833,98 @@ body.body-iframe .modal-layer2 {
     border: none
 }
 
+.my-mgv-main .my-purchase-history {
+    border-top: 1px solid #555
+}
+
+.my-mgv-main .my-purchase-history ul li {
+    position: relative;
+    min-height: 140px;
+    margin: 0;
+    padding: 20px 100px 20px 100px;
+    border-bottom: 1px solid #eaeaea
+}
+
+.my-mgv-main .my-purchase-history ul li .img {
+    position: absolute;
+    left: 0;
+    top: 20px;
+    width: 70px;
+    height: 100px;
+    font-size: 0;
+    line-height: 0
+}
+
+.my-mgv-main .my-purchase-history ul li .img img {
+    width: 100%;
+    min-height: 100px;
+    height: auto
+}
+
+.my-mgv-main .my-purchase-history ul li .cont {
+    line-height: 1.1
+}
+
+.my-mgv-main .my-purchase-history ul li .cont p {
+    padding-top: 7px
+}
+
+.my-mgv-main .my-purchase-history ul li .cont .pay {
+    padding: 0 0 10px 0
+}
+
+.my-mgv-main .my-purchase-history ul li .cont .ticket em {
+    display: inline-block;
+    color: #01738b
+}
+
+.my-mgv-main .my-purchase-history ul li .cont .ticket span {
+    display: inline-block;
+    position: relative;
+    margin: 0 0 0 6px;
+    padding: 0 0 0 8px
+}
+
+.my-mgv-main .my-purchase-history ul li .cont .ticket span:before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1px;
+    height: 14px;
+    background-color: #d8d9db
+}
+
+.my-mgv-main .my-purchase-history ul li .util {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    width: 80px;
+    height: 44px;
+    margin: -22px 0 0 0;
+    text-align: right
+}
+
+.my-mgv-main .my-purchase-history ul li .util .button {
+    margin-top: 6px
+}
+
+.my-mgv-main .my-purchase-history ul li .util .saw {
+    display: block;
+    text-align: center;
+    color: #503396
+}
+
+.my-mgv-main .my-purchase-history ul li.no-result {
+    min-height: 0;
+    padding: 20px 0
+}
+
+.my-mgv-main .my-purchase-history ul li.no-result .no-history-reservation {
+    border: none
+}
+
 .my-mgv-main .brd-list {
     overflow: hidden;
     border-top: 1px solid #555;

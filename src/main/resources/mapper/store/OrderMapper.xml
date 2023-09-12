@@ -91,12 +91,24 @@
 		WHERE
 			ORDER_ID = #{value}
 	</select>
-	<select id="getOrderByUserId" parameterType="string" resultType="Order">
-		SELECT *
-		FROM MGV_ORDER
+	<select id="getOrderByUesrId" parameterType="string" resultType="Order">
+		SELECT
+			ORDER_ID					as orderId,
+			ORDER_NAME        			AS orderName,
+			USER_ID          			AS userId,
+			ORDER_PRODUCTS				as orderProducts,
+			PAY_METHOD					as payMethod,
+			PAYMENT_KEY 				as paymentKey,
+			ORDER_SPECIFIC_PRODUCTS 	as orderSpecificProducts,
+			CREATE_DATE       			AS createDate,
+			UPDATE_DATE       			AS updateDate,
+			TOTAL_PRICE       			AS totalPrice,
+			ORDER_STATE       			AS state
+		FROM
+		    MGV_ORDER
 		WHERE
-		    USER_ID = #{userId}
-		LIMIT 5
+		    USER_ID = #{value}
+		ORDER BY CREATE_DATE DESC
 	</select>
 	<update id="updateOrder" parameterType="Order">
 		update MGV_ORDER
@@ -104,7 +116,6 @@
 		    ORDER_STATE = #{state},
 		    PAYMENT_KEY = #{paymentKey},
 		    UPDATE_DATE = CURRENT_TIMESTAMP
-
 		where ORDER_ID = #{orderId}
 	</update>
 

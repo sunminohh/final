@@ -48,6 +48,7 @@ public class UserController {
     public String home(@AuthenticationPrincipal User user, Model model) {
         model.addAttribute("user", userService.getUserById(user.getId()));
         model.addAttribute("bookings",bookingService.getBookingsByUserId(user.getId()).stream().filter(b->"결제완료".equals(b.getBookingState())).collect(Collectors.toList()));
+        model.addAttribute("orders", mypageService.getOrderByUserId(user.getId()).stream().filter(order -> "결제완료".equals(order.getState())).collect(Collectors.toList()));
         return "view/user/home";
     }
 
@@ -190,7 +191,7 @@ public class UserController {
         String userId = getLoggedInUserId();
         log.info("loginId -> {}", userId);
 
-        HashMap<String, Object> orders = mypageService.getOrderByUserId(userId, startDate, endDate, state, page);
+        HashMap<String, Object> orders = mypageService.getOrders(userId, startDate, endDate, state, page);
         log.info("page -> {}", page);
         log.info("startDate -> {}", startDate);
         log.info("endDate -> {}", endDate);

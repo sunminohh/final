@@ -2,6 +2,7 @@ package kr.co.mgv.user.service;
 
 import kr.co.mgv.store.mapper.OrderMapper;
 import kr.co.mgv.store.vo.Order;
+import kr.co.mgv.support.vo.One;
 import kr.co.mgv.user.vo.UserPagination;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +17,7 @@ import java.util.List;
 public class MypageService {
     private final OrderMapper orderDao;
 
-    public HashMap<String, Object> getOrderByUserId(String userId, String startDate, String endDate, String state, int page) {
+    public HashMap<String, Object> getOrders(String userId, String startDate, String endDate, String state, int page) {
 
         int totalRows = this.getTotalRowsByUserId(userId, startDate, endDate, state);
         UserPagination pagination = new UserPagination(page, totalRows);
@@ -42,4 +43,9 @@ public class MypageService {
 
         return updateRows > 0;
     }
+
+    public List<Order> getOrderByUserId(String userId) {
+        return orderDao.getOrderByUesrId(userId);
+    }
+
 }

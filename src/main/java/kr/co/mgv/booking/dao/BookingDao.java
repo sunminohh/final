@@ -8,11 +8,11 @@ import java.util.Map;
 
 @Mapper
 public interface BookingDao {
-    public void insertBooking(Booking booking);
-    public Booking getBookingByBookingNo(long no);
-    public List<Booking> getBookings();
+    void insertBooking(Booking booking);
+    Booking getBookingByBookingNo(long no);
+    List<Booking> getBookings();
     List<Booking> getBookingsByUserId(String userId);
-    public void updateBooking(Booking Booking);
+    void updateBooking(Booking Booking);
     void insertBookedSeats(Map<String,Object> params);
     List<String> getBookedSeatsByScheduleId(int scheduleId);
     void completeBookedSeats(Map<String,Object> params);
