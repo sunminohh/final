@@ -32032,7 +32032,7 @@ body.body-iframe .modal-layer2 {
 
 .my-mgv-info {
     overflow: hidden;
-    height: 367px;
+    /*height: 367px;*/
     border-radius: 10px;
     background-color: #f3f4f6
 }
@@ -41381,7 +41381,7 @@ dl.dotListv2 dd {
 
 .my-mgv-info {
     overflow: hidden;
-    height: 387px;
+    /*height: 387px;*/
     border-radius: 10px;
     background-color: #f3f4f6
 }
@@ -41391,7 +41391,7 @@ dl.dotListv2 dd {
     padding: 40px 0 0 364px;
     height: 221px;
     background: url(https://img.megabox.co.kr/static/pc/images/2023/01/my_info_topbg.png) no-repeat;
-    background-size: 840px 221px
+    background-size: 867px 221px
 }
 
 .my-mgv-info .top2 .mbimg {

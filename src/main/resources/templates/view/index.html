@@ -313,18 +313,15 @@
       
         <!-- info-notice -->
         <div class="info-notice">
-            <div class="wrap">
-                <p class="tit">지점</p>
+            <div class="wrap" th:each="notice, iterStat : ${notice}" th:if="${iterStat.index < 1}">
+                <p class="tit" th:text="${notice.theater == null || notice.theater.name == null ? 'MGV' : notice.theater.name}"></p>
                 <p class="link">
-                    <a th:href="@{/support/notice/detail?locationNo=|&no=50&catNo=21&page=8&keyword=|}" title="공지사항 상세보기">
-                        <strong>
-                            [동대문]
-                        </strong>
-                        [동대문] 태풍 카눈 북상에 따른 주차장 사용 불가 안내(8/10부터~)</a>
+                    <a  th:href="@{/support/notice/detail(no=${notice.no})}" title="공지사항 상세보기">
+                        <strong th:text="${notice.type == '공지' ? '공지' : '이벤트'}"></strong>
+                        <span th:text="${notice.theater == null || notice.theater.name == null ? '[MGV] ' + notice.title : '['+ notice.theater.name + '] ' + notice.title}"></span>
+                    </a>
                 </p>
-
-                <p class="date">2023.07.07</p>
-
+                <p class="date" th:text="${#dates.format(notice.updateDate, 'yyyy.MM.dd')}"></p>
                 <p class="more">
                     <a href="/support/notice" title="전체공지 더보기">더보기 <i class="iconset ico-arr-right-gray"></i></a>
                 </p>
@@ -348,16 +345,12 @@
                         <span>자주 묻는 질문</span>
                     </a>
                 </div>
-
-               
-
                 <div class="cell">
                     <a href="/support/one">
                         <i class="iconset ico-main-qna"></i>
                         <span>1:1 문의</span>
                     </a>
                 </div>
-
                 <div class="cell">
                     <a href="/support/lost">
                         <i class="iconset ico-main-lost"></i>

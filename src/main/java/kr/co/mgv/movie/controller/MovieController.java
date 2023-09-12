@@ -20,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.xml.stream.events.Comment;
+import java.io.File;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -46,15 +49,18 @@ public class MovieController {
     }
 
     @GetMapping("/detail")
-    public String detail(@RequestParam("movieNo") int movieNo, Model model, @AuthenticationPrincipal User user) {
+    public String detail(@RequestParam("movieNo") int movieNo, Model model, @AuthenticationPrincipal User user)
+    {
         model.addAttribute("movie",movieService.getMovieByMovieNo(movieNo));
         List<MovieComment> movieComments = movieService.getMovieCommentsByMovieNo(movieNo);
+
         movieComments.forEach(c->c.setProfileImage(userService.getUserById(c.getUserId()).getProfileImg()));
 
 
 
         if(user!=null){
             model.addAttribute("user",userService.getUserById(user.getId()));
+
             model.addAttribute("isLiked",movieService.isMovieLikedByUser(new MovieLike(user.getId(),movieNo)));
             Set<Long> set = movieService.getMovieCommentLikeByUserId(user.getId());
             for (MovieComment movieComment : movieComments) {
