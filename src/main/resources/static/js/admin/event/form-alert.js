@@ -80,10 +80,6 @@ $(function() {
 	$('#modify-btn-submit').on("click", function(event) {
 		let faqCat = $('#eventCat').val();
 		let title = $('input[name=title]').val();
-		/*
-		let startDate = $('input[name=originalstartDate]').val()
-		$("#eventStartDate").val(startDate);
-		*/
 		let eventStartDate = $('input[name=startDate]').val();
 		let eventEndDate = $('input[name=endDate]').val();
 		let file1 = $('input[name=file1]').val();
