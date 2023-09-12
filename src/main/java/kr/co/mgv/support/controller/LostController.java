@@ -2,7 +2,9 @@ package kr.co.mgv.support.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,6 +14,7 @@ import java.util.Map;
 
 import kr.co.mgv.common.vo.MgvFile;
 import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -193,7 +196,7 @@ public class LostController {
 	}
 
 	@GetMapping("/download")
-	public ResponseEntity<UrlResource> download(@RequestParam("no") int fileNo) {
+	public ResponseEntity<UrlResource> download(@RequestParam("no") int fileNo) throws UnsupportedEncodingException {
 		LostFile lostFile = lostService.getLostFileByFileNo(fileNo);
 
 		if (lostFile == null) {
@@ -208,9 +211,10 @@ public class LostController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
+		String encodedFileName = URLEncoder.encode(lostFile.getOriginalName(), "UTF-8").replaceAll("\\+", "%20");
 		return ResponseEntity.ok()
 			.contentType(MediaType.parseMediaType("application/octet-stream"))
-			.header("content-disposition", "attachment;filename=" + lostFile.getOriginalName())
+			.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename*=UTF-8''" + encodedFileName)
 			.body(resource);
 	}
 
