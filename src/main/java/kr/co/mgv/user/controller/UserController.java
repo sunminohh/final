@@ -23,6 +23,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @Secured({"ROLE_USER", "ROLE_ADMIN"})
@@ -171,7 +173,10 @@ public class UserController {
 
     @GetMapping("/booking")
     public String bookinghome(@AuthenticationPrincipal User user, Model model) {
-        model.addAttribute("bookings", bookingService.getBookingsByUserId(user.getId()));
+        List<Booking> bookingAll = bookingService.getBookingsByUserId(user.getId());
+        
+        model.addAttribute("bookings",bookingAll.stream().filter(b->"결제완료".equals(b.getBookingState())).collect(Collectors.toList()));
+        model.addAttribute("bookingCancels",bookingAll.stream().filter(b->"예매취소".equals(b.getBookingState())).collect(Collectors.toList()));
         model.addAttribute("totalRows", bookingService.getTotalRows(user.getId()));
         return "view/user/booking/list";
     }

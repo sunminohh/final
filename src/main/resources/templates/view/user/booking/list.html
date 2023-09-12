@@ -20,56 +20,13 @@
         <div id="booking-tab" class="tab-cont on"><a href="" class="ir">예매 탭 화면 입니다.</a>
 
             <!-- 예매 조회 조건 -->
-            <div class="board-list-search mt20">
-                <table summary="예매 조회 조건">
-                    <colgroup>
-                        <col style="width:75px;">
-                        <col>
-                    </colgroup>
-                    <tbody>
-                    <tr>
-                        <th scope="row">구분</th>
-                        <td>
-                            <input type="radio" id="radBokd01" name="radBokd" value="B" checked="checked">
-                            <label for="radBokd01">예매내역 </label>
-                            <input type="radio" id="radBokd02" name="radBokd" value="E">
-                            <label for="radBokd02">지난내역 </label>
 
-                            <div class="dropdown bootstrap-select disabled small bs3">
-                                <select name="selYM" class="selectpicker small" disabled="disabled" tabindex="-98">
-
-                                    <option value="202308">2023년 8월</option>
-                                </select>
-                                <button type="button" class="btn dropdown-toggle disabled btn-default" data-toggle="dropdown" role="button" tabindex="-1" aria-disabled="true" title="2023년 8월">
-                                    <div class="filter-option">
-                                        <div class="filter-option-inner">
-                                            <div class="filter-option-inner-inner">2023년 8월</div>
-                                        </div>
-                                    </div>
-                                    <span class="bs-caret"><span class="caret"></span></span></button>
-                                <div class="dropdown-menu open" role="combobox">
-                                    <div class="inner open" role="listbox" aria-expanded="false" tabindex="-1">
-                                        <ul class="dropdown-menu inner "></ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <button type="button" class="button gray-line small ml05" name="search">
-                                <i class="iconset ico-search-gray"></i> 조회
-                            </button>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <!-- 예매 조회 조건 End -->
 
             <!-- 예매 영화 목록 -->
             <div id="bookingList">
 
                 <div id="bokdList">
                     <div class="board-list-util">
-                        <p class="result-count pt00"><strong>총<b class="font-gblue" th:text="${bookings.size}"></b>건</strong></p>
                         <p class="result-count pt00"><strong>총<b class="font-gblue" th:text="${totalRows != null ? totalRows : 0}"></b>건</strong></p>
                     </div>
                     <div class="history-reservation">
@@ -116,9 +73,9 @@
                                         </tr>
                                         <tr>
                                             <th scope="row" class="a-r">관람시간</th>
-                                            <td th:text="${booking.startTime} +  '~' + ${booking.endTime} "></td>
+                                            <td th:text="${booking.startTime} +  '~' + ${booking.endTime}"></td>
                                             <th scope="row" class="a-r">결제일시</th>
-                                            <td th:text="${#dates.format(booking.createDate,'yyyy-MM-dd')}">
+                                            <td th:text="${#dates.format(booking.createDate,'yyyy-MM-dd HH:mm:ss')}">
                                                 <a href="#" class="button gray-line x-small" title="결제정보">결제정보</a>
                                             </td>
                                         </tr>
@@ -156,12 +113,20 @@
                         <th scope="col">취소일시</th>
                         <th scope="col">영화명</th>
                         <th scope="col">극장</th>
+                        <th scope="col">취소좌석</th>
                         <th scope="col">상영일시</th>
                         <th scope="col">취소금액</th>
                     </tr>
                     </thead>
                     <tbody id="bokCancelTableBody">
-
+                    <tr th:each=" bookingCancel, k : ${bookingCancels}" th:bookingNo="${bookingCancel.no}">
+                        <td th:text="${#dates.format(bookingCancel.createDate,'yyyy-MM-dd hh:mm:ss')}"></td>
+                        <td th:text="${bookingCancel.title}"></td>
+                        <td th:text="|${bookingCancel.theaterName} / ${bookingCancel.screenName}|"></td>
+                        <td th:text="|${bookingCancel.bookedSeatsNos} |"></td>
+                        <td th:text="${#dates.format(bookingCancel.bookingDate,'yyyy-MM-dd')}"></td>
+                        <td th:text="${bookingCancel.totalPrice}"></td>
+                    </tr>
                     </tbody>
                 </table>
             </div>

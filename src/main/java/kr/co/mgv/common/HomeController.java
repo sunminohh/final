@@ -4,6 +4,8 @@ import kr.co.mgv.board.list.BoardList;
 import kr.co.mgv.board.service.MyBoardService;
 import kr.co.mgv.common.dao.CommonDao;
 import kr.co.mgv.common.vo.MgvFile;
+import kr.co.mgv.movie.service.MovieService;
+import kr.co.mgv.movie.vo.Movie;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +17,7 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -38,6 +41,7 @@ public class HomeController {
 
     private final MyBoardService myBoardService;
     private final CommonDao commonDao;
+    private final MovieService movieService;
 
     @Value("${default-file-path}")
     private String defaultFilePath;
@@ -54,9 +58,14 @@ public class HomeController {
 
         List<BoardList> commentList = myBoardService.getBest5("comment");
         List<BoardList> likeList = myBoardService.getBest5("like");
-
+        List<Movie> topMovies = movieService.getMovieChart(4);
+        if(user!=null){
+            HashSet<Integer> favMovieNos = movieService.getAllLikedMovieNos(user.getId());
+            topMovies.forEach(movie -> movie.setLiked(favMovieNos.contains(movie.getNo())));
+        }
         model.addAttribute("like", likeList);
         model.addAttribute("comment", commentList);
+        model.addAttribute("topMovies",topMovies);
         return "view/index";
     }
 
