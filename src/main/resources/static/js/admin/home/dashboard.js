@@ -198,7 +198,7 @@ $(() => {
 	                                <div class="timeline-badge-wrap d-flex flex-column align-items-center">
 	                                    <span class="timeline-badge border-2 border ${item.bookingState.endsWith('완료') ? 'border-primary':'border-danger'} flex-shrink-0 my-8"></span>
 	                                </div>
-	                                <div class="timeline-desc fs-3 text-dark mt-n1">${item.title} ${item.payAmount}원 ${item.bookingState}</div>
+	                                <div class="timeline-desc fs-3 text-dark mt-n1">${item.title} ${item.payAmount}원 <br>${item.bookingState}</div>
 	                            </li>`
 			$bookingList.append(timelineItem);
 		})
@@ -210,9 +210,9 @@ $(() => {
 			const timelineItem=`<li class="timeline-item d-flex position-relative overflow-hidden">
 	                                <div class="timeline-time text-dark flex-shrink-0 text-end">${dayjs(item.updateDate).format('DD일 HH:mm')}</div>
 	                                <div class="timeline-badge-wrap d-flex flex-column align-items-center">
-	                                    <span class="timeline-badge border-2 border ${item.orderState.endsWith('완료') ? 'border-primary':'border-danger'} flex-shrink-0 my-8"></span>
+	                                    <span class="timeline-badge border-2 border ${item.state.endsWith('완료') ? 'border-primary':'border-danger'} flex-shrink-0 my-8"></span>
 	                                </div>
-	                                <div class="timeline-desc fs-3 text-dark mt-n1">${item.orderName} ${item.totalPrice}원 ${item.orderState}</div>
+	                                <div class="timeline-desc fs-3 text-dark mt-n1">${item.orderName} ${item.totalPrice}원<br> ${item.state}</div>
 	                            </li>`
 			$orderList.append(timelineItem);
 		})
