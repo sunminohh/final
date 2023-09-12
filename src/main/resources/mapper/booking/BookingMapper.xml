@@ -141,7 +141,7 @@
 		    OR
 		    BOOKING_STATE LIKE '%취소'
 		ORDER BY
-		    CREATE_DATE DESC 
+		    UPDATE_DATE DESC 
 		LIMIT
 		    6;  
     </select>
