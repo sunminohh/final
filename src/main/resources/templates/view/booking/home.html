@@ -20,6 +20,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.9/dayjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.9/locale/ko.min.js"></script>
     <script src="https://js.tosspayments.com/v1"></script>
+    <link
+  rel="stylesheet"
+  href="https://unpkg.com/simplebar@latest/dist/simplebar.css"
+/>
+<script src="https://unpkg.com/simplebar@latest/dist/simplebar.min.js"></script>
 </head>
 <div layout:fragment="content">
 
@@ -110,10 +115,10 @@
                                     <!-- all : 전체 -->
                                     <div class="all-list">
                                         <button type="button" class="btn-tab on" id="movie-all">전체</button>
-                                        <div class="list">
-                                            <div class="scroll m-scroll mCustomScrollbar _mCS_1" id="movieList">
-                                                <div id="mCSB_1" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" style="max-height: none;" tabindex="0">
-                                                    <div id="mCSB_1_container123" class="mCSB_container" style="position:relative; top:0; left:0;" dir="ltr">
+                                        <div data-simplebar class="list">
+                                            <div  class="scroll m-scroll mCustomScrollbar_mCS_1 " id="movieList">
+                                                <div  id="mCSB_1" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" style="max-height: none;" tabindex="0">
+                                                    <div  id="mCSB_1_container123" class="mCSB_container" style="position:relative; top:0; left:0;" dir="ltr">
                                                         <ul>
                                                             <li th:each="movie, i : ${movies}">
                                                                 <button th:type="button"th:id="|mBtn-${movie.no}|" th:contentRatingKr = "${movie.contentRatingKr}" th:contentRating="${movie.contentRating}" class="btn btn-movie" th:movie-nm="${movie.title}" th:movie-no="${movie.no}" th:img-path="${movie.getMainPoster()}" movie-popup-at="N" movie-popup-no="0" form-at="Y">
@@ -125,14 +130,7 @@
                                                             </li>
                                                         </ul>
                                                     </div>
-                                                    <div id="mCSB_1_scrollbar_verticalaaadfdfdf" class="mCSB_scrollTools mCSB_1_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: block;">
-                                                        <div class="mCSB_draggerContainer">
-                                                            <div id="mCSB_1_dragger_vertical12" class="mCSB_dragger" style="position: absolute; min-height: 30px; display: block; max-height: 310px; top: 0px; height: 58px;">
-                                                                <div class="mCSB_dragger_bar" style="line-height: 30px;"></div>
-                                                            </div>
-                                                            <div class="mCSB_draggerRail"></div>
-                                                        </div>
-                                                    </div>
+                                                   
                                                 </div>
                                             </div>
                                         </div>
