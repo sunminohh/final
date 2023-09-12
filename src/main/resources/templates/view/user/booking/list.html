@@ -93,10 +93,6 @@
 
             <h3 class="tit mt70">예매취소내역</h3>
 
-            <ul class="dot-list">
-                <li>상영일 기준 7일간 취소내역을 확인하실 수 있습니다.</li>
-            </ul>
-
             <!-- 취소한 예매 영화 목록 -->
             <div class="table-wrap mt10">
                 <table class="board-list" summary="취소일시, 영화명, 극장, 상영일시, 취소금액 항목을 가진 취소내역 목록 표">
@@ -125,7 +121,7 @@
                         <td th:text="|${bookingCancel.theaterName} / ${bookingCancel.screenName}|"></td>
                         <td th:text="|${bookingCancel.bookedSeatsNos} |"></td>
                         <td th:text="${#dates.format(bookingCancel.bookingDate,'yyyy-MM-dd')}"></td>
-                        <td th:text="${bookingCancel.totalPrice}"></td>
+                        <td style="color: #db0f02" th:text="${#numbers.formatInteger(bookingCancel.totalPrice, 0, 'COMMA')}"></td>
                     </tr>
                     </tbody>
                 </table>
