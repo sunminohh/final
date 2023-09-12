@@ -63,7 +63,7 @@ $(() => {
     });
 
     $("#btnCheck").on("click", function () {
-        searchPurchase();
+        searchOrder();
     });
 
     // 페이지네이션 클릭
@@ -72,10 +72,10 @@ $(() => {
         let page = $(this).attr("data-page");
         $('.page-number-link').removeClass('active');
         $(this).addClass('active');
-        searchPurchase(page);
+        searchOrder(page);
     })
 
-    function searchPurchase(page = 1) {
+    function searchOrder(page = 1) {
         const startDate = $("#startDate").val();
         const endDate = $("#endDate").val();
         const state = $('input[name="state"]:checked').val();
@@ -88,12 +88,12 @@ $(() => {
                 let $tbody = $("#orderTableBody");
                 let $pagination = $(".pagination");
                 let $totalRows = $(".font-gblue");
-                const { order, pagination, totalRows } = data;
+                const { orders, pagination, totalRows } = data;
 
                 $totalRows.text(totalRows);
                 $tbody.empty();
 
-                if (order.length === 0) {
+                if (orders.length === 0) {
                     $tbody.append(`
                         <tr>
                             <td colspan="4" class="a-c">결제내역이 없습니다.</td>
@@ -102,16 +102,17 @@ $(() => {
                     $pagination.empty();
                 } else {
                     $.each(orders, function (index, order) {
-                        let priceFormatted = order.totalPrice % 1000 === 0 ? new Intl.NumberFormat('ko-KR').format(order.totalPrice) : order.totalPrice;
+                        let priceFormatted = new Intl.NumberFormat('ko-KR').format(order.totalPrice);
 
                         let actionCellContent;
                         let statusClass = '';
 
-                        if (cancelPurchase(order.createDate) && order.state === '결제완료') {
-                            actionCellContent = `<button type="button" class="button gray-line small btnCancelPruc" data-order-id="${order.id}">구매취소</button>`;
+                        if (cancelOrder(order.createDate) && order.state === '결제완료') {
+                            actionCellContent = `<button type="button" class="button gray-line small btnCancelPruc" data-order-id="${order.orderId}">구매취소</button>`;
+                            console.log("버튼 생성 : orderId -> ", order.orderId);
                             statusClass = 'font-gblue';
                         } else if (order.state === '결제완료') {
-                            actionCellContent = `<button type="button" class="button gray-line small btnCancelPruc" data-order-id="${order.id}">구매취소</button>`;
+                            actionCellContent = '결제완료';
                             statusClass = 'font-gblue';
                         } else {
                             actionCellContent = '결제취소';
@@ -124,7 +125,6 @@ $(() => {
                             <td>${order.orderName}</td>
                             <td class="${statusClass}">${priceFormatted}</td>
                             <td>${actionCellContent}</td>
-                            
                         </tr>
                         `);
                     });
@@ -139,18 +139,18 @@ $(() => {
 
     }
 
-    function cancelPurchase(purchaseDate) {
+    function cancelOrder(createDate) {
         let currentDate = moment();
-        let expirationDate = moment(purchaseDate).add(7, 'days');
+        let expirationDate = moment(createDate).add(7, 'days');
 
         return currentDate.isBefore(expirationDate);
     }
 
     $(document).on('click', '.btnCancelPruc', function () {
-        let purchaseNo = $(this).attr("data-order-no");
-        let purchaseDate = $(this).closest('tr').find('td:first').text();
+        let orderId = $(this).attr("data-order-id");
+        let createDate = $(this).closest('tr').find('td:first').text();
 
-        if (!cancelPurchase(purchaseDate)) {
+        if (!cancelOrder(createDate)) {
             Swal.fire({
                 icon: "warning",
                 title: "구매 취소 불가",
@@ -170,14 +170,14 @@ $(() => {
                 $.ajax({
                     url: '/mypage/order/cancel',
                     type: "POST",
-                    data: {"no": purchaseNo},
+                    data: {"orderId": orderId},
                     success: function () {
                         Swal.fire({
                             icon: 'success',
                             title: '취소 완료',
                             text: '구매취소 되었습니다.'
                         });
-                        searchPurchase();
+                        searchOrder();
                     },
                     error: function (error) {
                         Swal.fire({

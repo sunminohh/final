@@ -323,8 +323,8 @@
                     <li class="type01 oneContentTag" sec:authorize="isAuthenticated()">
                         <div class="story-area">
                             <div class="user-prof"  >
-                                <div class="prof-img"><img id="userProfileImage" th:src="@{/images/user/profile/default.png}" alt="프로필 사진"
-                                                           title="프로필 사진" ></div>
+                                <div class="prof-img"><img th:src="${user.profileImg !=null } ? ${'/common/image/'+user.profileImg} : '/images/user/profile/default.png'" alt="프로필 사진"
+                                                           title="프로필 사진" onerror="noImg(this, 'human')"></div>
                                 <p class="user-id" th:text="${#authentication.principal.id}"></p></div>
                             <div class="story-box">
                                 <div class="story-wrap review">

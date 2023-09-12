@@ -2,6 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.mgv.common.dao.CommonDao">
 
+    <select id="selectTopMovieImageUrl" resultType="string">
+        SELECT SUBSTRING_INDEX(t.MOVIE_POSTERURL, ' ', 1) AS first_url
+        FROM (
+                 SELECT MOVIE_POSTERURL
+                 FROM MGV_MOVIE
+                 ORDER BY MOVIE_CHART_RANK
+                     LIMIT 10
+             ) AS t
+        ORDER BY RAND()
+            LIMIT 1
+    </select>
+
     <insert id="insertMgvFile" useGeneratedKeys="true" keyProperty="fileId">
         INSERT INTO MGV_FILE_INFO(ORIGIN_NAME
                                 , STORED_NAME

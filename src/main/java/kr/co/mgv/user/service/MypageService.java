@@ -21,11 +21,11 @@ public class MypageService {
         int totalRows = this.getTotalRowsByUserId(userId, startDate, endDate, state);
         UserPagination pagination = new UserPagination(page, totalRows);
 
-        List<Order> order = orderDao.getOrders(userId, startDate, endDate, state, pagination.getBegin(), pagination.getEnd());
+        List<Order> orders = orderDao.getOrders(userId, startDate, endDate, state, pagination.getBegin(), pagination.getEnd());
         log.info("begin -> {}", pagination.getBegin());
         log.info("end -> {}", pagination.getEnd());
         HashMap<String, Object> result = new HashMap<>();
-        result.put("order", order);
+        result.put("orders", orders);
         result.put("pagination", pagination);
         result.put("totalRows", totalRows);
         return result;
@@ -38,7 +38,7 @@ public class MypageService {
 
     // 구매내역 취소
     public boolean cancelOrder(long orderId) {
-        int updateRows = orderDao.updateOrderById(orderId);
+        long updateRows = orderDao.updateOrderById(orderId);
 
         return updateRows > 0;
     }

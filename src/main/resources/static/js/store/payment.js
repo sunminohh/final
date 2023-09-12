@@ -203,7 +203,6 @@ $(()=>{
             orderName: orderName,
             orderProducts: orderProducts.join('+'),
             orderSpecificProducts: orderSpecificProducts.join('+')}
-
         fetch("/api/order/requestPayment",{
             method:'post',
             headers:{
@@ -250,6 +249,8 @@ $(()=>{
                             icon: 'warning',
                             text: "사용자가 취소했습니다."
                         });
+                        deleteOrder(requestJson);
+
                     } else {
                         alert(error.message);
                         Swal.fire({
@@ -257,8 +258,11 @@ $(()=>{
                             text: error.message
                         });
                     }
-
                 });
         }
+    }
+    function deleteOrder(requestJson) {
+        const orderId = requestJson.orderId
+        $.get("/order/deleteOrder" ,{"orderId": orderId})
     }
 })

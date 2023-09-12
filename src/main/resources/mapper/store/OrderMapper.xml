@@ -24,7 +24,7 @@
 			TOTAL_PRICE	AS totalPrice,
 			CREATE_DATE	AS createDate,
 			UPDATE_DATE	AS updateDate,
-			ORDER_STATE	AS orderState
+			ORDER_STATE	AS state
     	FROM
     		MGV_ORDER
     	WHERE
@@ -38,22 +38,23 @@
     </select>
 
 	<!-- pagnation -->
-	<select id="getOrders" parameterType="map" resultType="Order">
+	<select id="getOrders" parameterType="string" resultType="Order">
 		select *
 			from (SELECT ROW_NUMBER() OVER (ORDER BY CREATE_DATE DESC) as ROW_NUM,
+				ORDER_ID			AS orderId,
 				ORDER_NAME        	AS orderName,
 				USER_ID           	AS userId,
 				TOTAL_PRICE       	AS totalPrice,
 				PAY_METHOD			AS payMethod,
-				CRETAE_DATE       	AS createDate,
+				CREATE_DATE       	AS createDate,
 				UPDATE_DATE       	AS updateDate,
-				ORDER_STATE       	AS orderState
+				ORDER_STATE       	AS state
 			FROM
 				MGV_ORDER
 			WHERE
 				USER_ID = #{userId}
-				<if test="status neq null and status != ''">
-					AND ORDER_STATE = #{stat}
+				<if test="state != ''">
+					AND ORDER_STATE = #{state}
 				</if>
 			AND CREATE_DATE BETWEEN #{startDate} AND #{endDate}) as ORDER_ROW
 		WHERE ROW_NUM BETWEEN #{begin} and #{end};
@@ -66,25 +67,25 @@
 			MGV_ORDER
 		WHERE
 			USER_ID = #{userId}
-			<if test="status neq null and status != ''">
-				AND ORDER_STATE = #{status}
+			<if test="state != null and state != ''">
+				AND ORDER_STATE = #{state}
 			</if>
 		AND CREATE_DATE BETWEEN #{startDate} AND #{endDate}
 	</select>
 
 	<select id="getOrderById" parameterType="long" resultType="Order">
 		select
-		    ORDER_ID		as orderId,
-			ORDER_NAME        AS orderName,
-			USER_ID           AS userId,
-			ORDER_PRODUCTS		as orderProducts,
-			PAY_METHOD			as payMethod,
-			PAYMENT_KEY 		as paymentKey,
+		    ORDER_ID					as orderId,
+			ORDER_NAME        			AS orderName,
+			USER_ID          			AS userId,
+			ORDER_PRODUCTS				as orderProducts,
+			PAY_METHOD					as payMethod,
+			PAYMENT_KEY 				as paymentKey,
 			ORDER_SPECIFIC_PRODUCTS 	as orderSpecificProducts,
-			CREATE_DATE       AS createDate,
-			UPDATE_DATE       AS updateDate,
-			TOTAL_PRICE       AS totalPrice,
-			ORDER_STATE       AS orderState
+			CREATE_DATE       			AS createDate,
+			UPDATE_DATE       			AS updateDate,
+			TOTAL_PRICE       			AS totalPrice,
+			ORDER_STATE       			AS state
 		FROM
 			MGV_ORDER
 		WHERE
@@ -93,7 +94,7 @@
 	<update id="updateOrder" parameterType="Order">
 		update MGV_ORDER
 		SET
-		    ORDER_STATE = #{orderState},
+		    ORDER_STATE = #{state},
 		    PAYMENT_KEY = #{paymentKey},
 		    UPDATE_DATE = CURRENT_TIMESTAMP
 
@@ -102,8 +103,14 @@
 
 	<update id="updateOrderById" parameterType="long">
 		UPDATE MGV_ORDER
-		SET PURCHASE_STATUS = '결제취소',
-			PURCHASE_CANCELED_DATE = CURRENT_TIMESTAMP
+		SET ORDER_STATE = '결제취소',
+			UPDATE_DATE = CURRENT_TIMESTAMP
 		WHERE ORDER_ID = #{orderId}
 	</update>
+
+	<delete id="deleteOrder" parameterType="long">
+		DELETE FROM MGV_ORDER
+		WHERE ORDER_ID = #{value}
+	</delete>
+
 </mapper>

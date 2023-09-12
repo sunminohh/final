@@ -5,6 +5,7 @@ $(() => {
 
     // 로그인 모달 탭
     $("#loginType>.btn-type").on("click", function (e) {
+
         $(this).parent().find(".btn-type").removeClass("active");
         $(this).addClass("active");
 
@@ -19,6 +20,11 @@ $(() => {
 
     // 로그인 모달 표출
     $(".btn-login").on("click", () => {
+
+        $.get("/topMovieImage").then(url => {
+            $(".login-modal .modal-right img").attr("src", url);
+        });
+        
         $username.val("");
         $password.val("");
 

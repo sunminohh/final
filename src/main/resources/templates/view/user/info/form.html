@@ -31,7 +31,7 @@
                             <input type="file" id="userImgFile" name="file" style="display: none;">
                         </form>
                         <div class="profile-img">
-                            <img id="profileImage" th:src="${user.profileImg != null ? '/images/user/profile/' + user.profileImg : '/images/user/profile/default.png'}" data-default-src="/images/user/profile/default.png">
+                            <img id="profileImage" th:src="${user.profileImg != null ? '/common/image/' + user.profileImg : '/images/user/profile/default.png'}" data-default-src="/images/user/profile/default.png">
                         </div>
                         <button id="btnAddProfileImg" type="button" class="button small gray-line">이미지 등록</button>
                         <button id="btnDefaultProfileImg" type="button" class="button small gray-line" style="display: none">이미지 삭제</button>
