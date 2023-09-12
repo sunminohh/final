@@ -18,7 +18,7 @@ $(() => {
             			<div class="theater-tit">
 							<p class="movie-grade age-${movie.contentRating}"></p>
 							<p>
-								<a href="/movie-detail?rpstMovieNo=${movie.movieNo}" title="${movie.movieTitle} 상세보기">${movie.movieTitle}</a>
+								<a href="/movie/detail?movieNo=${movie.movieNo}" title="${movie.movieTitle} 상세보기">${movie.movieTitle}</a>
 							</p>
 							<p class="infomation">
 								<span>상영중</span>/상영시간 ${movie.runtime}분
