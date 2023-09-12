@@ -4,6 +4,8 @@ import kr.co.mgv.board.list.BoardList;
 import kr.co.mgv.board.service.MyBoardService;
 import kr.co.mgv.common.dao.CommonDao;
 import kr.co.mgv.common.vo.MgvFile;
+import kr.co.mgv.support.service.NoticeService;
+import kr.co.mgv.support.vo.Notice;
 import kr.co.mgv.user.vo.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +38,7 @@ import javax.annotation.Resource;
 @RequiredArgsConstructor
 public class HomeController {
 
+	private final NoticeService noticeService;
     private final MyBoardService myBoardService;
     private final CommonDao commonDao;
 
@@ -54,7 +57,10 @@ public class HomeController {
 
         List<BoardList> commentList = myBoardService.getBest5("comment");
         List<BoardList> likeList = myBoardService.getBest5("like");
-
+        
+        List<Notice> notice = noticeService.getNoticeList();
+    	
+    	model.addAttribute("notice", notice);
         model.addAttribute("like", likeList);
         model.addAttribute("comment", commentList);
         return "view/index";
