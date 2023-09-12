@@ -10,10 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/user")
@@ -25,7 +22,6 @@ public class UserFindController {
     private final EmailServiceImpl emailService;
     private final PasswordEncoder passwordEncoder;
 
-    // todo find
     @GetMapping("/user-find")
     public String findForm() {
         return "view/user/find/user-find";
