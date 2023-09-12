@@ -120,7 +120,7 @@
                     </thead>
                     <tbody id="bokCancelTableBody">
                     <tr th:each=" bookingCancel, k : ${bookingCancels}" th:bookingNo="${bookingCancel.no}">
-                        <td th:text="${#dates.format(bookingCancel.createDate,'yyyy-MM-dd hh:mm:ss')}"></td>
+                        <td th:text="${#dates.format(bookingCancel.updateDate,'yyyy-MM-dd hh:mm:ss')}"></td>
                         <td th:text="${bookingCancel.title}"></td>
                         <td th:text="|${bookingCancel.theaterName} / ${bookingCancel.screenName}|"></td>
                         <td th:text="|${bookingCancel.bookedSeatsNos} |"></td>

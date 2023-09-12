@@ -102,6 +102,8 @@
             MGV_BOOKING
         WHERE
             USER_ID = #{VALUE}
+        ORDER BY
+            UPDATE_DATE DESC
     </select>
     <select id="getBookings" resultType="Booking">
         select
