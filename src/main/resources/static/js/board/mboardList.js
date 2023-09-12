@@ -20,7 +20,21 @@
 		document.querySelector("#form-board-search").submit();
 	}
 	
-	function searchBoard(){	
+	function searchBoard(event) {
+	    if (event.key !== null && event.key === "Enter") {
+	        event.preventDefault(); // 기본 엔터 동작을 취소
+	        let keyword = document.querySelector("input[name=keyword]").value;
+	        if (keyword.trim() === "") {
+	            alert("키워드를 입력하세요");
+	            document.querySelector("input[name=page]").value = 1;
+	        } else {
+	            document.querySelector("input[name=page]").value = 1;
+	            document.querySelector("#form-board-search").submit();
+	        }
+	    }
+	}
+
+	function searchBoardBtn(){	
 		let keyword = document.querySelector("input[name=keyword]").value;
 		if(keyword.trim() === ""){
 			alert("키워드를 입력하세요")			
@@ -30,6 +44,8 @@
 		document.querySelector("input[name=page]").value = 1;
 		document.querySelector("#form-board-search").submit();
 	}
+	
+
 	
 	function changeCom() {
     let complete = document.querySelector("select[name=complete]").value;

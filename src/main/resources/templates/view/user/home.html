@@ -95,16 +95,22 @@
             <div class="tit-util mt70">
                 <h2 class="tit small">나의 예매내역</h2>
 
-                <a href="#" class="more">더보기 <i class="iconset ico-arr-right-gray"></i></a>
+                <a th:href="@{/mypage/booking}" class="more">더보기 <i class="iconset ico-arr-right-gray"></i></a>
             </div>
 
             <!-- my-reserve-history -->
             <div class="my-reserve-history">
                 <ul>
-                    <li class="no-result">
+                    <li class="no-result" th:if="${bookings.size==0}">
                         <!--todo if문 -->
                         <div class="no-history-reservation">
                             예매 내역이 없습니다.
+                        </div>
+                    </li>
+                    <li class="no-result" th:if="${bookings.size>0}" th:each="booking,i : ${bookings}">
+                        <!--todo if문 -->
+                        <div class="no-history-reservation" th:text="|${bookings.size} 건의 예매 내역이 있습니다.|">
+
                         </div>
                     </li>
                 </ul>
@@ -116,7 +122,7 @@
             <div class="tit-util mt70">
                 <h2 class="tit small">나의 구매내역</h2>
 
-                <a href="#" class="more">더보기 <i class="iconset ico-arr-right-gray"></i></a>
+                <a th:href="@{/mypage/booking}"class="more">더보기 <i class="iconset ico-arr-right-gray"></i></a>
             </div>
 
             <div class="table-wrap">

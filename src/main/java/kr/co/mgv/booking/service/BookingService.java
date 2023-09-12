@@ -141,7 +141,7 @@ public class BookingService {
 
     public void completeBooking(Booking booking) {
         Movie movie = movieService.getMovieByMovieNo(booking.getMovieNo());
-        movie.setSeatsBooked(movie.getSeatsBooked() + booking.getTotalSeats());
+        movie.setSeatsBooked(Math.max(movie.getSeatsBooked() + booking.getTotalSeats(),0));
         movieDao.updateMovie(movie);
         completeBookedSeats(booking);
         updateBooking(booking);
@@ -156,7 +156,7 @@ public class BookingService {
     public void deleteBookingByBookingNo(long bookingNo) {
         Booking booking = bookingDao.getBookingByBookingNo(bookingNo);
         Movie movie = movieService.getMovieByMovieNo(booking.getMovieNo());
-        movie.setSeatsBooked(Math.min(movie.getSeatsBooked() - booking.getTotalSeats(), 0));
+        movie.setSeatsBooked(Math.max(movie.getSeatsBooked() - booking.getTotalSeats(), 0));
         movieDao.updateMovie(movie);
         Map<String, Object> params = new HashMap<>();
         String[] seats = booking.getBookedSeatsNos().split(",");

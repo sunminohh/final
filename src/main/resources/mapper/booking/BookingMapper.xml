@@ -101,7 +101,9 @@
         from
             MGV_BOOKING
         WHERE
-            USER_ID = #{VALUE} AND BOOKING_STATE = '결제완료'
+            USER_ID = #{VALUE}
+        ORDER BY
+            UPDATE_DATE DESC
     </select>
     <select id="getBookings" resultType="Booking">
         select
@@ -187,6 +189,6 @@
     </update>
     <delete id="clearTimeOutBookedSeats">
         delete from MGV_BOOKED_SEATS
-        WHERE IS_COMPLETE = 0 AND TIMESTAMPDIFF(SECOND,CREATE_DATE,CURRENT_TIMESTAMP)>60;
+        WHERE IS_COMPLETE = 0 AND TIMESTAMPDIFF(SECOND,CREATE_DATE,CURRENT_TIMESTAMP)>180;
     </delete>
 </mapper>
