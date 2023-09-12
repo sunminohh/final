@@ -4,9 +4,10 @@
 <head th:fragment="extra-head-content">
     <script th:src="@{/js/user/pagination.js}"></script>
     <script th:src="@{/js/user/booking.js}"></script>
+    <script th:src="@{/js/user/list.js}"></script>
 </head>
 <div id="contents" layout:fragment="content">
-    <script th:src="@{/js/user/list.js}"></script>
+
     <h2 class="tit">예매/구매 내역</h2>
     <div class="tab-block">
         <ul>
@@ -114,8 +115,11 @@
                         <th scope="col">취소금액</th>
                     </tr>
                     </thead>
-                    <tbody id="bokCancelTableBody">
-                    <tr th:each=" bookingCancel, k : ${bookingCancels}" th:bookingNo="${bookingCancel.no}">
+                    <tbody>
+                    <tr>
+                        <td colspan="6" lass="a-c" th:if="${#lists.isEmpty(bookingCancel)}">예매 내역이 없습니다.</td>
+                    </tr>
+                    <tr th:each="bookingCancel, k : ${bookingCancels}" th:bookingNo="${bookingCancel.no}">
                         <td th:text="${#dates.format(bookingCancel.updateDate,'yyyy-MM-dd hh:mm:ss')}"></td>
                         <td th:text="${bookingCancel.title}"></td>
                         <td th:text="|${bookingCancel.theaterName} / ${bookingCancel.screenName}|"></td>
@@ -123,6 +127,7 @@
                         <td th:text="${#dates.format(bookingCancel.bookingDate,'yyyy-MM-dd')}"></td>
                         <td style="color: #db0f02" th:text="${#numbers.formatInteger(bookingCancel.totalPrice, 0, 'COMMA')}"></td>
                     </tr>
+
                     </tbody>
                 </table>
             </div>
