@@ -46,7 +46,7 @@ public class UserController {
 
     @RequestMapping({"/", ""})
     public String home(@AuthenticationPrincipal User user, Model model) {
-        model.addAttribute("user", user);
+        model.addAttribute("user", userService.getUserById(user.getId()));
         model.addAttribute("bookings",bookingService.getBookingsByUserId(user.getId()).stream().filter(b->"결제완료".equals(b.getBookingState())).collect(Collectors.toList()));
         return "view/user/home";
     }

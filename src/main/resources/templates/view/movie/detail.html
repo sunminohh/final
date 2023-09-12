@@ -367,8 +367,8 @@
                         <div class="story-area">
                             <div class="user-prof">
                                 <div class="prof-img"><img
-                                        th:src="@{/images/user/profile/default.png}"
-                                        alt="프로필 사진" title="프로필 사진"></div>
+                                        th:src="${comment.profileImage != null ? '/common/image/'+comment.profileImage : '/images/user/profile/default.png'}"
+                                        ></div>
                                 <p class="user-id" th:text="${comment.userId}" ></p></div>
                             <div class="story-box">
                                 <div class="story-wrap review">
