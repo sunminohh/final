@@ -41403,7 +41403,8 @@ dl.dotListv2 dd {
 }
 
 .my-mgv-info .top2 .mbimg img {
-    width: 100%
+    width: 90px;
+    height: 120px;
 }
 
 .my-mgv-info .top2 .mb_name {
