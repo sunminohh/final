@@ -24,7 +24,11 @@
                   </div>
 
                 </div> -->
-                <div class="mbimg"><img th:src="|/common/image/${user.getProfileImg()}|" alt="WELCOME"></div>
+                <div class="mbimg">
+                    <img th:src="${user.profileImg != null ? '/common/image/' + user.profileImg : '/images/user/profile/default.png'}"
+                         data-default-src="/images/user/profile/default.png">
+                </div>
+
                 <div class="mb_name">안녕하세요!<p><span th:text="${user.name}"></span>님</p></div>
                 <div class="link">
                     <a th:href="@{/mypage/auth}">개인정보수정</a>
@@ -122,7 +126,7 @@
             <div class="tit-util mt70">
                 <h2 class="tit small">나의 구매내역</h2>
 
-                <a th:href="@{/mypage/booking}"class="more">더보기 <i class="iconset ico-arr-right-gray"></i></a>
+                <a th:href="@{/mypage/booking}" class="more">더보기 <i class="iconset ico-arr-right-gray"></i></a>
             </div>
 
             <div class="table-wrap">
@@ -138,7 +142,7 @@
                     <tbody>
                     <tr>
                         <!--todo if 문-->
-                        <td colspan="6" class="a-c">구매내역이 없습니다.</td>
+                        <td colspan="5" class="a-c">구매내역이 없습니다.</td>
                     </tr>
                     </tbody>
                 </table>
@@ -146,7 +150,7 @@
         </div>
 
         <!-- column -->
-        <div class="column mt70">
+        <div class="tit-util mt70">
             <!-- left -->
             <!--<div class="col left" id="mySbsc">
                 <div class="tit-util">
@@ -169,8 +173,7 @@
             <div class="col" id="myInq">
                 <div class="tit-util">
                     <h2 class="tit small">문의내역</h2>
-
-                    <a href="#" class="more" title="문의내역 더보기">더보기 <i class="iconset ico-arr-right-gray"></i></a>
+                    <a href="/mypage/inquiry" class="more" title="문의내역 더보기">더보기 <i class="iconset ico-arr-right-gray"></i></a>
                 </div>
 
                 <div class="brd-list">

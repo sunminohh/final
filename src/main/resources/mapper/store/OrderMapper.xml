@@ -91,6 +91,13 @@
 		WHERE
 			ORDER_ID = #{value}
 	</select>
+	<select id="getOrderByUserId" parameterType="string" resultType="Order">
+		SELECT *
+		FROM MGV_ORDER
+		WHERE
+		    USER_ID = #{userId}
+		LIMIT 5
+	</select>
 	<update id="updateOrder" parameterType="Order">
 		update MGV_ORDER
 		SET
