@@ -12,9 +12,9 @@ $(() => {
     let birthCheck = false;
     let emailCheck = false;
 
-    $(".alert-popup").dialog({
-        autoOpen: false,
-        modal: true
+    $(".alert-popup").modal({
+        keyboard: true,
+        backdrop: "static"
     });
 
     $("#action-form").submit(function (e) {
@@ -40,9 +40,9 @@ $(() => {
                 birth: birth,
             },
             success: function (user) {
-                const infoText = `회원님의 아이디는 [${user.id}] 입니다. \n 가입일 : ${moment(user.createDate).format('YYYY-MM-DD')}`;
-                $('#userInfo').text(infoText);
-                $('.alert-popup').dialog('open');
+                const infoText = `회원님의 아이디는 [${user.id}] 입니다. <br> 가입일 : ${moment(user.createDate).format('YYYY-MM-DD')}`;
+                $('#userInfo').html(infoText);
+                $('.alert-popup').modal('show');
             },
             error: function (error) {
                 console.error(error);
@@ -78,7 +78,7 @@ $(() => {
     })
 
     $(".btn-layer-close").click(() => {
-        $(".alert-popup").dialog("close");
+        $(".alert-popup").modal("hide");
     });
 
     // 입력 체크

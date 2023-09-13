@@ -140,7 +140,7 @@ public class EmailServiceImpl implements EmailService {
 
         tempPwd = createPwdKey(); // 랜덤 인증번호 생성
 
-        MimeMessage message = createMessage(to); // 메일 발송
+        MimeMessage message = tempPwdMessage(to); // 메일 발송
         try {
             javaMailSender.send(message);
         } catch (MailException es) {
